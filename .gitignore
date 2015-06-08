@@ -8,6 +8,20 @@
 # RStudio files
 .Rproj.user/
 
+# cache
+lecture_notes/*cache*/*
+
+# data
+lecture_notes/data/geo/*.soft
+lecture_notes/data/geo/*.txt.gz
+lecture_notes/data/geo/*.gz
+lecture_notes/data/geo/*.tar
+lecture_notes/data/geo/*.txt
+lecture_notes/data/geo/GSE*
+
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
+.Rproj.user
+
+*.sqlite
