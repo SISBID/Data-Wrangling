@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2015-05-27" />
+  <meta name="date" content="2015-06-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -89,7 +89,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2015-05-27</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2015-06-08</p>
           </hgroup>
   </slide>
 
@@ -99,7 +99,36 @@
 
 <pre class = 'prettyprint lang-r'># Set some global knitr options
 library(&quot;knitr&quot;)
-opts_chunk$set(tidy = FALSE, tidy.opts = list(blank = FALSE, width.cutoff = 60), cache = FALSE, messages = FALSE)</pre>
+opts_chunk$set(cache = FALSE, messages = FALSE)</pre>
+
+</article></slide><slide class=''><hgroup><h2>R in the NY Times</h2></hgroup><article  id="r-in-the-ny-times" class="smaller ">
+
+<p>&quot;Despite&quot; being free and open-source, R is widely used by data analysts inside corporations and academia.</p>
+
+<p>See <a href='http://www.nytimes.com/2009/01/07/technology/business-computing/07program.html?pagewanted=all&amp;_r=0' title=''>NY Times</a> article</p>
+
+<img src='http://graphics8.nytimes.com/images/2009/01/07/business/07program.600.jpg' title='fig:'/><p class='caption'>R in the NY Times</p>
+
+</article></slide><slide class=''><hgroup><h2>R in Nature</h2></hgroup><article  id="r-in-nature" class="smaller ">
+
+<iframe src="http://www.nature.com/news/programming-tools-adventures-with-r-1.16609?WT.ec_id=NATURE-20141225">
+
+</iframe>
+
+</article></slide><slide class=''><hgroup><h2>R is a really mature project</h2></hgroup><article  id="r-is-a-really-mature-project" class="smaller ">
+
+<p>Some of the best R functionalities <strong>ARE NOT</strong> in R-base but come from add-on packages: knitr, ggplot2, reshape2, Rcpp, data.table, etc.</p>
+
+<p>Some of these packages are available on the following repositories:</p>
+
+<ul>
+<li><a href='http://cran.r-project.org' title=''>CRAN</a></li>
+<li><a href='http://bioconductor.org' title=''>Bioconductor</a></li>
+<li><a href='http://github.com' title=''>GitHub</a></li>
+<li><a href='https://ropensci.org' title=''>Ropensci</a></li>
+</ul>
+
+<p><strong>Note:</strong> Show how to update the list of repositories to install packages (<code>setRepositories</code>). Also talk about biocLite.</p>
 
 </article></slide><slide class=''><hgroup><h2>The Bioconductor project</h2></hgroup><article  id="the-bioconductor-project" class="smaller ">
 
@@ -120,23 +149,28 @@ opts_chunk$set(tidy = FALSE, tidy.opts = list(blank = FALSE, width.cutoff = 60),
 <li>To train researchers on computational and statistical methods for the analysis of genomic data.</li>
 </ul>
 
+</article></slide><slide class=''><hgroup><h2>Quick overview of the website</h2></hgroup><article  id="quick-overview-of-the-website" class="smaller ">
+
+<ul>
+<li>biocViews</li>
+<li>Support site</li>
+<li>Teaching material</li>
+<li>Installation</li>
+</ul>
+
 </article></slide><slide class=''><hgroup><h2>Getting started</h2></hgroup><article  id="getting-started" class="smaller ">
 
-<pre class = 'prettyprint lang-r'>source(&quot;http://bioconductor.org/biocLite.R&quot;)</pre>
-
-<pre >## Bioconductor version 3.0 (BiocInstaller 1.16.5), ?biocLite for help
-## A new version of Bioconductor is available after installing the most
-##   recent version of R; see http://bioconductor.org/install</pre>
-
-<pre class = 'prettyprint lang-r'># Install all core packages and update all installed packages
+<pre class = 'prettyprint lang-r'># Note that this is not evaluated here, so you will have to do it before using this knitr doc
+source(&quot;http://bioconductor.org/biocLite.R&quot;)
+# Install all core packages and update all installed packages
 biocLite()</pre>
-
-<pre >## BioC_mirror: http://bioconductor.org
-## Using Bioconductor version 3.0 (BiocInstaller 1.16.5), R version 3.1.2.</pre>
 
 <p>You can also install specific packages</p>
 
-<pre class = 'prettyprint lang-r'>biocLite(c(&quot;GEOmetadb&quot;, &quot;GEOquery&quot;, &quot;limma&quot;, &quot;affy&quot;))</pre>
+<pre class = 'prettyprint lang-r'># Note that this is not evaluated here, so you will have to do it before using this knitr doc
+biocLite(c(&quot;GEOmetadb&quot;, &quot;GEOquery&quot;, &quot;limma&quot;, &quot;affy&quot;))</pre>
+
+</article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Overview of SQL and data.table (external notes)</h2></hgroup><article  id="overview-of-sql-and-data.table-external-notes" class="smaller ">
 
 </article></slide><slide class=''><hgroup><h2>The Gene Expression Omnibus (GEO)</h2></hgroup><article  id="the-gene-expression-omnibus-geo" class="smaller ">
 
@@ -380,6 +414,7 @@ GSE29617_set &lt;- getGEO(&quot;GSE29617&quot;, destdir = &quot;data/geo/&quot;)
 <pre >## ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE29nnn/GSE29617/matrix/
 ## Found 1 file(s)
 ## GSE29617_series_matrix.txt.gz
+## Using locally cached version: data/geo//GSE29617_series_matrix.txt.gz
 ## Using locally cached version of GPL13158 found here:
 ## data/geo//GPL13158.soft</pre>
 
@@ -393,7 +428,7 @@ GSE29617_set &lt;- getGEO(&quot;GSE29617&quot;, destdir = &quot;data/geo/&quot;)
 
 <pre >## Formal class &#39;ExpressionSet&#39; [package &quot;Biobase&quot;] with 7 slots
 ##   ..@ experimentData   :Formal class &#39;MIAME&#39; [package &quot;Biobase&quot;] with 13 slots
-##   ..@ assayData        :&lt;environment: 0x7fe26fb16aa8&gt; 
+##   ..@ assayData        :&lt;environment: 0x7f90391cb4b0&gt; 
 ##   ..@ phenoData        :Formal class &#39;AnnotatedDataFrame&#39; [package &quot;Biobase&quot;] with 4 slots
 ##   ..@ featureData      :Formal class &#39;AnnotatedDataFrame&#39; [package &quot;Biobase&quot;] with 4 slots
 ##   ..@ annotation       : chr &quot;GPL13158&quot;

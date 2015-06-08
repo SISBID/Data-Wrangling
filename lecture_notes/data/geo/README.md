@@ -1,0 +1,1 @@
+This is where we will store downloaded GEO files and other associated data. Note that the files **will not** be stored on GitHub but on your local machine (when you execute the knitr scripts).

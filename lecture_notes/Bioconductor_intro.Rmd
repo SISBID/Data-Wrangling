@@ -84,6 +84,7 @@ You can also install specific packages
 biocLite(c("GEOmetadb", "GEOquery", "limma", "affy"))
 ```
 
+# Overview of SQL and data.table (external notes)
 
 ## The Gene Expression Omnibus (GEO)
 

@@ -288,14 +288,14 @@ install.packages("pryr")
 
 ```{r}
 library(data.table); library(microbenchmark); library(pryr)
-big_df <- data.frame(x = rnorm(1E6), y = sample(letters, 1E6, TRUE))
+big_df <- data.frame(x = rnorm(1E5), y = sample(letters, 1E5, TRUE))
 object_size(big_df)
 big_dt <- data.table(big_df)
 object_size(big_dt)
-new_col <- rnorm(1E5)
+new_col <- rnorm(1E4)
 microbenchmark(
-  big_df[1:1E5, "y"] <- new_col,
-  big_dt[1:1E5, `:=`(y, new_col)]
+  big_df[1:1E4, "y"] <- new_col,
+  big_dt[1:1E4, `:=`(y, new_col)], times = 5
 )
 ```
 
@@ -551,7 +551,7 @@ DF1 <- as.data.frame(DT1)
 DF2 <- as.data.frame(DT2)
 setkey(DT1, x); setkey(DT2, x)
 microbenchmark(
-DT = merge(DT1, DT2), DF = merge.data.frame(DF1, DF2), replications = 5)
+DT = merge(DT1, DT2), DF = merge.data.frame(DF1, DF2), times = 5)
 
 ```
 

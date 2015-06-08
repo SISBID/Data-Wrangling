@@ -9,8 +9,33 @@ Let's first turn on the cache for increased performance and improved styling
 ```r
 # Set some global knitr options
 library("knitr")
-opts_chunk$set(tidy = FALSE, tidy.opts = list(blank = FALSE, width.cutoff = 60), cache = FALSE, messages = FALSE)
+opts_chunk$set(cache = FALSE, messages = FALSE)
 ```
+
+## R in the NY Times
+
+"Despite" being free and open-source, R is widely used by data analysts inside corporations and academia.
+
+See [NY Times](http://www.nytimes.com/2009/01/07/technology/business-computing/07program.html?pagewanted=all&_r=0) article
+
+![R in the NY Times](http://graphics8.nytimes.com/images/2009/01/07/business/07program.600.jpg)
+
+## R in Nature 
+
+<iframe src="http://www.nature.com/news/programming-tools-adventures-with-r-1.16609?WT.ec_id=NATURE-20141225"></iframe>
+
+## R is a really mature project
+
+Some of the best R functionalities **ARE NOT** in R-base but come from add-on packages: knitr, ggplot2, reshape2, Rcpp, data.table, etc.
+
+Some of these packages are available on the following repositories:
+
+- [CRAN](http://cran.r-project.org)
+- [Bioconductor](http://bioconductor.org)
+- [GitHub](http://github.com)
+- [Ropensci](https://ropensci.org)
+
+**Note:** Show how to update the list of repositories to install packages (`setRepositories`). Also talk about biocLite.
 
 
 ## The Bioconductor project
@@ -29,36 +54,32 @@ The broad goals of the Bioconductor project are:
 - To further scientific understanding by producing high-quality documentation and reproducible research.
 - To train researchers on computational and statistical methods for the analysis of genomic data.
 
+## Quick overview of the website
+
+- biocViews
+- Support site
+- Teaching material
+- Installation
+
 ## Getting started
 
 
 ```r
+# Note that this is not evaluated here, so you will have to do it before using this knitr doc
 source("http://bioconductor.org/biocLite.R")
-```
-
-```
-## Bioconductor version 3.0 (BiocInstaller 1.16.5), ?biocLite for help
-## A new version of Bioconductor is available after installing the most
-##   recent version of R; see http://bioconductor.org/install
-```
-
-```r
 # Install all core packages and update all installed packages
 biocLite()
-```
-
-```
-## BioC_mirror: http://bioconductor.org
-## Using Bioconductor version 3.0 (BiocInstaller 1.16.5), R version 3.1.2.
 ```
 
 You can also install specific packages
 
 
 ```r
+# Note that this is not evaluated here, so you will have to do it before using this knitr doc
 biocLite(c("GEOmetadb", "GEOquery", "limma", "affy"))
 ```
 
+# Overview of SQL and data.table (external notes)
 
 ## The Gene Expression Omnibus (GEO)
 
@@ -351,6 +372,7 @@ GSE29617_set <- getGEO("GSE29617", destdir = "data/geo/")[[1]]
 ## ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE29nnn/GSE29617/matrix/
 ## Found 1 file(s)
 ## GSE29617_series_matrix.txt.gz
+## Using locally cached version: data/geo//GSE29617_series_matrix.txt.gz
 ## Using locally cached version of GPL13158 found here:
 ## data/geo//GPL13158.soft
 ```
@@ -370,7 +392,7 @@ str(GSE29617_set, max.level = 2)
 ```
 ## Formal class 'ExpressionSet' [package "Biobase"] with 7 slots
 ##   ..@ experimentData   :Formal class 'MIAME' [package "Biobase"] with 13 slots
-##   ..@ assayData        :<environment: 0x7fe26fb16aa8> 
+##   ..@ assayData        :<environment: 0x7f90391cb4b0> 
 ##   ..@ phenoData        :Formal class 'AnnotatedDataFrame' [package "Biobase"] with 4 slots
 ##   ..@ featureData      :Formal class 'AnnotatedDataFrame' [package "Biobase"] with 4 slots
 ##   ..@ annotation       : chr "GPL13158"
@@ -384,7 +406,6 @@ An eSet contains the necessary "parts" to summarize an experiment.
 ## Classes and methods
 
 **Everything in R is an OBJECT.**
-
 
 - A class is the definition of an object.
 - A method is a function that performs specific calculations on objects of a
