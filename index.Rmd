@@ -36,7 +36,7 @@ Class Schedule:
 |---|---|---|---|---|
 | 0  | 2015-06-15  | Background  | [Try R](http://tryr.codeschool.com/)  | Really simple intro to R online  |
 | 0  | 2015-06-15  | Background | [swirl](http://swirlstats.com/)  | More tutorials on R, in R  |
-|1 | 2015-06-30 | 8:30AM - 10:00AM | [html slides](lecture_notes/welcome.html) [pdf slides](lecture_notes/welcome.pdf) | Lecture slides for morning session|
+|1 | 2015-06-30 | 8:30AM - 10:00AM | [html slides](lecture_notes/session1.html) [pdf slides](lecture_notes/session1.pdf) | Lecture slides for morning session|
 
 
 <!-- Add links to the rest of the material as we go
