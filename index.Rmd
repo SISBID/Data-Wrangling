@@ -34,8 +34,8 @@ Class Schedule:
 
 | Day  | Date  |  Session | Resources  |  Description |
 |---|---|---|---|---|
-| 0  | 2015-06-15  |   | [Try R](http://tryr.codeschool.com/)  | Really simple intro to R online  |
-| 0  | 2015-06-15  |   | [swirl](http://swirlstats.com/)  | More tutorials on R, in R  |
+| 0  | 2015-06-15  | Background  | [Try R](http://tryr.codeschool.com/)  | Really simple intro to R online  |
+| 0  | 2015-06-15  | Background | [swirl](http://swirlstats.com/)  | More tutorials on R, in R  |
 |1 | 2015-06-30 | 8:30AM - 10:00AM | [html slides](lecture_notes/welcome.html) [pdf slides](lecture_notes/welcome.pdf) | Lecture slides for morning session|
 
 
@@ -45,10 +45,12 @@ Class Schedule:
 
 -->
 
-# Typos
+# Miscellaneous
 
 Feel free to submit typos/errors/etc via the github repository associated with the class: 
 https://github.com/SISBID/Module1
+
+This web-page is modified from Andrew Jaffe's [Summer 2015 R course](http://www.aejaffe.com/summerR_2015/), which also has great material (some overlapping with ours).
 
 ```{r, eval = FALSE, echo = FALSE}
 ## Render this file:
