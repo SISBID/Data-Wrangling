@@ -1,0 +1,60 @@
+---
+output:
+  html_document:
+    theme: cosmo
+---
+
+SISBID: Module 1 Accessing Biomedical Data
+=============
+
+Instructors: 
+
+* [Raphael Gottardo](http://www.rglab.org/)
+* [Jeff Leek](http://www.jtleek.com/)
+
+Teaching assitants:
+
+* [Jean Morrison](http://students.washington.edu/jeanm5/)
+* [Brian Williamson](http://students.washington.edu/brianw26/)
+
+
+Class Schedule:
+
+* [Daily schedule](http://www.biostat.washington.edu/suminst/sisbid/schedule)
+* [Location](http://www.biostat.washington.edu/suminst/sisbid/maps)
+
+
+# Resources
+
+* [Rstudio](http://www.rstudio.com/)
+* [R project](http://www.r-project.org/)
+* [Bioconductor](http://bioconductor.org/)
+
+# Schedule
+
+| Day  | Date  |  Session | Resources  |  Description |
+|---|---|---|---|---|
+| 0  | 2015-06-15  | Background  | [Try R](http://tryr.codeschool.com/)  | Really simple intro to R online  |
+| 0  | 2015-06-15  | Background | [swirl](http://swirlstats.com/)  | More tutorials on R, in R  |
+|1 | 2015-06-30 | 8:30AM - 10:00AM | [html slides](lecture_notes/welcome.html) [pdf slides](lecture_notes/welcome.pdf) | Lecture slides for morning session|
+
+
+<!-- Add links to the rest of the material as we go
+
+
+
+-->
+
+# Miscellaneous
+
+Feel free to submit typos/errors/etc via the github repository associated with the class: 
+https://github.com/SISBID/Module1
+
+This web-page is modified from Andrew Jaffe's [Summer 2015 R course](http://www.aejaffe.com/summerR_2015/), which also has great material (some overlapping with ours).
+
+```{r, eval = FALSE, echo = FALSE}
+## Render this file:
+rmarkdown::render('index.Rmd')
+```
+
+This page was last updated on `r Sys.time()` Eastern Time.
