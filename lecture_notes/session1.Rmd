@@ -1,0 +1,16 @@
+---
+title: 'SISBID: Accessing Biomedical Bid Data'
+author: "Jeff Leek"
+date: "@jtleek"
+#output:
+#  ioslides_presentation:
+#    css: styles.css
+output: beamer_presentation
+---
+
+# Preliminaries
+
+## About this course
+
+* __Class name__: Accessing Biomedical Big Data
+* __Course website__: http://sisbid.github.io/Module1
