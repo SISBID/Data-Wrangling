@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>SISBID: Accessing Biomedical Data</title>
+  <title>SISBID: Accessing Biomedical Bid Data</title>
 
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -25,7 +25,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'SISBID: Accessing Biomedical Data',
+                title: 'SISBID: Accessing Biomedical Bid Data',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -95,7 +95,195 @@
 
 <slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Preliminaries</h2></hgroup><article  id="preliminaries">
 
-</article></slide><slide class=''><hgroup><h2>About this course</h2></hgroup><article  id="about-this-course"></article></slide>
+</article></slide><slide class=''><hgroup><h2>About this course</h2></hgroup><article  id="about-this-course">
+
+<ul>
+<li><strong>Class name</strong>: Accessing Biomedical Big Data</li>
+<li><strong>Instructors</strong>: <a href='www.jtleek.com' title=''>Jeff Leek</a>, <a href='www.rglab.org' title=''>Raphael Gottardo</a></li>
+<li><strong>TAs</strong>: <a href='http://students.washington.edu/jeanm5/' title=''>Jean Morrison</a>, <a href='http://students.washington.edu/brianw26/' title=''>Brian Williamson</a></li>
+<li><strong>Course website</strong>: <a href='http://sisbid.github.io/Module1' title=''>http://sisbid.github.io/Module1</a></li>
+<li><strong>Goal</strong> : Teach you how to get and clean data</li>
+<li><strong>Pre-reqs</strong>: Some basic knowledge of R</li>
+<li><strong>Where to get the slides</strong>: <a href='https://github.com/SISBID/Module1' title=''>https://github.com/SISBID/Module1</a></li>
+</ul>
+
+</article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>About me</h2></hgroup><article  id="about-me">
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section">
+
+<img src='https://dl.dropboxusercontent.com/s/nukt57ozprue20x/Slide07.png?dl=0' title=''/>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section-1">
+
+<img src='https://dl.dropboxusercontent.com/s/yjxdra220bmrsx1/Slide08.png?dl=0' title=''/>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section-2">
+
+<img src='https://dl.dropboxusercontent.com/s/pn0ud4ixhuxi9d4/Slide04.png?dl=0' title=''/>
+
+<p><a href='http://simplystatistics.org/' title=''>http://simplystatistics.org/</a></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section-3">
+
+<img src='https://dl.dropboxusercontent.com/s/1s7ihjfp5t4glhc/Slide05.png?dl=0' title=''/>
+
+<p><a href='https://www.coursera.org/specialization/jhudatascience/1' title=''>https://www.coursera.org/specialization/jhudatascience/1</a></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section-4">
+
+<img src='https://dl.dropboxusercontent.com/s/ud8m6k80gj2fhi7/Slide06.png?dl=0' title=''/>
+
+<p><a href='https://www.coursera.org/specialization/genomics/41' title=''>https://www.coursera.org/specialization/genomics/41</a></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section-5">
+
+<img src='https://dl.dropboxusercontent.com/s/r33vwhvztzryxtj/jtleek.png?dl=0' title=''/>
+
+<p><a href='http://www.jtleek.com' title=''>http://www.jtleek.com</a></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section-6">
+
+<img src='https://dl.dropboxusercontent.com/s/q1a9g2t7ybqyipa/edas.jpg?dl=0' title=''/>
+
+<p><a href='https://leanpub.com/datastyle' title=''>https://leanpub.com/datastyle</a></p>
+
+</article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Session Motivation</h2></hgroup><article  id="session-motivation">
+
+</article></slide><slide class=''><hgroup><h2>Why this class?</h2></hgroup><article  id="why-this-class">
+
+<p><img class=center src=https://dl.dropboxusercontent.com/s/h6fg169sz4hiaa5/embarrassing1.png height='400px'/></p>
+
+</article></slide><slide class=''><hgroup><h2>Why this class?</h2></hgroup><article  id="why-this-class-1">
+
+<p><img class=center src=https://dl.dropboxusercontent.com/s/16bt6dcznedefet/embarrassing2.png?dl=0 height='400px'/></p>
+
+<p><a href='http://pubs.acs.org/doi/abs/10.1021/om4000067' title=''>http://pubs.acs.org/doi/abs/10.1021/om4000067</a></p>
+
+</article></slide><slide class=''><hgroup><h2>Researcher degrees of freedom</h2></hgroup><article  id="researcher-degrees-of-freedom">
+
+<p><img class=center src=https://dl.dropboxusercontent.com/s/7afns3kiuabe74d/researcherdof.png?dl=0 height='400px'/></p>
+
+<p><a href='http://pss.sagepub.com/content/22/11/1359.abstract' title=''>http://pss.sagepub.com/content/22/11/1359.abstract</a></p>
+
+</article></slide><slide class=''><hgroup><h2>What is the temptation?</h2></hgroup><article  id="what-is-the-temptation">
+
+<p><img class=center src=https://dl.dropboxusercontent.com/s/myx2854e2yewbhi/sympathetic-pvalue.png height='400px'/></p>
+
+</article></slide><slide class=''><hgroup><h2>An exciting result</h2></hgroup><article  id="an-exciting-result">
+
+<p><img class=center src=https://dl.dropboxusercontent.com/s/e4ww1wmeuliu395/potti-paper.png height='400px'/></p>
+
+<p><a href='http://www.nature.com/nm/journal/v12/n11/full/nm1491.html' title=''>http://www.nature.com/nm/journal/v12/n11/full/nm1491.html</a></p>
+
+</article></slide><slide class=''><hgroup><h2>Stunning problems</h2></hgroup><article  id="stunning-problems">
+
+<p><img class=center src=https://dl.dropboxusercontent.com/s/6zt3qo3yqvey7jy/baggerly-coombs.png height='400px'/></p>
+
+<p><a href='https://projecteuclid.org/euclid.aoas/1267453942' title=''>https://projecteuclid.org/euclid.aoas/1267453942</a></p>
+
+</article></slide><slide class=''><hgroup><h2>Timeline of events</h2></hgroup><article  id="timeline-of-events">
+
+<p><img class=center src=https://dl.dropboxusercontent.com/s/mr9o35qbe9qojom/potti-timeline.png?dl=0 height='400px'/></p>
+
+<p><a href='http://www.nature.com/news/2011/110111/full/469139a/box/1.html' title=''>http://www.nature.com/news/2011/110111/full/469139a/box/1.html</a></p>
+
+</article></slide><slide class=''><hgroup><h2>Major fallout</h2></hgroup><article  id="major-fallout">
+
+<p><img class=center src=https://dl.dropboxusercontent.com/s/45i0ef2tzj9t5vq/potti-lawsuit.png height='400px'/></p>
+
+<p><a href='http://dig.abclocal.go.com/wtvd/docs/Duke_lawsuit_090811.pdf' title=''>http://dig.abclocal.go.com/wtvd/docs/Duke_lawsuit_090811.pdf</a> <a href='http://www.dukechronicle.com/articles/2015/05/03/duke-lawsuit-involving-cancer-patients-linked-anil-potti-settled' title=''>http://www.dukechronicle.com/articles/2015/05/03/duke-lawsuit-involving-cancer-patients-linked-anil-potti-settled</a></p>
+
+</article></slide><slide class=''><hgroup><h2>A great talk about this event</h2></hgroup><article  id="a-great-talk-about-this-event">
+
+<p><img class=center src=https://dl.dropboxusercontent.com/s/3pmldcj5lhjk0vo/baggerly-video.png?dl=0 height='400px'/></p>
+
+<p><a href='http://www.birs.ca/events/2013/5-day-workshops/13w5083/videos/watch/201308141121-Baggerly.mp4' title=''>http://www.birs.ca/events/2013/5-day-workshops/13w5083/videos/watch/201308141121-Baggerly.mp4</a></p>
+
+</article></slide><slide class=''><hgroup><h2>This is now codified for clinical genomics</h2></hgroup><article  id="this-is-now-codified-for-clinical-genomics">
+
+<p><img class=center src=https://dl.dropboxusercontent.com/s/oinag74dgv77v2i/iom.png?dl=0 height='400px'/></p>
+
+<p><a href='http://www.iom.edu/Reports/2012/Evolution-of-Translational-Omics.aspx' title=''>http://www.iom.edu/Reports/2012/Evolution-of-Translational-Omics.aspx</a></p>
+
+</article></slide><slide class=''><hgroup><h2>What do data scientists do?</h2></hgroup><article  id="what-do-data-scientists-do">
+
+<ul>
+<li>Define the question</li>
+<li>Define the ideal data set</li>
+<li>Determine what data you can access</li>
+<li>Obtain the data</li>
+<li>Clean the data</li>
+<li>Exploratory data analysis</li>
+<li>Statistical prediction/modeling</li>
+<li>Interpret results</li>
+<li>Challenge results</li>
+<li>Synthesize/write up results</li>
+<li>Create reproducible code</li>
+<li>Distribute results to other people</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>What do data scientists do?</h2></hgroup><article  id="what-do-data-scientists-do-1">
+
+<ul>
+<li>Define the question</li>
+<li><strong>Define the ideal data set</strong></li>
+<li><strong>Determine what data you can access</strong></li>
+<li><strong>Obtain the data</strong></li>
+<li><strong>Clean the data</strong></li>
+<li>Exploratory data analysis</li>
+<li>Statistical prediction/modeling</li>
+<li>Interpret results</li>
+<li>Challenge results</li>
+<li>Synthesize/write up results</li>
+<li>Create reproducible code</li>
+<li>Distribute results to other people</li>
+</ul>
+
+</article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Tools we will use</h2></hgroup><article  id="tools-we-will-use">
+
+</article></slide><slide class=''><hgroup><h2>The main workhorse of data science</h2></hgroup><article  id="the-main-workhorse-of-data-science">
+
+<p><img class=center src=https://dl.dropboxusercontent.com/s/cy61f9vk1jzmbru/rproject.png height='400px'/></p>
+
+<p><a href='http://www.r-project.org/' title=''>http://www.r-project.org/</a></p>
+
+</article></slide><slide class=''><hgroup><h2>Where we will work on coding</h2></hgroup><article  id="where-we-will-work-on-coding">
+
+<p><img class=center src=https://dl.dropboxusercontent.com/s/jkmdjoqqnf1q5yj/rstudio.png height='400px'/></p>
+
+<p><a href='http://www.rstudio.com/' title=''>http://www.rstudio.com/</a></p>
+
+</article></slide><slide class=''><hgroup><h2>Rstudio&#39;s interface</h2></hgroup><article  id="rstudios-interface">
+
+<p><img class=center src=https://dl.dropboxusercontent.com/s/h6rrmwjcp4vptge/ide.png height='400px'/></p>
+
+<p><a href='http://www.rstudio.com/' title=''>http://www.rstudio.com/</a></p>
+
+</article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Brief Rstudio Tour</h2></hgroup><article  id="brief-rstudio-tour">
+
+</article></slide><slide class=''><hgroup><h2>Primary file types - R script</h2></hgroup><article  id="primary-file-types---r-script">
+
+<p><img class=center src=https://dl.dropboxusercontent.com/s/m7vt6ys7t9ta9r7/rscript.png height='400px'/></p>
+
+<p><a href='http://www.rstudio.com/ide/docs/using/source' title=''>http://www.rstudio.com/ide/docs/using/source</a></p>
+
+</article></slide><slide class=''><hgroup><h2>Primary file types - R markdown document</h2></hgroup><article  id="primary-file-types---r-markdown-document">
+
+<p><img class=center src=https://dl.dropboxusercontent.com/s/d0rfmy2hj7r00ru/rmarkdown.png height='400px'/></p>
+
+<p><a href='http://www.rstudio.com/ide/docs/authoring/using_markdown' title=''>http://www.rstudio.com/ide/docs/authoring/using_markdown</a></p>
+
+</article></slide><slide class=''><hgroup><h2>Markdown basics</h2></hgroup><article  id="markdown-basics">
+
+</article></slide><slide class=''><hgroup><h2>Version control - Github &amp; Git</h2></hgroup><article  id="version-control---github-git">
+
+<p><img class=center src=https://dl.dropboxusercontent.com/s/wqjnlyhqtn3jpfi/github.png?dl=0 height='500px'/></p>
+
+<p><a href='https://github.com/' title=''>https://github.com/</a></p>
+
+</article></slide><slide class=''><hgroup><h2>Home again</h2></hgroup><article  id="home-again">
+
+<p><a href='http://sisbid.github.io/Module1/' title=''>http://sisbid.github.io/Module1/</a></p></article></slide>
 
 
   <slide class="backdrop"></slide>
