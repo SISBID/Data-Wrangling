@@ -44,7 +44,7 @@ included in the .netrc or _netrc file either separated by white space (spaces,
 tabs, or newlines) or commas.
 
     machine   www.immunespace.org
-    login     SISBD   
+    login     SISBD@immunespace.org
     password  *user-password*
     
 
