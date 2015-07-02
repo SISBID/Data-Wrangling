@@ -37,8 +37,8 @@ Class Schedule:
 | 0  | 2015-06-15  | Background  | [Try R](http://tryr.codeschool.com/)  | Really simple intro to R online  |
 | 0  | 2015-06-15  | Background | [swirl](http://swirlstats.com/)  | More tutorials on R, in R  |
 |1 | 2015-06-30 | 8:30AM - 10:00AM | [html slides](lecture_notes/welcome.html) [pdf slides](lecture_notes/welcome.pdf) | Lecture slides for morning session |
-|1 | 2015-06-30 | 1:30PM - 3:00PM | [html slides](lecture_notes/Bioconductor_intro.html) [md file](lecture_notes/Bioconductor_intro.md) | Intro to Bioconductor |
-|1 | 2015-06-30 | 1:30PM - 3:00PM | [html slides](lecture_notes/data_manipulation_review.html) [md file](lecture_notes/data_manipulation_review.md) | Review of data.table and SQL |
+|1 | 2015-06-30 | 1:30PM - 3:00PM | [html slides](lecture_notes/Bioconductor_intro.html) [md file](https://github.com/SISBID/Module1/blob/gh-pages/lecture_notes/Bioconductor_intro.md) | Intro to Bioconductor |
+|1 | 2015-06-30 | 1:30PM - 3:00PM | [html slides](lecture_notes/data_manipulation_review.html) [md file](https://github.com/SISBID/Module1/blob/gh-pages/lecture_notes/data_manipulation_review.md) | Review of data.table and SQL |
 
 
 **NOTE:** The md files linked in the table above can easily be converted to pdf by replacing *github* by *gitprint* in the url (when opening the link in your web browser)
