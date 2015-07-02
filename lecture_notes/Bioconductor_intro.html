@@ -10,7 +10,7 @@
 
 
 
-  <meta name="date" content="2015-06-08" />
+  <meta name="date" content="2015-07-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -89,7 +89,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">2015-06-08</p>
+            <p style="margin-top: 6px; margin-left: -2px;">2015-07-02</p>
           </hgroup>
   </slide>
 
@@ -428,7 +428,7 @@ GSE29617_set &lt;- getGEO(&quot;GSE29617&quot;, destdir = &quot;data/geo/&quot;)
 
 <pre >## Formal class &#39;ExpressionSet&#39; [package &quot;Biobase&quot;] with 7 slots
 ##   ..@ experimentData   :Formal class &#39;MIAME&#39; [package &quot;Biobase&quot;] with 13 slots
-##   ..@ assayData        :&lt;environment: 0x7f90391cb4b0&gt; 
+##   ..@ assayData        :&lt;environment: 0x7ff7089934a0&gt; 
 ##   ..@ phenoData        :Formal class &#39;AnnotatedDataFrame&#39; [package &quot;Biobase&quot;] with 4 slots
 ##   ..@ featureData      :Formal class &#39;AnnotatedDataFrame&#39; [package &quot;Biobase&quot;] with 4 slots
 ##   ..@ annotation       : chr &quot;GPL13158&quot;
@@ -478,8 +478,9 @@ class(iris)</pre>
 <pre class = 'prettyprint lang-r'># S3 class
 head(methods(class = &quot;data.frame&quot;))</pre>
 
-<pre >## [1] &quot;[.data.frame&quot;    &quot;[[.data.frame&quot;   &quot;[[&lt;-.data.frame&quot; &quot;[&lt;-.data.frame&quot; 
-## [5] &quot;$.data.frame&quot;    &quot;$&lt;-.data.frame&quot;</pre>
+<pre >## [1] &quot;[.data.frame&quot;           &quot;[[.data.frame&quot;         
+## [3] &quot;[[&lt;-,data.frame-method&quot; &quot;[[&lt;-.data.frame&quot;       
+## [5] &quot;[&lt;-,data.frame-method&quot;  &quot;[&lt;-.data.frame&quot;</pre>
 
 <pre class = 'prettyprint lang-r'># S4 class
 showMethods(classes  = &quot;eSet&quot;)</pre>
@@ -568,10 +569,12 @@ showMethods(classes  = &quot;eSet&quot;)</pre>
 ## 
 ## Function &quot;clearMemoryManagement&quot;:
 ##  &lt;not an S4 generic function&gt;
+## 
+## Function &quot;close&quot;:
+##  &lt;not an S4 generic function&gt;
 ## Function: coerce (package methods)
 ## from=&quot;eSet&quot;, to=&quot;ExpressionSet&quot;
 ## from=&quot;eSet&quot;, to=&quot;MultiSet&quot;
-## from=&quot;ExpressionSet&quot;, to=&quot;eSet&quot;
 ## 
 ## Function: combine (package BiocGenerics)
 ## x=&quot;eSet&quot;, y=&quot;eSet&quot;
@@ -1140,24 +1143,11 @@ biocLite(&quot;hthgu133a.db&quot;)</pre>
 
 <pre class = 'prettyprint lang-r'>library(hthgu133a.db)</pre>
 
-<pre >## Loading required package: AnnotationDbi</pre>
-
-<pre >## Warning: package &#39;AnnotationDbi&#39; was built under R version 3.1.3</pre>
-
-<pre >## Loading required package: stats4
-## Loading required package: GenomeInfoDb</pre>
-
-<pre >## Warning: package &#39;GenomeInfoDb&#39; was built under R version 3.1.3</pre>
-
-<pre >## Loading required package: S4Vectors
+<pre >## Loading required package: AnnotationDbi
+## Loading required package: stats4
+## Loading required package: GenomeInfoDb
+## Loading required package: S4Vectors
 ## Loading required package: IRanges
-## 
-## Attaching package: &#39;AnnotationDbi&#39;
-## 
-## The following object is masked from &#39;package:GenomeInfoDb&#39;:
-## 
-##     species
-## 
 ## Loading required package: org.Hs.eg.db</pre>
 
 <pre class = 'prettyprint lang-r'>probe_ids &lt;- rownames(GSE29617_set2)
@@ -1174,12 +1164,8 @@ probe_data[1,]</pre>
 <p>Let&#39;s fix this: Replace _PM with <empty> for the probe id names in GSE29617_set2</p>
 
 <pre class = 'prettyprint lang-r'>probe_ids &lt;- gsub(&quot;_PM&quot;,&quot;&quot;, rownames(GSE29617_set2))
-probe_data &lt;- select(hthgu133a.db, keys = probe_ids, columns = &quot;SYMBOL&quot;, keytype = &quot;PROBEID&quot;)</pre>
-
-<pre >## Warning in .generateExtraRows(tab, keys, jointype): &#39;select&#39; resulted in
-## 1:many mapping between keys and return rows</pre>
-
-<pre class = 'prettyprint lang-r'>probe_data[1, ]</pre>
+probe_data &lt;- select(hthgu133a.db, keys = probe_ids, columns = &quot;SYMBOL&quot;, keytype = &quot;PROBEID&quot;)
+probe_data[1, ]</pre>
 
 <pre >##     PROBEID SYMBOL
 ## 1 1007_s_at   DDR1</pre>
@@ -1199,14 +1185,14 @@ probe_data_dt_unique[SYMBOL %like% &quot;;&quot;]</pre>
 ##    1:   1007_s_at                            DDR1;MIR4640
 ##    2:     1294_at                            UBA7;MIR5193
 ##    3:     1773_at                        FNTB;CHURC1-FNTB
-##    4: 200012_x_at         RPL21;SNORD102;SNORA27;RPL21P28
-##    5:   200018_at             RPS13;SNORD14B;LOC100508408
+##    4: 200003_s_at                           RPL28;MIR6805
+##    5: 200012_x_at         RPL21;SNORD102;SNORA27;RPL21P28
 ##   ---                                                    
-## 1130:  65133_i_at                      INO80B;INO80B-WBP1
-## 1131:    65585_at FAM86C1;FAM86B1;FAM86FP;FAM86B2;FAM86DP
-## 1132:    66053_at                 HNRNPUL2;HNRNPUL2-BSCL2
-## 1133:    78495_at                        LOC155060;ZNF783
-## 1134:    91617_at                           DGCR8;MIR1306</pre>
+## 1263:  65133_i_at                      INO80B;INO80B-WBP1
+## 1264:    65585_at FAM86C1;FAM86B1;FAM86FP;FAM86B2;FAM86DP
+## 1265:    66053_at                 HNRNPUL2;HNRNPUL2-BSCL2
+## 1266:    78495_at                        LOC155060;ZNF783
+## 1267:    91617_at                           DGCR8;MIR1306</pre>
 
 </article></slide><slide class=''><hgroup><h2>Completing our ExpressionSet</h2></hgroup><article  id="completing-our-expressionset" class="smaller ">
 
