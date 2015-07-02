@@ -33,7 +33,7 @@ included in the .netrc or _netrc file either separated by white space (spaces,
 tabs, or newlines) or commas.
 
     machine   www.immunespace.org
-    login     SISBD   
+    login     SISBD@immunespace.org
     password  *user-password*
     
 
@@ -120,7 +120,7 @@ head(hai[, list(subject_accession, virus_strain, study_time_collected, value_rep
 ```
 
 ## Connection object: Data
-The `quick_plot` method 
+The `quick_plot` method is used to quickly vuisualize the assay results.
 
 ```r
 sdy269$quick_plot("hai", color = "Age")
