@@ -19,20 +19,32 @@ opts_chunk$set(cache = FALSE, messages = FALSE)
 ## ImmuneSpace
 
 [ImmuneSpace](www.immunespace.org) is the central database and analysis engine of the Human Immunology Project Consortium.
-  
 
-## ImmuneSpaceR
+### ImmuneSpaceR
 
-The R package is under development and available from `GitHub`.
+ImmuneSpaceR is an R interface to interact with the ImmuneSpace database. The package is currently under development and will be released on `BioConductor` when the website becomes public.
+
+## Requirements
+
+ImmuneSpaceR requires the installation of two `BioConductor` package to handle
+microarray data.
+```{r, eval = FALSE}
+source("http://bioconductor.org/biocLite.R")
+biocLite("affy")
+biocLite("lumi")
+```
+
+The package as well as one of its dependencies are under development and available
+from `GitHub`.
 ```{r, eval = FALSE}
 library(devtools)
 install_github("cttobin/ggthemr") # Themes for ggplot2
 install_github("RGLab/ImmuneSpaceR", quick = TRUE)
 ```
 
-### Requirements
+## Requirements
 
-Create netrc file in the computer running R.
+To access the password protected data, a `netrc` file is required.
 
 - On a UNIX system this file should be named `.netrc` (dot netrc)  
 - On windows it sould be named `_netrc` (underscore netrc).  
