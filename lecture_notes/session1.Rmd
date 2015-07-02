@@ -2,10 +2,10 @@
 title: 'SISBID: Accessing Biomedical Bid Data'
 author: "Jeff Leek"
 date: "@jtleek"
-#output:
-#  ioslides_presentation:
-#    css: styles.css
-output: pdf_document
+output:
+  ioslides_presentation:
+    css: styles.css
+#output: pdf_document
 ---
 
 # Preliminaries
@@ -123,35 +123,84 @@ http://www.birs.ca/events/2013/5-day-workshops/13w5083/videos/watch/201308141121
 
 http://www.iom.edu/Reports/2012/Evolution-of-Translational-Omics.aspx
 
-## What do data scientists do? 
+# Getting and cleaning data
 
-* Define the question
-* Define the ideal data set
-* Determine what data you can access
-* Obtain the data
-* Clean the data
-* Exploratory data analysis
-* Statistical prediction/modeling
-* Interpret results
-* Challenge results
-* Synthesize/write up results
-* Create reproducible code
-* Distribute results to other people
+## Data pipeline
 
-## What do data scientists do? 
+<div class="columns-2">
 
-* Define the question
-* __Define the ideal data set__
-* __Determine what data you can access__
-* __Obtain the data__
-* __Clean the data__
-* Exploratory data analysis
-* Statistical prediction/modeling
-* Interpret results
-* Challenge results
-* Synthesize/write up results
-* Create reproducible code
-* Distribute results to other people
+<img class=center src=http://www.nature.com/polopoly_fs/7.25671.1429983882!/image/P1.jpg_gen/derivatives/landscape_300/P1.jpg height='500px'/> 
+
+* Most of the attention is on the last step
+* This course is about all the steps that come before
+* They are *critical* for getting things right
+
+[Leek and Peng (2015) Nature](http://www.nature.com/news/statistics-p-values-are-just-the-tip-of-the-iceberg-1.17412)
+
+</div>
+
+
+## What you wish data looked like
+
+<img class=center src=https://dl.dropboxusercontent.com/s/r3oxas1mus8krxq/excel.png?dl=0 height='400px'/>
+
+
+## What does data really look like? 
+
+<img class=center src=https://dl.dropboxusercontent.com/s/nsby9yen1jwtl0o/fastq.png?dl=0 height='400px'/>
+
+
+http://brianknaus.com/software/srtoolbox/s_4_1_sequence80.txt
+
+
+
+## What does data really look like? 
+
+<img class=center src=https://dl.dropboxusercontent.com/s/kzrq32djjlks02s/twitter.png?dl=0 height= 450/>
+
+
+https://dev.twitter.com/docs/api/1/get/blocks/blocking
+
+
+## What does data really look like?
+
+
+<img class=center src=https://dl.dropboxusercontent.com/s/mp86ne6n5lhgpkm/medicalrecord.png?dl=0 height=400/>
+
+
+http://blue-button.github.com/challenge/
+
+
+## Where is data?
+
+<img class=center src=https://dl.dropboxusercontent.com/s/k8b46hfm3ox938p/databases.png?dl=0 height=400/>
+
+
+http://rickosborne.org/blog/2010/02/infographic-migrating-from-sql-to-mapreduce-with-mongodb/
+
+
+
+## Where is data?
+
+<img class=center src=https://dl.dropboxusercontent.com/s/apgiml5kd1o9wiu/twitter.png?dl=0 height= 450/>
+
+https://dev.twitter.com/docs/api/1/get/blocks/blocking
+
+
+
+## Where is data?
+
+<img class=center src=https://dl.dropboxusercontent.com//s/wo1thf2mtw8odx4/baltimore.png?dl=0 height= 450/>
+
+[https://data.baltimorecity.gov/](https://data.baltimorecity.gov/)
+
+# Data brainstorming exercise
+
+## The goal of this course
+
+</br></br>
+
+<center><rt>Raw data -> Processing script -> tidy data</rt> -> data analysis -> data communication </center>
 
 # Tools we will use
 
@@ -175,16 +224,89 @@ http://www.rstudio.com/
 
 http://www.rstudio.com/
 
-# Brief Rstudio Tour
+## Useful Rstudio shortcuts 
+
+* `Ctrl + Enter` (`Cmd + Enter` on OS X) in your script evaluates that line of code
+    * It's like copying and pasting the code into the console for it to run.
+* `Ctrl+1` takes you to the script page
+* `Ctrl+2` takes you to the console
+* [http://www.rstudio.com/ide/docs/using/keyboard_shortcuts](http://www.rstudio.com/ide/docs/using/keyboard_shortcuts)
+
+Slide via: http://www.aejaffe.com/summerR_2015/
+
+# Rstudio tour/installation check-in
+
+
+## Replicability and reproducibility
+
+    Science moves forward then discoveries are replicated
+    and reproduced
+
+[_Implementing Reproducible Research_](https://osf.io/s9tya/wiki/home/)
+
+Slide via: http://www.aejaffe.com/summerR_2015/
+
+## Replication
+
+    Replication, the practice of independently implementing
+    scientific experiments to validate specific findings,
+     is the cornerstone of discovering scientific truth.
+
+[_Implementing Reproducible Research_](https://osf.io/s9tya/wiki/home/)
+
+Slide via: http://www.aejaffe.com/summerR_2015
+
+## Reproducibility
+
+    Reproducibility can be thought of as a different
+    standard of validity from replication because it
+    forgoes independent data collection and uses the
+    methods and data collected by the original investigator.
+
+[_Implementing Reproducible Research_](https://osf.io/s9tya/wiki/home/)
+
+Slide via: http://www.aejaffe.com/summerR_2015
+
+## A bit more practical
+
+    The sharing of analytic data and computer codes
+    uses to map those data into computational results
+    is central to any comprehensive definition of
+    reproducibility.
+    
+[_Implementing Reproducible Research_](https://osf.io/s9tya/wiki/home/)
+
+Slide via: http://www.aejaffe.com/summerR_2015
+
+## Why its important?
+
+    Except for the simplest of analyses, the computer
+    code used to analyze a dataset is the only record
+    that permits others to fully understand what a
+    researcher has done.
+
+[_Implementing Reproducible Research_](https://osf.io/s9tya/wiki/home/)
+
+Slide via: http://www.aejaffe.com/summerR_2015
+
+
+## Reproducible documents
+
+> * Have you ever had your code in one file, your description of the results in another file?
+> * Ever made copy-paste mistakes?
+> * What if you were asked to change some models or revise the document?
+> * Was it easy to maintain?
+
+Slide via: http://www.aejaffe.com/summerR_2015
+
 
 ## Primary file types - R script
 
-<img class=center src=https://dl.dropboxusercontent.com/s/m7vt6ys7t9ta9r7/rscript.png height='400px'/>
+<img class=center src=https://dl.dropboxusercontent.com/s/m7vt6ys7t9ta9r7/rscript.png height='300px'/>
 
 http://www.rstudio.com/ide/docs/using/source
 
 ## Primary file types - R markdown document
-
 
 <img class=center src=https://dl.dropboxusercontent.com/s/d0rfmy2hj7r00ru/rmarkdown.png height='400px'/>
 
@@ -193,13 +315,198 @@ http://www.rstudio.com/ide/docs/authoring/using_markdown
 
 ## Markdown basics
 
+### "Markdown is a text-to-HTML conversion tool for web writers. Markdown allows you to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML)."
 
 
-## Version control - Github & Git
+###  [John Gruber, creator of Markdown](http://daringfireball.net/projects/markdown/) 
 
-<img class=center src=https://dl.dropboxusercontent.com/s/wqjnlyhqtn3jpfi/github.png?dl=0 height='500px'/>
 
-https://github.com/
+## R markdown basics
+
+<img class=center src=http://rmarkdown.rstudio.com/images/markdownOverview.png height='400px'/>
+
+http://rmarkdown.rstudio.com/
+
+
+## R code
+
+<img class=center src=http://rmarkdown.rstudio.com/images/markdownChunk.png height='400px'/>
+
+http://rmarkdown.rstudio.com/
+
+## Equations with latex
+
+**In-line**
+
+This is an equation `$y = \beta_0 x$` in a line of text
+
+This is an equation $y = \beta_0 x$ in a line of text
+
+**Display**
+
+This is display equation `$$y = \beta_0 x$$` 
+
+This is an equation $$y = \beta_0 x$$ 
+
+# R markdown lab
+
+
+## Definition of data
+<q>Data are values of qualitative or quantitative variables, belonging to a set of items.</q>
+
+[http://en.wikipedia.org/wiki/Data](http://en.wikipedia.org/wiki/Data)
+
+
+## Definition of data
+<q>Data are values of qualitative or quantitative variables, belonging to a <redtext>set of items</redtext>.</q>
+
+[http://en.wikipedia.org/wiki/Data](http://en.wikipedia.org/wiki/Data)
+
+__Set of items__: Sometimes called the population; the set of objects you are interested in
+
+
+## Definition of data
+<q>Data are values of qualitative or quantitative <redtext>variables</redtext>, belonging to a set of items.</q>
+
+[http://en.wikipedia.org/wiki/Data](http://en.wikipedia.org/wiki/Data)
+
+__Variables__: A measurement or characteristic of an item.
+
+
+
+## Definition of data
+<q>Data are values of <redtext>qualitative</redtext> or <redtext>quantitative</redtext> variables, belonging to a set of items.</q>
+
+[http://en.wikipedia.org/wiki/Data](http://en.wikipedia.org/wiki/Data)
+
+
+__Qualitative__: Country of origin, sex, treatment
+
+__Quantitative__: Height, weight, blood pressure
+
+
+## Raw data
+
+* The original source of the data
+* Often hard to use for data analyses
+* Data analysis _includes_ processing
+* Raw data may only need to be processed once
+
+[http://en.wikipedia.org/wiki/Raw_data](http://en.wikipedia.org/wiki/Raw_data)
+
+## Processed data
+
+* Data that is ready for analysis
+* Processing can include merging, subsetting, transforming, etc.
+* There may be standards for processing
+* All steps should be recorded 
+
+[http://en.wikipedia.org/wiki/Computer_data_processing](http://en.wikipedia.org/wiki/Computer_data_processing)
+
+
+## An example of a processing pipeline
+
+<img class=center src=https://dl.dropboxusercontent.com/s/os9gkkmpjt0cvsj/hiseq.jpeg?dl=0 height=450/>
+
+http://www.illumina.com.cn/support/sequencing/sequencing_instruments/hiseq_1000.asp
+
+## An example of a processing pipeline
+
+<img class=center src=https://dl.dropboxusercontent.com/s/9q70kwqrhq4mop1/processing.png?dl=0 height=400 />
+
+http://www.cbcb.umd.edu/~hcorrada/CMSC858B/lectures/lect22_seqIntro/seqIntro.pdf
+
+## A common goal
+
+<img class=center src=https://dl.dropboxusercontent.com/s/pf814r7vb1ttj4l/Slide10.png?dl=0 height=400 />
+
+## A common goal
+
+<img class=center src=https://dl.dropboxusercontent.com/s/8ywpjs2f0ga2egh/Slide11.png?dl=0 height=400 />
+
+## The four things you should have
+
+1. The raw data.
+2. A tidy data set
+3. A code book describing each variable and its values in the tidy data set.
+4. An explicit and exact recipe you used to go from 1 -> 2,3.
+
+## The raw data
+
+* The strange binary file your measurement machine spits out
+* The unformatted Excel file with 10 worksheets the company you contracted with sent you
+* The complicated JSON data you got from scraping the Twitter API
+* The hand-entered numbers you collected looking through a microscope
+
+_You know the raw data is in the right format if you_ 
+
+1. Ran no software on the data
+2. Did not manipulate any of the numbers in the data
+3. You did not remove any data from the data set
+4. You did not summarize the data in any way
+
+https://github.com/jtleek/datasharing
+
+
+## The tidy data
+
+1. Each variable you measure should be in one column
+2. Each different observation of that variable should be in a different row
+3. There should be one table for each "kind" of variable
+4. If you have multiple tables, they should include a column in the table that allows them to be linked
+
+_Some other important tips_
+
+* Include a row at the top of each file with variable names. 
+* Make variable names human readable AgeAtDiagnosis instead of AgeDx
+* In general data should be saved in one file per table.
+
+https://github.com/jtleek/datasharing
+
+
+## The code book
+
+1. Information about the variables (including units!) in the data set not contained in the tidy data
+2. Information about the summary choices you made
+3. Information about the experimental study design you used
+
+
+_Some other important tips_
+
+* A common format for this document is a Word/text file. 
+* There should be a section called "Study design" that has a thorough description of how you collected the data. 
+* There must be a section called "Code book" that describes each variable and its units.
+
+https://github.com/jtleek/datasharing
+
+
+## The instruction list 
+
+* Ideally a computer script (in R :-), but I suppose Python is ok too...)
+* The input for the script is the raw data
+* The output is the processed, tidy data
+* There are no parameters to the script
+
+In some cases it will not be possible to script every step. In that case you should provide instructions like: 
+
+1. Step 1 - take the raw file, run version 3.1.2 of summarize software with parameters a=1, b=2, c=3
+2. Step 2 - run the software separately for each sample
+3. Step 3 - take column three of outputfile.out for each sample and that is the corresponding row in the output data set
+
+https://github.com/jtleek/datasharing
+
+
+## Why is the instruction list important? 
+
+<img class=center src=https://dl.dropboxusercontent.com/s/5zf1ur3v9wz5l7n/rr.png?dl=0 height=200 />
+
+<img class=center src=https://dl.dropboxusercontent.com/s/txlurzb88gsrtm1/rrcolbert.jpeg?dl=0 height=200 />
+
+http://www.colbertnation.com/the-colbert-report-videos/425748/april-23-2013/austerity-s-spreadsheet-error
+
+# Tidy data lab
+
+## Three types of genomic data
 
 
 

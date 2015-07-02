@@ -39,3 +39,23 @@ h3{
 .small {
    font-size: 0.8em;
 }
+
+strong, b {
+  font-weight: bolder;
+}
+em {
+  font-style: italic;
+}
+
+img.center {
+	display: block;
+	margin: auto auto;
+}
+
+redtext {
+  color: red; 
+}
+
+rt {
+  color: red; 
+}
