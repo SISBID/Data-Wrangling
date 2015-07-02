@@ -7,11 +7,22 @@ Raphael Gottardo
 ## ImmuneSpace
 
 [ImmuneSpace](www.immunespace.org) is the central database and analysis engine of the Human Immunology Project Consortium.
-  
 
-## ImmuneSpaceR
+ImmuneSpaceR is an R interface to interact with the ImmuneSpace database. The package is currently under development and will be released on `BioConductor` when the website becomes public.
 
-The R package is under development and available from `GitHub`.
+## Requirements
+
+ImmuneSpaceR requires the installation of two `BioConductor` package to handle
+microarray data.
+
+```r
+source("http://bioconductor.org/biocLite.R")
+biocLite("affy")
+biocLite("lumi")
+```
+
+The package as well as one of its dependencies are under development and available
+from `GitHub`.
 
 ```r
 library(devtools)
@@ -19,9 +30,9 @@ install_github("cttobin/ggthemr") # Themes for ggplot2
 install_github("RGLab/ImmuneSpaceR", quick = TRUE)
 ```
 
-### Requirements
+## Requirements
 
-Create netrc file in the computer running R.
+To access the password protected data, a `netrc` file is required.
 
 - On a UNIX system this file should be named `.netrc` (dot netrc)  
 - On windows it sould be named `_netrc` (underscore netrc).  
@@ -120,13 +131,13 @@ head(hai[, list(subject_accession, virus_strain, study_time_collected, value_rep
 ```
 
 ## Connection object: Data
-The `quick_plot` method 
+The `quick_plot` method is used to quickly vuisualize the assay results.
 
 ```r
 sdy269$quick_plot("hai", color = "Age")
 ```
 
-![](ImmuneSpaceR_files/figure-html/unnamed-chunk-6-1.png) 
+![](ImmuneSpaceR_files/figure-html/unnamed-chunk-7-1.png) 
 
 ## Connection object: Caching
 To avoid downloading big datasets multiple times, the connection object caches the
@@ -382,7 +393,7 @@ ggplot(all, aes(x = as.double(fcs_response), y = elispot_response, color = arm_n
   xlab("Total plasmablasts (%)") + ylab("Influenza specific cells\n (per 10^6 PBMCs)")
 ```
 
-<img src="ImmuneSpaceR_files/figure-html/unnamed-chunk-16-1.png" title="" alt="" style="display: block; margin: auto;" />
+<img src="ImmuneSpaceR_files/figure-html/unnamed-chunk-17-1.png" title="" alt="" style="display: block; margin: auto;" />
 
 ## Visualization: hai vs. elispot
 
@@ -394,7 +405,7 @@ ggplot(all, aes(x = as.double(hai_response), y = elispot_response, color=arm_nam
   xlab("HAI fold") + ylab("Influenza specific cells\n (per 10^6 PBMCs)")
 ```
 
-<img src="ImmuneSpaceR_files/figure-html/unnamed-chunk-17-1.png" title="" alt="" style="display: block; margin: auto;" />
+<img src="ImmuneSpaceR_files/figure-html/unnamed-chunk-18-1.png" title="" alt="" style="display: block; margin: auto;" />
 
 # An example of cross study analysis
 
