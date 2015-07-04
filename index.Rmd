@@ -29,6 +29,8 @@ Class Schedule:
 * [Rstudio](http://www.rstudio.com/)
 * [R project](http://www.r-project.org/)
 * [Bioconductor](http://bioconductor.org/)
+* [Rstudio's cheatsheets](http://www.rstudio.com/resources/cheatsheets/)
+* [Data.table cheatsheet](https://s3.amazonaws.com/assets.datacamp.com/img/blog/data+table+cheat+sheet.pdf)
 
 # Schedule
 
@@ -40,11 +42,11 @@ Class Schedule:
 |1 | --- | 1:30PM - 3:00PM | [html slides](lecture_notes/Bioconductor_intro.html) [md file](https://github.com/SISBID/Module1/blob/gh-pages/lecture_notes/Bioconductor_intro.md) | Intro to Bioconductor |
 |1 | --- | 1:30PM - 3:00PM | [html slides](lecture_notes/data_manipulation_review.html) [md file](https://github.com/SISBID/Module1/blob/gh-pages/lecture_notes/data_manipulation_review.md) | Review of data.table and SQL |
 |1 | --- | 3:00PM - 3:30PM | Break | --- |
-|1 | --- | 3:30PM - 5:00PM | [html slides](lecture_notes/) [md file](https://github.com/SISBID/Module1/blob/gh-pages/lecture_notes/) | Lab time |
+|1 | --- | 3:30PM - 5:00PM | [html slides](lecture_notes/Lab_Searching_GEO.html) [md file](https://github.com/SISBID/Module1/blob/gh-pages/lecture_notes/Lab_Searching_GEO.md) | Lab time (GEO and more) |
 |---|---|---|---|---|
 |2 | 2015-07-07 | 1:30PM - 3:00PM | [html slides](lecture_notes/ImmuneSpaceR.html) [md file](https://github.com/SISBID/Module1/blob/gh-pages/lecture_notes/ImmuneSpaceR.md) | Intro to ImmuneSpace and ImmuneSpaceR |
 |2 | 2015-07-07 | 3:00PM - 3:30PM | Break | Break |
-|1 | --- | 3:30PM - 5:00PM | [html slides](lecture_notes/) [md file](https://github.com/SISBID/Module1/blob/gh-pages/lecture_notes/) | Lab time |
+|1 | --- | 3:30PM - 5:00PM | [html slides](lecture_notes/ImmuneSpaceR_lab.html) [md file](https://github.com/SISBID/Module1/blob/gh-pages/lecture_notes/ImmuneSpaceR_lab.md) | Lab time (GEO suite and ImmuneSpaceR) |
 
 **NOTE:** The md files linked in the table above can easily be converted to pdf by replacing *github* by *gitprint* in the url (when opening the link in your web browser)
 
