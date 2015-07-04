@@ -26,7 +26,7 @@ output:
 **Getting Started:**
 
 Please read this to setup your installation of R, git, and install required R packages
-https://github.com/SISBID/Module1/getting_started.md
+https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 
 **Schedule**
 
