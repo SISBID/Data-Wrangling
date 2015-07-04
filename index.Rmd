@@ -4,35 +4,32 @@ output:
     theme: cosmo
 ---
 
-SISBID: Module 1 Accessing Biomedical Data
-=============
+## SISBID: Module 1 Accessing Biomedical Data
 
-Instructors: 
+**Instructors:** [Raphael Gottardo](http://www.rglab.org/) and [Jeff Leek](http://www.jtleek.com/)
 
-* [Raphael Gottardo](http://www.rglab.org/)
-* [Jeff Leek](http://www.jtleek.com/)
-
-Teaching assitants:
-
-* [Jean Morrison](http://students.washington.edu/jeanm5/)
-* [Brian Williamson](http://students.washington.edu/brianw26/)
+**Teaching assitants:** [Jean Morrison](http://students.washington.edu/jeanm5/) and [Brian Williamson](http://students.washington.edu/brianw26/)
 
 
-Class Schedule:
+**Class Schedule:**
 
 * [Daily schedule](http://www.biostat.washington.edu/suminst/sisbid/schedule)
 * [Location](http://www.biostat.washington.edu/suminst/sisbid/maps)
 
 
-# Resources
+**Ressources:**
 
-* [Rstudio](http://www.rstudio.com/)
-* [R project](http://www.r-project.org/)
-* [Bioconductor](http://bioconductor.org/)
-* [Rstudio's cheatsheets](http://www.rstudio.com/resources/cheatsheets/)
-* [Data.table cheatsheet](https://s3.amazonaws.com/assets.datacamp.com/img/blog/data+table+cheat+sheet.pdf)
 
-# Schedule
+* [Rstudio](http://www.rstudio.com/), [R project](http://www.r-project.org/), and [Bioconductor](http://bioconductor.org/)
+* [Rstudio's cheatsheets](http://www.rstudio.com/resources/cheatsheets/) & [Data.table cheatsheet](https://s3.amazonaws.com/assets.datacamp.com/img/blog/data+table+cheat+sheet.pdf)
+
+**Getting Started:**
+
+Please read this to setup your installation of R, git, and install required R packages
+https://github.com/SISBID/Module1/getting_started.md
+
+**Schedule**
+
 
 | Day  | Date  |  Session | Resources  |  Description |
 |---|---|---|---|---|
@@ -56,7 +53,7 @@ Class Schedule:
 
 -->
 
-# Miscellaneous
+**Miscellaneous**
 
 Feel free to submit typos/errors/etc via the github repository associated with the class: 
 https://github.com/SISBID/Module1
