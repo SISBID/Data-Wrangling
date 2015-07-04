@@ -6,9 +6,18 @@ Raphael Gottardo
 
 ## ImmuneSpace
 
-[ImmuneSpace](www.immunespace.org) is the central database and analysis engine of the Human Immunology Project Consortium.
+[ImmuneSpace](www.immunespace.org) is the central database and analysis engine of the Human Immunology Project Consortium. It directly leverages the ImmPort database (more on this next)
+
+### ImmuneSpaceR
 
 ImmuneSpaceR is an R interface to interact with the ImmuneSpace database. The package is currently under development and will be released on `BioConductor` when the website becomes public.
+
+## ImmPort
+
+- Immunology Database and Analysis Portal (ImmPort)
+- Developed under the Bioinformatics Integration Support Contract (BISC) funded by NIAID/DAIT
+- Central data repository for NIAID/DAIT funded projects (as well as a few others)
+- Established data submission processed that was leveraged by HIPC
 
 ## Requirements
 
