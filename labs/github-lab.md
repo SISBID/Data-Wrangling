@@ -9,8 +9,9 @@ First we need to set up Git/Github. Here are a good set of instructions: http://
   * Debian/Ubuntu: `sudo apt-get install git-core`
   * Other Linux distributions: http://git-scm.com/download/linux.
 2. Open a shell (from Rstudio: Tools -> Shell)
-3. Tell Git your name and email address ```git config --global user.name "YOUR FULL NAME"
-git config --global user.email "YOUR EMAIL ADDRESS"```
+3. Tell Git your name and email address 
+```git config --global user.name "YOUR FULL NAME" ```
+``` git config --global user.email "YOUR EMAIL ADDRESS" ```
   3. Open a shell 
   
   
