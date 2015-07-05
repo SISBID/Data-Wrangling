@@ -392,7 +392,7 @@ str(GSE29617_set, max.level = 2)
 ```
 ## Formal class 'ExpressionSet' [package "Biobase"] with 7 slots
 ##   ..@ experimentData   :Formal class 'MIAME' [package "Biobase"] with 13 slots
-##   ..@ assayData        :<environment: 0x7ff7089934a0> 
+##   ..@ assayData        :<environment: 0x7fd20eb28ea0> 
 ##   ..@ phenoData        :Formal class 'AnnotatedDataFrame' [package "Biobase"] with 4 slots
 ##   ..@ featureData      :Formal class 'AnnotatedDataFrame' [package "Biobase"] with 4 slots
 ##   ..@ annotation       : chr "GPL13158"
@@ -1273,5 +1273,4 @@ head(fData(GSE29617_set2))
 ## 1294_PM_at     1294_at UBA7;MIR5193
 ```
 
-Now you're ready to get the data that you will have to analyze for your second homework. 
-
+Repeat this with a different accession number

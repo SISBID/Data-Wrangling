@@ -408,5 +408,4 @@ fData(GSE29617_set2) <- annotaded_probes
 head(fData(GSE29617_set2))
 ```
 
-Now you're ready to get the data that you will have to analyze for your second homework. 
-
+Repeat this with a different accession number
