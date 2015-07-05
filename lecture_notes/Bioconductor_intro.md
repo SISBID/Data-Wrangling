@@ -392,7 +392,7 @@ str(GSE29617_set, max.level = 2)
 ```
 ## Formal class 'ExpressionSet' [package "Biobase"] with 7 slots
 ##   ..@ experimentData   :Formal class 'MIAME' [package "Biobase"] with 13 slots
-##   ..@ assayData        :<environment: 0x7f90391cb4b0> 
+##   ..@ assayData        :<environment: 0x7ff7089934a0> 
 ##   ..@ phenoData        :Formal class 'AnnotatedDataFrame' [package "Biobase"] with 4 slots
 ##   ..@ featureData      :Formal class 'AnnotatedDataFrame' [package "Biobase"] with 4 slots
 ##   ..@ annotation       : chr "GPL13158"
@@ -458,8 +458,9 @@ head(methods(class = "data.frame"))
 ```
 
 ```
-## [1] "[.data.frame"    "[[.data.frame"   "[[<-.data.frame" "[<-.data.frame" 
-## [5] "$.data.frame"    "$<-.data.frame"
+## [1] "[.data.frame"           "[[.data.frame"         
+## [3] "[[<-,data.frame-method" "[[<-.data.frame"       
+## [5] "[<-,data.frame-method"  "[<-.data.frame"
 ```
 
 ```r
@@ -552,10 +553,12 @@ showMethods(classes  = "eSet")
 ## 
 ## Function "clearMemoryManagement":
 ##  <not an S4 generic function>
+## 
+## Function "close":
+##  <not an S4 generic function>
 ## Function: coerce (package methods)
 ## from="eSet", to="ExpressionSet"
 ## from="eSet", to="MultiSet"
-## from="ExpressionSet", to="eSet"
 ## 
 ## Function: combine (package BiocGenerics)
 ## x="eSet", y="eSet"
@@ -1186,31 +1189,10 @@ library(hthgu133a.db)
 
 ```
 ## Loading required package: AnnotationDbi
-```
-
-```
-## Warning: package 'AnnotationDbi' was built under R version 3.1.3
-```
-
-```
 ## Loading required package: stats4
 ## Loading required package: GenomeInfoDb
-```
-
-```
-## Warning: package 'GenomeInfoDb' was built under R version 3.1.3
-```
-
-```
 ## Loading required package: S4Vectors
 ## Loading required package: IRanges
-## 
-## Attaching package: 'AnnotationDbi'
-## 
-## The following object is masked from 'package:GenomeInfoDb':
-## 
-##     species
-## 
 ## Loading required package: org.Hs.eg.db
 ```
 
@@ -1234,14 +1216,6 @@ Let's fix this: Replace _PM with <empty> for the probe id names in GSE29617_set2
 ```r
 probe_ids <- gsub("_PM","", rownames(GSE29617_set2))
 probe_data <- select(hthgu133a.db, keys = probe_ids, columns = "SYMBOL", keytype = "PROBEID")
-```
-
-```
-## Warning in .generateExtraRows(tab, keys, jointype): 'select' resulted in
-## 1:many mapping between keys and return rows
-```
-
-```r
 probe_data[1, ]
 ```
 
@@ -1269,14 +1243,14 @@ probe_data_dt_unique[SYMBOL %like% ";"]
 ##    1:   1007_s_at                            DDR1;MIR4640
 ##    2:     1294_at                            UBA7;MIR5193
 ##    3:     1773_at                        FNTB;CHURC1-FNTB
-##    4: 200012_x_at         RPL21;SNORD102;SNORA27;RPL21P28
-##    5:   200018_at             RPS13;SNORD14B;LOC100508408
+##    4: 200003_s_at                           RPL28;MIR6805
+##    5: 200012_x_at         RPL21;SNORD102;SNORA27;RPL21P28
 ##   ---                                                    
-## 1130:  65133_i_at                      INO80B;INO80B-WBP1
-## 1131:    65585_at FAM86C1;FAM86B1;FAM86FP;FAM86B2;FAM86DP
-## 1132:    66053_at                 HNRNPUL2;HNRNPUL2-BSCL2
-## 1133:    78495_at                        LOC155060;ZNF783
-## 1134:    91617_at                           DGCR8;MIR1306
+## 1263:  65133_i_at                      INO80B;INO80B-WBP1
+## 1264:    65585_at FAM86C1;FAM86B1;FAM86FP;FAM86B2;FAM86DP
+## 1265:    66053_at                 HNRNPUL2;HNRNPUL2-BSCL2
+## 1266:    78495_at                        LOC155060;ZNF783
+## 1267:    91617_at                           DGCR8;MIR1306
 ```
 
 ## Completing our ExpressionSet

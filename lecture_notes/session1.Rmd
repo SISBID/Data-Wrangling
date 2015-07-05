@@ -18,7 +18,43 @@ output:
 * __Course website__: http://sisbid.github.io/Module1
 * __Goal__ : Teach you how to get and clean data
 * __Pre-reqs__: Some basic knowledge of R
-* __Where to get the slides__: https://github.com/SISBID/Module1
+* __Where to get the slides__: 
+https://github.com/SISBID/Module1
+
+
+# Motivating example
+
+## An exciting result
+
+<img class=center src=https://dl.dropboxusercontent.com/s/e4ww1wmeuliu395/potti-paper.png height='400px'/>
+
+http://www.nature.com/nm/journal/v12/n11/full/nm1491.html
+
+## Stunning problems
+
+<img class=center src=https://dl.dropboxusercontent.com/s/6zt3qo3yqvey7jy/baggerly-coombs.png height='400px'/>
+
+https://projecteuclid.org/euclid.aoas/1267453942
+
+## Timeline of events
+
+<img class=center src=https://dl.dropboxusercontent.com/s/mr9o35qbe9qojom/potti-timeline.png?dl=0 height='400px'/>
+
+http://www.nature.com/news/2011/110111/full/469139a/box/1.html
+
+## Major fallout
+
+<img class=center src=https://dl.dropboxusercontent.com/s/45i0ef2tzj9t5vq/potti-lawsuit.png height='400px'/>
+
+http://dig.abclocal.go.com/wtvd/docs/Duke_lawsuit_090811.pdf
+http://www.dukechronicle.com/articles/2015/05/03/duke-lawsuit-involving-cancer-patients-linked-anil-potti-settled
+
+## A great talk about this event
+
+<img class=center src=https://dl.dropboxusercontent.com/s/3pmldcj5lhjk0vo/baggerly-video.png?dl=0 height='400px'/>
+
+http://www.birs.ca/events/2013/5-day-workshops/13w5083/videos/watch/201308141121-Baggerly.mp4
+
 
 # About me
 
@@ -86,36 +122,7 @@ http://pss.sagepub.com/content/22/11/1359.abstract
 
 <img class=center src=https://dl.dropboxusercontent.com/s/myx2854e2yewbhi/sympathetic-pvalue.png height='400px'/>
 
-## An exciting result
 
-<img class=center src=https://dl.dropboxusercontent.com/s/e4ww1wmeuliu395/potti-paper.png height='400px'/>
-
-http://www.nature.com/nm/journal/v12/n11/full/nm1491.html
-
-## Stunning problems
-
-<img class=center src=https://dl.dropboxusercontent.com/s/6zt3qo3yqvey7jy/baggerly-coombs.png height='400px'/>
-
-https://projecteuclid.org/euclid.aoas/1267453942
-
-## Timeline of events
-
-<img class=center src=https://dl.dropboxusercontent.com/s/mr9o35qbe9qojom/potti-timeline.png?dl=0 height='400px'/>
-
-http://www.nature.com/news/2011/110111/full/469139a/box/1.html
-
-## Major fallout
-
-<img class=center src=https://dl.dropboxusercontent.com/s/45i0ef2tzj9t5vq/potti-lawsuit.png height='400px'/>
-
-http://dig.abclocal.go.com/wtvd/docs/Duke_lawsuit_090811.pdf
-http://www.dukechronicle.com/articles/2015/05/03/duke-lawsuit-involving-cancer-patients-linked-anil-potti-settled
-
-## A great talk about this event
-
-<img class=center src=https://dl.dropboxusercontent.com/s/3pmldcj5lhjk0vo/baggerly-video.png?dl=0 height='400px'/>
-
-http://www.birs.ca/events/2013/5-day-workshops/13w5083/videos/watch/201308141121-Baggerly.mp4
 
 ## This is now codified for clinical genomics
 
@@ -438,7 +445,7 @@ http://www.cbcb.umd.edu/~hcorrada/CMSC858B/lectures/lect22_seqIntro/seqIntro.pdf
 * The complicated JSON data you got from scraping the Twitter API
 * The hand-entered numbers you collected looking through a microscope
 
-_You know the raw data is in the right format if you_ 
+## You know the raw data is in the right format if you_ 
 
 1. Ran no software on the data
 2. Did not manipulate any of the numbers in the data
@@ -455,7 +462,9 @@ https://github.com/jtleek/datasharing
 3. There should be one table for each "kind" of variable
 4. If you have multiple tables, they should include a column in the table that allows them to be linked
 
-_Some other important tips_
+
+
+## Some other important tips
 
 * Include a row at the top of each file with variable names. 
 * Make variable names human readable AgeAtDiagnosis instead of AgeDx
@@ -471,7 +480,7 @@ https://github.com/jtleek/datasharing
 3. Information about the experimental study design you used
 
 
-_Some other important tips_
+## Some other important tips_
 
 * A common format for this document is a Word/text file. 
 * There should be a section called "Study design" that has a thorough description of how you collected the data. 
@@ -486,6 +495,8 @@ https://github.com/jtleek/datasharing
 * The input for the script is the raw data
 * The output is the processed, tidy data
 * There are no parameters to the script
+
+## When you can't script
 
 In some cases it will not be possible to script every step. In that case you should provide instructions like: 
 
@@ -504,10 +515,237 @@ https://github.com/jtleek/datasharing
 
 http://www.colbertnation.com/the-colbert-report-videos/425748/april-23-2013/austerity-s-spreadsheet-error
 
+
+## dplyr
+
+The data frame is a key data structure in statistics and in R.
+
+* There is one observation per row
+
+* Each column represents a variable or measure or characteristic
+
+* Primary implementation that you will use is the default R
+  implementation
+
+* Other implementations, particularly relational databases systems
+
+
+## dplyr
+
+* Developed by Hadley Wickham of RStudio
+
+* An optimized and distilled version of `plyr` package (also by Hadley)
+
+* Does not provide any "new" functionality per se, but **greatly**
+  simplifies existing functionality in R
+
+* Provides a "grammar" (in particular, verbs) for data manipulation
+
+* Is **very** fast, as many key operations are coded in C++
+
+
+## dplyr Verbs
+
+* `select`: return a subset of the columns of a data frame
+
+* `filter`: extract a subset of rows from a data frame based on
+  logical conditions
+
+* `arrange`: reorder rows of a data frame
+
+
+* `rename`: rename variables in a data frame
+
+* `mutate`: add new variables/columns or transform existing variables
+
+* `summarise` / `summarize`: generate summary statistics of different
+  variables in the data frame, possibly within strata
+
+There is also a handy `print` method that prevents you from printing a
+lot of data to the console.
+
+
+
+## dplyr Properties
+
+* The first argument is a data frame.
+
+* The subsequent arguments describe what to do with it, and you can
+  refer to columns in the data frame directly without using the $
+  operator (just use the names).
+
+* The result is a new data frame
+
+* Data frames must be properly formatted and annotated for this to all
+  be useful
+
+
+## Load the `dplyr` package
+
+This step is important!
+
+```{r}
+library(dplyr)
+```
+
+
+## `select`
+
+```{r}
+chicago <- readRDS("./data/chicago.rds")
+dim(chicago)
+head(select(chicago, 1:5))
+```
+
+
+## `select`
+
+```{r}
+names(chicago)[1:3]
+head(select(chicago, city:dptp))
+```
+
+## `select`
+
+In dplyr you can do
+
+```{r,eval=FALSE}
+head(select(chicago, -(city:dptp)))
+```
+
+## Equivalent base R
+
+```{r,eval=FALSE}
+i <- match("city", names(chicago))
+j <- match("dptp", names(chicago))
+head(chicago[, -(i:j)])
+```
+
+
+
+## `filter`
+
+```{r}
+chic.f <- filter(chicago, pm25tmean2 > 30)
+head(select(chic.f, 1:3, pm25tmean2), 10)
+```
+
+## `filter`
+
+```{r}
+chic.f <- filter(chicago, pm25tmean2 > 30 & tmpd > 80)
+head(select(chic.f, 1:3, pm25tmean2, tmpd), 10)
+```
+
+
+## `arrange`
+
+Reordering rows of a data frame (while preserving corresponding order
+of other columns) is normally a pain to do in R.
+
+```{r}
+chicago <- arrange(chicago, date)
+head(select(chicago, date, pm25tmean2), 3)
+tail(select(chicago, date, pm25tmean2), 3)
+```
+
+## `arrange`
+
+Columns can be arranged in descending order too.
+
+```{r}
+chicago <- arrange(chicago, desc(date))
+head(select(chicago, date, pm25tmean2), 3)
+tail(select(chicago, date, pm25tmean2), 3)
+```
+
+
+## `rename`
+
+Renaming a variable in a data frame in R is surprising hard to do!
+
+```{r,tidy=FALSE}
+head(chicago[, 1:5], 3)
+chicago <- rename(chicago, dewpoint = dptp, 
+                  pm25 = pm25tmean2)
+head(chicago[, 1:5], 3)
+```
+
+
+## `mutate`
+
+```{r, tidy=FALSE}
+chicago <- mutate(chicago, 
+                  pm25detrend=pm25-mean(pm25, na.rm=TRUE))
+head(select(chicago, pm25, pm25detrend))
+```
+
+## `group_by`
+
+Generating summary statistics by stratum
+
+```{r, tidy=FALSE}
+chicago <- mutate(chicago, 
+                  tempcat = factor(1 * (tmpd > 80), 
+                                   labels = c("cold", "hot")))
+hotcold <- group_by(chicago, tempcat)
+summarize(hotcold, pm25 = mean(pm25, na.rm = TRUE), 
+          o3 = max(o3tmean2), 
+          no2 = median(no2tmean2))
+```
+
+
+## `group_by`
+
+Generating summary statistics by stratum
+
+```{r, tidy=FALSE}
+chicago <- mutate(chicago, 
+                  year = as.POSIXlt(date)$year + 1900)
+years <- group_by(chicago, year)
+summarize(years, pm25 = mean(pm25, na.rm = TRUE), 
+          o3 = max(o3tmean2, na.rm = TRUE), 
+          no2 = median(no2tmean2, na.rm = TRUE))
+```
+
+```{r,echo=FALSE}
+chicago$year <- NULL  ## Can't use mutate to create an existing variable
+```
+
+
+## `%>%`
+
+```{r,tidy=FALSE,eval=FALSE}
+chicago %>% mutate(month = as.POSIXlt(date)$mon + 1) 
+	%>% group_by(month) 
+	%>% summarize(pm25 = mean(pm25, na.rm = TRUE), 
+          o3 = max(o3tmean2, na.rm = TRUE), 
+          no2 = median(no2tmean2, na.rm = TRUE))
+```
+
+```{r,echo=FALSE}
+chicago %>% mutate(month = as.POSIXlt(date)$mon + 1) %>% group_by(month) %>% 
+summarize(pm25 = mean(pm25, na.rm = TRUE), o3 = max(o3tmean2, na.rm = TRUE), no2 = median(no2tmean2, na.rm = TRUE))
+
+```
+
+
+## dplyr
+
+Once you learn the dplyr "grammar" there are a few additional benefits
+
+* dplyr can work with other data frame "backends"
+
+* `data.table` for large fast tables
+
+* SQL interface for relational databases via the DBI package
+
+
 # Tidy data lab
 
 ## Three types of genomic data
 
+<img class=center src=https://dl.dropboxusercontent.com/s/ewv8iaac9h7vmpd/threetables.png?dl=0 height=450/>
 
 
 ## Home again

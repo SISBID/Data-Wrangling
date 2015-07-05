@@ -1,0 +1,261 @@
+---
+title: 'SISBD: ImmuneSpace'
+author: "Raphael Gottardo"
+date: "\ `r Sys.Date()`"
+output:
+  ioslides_presentation:
+    fig_retina: 1
+    keep_md: yes
+    smaller: yes
+  beamer_presentation: default
+---
+
+```{r, echo=FALSE}
+labkey.url.base <- "www.immunespace.org"
+library("knitr")
+opts_chunk$set(cache = FALSE, messages = FALSE)
+```
+
+## ImmuneSpace
+
+[ImmuneSpace](www.immunespace.org) is the central database and analysis engine of the Human Immunology Project Consortium. It directly leverages the ImmPort database (more on this next)
+
+### ImmuneSpaceR
+
+ImmuneSpaceR is an R interface to interact with the ImmuneSpace database. The package is currently under development and will be released on `BioConductor` when the website becomes public.
+
+## ImmPort
+
+- Immunology Database and Analysis Portal (ImmPort)
+- Developed under the Bioinformatics Integration Support Contract (BISC) funded by NIAID/DAIT
+- Central data repository for NIAID/DAIT funded projects (as well as a few others)
+- Established data submission processed that was leveraged by HIPC
+
+## Requirements
+
+ImmuneSpaceR requires the installation of two `BioConductor` package to handle
+microarray data.
+```{r, eval = FALSE}
+source("http://bioconductor.org/biocLite.R")
+biocLite("affy")
+biocLite("lumi")
+```
+
+The package as well as one of its dependencies are under development and available
+from `GitHub`.
+```{r, eval = FALSE}
+library(devtools)
+install_github("cttobin/ggthemr") # Themes for ggplot2
+install_github("RGLab/ImmuneSpaceR", quick = TRUE)
+```
+
+## Requirements
+
+To access the password protected data, a `netrc` file is required.
+
+- On a UNIX system this file should be named `.netrc` (dot netrc)  
+- On windows it sould be named `_netrc` (underscore netrc).  
+
+The file should be located in the users home directory and the permissions on
+thefile should be unreadable for everybody except the owner. To determine home
+directory, run `Sys.getenv("HOME")` in R. The following three lines must be
+included in the .netrc or _netrc file either separated by white space (spaces,
+tabs, or newlines) or commas.
+
+    machine   www.immunespace.org
+    login     SISBD@immunespace.org
+    password  *user-password*
+    
+
+## Connection object
+
+ImmuneSpaceR creates object of class `ImmuneSpaceConnection` that can handle all
+the data for an entire study.
+```{r, message = FALSE}
+library(data.table)
+library(ImmuneSpaceR)
+sdy269 <- CreateConnection("SDY269")
+class(sdy269)
+sdy269
+```
+
+## Reference classes
+
+`ImmuneSpaceConnection` objects use a different class system: Reference classes (or R5).
+
+Reference classes are closer to classic OO systems like in Java or C#. They
+are particulary useful to handle big data because the instantiated objects are 
+**mutable**. This prevents R's copy on write mechanism.
+
+Methods are called in a slightly different way:
+```{r, eval = FALSE}
+object$method(arg1 = val1, ...)
+```
+
+Additional info: http://adv-r.had.co.nz/R5.html
+
+## Connection object: Data
+
+```{r}
+hai <- sdy269$getDataset("hai")
+head(hai[, list(subject_accession, virus_strain, study_time_collected, value_reported)])
+```
+
+## Connection object: Data
+The `quick_plot` method is used to quickly vuisualize the assay results.
+```{r, dev = 'CairoPNG'}
+sdy269$quick_plot("hai", color = "Age")
+```
+
+## Connection object: Caching
+To avoid downloading big datasets multiple times, the connection object caches the
+tables that have been fetched. Getting the same table a second time will be much
+faster.
+```{r}
+head(sdy269$data_cache$hai[, 6:9, with = FALSE], 3)
+```
+Clearing the cache
+```{r clear_cache}
+# Clear the saved copy of the data and re-download it
+hai <- sdy269$getDataset("hai", reload = TRUE)
+# Clear ALL cached data in the object
+sdy269$clear_cache()
+```
+
+## Connection object: Views
+
+The 'full' view available online can be downloaded using the original_view argument
+of the `getDataset` function.
+```{r}
+sdy269$getDataset("hai", original_view = TRUE)
+```
+All returned datasets are `data.table` objects.
+
+## Gene expression data
+ImmuneSpace stores raw and processed microarray data. 
+```{r, cache = TRUE, message = FALSE}
+# Download a normalized gene expression matrix
+EM <- sdy269$getGEMatrix("TIV_2008")
+EM
+```
+Returns an `ExpressionSet` object (see the Bioconductor lecture).
+
+## Differential expression analysis using limma 
+
+```{r, message = FALSE}
+library(Biobase) # To manipulate ExpressionSet objects
+library(limma)
+```
+```{r DGEA, cache = TRUE}
+mm <- model.matrix(formula("~subject_accession + study_time_collected"), EM)
+fit <- lmFit(EM, mm)
+fit <- eBayes(fit)
+res <- data.table(topTable(fit, coef = "study_time_collected", number = Inf))
+res <- res[!is.na(gene_symbol)]
+res <- res[order(adj.P.Val)] # Order by increasing FDR
+res[1:5]
+```
+The top five differentially expressed genes
+
+
+# An example of cross assay analysis
+
+## Getting datasets
+```{r, cache = TRUE}
+sdy269$listDatasets()
+hai <- sdy269$getDataset("hai")
+fcs <- sdy269$getDataset("fcs_analyzed_result")
+elispot <- sdy269$getDataset("elispot")
+```
+## Summarizing information
+We calculate HAI response as the max fold-change of any of the 3 virus strains
+```{r}
+hai <- hai[, hai_response := value_reported/value_reported[study_time_collected == 0],
+           by = "virus_strain,arm_name,subject_accession"][study_time_collected == 28]
+hai <- hai[, list(hai_response = max(hai_response)), by = "arm_name,subject_accession"]
+```
+Keep only the IgG for ELISPOT
+```{r}
+elispot <- elispot[, elispot_response := spot_number_reported+1][study_time_collected==7 & analyte=="IgG"]
+```
+Compute plasmablasts as percent of the parent population
+```{r}
+fcs <- fcs[, fcs_response := (as.double(population_cell_number)+1) /
+             as.double(base_parent_population)][study_time_collected == 7]
+```
+
+## Combining assays
+Merge all datasets in a single table.
+```{r}
+library(data.table)
+setkeyv(hai, c("subject_accession"))
+setkeyv(fcs, c("subject_accession"))
+setkeyv(elispot, c("subject_accession"))
+all <- hai[fcs, nomatch=0][elispot, nomatch=0]
+colnames(all)
+```
+
+## Visualization: Flow cytometry vs. elispot
+
+The figure below shows the absolute number of plasmablast cells measured by flow cytometry vs. the number of frequency of influenza-specific cells measured by ELISPOT. 
+```{r, warning = FALSE, fig.align="center", fig.height = 4, dev='CairoPNG'}
+ggplot(all, aes(x = as.double(fcs_response), y = elispot_response, color = arm_name)) + 
+  geom_point() + scale_y_log10() + scale_x_log10() + geom_smooth(method = "lm") +
+  xlab("Total plasmablasts (%)") + ylab("Influenza specific cells\n (per 10^6 PBMCs)")
+```
+
+## Visualization: hai vs. elispot
+
+The figure below shows the HAI fold increase over baseline vs. the number of frequency of influenza-specific cells measured by ELISPOT. 
+```{r, warning = FALSE, fig.align = "center", fig.height = 4, dev='CairoPNG'}
+ggplot(all, aes(x = as.double(hai_response), y = elispot_response, color=arm_name)) +
+  geom_point() + scale_x_continuous(trans = "log2") + scale_y_log10() + geom_smooth(method = "lm") +
+  xlab("HAI fold") + ylab("Influenza specific cells\n (per 10^6 PBMCs)")
+```
+
+# An example of cross study analysis
+
+## ImmuneSpaceConnectionList
+Using two studies to get consecutive years of flu vaccination.
+```{r, cache = TRUE}
+con <- CreateConnection(c("SDY61", "SDY269"), verbose = TRUE) #verbose for explicit error messages
+con
+con$study("SDY61")
+```
+## ImmuneSpaceConnectionList
+
+The list of connection has the same methods as a regular `ImmuneSpaceConnection`
+object.
+
+```{r, hai_multi}
+con$listDatasets()
+hai_flu <- con$getDataset("hai")
+```
+
+## ImmuneSpaceConnectionList
+
+HAI response in all three cohorts of the combined studies
+```{r qp_multi, dev = "CairoPNG"}
+con$quick_plot("hai", normalize_to_baseline = FALSE, color = "Age")
+```
+
+## ImmuneSpaceConnectionList: Gene expression
+
+Gene expression for season 2007 and 2008.
+```{r getGEM_multi, message = FALSE}
+EM_flu <- con$getGEMatrix(c("TIV_2007", "TIV_2008"), summary = TRUE)
+EM_flu
+```
+
+## ImmuneSpaceConnectionList: Differential expression analysis
+
+Differentially expressed genes over time for the combuined flu seasons
+```{r DGEA_multi}
+mm_flu <- model.matrix(formula("~subject_accession + study_time_collected"), EM_flu)
+fit <- lmFit(EM_flu, mm_flu)
+fit <- eBayes(fit)
+res_flu <- data.table(topTable(fit, coef = "study_time_collected", number = Inf))
+res_flu <- res_flu[!is.na(gene_symbol)]
+res_flu <- res_flu[order(adj.P.Val)] # Order by increasing FDR
+res_flu[1:5] # Top 5 genes
+```

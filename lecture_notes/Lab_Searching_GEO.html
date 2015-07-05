@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>SISBID: Accessing Biomedical Bid Data</title>
+  <title>SISBD: GEO lab</title>
 
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -10,6 +10,7 @@
 
 
 
+  <meta name="date" content="2015-07-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -25,7 +26,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'SISBID: Accessing Biomedical Bid Data',
+                title: 'SISBD: GEO lab',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -35,7 +36,7 @@
       // Author information
       presenters: [
             {
-        name:  'Jeff Leek' ,
+        name:  'Raphael Gottardo' ,
         company: '',
         gplus: '',
         twitter: '',
@@ -74,7 +75,6 @@
 
   </style>
 
-  <link href="data:text/css,pre%20%7B%0A%20%20font%2Dfamily%3A%20%27Source%20Code%20Pro%27%2C%20%27Courier%20New%27%2C%20monospace%3B%0A%20%20font%2Dsize%3A%2024px%3B%0A%20%20line%2Dheight%3A%2024px%3B%0A%20%20padding%3A%2010px%200%2010px%2060px%3B%0A%20%20letter%2Dspacing%3A%20%2D1px%3B%0A%20%20margin%2Dbottom%3A%208px%3B%0A%20%20width%3A%20106%25%3B%0A%20%20left%3A%20%2D60px%3B%0A%20%20position%3A%20relative%3B%0A%20%20%2Dwebkit%2Dbox%2Dsizing%3A%20border%2Dbox%3B%0A%20%20%2Dmoz%2Dbox%2Dsizing%3A%20border%2Dbox%3B%0A%20%20box%2Dsizing%3A%20border%2Dbox%3B%0A%20%20%2F%2Aoverflow%3A%20hidden%3B%2A%2F%0A%7D%0A%0A%2F%2A%20Whole%20document%3A%20%2A%2F%0Abody%7B%0A%20%20font%2Dfamily%3A%20Helvetica%3B%0A%20%20font%2Dsize%3A%2016pt%3B%0A%7D%0A%0A%2F%2A%20Headers%20%2A%2F%0Ah1%7B%0A%20%20font%2Dsize%3A%2028pt%3B%0A%7D%0Ah2%7B%0A%20%20font%2Dsize%3A%2024pt%3B%0A%7D%0Ah3%7B%0A%20%20font%2Dsize%3A%2020pt%3B%0A%7D%0A%0A%0A%2Eemphasized%20%7B%0A%20%20%20font%2Dsize%3A%201%2E2em%3B%0A%7D%0A%0A%2Esmall%20%7B%0A%20%20%20font%2Dsize%3A%200%2E8em%3B%0A%7D%0A%0Astrong%2C%20b%20%7B%0A%20%20font%2Dweight%3A%20bolder%3B%0A%7D%0Aem%20%7B%0A%20%20font%2Dstyle%3A%20italic%3B%0A%7D%0A%0Aimg%2Ecenter%20%7B%0A%09display%3A%20block%3B%0A%09margin%3A%20auto%20auto%3B%0A%7D%0A%0Aredtext%20%7B%0A%20%20color%3A%20red%3B%20%0A%7D%0A%0Art%20%7B%0A%20%20color%3A%20red%3B%20%0A%7D%0A" rel="stylesheet" type="text/css" />
 
 
 </head>
@@ -89,813 +89,702 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;"><span class="citation">@jtleek</span></p>
+            <p style="margin-top: 6px; margin-left: -2px;">2015-07-03</p>
           </hgroup>
   </slide>
 
-<slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Preliminaries</h2></hgroup><article  id="preliminaries">
+<slide class=''><hgroup><h2>Setting up some options</h2></hgroup><article  id="setting-up-some-options" class="smaller ">
 
-</article></slide><slide class=''><hgroup><h2>About this course</h2></hgroup><article  id="about-this-course">
+<p>Let&#39;s first turn on the cache for increased performance and improved styling</p>
 
-<ul>
-<li><strong>Class name</strong>: Accessing Biomedical Big Data</li>
-<li><strong>Instructors</strong>: <a href='www.jtleek.com' title=''>Jeff Leek</a>, <a href='www.rglab.org' title=''>Raphael Gottardo</a></li>
-<li><strong>TAs</strong>: <a href='http://students.washington.edu/jeanm5/' title=''>Jean Morrison</a>, <a href='http://students.washington.edu/brianw26/' title=''>Brian Williamson</a></li>
-<li><strong>Course website</strong>: <a href='http://sisbid.github.io/Module1' title=''>http://sisbid.github.io/Module1</a></li>
-<li><strong>Goal</strong> : Teach you how to get and clean data</li>
-<li><strong>Pre-reqs</strong>: Some basic knowledge of R</li>
-<li><strong>Where to get the slides</strong>: <a href='https://github.com/SISBID/Module1' title=''>https://github.com/SISBID/Module1</a></li>
-</ul>
+<pre class = 'prettyprint lang-r'># Set some global knitr options
+library(&quot;knitr&quot;)
+opts_chunk$set(cache = FALSE, messages = FALSE)</pre>
 
-</article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Motivating example</h2></hgroup><article  id="motivating-example">
+<p>Load the <code>pander</code> package so we can make nicer table listings with <code>pandoc.table</code>.</p>
 
-</article></slide><slide class=''><hgroup><h2>An exciting result</h2></hgroup><article  id="an-exciting-result">
+<pre class = 'prettyprint lang-r'>suppressMessages(library(pander))</pre>
 
-<p><img class=center src=https://dl.dropboxusercontent.com/s/e4ww1wmeuliu395/potti-paper.png height='400px'/></p>
+</article></slide><slide class=''><hgroup><h2>Preparation</h2></hgroup><article  id="preparation" class="smaller ">
 
-<p><a href='http://www.nature.com/nm/journal/v12/n11/full/nm1491.html' title=''>http://www.nature.com/nm/journal/v12/n11/full/nm1491.html</a></p>
+<p>We will need to query the GEOmetadb database. Today we will explore this database and practice various ways to query it.</p>
 
-</article></slide><slide class=''><hgroup><h2>Stunning problems</h2></hgroup><article  id="stunning-problems">
+</article></slide><slide class=''><hgroup><h2>Load the <code>GEOmetadb</code> package</h2></hgroup><article  id="load-the-geometadb-package" class="smaller ">
 
-<p><img class=center src=https://dl.dropboxusercontent.com/s/6zt3qo3yqvey7jy/baggerly-coombs.png height='400px'/></p>
+<p>First we load the <code>GEOmetadb</code> library.</p>
 
-<p><a href='https://projecteuclid.org/euclid.aoas/1267453942' title=''>https://projecteuclid.org/euclid.aoas/1267453942</a></p>
+<pre class = 'prettyprint lang-r'>suppressMessages(library(GEOmetadb))</pre>
 
-</article></slide><slide class=''><hgroup><h2>Timeline of events</h2></hgroup><article  id="timeline-of-events">
+<p>Let&#39;s also view the available objects.</p>
 
-<p><img class=center src=https://dl.dropboxusercontent.com/s/mr9o35qbe9qojom/potti-timeline.png?dl=0 height='400px'/></p>
+<pre class = 'prettyprint lang-r'>ls(&quot;package:GEOmetadb&quot;)</pre>
 
-<p><a href='http://www.nature.com/news/2011/110111/full/469139a/box/1.html' title=''>http://www.nature.com/news/2011/110111/full/469139a/box/1.html</a></p>
+<pre >## [1] &quot;columnDescriptions&quot; &quot;geoConvert&quot;         &quot;getBiocPlatformMap&quot;
+## [4] &quot;getSQLiteFile&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Major fallout</h2></hgroup><article  id="major-fallout">
+</article></slide><slide class=''><hgroup><h2>Download the GEO database</h2></hgroup><article  id="download-the-geo-database" class="smaller ">
 
-<p><img class=center src=https://dl.dropboxusercontent.com/s/45i0ef2tzj9t5vq/potti-lawsuit.png height='400px'/></p>
+<p>We should have already downloaded this database when viewing the lecture slides.</p>
 
-<p><a href='http://dig.abclocal.go.com/wtvd/docs/Duke_lawsuit_090811.pdf' title=''>http://dig.abclocal.go.com/wtvd/docs/Duke_lawsuit_090811.pdf</a> <a href='http://www.dukechronicle.com/articles/2015/05/03/duke-lawsuit-involving-cancer-patients-linked-anil-potti-settled' title=''>http://www.dukechronicle.com/articles/2015/05/03/duke-lawsuit-involving-cancer-patients-linked-anil-potti-settled</a></p>
+<pre class = 'prettyprint lang-r'>## This will download the entire database, so can be slow
+if (!file.exists(&quot;GEOmetadb.sqlite&quot;))
+{
+  # Download database only if it&#39;s not done already
+  getSQLiteFile()
+}</pre>
 
-</article></slide><slide class=''><hgroup><h2>A great talk about this event</h2></hgroup><article  id="a-great-talk-about-this-event">
+</article></slide><slide class=''><hgroup><h2>List tables with <code>SQL</code></h2></hgroup><article  id="list-tables-with-sql" class="smaller ">
 
-<p><img class=center src=https://dl.dropboxusercontent.com/s/3pmldcj5lhjk0vo/baggerly-video.png?dl=0 height='400px'/></p>
+<p>In <code>SQL</code>, you can query the database structure with ordinary <code>SQL</code> commands.</p>
 
-<p><a href='http://www.birs.ca/events/2013/5-day-workshops/13w5083/videos/watch/201308141121-Baggerly.mp4' title=''>http://www.birs.ca/events/2013/5-day-workshops/13w5083/videos/watch/201308141121-Baggerly.mp4</a></p>
+<pre class = 'prettyprint lang-r'>geo_con &lt;- dbConnect(SQLite(), &#39;GEOmetadb.sqlite&#39;)
+dbGetQuery(geo_con, &quot;SELECT name FROM sqlite_master WHERE type=&#39;table&#39;;&quot;)</pre>
 
-</article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>About me</h2></hgroup><article  id="about-me">
+<pre >##                 name
+## 1                gse
+## 2                gpl
+## 3                gsm
+## 4            gse_gsm
+## 5            gse_gpl
+## 6                gds
+## 7         gds_subset
+## 8            sMatrix
+## 9  geodb_column_desc
+## 10        geoConvert
+## 11          metaInfo</pre>
 
-</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section">
+</article></slide><slide class=''><hgroup><h2>List <code>gse</code> fields with <code>SQL</code></h2></hgroup><article  id="list-gse-fields-with-sql" class="smaller ">
 
-<img src='https://dl.dropboxusercontent.com/s/nukt57ozprue20x/Slide07.png?dl=0' title=''/>
+<p>The <code>PRAGMA</code> command is a standard <code>SQLite</code> command.</p>
 
-</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section-1">
+<pre class = 'prettyprint lang-r'>dbGetQuery(geo_con, &quot;PRAGMA table_info(gse);&quot;)</pre>
 
-<img src='https://dl.dropboxusercontent.com/s/yjxdra220bmrsx1/Slide08.png?dl=0' title=''/>
+<pre >##    cid                 name    type notnull dflt_value pk
+## 1    0                   ID    REAL       0       &lt;NA&gt;  0
+## 2    1                title    TEXT       0       &lt;NA&gt;  0
+## 3    2                  gse    TEXT       0       &lt;NA&gt;  0
+## 4    3               status    TEXT       0       &lt;NA&gt;  0
+## 5    4      submission_date    TEXT       0       &lt;NA&gt;  0
+## 6    5     last_update_date    TEXT       0       &lt;NA&gt;  0
+## 7    6            pubmed_id INTEGER       0       &lt;NA&gt;  0
+## 8    7              summary    TEXT       0       &lt;NA&gt;  0
+## 9    8                 type    TEXT       0       &lt;NA&gt;  0
+## 10   9          contributor    TEXT       0       &lt;NA&gt;  0
+## 11  10             web_link    TEXT       0       &lt;NA&gt;  0
+## 12  11       overall_design    TEXT       0       &lt;NA&gt;  0
+## 13  12              repeats    TEXT       0       &lt;NA&gt;  0
+## 14  13  repeats_sample_list    TEXT       0       &lt;NA&gt;  0
+## 15  14             variable    TEXT       0       &lt;NA&gt;  0
+## 16  15 variable_description    TEXT       0       &lt;NA&gt;  0
+## 17  16              contact    TEXT       0       &lt;NA&gt;  0
+## 18  17   supplementary_file    TEXT       0       &lt;NA&gt;  0</pre>
 
-</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section-2">
+</article></slide><slide class=''><hgroup><h2>List tables with <code>dbListTables</code></h2></hgroup><article  id="list-tables-with-dblisttables" class="smaller ">
 
-<img src='https://dl.dropboxusercontent.com/s/pn0ud4ixhuxi9d4/Slide04.png?dl=0' title=''/>
+<p>Instead of using <code>SQL</code> commands, we can list tables and fields with functions from the <code>GEOmetadb</code> package.</p>
 
-<p><a href='http://simplystatistics.org/' title=''>http://simplystatistics.org/</a></p>
+<pre class = 'prettyprint lang-r'>geo_con &lt;- dbConnect(SQLite(), &#39;GEOmetadb.sqlite&#39;)
+dbListTables(geo_con)</pre>
 
-</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section-3">
+<pre >##  [1] &quot;gds&quot;               &quot;gds_subset&quot;        &quot;geoConvert&quot;       
+##  [4] &quot;geodb_column_desc&quot; &quot;gpl&quot;               &quot;gse&quot;              
+##  [7] &quot;gse_gpl&quot;           &quot;gse_gsm&quot;           &quot;gsm&quot;              
+## [10] &quot;metaInfo&quot;          &quot;sMatrix&quot;</pre>
 
-<img src='https://dl.dropboxusercontent.com/s/1s7ihjfp5t4glhc/Slide05.png?dl=0' title=''/>
+<pre class = 'prettyprint lang-r'>dbListFields(geo_con, &#39;gse&#39;)</pre>
 
-<p><a href='https://www.coursera.org/specialization/jhudatascience/1' title=''>https://www.coursera.org/specialization/jhudatascience/1</a></p>
-
-</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section-4">
-
-<img src='https://dl.dropboxusercontent.com/s/ud8m6k80gj2fhi7/Slide06.png?dl=0' title=''/>
-
-<p><a href='https://www.coursera.org/specialization/genomics/41' title=''>https://www.coursera.org/specialization/genomics/41</a></p>
-
-</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section-5">
-
-<img src='https://dl.dropboxusercontent.com/s/r33vwhvztzryxtj/jtleek.png?dl=0' title=''/>
-
-<p><a href='http://www.jtleek.com' title=''>http://www.jtleek.com</a></p>
-
-</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section-6">
-
-<img src='https://dl.dropboxusercontent.com/s/q1a9g2t7ybqyipa/edas.jpg?dl=0' title=''/>
-
-<p><a href='https://leanpub.com/datastyle' title=''>https://leanpub.com/datastyle</a></p>
-
-</article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Session Motivation</h2></hgroup><article  id="session-motivation">
-
-</article></slide><slide class=''><hgroup><h2>Why this class?</h2></hgroup><article  id="why-this-class">
-
-<p><img class=center src=https://dl.dropboxusercontent.com/s/h6fg169sz4hiaa5/embarrassing1.png height='400px'/></p>
-
-</article></slide><slide class=''><hgroup><h2>Why this class?</h2></hgroup><article  id="why-this-class-1">
-
-<p><img class=center src=https://dl.dropboxusercontent.com/s/16bt6dcznedefet/embarrassing2.png?dl=0 height='400px'/></p>
-
-<p><a href='http://pubs.acs.org/doi/abs/10.1021/om4000067' title=''>http://pubs.acs.org/doi/abs/10.1021/om4000067</a></p>
-
-</article></slide><slide class=''><hgroup><h2>Researcher degrees of freedom</h2></hgroup><article  id="researcher-degrees-of-freedom">
-
-<p><img class=center src=https://dl.dropboxusercontent.com/s/7afns3kiuabe74d/researcherdof.png?dl=0 height='400px'/></p>
-
-<p><a href='http://pss.sagepub.com/content/22/11/1359.abstract' title=''>http://pss.sagepub.com/content/22/11/1359.abstract</a></p>
-
-</article></slide><slide class=''><hgroup><h2>What is the temptation?</h2></hgroup><article  id="what-is-the-temptation">
-
-<p><img class=center src=https://dl.dropboxusercontent.com/s/myx2854e2yewbhi/sympathetic-pvalue.png height='400px'/></p>
-
-</article></slide><slide class=''><hgroup><h2>This is now codified for clinical genomics</h2></hgroup><article  id="this-is-now-codified-for-clinical-genomics">
-
-<p><img class=center src=https://dl.dropboxusercontent.com/s/oinag74dgv77v2i/iom.png?dl=0 height='400px'/></p>
-
-<p><a href='http://www.iom.edu/Reports/2012/Evolution-of-Translational-Omics.aspx' title=''>http://www.iom.edu/Reports/2012/Evolution-of-Translational-Omics.aspx</a></p>
-
-</article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Getting and cleaning data</h2></hgroup><article  id="getting-and-cleaning-data">
-
-</article></slide><slide class=''><hgroup><h2>Data pipeline</h2></hgroup><article  id="data-pipeline">
-
-<div class="columns-2">
-<p><img class=center src=http://www.nature.com/polopoly_fs/7.25671.1429983882!/image/P1.jpg_gen/derivatives/landscape_300/P1.jpg height='500px'/></p>
-
-<ul>
-<li>Most of the attention is on the last step</li>
-<li>This course is about all the steps that come before</li>
-<li>They are <em>critical</em> for getting things right</li>
-</ul>
-
-<p><a href='http://www.nature.com/news/statistics-p-values-are-just-the-tip-of-the-iceberg-1.17412' title=''>Leek and Peng (2015) Nature</a></p></div>
-
-</article></slide><slide class=''><hgroup><h2>What you wish data looked like</h2></hgroup><article  id="what-you-wish-data-looked-like">
-
-<p><img class=center src=https://dl.dropboxusercontent.com/s/r3oxas1mus8krxq/excel.png?dl=0 height='400px'/></p>
-
-</article></slide><slide class=''><hgroup><h2>What does data really look like?</h2></hgroup><article  id="what-does-data-really-look-like">
-
-<p><img class=center src=https://dl.dropboxusercontent.com/s/nsby9yen1jwtl0o/fastq.png?dl=0 height='400px'/></p>
-
-<p><a href='http://brianknaus.com/software/srtoolbox/s_4_1_sequence80.txt' title=''>http://brianknaus.com/software/srtoolbox/s_4_1_sequence80.txt</a></p>
-
-</article></slide><slide class=''><hgroup><h2>What does data really look like?</h2></hgroup><article  id="what-does-data-really-look-like-1">
-
-<p><img class=center src=https://dl.dropboxusercontent.com/s/kzrq32djjlks02s/twitter.png?dl=0 height= 450/></p>
-
-<p><a href='https://dev.twitter.com/docs/api/1/get/blocks/blocking' title=''>https://dev.twitter.com/docs/api/1/get/blocks/blocking</a></p>
-
-</article></slide><slide class=''><hgroup><h2>What does data really look like?</h2></hgroup><article  id="what-does-data-really-look-like-2">
-
-<p><img class=center src=https://dl.dropboxusercontent.com/s/mp86ne6n5lhgpkm/medicalrecord.png?dl=0 height=400/></p>
-
-<p><a href='http://blue-button.github.com/challenge/' title=''>http://blue-button.github.com/challenge/</a></p>
-
-</article></slide><slide class=''><hgroup><h2>Where is data?</h2></hgroup><article  id="where-is-data">
-
-<p><img class=center src=https://dl.dropboxusercontent.com/s/k8b46hfm3ox938p/databases.png?dl=0 height=400/></p>
-
-<p><a href='http://rickosborne.org/blog/2010/02/infographic-migrating-from-sql-to-mapreduce-with-mongodb/' title=''>http://rickosborne.org/blog/2010/02/infographic-migrating-from-sql-to-mapreduce-with-mongodb/</a></p>
-
-</article></slide><slide class=''><hgroup><h2>Where is data?</h2></hgroup><article  id="where-is-data-1">
-
-<p><img class=center src=https://dl.dropboxusercontent.com/s/apgiml5kd1o9wiu/twitter.png?dl=0 height= 450/></p>
-
-<p><a href='https://dev.twitter.com/docs/api/1/get/blocks/blocking' title=''>https://dev.twitter.com/docs/api/1/get/blocks/blocking</a></p>
-
-</article></slide><slide class=''><hgroup><h2>Where is data?</h2></hgroup><article  id="where-is-data-2">
-
-<p><img class=center src=https://dl.dropboxusercontent.com//s/wo1thf2mtw8odx4/baltimore.png?dl=0 height= 450/></p>
-
-<p><a href='https://data.baltimorecity.gov/' title=''><a href='https://data.baltimorecity.gov/' title=''>https://data.baltimorecity.gov/</a></a></p>
-
-</article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Data brainstorming exercise</h2></hgroup><article  id="data-brainstorming-exercise">
-
-</article></slide><slide class=''><hgroup><h2>The goal of this course</h2></hgroup><article  id="the-goal-of-this-course">
-
-<p></br></br></p>
-
-<center>
-
-<rt>Raw data -&gt; Processing script -&gt; tidy data</rt> -&gt; data analysis -&gt; data communication
-
-</center>
-
-</article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Tools we will use</h2></hgroup><article  id="tools-we-will-use">
-
-</article></slide><slide class=''><hgroup><h2>The main workhorse of data science</h2></hgroup><article  id="the-main-workhorse-of-data-science">
-
-<p><img class=center src=https://dl.dropboxusercontent.com/s/cy61f9vk1jzmbru/rproject.png height='400px'/></p>
-
-<p><a href='http://www.r-project.org/' title=''>http://www.r-project.org/</a></p>
-
-</article></slide><slide class=''><hgroup><h2>Where we will work on coding</h2></hgroup><article  id="where-we-will-work-on-coding">
-
-<p><img class=center src=https://dl.dropboxusercontent.com/s/jkmdjoqqnf1q5yj/rstudio.png height='400px'/></p>
-
-<p><a href='http://www.rstudio.com/' title=''>http://www.rstudio.com/</a></p>
-
-</article></slide><slide class=''><hgroup><h2>Rstudio&#39;s interface</h2></hgroup><article  id="rstudios-interface">
-
-<p><img class=center src=https://dl.dropboxusercontent.com/s/h6rrmwjcp4vptge/ide.png height='400px'/></p>
-
-<p><a href='http://www.rstudio.com/' title=''>http://www.rstudio.com/</a></p>
-
-</article></slide><slide class=''><hgroup><h2>Useful Rstudio shortcuts</h2></hgroup><article  id="useful-rstudio-shortcuts">
-
-<ul>
-<li><code>Ctrl + Enter</code> (<code>Cmd + Enter</code> on OS X) in your script evaluates that line of code
-
-<ul>
-<li>It&#39;s like copying and pasting the code into the console for it to run.</li>
-</ul></li>
-<li><code>Ctrl+1</code> takes you to the script page</li>
-<li><code>Ctrl+2</code> takes you to the console</li>
-<li><a href='http://www.rstudio.com/ide/docs/using/keyboard_shortcuts' title=''><a href='http://www.rstudio.com/ide/docs/using/keyboard_shortcuts' title=''>http://www.rstudio.com/ide/docs/using/keyboard_shortcuts</a></a></li>
-</ul>
-
-<p>Slide via: <a href='http://www.aejaffe.com/summerR_2015/' title=''>http://www.aejaffe.com/summerR_2015/</a></p>
-
-</article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Rstudio tour/installation check-in</h2></hgroup><article  id="rstudio-tourinstallation-check-in">
-
-</article></slide><slide class=''><hgroup><h2>Replicability and reproducibility</h2></hgroup><article  id="replicability-and-reproducibility">
-
-<pre >Science moves forward then discoveries are replicated
-and reproduced</pre>
-
-<p><a href='https://osf.io/s9tya/wiki/home/' title=''><em>Implementing Reproducible Research</em></a></p>
-
-<p>Slide via: <a href='http://www.aejaffe.com/summerR_2015/' title=''>http://www.aejaffe.com/summerR_2015/</a></p>
-
-</article></slide><slide class=''><hgroup><h2>Replication</h2></hgroup><article  id="replication">
-
-<pre >Replication, the practice of independently implementing
-scientific experiments to validate specific findings,
- is the cornerstone of discovering scientific truth.</pre>
-
-<p><a href='https://osf.io/s9tya/wiki/home/' title=''><em>Implementing Reproducible Research</em></a></p>
-
-<p>Slide via: <a href='http://www.aejaffe.com/summerR_2015' title=''>http://www.aejaffe.com/summerR_2015</a></p>
-
-</article></slide><slide class=''><hgroup><h2>Reproducibility</h2></hgroup><article  id="reproducibility">
-
-<pre >Reproducibility can be thought of as a different
-standard of validity from replication because it
-forgoes independent data collection and uses the
-methods and data collected by the original investigator.</pre>
-
-<p><a href='https://osf.io/s9tya/wiki/home/' title=''><em>Implementing Reproducible Research</em></a></p>
-
-<p>Slide via: <a href='http://www.aejaffe.com/summerR_2015' title=''>http://www.aejaffe.com/summerR_2015</a></p>
-
-</article></slide><slide class=''><hgroup><h2>A bit more practical</h2></hgroup><article  id="a-bit-more-practical">
-
-<pre >The sharing of analytic data and computer codes
-uses to map those data into computational results
-is central to any comprehensive definition of
-reproducibility.</pre>
-
-<p><a href='https://osf.io/s9tya/wiki/home/' title=''><em>Implementing Reproducible Research</em></a></p>
-
-<p>Slide via: <a href='http://www.aejaffe.com/summerR_2015' title=''>http://www.aejaffe.com/summerR_2015</a></p>
-
-</article></slide><slide class=''><hgroup><h2>Why its important?</h2></hgroup><article  id="why-its-important">
-
-<pre >Except for the simplest of analyses, the computer
-code used to analyze a dataset is the only record
-that permits others to fully understand what a
-researcher has done.</pre>
-
-<p><a href='https://osf.io/s9tya/wiki/home/' title=''><em>Implementing Reproducible Research</em></a></p>
-
-<p>Slide via: <a href='http://www.aejaffe.com/summerR_2015' title=''>http://www.aejaffe.com/summerR_2015</a></p>
-
-</article></slide><slide class=''><hgroup><h2>Reproducible documents</h2></hgroup><article  id="reproducible-documents">
-
-<ul class = 'build'>
-<li>Have you ever had your code in one file, your description of the results in another file?</li>
-<li>Ever made copy-paste mistakes?</li>
-<li>What if you were asked to change some models or revise the document?</li>
-<li>Was it easy to maintain?</li>
-</ul>
-
-<p>Slide via: <a href='http://www.aejaffe.com/summerR_2015' title=''>http://www.aejaffe.com/summerR_2015</a></p>
-
-</article></slide><slide class=''><hgroup><h2>Primary file types - R script</h2></hgroup><article  id="primary-file-types---r-script">
-
-<p><img class=center src=https://dl.dropboxusercontent.com/s/m7vt6ys7t9ta9r7/rscript.png height='300px'/></p>
-
-<p><a href='http://www.rstudio.com/ide/docs/using/source' title=''>http://www.rstudio.com/ide/docs/using/source</a></p>
-
-</article></slide><slide class=''><hgroup><h2>Primary file types - R markdown document</h2></hgroup><article  id="primary-file-types---r-markdown-document">
-
-<p><img class=center src=https://dl.dropboxusercontent.com/s/d0rfmy2hj7r00ru/rmarkdown.png height='400px'/></p>
-
-<p><a href='http://www.rstudio.com/ide/docs/authoring/using_markdown' title=''>http://www.rstudio.com/ide/docs/authoring/using_markdown</a></p>
-
-</article></slide><slide class=''><hgroup><h2>Markdown basics</h2></hgroup><article  id="markdown-basics">
-
-<h3>&quot;Markdown is a text-to-HTML conversion tool for web writers. Markdown allows you to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML).&quot;</h3>
-
-<h3><a href='http://daringfireball.net/projects/markdown/' title=''>John Gruber, creator of Markdown</a></h3>
-
-</article></slide><slide class=''><hgroup><h2>R markdown basics</h2></hgroup><article  id="r-markdown-basics">
-
-<p><img class=center src=http://rmarkdown.rstudio.com/images/markdownOverview.png height='400px'/></p>
-
-<p><a href='http://rmarkdown.rstudio.com/' title=''>http://rmarkdown.rstudio.com/</a></p>
-
-</article></slide><slide class=''><hgroup><h2>R code</h2></hgroup><article  id="r-code">
-
-<p><img class=center src=http://rmarkdown.rstudio.com/images/markdownChunk.png height='400px'/></p>
-
-<p><a href='http://rmarkdown.rstudio.com/' title=''>http://rmarkdown.rstudio.com/</a></p>
-
-</article></slide><slide class=''><hgroup><h2>Equations with latex</h2></hgroup><article  id="equations-with-latex">
-
-<p><strong>In-line</strong></p>
-
-<p>This is an equation <code>$y = \beta_0 x$</code> in a line of text</p>
-
-<p>This is an equation \(y = \beta_0 x\) in a line of text</p>
-
-<p><strong>Display</strong></p>
-
-<p>This is display equation <code>$$y = \beta_0 x$$</code></p>
-
-<p>This is an equation \[y = \beta_0 x\]</p>
-
-</article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>R markdown lab</h2></hgroup><article  id="r-markdown-lab">
-
-</article></slide><slide class=''><hgroup><h2>Definition of data</h2></hgroup><article  id="definition-of-data">
-
-<p><q>Data are values of qualitative or quantitative variables, belonging to a set of items.</q></p>
-
-<p><a href='http://en.wikipedia.org/wiki/Data' title=''><a href='http://en.wikipedia.org/wiki/Data' title=''>http://en.wikipedia.org/wiki/Data</a></a></p>
-
-</article></slide><slide class=''><hgroup><h2>Definition of data</h2></hgroup><article  id="definition-of-data-1">
-
-<p><q>Data are values of qualitative or quantitative variables, belonging to a <redtext>set of items</redtext>.</q></p>
-
-<p><a href='http://en.wikipedia.org/wiki/Data' title=''><a href='http://en.wikipedia.org/wiki/Data' title=''>http://en.wikipedia.org/wiki/Data</a></a></p>
-
-<p><strong>Set of items</strong>: Sometimes called the population; the set of objects you are interested in</p>
-
-</article></slide><slide class=''><hgroup><h2>Definition of data</h2></hgroup><article  id="definition-of-data-2">
-
-<p><q>Data are values of qualitative or quantitative <redtext>variables</redtext>, belonging to a set of items.</q></p>
-
-<p><a href='http://en.wikipedia.org/wiki/Data' title=''><a href='http://en.wikipedia.org/wiki/Data' title=''>http://en.wikipedia.org/wiki/Data</a></a></p>
-
-<p><strong>Variables</strong>: A measurement or characteristic of an item.</p>
-
-</article></slide><slide class=''><hgroup><h2>Definition of data</h2></hgroup><article  id="definition-of-data-3">
-
-<p><q>Data are values of <redtext>qualitative</redtext> or <redtext>quantitative</redtext> variables, belonging to a set of items.</q></p>
-
-<p><a href='http://en.wikipedia.org/wiki/Data' title=''><a href='http://en.wikipedia.org/wiki/Data' title=''>http://en.wikipedia.org/wiki/Data</a></a></p>
-
-<p><strong>Qualitative</strong>: Country of origin, sex, treatment</p>
-
-<p><strong>Quantitative</strong>: Height, weight, blood pressure</p>
-
-</article></slide><slide class=''><hgroup><h2>Raw data</h2></hgroup><article  id="raw-data">
-
-<ul>
-<li>The original source of the data</li>
-<li>Often hard to use for data analyses</li>
-<li>Data analysis <em>includes</em> processing</li>
-<li>Raw data may only need to be processed once</li>
-</ul>
-
-<p><a href='http://en.wikipedia.org/wiki/Raw_data' title=''><a href='http://en.wikipedia.org/wiki/Raw_data' title=''>http://en.wikipedia.org/wiki/Raw_data</a></a></p>
-
-</article></slide><slide class=''><hgroup><h2>Processed data</h2></hgroup><article  id="processed-data">
-
-<ul>
-<li>Data that is ready for analysis</li>
-<li>Processing can include merging, subsetting, transforming, etc.</li>
-<li>There may be standards for processing</li>
-<li>All steps should be recorded</li>
-</ul>
-
-<p><a href='http://en.wikipedia.org/wiki/Computer_data_processing' title=''><a href='http://en.wikipedia.org/wiki/Computer_data_processing' title=''>http://en.wikipedia.org/wiki/Computer_data_processing</a></a></p>
-
-</article></slide><slide class=''><hgroup><h2>An example of a processing pipeline</h2></hgroup><article  id="an-example-of-a-processing-pipeline">
-
-<p><img class=center src=https://dl.dropboxusercontent.com/s/os9gkkmpjt0cvsj/hiseq.jpeg?dl=0 height=450/></p>
-
-<p><a href='http://www.illumina.com.cn/support/sequencing/sequencing_instruments/hiseq_1000.asp' title=''>http://www.illumina.com.cn/support/sequencing/sequencing_instruments/hiseq_1000.asp</a></p>
-
-</article></slide><slide class=''><hgroup><h2>An example of a processing pipeline</h2></hgroup><article  id="an-example-of-a-processing-pipeline-1">
-
-<p><img class=center src=https://dl.dropboxusercontent.com/s/9q70kwqrhq4mop1/processing.png?dl=0 height=400 /></p>
-
-<p><a href='http://www.cbcb.umd.edu/~hcorrada/CMSC858B/lectures/lect22_seqIntro/seqIntro.pdf' title=''>http://www.cbcb.umd.edu/~hcorrada/CMSC858B/lectures/lect22_seqIntro/seqIntro.pdf</a></p>
-
-</article></slide><slide class=''><hgroup><h2>A common goal</h2></hgroup><article  id="a-common-goal">
-
-<p><img class=center src=https://dl.dropboxusercontent.com/s/pf814r7vb1ttj4l/Slide10.png?dl=0 height=400 /></p>
-
-</article></slide><slide class=''><hgroup><h2>A common goal</h2></hgroup><article  id="a-common-goal-1">
-
-<p><img class=center src=https://dl.dropboxusercontent.com/s/8ywpjs2f0ga2egh/Slide11.png?dl=0 height=400 /></p>
-
-</article></slide><slide class=''><hgroup><h2>The four things you should have</h2></hgroup><article  id="the-four-things-you-should-have">
-
-<ol>
-<li>The raw data.</li>
-<li>A tidy data set</li>
-<li>A code book describing each variable and its values in the tidy data set.</li>
-<li>An explicit and exact recipe you used to go from 1 -&gt; 2,3.</li>
-</ol>
-
-</article></slide><slide class=''><hgroup><h2>The raw data</h2></hgroup><article  id="the-raw-data">
-
-<ul>
-<li>The strange binary file your measurement machine spits out</li>
-<li>The unformatted Excel file with 10 worksheets the company you contracted with sent you</li>
-<li>The complicated JSON data you got from scraping the Twitter API</li>
-<li>The hand-entered numbers you collected looking through a microscope</li>
-</ul>
-
-</article></slide><slide class=''><hgroup><h2>You know the raw data is in the right format if you_</h2></hgroup><article  id="you-know-the-raw-data-is-in-the-right-format-if-you_">
-
-<ol>
-<li>Ran no software on the data</li>
-<li>Did not manipulate any of the numbers in the data</li>
-<li>You did not remove any data from the data set</li>
-<li>You did not summarize the data in any way</li>
-</ol>
-
-<p><a href='https://github.com/jtleek/datasharing' title=''>https://github.com/jtleek/datasharing</a></p>
-
-</article></slide><slide class=''><hgroup><h2>The tidy data</h2></hgroup><article  id="the-tidy-data">
-
-<ol>
-<li>Each variable you measure should be in one column</li>
-<li>Each different observation of that variable should be in a different row</li>
-<li>There should be one table for each &quot;kind&quot; of variable</li>
-<li>If you have multiple tables, they should include a column in the table that allows them to be linked</li>
-</ol>
-
-</article></slide><slide class=''><hgroup><h2>Some other important tips</h2></hgroup><article  id="some-other-important-tips">
-
-<ul>
-<li>Include a row at the top of each file with variable names.</li>
-<li>Make variable names human readable AgeAtDiagnosis instead of AgeDx</li>
-<li>In general data should be saved in one file per table.</li>
-</ul>
-
-<p><a href='https://github.com/jtleek/datasharing' title=''>https://github.com/jtleek/datasharing</a></p>
-
-</article></slide><slide class=''><hgroup><h2>The code book</h2></hgroup><article  id="the-code-book">
-
-<ol>
-<li>Information about the variables (including units!) in the data set not contained in the tidy data</li>
-<li>Information about the summary choices you made</li>
-<li>Information about the experimental study design you used</li>
-</ol>
-
-</article></slide><slide class=''><hgroup><h2>Some other important tips_</h2></hgroup><article  id="some-other-important-tips_">
-
-<ul>
-<li>A common format for this document is a Word/text file.</li>
-<li>There should be a section called &quot;Study design&quot; that has a thorough description of how you collected the data.</li>
-<li>There must be a section called &quot;Code book&quot; that describes each variable and its units.</li>
-</ul>
-
-<p><a href='https://github.com/jtleek/datasharing' title=''>https://github.com/jtleek/datasharing</a></p>
-
-</article></slide><slide class=''><hgroup><h2>The instruction list</h2></hgroup><article  id="the-instruction-list">
-
-<ul>
-<li>Ideally a computer script (in R :-), but I suppose Python is ok too&#8230;)</li>
-<li>The input for the script is the raw data</li>
-<li>The output is the processed, tidy data</li>
-<li>There are no parameters to the script</li>
-</ul>
-
-</article></slide><slide class=''><hgroup><h2>When you can&#39;t script</h2></hgroup><article  id="when-you-cant-script">
-
-<p>In some cases it will not be possible to script every step. In that case you should provide instructions like:</p>
-
-<ol>
-<li>Step 1 - take the raw file, run version 3.1.2 of summarize software with parameters a=1, b=2, c=3</li>
-<li>Step 2 - run the software separately for each sample</li>
-<li>Step 3 - take column three of outputfile.out for each sample and that is the corresponding row in the output data set</li>
-</ol>
-
-<p><a href='https://github.com/jtleek/datasharing' title=''>https://github.com/jtleek/datasharing</a></p>
-
-</article></slide><slide class=''><hgroup><h2>Why is the instruction list important?</h2></hgroup><article  id="why-is-the-instruction-list-important">
-
-<p><img class=center src=https://dl.dropboxusercontent.com/s/5zf1ur3v9wz5l7n/rr.png?dl=0 height=200 /></p>
-
-<p><img class=center src=https://dl.dropboxusercontent.com/s/txlurzb88gsrtm1/rrcolbert.jpeg?dl=0 height=200 /></p>
-
-<p><a href='http://www.colbertnation.com/the-colbert-report-videos/425748/april-23-2013/austerity-s-spreadsheet-error' title=''>http://www.colbertnation.com/the-colbert-report-videos/425748/april-23-2013/austerity-s-spreadsheet-error</a></p>
-
-</article></slide><slide class=''><hgroup><h2>dplyr</h2></hgroup><article  id="dplyr">
-
-<p>The data frame is a key data structure in statistics and in R.</p>
-
-<ul>
-<li><p>There is one observation per row</p></li>
-<li><p>Each column represents a variable or measure or characteristic</p></li>
-<li><p>Primary implementation that you will use is the default R implementation</p></li>
-<li><p>Other implementations, particularly relational databases systems</p></li>
-</ul>
-
-</article></slide><slide class=''><hgroup><h2>dplyr</h2></hgroup><article  id="dplyr-1">
-
-<ul>
-<li><p>Developed by Hadley Wickham of RStudio</p></li>
-<li><p>An optimized and distilled version of <code>plyr</code> package (also by Hadley)</p></li>
-<li><p>Does not provide any &quot;new&quot; functionality per se, but <strong>greatly</strong> simplifies existing functionality in R</p></li>
-<li><p>Provides a &quot;grammar&quot; (in particular, verbs) for data manipulation</p></li>
-<li><p>Is <strong>very</strong> fast, as many key operations are coded in C++</p></li>
-</ul>
-
-</article></slide><slide class=''><hgroup><h2>dplyr Verbs</h2></hgroup><article  id="dplyr-verbs">
-
-<ul>
-<li><p><code>select</code>: return a subset of the columns of a data frame</p></li>
-<li><p><code>filter</code>: extract a subset of rows from a data frame based on logical conditions</p></li>
-<li><p><code>arrange</code>: reorder rows of a data frame</p></li>
-<li><p><code>rename</code>: rename variables in a data frame</p></li>
-<li><p><code>mutate</code>: add new variables/columns or transform existing variables</p></li>
-<li><p><code>summarise</code> / <code>summarize</code>: generate summary statistics of different variables in the data frame, possibly within strata</p></li>
-</ul>
-
-<p>There is also a handy <code>print</code> method that prevents you from printing a lot of data to the console.</p>
-
-</article></slide><slide class=''><hgroup><h2>dplyr Properties</h2></hgroup><article  id="dplyr-properties">
-
-<ul>
-<li><p>The first argument is a data frame.</p></li>
-<li><p>The subsequent arguments describe what to do with it, and you can refer to columns in the data frame directly without using the $ operator (just use the names).</p></li>
-<li><p>The result is a new data frame</p></li>
-<li><p>Data frames must be properly formatted and annotated for this to all be useful</p></li>
-</ul>
-
-</article></slide><slide class=''><hgroup><h2>Load the <code>dplyr</code> package</h2></hgroup><article  id="load-the-dplyr-package">
-
-<p>This step is important!</p>
-
-<pre class = 'prettyprint lang-r'>library(dplyr)</pre>
+<pre >##  [1] &quot;ID&quot;                   &quot;title&quot;                &quot;gse&quot;                 
+##  [4] &quot;status&quot;               &quot;submission_date&quot;      &quot;last_update_date&quot;    
+##  [7] &quot;pubmed_id&quot;            &quot;summary&quot;              &quot;type&quot;                
+## [10] &quot;contributor&quot;          &quot;web_link&quot;             &quot;overall_design&quot;      
+## [13] &quot;repeats&quot;              &quot;repeats_sample_list&quot;  &quot;variable&quot;            
+## [16] &quot;variable_description&quot; &quot;contact&quot;              &quot;supplementary_file&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Explore <code>gse</code></h2></hgroup><article  id="explore-gse" class="smaller ">
+
+<pre class = 'prettyprint lang-r'>columnDescriptions()[1:5,]</pre>
+
+<pre >##   TableName        FieldName
+## 1       gse            title
+## 2       gse              gse
+## 3       gse           status
+## 4       gse  submission_date
+## 5       gse last_update_date
+##                                                Description
+## 1                 unique name describing the overall study
+## 2 unique accession number approved and issued by GEO, NCBI
+## 3                                  date released to public
+## 4                                           date submitted
+## 5                                        date last updated</pre>
+
+</article></slide><slide class=''><hgroup><h2>Load library <code>data.table</code></h2></hgroup><article  id="load-library-data.table" class="smaller ">
+
+<p>This will provide us with some practice querying with data.table.</p>
+
+<pre class = 'prettyprint lang-r'>suppressMessages(library(data.table))</pre>
+
+</article></slide><slide class=''><hgroup><h2>Explore <code>gse</code> with <code>data.table</code></h2></hgroup><article  id="explore-gse-with-data.table" class="smaller ">
+
+<pre class = 'prettyprint lang-r'>cd &lt;- as.data.table(columnDescriptions())
+cd[TableName == &quot;gse&quot;, FieldName]</pre>
+
+<pre >##  [1] &quot;title&quot;                &quot;gse&quot;                  &quot;status&quot;              
+##  [4] &quot;submission_date&quot;      &quot;last_update_date&quot;     &quot;pubmed_id&quot;           
+##  [7] &quot;summary&quot;              &quot;type&quot;                 &quot;contributor&quot;         
+## [10] &quot;contact&quot;              &quot;web_link&quot;             &quot;overall_design&quot;      
+## [13] &quot;repeats&quot;              &quot;repeats_sample_list&quot;  &quot;variable&quot;            
+## [16] &quot;variable_description&quot; &quot;supplementary_file&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>List <code>gse</code> columns with <code>pandoc.table</code></h2></hgroup><article  id="list-gse-columns-with-pandoc.table" class="smaller ">
+
+<pre class = 'prettyprint lang-r'>gsefields &lt;- as.data.frame(
+    cd[TableName == &quot;gse&quot; &amp; 
+           FieldName %in% c(&quot;gse&quot;,&quot;title&quot;,&quot;pubmed_id&quot;,&quot;summary&quot;,&quot;contact&quot;)])
+pandoc.table(gsefields, style = &quot;grid&quot;)</pre>
 
 <pre >## 
-## Attaching package: &#39;dplyr&#39;
 ## 
-## The following object is masked from &#39;package:stats&#39;:
+## +-------------+-------------+--------------------------------+
+## |  TableName  |  FieldName  |          Description           |
+## +=============+=============+================================+
+## |     gse     |    title    |   unique name describing the   |
+## |             |             |         overall study          |
+## +-------------+-------------+--------------------------------+
+## |     gse     |     gse     |    unique accession number     |
+## |             |             |  approved and issued by GEO,   |
+## |             |             |              NCBI              |
+## +-------------+-------------+--------------------------------+
+## |     gse     |  pubmed_id  |  [Values separated by &#39;;tab&#39;,  |
+## |             |             | if more than one] NCBI PubMed  |
+## |             |             |       identifier (PMID)        |
+## +-------------+-------------+--------------------------------+
+## |     gse     |   summary   | a description of the goals and |
+## |             |             |    objectives of this study    |
+## +-------------+-------------+--------------------------------+
+## |     gse     |   contact   |  contact information for this  |
+## |             |             |             study              |
+## +-------------+-------------+--------------------------------+</pre>
+
+</article></slide><slide class=''><hgroup><h2>Explore <code>gpl</code></h2></hgroup><article  id="explore-gpl" class="smaller ">
+
+<pre class = 'prettyprint lang-r'>cd[TableName == &quot;gpl&quot;, FieldName]</pre>
+
+<pre >##  [1] &quot;ID&quot;                   &quot;title&quot;                &quot;gpl&quot;                 
+##  [4] &quot;status&quot;               &quot;submission_date&quot;      &quot;last_update_date&quot;    
+##  [7] &quot;technology&quot;           &quot;distribution&quot;         &quot;organism&quot;            
+## [10] &quot;manufacturer&quot;         &quot;manufacture_protocol&quot; &quot;coating&quot;             
+## [13] &quot;catalog_number&quot;       &quot;support&quot;              &quot;description&quot;         
+## [16] &quot;web_link&quot;             &quot;contact&quot;              &quot;data_row_count&quot;      
+## [19] &quot;supplementary_file&quot;   &quot;bioc_package&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Explore columns in <code>gpl</code></h2></hgroup><article  id="explore-columns-in-gpl" class="smaller ">
+
+<pre class = 'prettyprint lang-r'>gplfields &lt;- as.data.frame(
+    cd[TableName == &quot;gpl&quot; &amp; 
+           FieldName %in% c(&quot;gpl&quot;, &quot;organism&quot;, &quot;manufacturer&quot;)])
+pandoc.table(gplfields, style = &quot;grid&quot;)</pre>
+
+<pre >## 
 ## 
-##     filter
+## +-------------+--------------+-------------------------------+
+## |  TableName  |  FieldName   |          Description          |
+## +=============+==============+===============================+
+## |     gpl     |     gpl      | unique GEO Platfrom accession |
+## |             |              | number approved and issued by |
+## |             |              |           GEO, NCBI           |
+## +-------------+--------------+-------------------------------+
+## |     gpl     |   organism   | [Values separated by &#39;;tab&#39;,  |
+## |             |              | if more than one] Organism(s) |
+## +-------------+--------------+-------------------------------+
+## |     gpl     | manufacturer | name of the company, facility |
+## |             |              | or laboratory where the array |
+## |             |              | was manufactured or produced  |
+## +-------------+--------------+-------------------------------+</pre>
+
+</article></slide><slide class=''><hgroup><h2>Explore <code>gse_gpl</code></h2></hgroup><article  id="explore-gse_gpl" class="smaller ">
+
+<pre class = 'prettyprint lang-r'>cd[TableName == &quot;gse_gpl&quot;, FieldName]</pre>
+
+<pre >## [1] &quot;gse&quot; &quot;gpl&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Explore columns in <code>gse_gpl</code></h2></hgroup><article  id="explore-columns-in-gse_gpl" class="smaller ">
+
+<p>Why are there only two fields in this table? What is this table for?</p>
+
+<pre class = 'prettyprint lang-r'>gse_gplfields &lt;- as.data.frame(cd[TableName == &quot;gse_gpl&quot;])
+pandoc.table(gse_gplfields, style = &quot;grid&quot;)</pre>
+
+<pre >## 
 ## 
-## The following objects are masked from &#39;package:base&#39;:
+## +-------------+-------------+-------------------+
+## |  TableName  |  FieldName  |    Description    |
+## +=============+=============+===================+
+## |   gse_gpl   |     gse     |  GEO Series name  |
+## +-------------+-------------+-------------------+
+## |   gse_gpl   |     gpl     | GEO Platform name |
+## +-------------+-------------+-------------------+</pre>
+
+</article></slide><slide class=''><hgroup><h2>List &quot;title&quot; fields with <code>pandoc.table</code></h2></hgroup><article  id="list-title-fields-with-pandoc.table" class="smaller ">
+
+<p>Why do many tables include a &quot;title&quot; field? Are the titles the same?</p>
+
+<pre class = 'prettyprint lang-r'>gsefields &lt;- as.data.frame(
+    cd[FieldName == &quot;title&quot;])
+pandoc.table(gsefields, style = &quot;grid&quot;)</pre>
+
+<pre >## 
 ## 
-##     intersect, setdiff, setequal, union</pre>
+## +-------------+-------------+-----------------------------+
+## |  TableName  |  FieldName  |         Description         |
+## +=============+=============+=============================+
+## |     gse     |    title    | unique name describing the  |
+## |             |             |        overall study        |
+## +-------------+-------------+-----------------------------+
+## |     gpl     |    title    | unique name describing the  |
+## |             |             |       Platform (GPL)        |
+## +-------------+-------------+-----------------------------+
+## |     gsm     |    title    | unique name describing this |
+## |             |             |           Sample            |
+## +-------------+-------------+-----------------------------+
+## |     gds     |    title    |      title of this GDS      |
+## +-------------+-------------+-----------------------------+</pre>
 
-</article></slide><slide class=''><hgroup><h2><code>select</code></h2></hgroup><article  id="select">
+</article></slide><slide class=''><hgroup><h2>List &quot;contact&quot; field structure</h2></hgroup><article  id="list-contact-field-structure" class="smaller ">
 
-<pre class = 'prettyprint lang-r'>chicago &lt;- readRDS(&quot;./data/chicago.rds&quot;)
-dim(chicago)</pre>
+<p>Let&#39;s look at some records in <code>gse</code>. What does a &quot;contact&quot; look like?</p>
 
-<pre >## [1] 6940    8</pre>
+<pre class = 'prettyprint lang-r'>query &lt;- &quot;SELECT contact FROM gse LIMIT 1;&quot;
+res &lt;- dbGetQuery(geo_con, query)
+strsplit(res$contact, &#39;\t&#39;)</pre>
 
-<pre class = 'prettyprint lang-r'>head(select(chicago, 1:5))</pre>
+<pre >## [[1]]
+##  [1] &quot;Name: Michael Bittner;&quot;                                                     
+##  [2] &quot;Email: mbittner@nhgri.nih.gov;&quot;                                             
+##  [3] &quot;Phone: 301-496-7980;&quot;                                                       
+##  [4] &quot;Fax: 301-402-3241;&quot;                                                         
+##  [5] &quot;Department: Cancer Genetics Branch;&quot;                                        
+##  [6] &quot;Institute: NHGRI, NIH;&quot;                                                     
+##  [7] &quot;Address:  ;&quot;                                                                
+##  [8] &quot;City: Bethesda;&quot;                                                            
+##  [9] &quot;State: MD;&quot;                                                                 
+## [10] &quot;Zip/postal_code: 20892;&quot;                                                    
+## [11] &quot;Country: USA;&quot;                                                              
+## [12] &quot;Web_link: http://www.nhgri.nih.gov/Intramural_research/People/bittnerm.html&quot;</pre>
 
-<pre >##   city tmpd   dptp       date pm25tmean2
-## 1 chic 31.5 31.500 1987-01-01         NA
-## 2 chic 33.0 29.875 1987-01-02         NA
-## 3 chic 33.0 27.375 1987-01-03         NA
-## 4 chic 29.0 28.625 1987-01-04         NA
-## 5 chic 32.0 28.875 1987-01-05         NA
-## 6 chic 40.0 35.125 1987-01-06         NA</pre>
+</article></slide><slide class=''><hgroup><h2>Find manufacturer data</h2></hgroup><article  id="find-manufacturer-data" class="smaller ">
 
-</article></slide><slide class=''><hgroup><h2><code>select</code></h2></hgroup><article  id="select-1">
+<p>Query the manufacturers with a <code>SQL</code> command, listed with <code>data.table</code>&#8230;</p>
 
-<pre class = 'prettyprint lang-r'>names(chicago)[1:3]</pre>
+<pre class = 'prettyprint lang-r'>manu &lt;- data.table(dbGetQuery(geo_con, 
+    &quot;SELECT DISTINCT manufacturer FROM gpl ORDER BY manufacturer ASC;&quot;))
+manu[,list(length(manufacturer)), by = manufacturer]</pre>
 
-<pre >## [1] &quot;city&quot; &quot;tmpd&quot; &quot;dptp&quot;</pre>
+<pre >##                                         manufacturer V1
+##    1:                                             NA  1
+##    2:                                              -  1
+##    3:                                              .  1
+##    4:                                            454  1
+##    5:                              454 Life Sciences  1
+##   ---                                                  
+## 2102: washington university microarray core facility  1
+## 2103:         www.MYcroarray.com, Ann Arbor, MI, USA  1
+## 2104:                                www.agilent.com  1
+## 2105:                           www.chem.agilent.com  1
+## 2106:                            www.combimatrix.com  1</pre>
 
-<pre class = 'prettyprint lang-r'>head(select(chicago, city:dptp))</pre>
+</article></slide><slide class=''><hgroup><h2>Our <code>SQL</code> command</h2></hgroup><article  id="our-sql-command" class="smaller ">
 
-<pre >##   city tmpd   dptp
-## 1 chic 31.5 31.500
-## 2 chic 33.0 29.875
-## 3 chic 33.0 27.375
-## 4 chic 29.0 28.625
-## 5 chic 32.0 28.875
-## 6 chic 40.0 35.125</pre>
+<p>We just wanted a list of manufacturers so the <code>SQL</code> query is:</p>
 
-</article></slide><slide class=''><hgroup><h2><code>select</code></h2></hgroup><article  id="select-2">
+<pre >SELECT DISTINCT manufacturer FROM gpl 
+ORDER BY manufacturer ASC;</pre>
 
-<p>In dplyr you can do</p>
+<p>However, since we also grouped <code>by=manufacturer</code> in our <code>data.table</code>, we could have simply used the <code>SQL</code> query:</p>
 
-<pre class = 'prettyprint lang-r'>head(select(chicago, -(city:dptp)))</pre>
+<pre >SELECT manufacturer FROM gpl;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Equivalent base R</h2></hgroup><article  id="equivalent-base-r">
+<p>Let&#39;s try that&#8230;</p>
 
-<pre class = 'prettyprint lang-r'>i &lt;- match(&quot;city&quot;, names(chicago))
-j &lt;- match(&quot;dptp&quot;, names(chicago))
-head(chicago[, -(i:j)])</pre>
+</article></slide><slide class=''><hgroup><h2>Find manufacturer data</h2></hgroup><article  id="find-manufacturer-data-1" class="smaller ">
 
-</article></slide><slide class=''><hgroup><h2><code>filter</code></h2></hgroup><article  id="filter">
+<p>Query the manufacturers with a simpler <code>SQL</code> command &#8230; grouping with <code>by</code> and ordering with <code>setkey</code> in <code>data.table</code>&#8230;</p>
 
-<pre class = 'prettyprint lang-r'>chic.f &lt;- filter(chicago, pm25tmean2 &gt; 30)
-head(select(chic.f, 1:3, pm25tmean2), 10)</pre>
+<pre class = 'prettyprint lang-r'>manu &lt;- data.table(dbGetQuery(geo_con, 
+            &quot;SELECT manufacturer FROM gpl;&quot;))
+setkey(manu, manufacturer)
+manu[, list(length(manufacturer)), by = manufacturer]</pre>
 
-<pre >##    city tmpd dptp pm25tmean2
-## 1  chic   23 21.9      38.10
-## 2  chic   28 25.8      33.95
-## 3  chic   55 51.3      39.40
-## 4  chic   59 53.7      35.40
-## 5  chic   57 52.0      33.30
-## 6  chic   57 56.0      32.10
-## 7  chic   75 65.8      56.50
-## 8  chic   61 59.0      33.80
-## 9  chic   73 60.3      30.30
-## 10 chic   78 67.1      41.40</pre>
+<pre >##                                         manufacturer V1
+##    1:                                             NA  1
+##    2:                                              -  1
+##    3:                                              .  1
+##    4:                                            454  1
+##    5:                              454 Life Sciences  1
+##   ---                                                  
+## 2102: washington university microarray core facility  1
+## 2103:         www.MYcroarray.com, Ann Arbor, MI, USA  1
+## 2104:                                www.agilent.com  1
+## 2105:                           www.chem.agilent.com  1
+## 2106:                            www.combimatrix.com  1</pre>
 
-</article></slide><slide class=''><hgroup><h2><code>filter</code></h2></hgroup><article  id="filter-1">
+</article></slide><slide class=''><hgroup><h2>Finding data with a <code>join</code></h2></hgroup><article  id="finding-data-with-a-join" class="smaller ">
 
-<pre class = 'prettyprint lang-r'>chic.f &lt;- filter(chicago, pm25tmean2 &gt; 30 &amp; tmpd &gt; 80)
-head(select(chic.f, 1:3, pm25tmean2, tmpd), 10)</pre>
+<p>To get supplementary file names ending with <code>CEL.gz</code> (case-insensitive) from only manufacturer Affymetrix, we need to <code>join</code> the <code>gsm</code> and <code>gpl</code> tables.</p>
 
-<pre >##    city tmpd dptp pm25tmean2
-## 1  chic   81 71.2    39.6000
-## 2  chic   81 70.4    31.5000
-## 3  chic   82 72.2    32.3000
-## 4  chic   84 72.9    43.7000
-## 5  chic   85 72.6    38.8375
-## 6  chic   84 72.6    38.2000
-## 7  chic   82 67.4    33.0000
-## 8  chic   82 63.5    42.5000
-## 9  chic   81 70.4    33.1000
-## 10 chic   82 66.2    38.8500</pre>
+<pre >SELECT 
+        gpl.bioc_package, 
+        gsm.title, 
+        gsm.series_id, 
+        gsm.gpl, 
+        gsm.supplementary_file 
+    FROM gsm 
+    JOIN gpl ON gsm.gpl=gpl.gpl 
+    WHERE gpl.manufacturer=&#39;Affymetrix&#39; 
+        AND gsm.supplementary_file like &#39;%CEL.gz&#39;;</pre>
 
-</article></slide><slide class=''><hgroup><h2><code>arrange</code></h2></hgroup><article  id="arrange">
+</article></slide><slide class=''><hgroup><h2>Now let&#39;s run that query</h2></hgroup><article  id="now-lets-run-that-query" class="smaller ">
 
-<p>Reordering rows of a data frame (while preserving corresponding order of other columns) is normally a pain to do in R.</p>
+<pre class = 'prettyprint lang-r'>query &lt;- &quot;SELECT 
+            gpl.bioc_package, 
+            gsm.title, 
+            gsm.series_id, 
+            gsm.gpl, 
+            gsm.supplementary_file 
+        FROM gsm 
+        JOIN gpl ON gsm.gpl=gpl.gpl 
+        WHERE gpl.manufacturer=&#39;Affymetrix&#39; 
+            AND gsm.supplementary_file like &#39;%CEL.gz&#39;;&quot;
+res &lt;- dbGetQuery(geo_con, query)
+head(res, 3)</pre>
 
-<pre class = 'prettyprint lang-r'>chicago &lt;- arrange(chicago, date)
-head(select(chicago, date, pm25tmean2), 3)</pre>
+<pre >##   bioc_package      title series_id   gpl
+## 1       hu6800 BM_CD34-1a    GSE500 GPL80
+## 2       hu6800 BM_CD34-1b    GSE500 GPL80
+## 3       hu6800  BM_CD34-2    GSE500 GPL80
+##                                                         supplementary_file
+## 1 ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSMnnn/GSM575/suppl/GSM575.cel.gz
+## 2 ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSMnnn/GSM576/suppl/GSM576.cel.gz
+## 3 ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSMnnn/GSM577/suppl/GSM577.cel.gz</pre>
 
-<pre >##         date pm25tmean2
-## 1 1987-01-01         NA
-## 2 1987-01-02         NA
-## 3 1987-01-03         NA</pre>
+</article></slide><slide class=''><hgroup><h2>Why did we need a <code>join</code>?</h2></hgroup><article  id="why-did-we-need-a-join" class="smaller ">
 
-<pre class = 'prettyprint lang-r'>tail(select(chicago, date, pm25tmean2), 3)</pre>
+<p>The <a href='http://gbnci.abcc.ncifcrf.gov/geo/geo_help.php' title=''>GEOmetadb database</a>, is a <a href='http://en.wikipedia.org/wiki/Relational_database' title=''>relational database</a>.</p>
 
-<pre >##            date pm25tmean2
-## 6938 2005-12-29    7.45000
-## 6939 2005-12-30   15.05714
-## 6940 2005-12-31   15.00000</pre>
+<p>There are several tables which can be linked on common fields.</p>
 
-</article></slide><slide class=''><hgroup><h2><code>arrange</code></h2></hgroup><article  id="arrange-1">
+<p>Since each table contains data for only one type of record, tables must be linked to search for fields pertaining to the various types of records.</p>
 
-<p>Columns can be arranged in descending order too.</p>
+<p>We join on the common fields, called <a href='http://en.wikipedia.org/wiki/Relational_database#Primary_key' title=''>keys</a>.</p>
 
-<pre class = 'prettyprint lang-r'>chicago &lt;- arrange(chicago, desc(date))
-head(select(chicago, date, pm25tmean2), 3)</pre>
+</article></slide><slide class=''><hgroup><h2>Table Relationships of <code>GEOmetadb</code></h2></hgroup><article  id="table-relationships-of-geometadb" class="smaller ">
 
-<pre >##         date pm25tmean2
-## 1 2005-12-31   15.00000
-## 2 2005-12-30   15.05714
-## 3 2005-12-29    7.45000</pre>
+<img src='http://gbnci.abcc.ncifcrf.gov/geo/images/GEOmetadb_diagram.png' title='fig:'/><p class='caption'>Table Relationships</p>
 
-<pre class = 'prettyprint lang-r'>tail(select(chicago, date, pm25tmean2), 3)</pre>
+<p>Source: <a href='http://gbnci.abcc.ncifcrf.gov/geo/geo_help.php' title=''>Help: GEOmetadb Application, Meltzerlab/GB/CCR/NCI/NIH ©2008</a></p>
 
-<pre >##            date pm25tmean2
-## 6938 1987-01-03         NA
-## 6939 1987-01-02         NA
-## 6940 1987-01-01         NA</pre>
+</article></slide><slide class=''><hgroup><h2>Keys of <code>GEOmetadb</code></h2></hgroup><article  id="keys-of-geometadb" class="smaller ">
 
-</article></slide><slide class=''><hgroup><h2><code>rename</code></h2></hgroup><article  id="rename">
+<pre >+------------+-------+------------------------------------------------+
+| Table      | Key   | Links to Table.Key                             |
++============+=======+================================================+
+| gse        | gse   | gse_gpl.gse, gse_gsm.gse, gds.gse, sMatrix.gse |
++------------+-------+------------------------------------------------+
+| gpl        | gpl   | gds.gpl, gse_gpl.gpl, sMatrix.gpl, gsm.gpl     |
++------------+-------+------------------------------------------------+
+| gsm        | gsm   | gse_gsm.gsm                                    |
+| gsm        | gpl   | gds.gpl, gse_gpl.gpl, sMatrix.gpl, gpl.gpl     |
++------------+-------+------------------------------------------------+
+| gds        | gds   | gds_subset.gds                                 |
++------------+-------+------------------------------------------------+
+| gds_subset | gds   | gds.gds                                        |
++------------+-------+------------------------------------------------+
+| sMatrix    | gse   | gse_gpl.gse, gse_gsm.gse, gds.gse, gse.gse     |
+| sMatrix    | gpl   | gds.gpl, gse_gpl.gpl, gpl.gpl, gsm.gpl         |
++------------+-------+------------------------------------------------+
+| gse_gpl    | gse   | gse_gpl.gse, gse_gsm.gse, gds.gse, sMatrix.gse |
+| gse_gpl    | gpl   | gds.gpl, gse_gpl.gpl, gpl.gpl, sMatrix.gpl     |
++------------+-------+------------------------------------------------+
+| gse_gsm    | gse   | gse_gpl.gse, gse.gse, gds.gse, sMatrix.gse     |
+| gse_gsm    | gsm   | gsm.gsm                                        |
++------------+-------+------------------------------------------------+</pre>
 
-<p>Renaming a variable in a data frame in R is surprising hard to do!</p>
+<p>Source: <a href='http://gbnci.abcc.ncifcrf.gov/geo/geo_help.php' title=''>Help: GEOmetadb Application, Meltzerlab/GB/CCR/NCI/NIH ©2008</a></p>
 
-<pre class = 'prettyprint lang-r'>head(chicago[, 1:5], 3)</pre>
+</article></slide><slide class=''><hgroup><h2>A three-table <code>join</code></h2></hgroup><article  id="a-three-table-join" class="smaller ">
 
-<pre >##   city tmpd dptp       date pm25tmean2
-## 1 chic   35 30.1 2005-12-31   15.00000
-## 2 chic   36 31.0 2005-12-30   15.05714
-## 3 chic   35 29.4 2005-12-29    7.45000</pre>
+<p>To get raw data, we need to <code>join</code> three tables with two <code>join</code> clauses. The first <code>join</code> is a subquery in the <code>from</code> clause, using <code>gse_gsm</code> to find <code>gsm</code> records corresponding to <code>gse</code> records. We then <code>join</code> this with <code>gsm</code> for those records. This approach works well when you only have a few queries to make or you have limited memory (RAM) available.</p>
 
-<pre class = 'prettyprint lang-r'>chicago &lt;- rename(chicago, dewpoint = dptp, 
-                  pm25 = pm25tmean2)
-head(chicago[, 1:5], 3)</pre>
+<pre class = 'prettyprint lang-r'>query &lt;- &quot;SELECT gsm.gsm, gsm.supplementary_file 
+        FROM (gse JOIN gse_gsm ON gse.gse=gse_gsm.gse) j 
+        JOIN gsm ON j.gsm=gsm.gsm 
+        WHERE gse.pubmed_id=&#39;21743478&#39; 
+        LIMIT 2;&quot;
+res &lt;- as.data.table(dbGetQuery(geo_con, query))
+res[, strsplit(gsm.supplementary_file, &#39;;\t&#39;), by = gsm.gsm]</pre>
 
-<pre >##   city tmpd dewpoint       date     pm25
-## 1 chic   35     30.1 2005-12-31 15.00000
-## 2 chic   36     31.0 2005-12-30 15.05714
-## 3 chic   35     29.4 2005-12-29  7.45000</pre>
+<pre >##      gsm.gsm
+## 1: GSM733816
+## 2: GSM733816
+## 3: GSM733817
+## 4: GSM733817
+##                                                                                   V1
+## 1: ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733816/suppl/GSM733816.CEL.gz
+## 2: ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733816/suppl/GSM733816.chp.gz
+## 3: ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733817/suppl/GSM733817.CEL.gz
+## 4: ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733817/suppl/GSM733817.chp.gz</pre>
 
-</article></slide><slide class=''><hgroup><h2><code>mutate</code></h2></hgroup><article  id="mutate">
+</article></slide><slide class=''><hgroup><h2>Joins in <code>data.table</code></h2></hgroup><article  id="joins-in-data.table" class="smaller ">
 
-<pre class = 'prettyprint lang-r'>chicago &lt;- mutate(chicago, 
-                  pm25detrend=pm25-mean(pm25, na.rm=TRUE))
-head(select(chicago, pm25, pm25detrend))</pre>
+<p>We can repeat the same operation using <code>data.table</code>, once we have converted the GEO tables to <code>data.table</code>s and set their keys. The homework assignment asks that you try to fit the <code>data.table</code> manipulations (merge, subset, etc.) into a single line. This approach will allow us to do additional fast joins later, since the tables are now in memory (RAM).</p>
 
-<pre >##       pm25 pm25detrend
-## 1 15.00000   -1.230958
-## 2 15.05714   -1.173815
-## 3  7.45000   -8.780958
-## 4 17.75000    1.519042
-## 5 23.56000    7.329042
-## 6  8.40000   -7.830958</pre>
+<pre class = 'prettyprint lang-r'>gseDT &lt;- data.table(dbGetQuery(geo_con, &quot;SELECT * from gse;&quot;), key = &quot;gse&quot;)
+gsmDT &lt;- data.table(dbGetQuery(geo_con, &quot;SELECT * from gsm;&quot;), key = &quot;gsm&quot;)
+gse_gsmDT &lt;- data.table(dbGetQuery(geo_con, &quot;SELECT * from gse_gsm;&quot;), 
+    key = c(&quot;gse&quot;, &quot;gsm&quot;))
+gsmDT[gse_gsmDT[gseDT[pubmed_id == 21743478, gse], gsm, nomatch = 0], nomatch = 0][1:2, list(gsm, supplementary_file)][,strsplit(supplementary_file, &#39;;\t&#39;), by = gsm]</pre>
 
-</article></slide><slide class=''><hgroup><h2><code>group_by</code></h2></hgroup><article  id="group_by">
+<pre >##          gsm
+## 1: GSM733816
+## 2: GSM733816
+## 3: GSM733817
+## 4: GSM733817
+##                                                                                   V1
+## 1: ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733816/suppl/GSM733816.CEL.gz
+## 2: ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733816/suppl/GSM733816.chp.gz
+## 3: ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733817/suppl/GSM733817.CEL.gz
+## 4: ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733817/suppl/GSM733817.chp.gz</pre>
 
-<p>Generating summary statistics by stratum</p>
+</article></slide><slide class=''><hgroup><h2>All in one line?</h2></hgroup><article  id="all-in-one-line" class="smaller ">
 
-<pre class = 'prettyprint lang-r'>chicago &lt;- mutate(chicago, 
-                  tempcat = factor(1 * (tmpd &gt; 80), 
-                                   labels = c(&quot;cold&quot;, &quot;hot&quot;)))
-hotcold &lt;- group_by(chicago, tempcat)
-summarize(hotcold, pm25 = mean(pm25, na.rm = TRUE), 
-          o3 = max(o3tmean2), 
-          no2 = median(no2tmean2))</pre>
+<p>Can we do it all in one line of code? Yes, but it&#39;s ugly and hard to follow, even with line-wrap. Plus, additional queries will have to reload the data from the database. Yuk! (Don&#39;t do it this way.)</p>
 
-<pre >## Source: local data frame [3 x 4]
-## 
-##   tempcat     pm25        o3      no2
-## 1    cold 15.97807 66.587500 24.54924
-## 2     hot 26.48118 62.969656 24.93870
-## 3      NA 47.73750  9.416667 37.44444</pre>
+<pre class = 'prettyprint lang-r'>data.table(dbGetQuery(geo_con, 
+    &quot;SELECT * from gsm;&quot;), key = &quot;gsm&quot;)[data.table(dbGetQuery(geo_con, 
+    &quot;SELECT * from gse_gsm;&quot;), key = c(&quot;gse&quot;, &quot;gsm&quot;))[data.table(dbGetQuery(geo_con, 
+    &quot;SELECT * from gse;&quot;), key = &quot;gse&quot;)[pubmed_id == 21743478, gse], gsm, 
+    nomatch = 0], nomatch = 0][1:2, list(gsm, supplementary_file)][,
+    strsplit(supplementary_file, &#39;;\t&#39;), by = gsm]</pre>
 
-</article></slide><slide class=''><hgroup><h2><code>group_by</code></h2></hgroup><article  id="group_by-1">
+<pre >##          gsm
+## 1: GSM733816
+## 2: GSM733816
+## 3: GSM733817
+## 4: GSM733817
+##                                                                                   V1
+## 1: ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733816/suppl/GSM733816.CEL.gz
+## 2: ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733816/suppl/GSM733816.chp.gz
+## 3: ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733817/suppl/GSM733817.CEL.gz
+## 4: ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733817/suppl/GSM733817.chp.gz</pre>
 
-<p>Generating summary statistics by stratum</p>
+</article></slide><slide class=''><hgroup><h2>Joining with <code>merge</code></h2></hgroup><article  id="joining-with-merge" class="smaller ">
 
-<pre class = 'prettyprint lang-r'>chicago &lt;- mutate(chicago, 
-                  year = as.POSIXlt(date)$year + 1900)
-years &lt;- group_by(chicago, year)
-summarize(years, pm25 = mean(pm25, na.rm = TRUE), 
-          o3 = max(o3tmean2, na.rm = TRUE), 
-          no2 = median(no2tmean2, na.rm = TRUE))</pre>
+<p>Some people like to use the familiar <code>merge</code>. There is a version of <code>merge</code> built into <code>data.table</code> for improved performance. We will use the three DTs we made previously. To remove duplicates, we use <code>unique</code>. (Why are there duplicates?)</p>
 
-<pre >## Source: local data frame [19 x 4]
-## 
-##    year     pm25       o3      no2
-## 1  1987      NaN 62.96966 23.49369
-## 2  1988      NaN 61.67708 24.52296
-## 3  1989      NaN 59.72727 26.14062
-## 4  1990      NaN 52.22917 22.59583
-## 5  1991      NaN 63.10417 21.38194
-## 6  1992      NaN 50.82870 24.78921
-## 7  1993      NaN 44.30093 25.76993
-## 8  1994      NaN 52.17844 28.47500
-## 9  1995      NaN 66.58750 27.26042
-## 10 1996      NaN 58.39583 26.38715
-## 11 1997      NaN 56.54167 25.48143
-## 12 1998 18.26467 50.66250 24.58649
-## 13 1999 18.49646 57.48864 24.66667
-## 14 2000 16.93806 55.76103 23.46082
-## 15 2001 16.92632 51.81984 25.06522
-## 16 2002 15.27335 54.88043 22.73750
-## 17 2003 15.23183 56.16608 24.62500
-## 18 2004 14.62864 44.48240 23.39130
-## 19 2005 16.18556 58.84126 22.62387</pre>
+<pre class = 'prettyprint lang-r'>unique(merge(gsmDT[,list(gsm,supplementary_file)], 
+      merge(gseDT[pubmed_id == 21743478, list(gse)], 
+            gse_gsmDT)[,list(gsm)])[1:4, list(gsm, supplementary_file)])[,
+                    strsplit(supplementary_file, &#39;;\t&#39;), by = gsm]</pre>
 
-</article></slide><slide class=''><hgroup><h2><code>%&gt;%</code></h2></hgroup><article  id="section-7">
+<pre >##          gsm
+## 1: GSM733816
+## 2: GSM733816
+## 3: GSM733817
+## 4: GSM733817
+##                                                                                   V1
+## 1: ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733816/suppl/GSM733816.CEL.gz
+## 2: ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733816/suppl/GSM733816.chp.gz
+## 3: ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733817/suppl/GSM733817.CEL.gz
+## 4: ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733817/suppl/GSM733817.chp.gz</pre>
 
-<pre class = 'prettyprint lang-r'>chicago %&gt;% mutate(month = as.POSIXlt(date)$mon + 1) 
-    %&gt;% group_by(month) 
-    %&gt;% summarize(pm25 = mean(pm25, na.rm = TRUE), 
-          o3 = max(o3tmean2, na.rm = TRUE), 
-          no2 = median(no2tmean2, na.rm = TRUE))</pre>
+</article></slide><slide class=''><hgroup><h2>Joining with <code>merge</code> and <code>magrittr</code></h2></hgroup><article  id="joining-with-merge-and-magrittr" class="smaller ">
 
-<pre >## Source: local data frame [12 x 4]
-## 
-##    month     pm25       o3      no2
-## 1      1 17.76996 28.22222 25.35417
-## 2      2 20.37513 37.37500 26.78034
-## 3      3 17.40818 39.05000 26.76984
-## 4      4 13.85879 47.94907 25.03125
-## 5      5 14.07420 52.75000 24.22222
-## 6      6 15.86461 66.58750 25.01140
-## 7      7 16.57087 59.54167 22.38442
-## 8      8 16.93380 53.96701 22.98333
-## 9      9 15.91279 57.48864 24.47917
-## 10    10 14.23557 47.09275 24.15217
-## 11    11 15.15794 29.45833 23.56537
-## 12    12 17.52221 27.70833 24.45773</pre>
+<p>We can also use <code>%&gt;%</code> from <code>magrittr</code> to improve readability, again using the three DTs we made previously. Here we will use two &quot;lines&quot; of code.</p>
 
-</article></slide><slide class=''><hgroup><h2>dplyr</h2></hgroup><article  id="dplyr-2">
+<pre class = 'prettyprint lang-r'>library(magrittr)
+mergedDT &lt;- unique(gseDT[pubmed_id == 21743478, list(gse)] %&gt;% 
+                merge(y = gse_gsmDT, by = c(&quot;gse&quot;)) %&gt;% 
+                merge(y = gsmDT[,list(gsm,supplementary_file)], by = c(&quot;gsm&quot;)))
+mergedDT[1:2, list(gsm, gse, supplementary_file)][,
+                strsplit(supplementary_file, &#39;;\t&#39;), by = gsm]</pre>
 
-<p>Once you learn the dplyr &quot;grammar&quot; there are a few additional benefits</p>
+<pre >##          gsm
+## 1: GSM733816
+## 2: GSM733816
+## 3: GSM733817
+## 4: GSM733817
+##                                                                                   V1
+## 1: ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733816/suppl/GSM733816.CEL.gz
+## 2: ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733816/suppl/GSM733816.chp.gz
+## 3: ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733817/suppl/GSM733817.CEL.gz
+## 4: ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733817/suppl/GSM733817.chp.gz</pre>
 
-<ul>
-<li><p>dplyr can work with other data frame &quot;backends&quot;</p></li>
-<li><p><code>data.table</code> for large fast tables</p></li>
-<li><p>SQL interface for relational databases via the DBI package</p></li>
-</ul>
+</article></slide><slide class=''><hgroup><h2>Only get what you need</h2></hgroup><article  id="only-get-what-you-need" class="smaller ">
 
-</article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Tidy data lab</h2></hgroup><article  id="tidy-data-lab">
+<p>It makes sense to only <code>select</code> the data we need from the SQL database. Why pull in extra data, only to ignore it? We will still use <code>data.table</code> for the <code>join</code>, though, in keeping with the spirit of the assignment.</p>
 
-</article></slide><slide class=''><hgroup><h2>Three types of genomic data</h2></hgroup><article  id="three-types-of-genomic-data">
+<pre class = 'prettyprint lang-r'>gseDT &lt;- data.table(dbGetQuery(geo_con, 
+    &quot;SELECT gse from gse WHERE pubmed_id = &#39;21743478&#39;;&quot;), key = &quot;gse&quot;)
+gsmDT &lt;- data.table(dbGetQuery(geo_con, 
+    &quot;SELECT gsm, supplementary_file from gsm;&quot;), key = &quot;gsm&quot;)
+gse_gsmDT &lt;- data.table(dbGetQuery(geo_con, 
+    &quot;SELECT * from gse_gsm;&quot;), key = c(&quot;gse&quot;, &quot;gsm&quot;))
+gsmDT[gse_gsmDT[gseDT, gsm, nomatch = 0], nomatch = 0][1:2, 
+    list(gsm, supplementary_file)][,strsplit(supplementary_file, &#39;;\t&#39;), by = gsm]</pre>
 
-<p><img class=center src=https://dl.dropboxusercontent.com/s/ewv8iaac9h7vmpd/threetables.png?dl=0 height=450/></p>
+<pre >##          gsm
+## 1: GSM733816
+## 2: GSM733816
+## 3: GSM733817
+## 4: GSM733817
+##                                                                                   V1
+## 1: ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733816/suppl/GSM733816.CEL.gz
+## 2: ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733816/suppl/GSM733816.chp.gz
+## 3: ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733817/suppl/GSM733817.CEL.gz
+## 4: ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733817/suppl/GSM733817.chp.gz</pre>
 
-</article></slide><slide class=''><hgroup><h2>Home again</h2></hgroup><article  id="home-again">
+</article></slide><slide class=''><hgroup><h2>Cleanup</h2></hgroup><article  id="cleanup" class="smaller ">
 
-<p><a href='http://sisbid.github.io/Module1/' title=''>http://sisbid.github.io/Module1/</a></p></article></slide>
+<pre class = 'prettyprint lang-r'>dbDisconnect(geo_con)</pre>
+
+<pre >## [1] TRUE</pre>
+
+</article></slide><slide class=''><hgroup><h2>Time for you to work!</h2></hgroup><article  id="time-for-you-to-work" class="smaller ">
+
+<ol>
+<li><p>Use the <code>GEOmetabd</code> package to find all HCV gene expression data using the Illumina platform submitted by an investigator at Yale. This should be done with a single query, showing the title, the GSE accession number, the GPL accession number and the manufacturer and the description of the platform used.</p></li>
+<li><p>Reproduce your above query using the data.table package. Again, try to use a single line of code. [Hint: You first need to convert all db tables to data.table tables].</p></li>
+</ol>
+
+</article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Solution</h2></hgroup><article  id="solution" class="smaller ">
+
+</article></slide><slide class=''><hgroup><h2>Let&#39;s create a new connection</h2></hgroup><article  id="lets-create-a-new-connection" class="smaller ">
+
+<pre class = 'prettyprint lang-r'>con &lt;- dbConnect(SQLite(),&#39;GEOmetadb.sqlite&#39;)</pre>
+
+</article></slide><slide class=''><hgroup><h2>Using SQL</h2></hgroup><article  id="using-sql" class="smaller ">
+
+<pre class = 'prettyprint lang-r'>res &lt;- dbGetQuery(con, &quot;SELECT gse.title, gse.gse, gpl.gpl, gpl.manufacturer, gpl.title
+                  FROM (gse JOIN gse_gpl ON gse.gse=gse_gpl.gse) j
+                  JOIN gpl on j.gpl=gpl.gpl 
+                  WHERE gpl.manufacturer like &#39;%Illumina%&#39;
+                  AND gse.contact like &#39;%Yale%&#39;
+                  AND (gse.title like &#39;%epatit%&#39; OR gse.title like &#39;%HCV%&#39;); &quot;)</pre>
+
+</article></slide><slide class=''><hgroup><h2>Using data.table</h2></hgroup><article  id="using-data.table" class="smaller ">
+
+<pre class = 'prettyprint lang-r'>gse &lt;- data.table(dbGetQuery(con, &quot;SELECT gse.title, gse.gse, gse.contact FROM gse&quot;), key = &quot;gse&quot;)
+gpl &lt;- data.table(dbGetQuery(con, &quot;SELECT gpl.gpl, gpl.manufacturer, gpl.description FROM gpl&quot;), key = &quot;gpl&quot;)
+gse_gpl &lt;- data.table(dbGetQuery(con, &quot;SELECT gse_gpl.gse, gse_gpl.gpl FROM gse_gpl&quot;), key = &quot;gse&quot;)
+
+res2 &lt;- merge(gse[gse_gpl, nomatch = 0], gpl, by = &quot;gpl&quot;)[title %like% &quot;HCV&quot; 
+                                                          &amp; contact %like% &quot;Yale&quot; &amp; manufacturer %like% &quot;Illumina&quot;]</pre>
+
+</article></slide><slide class=''><hgroup><h2>Now what?</h2></hgroup><article  id="now-what" class="smaller ">
+
+<p>We have identifed the data we want, let&#39;s download them</p>
+
+<pre class = 'prettyprint lang-r'>gds &lt;- getGEO(&quot;GSE40812&quot;, destdir = &quot;data/geo/&quot;)[[1]]</pre>
+
+<pre >## ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE40nnn/GSE40812/matrix/
+## Found 1 file(s)
+## GSE40812_series_matrix.txt.gz
+## Using locally cached version: data/geo//GSE40812_series_matrix.txt.gz
+## Using locally cached version of GPL10558 found here:
+## data/geo//GPL10558.soft</pre>
+
+<pre class = 'prettyprint lang-r'>pData(gds)[1:2,]</pre>
+
+<pre >##                                   title geo_accession
+## GSM1002366      RM1_2046_Neg_Mock_MACRO    GSM1002366
+## GSM1002367 RM2_2046_Neg_Poly IC H_MACRO    GSM1002367
+##                           status submission_date last_update_date type
+## GSM1002366 Public on Mar 05 2013     Sep 12 2012      Mar 05 2013  RNA
+## GSM1002367 Public on Mar 05 2013     Sep 12 2012      Mar 05 2013  RNA
+##            channel_count             source_name_ch1 organism_ch1
+## GSM1002366             1 Monocyte-derived Macrophage Homo sapiens
+## GSM1002367             1 Monocyte-derived Macrophage Homo sapiens
+##              characteristics_ch1                  characteristics_ch1.1
+## GSM1002366 infection status: Neg cell type: Monocyte-derived Macrophage
+## GSM1002367 infection status: Neg cell type: Monocyte-derived Macrophage
+##            characteristics_ch1.2 molecule_ch1
+## GSM1002366       treatment: Mock    total RNA
+## GSM1002367  treatment: Poly IC H    total RNA
+##                                                                                                                         extract_protocol_ch1
+## GSM1002366 Total RNA from paired macrophage and PBMC samples from VL- and VL+ subjects was extracted using the RNeasy mini kit (Qiagen, CA).
+## GSM1002367 Total RNA from paired macrophage and PBMC samples from VL- and VL+ subjects was extracted using the RNeasy mini kit (Qiagen, CA).
+##            label_ch1
+## GSM1002366    biotin
+## GSM1002367    biotin
+##                                                                                                                                 label_protocol_ch1
+## GSM1002366 Preparation of cDNA, cRNA, and labeling were carried out by the Yale Center for Genomic Analysis using the standard Illumina protocols.
+## GSM1002367 Preparation of cDNA, cRNA, and labeling were carried out by the Yale Center for Genomic Analysis using the standard Illumina protocols.
+##            taxid_ch1
+## GSM1002366      9606
+## GSM1002367      9606
+##                                                                                                                                                                                             hyb_protocol
+## GSM1002366 1.5 µg of cRNA was combined with hybridization controls and hybridized to the array for 16 hours in a hybridization oven at 58°C. The chip was then washed and stained with streptavidin-Cy3.
+## GSM1002367 1.5 µg of cRNA was combined with hybridization controls and hybridized to the array for 16 hours in a hybridization oven at 58°C. The chip was then washed and stained with streptavidin-Cy3.
+##                                                         scan_protocol
+## GSM1002366 The array was scanned using the Illumina BeadArray reader.
+## GSM1002367 The array was scanned using the Illumina BeadArray reader.
+##                                                                                  description
+## GSM1002366      Primary Monocyte-derived Macrophages from HCV-negative patient, Mock-treated
+## GSM1002367 Primary Monocyte-derived Macrophages from HCV-negative patient, Poly IC H-treated
+##                                                                                                                                                                          data_processing
+## GSM1002366 Microarray data from the validation cohort underwent quantile normalization using the lumi package in bioconductor [R version 2.13.2, Lumi version 2.4, Limma version 3.8.3].
+## GSM1002367 Microarray data from the validation cohort underwent quantile normalization using the lumi package in bioconductor [R version 2.13.2, Lumi version 2.4, Limma version 3.8.3].
+##            platform_id      contact_name            contact_email
+## GSM1002366    GPL10558 Ruth,R,Montgomery ruth.montgomery@yale.edu
+## GSM1002367    GPL10558 Ruth,R,Montgomery ruth.montgomery@yale.edu
+##            contact_department                  contact_institute
+## GSM1002366  Internal Medicine Yale University School of Medicine
+## GSM1002367  Internal Medicine Yale University School of Medicine
+##            contact_address contact_city contact_state
+## GSM1002366   300 Cedar St.    New Haven            CT
+## GSM1002367   300 Cedar St.    New Haven            CT
+##            contact_zip/postal_code contact_country supplementary_file
+## GSM1002366                   06520             USA               NONE
+## GSM1002367                   06520             USA               NONE
+##            data_row_count
+## GSM1002366          47323
+## GSM1002367          47323</pre>
+
+</article></slide><slide class=''><hgroup><h2>Sanitize our data</h2></hgroup><article  id="sanitize-our-data" class="smaller ">
+
+<pre class = 'prettyprint lang-r'>sanitize_pdata &lt;- function(pd) {
+keepCols &lt;- c(&quot;title&quot;, &quot;source_name_ch1&quot;, &quot;characteristics_ch1&quot;, &quot;characteristics_ch1.2&quot;)
+pd &lt;- pd[, keepCols]
+colnames(pd) &lt;- c(&quot;ptid&quot;, &quot;cellType&quot;, &quot;infectionStatus&quot;, &quot;treatment&quot;)
+
+pd$ptid &lt;- sapply(pd$ptid, FUN = function(x) {unlist(strsplit(as.character(x), &quot;_&quot;))[2]}) 
+pd$infectionStatus &lt;- gsub(&quot;.*: &quot;, &quot;&quot;, pd$infectionStatus) 
+pd$treatment &lt;- gsub(&quot;.*: &quot;, &quot;&quot;, pd$treatment)
+pd$treatment &lt;- gsub(&quot;Poly IC H&quot;, &quot;Poly&quot;, pd$treatment)
+pd
+}</pre>
+
+</article></slide><slide class=''><hgroup><h2>Sanityze and select data</h2></hgroup><article  id="sanityze-and-select-data" class="smaller ">
+
+<p>We will select the macrophage data as in the paper (Figure 2).</p>
+
+<pre class = 'prettyprint lang-r'>gds_new &lt;- gds
+pData(gds_new) &lt;- sanitize_pdata(pData(gds_new))
+macrophageData &lt;- gds_new[, pData(gds_new)$cellType == &quot;Monocyte-derived Macrophage&quot;]</pre>
+
+</article></slide><slide class=''><hgroup><h2>Look for differentially expressed genes upon stimulation</h2></hgroup><article  id="look-for-differentially-expressed-genes-upon-stimulation" class="smaller ">
+
+<pre class = 'prettyprint lang-r'># Load the limma package
+suppressMessages(library(limma))
+
+# Set up design matrix
+mm1 &lt;- model.matrix(~treatment + ptid, macrophageData)
+fit1 &lt;- lmFit(macrophageData, mm1)
+ebay1 &lt;- eBayes(fit1)
+
+# Select differentially expressed genes
+# According to the paper: Poly(IC) response signatures were generated based on FC &gt;= 1.5 relative to Mock, statistically significant change in exp as determined by limma (BH FDR &lt;0.05)
+# BH is default
+tt1 &lt;- topTable(ebay1, coef = &quot;treatmentPoly&quot;, number = Inf, p.value = 0.05, lfc = log2(1.5), sort.by = &quot;p&quot;)</pre></article></slide>
 
 
   <slide class="backdrop"></slide>
