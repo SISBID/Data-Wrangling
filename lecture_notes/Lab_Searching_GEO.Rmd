@@ -482,3 +482,5 @@ ebay1 <- eBayes(fit1)
 tt1 <- topTable(ebay1, coef = "treatmentPoly", number = Inf, p.value = 0.05, lfc = log2(1.5), sort.by = "p")
 ```
 
+## EDA of differentially expressed genes
+
