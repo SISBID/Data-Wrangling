@@ -2,10 +2,10 @@
 title: 'SISBID: Accessing Biomedical Bid Data'
 author: "Jeff Leek"
 date: "@jtleek"
-#output:
-#  ioslides_presentation:
-#    css: styles.css
-output: beamer_presentation
+output:
+  ioslides_presentation:
+    css: styles.css
+#output: pdf_document
 ---
 
 # Preliminaries
@@ -13,4 +13,741 @@ output: beamer_presentation
 ## About this course
 
 * __Class name__: Accessing Biomedical Big Data
+* __Instructors__: [Jeff Leek](www.jtleek.com), [Raphael Gottardo](www.rglab.org)
+* __TAs__: [Jean Morrison](http://students.washington.edu/jeanm5/), [Brian Williamson](http://students.washington.edu/brianw26/)
 * __Course website__: http://sisbid.github.io/Module1
+* __Goal__ : Teach you how to get and clean data
+* __Pre-reqs__: Some basic knowledge of R
+* __Where to get the slides__: 
+https://github.com/SISBID/Module1
+
+
+# Motivating example
+
+## An exciting result
+
+<img class=center src=https://dl.dropboxusercontent.com/s/e4ww1wmeuliu395/potti-paper.png height='400px'/>
+
+http://www.nature.com/nm/journal/v12/n11/full/nm1491.html
+
+## Stunning problems
+
+<img class=center src=https://dl.dropboxusercontent.com/s/6zt3qo3yqvey7jy/baggerly-coombs.png height='400px'/>
+
+https://projecteuclid.org/euclid.aoas/1267453942
+
+## Timeline of events
+
+<img class=center src=https://dl.dropboxusercontent.com/s/mr9o35qbe9qojom/potti-timeline.png?dl=0 height='400px'/>
+
+http://www.nature.com/news/2011/110111/full/469139a/box/1.html
+
+## Major fallout
+
+<img class=center src=https://dl.dropboxusercontent.com/s/45i0ef2tzj9t5vq/potti-lawsuit.png height='400px'/>
+
+http://dig.abclocal.go.com/wtvd/docs/Duke_lawsuit_090811.pdf
+http://www.dukechronicle.com/articles/2015/05/03/duke-lawsuit-involving-cancer-patients-linked-anil-potti-settled
+
+## A great talk about this event
+
+<img class=center src=https://dl.dropboxusercontent.com/s/3pmldcj5lhjk0vo/baggerly-video.png?dl=0 height='400px'/>
+
+http://www.birs.ca/events/2013/5-day-workshops/13w5083/videos/watch/201308141121-Baggerly.mp4
+
+
+# About me
+
+## 
+
+![how you feel](https://dl.dropboxusercontent.com/s/nukt57ozprue20x/Slide07.png?dl=0)
+
+
+##
+
+![how i feel](https://dl.dropboxusercontent.com/s/yjxdra220bmrsx1/Slide08.png?dl=0)
+
+
+## 
+
+![simplystats](https://dl.dropboxusercontent.com/s/pn0ud4ixhuxi9d4/Slide04.png?dl=0)
+
+http://simplystatistics.org/
+
+## 
+
+![dss](https://dl.dropboxusercontent.com/s/1s7ihjfp5t4glhc/Slide05.png?dl=0)
+
+https://www.coursera.org/specialization/jhudatascience/1
+
+##
+
+![gdss](https://dl.dropboxusercontent.com/s/ud8m6k80gj2fhi7/Slide06.png?dl=0)
+
+https://www.coursera.org/specialization/genomics/41
+
+
+##
+
+![jtleek](https://dl.dropboxusercontent.com/s/r33vwhvztzryxtj/jtleek.png?dl=0)
+
+http://www.jtleek.com
+
+##
+
+![edas](https://dl.dropboxusercontent.com/s/q1a9g2t7ybqyipa/edas.jpg?dl=0)
+
+https://leanpub.com/datastyle
+
+# Session Motivation
+
+
+## Why this class?
+
+<img class=center src=https://dl.dropboxusercontent.com/s/h6fg169sz4hiaa5/embarrassing1.png height='400px'/>
+
+## Why this class?
+
+<img class=center src=https://dl.dropboxusercontent.com/s/16bt6dcznedefet/embarrassing2.png?dl=0 height='400px'/>
+
+http://pubs.acs.org/doi/abs/10.1021/om4000067
+
+## Researcher degrees of freedom
+
+<img class=center src=https://dl.dropboxusercontent.com/s/7afns3kiuabe74d/researcherdof.png?dl=0 height='400px'/>
+
+http://pss.sagepub.com/content/22/11/1359.abstract
+
+## What is the temptation?
+
+<img class=center src=https://dl.dropboxusercontent.com/s/myx2854e2yewbhi/sympathetic-pvalue.png height='400px'/>
+
+
+
+## This is now codified for clinical genomics
+
+<img class=center src=https://dl.dropboxusercontent.com/s/oinag74dgv77v2i/iom.png?dl=0 height='400px'/>
+
+http://www.iom.edu/Reports/2012/Evolution-of-Translational-Omics.aspx
+
+# Getting and cleaning data
+
+## Data pipeline
+
+<div class="columns-2">
+
+<img class=center src=http://www.nature.com/polopoly_fs/7.25671.1429983882!/image/P1.jpg_gen/derivatives/landscape_300/P1.jpg height='500px'/> 
+
+* Most of the attention is on the last step
+* This course is about all the steps that come before
+* They are *critical* for getting things right
+
+[Leek and Peng (2015) Nature](http://www.nature.com/news/statistics-p-values-are-just-the-tip-of-the-iceberg-1.17412)
+
+</div>
+
+
+## What you wish data looked like
+
+<img class=center src=https://dl.dropboxusercontent.com/s/r3oxas1mus8krxq/excel.png?dl=0 height='400px'/>
+
+
+## What does data really look like? 
+
+<img class=center src=https://dl.dropboxusercontent.com/s/nsby9yen1jwtl0o/fastq.png?dl=0 height='400px'/>
+
+
+http://brianknaus.com/software/srtoolbox/s_4_1_sequence80.txt
+
+
+
+## What does data really look like? 
+
+<img class=center src=https://dl.dropboxusercontent.com/s/kzrq32djjlks02s/twitter.png?dl=0 height= 450/>
+
+
+https://dev.twitter.com/docs/api/1/get/blocks/blocking
+
+
+## What does data really look like?
+
+
+<img class=center src=https://dl.dropboxusercontent.com/s/mp86ne6n5lhgpkm/medicalrecord.png?dl=0 height=400/>
+
+
+http://blue-button.github.com/challenge/
+
+
+## Where is data?
+
+<img class=center src=https://dl.dropboxusercontent.com/s/k8b46hfm3ox938p/databases.png?dl=0 height=400/>
+
+
+http://rickosborne.org/blog/2010/02/infographic-migrating-from-sql-to-mapreduce-with-mongodb/
+
+
+
+## Where is data?
+
+<img class=center src=https://dl.dropboxusercontent.com/s/apgiml5kd1o9wiu/twitter.png?dl=0 height= 450/>
+
+https://dev.twitter.com/docs/api/1/get/blocks/blocking
+
+
+
+## Where is data?
+
+<img class=center src=https://dl.dropboxusercontent.com//s/wo1thf2mtw8odx4/baltimore.png?dl=0 height= 450/>
+
+[https://data.baltimorecity.gov/](https://data.baltimorecity.gov/)
+
+# Data brainstorming exercise
+
+## The goal of this course
+
+</br></br>
+
+<center><rt>Raw data -> Processing script -> tidy data</rt> -> data analysis -> data communication </center>
+
+# Tools we will use
+
+## The main workhorse of data science
+
+<img class=center src=https://dl.dropboxusercontent.com/s/cy61f9vk1jzmbru/rproject.png height='400px'/>
+
+http://www.r-project.org/
+
+
+## Where we will work on coding
+
+<img class=center src=https://dl.dropboxusercontent.com/s/jkmdjoqqnf1q5yj/rstudio.png height='400px'/>
+
+http://www.rstudio.com/
+
+
+## Rstudio's interface
+
+<img class=center src=https://dl.dropboxusercontent.com/s/h6rrmwjcp4vptge/ide.png height='400px'/>
+
+http://www.rstudio.com/
+
+## Useful Rstudio shortcuts 
+
+* `Ctrl + Enter` (`Cmd + Enter` on OS X) in your script evaluates that line of code
+    * It's like copying and pasting the code into the console for it to run.
+* `Ctrl+1` takes you to the script page
+* `Ctrl+2` takes you to the console
+* [http://www.rstudio.com/ide/docs/using/keyboard_shortcuts](http://www.rstudio.com/ide/docs/using/keyboard_shortcuts)
+
+Slide via: http://www.aejaffe.com/summerR_2015/
+
+# Rstudio tour/installation check-in
+
+
+## Replicability and reproducibility
+
+    Science moves forward then discoveries are replicated
+    and reproduced
+
+[_Implementing Reproducible Research_](https://osf.io/s9tya/wiki/home/)
+
+Slide via: http://www.aejaffe.com/summerR_2015/
+
+## Replication
+
+    Replication, the practice of independently implementing
+    scientific experiments to validate specific findings,
+     is the cornerstone of discovering scientific truth.
+
+[_Implementing Reproducible Research_](https://osf.io/s9tya/wiki/home/)
+
+Slide via: http://www.aejaffe.com/summerR_2015
+
+## Reproducibility
+
+    Reproducibility can be thought of as a different
+    standard of validity from replication because it
+    forgoes independent data collection and uses the
+    methods and data collected by the original investigator.
+
+[_Implementing Reproducible Research_](https://osf.io/s9tya/wiki/home/)
+
+Slide via: http://www.aejaffe.com/summerR_2015
+
+## A bit more practical
+
+    The sharing of analytic data and computer codes
+    uses to map those data into computational results
+    is central to any comprehensive definition of
+    reproducibility.
+    
+[_Implementing Reproducible Research_](https://osf.io/s9tya/wiki/home/)
+
+Slide via: http://www.aejaffe.com/summerR_2015
+
+## Why its important?
+
+    Except for the simplest of analyses, the computer
+    code used to analyze a dataset is the only record
+    that permits others to fully understand what a
+    researcher has done.
+
+[_Implementing Reproducible Research_](https://osf.io/s9tya/wiki/home/)
+
+Slide via: http://www.aejaffe.com/summerR_2015
+
+
+## Reproducible documents
+
+> * Have you ever had your code in one file, your description of the results in another file?
+> * Ever made copy-paste mistakes?
+> * What if you were asked to change some models or revise the document?
+> * Was it easy to maintain?
+
+Slide via: http://www.aejaffe.com/summerR_2015
+
+
+## Primary file types - R script
+
+<img class=center src=https://dl.dropboxusercontent.com/s/m7vt6ys7t9ta9r7/rscript.png height='300px'/>
+
+http://www.rstudio.com/ide/docs/using/source
+
+## Primary file types - R markdown document
+
+<img class=center src=https://dl.dropboxusercontent.com/s/d0rfmy2hj7r00ru/rmarkdown.png height='400px'/>
+
+http://www.rstudio.com/ide/docs/authoring/using_markdown
+
+
+## Markdown basics
+
+### "Markdown is a text-to-HTML conversion tool for web writers. Markdown allows you to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML)."
+
+
+###  [John Gruber, creator of Markdown](http://daringfireball.net/projects/markdown/) 
+
+
+## R markdown basics
+
+<img class=center src=http://rmarkdown.rstudio.com/images/markdownOverview.png height='400px'/>
+
+http://rmarkdown.rstudio.com/
+
+
+## R code
+
+<img class=center src=http://rmarkdown.rstudio.com/images/markdownChunk.png height='400px'/>
+
+http://rmarkdown.rstudio.com/
+
+## Equations with latex
+
+**In-line**
+
+This is an equation `$y = \beta_0 x$` in a line of text
+
+This is an equation $y = \beta_0 x$ in a line of text
+
+**Display**
+
+This is display equation `$$y = \beta_0 x$$` 
+
+This is an equation $$y = \beta_0 x$$ 
+
+# R markdown lab
+
+
+## Definition of data
+<q>Data are values of qualitative or quantitative variables, belonging to a set of items.</q>
+
+[http://en.wikipedia.org/wiki/Data](http://en.wikipedia.org/wiki/Data)
+
+
+## Definition of data
+<q>Data are values of qualitative or quantitative variables, belonging to a <redtext>set of items</redtext>.</q>
+
+[http://en.wikipedia.org/wiki/Data](http://en.wikipedia.org/wiki/Data)
+
+__Set of items__: Sometimes called the population; the set of objects you are interested in
+
+
+## Definition of data
+<q>Data are values of qualitative or quantitative <redtext>variables</redtext>, belonging to a set of items.</q>
+
+[http://en.wikipedia.org/wiki/Data](http://en.wikipedia.org/wiki/Data)
+
+__Variables__: A measurement or characteristic of an item.
+
+
+
+## Definition of data
+<q>Data are values of <redtext>qualitative</redtext> or <redtext>quantitative</redtext> variables, belonging to a set of items.</q>
+
+[http://en.wikipedia.org/wiki/Data](http://en.wikipedia.org/wiki/Data)
+
+
+__Qualitative__: Country of origin, sex, treatment
+
+__Quantitative__: Height, weight, blood pressure
+
+
+## Raw data
+
+* The original source of the data
+* Often hard to use for data analyses
+* Data analysis _includes_ processing
+* Raw data may only need to be processed once
+
+[http://en.wikipedia.org/wiki/Raw_data](http://en.wikipedia.org/wiki/Raw_data)
+
+## Processed data
+
+* Data that is ready for analysis
+* Processing can include merging, subsetting, transforming, etc.
+* There may be standards for processing
+* All steps should be recorded 
+
+[http://en.wikipedia.org/wiki/Computer_data_processing](http://en.wikipedia.org/wiki/Computer_data_processing)
+
+
+## An example of a processing pipeline
+
+<img class=center src=https://dl.dropboxusercontent.com/s/os9gkkmpjt0cvsj/hiseq.jpeg?dl=0 height=450/>
+
+http://www.illumina.com.cn/support/sequencing/sequencing_instruments/hiseq_1000.asp
+
+## An example of a processing pipeline
+
+<img class=center src=https://dl.dropboxusercontent.com/s/9q70kwqrhq4mop1/processing.png?dl=0 height=400 />
+
+http://www.cbcb.umd.edu/~hcorrada/CMSC858B/lectures/lect22_seqIntro/seqIntro.pdf
+
+## A common goal
+
+<img class=center src=https://dl.dropboxusercontent.com/s/pf814r7vb1ttj4l/Slide10.png?dl=0 height=400 />
+
+## A common goal
+
+<img class=center src=https://dl.dropboxusercontent.com/s/8ywpjs2f0ga2egh/Slide11.png?dl=0 height=400 />
+
+## The four things you should have
+
+1. The raw data.
+2. A tidy data set
+3. A code book describing each variable and its values in the tidy data set.
+4. An explicit and exact recipe you used to go from 1 -> 2,3.
+
+## The raw data
+
+* The strange binary file your measurement machine spits out
+* The unformatted Excel file with 10 worksheets the company you contracted with sent you
+* The complicated JSON data you got from scraping the Twitter API
+* The hand-entered numbers you collected looking through a microscope
+
+## You know the raw data is in the right format if you_ 
+
+1. Ran no software on the data
+2. Did not manipulate any of the numbers in the data
+3. You did not remove any data from the data set
+4. You did not summarize the data in any way
+
+https://github.com/jtleek/datasharing
+
+
+## The tidy data
+
+1. Each variable you measure should be in one column
+2. Each different observation of that variable should be in a different row
+3. There should be one table for each "kind" of variable
+4. If you have multiple tables, they should include a column in the table that allows them to be linked
+
+
+
+## Some other important tips
+
+* Include a row at the top of each file with variable names. 
+* Make variable names human readable AgeAtDiagnosis instead of AgeDx
+* In general data should be saved in one file per table.
+
+https://github.com/jtleek/datasharing
+
+
+## The code book
+
+1. Information about the variables (including units!) in the data set not contained in the tidy data
+2. Information about the summary choices you made
+3. Information about the experimental study design you used
+
+
+## Some other important tips_
+
+* A common format for this document is a Word/text file. 
+* There should be a section called "Study design" that has a thorough description of how you collected the data. 
+* There must be a section called "Code book" that describes each variable and its units.
+
+https://github.com/jtleek/datasharing
+
+
+## The instruction list 
+
+* Ideally a computer script (in R :-), but I suppose Python is ok too...)
+* The input for the script is the raw data
+* The output is the processed, tidy data
+* There are no parameters to the script
+
+## When you can't script
+
+In some cases it will not be possible to script every step. In that case you should provide instructions like: 
+
+1. Step 1 - take the raw file, run version 3.1.2 of summarize software with parameters a=1, b=2, c=3
+2. Step 2 - run the software separately for each sample
+3. Step 3 - take column three of outputfile.out for each sample and that is the corresponding row in the output data set
+
+https://github.com/jtleek/datasharing
+
+
+## Why is the instruction list important? 
+
+<img class=center src=https://dl.dropboxusercontent.com/s/5zf1ur3v9wz5l7n/rr.png?dl=0 height=200 />
+
+<img class=center src=https://dl.dropboxusercontent.com/s/txlurzb88gsrtm1/rrcolbert.jpeg?dl=0 height=200 />
+
+http://www.colbertnation.com/the-colbert-report-videos/425748/april-23-2013/austerity-s-spreadsheet-error
+
+
+## dplyr
+
+The data frame is a key data structure in statistics and in R.
+
+* There is one observation per row
+
+* Each column represents a variable or measure or characteristic
+
+* Primary implementation that you will use is the default R
+  implementation
+
+* Other implementations, particularly relational databases systems
+
+
+## dplyr
+
+* Developed by Hadley Wickham of RStudio
+
+* An optimized and distilled version of `plyr` package (also by Hadley)
+
+* Does not provide any "new" functionality per se, but **greatly**
+  simplifies existing functionality in R
+
+* Provides a "grammar" (in particular, verbs) for data manipulation
+
+* Is **very** fast, as many key operations are coded in C++
+
+
+## dplyr Verbs
+
+* `select`: return a subset of the columns of a data frame
+
+* `filter`: extract a subset of rows from a data frame based on
+  logical conditions
+
+* `arrange`: reorder rows of a data frame
+
+
+* `rename`: rename variables in a data frame
+
+* `mutate`: add new variables/columns or transform existing variables
+
+* `summarise` / `summarize`: generate summary statistics of different
+  variables in the data frame, possibly within strata
+
+There is also a handy `print` method that prevents you from printing a
+lot of data to the console.
+
+
+
+## dplyr Properties
+
+* The first argument is a data frame.
+
+* The subsequent arguments describe what to do with it, and you can
+  refer to columns in the data frame directly without using the $
+  operator (just use the names).
+
+* The result is a new data frame
+
+* Data frames must be properly formatted and annotated for this to all
+  be useful
+
+
+## Load the `dplyr` package
+
+This step is important!
+
+```{r}
+library(dplyr)
+```
+
+
+## `select`
+
+```{r}
+chicago <- readRDS("./data/chicago.rds")
+dim(chicago)
+head(select(chicago, 1:5))
+```
+
+
+## `select`
+
+```{r}
+names(chicago)[1:3]
+head(select(chicago, city:dptp))
+```
+
+## `select`
+
+In dplyr you can do
+
+```{r,eval=FALSE}
+head(select(chicago, -(city:dptp)))
+```
+
+## Equivalent base R
+
+```{r,eval=FALSE}
+i <- match("city", names(chicago))
+j <- match("dptp", names(chicago))
+head(chicago[, -(i:j)])
+```
+
+
+
+## `filter`
+
+```{r}
+chic.f <- filter(chicago, pm25tmean2 > 30)
+head(select(chic.f, 1:3, pm25tmean2), 10)
+```
+
+## `filter`
+
+```{r}
+chic.f <- filter(chicago, pm25tmean2 > 30 & tmpd > 80)
+head(select(chic.f, 1:3, pm25tmean2, tmpd), 10)
+```
+
+
+## `arrange`
+
+Reordering rows of a data frame (while preserving corresponding order
+of other columns) is normally a pain to do in R.
+
+```{r}
+chicago <- arrange(chicago, date)
+head(select(chicago, date, pm25tmean2), 3)
+tail(select(chicago, date, pm25tmean2), 3)
+```
+
+## `arrange`
+
+Columns can be arranged in descending order too.
+
+```{r}
+chicago <- arrange(chicago, desc(date))
+head(select(chicago, date, pm25tmean2), 3)
+tail(select(chicago, date, pm25tmean2), 3)
+```
+
+
+## `rename`
+
+Renaming a variable in a data frame in R is surprising hard to do!
+
+```{r,tidy=FALSE}
+head(chicago[, 1:5], 3)
+chicago <- rename(chicago, dewpoint = dptp, 
+                  pm25 = pm25tmean2)
+head(chicago[, 1:5], 3)
+```
+
+
+## `mutate`
+
+```{r, tidy=FALSE}
+chicago <- mutate(chicago, 
+                  pm25detrend=pm25-mean(pm25, na.rm=TRUE))
+head(select(chicago, pm25, pm25detrend))
+```
+
+## `group_by`
+
+Generating summary statistics by stratum
+
+```{r, tidy=FALSE}
+chicago <- mutate(chicago, 
+                  tempcat = factor(1 * (tmpd > 80), 
+                                   labels = c("cold", "hot")))
+hotcold <- group_by(chicago, tempcat)
+summarize(hotcold, pm25 = mean(pm25, na.rm = TRUE), 
+          o3 = max(o3tmean2), 
+          no2 = median(no2tmean2))
+```
+
+
+## `group_by`
+
+Generating summary statistics by stratum
+
+```{r, tidy=FALSE}
+chicago <- mutate(chicago, 
+                  year = as.POSIXlt(date)$year + 1900)
+years <- group_by(chicago, year)
+summarize(years, pm25 = mean(pm25, na.rm = TRUE), 
+          o3 = max(o3tmean2, na.rm = TRUE), 
+          no2 = median(no2tmean2, na.rm = TRUE))
+```
+
+```{r,echo=FALSE}
+chicago$year <- NULL  ## Can't use mutate to create an existing variable
+```
+
+
+## `%>%`
+
+```{r,tidy=FALSE,eval=FALSE}
+chicago %>% mutate(month = as.POSIXlt(date)$mon + 1) 
+	%>% group_by(month) 
+	%>% summarize(pm25 = mean(pm25, na.rm = TRUE), 
+          o3 = max(o3tmean2, na.rm = TRUE), 
+          no2 = median(no2tmean2, na.rm = TRUE))
+```
+
+```{r,echo=FALSE}
+chicago %>% mutate(month = as.POSIXlt(date)$mon + 1) %>% group_by(month) %>% 
+summarize(pm25 = mean(pm25, na.rm = TRUE), o3 = max(o3tmean2, na.rm = TRUE), no2 = median(no2tmean2, na.rm = TRUE))
+
+```
+
+
+## dplyr
+
+Once you learn the dplyr "grammar" there are a few additional benefits
+
+* dplyr can work with other data frame "backends"
+
+* `data.table` for large fast tables
+
+* SQL interface for relational databases via the DBI package
+
+
+# Tidy data lab
+
+## Three types of genomic data
+
+<img class=center src=https://dl.dropboxusercontent.com/s/ewv8iaac9h7vmpd/threetables.png?dl=0 height=450/>
+
+
+## Home again
+
+http://sisbid.github.io/Module1/
