@@ -1,4 +1,4 @@
-### Rstudio tour
+### Rstudio tour for SISBID
 
 This will be a quick tour through some of the features of Rstudio. 
 
