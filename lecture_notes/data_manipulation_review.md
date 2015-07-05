@@ -1231,6 +1231,49 @@ require(org.Hs.eg.db) || biocLite("org.Hs.eg.db")
 ```r
 # Now we can use the org.Hs.eg.db to load a database
 library(org.Hs.eg.db)
+```
+
+```
+## Loading required package: AnnotationDbi
+## Loading required package: stats4
+## Loading required package: BiocGenerics
+## Loading required package: parallel
+## 
+## Attaching package: 'BiocGenerics'
+## 
+## The following objects are masked from 'package:parallel':
+## 
+##     clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
+##     clusterExport, clusterMap, parApply, parCapply, parLapply,
+##     parLapplyLB, parRapply, parSapply, parSapplyLB
+## 
+## The following object is masked from 'package:stats':
+## 
+##     xtabs
+## 
+## The following objects are masked from 'package:base':
+## 
+##     anyDuplicated, append, as.data.frame, as.vector, cbind,
+##     colnames, do.call, duplicated, eval, evalq, Filter, Find, get,
+##     intersect, is.unsorted, lapply, Map, mapply, match, mget,
+##     order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+##     rbind, Reduce, rep.int, rownames, sapply, setdiff, sort,
+##     table, tapply, union, unique, unlist, unsplit
+## 
+## Loading required package: Biobase
+## Welcome to Bioconductor
+## 
+##     Vignettes contain introductory material; view with
+##     'browseVignettes()'. To cite Bioconductor, see
+##     'citation("Biobase")', and for packages 'citation("pkgname")'.
+## 
+## Loading required package: GenomeInfoDb
+## Loading required package: S4Vectors
+## Loading required package: IRanges
+## Loading required package: DBI
+```
+
+```r
 # Create a connection
 Hs_con <- org.Hs.eg_dbconn()
 ```
@@ -1297,9 +1340,9 @@ gc()
 ```
 
 ```
-##           used (Mb) gc trigger  (Mb) max used  (Mb)
-## Ncells 1688097 90.2    4643607 248.0  2320208 124.0
-## Vcells 3366654 25.7   12192878  93.1 10799767  82.4
+##           used (Mb) gc trigger  (Mb) max used (Mb)
+## Ncells 1431453 76.5    2164898 115.7  1770749 94.6
+## Vcells 1432319 11.0    2552219  19.5  1954190 15.0
 ```
 
 ```r
@@ -1308,9 +1351,9 @@ gc()
 ```
 
 ```
-##           used (Mb) gc trigger  (Mb) max used  (Mb)
-## Ncells 1791633 95.7    4643607 248.0  2320208 124.0
-## Vcells 3730359 28.5   12192878  93.1 10799767  82.4
+##           used (Mb) gc trigger  (Mb) max used (Mb)
+## Ncells 1545090 82.6    2637877 140.9  1770749 94.6
+## Vcells 1829919 14.0    3142662  24.0  2443515 18.7
 ```
 
 ```r
@@ -1328,9 +1371,9 @@ gc()
 ```
 
 ```
-##           used (Mb) gc trigger  (Mb) max used  (Mb)
-## Ncells 1837405 98.2    4643607 248.0  2320208 124.0
-## Vcells 4214068 32.2   12192878  93.1 10799767  82.4
+##           used (Mb) gc trigger  (Mb) max used (Mb)
+## Ncells 1599630 85.5    2637877 140.9  1770749 94.6
+## Vcells 2514187 19.2    3851194  29.4  3133969 24.0
 ```
 
 ```r
@@ -1340,9 +1383,9 @@ gc()
 ```
 
 ```
-##           used (Mb) gc trigger  (Mb) max used  (Mb)
-## Ncells 1837425 98.2    4643607 248.0  2320208 124.0
-## Vcells 4214169 32.2   12192878  93.1 10799767  82.4
+##           used (Mb) gc trigger  (Mb) max used (Mb)
+## Ncells 1599653 85.5    2637877 140.9  1770749 94.6
+## Vcells 2514293 19.2    3851194  29.4  3133969 24.0
 ```
 
 ## Some SQL Commands
@@ -1383,11 +1426,11 @@ dbGetQuery(Hs_con, "SELECT c.chromosome, COUNT(g.gene_name) AS count
 
 ```
 ##   chromosome count
-## 1          4  1901
-## 2          X  2138
-## 3          3  2537
-## 4          2  3133
-## 5          1  4403
+## 1          X  2260
+## 2          4  2445
+## 3          3  3053
+## 4          2  3897
+## 5          1  5204
 ```
 
 ## Some more SQL commands
