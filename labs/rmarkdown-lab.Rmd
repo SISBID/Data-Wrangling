@@ -1,0 +1,55 @@
+---
+title: "R markdown lab"
+author: "Jeff Leek"
+date: "July 3, 2015"
+output: html_document
+---
+
+1. Try compiling this document using the "Knit HTML" button. What files are produced?
+2. Edit the output to be "pdf_document" and recompile. What files are produced?
+3. What does the label "chunk1" do in the following code chunk?
+
+```{r chunk1}
+x = rnorm(100)
+plot(x)
+```
+
+# This is a primary header. Add a secondary header with ## on the line below and recompile.
+
+
+5. Change fig.height to something larger/smaller and see what happens
+
+```{r chunk2, fig.height=5}
+x = rnorm(100)
+plot(x)
+```
+
+6. Add a chunk option of fig.align="center" to center this plot
+
+```{r chunk3, }
+x = rnorm(100)
+plot(x)
+```
+
+6. Add a chunk option of echo=FALSE and see what happens
+
+```{r chunk4, }
+x = rnorm(100)
+plot(x)
+```
+
+7. Uncomment this code and recompile the document. Then add a chunk command cache=TRUE and recompile. What files are created? Try compiling one more time. 
+
+```{r longtime, cache=TRUE}
+Sys.sleep(10)
+```
+
+
+8. Add the command devtools::session_info() to this chunk and look at the output
+
+```{r session_info}
+
+```
+
+
+
