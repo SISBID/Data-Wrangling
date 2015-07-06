@@ -1,7 +1,7 @@
 ---
-title: 'Bioinformatics for Big Omics Data: Introduction to gene expression microarrays'
+title: 'SISBD: Microarray basics'
 author: "Raphael Gottardo"
-date: "January 21, 2014"
+date: "\ `r Sys.Date()`"
 output:
   ioslides_presentation:
     fig_caption: yes

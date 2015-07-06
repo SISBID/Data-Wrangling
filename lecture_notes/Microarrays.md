@@ -1,6 +1,6 @@
-# Bioinformatics for Big Omics Data: Introduction to gene expression microarrays
+# SISBD: Microarray basics
 Raphael Gottardo  
-January 21, 2014  
+ `r Sys.Date()`  
 
 ## Setting up some options
 

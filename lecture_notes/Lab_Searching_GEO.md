@@ -886,6 +886,95 @@ ebay1 <- eBayes(fit1)
 # Select differentially expressed genes
 # According to the paper: Poly(IC) response signatures were generated based on FC >= 1.5 relative to Mock, statistically significant change in exp as determined by limma (BH FDR <0.05)
 # BH is default
-tt1 <- topTable(ebay1, coef = "treatmentPoly", number = Inf, p.value = 0.05, lfc = log2(1.5), sort.by = "p")
+tt1 <- topTable(ebay1, coef = "treatmentPoly", number = 10,  p.value = 0.01, lfc = log2(1.5), sort.by = "p")
 ```
+
+## EDA of differentially expressed genes
+
+Let's get our data ready
+
+
+```r
+fd <- data.table(fData(gds_new), keep.rownames = TRUE)
+setnames(fd, "rn", "probe_name")
+pd <- data.table(pData(gds_new), keep.rownames = TRUE)
+setnames(pd, "rn", "filename")
+ed <- data.table(t(exprs(gds_new)), keep.rownames = TRUE)
+setnames(ed, "rn", "filename")
+setkey(pd, filename)
+setkey(ed, filename)
+md <- ed[pd]
+```
+
+## Reshaping data
+
+
+```r
+library(reshape2)
+md_long <- melt(md, variable.name = "probe_name", value.name = "expression_value")
+```
+
+```
+## Warning in melt.data.table(md, variable.name = "probe_name", value.name
+## = "expression_value"): To be consistent with reshape2's melt, id.vars and
+## measure.vars are internally guessed when both are 'NULL'. All non-numeric/
+## integer/logical type columns are conisdered id.vars, which in this case are
+## columns 'filename, ptid, cellType, infectionStatus, treatment'. Consider
+## providing at least one of 'id' or 'measure' vars in future.
+```
+
+```r
+# Add gene variance
+md_long[, sd_probe := sd(expression_value), by = probe_name]
+```
+
+```
+##            filename ptid                    cellType infectionStatus
+##       1: GSM1002366 2046 Monocyte-derived Macrophage             Neg
+##       2: GSM1002367 2046 Monocyte-derived Macrophage             Neg
+##       3: GSM1002368 3049 Monocyte-derived Macrophage             Pos
+##       4: GSM1002369 3050 Monocyte-derived Macrophage             Pos
+##       5: GSM1002370 3049 Monocyte-derived Macrophage             Pos
+##      ---                                                            
+## 3785836: GSM1002441 3057                        PBMC             Pos
+## 3785837: GSM1002442 3058                        PBMC             Pos
+## 3785838: GSM1002443 3059                        PBMC             Pos
+## 3785839: GSM1002444 3058                        PBMC             Pos
+## 3785840: GSM1002445 3059                        PBMC             Pos
+##          treatment   probe_name expression_value   sd_probe
+##       1:      Mock ILMN_1343291        13.927980 0.14041630
+##       2:      Poly ILMN_1343291        13.982486 0.14041630
+##       3:      Mock ILMN_1343291        13.842999 0.14041630
+##       4:      Mock ILMN_1343291        13.828501 0.14041630
+##       5:      Poly ILMN_1343291        13.919500 0.14041630
+##      ---                                                   
+## 3785836: Poly IC L ILMN_3311190         6.651197 0.09171725
+## 3785837:      Mock ILMN_3311190         6.557616 0.09171725
+## 3785838:      Mock ILMN_3311190         6.640864 0.09171725
+## 3785839: Poly IC L ILMN_3311190         6.618590 0.09171725
+## 3785840: Poly IC L ILMN_3311190         6.619133 0.09171725
+```
+
+## Filter and join
+
+
+```r
+setkey(md_long, probe_name)
+setkey(fd, probe_name)
+md_long_short <- fd[md_long[probe_name %in% tt1$Probe_Id] , nomatch = 0]
+```
+
+
+## EDA of DE genes
+
+
+```r
+library(ggplot2)
+ggplot(md_long_short, aes(x = treatment, y = expression_value)) + geom_violin() + geom_jitter(aes(color = infectionStatus)) + geom_line(aes(group = ptid), alpha = .5) + facet_wrap( ~Symbol + probe_name, scales = "free")
+```
+
+![](Lab_Searching_GEO_files/figure-html/unnamed-chunk-40-1.png) 
+
+**Exercise:** Repeat this with different gene names and geometries
+
 
