@@ -479,8 +479,50 @@ ebay1 <- eBayes(fit1)
 # Select differentially expressed genes
 # According to the paper: Poly(IC) response signatures were generated based on FC >= 1.5 relative to Mock, statistically significant change in exp as determined by limma (BH FDR <0.05)
 # BH is default
-tt1 <- topTable(ebay1, coef = "treatmentPoly", number = Inf, p.value = 0.05, lfc = log2(1.5), sort.by = "p")
+tt1 <- topTable(ebay1, coef = "treatmentPoly", number = 10,  p.value = 0.01, lfc = log2(1.5), sort.by = "p")
 ```
 
 ## EDA of differentially expressed genes
+
+Let's get our data ready
+
+```{r}
+fd <- data.table(fData(gds_new), keep.rownames = TRUE)
+setnames(fd, "rn", "probe_name")
+pd <- data.table(pData(gds_new), keep.rownames = TRUE)
+setnames(pd, "rn", "filename")
+ed <- data.table(t(exprs(gds_new)), keep.rownames = TRUE)
+setnames(ed, "rn", "filename")
+setkey(pd, filename)
+setkey(ed, filename)
+md <- ed[pd]
+```
+
+## Reshaping data
+
+```{r}
+library(reshape2)
+md_long <- melt(md, variable.name = "probe_name", value.name = "expression_value")
+# Add gene variance
+md_long[, sd_probe := sd(expression_value), by = probe_name]
+```
+
+## Filter and join
+
+```{r}
+setkey(md_long, probe_name)
+setkey(fd, probe_name)
+md_long_short <- fd[md_long[probe_name %in% tt1$Probe_Id] , nomatch = 0]
+```
+
+
+## EDA of DE genes
+
+```{r}
+library(ggplot2)
+ggplot(md_long_short, aes(x = treatment, y = expression_value)) + geom_violin() + geom_jitter(aes(color = infectionStatus)) + geom_line(aes(group = ptid), alpha = .5) + facet_wrap( ~Symbol + probe_name, scales = "free")
+```
+
+**Exercise:** Repeat this with different gene names and geometries
+
 

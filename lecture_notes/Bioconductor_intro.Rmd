@@ -389,7 +389,6 @@ What's the warning? Some probes match up with multiple genes, therefore those pr
 
 ## What are those probes?
 
-
 This gives us too many rows, what do we do? Concatenate the gene names so that there will be one row per probe ID.
 
 ```{r}
@@ -408,4 +407,78 @@ fData(GSE29617_set2) <- annotaded_probes
 head(fData(GSE29617_set2))
 ```
 
-Repeat this with a different accession number
+
+## Cleaning our metadata
+
+```{r sanitize-pdata}
+### Sanitize data and metadata
+sanitize_pdata <- function(pd){
+keepCols <- c(
+  "characteristics_ch1.1", "characteristics_ch1.2",
+  "description", 
+  "supplementary_file")
+pd <- pd[, keepCols]
+colnames(pd) <- c("ptid", "time", "description", "filename")
+pd$ptid <- gsub(".*: ", "", pd$ptid)
+pd$time <- gsub(".*: ", "", pd$time)
+pd$time <- gsub("Day", "D", pd$time)
+pd$description <- gsub("(-\\w*){2}$", "", pd$description)
+pd$filename <- basename(as.character(pd$filename))
+pd$filename <- gsub(".CEL.gz", "", pd$filename)
+pd
+}
+```
+
+## Setting the metadata
+
+```{r}
+pData(GSE29617_set2) <- sanitize_pdata(pData(GSE29617_set))
+pData(GSE29617_set2)[1:2, 1:2]
+```
+
+**Exercise:** Repeat this with a different accession number.
+
+
+## EDA of expression data
+
+Let's get our data ready
+
+```{r}
+fd <- data.table(fData(GSE29617_set2), keep.rownames = TRUE)
+setnames(fd, "rn", "probe_name")
+pd <- data.table(pData(GSE29617_set2))
+ed <- data.table(t(exprs(GSE29617_set2)), keep.rownames = TRUE)
+setnames(ed, "rn", "filename")
+ed[,filename := gsub(".CEL.gz", "", filename)]
+setkey(pd, filename)
+setkey(ed, filename)
+md <- ed[pd]
+```
+
+## Reshaping data
+
+```{r}
+library(reshape2)
+md_long <- melt(md, variable.name = "probe_name", value.name = "expression_value")
+# Add gene variance
+md_long[, sd_probe := sd(expression_value), by = probe_name]
+```
+
+## Filter and join
+
+```{r}
+setkey(md_long, probe_name)
+setkey(fd, probe_name)
+md_long_short <- fd[md_long[sd_probe > .5] , nomatch = 0]
+```
+
+
+## EDA of expression data
+
+```{r}
+library(ggplot2)
+ggplot(md_long_short[SYMBOL %in% c("IGJ", "IGKC", "CXCL10", "IFIT2")], aes(x = time, y = expression_value)) + geom_violin() + geom_jitter() + geom_line(aes(group = ptid), alpha = .5) + facet_wrap( ~SYMBOL + PROBEID, scales = "free")
+```
+
+**Exercise:** Repeat this with different gene names and geometries
+
