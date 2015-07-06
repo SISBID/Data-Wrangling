@@ -5,4 +5,17 @@ date: "July 6, 2015"
 output: html_document
 ---
 
-1. 
+### Web scraping
+
+In this exercise we will be scraping all of the packages from the Bioconductor website and making a word cloud. 
+
+1. Go to the website: http://bioconductor.org/packages/release/BiocViews.html#___Software
+2. Select the Software table and inspect element (on Chrome). Otherwise, go to the source and find the table by searching. 
+3. Try to use rvest as we did in class to scrape the table. 
+4. To figure out why this doesn't work look at the variable htmlfile you created and note the table isn't in the html. The reason is that the Bioconductor website is using javascript to build the table and the webscraper doesn't "see" this. 
+5. I created a version of the html [bioc-software.html]() after the javascript has been executed. By downloading [phantomjs](http://phantomjs.org/download.html), putting it in the same working directory as the file [scrape-bioc.js]() and running the command `system(".phantomjs scrape-bioc.js")`. Hat tip to [datacamp](http://blog.datacamp.com/scraping-javascript-generated-data-with-r/) for this approach. 
+6. You can now use rvest to scrape [bioc-software.html]() just as we did in class (hint: the xpath is `//*[@id="biocViews_package_table"]`). 
+7. To make the word cloud: 
+  - Paste the last column of the resulting table into one character vector like this: `text = paste(dat[,3], collapse=" ")`
+  - Install the packages you'll need `install.packages(c("wordcloud","tm"))`
+  - Make the word cloud `wordcloud(tmp,max.words=50)`

@@ -1,0 +1,25 @@
+---
+title: "Web + API Key"
+author: "Jeff Leek"
+date: "July 6, 2015"
+output: html_document
+---
+
+Load the html file and extract the data table
+```{r}
+library(rvest)
+htmlfile = html("./bioc-software.html")
+nds = html_nodes(htmlfile,xpath='//*[@id="biocViews_package_table"]')
+dat = html_table(nds)
+dat = as.data.frame(dat)
+head(dat)
+```
+
+Paste the last column and make the word cloud
+
+```{r}
+library(wordcloud)
+txt = paste(dat[,3],collapse=" ")
+wordcloud(txt,max.words=50)
+```
+
