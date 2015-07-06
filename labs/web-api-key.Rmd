@@ -5,6 +5,8 @@ date: "July 6, 2015"
 output: html_document
 ---
 
+### Web scraping 
+
 Load the html file and extract the data table
 ```{r}
 library(rvest)
@@ -21,5 +23,26 @@ Paste the last column and make the word cloud
 library(wordcloud)
 txt = paste(dat[,3],collapse=" ")
 wordcloud(txt,max.words=50)
+```
+
+### APIs
+
+You can modify the url like so to get _P53_ info:
+
+```{r}
+library(jsonlite)
+p53_dat = fromJSON("http://rest.ensembl.org//lookup/id/ENSG00000141510?content-type=application/json;expand=1")
+```
+
+To look up the BRAF gene information we would. 
+
+1. Look at the docs under GET species lookup http://rest.ensembl.org/documentation/info/symbol_lookup. 
+2. We'd look at the Example Request: `/lookup/symbol/homo_sapiens/BRCA2?content-type=application/json;expand=1` and modify it with our gene like so: 
+`/lookup/symbol/homo_sapiens/BRAF?content-type=application/json;expand=1`
+3. We'd crete the url using the base url like this: `http://rest.ensembl.org//lookup/symbol/homo_sapiens/BRAF?content-type=application/json;expand=1`
+4. We'd request the information with `fromJSON`
+```{r}
+braf_info = fromJSON("http://rest.ensembl.org//lookup/symbol/homo_sapiens/BRAF?content-type=application/json;expand=1")
+braf_info$id
 ```
 
