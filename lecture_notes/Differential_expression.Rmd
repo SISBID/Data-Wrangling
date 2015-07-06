@@ -1,7 +1,7 @@
 ---
-title: 'Bioinformatics for Big Omics Data: Differential expression analysis'
+title: 'SISBD: Differential gene expression review'
 author: "Raphael Gottardo"
-date: "January 28, 2015"
+date: "\ `r Sys.Date()`"
 output:
   ioslides_presentation:
     fig_caption: yes
@@ -9,7 +9,6 @@ output:
     keep_md: yes
     smaller: yes
 ---
-
 
 ## Setting up some options
 
