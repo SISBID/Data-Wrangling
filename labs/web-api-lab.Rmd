@@ -1,0 +1,8 @@
+---
+title: "Web + API Lab"
+author: ""
+date: "July 6, 2015"
+output: html_document
+---
+
+1. 
