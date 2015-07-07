@@ -1,0 +1,61 @@
+---
+title: "dplyr key"
+author: "Jeff Leek"
+date: "July 7, 2015"
+output: html_document
+---
+
+1. You could do this by hand or: 
+```{r}
+library(dplyr)
+library(downloader)
+download("ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/working/20130606_sample_info/20130606_sample_info.xlsx",destfile="1000genomes.xlsx")
+```
+
+3. 
+```{r}
+library(readxl)
+# Have to skip one row because there is an extra header
+kg = read_excel("1000genomes.xlsx",sheet=4,skip=1)
+# subset to just low coverage
+kg = kg[,1:7]
+
+# make column names easier to handle
+colnames(kg) = colnames(kg) %>% tolower() %>% gsub(x=.,pattern=" ",replacement="") %>% substr(1,10)
+
+```
+
+4. 
+```{r}
+kg %>% group_by(platform) %>% summarize(sum(totalseque))
+```
+
+5. 
+```{r}
+kg %>% group_by(center) %>% summarize(sum(totalseque))
+```
+
+6. 
+
+```{r}
+kg %>% filter(passedqc==1)
+```
+
+
+7. 
+
+```{r}
+kg %>% filter(passedqc==1) %>%
+  filter(center=="BCM")
+```
+
+8. 
+
+```{r}
+kg %>% filter(passedqc==1) %>%
+  filter(center=="BCM") %>%
+  group_by(population) %>%
+  summarize(meancov = mean(alignednon),nsamp=n())
+```
+
+

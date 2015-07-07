@@ -1,0 +1,22 @@
+---
+title: "dplyr Lab"
+author: "Jeff Leek"
+date: "July 7, 2015"
+output: html_document
+---
+
+1. Download the samples data on the 1,000 genomes project from their website (ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/working/20130606_sample_info/20130606_sample_info.xlsx).
+
+2. Open the sheet and look at the information listed. Go to the sheet _Final Phase Sequence Data_
+
+3. Read the _Final Phase Sequence Data_ sheet. Only read the data for the low coverage samples.  
+
+4. Calculate total sequence by platform
+
+5. Do the same thing by sequencing center
+
+6. Find the subset of samples that passed QC. 
+
+7.Find the subset that passed QC and came from the BCM center
+
+8. Calculate the average aligned coverage for each population on the subset of samples that passed QC that came from the BCM. 
