@@ -527,7 +527,7 @@ EM_flu
 Differentially expressed genes over time for the combuined flu seasons
 
 ```r
-mm_flu <- model.matrix(formula("~subject_accession + study_time_collected"), EM_flu)
+mm_flu <- model.matrix(~subject_accession + study_time_collected, EM_flu)
 fit <- lmFit(EM_flu, mm_flu)
 fit <- eBayes(fit)
 res_flu <- data.table(topTable(fit, coef = "study_time_collected", number = Inf))
