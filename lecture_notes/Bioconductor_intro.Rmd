@@ -15,7 +15,7 @@ output:
 Let's first turn on the cache for increased performance and improved styling
 ```{r, cache=FALSE}
 # Set some global knitr options
-library("knitr")
+suppressMessages(library("knitr"))
 opts_chunk$set(cache = FALSE, messages = FALSE)
 ```
 
@@ -101,7 +101,7 @@ The three main goals of GEO are to:
 Before getting data from GEO, we need to see what data we want. For that we can use the `GEOmetadb` package. 
 
 ```{r}
-library(GEOmetadb)
+suppressMessages(library(GEOmetadb))
 ```
 
 Remember that packages in Bioconductor are well documented with a vignette that can be access as follows:
@@ -173,7 +173,7 @@ raw data is contained in the supplementary files, which are listed in the gsm fi
 
 To get list of manufacturers:
 ```{r}
-library(data.table)
+suppressMessages(library(data.table))
 manu <- data.table(dbGetQuery(geo_con, "SELECT manufacturer FROM gpl"))
 manu[, .(n = .N), by = manufacturer][order(-n)]
 ```
@@ -249,7 +249,7 @@ summary(iris)
 
 There are two types of classes in R: S3 Classes (old style, informal) and S4 Classes - (new style, more rigorous and formal)
 
-```{r}
+```{r, eval=FALSE}
 # S3 class
 head(methods(class = "data.frame"))
 # S4 class
@@ -449,7 +449,7 @@ setnames(fd, "rn", "probe_name")
 pd <- data.table(pData(GSE29617_set2))
 ed <- data.table(t(exprs(GSE29617_set2)), keep.rownames = TRUE)
 setnames(ed, "rn", "filename")
-ed[,filename := gsub(".CEL.gz", "", filename)]
+ed <- ed[,filename := gsub(".CEL.gz", "", filename)]
 setkey(pd, filename)
 setkey(ed, filename)
 md <- ed[pd]
@@ -461,7 +461,7 @@ md <- ed[pd]
 library(reshape2)
 md_long <- melt(md, variable.name = "probe_name", value.name = "expression_value")
 # Add gene variance
-md_long[, sd_probe := sd(expression_value), by = probe_name]
+md_long <- md_long[, sd_probe := sd(expression_value), by = probe_name]
 ```
 
 ## Filter and join
