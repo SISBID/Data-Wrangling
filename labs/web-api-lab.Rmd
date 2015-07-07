@@ -18,7 +18,7 @@ In this exercise we will be scraping all of the packages from the Bioconductor w
 7. To make the word cloud: 
   - Paste the last column of the resulting table into one character vector like this: `text = paste(dat[,3], collapse=" ")`
   - Install the packages you'll need `install.packages(c("wordcloud","tm"))`
-  - Make the word cloud `wordcloud(tmp,max.words=50)`
+  - Make the word cloud `wordcloud(text,max.words=50)`
 
 
 ### APIs
