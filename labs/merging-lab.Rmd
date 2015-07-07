@@ -1,0 +1,18 @@
+---
+title: "Merging Lab"
+author: "Jeff Leek"
+date: "July 7, 2015"
+output: html_document
+---
+
+1. Download the samples data on the 1,000 genomes project from their website (ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/working/20130606_sample_info/20130606_sample_info.xlsx).
+
+2. Open the sheet and look at the information listed. Go to the sheet _Final Phase Sequence Data_
+
+3. Read in the first and fourth sheets as described in class
+
+4. Read the cheatsheet on merging: https://stat545-ubc.github.io/bit001_dplyr-cheatsheet.html
+
+5. Try merging the data sets with `inner_join`, `semi_join`, `left_join`. 
+
+6. Look at the dimensions of the resulting data sets. Can you figure out what is happenign? 
