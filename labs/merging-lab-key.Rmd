@@ -1,0 +1,70 @@
+---
+title: "merging-lab-key.Rmd"
+author: "Jeff Leek"
+date: "July 8, 2015"
+output: html_document
+---
+
+1. You could do this by hand or (if you need to download the data set when running this code, set `eval=TRUE` in the chunk below):
+```{r,warning=FALSE,eval=FALSE}
+library(downloader)
+download("ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/working/20130606_sample_info/20130606_sample_info.xlsx",destfile="1000genomes.xlsx")
+```
+
+3. 
+```{r,warning=FALSE}
+library(readxl)
+# Have to skip one row because there is an extra header
+kg_s4 = read_excel("1000genomes.xlsx",sheet=4,skip=1)
+# subset to just low coverage
+kg_s4 = kg_s4[,1:7]
+dim(kg_s4)
+
+kg_s1 = read_excel("1000genomes.xlsx",sheet=1)
+dim(kg_s1)
+
+```
+
+5. 
+```{r}
+library(dplyr)
+## inner join
+ij = inner_join(kg_s4,kg_s1)
+
+## semi join
+sj = semi_join(kg_s4,kg_s1)
+
+## left join
+lj = left_join(kg_s4,kg_s1)
+
+## outer join
+oj = merge(kg_s4,kg_s1,all=TRUE)
+```
+
+6.
+```{r}
+dim(ij)
+dim(sj)
+dim(lj)
+dim(oj)
+```
+
+7. They are the same 
+
+```{r}
+## Check if names are the same
+sum(names(lj)==names(oj))
+## Check if values that aren't NA are the same
+sum(lj==oj,na.rm=T)
+## Check if NAs are the same
+sum(is.na(lj)==is.na(oj),na.rm=T)
+```
+
+8. They are not the same because they have different dimensions. 
+```{r}
+lj = left_join(kg_s4,kg_s1)
+dim(lj)
+lj2 = left_join(kg_s1,kg_s4)
+dim(lj2)
+```
+
