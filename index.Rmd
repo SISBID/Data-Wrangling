@@ -50,7 +50,8 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 |2 | 2015-07-07 | 3:00PM - 3:30PM | Break | Break |
 |2 | --- | 3:30PM - 5:00PM | [html slides](lecture_notes/Lab_Searching_GEO.html) [md file](https://github.com/SISBID/Module1/blob/gh-pages/lecture_notes/Lab_Searching_GEO.md) | Lab time (GEO and more) |
 |---|---|---|---|---|
-|3 | --- | 10:30PM - 12:00PM | [html slides](lecture_notes/ImmuneSpaceR.html) [md file](https://github.com/SISBID/Module1/blob/gh-pages/lecture_notes/ImmuneSpaceR.md) | Intro to ImmuneSpace and ImmuneSpaceR |
+|2 | 2015-07-08 | 8:30AM - 10:00AM | [html slides](https://slides.com/jeffleek/sisbid-m1-d3) [pdf slides](https://dl.dropbox.com/s/m8r6cid58fbnk39/sisbid-m1-d3.pdf) [labs](https://github.com/SISBID/Module1/tree/gh-pages/labs) | Cleaning data |
+|3 | --- | 10:30AM - 12:00PM | [html slides](lecture_notes/ImmuneSpaceR.html) [md file](https://github.com/SISBID/Module1/blob/gh-pages/lecture_notes/ImmuneSpaceR.md) | Intro to ImmuneSpace and ImmuneSpaceR |
 
 **NOTE:** The md files linked in the table above can easily be converted to pdf by replacing *github* by *gitprint* in the url (when opening the link in your web browser)
 
