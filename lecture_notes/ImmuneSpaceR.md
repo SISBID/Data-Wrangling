@@ -287,7 +287,7 @@ library(limma)
 ```
 
 ```r
-mm <- model.matrix(formula("~subject_accession + study_time_collected"), EM)
+mm <- model.matrix(~subject_accession + study_time_collected, EM)
 fit <- lmFit(EM, mm)
 fit <- eBayes(fit)
 res <- data.table(topTable(fit, coef = "study_time_collected", number = Inf))
