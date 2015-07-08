@@ -1,0 +1,37 @@
+---
+title: "Regex Key"
+author: "Jeff Leek"
+date: "July 8, 2015"
+output: html_document
+---
+
+1.
+```{r}
+library(stringr)
+sisbid = "[Ss][Ii][Ss][Bb][Ii][Dd]"
+x = c("SISBID","SiSBID","sisbid","sisBID")
+str_detect(x,sisbid)
+```
+
+2. 
+```{r}
+x = c(333,33,3,33333)
+three3 = "3{3}"
+str_detect(x,three3)
+```
+
+3.
+
+```{r}
+x = c("jeff","jeffff","jef","je","j","jefffffff")
+two2fourf = "f{2,4}"
+str_detect(x,two2fourf)
+```
+
+4. 
+
+```{r}
+x = c("yes.","no","why1",",ok")
+alphapuncend = "[:alpha:][:punct:]$"
+str_detect(x,alphapuncend)
+```
