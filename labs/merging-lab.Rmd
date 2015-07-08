@@ -9,10 +9,14 @@ output: html_document
 
 2. Open the sheet and look at the information listed. Go to the sheet _Final Phase Sequence Data_
 
-3. Read in the first and fourth sheets as described in class
+3. Read in the first and fourth sheets. Keep only the low coverage data from the 4th sheet. 
 
-4. Read the cheatsheet on merging: https://stat545-ubc.github.io/bit001_dplyr-cheatsheet.html
+4. Look at the cheetsheet on merging:  https://stat545-ubc.github.io/bit001_dplyr-cheatsheet.html
 
-5. Try merging the data sets with `inner_join`, `semi_join`, `left_join`. 
+5. Try merging the data sets with `inner_join`, `semi_join`, `left_join`, use `merge` to do an outer join like we did in class. 
 
-6. Look at the dimensions of the resulting data sets. Can you figure out what is happenign? 
+6. What are the dimensions of the resulting data sets? 
+
+7. The outer join and and left join have the same dimensions. Are they exactly identical? 
+
+8. Reverse the order of that sets on `left_join`. Do you get the same result? 
