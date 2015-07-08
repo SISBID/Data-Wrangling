@@ -316,17 +316,15 @@ res[, strsplit(gsm.supplementary_file, ';\t'), by = gsm.gsm]
 ## Joins in `data.table`
 
 We can repeat the same operation using `data.table`, once we have converted the 
-GEO tables to `data.table`s and set their keys. The homework assignment asks 
-that you try to fit the `data.table` manipulations (merge, subset, etc.) into 
-a single line. This approach will allow us to do additional fast joins later, 
-since the tables are now in memory (RAM).
+GEO tables to `data.table`s and set their keys. 
 
 ```{r, tidy=FALSE}
 gseDT <- data.table(dbGetQuery(geo_con, "SELECT * from gse;"), key = "gse")
 gsmDT <- data.table(dbGetQuery(geo_con, "SELECT * from gsm;"), key = "gsm")
 gse_gsmDT <- data.table(dbGetQuery(geo_con, "SELECT * from gse_gsm;"), 
     key = c("gse", "gsm"))
-gsmDT[gse_gsmDT[gseDT[pubmed_id == 21743478, gse], gsm, nomatch = 0], nomatch = 0][1:2, list(gsm, supplementary_file)][,strsplit(supplementary_file, ';\t'), by = gsm]
+gsmDT[gse_gsmDT[gseDT[pubmed_id == 21743478, gse], gsm, nomatch = 0], 
+      nomatch = 0][1:2, list(gsm, supplementary_file)][,strsplit(supplementary_file, ';\t'), by = gsm]
 ```
 
 ## All in one line?
