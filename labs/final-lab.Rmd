@@ -1,0 +1,15 @@
+---
+title: "Final Lab"
+author: "Jeff Leek"
+date: "July 8, 2015"
+output: html_document
+---
+
+
+1. Create an R markdown document to record what you are doing. Explain each step in words (don't forget to add session info!)
+2. Download the samples data on the 1,000 genomes project from their website: ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/working/20130606_sample_info/20130606_sample_info.xlsx, (be sure to save the date you downloaded!)
+3. Load and tidy each sheet of the spreadsheet using tools you've learned in this class. 
+4. Merge all data sets into one tidy data set and save it as the processed data along with your script. 
+5. Celebrate data collection and processing skillz!
+6. Bonus kudos if you do it all in Github under version control
+
