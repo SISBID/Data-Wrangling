@@ -1,11 +1,11 @@
 ---
-title: 'SISBID: Accessing Biomedical Bid Data'
+title: 'SISBID: Accessing Biomedical Big Data'
 author: "Jeff Leek"
 date: '@jtleek'
 output:
-  beamer_presentation: default
   ioslides_presentation:
     css: styles.css
+  beamer_presentation: default
 ---
 
 # Preliminaries
