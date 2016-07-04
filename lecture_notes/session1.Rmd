@@ -1,11 +1,11 @@
 ---
 title: 'SISBID: Accessing Biomedical Bid Data'
 author: "Jeff Leek"
-date: "@jtleek"
+date: '@jtleek'
 output:
+  beamer_presentation: default
   ioslides_presentation:
     css: styles.css
-#output: pdf_document
 ---
 
 # Preliminaries
@@ -163,7 +163,7 @@ http://brianknaus.com/software/srtoolbox/s_4_1_sequence80.txt
 
 ## What does data really look like? 
 
-<img class=center src=https://dl.dropboxusercontent.com/s/kzrq32djjlks02s/twitter.png?dl=0 height= 450/>
+<img class=center src=https://dl.dropboxusercontent.com/s/kzrq32djjlks02s/twitter.png?dl=0 height= '450px'/>
 
 
 https://dev.twitter.com/docs/api/1/get/blocks/blocking
@@ -172,7 +172,7 @@ https://dev.twitter.com/docs/api/1/get/blocks/blocking
 ## What does data really look like?
 
 
-<img class=center src=https://dl.dropboxusercontent.com/s/mp86ne6n5lhgpkm/medicalrecord.png?dl=0 height=400/>
+<img class=center src=https://dl.dropboxusercontent.com/s/mp86ne6n5lhgpkm/medicalrecord.png?dl=0 height='400px'/>
 
 
 http://blue-button.github.com/challenge/
@@ -180,7 +180,7 @@ http://blue-button.github.com/challenge/
 
 ## Where is data?
 
-<img class=center src=https://dl.dropboxusercontent.com/s/k8b46hfm3ox938p/databases.png?dl=0 height=400/>
+<img class=center src=https://dl.dropboxusercontent.com/s/k8b46hfm3ox938p/databases.png?dl=0 height='400px'/>
 
 
 http://rickosborne.org/blog/2010/02/infographic-migrating-from-sql-to-mapreduce-with-mongodb/
@@ -189,7 +189,7 @@ http://rickosborne.org/blog/2010/02/infographic-migrating-from-sql-to-mapreduce-
 
 ## Where is data?
 
-<img class=center src=https://dl.dropboxusercontent.com/s/apgiml5kd1o9wiu/twitter.png?dl=0 height= 450/>
+<img class=center src=https://dl.dropboxusercontent.com/s/apgiml5kd1o9wiu/twitter.png?dl=0 height= '450px'/>
 
 https://dev.twitter.com/docs/api/1/get/blocks/blocking
 
@@ -197,7 +197,7 @@ https://dev.twitter.com/docs/api/1/get/blocks/blocking
 
 ## Where is data?
 
-<img class=center src=https://dl.dropboxusercontent.com//s/wo1thf2mtw8odx4/baltimore.png?dl=0 height= 450/>
+<img class=center src=https://dl.dropboxusercontent.com//s/wo1thf2mtw8odx4/baltimore.png?dl=0 height= '450px'/>
 
 [https://data.baltimorecity.gov/](https://data.baltimorecity.gov/)
 
