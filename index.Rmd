@@ -34,7 +34,7 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 
 
 | Day  | Date  |  Session | Resources  |  Description |
-|----|------------|--------------|-------------------------|--------------------------------------|
+|----|------------|--------------|---------------------|--------------------------------------|
 | 0  | 2016-07-11  | Background  | [Try R](http://tryr.codeschool.com/)  | Really simple intro to R online  |
 | 0  | 2016-07-11  | Background | [swirl](http://swirlstats.com/)  | More tutorials on R, in R  |
 |1 | 2016-07-11 | 8:30AM - 10:00AM | [html slides](lecture_notes/session1.html), [pdf slides](lecture_notes/session1.pdf), [labs](https://github.com/SISBID/Module1/tree/gh-pages/labs) | Welcome, motivation, installation |
