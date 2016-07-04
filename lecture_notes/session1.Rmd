@@ -13,8 +13,8 @@ output:
 ## About this course
 
 * __Class name__: Accessing Biomedical Big Data
-* __Instructors__: [Jeff Leek](www.jtleek.com), [Raphael Gottardo](www.rglab.org)
-* __TAs__: [Jean Morrison](http://students.washington.edu/jeanm5/), [Brian Williamson](http://students.washington.edu/brianw26/)
+* __Instructors__: [Jeff Leek](www.jtleek.com), [Andrew Jaffe](http://aejaffe.com)
+* __TAs__: TBD
 * __Course website__: http://sisbid.github.io/Module1
 * __Goal__ : Teach you how to get and clean data
 * __Pre-reqs__: Some basic knowledge of R
