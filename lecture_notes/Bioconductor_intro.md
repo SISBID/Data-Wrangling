@@ -1,6 +1,10 @@
 # SISBD: Introduction to Bioconductor
-Raphael Gottardo  
- `r Sys.Date()`  
+Andrew Jaffe  
+7/11/2016  
+
+## Acknowledgements
+
+Many slides courtesy of Raphael Gottardo.
 
 ## Setting up some options
 
@@ -26,7 +30,7 @@ See [NY Times](http://www.nytimes.com/2009/01/07/technology/business-computing/0
 
 ## R is a really mature project
 
-Some of the best R functionalities **ARE NOT** in R-base but come from add-on packages: knitr, ggplot2, reshape2, Rcpp, data.table, etc.
+Some of the best R functionalities **ARE NOT** in R-base but come from add-on packages: `knitr`, `ggplot2`, `reshape2`, `Rcpp`, `data.table`, etc.
 
 Some of these packages are available on the following repositories:
 
@@ -42,7 +46,7 @@ Some of these packages are available on the following repositories:
 
 - [Bioconductor](http://www.bioconductor.org) is an open source, open development software project to provide tools for the analysis and comprehension of high-throughput genomic data. It is based primarily on the R programming language.
 
-- Most Bioconductor components are distributed as R packages. The functional scope of Bioconductor packages includes the analysis of DNA microarray, sequence, flow, SNP, and other data.
+- Most Bioconductor components are distributed as R packages. The functional scope of Bioconductor packages includes the analysis of microarray, sequencing, flow sorting, genotype/SNP, and other data.
 
 ## Project Goals
 
@@ -93,11 +97,28 @@ The three main goals of GEO are to:
 
 ## Getting data from GEO
 
+For individual studies/datasets, the easiest way to find publicly-available data is the GEO accession number found at the end of publications.
+
+![Example Accession in Paper](Images/geo_nature_example.png)
+
+## Getting data from GEO
+
+The details for a particular series can be found on the web interface for GEO, including details on individual samples, and often raw data
+
+![Example Accession on GEO](Images/geo_nature_example_page.png)
+
+
+## Getting data from GEO
+
 Before getting data from GEO, we need to see what data we want. For that we can use the `GEOmetadb` package. 
 
 
 ```r
 suppressMessages(library(GEOmetadb))
+```
+
+```
+## Warning: package 'RSQLite' was built under R version 3.3.1
 ```
 
 Remember that packages in Bioconductor are well documented with a vignette that can be access as follows:
@@ -115,9 +136,9 @@ browseVignettes(package = "GEOmetadb")
 
 ## Finding the right data in GEO
 
-Zhu, Y., Davis, S., Stephens, R., Meltzer, P. S., & Chen, Y. (2008). GEOmetadb: powerful alternative search engine for the Gene Expression Omnibus. Bioinformatics (Oxford, England), 24(23), 2798–2800. doi:10.1093/bioinformatics/btn520
+Zhu, Y., Davis, S., Stephens, R., Meltzer, P. S., & Chen, Y. (2008). GEOmetadb: powerful alternative search engine for the Gene Expression Omnibus. Bioinformatics (Oxford, England), 24(23), 2798-2800. doi:10.1093/bioinformatics/btn520
 
-GEOmetadb uses a SQLite database to store all metadata associate with GEO.
+`GEOmetadb` uses a SQLite database to store all metadata associate with GEO.
 
 
 ```r
@@ -225,7 +246,7 @@ head(res)
 ## 3 GSM733818
 ## 4 GSM733819
 ## 5 GSM733820
-##                                                                                                                                                  gsm.supplementary_file
+##                                                                                                                                                 gsm.supplementary_file
 ## 1 ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733816/suppl/GSM733816.CEL.gz;\tftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733816/suppl/GSM733816.chp.gz
 ## 2 ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733817/suppl/GSM733817.CEL.gz;\tftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733817/suppl/GSM733817.chp.gz
 ## 3 ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733818/suppl/GSM733818.CEL.gz;\tftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733818/suppl/GSM733818.chp.gz
@@ -245,30 +266,18 @@ manu[, .(n = .N), by = manufacturer][order(-n)]
 ```
 
 ```
-##                                                                                                manufacturer
-##    1:                                                                                                    NA
-##    2:                                                                                  Agilent Technologies
-##    3:                                                                                            Affymetrix
-##    4:                                                                                             NimbleGen
-##    5:                                                                                               Agilent
-##   ---                                                                                                      
-## 2102:                                                                     Functional Genomics Center Verona
-## 2103:                                                                                             Brown Lab
-## 2104:                                                                         Luminex IMAP/Golub laboratory
-## 2105: Agriculture and Agri-Food Canada, Eastern Cereal and Oilseed Research Centre, Ottawa, Ontario, Canada
-## 2106:                                                                                     Custom microarray
-##          n
-##    1: 3398
-##    2: 1615
-##    3: 1029
-##    4:  967
-##    5:  575
-##   ---     
-## 2102:    1
-## 2103:    1
-## 2104:    1
-## 2105:    1
-## 2106:    1
+##                              manufacturer    n
+##    1:                                  NA 4275
+##    2:                Agilent Technologies 1858
+##    3:                          Affymetrix 1092
+##    4:                           NimbleGen 1013
+##    5:                             Agilent  610
+##   ---                                         
+## 2164:                            Riobobio    1
+## 2165: Applied Biosystems by Thermo Fisher    1
+## 2166:  STEYN LAB (http://www.k-rith.org/)    1
+## 2167:                  Bluegnome/Illumina    1
+## 2168:               SABiosciences, QIAGEN    1
 ```
 
 ## Finding specific data
@@ -317,7 +326,7 @@ dir.create("data/geo", recursive = TRUE)
 ```
 
 ```
-## Warning in dir.create("data/geo", recursive = TRUE): 'data/geo' already
+## Warning in dir.create("data/geo", recursive = TRUE): 'data\geo' already
 ## exists
 ```
 
@@ -332,11 +341,27 @@ GSE29617_set <- getGEO("GSE29617", destdir = "data/geo/")[[1]]
 
 ```
 ## ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE29nnn/GSE29617/matrix/
+```
+
+```
 ## Found 1 file(s)
+```
+
+```
 ## GSE29617_series_matrix.txt.gz
-## Using locally cached version: data/geo//GSE29617_series_matrix.txt.gz
-## Using locally cached version of GPL13158 found here:
+```
+
+```
+## File stored at:
+```
+
+```
 ## data/geo//GPL13158.soft
+```
+
+```
+## Warning in read.table(file = file, header = header, sep = sep, quote =
+## quote, : not all columns named in 'colClasses' exist
 ```
 which returns (a list of) an ExpressionSet (eSet).
 
@@ -354,7 +379,7 @@ str(GSE29617_set, max.level = 2)
 ```
 ## Formal class 'ExpressionSet' [package "Biobase"] with 7 slots
 ##   ..@ experimentData   :Formal class 'MIAME' [package "Biobase"] with 13 slots
-##   ..@ assayData        :<environment: 0x7fb6856958a0> 
+##   ..@ assayData        :<environment: 0x000000000d420eb0> 
 ##   ..@ phenoData        :Formal class 'AnnotatedDataFrame' [package "Biobase"] with 4 slots
 ##   ..@ featureData      :Formal class 'AnnotatedDataFrame' [package "Biobase"] with 4 slots
 ##   ..@ annotation       : chr "GPL13158"
@@ -573,6 +598,16 @@ GSE29617_set2 <- rma(GSE29617_affyBatch)
 ```
 
 ```
+## Warning: replacing previous import 'AnnotationDbi::tail' by 'utils::tail'
+## when loading 'hthgu133pluspmcdf'
+```
+
+```
+## Warning: replacing previous import 'AnnotationDbi::head' by 'utils::head'
+## when loading 'hthgu133pluspmcdf'
+```
+
+```
 ## 
 ```
 
@@ -616,16 +651,64 @@ library(hthgu133a.db)
 
 ```
 ## Loading required package: AnnotationDbi
+```
+
+```
 ## Loading required package: stats4
-## Loading required package: GenomeInfoDb
-## Loading required package: S4Vectors
+```
+
+```
 ## Loading required package: IRanges
+```
+
+```
+## Loading required package: S4Vectors
+```
+
+```
+## 
+## Attaching package: 'S4Vectors'
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     colMeans, colSums, expand.grid, rowMeans, rowSums
+```
+
+```
+## 
+## Attaching package: 'IRanges'
+```
+
+```
+## The following object is masked from 'package:data.table':
+## 
+##     shift
+```
+
+```
 ## Loading required package: org.Hs.eg.db
+```
+
+```
+## 
+```
+
+```
+## 
 ```
 
 ```r
 probe_ids <- rownames(GSE29617_set2)
 probe_data <- select(hthgu133a.db, keys = probe_ids, columns = "SYMBOL", keytype = "PROBEID")
+```
+
+```
+## 'select()' returned 1:1 mapping between keys and columns
+```
+
+```r
 probe_data[1,]
 ```
 
@@ -643,6 +726,13 @@ Let's fix this: Replace _PM with <empty> for the probe id names in GSE29617_set2
 ```r
 probe_ids <- gsub("_PM","", rownames(GSE29617_set2))
 probe_data <- select(hthgu133a.db, keys = probe_ids, columns = "SYMBOL", keytype = "PROBEID")
+```
+
+```
+## 'select()' returned 1:many mapping between keys and columns
+```
+
+```r
 probe_data[1, ]
 ```
 
@@ -672,11 +762,11 @@ probe_data_dt_unique[SYMBOL %like% ";"]
 ##    4: 200003_s_at                           RPL28;MIR6805
 ##    5: 200012_x_at         RPL21;SNORD102;SNORA27;RPL21P28
 ##   ---                                                    
-## 1263:  65133_i_at                      INO80B;INO80B-WBP1
-## 1264:    65585_at FAM86C1;FAM86B1;FAM86FP;FAM86B2;FAM86DP
-## 1265:    66053_at                 HNRNPUL2;HNRNPUL2-BSCL2
-## 1266:    78495_at                        LOC155060;ZNF783
-## 1267:    91617_at                           DGCR8;MIR1306
+## 1261:  65133_i_at                      INO80B;INO80B-WBP1
+## 1262:    65585_at FAM86C1;FAM86B1;FAM86FP;FAM86B2;FAM86DP
+## 1263:    66053_at                 HNRNPUL2;HNRNPUL2-BSCL2
+## 1264:    78495_at                        LOC155060;ZNF783
+## 1265:    91617_at                           DGCR8;MIR1306
 ```
 
 ## Completing our ExpressionSet
@@ -761,6 +851,20 @@ md <- ed[pd]
 
 ```r
 library(reshape2)
+```
+
+```
+## 
+## Attaching package: 'reshape2'
+```
+
+```
+## The following objects are masked from 'package:data.table':
+## 
+##     dcast, melt
+```
+
+```r
 md_long <- melt(md, variable.name = "probe_name", value.name = "expression_value")
 ```
 
@@ -769,7 +873,7 @@ md_long <- melt(md, variable.name = "probe_name", value.name = "expression_value
 ## = "expression_value"): To be consistent with reshape2's melt, id.vars and
 ## measure.vars are internally guessed when both are 'NULL'. All non-numeric/
 ## integer/logical type columns are conisdered id.vars, which in this case are
-## columns 'filename, ptid, time, description'. Consider providing at least
+## columns [filename, ptid, time, description]. Consider providing at least
 ## one of 'id' or 'measure' vars in future.
 ```
 
@@ -796,7 +900,7 @@ library(ggplot2)
 ggplot(md_long_short[SYMBOL %in% c("IGJ", "IGKC", "CXCL10", "IFIT2")], aes(x = time, y = expression_value)) + geom_violin() + geom_jitter() + geom_line(aes(group = ptid), alpha = .5) + facet_wrap( ~SYMBOL + PROBEID, scales = "free")
 ```
 
-![](Bioconductor_intro_files/figure-html/unnamed-chunk-37-1.png) 
+![](Bioconductor_intro_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
 
 **Exercise:** Repeat this with different gene names and geometries
 

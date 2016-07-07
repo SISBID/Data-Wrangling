@@ -1,7 +1,7 @@
 ---
 title: 'SISBD: Introduction to Bioconductor'
-author: "Raphael Gottardo"
-date: "\ `r Sys.Date()`"
+author: "Andrew Jaffe"
+date: "7/11/2016"
 output:
   ioslides_presentation:
     fig_caption: yes
@@ -9,6 +9,10 @@ output:
     keep_md: yes
     smaller: yes
 ---
+
+## Acknowledgements
+
+Many slides courtesy of Raphael Gottardo.
 
 ## Setting up some options
 
@@ -33,7 +37,7 @@ See [NY Times](http://www.nytimes.com/2009/01/07/technology/business-computing/0
 
 ## R is a really mature project
 
-Some of the best R functionalities **ARE NOT** in R-base but come from add-on packages: knitr, ggplot2, reshape2, Rcpp, data.table, etc.
+Some of the best R functionalities **ARE NOT** in R-base but come from add-on packages: `knitr`, `ggplot2`, `reshape2`, `Rcpp`, `data.table`, etc.
 
 Some of these packages are available on the following repositories:
 
@@ -49,7 +53,7 @@ Some of these packages are available on the following repositories:
 
 - [Bioconductor](http://www.bioconductor.org) is an open source, open development software project to provide tools for the analysis and comprehension of high-throughput genomic data. It is based primarily on the R programming language.
 
-- Most Bioconductor components are distributed as R packages. The functional scope of Bioconductor packages includes the analysis of DNA microarray, sequence, flow, SNP, and other data.
+- Most Bioconductor components are distributed as R packages. The functional scope of Bioconductor packages includes the analysis of microarray, sequencing, flow sorting, genotype/SNP, and other data.
 
 ## Project Goals
 
@@ -98,6 +102,19 @@ The three main goals of GEO are to:
 
 ## Getting data from GEO
 
+For individual studies/datasets, the easiest way to find publicly-available data is the GEO accession number found at the end of publications.
+
+![Example Accession in Paper](Images/geo_nature_example.png)
+
+## Getting data from GEO
+
+The details for a particular series can be found on the web interface for GEO, including details on individual samples, and often raw data
+
+![Example Accession on GEO](Images/geo_nature_example_page.png)
+
+
+## Getting data from GEO
+
 Before getting data from GEO, we need to see what data we want. For that we can use the `GEOmetadb` package. 
 
 ```{r}
@@ -117,9 +134,9 @@ browseVignettes(package = "GEOmetadb")
 
 ## Finding the right data in GEO
 
-Zhu, Y., Davis, S., Stephens, R., Meltzer, P. S., & Chen, Y. (2008). GEOmetadb: powerful alternative search engine for the Gene Expression Omnibus. Bioinformatics (Oxford, England), 24(23), 2798–2800. doi:10.1093/bioinformatics/btn520
+Zhu, Y., Davis, S., Stephens, R., Meltzer, P. S., & Chen, Y. (2008). GEOmetadb: powerful alternative search engine for the Gene Expression Omnibus. Bioinformatics (Oxford, England), 24(23), 2798-2800. doi:10.1093/bioinformatics/btn520
 
-GEOmetadb uses a SQLite database to store all metadata associate with GEO.
+`GEOmetadb` uses a SQLite database to store all metadata associate with GEO.
 
 ```{r}
 ## This will download the entire database, so can be slow
