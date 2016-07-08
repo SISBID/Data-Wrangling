@@ -5,25 +5,29 @@ output:
   pdf_document: default
 ---
 
-## SISBID: Module 1 Accessing Biomedical Data
+## SISBID: Module 1 Big Data Wrangling in R 
 
 **Instructors:** [Andrew Jaffe](http://www.aejaffe.com/) and [Jeff Leek](http://www.jtleek.com/)
 
-**Teaching assitants:** TBD
-<!-- [Jean Morrison](http://students.washington.edu/jeanm5/) and [Brian Williamson](http://students.washington.edu/brianw26/) -->
+**Teaching assitants:** 
+
+[Jeremy Roth](http://students.washington.edu/jhroth/)
+
 
 
 **Class Schedule:**
 
-* [Daily schedule](http://www.biostat.washington.edu/suminst/sisbid/schedule)
-* [Location](http://www.biostat.washington.edu/suminst/sisbid/maps)
+* [Daily schedule](https://www.biostat.washington.edu/suminst/sisbid)
+* Location: FSH 102 (the big auditorium in Fisheries Sciences) [maps](https://www.biostat.washington.edu/suminst/maps)
 
 
 **Ressources:**
 
-
-* [Rstudio](http://www.rstudio.com/), [R project](http://www.r-project.org/), and [Bioconductor](http://bioconductor.org/)
-* [Rstudio's cheatsheets](http://www.rstudio.com/resources/cheatsheets/) & [Data.table cheatsheet](https://s3.amazonaws.com/assets.datacamp.com/img/blog/data+table+cheat+sheet.pdf)
+* [R project](http://www.r-project.org/)
+* [Rstudio](http://www.rstudio.com/),
+* [Bioconductor](http://bioconductor.org/)
+* [Rstudio's cheatsheets](http://www.rstudio.com/resources/cheatsheets/) 
+* [Data.table cheatsheet](https://s3.amazonaws.com/assets.datacamp.com/img/blog/data+table+cheat+sheet.pdf)
 
 **Getting Started:**
 
@@ -37,24 +41,28 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 |----|------------|--------------|---------------------|--------------------------------------|
 | 0  | 2016-07-11  | Background  | [Try R](http://tryr.codeschool.com/)  | Really simple intro to R online  |
 | 0  | 2016-07-11  | Background | [swirl](http://swirlstats.com/)  | More tutorials on R, in R  |
-|1 | 2016-07-11 | 8:30AM - 10:00AM | [html slides](lecture_notes/session1.html), [pdf slides](lecture_notes/session1.pdf), [labs](https://github.com/SISBID/Module1/tree/gh-pages/labs) | Welcome, motivation, installation |
+| 0 | 2016-07-11 | Background | [Datacamp](http://datacamp.com/) | More tutorials on R, in the browser |
+| 1 | 2016-07-11 | 8:30AM - 10:00AM |[Welcome and motivation](https://docs.google.com/presentation/d/1WeOfmSZTWUm74rA-jqV-gnoQcI1oJpe6ecntWPJ-iK8/edit)||
+| 1 | 2016-07-11 | 8:30AM - 10:00AM | [Skills assessment]()  ||
+| 1 | 2016-07-11 | 8:30AM - 10:00AM |[Data brainstorming]() ||
+| 1 | 2016-07-11 | 8:30AM - 10:00AM |[R, Rstudio, and R packages]()||
 |1 | --- | 10:00AM - 10:30AM | Break | --- |
-|1 | 2016-07-11 | 10:30AM - 12:00PM | [html slides](https://slides.com/jeffleek/sisbid-m1-d1), [pdf slides](https://dl.dropbox.com/s/kpf7yidry8ywkbf/sisbid-m1-d1.pdf), [labs](https://github.com/SISBID/Module1/tree/gh-pages/labs) | Getting data |
-|1 | --- | 1:30PM - 3:00PM | [html slides](lecture_notes/data_manipulation_review.html), [md file](https://github.com/SISBID/Module1/blob/gh-pages/lecture_notes/data_manipulation_review.md), | Review of data.table and SQL |
+|1 | 2016-07-11 | 10:30AM - 12:00PM | [Version control]() |  |
+|1 | 2016-07-11 | 10:30AM - 12:00PM | [R markdown/reproducible research]() |  |
+|1 | --- | 12:00PM - 1:30PM | Lunch| --- |
+|1 | --- | 1:30PM - 3:00PM | [Getting data part I](http://aejaffe.com/summerR_2016/Data_IO/lecture/Data_IO.html#1)| |
 |1 | --- | 3:00PM - 3:30PM | Break | --- |
-|1 | --- | 3:30PM - 5:00PM | [html slides](lecture_notes/Bioconductor_intro.html), [pdf slides](lecture_notes/Bioconductor_intro.pdf), [md file](lecture_notes/Bioconductor_intro.md) | Intro to Bioconductor suite and use case |
-|2 | 2016-07-12 | 8:30AM - 10:00AM | [html slides](https://slides.com/jeffleek/sisbid-m1-d2), [pdf slides](https://dl.dropbox.com/s/q29sspevqn3h2jk/sisbid-m1-d2.pdf), [labs](https://github.com/SISBID/Module1/tree/gh-pages/labs) | Cleaning data |
+|1 | --- | 3:30PM - 5:00PM | [Intro to Bioc](http://sisbid.github.io/Module1/lecture_notes/Bioconductor_intro.html#1)||
+|2 | 2016-07-12 | 8:30AM - 10:00AM | [Getting data II]() | |
 |2 | --- | 10:00AM - 10:30AM | Break | --- |
-|2 | 2016-07-12 | 10:30AM - 12:00PM | [html slides](https://slides.com/jeffleek/sisbid-m1-d2), [pdf slides](https://dl.dropbox.com/s/q29sspevqn3h2jk/sisbid-m1-d2.pdf), [labs](https://github.com/SISBID/Module1/tree/gh-pages/labs) | Cleaning data |
-|2 | 2016-07-12 | 1:30PM - 3:00PM | [html slides](lecture_notes/Lab_Searching_GEO.html) [md file](https://github.com/SISBID/Module1/blob/gh-pages/lecture_notes/Lab_Searching_GEO.md) | Lab time (GEO and more) |
+|2 | 2016-07-12 | 10:30AM - 12:00PM | [Data manipulation]() |  |
+|2 | --- | 12:00PM - 1:30PM | Lunch| --- |
+|2 | 2016-07-12 | 1:30PM - 3:00PM | [Cleaning and summarizing data](http://aejaffe.com/summerR_2016/Data_Cleaning/lecture/Data_Cleaning.html#1)| |
 |2 | 2016-07-12 | 3:00PM - 3:30PM | Break | Break |
-|2 | --- | 3:30PM - 5:00PM | [html slides](lecture_notes/Lab_Searching_GEO.html), [md file](https://github.com/SISBID/Module1/blob/gh-pages/lecture_notes/Lab_Searching_GEO.md) | Lab time (GEO and more) |
-|2 | 2016-07-13 | 8:30AM - 10:00AM | [html slides](https://slides.com/jeffleek/sisbid-m1-d3), [pdf slides](https://dl.dropbox.com/s/m8r6cid58fbnk39/sisbid-m1-d3.pdf), [labs](https://github.com/SISBID/Module1/tree/gh-pages/labs) | Cleaning data |
-|3 | --- | 10:30AM - 12:00PM | [html slides](lecture_notes/ImmuneSpaceR.html), [md file](https://github.com/SISBID/Module1/blob/gh-pages/lecture_notes/ImmuneSpaceR.md) | Intro to ImmuneSpace and ImmuneSpaceR |
-
-**NOTE:** The md files linked in the table above can easily be converted to pdf by replacing *github* by *gitprint* in the url (when opening the link in your web browser)
-
-<!-- Add links to the rest of the material as we go
+|2 | --- | 3:30PM - 5:00PM | [Regular expressions + dates](http://aejaffe.com/summerR_2016/Data_Cleaning/lecture/Data_Cleaning.html#1) [supplementary stuff from jeff](http://slides.com/jeffleek/sisbid-m1-d2#/8) | |
+|2 | 2016-07-13 | 8:30AM - 10:00AM | [Three tables + recount](http://slides.com/jeffleek/sisbid-m1-d3) [stuff from our paper](http://leekgroup.github.io/recount-analyses/) | |
+|2 | --- | 10:00AM - 10:30AM | Break | --- |
+|3 | --- | 10:30AM - 12:00PM | [derfinder](http://bioconductor.org/packages/release/bioc/vignettes/derfinder/inst/doc/derfinder-quickstart.html) | |
 
 
 
