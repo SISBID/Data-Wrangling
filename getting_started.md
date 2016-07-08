@@ -1,8 +1,8 @@
 ### Getting Started
 
 Here is a quick list of things to do to get started, ideally before the first class:
-- Install [R](http://cran.r-project.org/) and [RStudio](http://www.rstudio.com/). Here are a few example videos on how to do this such as [this one](https://www.youtube.com/watch?v=eD07NznguA4) (for windows). Many other videos are available (search for "install RStudio" in [YouTube](https://www.youtube.com/).
-**Make sure that you are downloading the latest version of R (version 3.1 or above) and RStudio.**
+- Install [R](http://cran.r-project.org/) and [RStudio](http://www.rstudio.com/). Here are a few example videos on how to do this such as [this one](https://www.youtube.com/watch?v=eD07NznguA4) (for windows). Many other videos are available (search for "install RStudio" in [YouTube](https://www.youtube.com/)).
+**Make sure that you are downloading the latest version of R and RStudio.**
 
 - Install all required packages by using the script provided by in the `lecture_notes` directory. Simply typing 
 ```r 
