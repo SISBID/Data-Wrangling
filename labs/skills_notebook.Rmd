@@ -1,0 +1,51 @@
+---
+title: "Skills assessment"
+output: html_notebook
+---
+
+First if necessary install some packages:
+
+```{r}
+install.packages(gplots)
+install.packages(googlesheets)
+install.packages('devtools')
+devtools::install_github('alyssafrazee/RSkittleBrewer')
+```
+
+Then load the packages
+```{r}
+library(gplots)
+library(googlesheets)
+library(RSkittleBrewer)
+```
+
+
+Read the data into R
+
+```{r}
+my_url = "https://docs.google.com/spreadsheets/d/18KQQd4LY5k8Ucux1MvWCsQGQJlvd0ECTnn-3ixdOKFM/pubhtml"
+my_gs = gs_url(my_url)
+dat = gs_read(my_gs)
+```
+
+
+Set up the colors
+
+```{r}
+trop = RSkittleBrewer("tropical")
+colramp = colorRampPalette(c(trop[3],"white",trop[2]))(9)
+palette(trop)
+```
+
+Create the plot
+
+```{r}
+dat = as.matrix(dat)
+dat[is.na(dat)]= 0
+
+par(mar=c(5,5,5,5))
+heatmap.2(as.matrix(dat),col=colramp,Rowv=NA,Colv=NA,
+          dendrogram="none", scale="none",
+          trace="none",margins=c(10,2))
+```
+
