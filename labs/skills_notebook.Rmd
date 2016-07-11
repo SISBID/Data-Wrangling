@@ -26,6 +26,7 @@ Read the data into R
 my_url = "https://docs.google.com/spreadsheets/d/18KQQd4LY5k8Ucux1MvWCsQGQJlvd0ECTnn-3ixdOKFM/pubhtml"
 my_gs = gs_url(my_url)
 dat = gs_read(my_gs)
+head(dat)
 ```
 
 
