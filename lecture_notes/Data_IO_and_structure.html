@@ -154,7 +154,7 @@
 <p>Monuments Dataset: &quot;This data set shows the point location of Baltimore City monuments. However, the completness and currentness of these data are uncertain.&quot;</p>
 
 <ul>
-<li>Download data from <a href='https://github.com/SISBID/Module1/data/Monuments.csv' title=''>https://github.com/SISBID/Module1/data/Monuments.csv</a></li>
+<li>Download data from <a href='http://sisbid.github.io/Module1/data/Monuments.csv' title=''>http://sisbid.github.io/Module1/data/Monuments.csv</a></li>
 <li>Save it (or move it) to the same folder as your day1.R script</li>
 <li>Within RStudio: Session &#8211;&gt; Set Working Directory &#8211;&gt; To Source File Location</li>
 <li>(data downloaded from <a href='https://data.baltimorecity.gov/Community/Monuments/cpxf-kxp3' title=''>https://data.baltimorecity.gov/Community/Monuments/cpxf-kxp3</a>)</li>
@@ -205,7 +205,7 @@ read.table( file, # filename
     fill = TRUE, comment.char = &quot;&quot;, ...) 
 read.table(file = file, header = header, sep = sep, quote = quote, 
     dec = dec, fill = fill, comment.char = comment.char, ...)
-&lt;bytecode: 0x00000000063582d0&gt;
+&lt;bytecode: 0x000000000a100248&gt;
 &lt;environment: namespace:utils&gt;</pre>
 
 <p>Note: the <code>...</code> designates extra/optional arguments that can be passed to <code>read.table()</code> if needed</p>
@@ -697,7 +697,7 @@ newDate2</pre>
 <pre class = 'prettyprint lang-r'>theTime = Sys.time()
 theTime</pre>
 
-<pre >[1] &quot;2016-07-10 14:22:06 EDT&quot;</pre>
+<pre >[1] &quot;2016-07-10 21:56:33 PDT&quot;</pre>
 
 <pre class = 'prettyprint lang-r'>class(theTime)</pre>
 
@@ -705,7 +705,7 @@ theTime</pre>
 
 <pre class = 'prettyprint lang-r'>theTime + as.period(20, unit = &quot;minutes&quot;) # the future</pre>
 
-<pre >[1] &quot;2016-07-10 14:42:06 EDT&quot;</pre>
+<pre >[1] &quot;2016-07-10 22:16:33 PDT&quot;</pre>
 
 </article></slide><slide class=''><hgroup><h2>Data Classes:</h2></hgroup><article  id="data-classes-1">
 
@@ -898,55 +898,9 @@ write.csv(mon, file=&quot;monuments_newNames.csv&quot;, row.names=FALSE)</pre>
 
 <p>First you convert the URL of a sheet using <code>gs_url</code> and then read in the resulting sheet using <code>gs_read</code></p>
 
-<pre class = 'prettyprint lang-r'>library(googlesheets)</pre>
-
-<pre >Warning: package &#39;googlesheets&#39; was built under R version 3.3.1</pre>
-
-<pre class = 'prettyprint lang-r'>my_gs = gs_key(&quot;1H1encEqqGA2VFYp2WorKS3VOxeQ_SL4SbRybBnNWRIQ&quot;)</pre>
-
-<pre >Sheet successfully identified: &quot;R_Cars&quot;</pre>
-
-<pre class = 'prettyprint lang-r'>car = gs_read(my_gs)</pre>
-
-<pre >Accessing worksheet titled &#39;cars&#39;.</pre>
-
-<pre >No encoding supplied: defaulting to UTF-8.</pre>
-
-</article></slide><slide class=''><hgroup><h2>Data Input - Google Sheets</h2></hgroup><article  id="data-input---google-sheets-1">
-
-<p>Note these Google Sheets are read into R as a slightly different class than <code>data.frame</code></p>
-
-<pre class = 'prettyprint lang-r'>class(car)</pre>
-
-<pre >[1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</pre>
-
-<pre class = 'prettyprint lang-r'>head(car)</pre>
-
-<pre >Source: local data frame [6 x 3]
-
-  speed  dist speedByDist
-  &lt;int&gt; &lt;int&gt;       &lt;int&gt;
-1     4     2           8
-2     4    10          40
-3     7     4          28
-4     7    22         154
-5     8    16         128
-6     9    10          90</pre>
-
-</article></slide><slide class=''><hgroup><h2>Data Input - Google Sheets</h2></hgroup><article  id="data-input---google-sheets-2">
-
-<p>You can just coerce into a regular <code>data.frame</code></p>
-
-<pre class = 'prettyprint lang-r'>carDf = as.data.frame(car)
-head(carDf)</pre>
-
-<pre >  speed dist speedByDist
-1     4    2           8
-2     4   10          40
-3     7    4          28
-4     7   22         154
-5     8   16         128
-6     9   10          90</pre></article></slide>
+<pre class = 'prettyprint lang-r'>library(googlesheets)
+my_gs = gs_url(&quot;https://docs.google.com/spreadsheets/d/1H1encEqqGA2VFYp2WorKS3VOxeQ_SL4SbRybBnNWRIQ/&quot;)
+car = gs_read(my_gs)</pre></article></slide>
 
 
   <slide class="backdrop"></slide>
