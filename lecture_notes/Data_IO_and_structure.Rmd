@@ -580,7 +580,7 @@ write.table(x,file = "", append = FALSE, quote = TRUE, sep = " ",
 
 `row.names`: I like setting this to FALSE because I email these to collaborators who open them in Excel
 
-## Data Output {.smaller}
+## Data Output
 
 For example, we can write back out the Monuments dataset with the new column name:
 
