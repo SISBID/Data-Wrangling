@@ -43,12 +43,11 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 | 0  | 2016-07-11  | Background | [swirl](http://swirlstats.com/)  | More tutorials on R, in R  |
 | 0 | 2016-07-11 | Background | [Datacamp](http://datacamp.com/) | More tutorials on R, in the browser |
 | 1 | 2016-07-11 | 8:30AM - 10:00AM |[Welcome and motivation](https://docs.google.com/presentation/d/1WeOfmSZTWUm74rA-jqV-gnoQcI1oJpe6ecntWPJ-iK8/edit)|Why you're here|
-| 1 | 2016-07-11 | 8:30AM - 10:00AM | [Skills assessment](https://docs.google.com/spreadsheets/d/18KQQd4LY5k8Ucux1MvWCsQGQJlvd0ECTnn-3ixdOKFM/edit?usp=sharing) [Skills Notebook]() |How to assess skills|
-| 1 | 2016-07-11 | 8:30AM - 10:00AM |[Data brainstorming](https://docs.google.com/document/d/1yxcXeKAGhu1CyPatuBmgfRp4XbVJVEhc2Zp4Yl-Q9pk/edit?usp=sharing) |How to ask questions|
-| 1 | 2016-07-11 | 8:30AM - 10:00AM |[R, Rstudio, and R packages]()|How to use R efficiently|
+| 1 | 2016-07-11 | 8:30AM - 10:00AM | [Skills assessment](https://docs.google.com/spreadsheets/d/18KQQd4LY5k8Ucux1MvWCsQGQJlvd0ECTnn-3ixdOKFM/edit?usp=sharing) [Skills Notebook]((https://raw.githubusercontent.com/SISBID/Module1/gh-pages/labs/skills_notebook.Rmd) | How to see how good we are|
+| 1 | 2016-07-11 | 8:30AM - 10:00AM |[Data brainstorming](https://docs.google.com/document/d/1yxcXeKAGhu1CyPatuBmgfRp4XbVJVEhc2Zp4Yl-Q9pk/edit?usp=sharing) | How to find data |
 |1 | --- | 10:00AM - 10:30AM | Break | How to rest |
 |1 | 2016-07-11 | 10:30AM - 12:00PM | [Version control]() | How to share code and data |
-|1 | 2016-07-11 | 10:30AM - 12:00PM | [R markdown/reproducible research]() |How to reproduce analysis  |
+|1 | 2016-07-11 | 10:30AM - 12:00PM | [R markdown/reproducible research]() | How to reproduce analysis  |
 |1 | --- | 12:00PM - 1:30PM | Lunch| How to eat |
 |1 | 2016-07-11 | 1:30PM - 3:00PM | [Data I/O](lecture_notes/Data_IO_and_structure.html)|How to import data from different formats|
 |1 | --- | 3:00PM - 3:30PM | Break | How to break |
