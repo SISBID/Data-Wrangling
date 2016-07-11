@@ -69,7 +69,7 @@ So `print("I'm code")` is the code chunk and [1] "I'm code" is the output.
 
 Monuments Dataset: "This data set shows the point location of Baltimore City monuments. However, the completness and currentness of these data are uncertain."
 
-* Download data from https://github.com/SISBID/Module1/data/Monuments.csv
+* Download data from http://sisbid.github.io/Module1/data/Monuments.csv
 * Save it (or move it) to the same folder as your day1.R script
 * Within RStudio: Session --> Set Working Directory --> To Source File Location
 * (data downloaded from https://data.baltimorecity.gov/Community/Monuments/cpxf-kxp3)
@@ -637,26 +637,8 @@ You can also read in data directly from Google (Spread)sheets using the `googles
 
 First you convert the URL of a sheet using `gs_url` and then read in the resulting sheet using `gs_read` 
 
-```{r, googleSheet}
+```{r, googleSheet,eval=FALSE}
 library(googlesheets)
-my_gs = gs_key("1H1encEqqGA2VFYp2WorKS3VOxeQ_SL4SbRybBnNWRIQ")
+my_gs = gs_url("https://docs.google.com/spreadsheets/d/1H1encEqqGA2VFYp2WorKS3VOxeQ_SL4SbRybBnNWRIQ/")
 car = gs_read(my_gs)
-```
-
-## Data Input - Google Sheets
-
-Note these Google Sheets are read into R as a slightly different class than `data.frame`
-
-```{r, gsClass}
-class(car)
-head(car)
-```
-
-## Data Input - Google Sheets
-
-You can just coerce into a regular `data.frame`
-
-```{r, gsCoerce}
-carDf = as.data.frame(car)
-head(carDf)
 ```
