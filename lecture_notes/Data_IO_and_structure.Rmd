@@ -573,8 +573,7 @@ write.table(x,file = "", append = FALSE, quote = TRUE, sep = " ",
 For example, we can write back out the Monuments dataset with the new column name:
 
 ```{r writecsv}
-names(mon)[6] = "Location"
-write.csv(mon, file="monuments_newNames.csv", row.names=FALSE)
+write.csv(mon, file="monuments_new.csv", row.names=FALSE)
 ```
 
 Note that `row.names=TRUE` would make the first column contain the row names, here just the numbers `1:nrow(mon)`, which is not very useful for Excel. Note that row names can be useful/informative in R if they contain information (but then they would just be a separate column). 

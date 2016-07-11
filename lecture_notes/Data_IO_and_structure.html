@@ -205,7 +205,7 @@ read.table( file, # filename
     fill = TRUE, comment.char = &quot;&quot;, ...) 
 read.table(file = file, header = header, sep = sep, quote = quote, 
     dec = dec, fill = fill, comment.char = comment.char, ...)
-&lt;bytecode: 0x000000000aeb5810&gt;
+&lt;bytecode: 0x0000000006256a00&gt;
 &lt;environment: namespace:utils&gt;</pre>
 
 <p>Note: the <code>...</code> designates extra/optional arguments that can be passed to <code>read.table()</code> if needed</p>
@@ -697,7 +697,7 @@ newDate2</pre>
 <pre class = 'prettyprint lang-r'>theTime = Sys.time()
 theTime</pre>
 
-<pre >[1] &quot;2016-07-10 22:05:33 PDT&quot;</pre>
+<pre >[1] &quot;2016-07-10 22:06:04 PDT&quot;</pre>
 
 <pre class = 'prettyprint lang-r'>class(theTime)</pre>
 
@@ -705,7 +705,7 @@ theTime</pre>
 
 <pre class = 'prettyprint lang-r'>theTime + as.period(20, unit = &quot;minutes&quot;) # the future</pre>
 
-<pre >[1] &quot;2016-07-10 22:25:33 PDT&quot;</pre>
+<pre >[1] &quot;2016-07-10 22:26:04 PDT&quot;</pre>
 
 </article></slide><slide class=''><hgroup><h2>Data Classes:</h2></hgroup><article  id="data-classes-1">
 
@@ -835,8 +835,7 @@ $numbers
 
 <p>For example, we can write back out the Monuments dataset with the new column name:</p>
 
-<pre class = 'prettyprint lang-r'>names(mon)[6] = &quot;Location&quot;
-write.csv(mon, file=&quot;monuments_newNames.csv&quot;, row.names=FALSE)</pre>
+<pre class = 'prettyprint lang-r'>write.csv(mon, file=&quot;monuments_new.csv&quot;, row.names=FALSE)</pre>
 
 <p>Note that <code>row.names=TRUE</code> would make the first column contain the row names, here just the numbers <code>1:nrow(mon)</code>, which is not very useful for Excel. Note that row names can be useful/informative in R if they contain information (but then they would just be a separate column).</p>
 
