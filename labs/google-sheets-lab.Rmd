@@ -1,7 +1,7 @@
 ---
 title: "Google Sheets"
 author: "Your name"
-date: "July 5, 2015"
+date: "July 11, 2016"
 output: html_document
 ---
 
@@ -14,4 +14,10 @@ This is a lab to practice with Google Sheets and the `googlesheets` package.
 3. Look at the arguments for `cell_rows`, `cell_limits` and `cell_cols`. 
 
 4. Try reading in just the first two columns. 
+
+5. How many students are in the class (or at least have added their information to the Sheet)?
+
+6. Create a logical variable for whether students have more than 2 years of R experience
+
+7. Convert the logical variable from \#6 into a factor with labels "Skilled" and "Learning" 
 
