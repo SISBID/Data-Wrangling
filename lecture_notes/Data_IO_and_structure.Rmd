@@ -554,7 +554,7 @@ names(mon)
 ```
 
 
-## Data Output {.smaller}
+## Data Output
 
 While its nice to be able to read in a variety of data formats, it's equally important to be able to output data somewhere.
 
