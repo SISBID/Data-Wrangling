@@ -31,5 +31,5 @@ Remember anything you type here can be "sent" to the console with: Cmd-Enter (OS
 
 9. Copy mtcars into a variable called `cars` and rename the `mpg` column in `cars` to `MPG`
 
-10. Subset the columns from mtcars that end in "p" and call it `pvars`
+10. Subset the columns from mtcars that end in "p" and call the new data frame `pvars`
 
