@@ -542,18 +542,6 @@ The `read.table()` function returns a `data.frame`, which is the primary data fo
 str(mon) # structure of an R object
 ```
 
-## Data Input
-
-Changing variable names in `data.frame`s works using the `names()` function, which is analagous to `colnames()` for data frames (they can be used interchangeably)
-
-```{r names1}
-names(mon)[1] = "Name"
-names(mon)
-names(mon)[1] = "name"
-names(mon)
-```
-
-
 ## Data Output
 
 While its nice to be able to read in a variety of data formats, it's equally important to be able to output data somewhere.

@@ -205,7 +205,7 @@ read.table( file, # filename
     fill = TRUE, comment.char = &quot;&quot;, ...) 
 read.table(file = file, header = header, sep = sep, quote = quote, 
     dec = dec, fill = fill, comment.char = comment.char, ...)
-&lt;bytecode: 0x000000000aed4e68&gt;
+&lt;bytecode: 0x000000000aeb5810&gt;
 &lt;environment: namespace:utils&gt;</pre>
 
 <p>Note: the <code>...</code> designates extra/optional arguments that can be passed to <code>read.table()</code> if needed</p>
@@ -697,7 +697,7 @@ newDate2</pre>
 <pre class = 'prettyprint lang-r'>theTime = Sys.time()
 theTime</pre>
 
-<pre >[1] &quot;2016-07-10 22:04:49 PDT&quot;</pre>
+<pre >[1] &quot;2016-07-10 22:05:33 PDT&quot;</pre>
 
 <pre class = 'prettyprint lang-r'>class(theTime)</pre>
 
@@ -705,7 +705,7 @@ theTime</pre>
 
 <pre class = 'prettyprint lang-r'>theTime + as.period(20, unit = &quot;minutes&quot;) # the future</pre>
 
-<pre >[1] &quot;2016-07-10 22:24:49 PDT&quot;</pre>
+<pre >[1] &quot;2016-07-10 22:25:33 PDT&quot;</pre>
 
 </article></slide><slide class=''><hgroup><h2>Data Classes:</h2></hgroup><article  id="data-classes-1">
 
@@ -804,22 +804,6 @@ $numbers
  $ councilDistrict: int  11 11 11 11 11 11 11 7 14 14 ...
  $ policeDistrict : chr  &quot;CENTRAL&quot; &quot;CENTRAL&quot; &quot;CENTRAL&quot; &quot;CENTRAL&quot; ...
  $ Location.1     : chr  &quot;408 CHARLES ST\nBaltimore, MD\n&quot; &quot;&quot; &quot;&quot; &quot;100 HOLLIDAY ST\nBaltimore, MD\n&quot; ...</pre>
-
-</article></slide><slide class=''><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-8">
-
-<p>Changing variable names in <code>data.frame</code>s works using the <code>names()</code> function, which is analagous to <code>colnames()</code> for data frames (they can be used interchangeably)</p>
-
-<pre class = 'prettyprint lang-r'>names(mon)[1] = &quot;Name&quot;
-names(mon)</pre>
-
-<pre >[1] &quot;Name&quot;            &quot;zipCode&quot;         &quot;neighborhood&quot;    &quot;councilDistrict&quot;
-[5] &quot;policeDistrict&quot;  &quot;Location.1&quot;     </pre>
-
-<pre class = 'prettyprint lang-r'>names(mon)[1] = &quot;name&quot;
-names(mon)</pre>
-
-<pre >[1] &quot;name&quot;            &quot;zipCode&quot;         &quot;neighborhood&quot;    &quot;councilDistrict&quot;
-[5] &quot;policeDistrict&quot;  &quot;Location.1&quot;     </pre>
 
 </article></slide><slide class=''><hgroup><h2>Data Output</h2></hgroup><article  id="data-output">
 
