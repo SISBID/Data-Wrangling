@@ -11,3 +11,5 @@
   - Name is in first column (creatively titled sva :-)) so view vignette with `vignette("sva")`
 5. Install the broom package (https://github.com/dgrtwo/broom, also available from CRAN) from Github:
   - `devtools::install_github("dgrtwo/broom")`
+6. Look at the help for the `tidy` function:
+  - `?tidy`
