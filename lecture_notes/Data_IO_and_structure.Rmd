@@ -523,10 +523,11 @@ Again, data frames are like matrices, but each column is a vector that can have 
 ```{r makeList, comment="", prompt=TRUE}
 mylist <- list(letters=c("A", "b", "c"), 
         numbers=1:3, matrix(1:25, ncol=5))
+mylist
 ```
 
 
-## Data Input {.smaller}
+## More on Data Frames
 
 ```{r subset5}
 colnames(mon) # column names
