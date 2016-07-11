@@ -1,0 +1,51 @@
+---
+title: "Data Cleaning"
+author: "Your name"
+date: "July 12, 2016"
+output: html_document
+---
+
+### A. "Real Property Taxes" Dataset 
+
+Download the "real property taxes" dataset from the website (via OpenBaltimore), 
+he data is located here (note you don\'t need to unzip it to read it into R):
+http://sisbid.github.io/Module1/data/real_property_tax.csv.gz
+
+1. Read the Property Tax data into R and call it the variable `tax`
+
+2. How many addresses pay property taxes? 
+
+3. What is the total city and state tax paid?
+
+4. How many observations/properties are in each residence code?
+
+5. What is the 75th percentile of city and state tax paid by residence code?
+
+6. Subset the data to only retain those houses that are principal residences and describe the distribution of property taxes on these residences.
+
+7. Convert the 'lotSize' variable to a numeric square feet variable. Tips:
+* Look at the data 
+* Assume hyphens represent inches within square foot meassuremnts 
+* Assume decimals within acreage measurements
+* 1 acre = 43560 square feet
+* Look at the data 
+
+
+### B. "Baltimore Salary 2015" Dataset 
+
+Download the "Salary 2015" Dataset from the website (via OpenBaltimore), which is located here:
+http://sisbid.github.io/Module1/data//Baltimore_City_Employee_Salaries_FY2015.csv
+
+8. Make an object called health.sal using the salaries data set,	with only agencies of those with "fire" (or any forms), if any, in the name
+
+9. Make a data set called trans which contains only agencies that contain "TRANS".
+
+10. What is/are the profession(s) of people who have "abra" in their name for Baltimore's Salaries?
+
+11. What is the distribution of annual salaries look like? What is the IQR?
+
+12. Convert HireDate to the `Date` class - plot Annual Salary vs Hire Date
+
+13. Plot annual salary versus hire date.	Hint: first convert to numeric and date respectively
+
+14. Create a smaller dataset that only includes the Police Department, Fire Department and Sheriff's Office. How many employees are in this new dataset?
