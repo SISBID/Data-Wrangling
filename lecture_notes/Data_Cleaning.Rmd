@@ -1,0 +1,562 @@
+---
+title: "Data Cleaning"
+author: "Andrew Jaffe"
+date: "July 12, 2016"
+output:
+  ioslides_presentation:
+    css: styles.css
+  beamer_presentation: default
+---
+
+
+```{r, echo = FALSE}
+library(knitr)
+opts_chunk$set(comment = "")
+```
+
+## Data Cleaning
+
+In general, data cleaning is a process of investigating your data for inaccuracies, or recoding it in a way that makes it more manageable.
+
+MOST IMPORTANT RULE - LOOK AT YOUR DATA!
+
+## Useful checking functions
+
+- `is.na` - is `TRUE` if the data is `FALSE` otherwise
+- `!` - negation (NOT) 
+    - if `is.na(x)` is `TRUE`, then `!is.na(x)` is `FALSE`
+
+- `all` takes in a `logical` and will be `TRUE` if ALL are `TRUE`
+    - `all(!is.na(x))` - are all values of `x` NOT NA
+- `any` will be `TRUE` if ANY are true
+    - `any(is.na(x))` - do we have any `NA`'s in `x`?
+- `complete.cases` - returns `TRUE` if EVERY value of a row is NOT `NA`
+    - very stringent condition 
+    - `FALSE` missing one value (even if not important)
+ 
+# Dealing with Missing Data
+
+## Missing data types
+One of the most important aspects of data cleaning is missing values.  
+
+Types of "missing" data:
+
+* `NA` - general missing data
+* `NaN` - stands for "**N**ot **a** **N**umber", happens when you do 0/0.
+* `Inf` and `-Inf` - Infinity, happens when you take a positive number (or negative number) by 0.
+
+## Finding Missing data
+
+Each missing data type has a function that returns `TRUE` if the data is missing:
+
+* `NA` - `is.na`
+* `NaN` - `is.nan`
+* `Inf` and `-Inf` - `is.infinite`
+* `is.finite` returns `FALSE` for all missing data and `TRUE` for non-missing
+
+## Missing Data with Logicals
+
+One important aspect (esp with subsetting) is that logical operations return `NA` for `NA` values.  Think about it, the data could be `> 2` or not we don't know, 
+so `R` says there is no `TRUE` or `FALSE`, so that is missing:
+```{r}
+x = c(0, NA, 2, 3, 4)
+x > 2
+```
+
+## Missing Data with Logicals
+
+What to do?  What if we want if `x > 2` and `x` isn't `NA`?  
+Don't do `x != NA`, do `x > 2` and `x` is NOT `NA`:
+
+```{r}
+x != NA
+x > 2 & !is.na(x)
+```
+
+## Missing Data with Logicals
+
+What about seeing if a value is equal to multiple values?  You can do `(x == 1 | x == 2) & !is.na(x)`, but that is not efficient.  
+
+```{r}
+(x == 0 | x == 2) # has NA
+(x == 0 | x == 2) & !is.na(x) # No NA
+```
+
+what to do?
+
+## Missing Data with Logicals: `%in%`
+
+Introduce the `%in%` operator:
+```{r}
+x %in% c(0, 2) # NEVER has NA and returns logical
+```
+
+reads "return `TRUE` if `x` is in 0 or 2". (Like `inlist` in Stata).
+
+## Missing Data with Logicals: `%in%`
+
+NEVER has NA, even if you put it there (BUT DON'T DO THIS):
+
+```{r}
+x %in% c(0, 2, NA) # NEVER has NA and returns logical
+x %in% c(0, 2) | is.na(x)
+```
+
+
+## Missing Data with Operations
+
+Similarly with logicals, operations/arithmetic with `NA` will result in `NA`s:
+
+```{r}
+x + 2
+x * 2
+```
+ 
+# Tables and Tabulations
+
+## Useful checking functions
+
+- `unique` - gives you the unique values of a variable
+- `table(x)` - will give a one-way table of `x`
+    - `table(x, useNA = "ifany")` - will have row NA 
+- `table(x, y)` - will give a cross-tab of `x` and `y`
+
+## Creating One-way Tables {.smaller}
+
+Here we will use `table` to make tabulations of the data.   Look at `?table` to see options for missing data.
+
+```{r table}
+unique(x)
+table(x)
+table(x, useNA = "ifany") # will not 
+```
+
+
+## Creating One-way Tables {.smaller}
+
+`useNA = "ifany"` will not have NA in table heading if no `NA`:
+```{r onetab_ifany}
+table(c(0, 1, 2, 3, 2, 3, 3, 2,2, 3), 
+        useNA = "ifany")
+```
+
+## Creating One-way Tables {.smaller}
+
+You can set `useNA = "always"` to have it always have a column for `NA`
+```{r onetab}
+table(c(0, 1, 2, 3, 2, 3, 3, 2,2, 3), 
+        useNA = "always")
+```
+
+## Tables with Factors {.smaller}
+
+If you use a `factor`, all levels will be given even if no exist! 
+  - (May be wanted or not):
+
+```{r onetab_fact}
+fac = factor(c(0, 1, 2, 3, 2, 3, 3, 2,2, 3),
+             levels = 1:4)
+tab = table(fac)
+tab
+tab[ tab > 0 ]
+```
+
+## Creating Two-way Tables {.smaller}
+
+A two-way table.  If you pass in 2 vectors, `table` creates a 2-dimensional table.
+
+```{r}
+tab <- table(c(0, 1, 2, 3, 2, 3, 3, 2,2, 3), 
+             c(0, 1, 2, 3, 2, 3, 3, 4, 4, 3), 
+              useNA = "always")
+```
+
+## Recoding to missing
+
+Sometimes people code missing data in weird or inconsistent ways.
+
+```{r codeNA}
+ages = c(23,21,44,32,57,65,-999,54)
+range(ages)
+```
+
+
+## Recoding to missing
+
+How do we change the `-999` to be treated as missing?
+
+```{r codeNA2}
+ages[ages == -999] = NA
+range(ages)
+range(ages,na.rm=TRUE)
+```
+
+## Recoding from missing
+
+What if you were the person that coded the `-999`
+
+```{r codeFromNA}
+is.na(ages)
+ages[is.na(ages)] = -999
+ages
+```
+
+## Download Salary FY2014 Data
+
+From https://data.baltimorecity.gov/City-Government/Baltimore-City-Employee-Salaries-FY2014/2j28-xzd7
+http://www.aejaffe.com/summerR_2016/data/Baltimore_City_Employee_Salaries_FY2014.csv
+
+Read the CSV into R `Sal`:
+
+```{r readSal}
+Sal = read.csv("../data/Baltimore_City_Employee_Salaries_FY2014.csv",
+               as.is = TRUE)
+```
+
+## Checking for logical conditions {.smaller}
+* `any()` - checks if there are any `TRUE`s
+* `all()` - checks if ALL are true
+
+```{r isna}
+head(Sal,2)
+any(is.na(Sal$Name)) # are there any NAs?
+```
+
+# Recoding Variables
+
+## Example of Recoding: base R
+
+For example, let's say gender was coded as Male, M, m, Female, F, f.  Using Excel to find all of these would be a matter of filtering and changing all by hand or using if statements.
+
+In R, you can simply do something like:
+
+```{r, eval = FALSE}
+data$gender[data$gender %in% 
+    c("Male", "M", "m")] <- "Male"
+```
+
+## Example of Cleaning: more complicated
+
+Sometimes though, it's not so simple.  That's where functions that find patterns come in very useful.
+
+```{r gender, echo=FALSE}
+set.seed(4) # random sample below - make sure same every time
+gender <- sample(c("Male", "mAle", "MaLe", "M", "MALE", "Ma", "FeMAle", "F", "Woman", "Man", "Fm", "FEMALE"), 1000, replace = TRUE)
+```
+
+```{r gentab}
+table(gender)
+```
+
+# String functions
+
+## Useful String Functions
+
+Useful String functions
+
+* `toupper()`, `tolower()` - uppercase or lowercase your data:
+* `str_trim()` (in the `stringr` package) or `trimws` in base 
+    - will trim whitespace
+* `nchar` - get the number of characters in a string
+* `paste()` - paste strings together with a space 
+* `paste0` - paste strings together with no space as default
+
+## Pasting strings with `paste` and `paste0`
+
+Paste can be very useful for joining vectors together:
+
+```{r Paste}
+paste("Visit", 1:5, sep = "_")
+paste("Visit", 1:5, sep = "_", collapse = " ")
+paste("To", "is going be the ", "we go to the store!", sep = "day ")
+# and paste0 can be even simpler see ?paste0 
+paste0("Visit",1:5)
+```
+
+## Paste Depicting How Collapse Works
+
+```{r Paste2}
+paste(1:5)
+paste(1:5, collapse = " ")
+```
+
+## The `stringr` package
+
+Like `dplyr`, the `stringr` package:
+
+* Makes some things more intuitive
+* Is different than base R
+* Is used on forums for answers
+* Has a standard format for most functions
+    * the first argument is a string like first argument is a `data.frame` in `dplyr`
+
+
+
+## Splitting/Find/Replace and Regular Expressions
+
+* R can do much more than find exact matches for a whole string
+* Like Perl and other languages, it can use regular expressions.
+* What are regular expressions?
+    * Ways to search for specific strings 
+    * Can be very complicated or simple
+    * Highly Useful - think "Find" on steroids
+
+
+## A bit on Regular Expressions
+
+* http://www.regular-expressions.info/reference.html
+* They can use to match a large number of strings in one statement
+* `.` matches any single character
+* `*` means repeat as many (even if 0) more times the last character
+* `?` makes the last thing optional
+* `^` matches start of vector `^a` - starts with "a"
+* `$` matches end of vector `b$` - ends with "b"
+
+# Splitting Strings
+
+## Substringing
+
+Very similar:
+
+Base R
+
+* `substr(x, start, stop)` - substrings from position start to position stop
+* `strsplit(x, split)` - splits strings up - returns list!
+
+`stringr`
+
+* `str_sub(x, start, end)` - substrings from position start to position end
+* `str_split(string, pattern)` - splits strings up - returns list!
+
+
+## Splitting String: base R
+
+In base R, `strsplit` splits a vector on a string into a list
+```{r strsplit}
+x <- c("I really", "like writing", "R code programs")
+y <- strsplit(x, split = " ") # returns a list
+y
+```
+
+## Splitting String: `stringr`
+
+`stringr::str_split` does the same thing:
+
+```{r str_split}
+library(stringr)
+y2 <- str_split(x, " ") # returns a list
+y2
+```
+
+## Using a fixed expression
+
+One example case is when you want to split on a period "`.`".  In regular expressions `.` means **ANY** character, so
+
+```{r}
+str_split("I.like.strings", ".")
+str_split("I.like.strings", fixed("."))
+```
+
+## Let's extract from `y`
+
+```{r stsplit2}
+suppressPackageStartupMessages(library(dplyr)) # must be loaded AFTER plyr
+y[[2]]
+sapply(y, dplyr::first) # on the fly
+sapply(y, nth, 2) # on the fly
+sapply(y, last) # on the fly
+```
+
+
+## 'Find' functions: base R
+
+`grep`: `grep`, `grepl`, `regexpr` and `gregexpr` search for matches to argument pattern within each element of a character vector: they differ in the format of and amount of detail in the results. 
+
+`grep(pattern, x, fixed=FALSE)`, where:
+
+* pattern = character string containing a regular expression to be matched in the given character vector.
+
+* x = a character vector where matches are sought, or an object which can be coerced by as.character to a character vector.
+
+* If fixed=TRUE, it will do exact matching for the phrase anywhere in the vector (regular find)
+
+
+## 'Find' functions: `stringr`
+
+`str_detect`, `str_subset`, `str_replace`, and `str_replace_all` search for matches to argument pattern within each element of a character vector: they differ in the format of and amount of detail in the results. 
+
+* `str_detect` - returns `TRUE` if `pattern` is found
+* `str_subset` - returns only the strings which pattern were detected
+    * convenient wrapper around `x[str_detect(x, pattern)]`
+* `str_extract` - returns only strings which pattern were detected, but ONLY the pattern
+* `str_replace` - replaces `pattern` with `replacement` the first time
+* `str_replace_all` - replaces `pattern` with `replacement` as many times matched
+
+## 'Find' functions: stringr compared to base R
+
+Base R does not use these functions.  Here is a "translator" of the `stringr` function to base R functions
+
+* `str_detect` - similar to `grepl` (return logical)
+* `grep(value = FALSE)` is similar to `which(str_detect())`
+* `str_subset` - similar to `grep(value = TRUE)` - return value of matched
+* `str_replace` - similar to `sub` - replace one time 
+* `str_replace_all` - similar to `gsub` - replace many times
+
+## Let's look at modifier for `stringr`
+
+`?modifiers`
+
+* `fixed` - match everything exactly
+* `regexp` - default - uses **reg**ular **exp**ressions
+* `ignore_case` is an option to not have to use `tolower`
+
+
+## Important Comparisons
+
+Base R:
+
+* Argument order is `(pattern, x)`
+* Uses option `(fixed = TRUE)`
+
+`stringr`
+
+* Argument order is `(string, pattern)` aka `(x, pattern)`
+* Uses function `fixed(pattern)`
+
+
+
+## 'Find' functions: Finding Indices
+
+These are the indices where the pattern match occurs:
+
+```{r RawlMatch}
+grep("Rawlings",Sal$Name)
+which(grepl("Rawlings", Sal$Name))
+which(str_detect(Sal$Name, "Rawlings"))
+```
+
+## 'Find' functions: Finding Logicals
+
+These are the indices where the pattern match occurs:
+
+```{r RawlMatch_log}
+head(grepl("Rawlings",Sal$Name))
+head(str_detect(Sal$Name, "Rawlings"))
+```
+
+
+## 'Find' functions: finding values, base R {.smaller}
+
+```{r grepl}
+grep("Rawlings",Sal$Name,value=TRUE)
+Sal[grep("Rawlings",Sal$Name),]
+```
+
+## 'Find' functions: finding values, `stringr` and `dplyr` {.smaller}
+
+```{r ggrep}
+str_subset(Sal$Name, "Rawlings")
+Sal %>% filter(str_detect(Name, "Rawlings"))
+```
+
+## Showing differnce in `str_extract`
+
+`str_extract` extracts just the matched string
+
+```{r ggrep2}
+ss = str_extract(Sal$Name, "Rawling")
+head(ss)
+ss[ !is.na(ss)]
+```
+
+## Showing differnce in `str_extract` and  `str_extract_all`
+
+`str_extract_all` extracts all the matched strings
+
+```{r }
+head(str_extract(Sal$AgencyID, "\\d"))
+head(str_extract_all(Sal$AgencyID, "\\d"), 2)
+```
+
+
+
+## Using Regular Expressions
+* Look for any name that starts with:
+    * Payne at the beginning, 
+    * Leonard and then an S
+    * Spence then capital C
+
+```{r grepstar}
+head(grep("^Payne.*", x = Sal$Name, value = TRUE), 3)
+```
+
+```{r grepstar2}
+head(grep("Leonard.?S", x = Sal$Name, value = TRUE))
+head(grep("Spence.*C.*", x = Sal$Name, value = TRUE))
+```
+
+
+
+## Using Regular Expressions: `stringr`
+```{r grepstar_stringr}
+head(str_subset( Sal$Name, "^Payne.*"), 3)
+```
+
+```{r grepstar2_stringr}
+head(str_subset( Sal$Name, "Leonard.?S"))
+head(str_subset( Sal$Name, "Spence.*C.*"))
+```
+
+## Replace
+
+Let's say we wanted to sort the data set by Annual Salary:
+
+```{r classSal}
+class(Sal$AnnualSalary)
+```
+
+```{r orderstring}
+sort(c("1", "2", "10")) #  not sort correctly (order simply ranks the data)
+order(c("1", "2", "10"))
+```
+
+## Replace
+
+So we must change the annual pay into a numeric:
+```{r destringSal}
+head(Sal$AnnualSalary, 4)
+head(as.numeric(Sal$AnnualSalary), 4)
+```
+
+R didn't like the `$` so it thought turned them all to `NA`.
+
+`sub()` and `gsub()` can do the replacing part in base R.
+
+## Replacing and subbing {.smaller}
+
+Now we can replace the `$` with nothing (used `fixed=TRUE` because `$` means ending):
+
+```{r orderSal}
+Sal$AnnualSalary <- as.numeric(gsub(pattern = "$", replacement="", 
+                              Sal$AnnualSalary, fixed=TRUE))
+Sal <- Sal[order(Sal$AnnualSalary, decreasing=TRUE), ] 
+Sal[1:5, c("Name", "AnnualSalary", "JobTitle")]
+```
+
+## Replacing and subbing: `stringr` {.smaller}
+
+We can do the same thing (with 2 piping operations!) in dplyr
+```{r orderSal_stringr}
+dplyr_sal = Sal
+dplyr_sal = dplyr_sal %>% mutate( 
+  AnnualSalary = AnnualSalary %>%
+    str_replace(
+      fixed("$"), 
+      "") %>%
+    as.numeric) %>%
+  arrange(desc(AnnualSalary))
+check_Sal = Sal
+rownames(check_Sal) = NULL
+all.equal(check_Sal, dplyr_sal)
+```
+

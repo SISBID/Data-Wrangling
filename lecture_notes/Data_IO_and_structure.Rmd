@@ -1,0 +1,662 @@
+---
+title: "Data I/O + Structure"
+author: "Andrew Jaffe"
+date: "July 11, 2016"
+output:
+  ioslides_presentation:
+    css: styles.css
+  beamer_presentation: default
+---
+
+```{r, echo = FALSE, message=FALSE}
+library(knitr)
+# suppressPackageStartupMessages(library(dplyr))
+opts_chunk$set(comment = "")
+```
+
+## Getting Started
+
+* You should have the latest version of R installed!
+* Open R Studio
+* Files --> New --> R Script
+* Save the blank R script as "day1.R" in a directory of your choosing
+* Add a comment header
+
+## Commenting in Scripts
+
+Add a comment header to day1.R :`#` is the comment symbol
+
+```{r}
+#################
+# Title: Demo R Script
+# Author: Andrew Jaffe
+# Date: 7/11/2016
+# Purpose: Demonstrate comments in R
+###################
+ 
+# nothing to its right is evaluated
+
+# this # is still a comment
+### you can use many #'s as you want
+
+# sometimes you have a really long comment,
+#    like explaining what you are doing 
+#    for a step in analysis. 
+# Take it to another line
+```
+
+## Explaining output on slides
+
+In slides, a command (we'll also call them code or a code chunk) will look like this
+```{r code}
+print("I'm code")
+```
+
+And then directly after it, will be the output of the code.  
+So `print("I'm code")` is the code chunk and [1] "I'm code" is the output.
+
+
+## Data Input
+
+* 'Reading in' data is the first step of any real project/analysis
+* R can read almost any file format, especially via add-on packages
+* We are going to focus on simple delimited files first
+    * tab delimited (e.g. '.txt')
+    * comma separated (e.g. '.csv')
+    * Microsoft excel (e.g. '.xlsx')
+
+## Data Input
+
+Monuments Dataset: "This data set shows the point location of Baltimore City monuments. However, the completness and currentness of these data are uncertain."
+
+* Download data from https://github.com/SISBID/Module1/data/Monuments.csv
+* Save it (or move it) to the same folder as your day1.R script
+* Within RStudio: Session --> Set Working Directory --> To Source File Location
+* (data downloaded from https://data.baltimorecity.gov/Community/Monuments/cpxf-kxp3)
+
+## Data Input
+R Studio features some nice "drop down" support, where you can run some tasks by selecting them from the toolbar.
+
+For example, you can easily import text datasets using the "Tools --> Import Dataset" command. Selecting this will bring up a new screen that lets you specify the formatting of your text file. 
+
+After importing a datatset, you get the corresponding R commands that you can enter in the console if you want to re-import data.
+
+## Data Input {.smaller}
+
+So what is going on "behind the scenes"?
+
+`read.table()`: Reads a file in table format and creates a data frame from it, with cases corresponding to lines and variables to fields in the file.
+
+```
+# the four ones I've put at the top are the important inputs
+read.table( file, # filename
+           header = FALSE, # are there column names?
+           sep = "", # what separates columns?
+           as.is = !stringsAsFactors, # do you want character strings as factors or characters?
+           quote = "\"'",  dec = ".", row.names, col.names,
+           na.strings = "NA", nrows = -1,
+           skip = 0, check.names = TRUE, fill = !blank.lines.skip,
+           strip.white = FALSE, blank.lines.skip = TRUE, comment.char = "#",
+           stringsAsFactors = default.stringsAsFactors())
+           
+# for example: `read.table("file.txt", header = TRUE, sep="\t", as.is=TRUE)`
+```
+
+## Data Input
+
+* The filename is the path to your file, in quotes
+* The function will look in your "working directory" if no absolute file path is given
+* Note that the filename can also be a path to a file on a website (e.g. 'www.someurl.com/table1.txt')
+
+
+## Data Input
+
+There is a 'wrapper' function for reading CSV files: 
+
+```{r readCSV}
+read.csv
+```
+
+Note: the `...` designates extra/optional arguments that can be passed to `read.table()` if needed
+
+
+## Before we get started: Working Directories
+
+* R looks for files on your computer relative to the "working" directory
+* It's always safer to set the working directory at the beginning of your script. Note that setting the working directory created the necessary code that you can copy into your script.
+* Example of help file
+
+```{r workingDirectory,eval=FALSE}
+## get the working directory
+getwd()
+# setwd("~/summerR_2016/Lectures")
+```
+
+## Setting a Working Directory
+
+* Setting the directory can sometimes be finicky
+    * Windows: Default directory structure involves single backslashes ("\"), but R interprets these as "escape" characters. So you must replace the backslash with forward slashed ("/") or two backslashes ("\\")
+    * Mac/Linux: Default is forward slashes, so you are okay
+* Typical linux/DOS directory structure syntax applies
+    * ".." goes up one level
+    * "./" is the current directory
+    * "~" is your home directory
+
+## Data Input {.smaller}
+
+* Here would be reading in the data from the command line, specifying the file path:
+
+```{r readCSV2}
+mon = read.csv("../data/Monuments.csv",header=TRUE,as.is=TRUE)
+head(mon)
+```
+
+## What is going on "behind the scenes"
+
+* R is reading in the Monuments CSV with specific arguments 
+* R assigns the read-in data to a newly-created R object called `mon` 
+
+## R as a calculator
+
+```{r calcDemo}
+2 + 2
+2 * 4
+2 ^ 3
+```
+
+Note, when you type your command, R inherently thinks you want to print the result. 
+
+## R as a calculator
+
+* The R console is a full calculator
+* Try to play around with it:
+    * +, -, /, * are add, subtract, divide and multiply
+    * ^ or ** is power
+    * parentheses -- ( and ) -- work with order of operations 
+
+## R as a calculator
+
+```{r calcDemo2}
+2 + (2 * 3)^2
+(1 + 3) / 2 + 45
+```
+
+## R as a calculator
+
+Try evaluating the following:
+
+* `2 + 2 * 3 / 4 -3`
+* `2 * 3 / 4 * 2`
+* `2^4 - 1`
+
+## Assignment
+
+* You can create variables from within the R environment and from files on your computer
+* R uses "=" or "<-" to assign values to a variable name
+* Variable names are case-sensitive, i.e. X and x are different
+
+```{r assign}
+x = 2 # Same as: x <- 2
+x
+x * 4
+x + 2
+```
+
+## R variables
+
+* The most comfortable and familiar class/data type for many of you will be `data.frame`
+* You can think of these as essentially Excel spreadsheets with rows (usually subjects or observations) and columns (usually variables)
+
+## Data Classes:
+
+* One dimensional classes ('vectors'):
+    * Character: strings or individual characters, quoted
+    * Numeric: any real number(s)
+    * Integer: any integer(s)/whole numbers
+    * Factor: categorical/qualitative variables
+    * Logical: variables composed of TRUE or FALSE
+    * Date/POSIXct: represents calendar dates and times
+
+## R variables
+
+* `data.frame`s are somewhat advanced objects in R; we will start with simpler objects;
+* Here we introduce "1 dimensional" classes; these are often referred to as 'vectors'
+* Vectors can have multiple sets of observations, but each observation has to be the same class.
+
+```{r assignClass}
+class(x)
+y = "hello world!"
+print(y)
+class(y)
+```
+
+## R variables
+
+Try assigning your full name to an R variable called `name`
+
+## R variables
+
+Try assigning your full name to an R variable called `name`
+
+```{r myName}
+name = "Andrew Jaffe"
+name
+```
+
+## The 'combine' function
+
+The function `c()` collects/combines/joins single R objects into a vector of R objects. It is mostly used for creating vectors of numbers, character strings, and other data types. 
+
+```{r assign3a}
+x <- c(1, 4, 6, 8)
+x
+class(x)
+```
+
+## The 'combine' function
+
+Try assigning your first and last name as 2 separate character strings into a single vector called `name2`
+
+## The 'combine' function
+
+Try assigning your first and last name as 2 separate character strings into a length-2 vector called `name2`
+
+```{r myName2}
+name2 = c("Andrew","Jaffe")
+name2
+```
+
+## R variables
+
+`length()`: Get or set the length of vectors (including lists) and factors, and of any other R object for which a method has been defined.
+
+```{r assign3b}
+length(x)
+y
+length(y)
+```
+
+##  R variables
+
+What do you expect for the length of the `name` variable? What about the `name2` variable?
+
+What are the lengths of each?
+
+##  R variables
+
+What do you expect for the length of the `name` variable? What about the `name2` variable?
+
+What are the lengths of each?
+
+```{r myName3}
+length(name)
+length(name2)
+```
+
+## R variables
+
+You can perform functions to entire vectors of numbers very easily.
+
+```{r assign4}
+x + 2
+x * 3
+x + c(1, 2, 3, 4)
+```
+
+## R variables
+
+But things like algebra can only be performed on numbers.
+
+```
+> name2 + 4
+[1] Error in name2 * 4 : non-numeric argument
+ to binary operator
+```
+
+## R variables
+
+And save these modified vectors as a new vector.
+
+```{r assign5}
+y = x + c(1, 2, 3, 4)
+y 
+```
+
+Note that the R object `y` is no longer "Hello  World!" - It has effectively been overwritten by assigning new data to the variable
+
+## R variables
+
+* You can get more attributes than just class.  The function `str` gives you the structure of the object.
+
+```{r assign2}
+str(x)
+str(y)
+```
+This tells you that `x` is a numeric vector and tells you the length.
+
+## Logical
+
+`logical` is a class that only has two possible elements: `TRUE` and `FALSE`
+
+```{r logical1}
+x = c(TRUE, FALSE, TRUE, TRUE, FALSE)
+class(x)
+is.numeric(c("Andrew", "Jaffe"))
+is.character(c("Andrew", "Jaffe"))
+```
+
+## Logical
+
+Note that `logical` elements are NOT in quotes. 
+```{r logical2}
+z = c("TRUE", "FALSE", "TRUE", "FALSE")
+class(z)
+as.logical(z)
+```
+
+Bonus: `sum()` and `mean()` work on `logical` vectors - they return the total and proportion of `TRUE` elements, respectively.
+
+```{r logical_z}
+sum(as.logical(z))
+```
+
+## General Class Information
+
+There are two useful functions associated with practically all R classes, which relate to logically checking the underlying class (`is.CLASS_()`) and coercing between classes (`as.CLASS_()`).
+
+```{r logical_coercion}
+is.numeric(c("Andrew", "Jaffe"))
+is.character(c("Andrew", "Jaffe"))
+```
+
+## General Class Information
+
+There are two useful functions associated with practically all R classes, which relate to logically checking the underlying class (`is.CLASS_()`) and coercing between classes (`as.CLASS_()`).
+
+```{r logical_coercion2}
+as.character(c(1, 4, 7))
+as.numeric(c("Andrew", "Jaffe"))
+```
+
+
+## Factors
+
+A `factor` is a special `character` vector where the elements have pre-defined groups or 'levels'. You can think of these as qualitative or categorical variables:
+
+```{r factor1}
+x = factor(c("boy", "girl", "girl", "boy", "girl"))
+x 
+class(x)
+```
+
+Note that levels are, by default, in alphanumerical order.
+
+## Factors
+
+Factors are used to represent categorical data, and can also be used for ordinal data (ie categories have an intrinsic ordering)
+
+Note that R reads in character strings as factors by default in functions like `read.table()`
+
+'The function factor is used to encode a vector as a factor (the terms 'category' and 'enumerated type' are also used for factors). If argument ordered is TRUE, the factor levels are assumed to be ordered.'
+
+```
+factor(x = character(), levels, labels = levels,
+       exclude = NA, ordered = is.ordered(x))
+```
+
+## Factors
+
+Suppose we have a vector of case-control status
+
+```{r factor2}
+cc = factor(c("case","case","case",
+        "control","control","control"))
+cc
+levels(cc) = c("control","case")
+cc
+```
+
+## Factors
+
+Note that the levels are alphabetically ordered by default. We can also specify the levels within the factor call
+
+```{r factor_cc_again}
+casecontrol = c("case","case","case","control",
+          "control","control")
+factor(casecontrol, levels = c("control","case") )
+factor(casecontrol, levels = c("control","case"), 
+       ordered=TRUE)
+```
+
+## Factors
+
+Factors can be converted to `numeric` or `character` very easily
+
+```{r factor3}
+x = factor(casecontrol,
+        levels = c("control","case") )
+as.character(x)
+as.numeric(x)
+```
+
+## Factors
+
+However, you need to be careful modifying the labels of existing factors, as its quite easy to alter the meaning of the underlying data. 
+
+```{r factorCheck}
+xCopy = x
+levels(xCopy) = c("case", "control") # wrong way
+xCopy        
+as.character(xCopy) # labels switched
+as.numeric(xCopy)
+```
+
+## Date
+
+You can convert date-like strings in the `Date` class (http://www.statmethods.net/input/dates.html for more info)
+
+```{r date}
+theDate = c("01/21/1990", "02/01/1989", "03/23/1988")
+sort(theDate)
+newDate <- as.Date(theDate, "%m/%d/%Y")
+sort(newDate)
+```
+
+## Date 
+
+However, the `lubridate` package is much easier for generating explicit dates:
+
+```{r, message=FALSE}
+library(lubridate) # great for dates!
+newDate2 = mdy(theDate)
+newDate2
+```
+
+## POSIXct
+
+The `POSIXct` class is like a more general date format (with hours, minutes, seconds).
+
+```{r}
+theTime = Sys.time()
+theTime
+class(theTime)
+theTime + as.period(20, unit = "minutes") # the future
+```
+
+
+
+## Data Classes:
+
+* Two dimensional classes:
+    * `data.frame`: traditional 'Excel' spreadsheets
+        * Each column can have a different class, from above
+    * Matrix: two-dimensional data, composed of rows and columns. Unlike data frames, the entire matrix is composed of one R class, e.g. all numeric or all characters.
+    
+## Matrices
+
+```{r matrix}
+n = 1:9 
+n
+mat = matrix(n, nrow = 3)
+mat
+```
+
+## Matrix (and Data frame) Functions
+
+These are in addition to the previous useful vector functions:
+
+* `nrow()` displays the number of rows of a matrix or data frame
+* `ncol()` displays the number of columns 
+* `dim()` displays a vector of length 2: # rows, # columns
+* `colnames()` displays the column names (if any) and `rownames()` displays the row names (if any)
+
+## Data Selection
+
+Matrices have two "slots" you can use to select data, which represent rows and columns, that are separated by a comma, so the syntax is `matrix[row,column]`. Note you cannot use `dplyr` functions on matrices.
+
+```{r subset3}
+mat[1, 1] # individual entry: row 1, column 1
+mat[1, ] # first row
+mat[, 1] # first columns
+```
+
+## Data Selection
+
+Note that the class of the returned object is no longer a matrix
+
+```{r subset4}
+class(mat[1, ])
+class(mat[, 1])
+```
+
+## Data Frames
+
+To review, the `data.frame` is the other two dimensional variable class. 
+
+Again, data frames are like matrices, but each column is a vector that can have its own class. So some columns might be `character` and others might be `numeric`, while others maybe a `factor`.
+
+## Lists
+
+* One other data type that is the most generic are `lists`.
+* Can be created using list()
+* Can hold vectors, strings, matrices, models, list of other list, lists upon lists!
+
+```{r makeList, comment="", prompt=TRUE}
+mylist <- list(letters=c("A", "b", "c"), 
+        numbers=1:3, matrix(1:25, ncol=5))
+```
+
+
+## Data Input {.smaller}
+
+```{r subset5}
+colnames(mon) # column names
+head(mon$zipCode) # first few rows
+```
+
+## Data Input
+
+The `read.table()` function returns a `data.frame`, which is the primary data format for most data cleaning and analyses
+
+```{r readCSV3}
+str(mon) # structure of an R object
+```
+
+## Data Input
+
+Changing variable names in `data.frame`s works using the `names()` function, which is analagous to `colnames()` for data frames (they can be used interchangeably)
+
+```{r names1}
+names(mon)[1] = "Name"
+names(mon)
+names(mon)[1] = "name"
+names(mon)
+```
+
+
+## Data Output {.smaller}
+
+While its nice to be able to read in a variety of data formats, it's equally important to be able to output data somewhere.
+
+`write.table()`: prints its required argument `x` (after converting it to a `data.frame` if it is not one nor a `matrix`) to a file or connection.
+
+```
+write.table(x,file = "", append = FALSE, quote = TRUE, sep = " ",
+            eol = "\n", na = "NA", dec = ".", row.names = TRUE,
+            col.names = TRUE, qmethod = c("escape", "double"),
+            fileEncoding = "")
+```
+
+## Data Output
+
+`x`: the R `data.frame` or `matrix` you want to write
+
+`file`: the file name where you want to R object written. It can be an absolute path, or a filename (which writes the file to your working directory)
+
+`sep`: what character separates the columns? 
+
+* "," = .csv - Note there is also a `write.csv()` function
+* "\t" = tab delimited
+
+`row.names`: I like setting this to FALSE because I email these to collaborators who open them in Excel
+
+## Data Output {.smaller}
+
+For example, we can write back out the Monuments dataset with the new column name:
+
+```{r writecsv}
+names(mon)[6] = "Location"
+write.csv(mon, file="monuments_newNames.csv", row.names=FALSE)
+```
+
+Note that `row.names=TRUE` would make the first column contain the row names, here just the numbers `1:nrow(mon)`, which is not very useful for Excel. Note that row names can be useful/informative in R if they contain information (but then they would just be a separate column). 
+
+## Data Input - Excel
+
+Many data analysts collaborate with researchers who use Excel to enter and curate their data. Often times, this is the input data for an analysis. You therefore have two options for getting this data into R:
+
+* Saving the Excel sheet as a .csv file, and using `read.csv()`
+* Using an add-on package, like `xlsx`, `readxl`, or `openxlsx`
+
+For single worksheet .xlsx files, I often just save the spreadsheet as a .csv file (because I often have to strip off additional summary data from the columns)
+
+For an .xlsx file with multiple well-formated worksheets, I use the `xlsx`, `readxl`, or `openxlsx` package for reading in the data.
+
+
+## Data Input - Other Software
+
+* **haven** package (https://cran.r-project.org/web/packages/haven/index.html) reads in SAS, SPSS, Stata formats
+* **readxl** package - the `read_excel` function can read Excel sheets easily
+* **readr** package - Has *read_csv*/*write_csv* and *read_table* functions similar to *read.csv*/*write.csv* and *read.table*.  Has different defaults, but can read **much faster** for very large data sets
+* **sas7bdat** reads .sas7bdat files
+* **foreign** package - can read all the formats as **haven**.  Around longer (aka more testing), but not as maintained (bad for future).
+
+## Data Input - Google Sheets
+
+You can also read in data directly from Google (Spread)sheets using the `googlesheets` package
+
+First you convert the URL of a sheet using `gs_url` and then read in the resulting sheet using `gs_read` 
+
+```{r, googleSheet}
+library(googlesheets)
+my_gs = gs_key("1H1encEqqGA2VFYp2WorKS3VOxeQ_SL4SbRybBnNWRIQ")
+car = gs_read(my_gs)
+```
+
+## Data Input - Google Sheets
+
+Note these Google Sheets are read into R as a slightly different class than `data.frame`
+
+```{r, gsClass}
+class(car)
+head(car)
+```
+
+## Data Input - Google Sheets
+
+You can just coerce into a regular `data.frame`
+
+```{r, gsCoerce}
+carDf = as.data.frame(car)
+head(carDf)
+```
