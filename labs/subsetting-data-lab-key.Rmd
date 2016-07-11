@@ -1,0 +1,105 @@
+---
+title: "subsetting Lab"
+author: "Andrew Jaffe"
+date: "July 11, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+```
+
+In this lab you can use the interactive console to explore but please record your commands here.  
+
+Remember anything you type here can be "sent" to the console with: Cmd-Enter (OS-X) or Ctrl-Enter (Windows/Linux).
+
+1. Check to see if you have the `mtcars` dataset (which is included in the `datasets` package)
+
+```{r}
+dim(mtcars)
+head(mtcars)
+## rename rownames as first column
+mtcars$name = rownames(mtcars)
+mtcars = select(mtcars, name, everything())
+rownames(mtcars) = NULL
+# mtcars = datasets::mtcars # in case you mess up
+```
+
+2. What class is `mtcars`?
+
+```{r}
+class(mtcars)
+```
+
+The class of `mtcars` is `r class(mtcars)`.
+
+3. How many observations (rows) and variables (columns) are in the `mtcars` dataset?
+
+```{r}
+dim(mtcars)
+nrow(mtcars)
+ncol(mtcars)
+str(mtcars)
+```
+
+There are `r nrow(mtcars)` cars.
+
+4. Select the subset of rows that get more than 20 miles per gallon (mpg) of fuel efficiency - how many are there?
+
+```{r}
+nrow(filter(mtcars, mpg > 20))
+mtcars %>% filter(mpg > 20) %>% nrow
+nrow(mtcars[ mtcars$mpg > 20, ])
+sum(mtcars$mpg > 20)
+length(which(mtcars$mpg > 20))
+```
+
+5. Select the subset of rows that get less than 16 miles per gallon (mpg) of fuel efficiency and have more than 100 horsepower (hp) - how many are there?
+
+```{r}
+mtcars %>% filter(mpg < 16 & hp > 100) %>% nrow
+```
+
+6. Create a subset of the data that only contains the columns: wt, qsec, and hp for only the cars that have 8 cylinder, and assign this object to `carsSub` - what are the dimensions of this dataset?
+
+```{r}
+carsSub = mtcars %>% 
+  filter(cyl == 8) %>% 
+  select(wt, qsec, hp)
+carsSub = mtcars[
+    mtcars$cyl == 8, c("wt", "qsec", "hp")]
+```
+
+7. Convert the column names of `carsSub` to all upper case
+
+```{r}
+cn = colnames(carsSub)
+cn = toupper(cn)
+colnames(carsSub) = cn
+colnames(carsSub) = colnames(carsSub) %>% toupper
+
+colnames(carsSub) = toupper(colnames(carsSub))
+```
+
+8. Re-order the rows of `carsSub` by weight in increasing order
+
+```{r}
+arrange(carsSub, WT)
+carsSub[ order(carsSub$WT),]
+```
+
+9. Copy mtcars into a variable called `cars` and rename the `mpg` column in `cars` to `MPG`
+
+```{r}
+cars = mtcars
+# cars$MPG = cars$mpg
+cars = rename(cars, MPG = mpg)
+```
+
+10. Subset the columns from mtcars that end in "p" and call the new data frame `pvars`
+
+```{r}
+pvars = select(mtcars, ends_with("p"))
+head(pvars)
+```
