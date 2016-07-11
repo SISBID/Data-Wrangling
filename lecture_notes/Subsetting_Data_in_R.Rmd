@@ -1,0 +1,433 @@
+---
+title: "Subsetting Data in R"
+author: "Andrew Jaffe"
+date: "July 11, 2016"
+output:
+  ioslides_presentation:
+    css: styles.css
+  beamer_presentation: default
+---
+
+```{r, echo = FALSE}
+library(knitr)
+opts_chunk$set(comment = "")
+```
+
+## Overview
+
+We showed one way to read data into R using *read.csv*.  In this module, we will show you how to:
+
+1. Select specific elements of an object by an index or logical condition
+2. Renaming columns of a `data.frame`
+3. Subset rows of a `data.frame`
+4. Subset columns of a `data.frame`
+5. Add/remove new columns to a `data.frame`
+6. Order the columns of a `data.frame`
+7. Order the rows of a `data.frame`
+
+## Setup
+
+We will show you how to do each operation in base R then show you how to use the `dplyr` package to do the same operation (if applicable).  
+
+Many resources on how to use `dplyr` exist and are straightforward: 
+
+* https://cran.rstudio.com/web/packages/dplyr/vignettes/
+* https://stat545-ubc.github.io/block009_dplyr-intro.html
+* https://www.datacamp.com/courses/dplyr-data-manipulation-r-tutorial
+
+
+## Select specific elements using an index
+
+Often you only want to look at subsets of a data set at any given time. As a review, elements of an R object are selected using the brackets (`[` and `]`).
+
+For example, `x` is a vector of numbers and we can select the second element of `x` using the brackets and an index (2):
+
+```{r}
+x = c(1, 4, 2, 8, 10)
+x[2]
+```
+
+## Select specific elements using an index
+
+We can select the fifth or second AND fifth elements below:
+
+```{r}
+x = c(1, 2, 4, 8, 10)
+x[5]
+x[c(2,5)]
+```
+
+## Subsetting by deletion of entries
+
+You can put a minus (`-`) before integers inside brackets to remove these indices from the data.
+
+```{r negativeIndex}
+x[-2] # all but the second
+```
+Note that you have to be careful with this syntax when dropping more than 1 element:
+
+```{r negativeIndex2}
+x[-c(1,2,3)] # drop first 3
+# x[-1:3] # shorthand. R sees as -1 to 3
+x[-(1:3)] # needs parentheses
+```
+
+
+
+## Select specific elements using logical operators
+
+What about selecting rows based on the values of two variables? We use logical statements.  Here we select only elements of `x` greater than 2:
+
+```{r}
+x
+x > 2
+x[ x > 2 ]
+```
+
+## Select specific elements using logical operators
+You can have multiple logical conditions using the following:
+
+* `&` : AND
+* `|` : OR
+
+```{r}
+x[ x > 2 & x < 5 ]
+x[ x > 5 | x == 2 ]
+```
+
+
+## which function
+
+The `which` functions takes in logical vectors and returns the index for the elements where the logical value is `TRUE`.  
+
+```{r}
+which(x > 5 | x == 2) # returns index
+x[ which(x > 5 | x == 2) ]
+x[ x > 5 | x == 2 ]
+```
+
+
+## Creating a `data.frame` to work with
+
+Here we create a toy data.frame named `df` using random data:
+```{r}
+set.seed(2016) # reproducbility
+df = data.frame(x = c(1, 2, 4, 10, 10),
+                x2 = rpois(5, 10),
+                y = rnorm(5),
+                z = rpois(5, 6)
+                )
+```
+
+
+# Renaming Columns
+
+## Renaming Columns of a `data.frame`: base R
+
+We can use the `colnames` function to directly reassign column names of `df`:
+```{r}
+colnames(df) = c("x", "X", "y", "z")
+head(df)
+colnames(df) = c("x", "x2", "y", "z") #reset
+```
+
+## Renaming Columns of a `data.frame`: base R
+
+We can assign the column names, change the ones we want, and then re-assign
+the column names:
+```{r}
+cn = colnames(df)
+cn[ cn == "x2"] = "X"
+colnames(df) = cn
+head(df)
+colnames(df) = c("x", "x2", "y", "z") #reset
+```
+
+## Renaming Columns of a `data.frame`: dplyr
+
+
+```{r}
+library(dplyr)
+```
+
+Note, when loading `dplyr`, it says objects can be "masked".  That means if you 
+use a function defined in 2 places, it uses the one that is loaded in **last**.
+
+## Renaming Columns of a `data.frame`: dplyr
+
+For example, if we print `filter`, then we see at the bottom `namespace:dplyr`, which
+means when you type `filter`, it will use the one from the `dplyr` package.
+
+```{r}
+filter
+```
+## Renaming Columns of a `data.frame`: dplyr
+
+A `filter` function exists by default in the `stats` package, however.  If you want
+to make sure you use that one, you use `PackageName::Function` with the colon-colon 
+("`::`") operator. 
+
+```{r}
+head(stats::filter,2)
+```
+
+This is important when loading many packages, and you may have
+some conflicts/masking:
+
+## Renaming Columns of a `data.frame`: dplyr
+
+To rename columns in `dplyr`, you use the `rename` command
+
+```{r}
+df = dplyr::rename(df, X = x2)
+head(df)
+df = dplyr::rename(df, x2 = X) # reset
+```
+
+
+# Subsetting Columns
+
+
+## Subset columns of a `data.frame`: 
+
+We can grab the `x` column using the `$` operator. 
+
+```{r}
+df$x
+```
+
+## Subset columns of a `data.frame`: 
+
+We can also subset a `data.frame` using the bracket `[, ]` subsetting. 
+
+For `data.frame`s and matrices (2-dimensional objects), the brackets are `[rows, columns]` subsetting.  We can grab the `x` column using the index of the column or the column name ("`x`") 
+
+```{r}
+df[, 1]
+df[, "x"]
+```
+
+## Subset columns of a `data.frame`: 
+
+We can select multiple columns using multiple column names:
+
+```{r}
+df[, c("x", "y")]
+```
+
+
+## Subset columns of a `data.frame`: dplyr
+
+The `select` command from `dplyr` allows you to subset
+```{r}
+select(df, x)
+```
+
+## Select columns of a `data.frame`: dplyr
+
+The `select` command from `dplyr` allows you to subset columns of 
+```{r}
+select(df, x, x2)
+select(df, starts_with("x"))
+```
+
+
+# Subsetting Rows
+
+## Subset rows of a `data.frame` with indices: 
+
+Let's select **rows** 1 and 3 from `df` using brackets:
+
+```{r}
+df[ c(1, 3), ]
+```
+
+
+## Subset rows of a `data.frame`: 
+
+Let's select the rows of `df` where the `x` column is greater than 5 or is equal to 2.  Without any index for columns, all columns are returned:
+
+```{r}
+df[ df$x > 5 | df$x == 2, ]
+```
+
+## Subset rows of a `data.frame`: 
+
+We can subset both rows and colums at the same time:
+
+```{r}
+df[ df$x > 5 | df$x == 2, c("y", "z")]
+```
+
+
+## Subset rows of a `data.frame`: dplyr
+
+The command in `dplyr` for subsetting rows is `filter`.  Try `?filter`
+
+```{r}
+filter(df, x > 5 | x == 2)
+```
+Note, no `$` or subsetting is necessary.  R "knows" `x` refers to a column of `df`.
+
+## Subset rows of a `data.frame`: dplyr
+
+By default, you can separate conditions by commas, and `filter` assumes these statements are joined by `&`
+
+```{r}
+filter(df, x > 2 & y < 0)
+filter(df, x > 2, y < 0)
+```
+
+
+## Combining `filter` and `select`
+
+You can combine `filter` and `select` to subset the rows and columns, respectively, of a `data.frame`:
+
+```{r}
+select(filter(df, x > 2 & y < 0), y, z)
+```
+
+In `R`, the common way to perform multiple operations is to wrap functions around each other in a nested way such as above 
+
+## Assigning Temporary Objects
+
+One can also create temporary objects and reassign them:
+
+```{r}
+df2 = filter(df, x > 2 & y < 0)
+df2 = select(df2, y, z)
+```
+
+## Piping - a new concept
+
+There is another (newer) way of performing these operations, called "piping".  It is becoming more popular as it's easier to read:
+
+```{r}
+df %>% filter(x > 2 & y < 0) %>% select(y, z)
+```
+
+It is read: "take df, then filter the rows and then select `y`, `z`".
+
+# Adding/Removing Columns
+
+## Adding new columns to a `data.frame`: base R
+
+You can add a new column, called `newcol` to `df`, using the `$` operator:
+```{r}
+df$newcol = 5:1
+df$newcol = df$x + 2
+```
+
+
+
+## Removing columns to a `data.frame`: base R
+
+You can remove a column by assigning to `NULL`:
+```{r}
+df$newcol = NULL
+```
+or selecing only the columns that were not `newcol`:
+```{r}
+df = df[, colnames(df) != "newcol"]
+```
+
+## Adding new columns to a `data.frame`: base R
+
+You can also "**c**olumn **bind**" a `data.frame` with a vector (or series of vectors), using the `cbind` command:
+```{r}
+cbind(df, newcol = 5:1)
+```
+
+
+## Adding columns to a `data.frame`: dplyr
+
+The `mutate` function in `dplyr` allows you to add or replace columns of a `data.frame`:
+```{r}
+mutate(df, newcol = 5:1)
+print({df = mutate(df, newcol = x + 2)})
+```
+
+## Removing columns to a `data.frame`: dplyr
+
+The `NULL` method is still very common.
+
+The `select` function can remove a column with a minus (`-`), much like removing rows:
+```{r}
+select(df, -newcol)
+```
+
+## Removing columns to a `data.frame`: dplyr
+
+Remove `newcol` and `y`
+```{r}
+select(df, -one_of("newcol", "y"))
+```
+
+# Ordering columns
+
+## Ordering the columns of a `data.frame`: base R
+
+We can use the `colnames` function to get the column names of `df` and then put `newcol` first by subsetting `df` using brackets:
+
+```{r}
+cn = colnames(df)
+df[, c("newcol", cn[cn != "newcol"]) ]
+```
+
+## Ordering the columns of a `data.frame`: dplyr
+
+The `select` function can reorder columns.  Put `newcol` first, then select the rest of columns:
+```{r}
+select(df, newcol, everything())
+```
+
+# Ordering rows
+
+## Ordering the rows of a `data.frame`: base R
+
+We use the `order` function on a vector or set of vectors, in increasing order:
+
+```{r}
+df[ order(df$x), ]
+```
+
+## Ordering the rows of a `data.frame`: base R
+
+The `decreasing` argument will order it in decreasing order:
+```{r}
+df[ order(df$x, decreasing = TRUE), ]
+```
+
+## Ordering the rows of a `data.frame`: base R
+
+You can pass multiple vectors, and must use the negative (using `-`) to mix decreasing and increasing orderings (sort increasing on `x` and decreasing on `y`):
+```{r}
+df[ order(df$x, -df$y), ]
+```
+
+## Ordering the rows of a `data.frame`: dplyr
+
+The `arrange` function can reorder rows  By default, `arrange` orders in ascending order:
+```{r}
+arrange(df, x)
+```
+
+## Ordering the rows of a `data.frame`: dplyr
+Use the `desc` to arrange the rows in descending order:
+```{r}
+arrange(df, desc(x))
+```
+
+## Ordering the rows of a `data.frame`: dplyr
+It is a bit more straightforward to mix increasing and decreasing orderings:
+```{r}
+arrange(df, x, desc(y))
+```
+
+## Transmutation
+
+The `transmute` function in `dplyr` combines both the `mutate` and `select` functions. One can create new columns and keep the only the columns wanted:
+
+```{r}
+transmute(df, newcol2 = x * 3, x, y)
+```
