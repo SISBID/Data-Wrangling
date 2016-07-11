@@ -42,7 +42,7 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 | 0  | 2016-07-11  | Background  | [Try R](http://tryr.codeschool.com/)  | Really simple intro to R online  |
 | 0  | 2016-07-11  | Background | [swirl](http://swirlstats.com/)  | More tutorials on R, in R  |
 | 0 | 2016-07-11 | Background | [Datacamp](http://datacamp.com/) | More tutorials on R, in the browser |
-| 1 | 2016-07-11 | 8:30AM - 10:00AM |[Welcome and motivation](https://docs.google.com/presentation/d/1WeOfmSZTWUm74rA-jqV-gnoQcI1oJpe6ecntWPJ-iK8/edit)|Why you're here|
+| 1 | 2016-07-11 | 8:30AM - 10:00AM |[Welcome and motivation](https://docs.google.com/presentation/d/1WeOfmSZTWUm74rA-jqV-gnoQcI1oJpe6ecntWPJ-iK8/edit), [PDF](lecture_notes/SISBID_Intro.pdf)|Why you're here|
 | 1 | 2016-07-11 | 8:30AM - 10:00AM | [Who assessment](https://docs.google.com/spreadsheets/d/103vUoftv2dLNZ_FcAz08b5ptIkWN4W2RaFn7VF39FJ8/edit#gid=0) | How to see who we are|
 | 1 | 2016-07-11 | 8:30AM - 10:00AM | [Skills assessment](https://docs.google.com/spreadsheets/d/18KQQd4LY5k8Ucux1MvWCsQGQJlvd0ECTnn-3ixdOKFM/edit?usp=sharing) [Skills Notebook](https://raw.githubusercontent.com/SISBID/Module1/gh-pages/labs/skills_notebook.Rmd) | How to see how good we are|
 | 1 | 2016-07-11 | 8:30AM - 10:00AM |[Data brainstorming](https://docs.google.com/document/d/1yxcXeKAGhu1CyPatuBmgfRp4XbVJVEhc2Zp4Yl-Q9pk/edit?usp=sharing) | How to find data |
