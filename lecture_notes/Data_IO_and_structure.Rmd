@@ -483,8 +483,6 @@ class(theTime)
 theTime + as.period(20, unit = "minutes") # the future
 ```
 
-
-
 ## Data Classes:
 
 * Two dimensional classes:
@@ -510,35 +508,16 @@ These are in addition to the previous useful vector functions:
 * `dim()` displays a vector of length 2: # rows, # columns
 * `colnames()` displays the column names (if any) and `rownames()` displays the row names (if any)
 
-## Data Selection
-
-Matrices have two "slots" you can use to select data, which represent rows and columns, that are separated by a comma, so the syntax is `matrix[row,column]`. Note you cannot use `dplyr` functions on matrices.
-
-```{r subset3}
-mat[1, 1] # individual entry: row 1, column 1
-mat[1, ] # first row
-mat[, 1] # first columns
-```
-
-## Data Selection
-
-Note that the class of the returned object is no longer a matrix
-
-```{r subset4}
-class(mat[1, ])
-class(mat[, 1])
-```
-
 ## Data Frames
 
-To review, the `data.frame` is the other two dimensional variable class. 
+The `data.frame` is the other two dimensional variable class. 
 
 Again, data frames are like matrices, but each column is a vector that can have its own class. So some columns might be `character` and others might be `numeric`, while others maybe a `factor`.
 
 ## Lists
 
 * One other data type that is the most generic are `lists`.
-* Can be created using list()
+* Can be created using `list()`
 * Can hold vectors, strings, matrices, models, list of other list, lists upon lists!
 
 ```{r makeList, comment="", prompt=TRUE}

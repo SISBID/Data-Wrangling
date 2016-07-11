@@ -205,7 +205,7 @@ read.table( file, # filename
     fill = TRUE, comment.char = &quot;&quot;, ...) 
 read.table(file = file, header = header, sep = sep, quote = quote, 
     dec = dec, fill = fill, comment.char = comment.char, ...)
-&lt;bytecode: 0x000000000a100248&gt;
+&lt;bytecode: 0x000000000aed3f90&gt;
 &lt;environment: namespace:utils&gt;</pre>
 
 <p>Note: the <code>...</code> designates extra/optional arguments that can be passed to <code>read.table()</code> if needed</p>
@@ -697,7 +697,7 @@ newDate2</pre>
 <pre class = 'prettyprint lang-r'>theTime = Sys.time()
 theTime</pre>
 
-<pre >[1] &quot;2016-07-10 21:56:33 PDT&quot;</pre>
+<pre >[1] &quot;2016-07-10 22:00:19 PDT&quot;</pre>
 
 <pre class = 'prettyprint lang-r'>class(theTime)</pre>
 
@@ -705,7 +705,7 @@ theTime</pre>
 
 <pre class = 'prettyprint lang-r'>theTime + as.period(20, unit = &quot;minutes&quot;) # the future</pre>
 
-<pre >[1] &quot;2016-07-10 22:16:33 PDT&quot;</pre>
+<pre >[1] &quot;2016-07-10 22:20:19 PDT&quot;</pre>
 
 </article></slide><slide class=''><hgroup><h2>Data Classes:</h2></hgroup><article  id="data-classes-1">
 
@@ -748,37 +748,9 @@ mat</pre>
 <li><code>colnames()</code> displays the column names (if any) and <code>rownames()</code> displays the row names (if any)</li>
 </ul>
 
-</article></slide><slide class=''><hgroup><h2>Data Selection</h2></hgroup><article  id="data-selection">
-
-<p>Matrices have two &quot;slots&quot; you can use to select data, which represent rows and columns, that are separated by a comma, so the syntax is <code>matrix[row,column]</code>. Note you cannot use <code>dplyr</code> functions on matrices.</p>
-
-<pre class = 'prettyprint lang-r'>mat[1, 1] # individual entry: row 1, column 1</pre>
-
-<pre >[1] 1</pre>
-
-<pre class = 'prettyprint lang-r'>mat[1, ] # first row</pre>
-
-<pre >[1] 1 4 7</pre>
-
-<pre class = 'prettyprint lang-r'>mat[, 1] # first columns</pre>
-
-<pre >[1] 1 2 3</pre>
-
-</article></slide><slide class=''><hgroup><h2>Data Selection</h2></hgroup><article  id="data-selection-1">
-
-<p>Note that the class of the returned object is no longer a matrix</p>
-
-<pre class = 'prettyprint lang-r'>class(mat[1, ])</pre>
-
-<pre >[1] &quot;integer&quot;</pre>
-
-<pre class = 'prettyprint lang-r'>class(mat[, 1])</pre>
-
-<pre >[1] &quot;integer&quot;</pre>
-
 </article></slide><slide class=''><hgroup><h2>Data Frames</h2></hgroup><article  id="data-frames">
 
-<p>To review, the <code>data.frame</code> is the other two dimensional variable class.</p>
+<p>The <code>data.frame</code> is the other two dimensional variable class.</p>
 
 <p>Again, data frames are like matrices, but each column is a vector that can have its own class. So some columns might be <code>character</code> and others might be <code>numeric</code>, while others maybe a <code>factor</code>.</p>
 
@@ -786,7 +758,7 @@ mat</pre>
 
 <ul>
 <li>One other data type that is the most generic are <code>lists</code>.</li>
-<li>Can be created using list()</li>
+<li>Can be created using <code>list()</code></li>
 <li>Can hold vectors, strings, matrices, models, list of other list, lists upon lists!</li>
 </ul>
 
