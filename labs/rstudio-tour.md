@@ -13,6 +13,7 @@ This will be a quick tour through some of the features of Rstudio.
   * `Ctrl + 2` = move cursor to console
   * `Ctrl + 1` = move cursor to script page
 6. Point out how you can start a shell Tools -> Shell
+7. Show the view command on mtcars
 
 
 

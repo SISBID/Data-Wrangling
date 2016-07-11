@@ -1,10 +1,10 @@
 ### Github lab for SISBID
 
 
-1. First we need to set up Git/Github. Here are a good set of instructions: http://r-pkgs.had.co.nz/git.html#git-init. When telling Git your name and email
+1. First we need to set up Git/Github. Here are a good set of instructions:http://stat545.com/git00_index.html. When telling Git your name and email
 address you need to run the commands in the shell. You can do this with Tools -> Shell in Rstudio. 
 
-2. Use the approach discussed in class to clone the class repo: https://github.com/SISBID/Module1
+2. Use the approach discussed in class to clone the data sharing repo: https://github.com/jtleek/datasharing
 
 3. Create a new directory File -> New Project -> New Directory -> Empty Project (be sure to click on the link to make it version controlled with git!). 
 
@@ -32,9 +32,6 @@ address you need to run the commands in the shell. You can do this with Tools ->
 
 14. On https://github.com/yourusername/yourdirectoryname click on the place where it says something like "3 commits". You can see each of the changes you have made. 
 
-15. If you want to know more check out here: http://r-pkgs.had.co.nz/git.html
-
-16. If you are done and want to learn how the command line tools work for Git check out: https://try.github.io/
-
+15. If you are done and want to go big, find a partner and do this exercise: https://github.com/kbroman/Tools4RR/blob/master/05_Git_Lab/git_lab.md
 
 
