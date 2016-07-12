@@ -57,11 +57,12 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 |1 | 2016-07-11 | 3:30PM - 5:00PM |[Subsetting](lecture_notes/Subsetting_Data_in_R.html), [Lab](labs/subsetting-data-lab.Rmd), [Key](labs/subsetting-data-lab-key.Rmd)|How to select data|
 |2 | 2016-07-12 | 8:30AM - 10:00AM | [Advanced data IO](https://docs.google.com/presentation/d/1KNopKzl_cR9z9HQt_22RuvIQOsZe4pxM2G7spT_AVoc/edit?usp=sharing) | Different ways of accessing big data|
 |2 | --- | 10:00AM - 10:30AM | Break | --- |
-|2 | 2016-07-12 | 10:30AM - 12:00PM | [Data manipulation and summarization](https://docs.google.com/presentation/d/15meI7W3MeF0afEV5ggdqXfwOIlwy5tcFYTJM-VUGHTs/edit?usp=sharing) |  |
+|2 | 2016-07-12 | 10:30AM - 12:PMAM | [Advanced data Lab](labs/web-api-lab.Rmd) | Different ways of accessing big data|
 |2 | --- | 12:00PM - 1:30PM | Lunch| --- |
-|2 | 2016-07-12 | 1:30PM - 3:00PM | [Big Data Tricks](lecture_notes/Big_Data_Tricks.html)| Import and parallel tricks |
+|2 | 2016-07-12 | 1:30PM - 3:00PM | [Cleaning data](lecture_notes/Data_Cleaning.html), [Lab](labs/data-cleaning-lab.Rmd)|Cleaning Data|
 |2 | --- | 3:00PM - 3:30PM | Break | Break |
-|2 | 2016-07-12 | 3:30PM - 5:00PM | [Cleaning data](lecture_notes/Data_Cleaning.html), [Lab](labs/data-cleaning-lab.Rmd)|Cleaning Data, Regular expressions, handling missingness |
+|2 | 2016-07-12 | 3:30PM - 5:00PM | [Manipulation/Summarization](https://docs.google.com/presentation/d/15meI7W3MeF0afEV5ggdqXfwOIlwy5tcFYTJM-VUGHTs/edit?usp=sharing), [Big Data "Tricks""](lecture_notes/Big_Data_Tricks.html)|  |
+
 
 <!--
 |3 | 2017-07-13 |  8:30AM - 10:00AM | [Intro to Bioconductor]() |Tools for large (genomic) datasets |
