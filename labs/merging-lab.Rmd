@@ -5,18 +5,22 @@ date: "July 7, 2015"
 output: html_document
 ---
 
-1. Download the samples data on the 1,000 genomes project from their website (ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/working/20130606_sample_info/20130606_sample_info.xlsx).
+1. Download the samples data on the 1,000 genomes project from their website (https://www.dropbox.com/s/7bg2pvzmcv4di3v/1000genomes.xlsx?dl=0).
+
 
 2. Open the sheet and look at the information listed. Go to the sheet _Final Phase Sequence Data_
 
-3. Read in the first and fourth sheets. Keep only the low coverage data from the 4th sheet. 
+3. Read in the first and fourth sheets (you may want to use the `readxl` package). Keep only the low coverage data from the 4th sheet. 
 
-4. Look at the cheetsheet on merging:  https://stat545-ubc.github.io/bit001_dplyr-cheatsheet.html
+4. Look at the cheetsheet on merging:  http://stat545.com/bit001_dplyr-cheatsheet.html
 
-5. Try merging the data sets with `inner_join`, `semi_join`, `left_join`, use `merge` to do an outer join like we did in class. 
+
+5. Try merging the data sets with `inner_join`, `semi_join`, `left_join`,`full_join`. 
 
 6. What are the dimensions of the resulting data sets? 
 
-7. The outer join and and left join have the same dimensions. Are they exactly identical? 
+7. The full join and and left join have the same dimensions. Are they exactly identical? 
 
 8. Reverse the order of that sets on `left_join`. Do you get the same result? 
+
+9. Try `anti_join`. What happens? Read here for more on filtering joins: http://r4ds.had.co.nz/relational-data.html

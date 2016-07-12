@@ -7,7 +7,7 @@ output: html_document
 
 This is a lab to practice with Google Sheets and the `googlesheets` package.
 
-1. If you haven't already go to the class Google Sheet and add your information:  https://docs.google.com/spreadsheets/d/1FJ_k8krqoO5E7L5vjEMjB3vMoMcBRmAzxQ5tkJodT34/
+1. If you haven't already go to the class Google Sheet and add your information:  https://docs.google.com/spreadsheets/d/103vUoftv2dLNZ_FcAz08b5ptIkWN4W2RaFn7VF39FJ8
 
 2. Use the `googlesheets` package to read in the data like we discussed in class. 
 
