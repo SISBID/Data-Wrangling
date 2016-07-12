@@ -1,0 +1,12 @@
+---
+title: "json lab"
+author: "Jeff Leek"
+date: "July 12, 2016"
+output: html_document
+---
+
+1. Use Github API to get all of Hadley Wickham's repo data (username = "hadley")
+
+2. How many stars does he have on each repository?
+
+3. How many open issues are there? 
