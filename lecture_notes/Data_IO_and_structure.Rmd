@@ -598,14 +598,3 @@ For an .xlsx file with multiple well-formated worksheets, I use the `xlsx`, `rea
 * **sas7bdat** reads .sas7bdat files
 * **foreign** package - can read all the formats as **haven**.  Around longer (aka more testing), but not as maintained (bad for future).
 
-## Data Input - Google Sheets
-
-You can also read in data directly from Google (Spread)sheets using the `googlesheets` package
-
-First you convert the URL of a sheet using `gs_url` and then read in the resulting sheet using `gs_read` 
-
-```{r, googleSheet,eval=FALSE}
-library(googlesheets)
-my_gs = gs_url("https://docs.google.com/spreadsheets/d/1H1encEqqGA2VFYp2WorKS3VOxeQ_SL4SbRybBnNWRIQ/")
-car = gs_read(my_gs)
-```

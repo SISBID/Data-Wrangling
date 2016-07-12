@@ -1,0 +1,232 @@
+---
+title: "R - Big Data Tricks"
+author: "Andrew Jaffe"
+date: "July 13, 2016"
+output:
+  ioslides_presentation:
+    css: styles.css
+  beamer_presentation: default
+---
+
+```{r, echo = FALSE}
+library(knitr)
+opts_chunk$set(comment = "")
+```
+
+## Overview
+
+There are several different tricks and approaches for handling "big" datasets in R. Most of these tricks either improve the importing of large datasets and/or speed up tasks applied to large datasets.
+
+## R is memory intensive
+
+R is pretty much limited by the amount of memory on your computer (or cluster), and potentially the number of cores on your computer (or cluster).
+
+# Importing data
+
+## Reading in large data
+
+Say you have a large tab-delimited matrix that has dimensions: 100,000,000 (rows) x 500 (columns) called `foo.txt`
+
+The easiest tricks are for Mac or Linux computers since you can utilize very fast linux file processing on text files prior to importing data into R
+
+## (Linux) Piping 
+
+R can read in the output of Linux commands using the `pipe()` function.
+
+```
+dat = read.delim(pipe([some command]))
+```
+
+The most useful two linux functions are `awk` (for selecting rows) and `cut` (for selecting columns)
+
+## awk
+
+Here are a collection of useful "one liners" using `awk`
+
+http://www.pement.org/awk/awk1line.txt
+
+Note, I almost always have to google how to use `awk` to remember the exact syntax for specific tasks
+
+## awk
+
+Let's say we want to select all rows where the second column has the values "chr21"
+
+The awk command looks like:
+
+`awk -F"\t" '$2 == "chr21" { print $0 }' foo.txt`
+
+Note in linux you would probably redirect this to a file, but R can handle this "on the fly"
+
+## awk {.smaller}
+
+```{r, awkImport,eval=FALSE}
+> awkCall = "awk -F\"\t\" '$2 == \"chr21\" { print $0 }' foo.txt"
+> read.delim(pipe(awkCall),header=FALSE)
+     V1    V2         V3        V4        V5        V6        V7         V8
+1  row6 chr21 0.06470508 0.2104643 0.2630865 0.6748644 0.5838493 0.59531516
+2  row7 chr21 0.69930753 0.9533248 0.7929459 0.7084059 0.5305247 0.37651206
+3  row8 chr21 0.31752770 0.6364067 0.7774075 0.6607039 0.5074746 0.43583281
+4  row9 chr21 0.18445757 0.1926704 0.5522359 0.4889265 0.2885484 0.36124031
+5 row10 chr21 0.96333352 0.9455556 0.2251288 0.7133460 0.2673244 0.01864215
+         V9       V10        V11
+1 0.5832685 0.8670779 0.08756482
+2 0.9471309 0.6032699 0.37931679
+3 0.2296118 0.4037352 0.37954743
+4 0.3595676 0.6895200 0.09194656
+5 0.1601413 0.4742028 0.07500326
+```
+
+## awk {.smaller}
+
+Maybe we don't want all of the columns
+
+```{r, awkImport2,eval=FALSE}
+> awkCall2 = "awk -F\"\t\" '$2 == \"chr21\" { print $2\"\t\"$3\"\t\"$4 }' foo.txt"
+> read.delim(pipe(awkCall2),header=FALSE)
+     V1         V2        V3
+1 chr21 0.06470508 0.2104643
+2 chr21 0.69930753 0.9533248
+3 chr21 0.31752770 0.6364067
+4 chr21 0.18445757 0.1926704
+5 chr21 0.96333352 0.9455556
+```
+
+## awk
+
+Note you have to "escape" all of the quotation marks that are within the actual awk call so that they are not treated by quotation marks in R
+
+
+## cut
+
+`cut` selects certain columns 
+
+Let's take columns 2, 3, and 4 for all rows:
+
+```{r, cutImport,eval=FALSE}
+> cutCall = "cut -f2,3,4 foo.txt"
+> read.delim(pipe(cutCall),header=FALSE)
+      V1         V2         V3
+1   chr1 0.55127556 0.06161779
+2   chr1 0.97378813 0.84200893
+3   chr1 0.67479999 0.54580091
+4   chr1 0.90762683 0.62246401
+5   chr1 0.27251173 0.09567016
+6  chr21 0.06470508 0.21046433
+7  chr21 0.69930753 0.95332484
+8  chr21 0.31752770 0.63640675
+9  chr21 0.18445757 0.19267041
+10 chr21 0.96333352 0.94555563
+```
+
+## cut
+
+The `-d` option specifies that string that separates columns
+
+## Combining awk + cut {.smaller}
+
+You can also use the linux pipe "|" within the R `pipe()` call:
+
+```{r, bothRun, eval=FALSE}
+> bothCall = paste("awk -F\"\t\" '$2 == \"chr21\" { print $0 }' foo.txt | cut -f2,3,4")
+> read.delim(pipe(bothCall),header=FALSE)
+     V1         V2        V3
+1 chr21 0.06470508 0.2104643
+2 chr21 0.69930753 0.9533248
+3 chr21 0.31752770 0.6364067
+4 chr21 0.18445757 0.1926704
+5 chr21 0.96333352 0.9455556
+```
+
+## Windows users
+
+Doing all of this in Windows takes a lot more setup, and there are a more limited set of Linux commands:
+http://stackoverflow.com/questions/23963106/read-columns-of-a-csv-file-using-shell-or-pipe-inside-r-windows
+
+# Getting around memory limits
+
+## Using Disk
+
+The package `ff` can "trick" R into using disk space as virtual memory instead of relying on physical memory
+
+https://cran.r-project.org/web/packages/ff/index.html
+
+## Leveraging sparsity
+
+If your data is very sparse, e.g. contains a lot of 0s, then the `sparseMatrix` command in the `Matrix` package might be helpful
+
+https://stat.ethz.ch/R-manual/R-devel/library/Matrix/html/sparseMatrix.html
+
+You need to provide which rows and columns have non-zero values (and the actual values themselves)
+
+## Leveraging sparsity
+
+We've had to do this for genomics projects:
+
+http://biorxiv.org/content/early/2016/01/29/038224
+* https://github.com/nellore/runs/blob/master/sra/v2/countJunctions.R
+
+## Leveraging sparsity
+
+Run length encoding (RLE) is a popular approach for handling sparse vectors...the`DataFrame()` function in the `IRanges` package creates a more flexible extension of the `data.frame` class
+
+```{r, rleExample}
+x= rep(c(0,1,0,1,0), times=c(10000,4,10000,6,10000))
+length(x)
+rle(x) # base r
+```
+
+## Leveraging sparsity
+
+```{r, rleExample2}
+suppressPackageStartupMessages(library(IRanges))
+df= data.frame(x=x)
+DF = DataFrame(df)
+Rle(x) # from IRanges, s4-methods
+DF$x = Rle(DF$x) # note the capital R
+head(DF)
+```
+## Leveraging sparsity
+
+How much space did we save in memory?
+
+```{r, sparseSize}
+s1=object.size(df)
+s1
+s2=object.size(DF)
+s2
+as.numeric(round(s1/s2))
+```
+You can see this will can add up for large datasets. Note this doesn't rely on sparity per se, but rather many repeated fields that cluster together.
+
+## Using Databases
+
+Jeff covered this yesterday. If you can store the really large dataset in a SQL database, then it's easy to create your own SQL queries to read in only a subset of the dataset. 
+
+# Speeding up computing
+
+## Parallel libraries
+
+Almost all R functions use only a single core on your computer but you can leverage more cores. TYou can usually speed up code by using multiple cores on your computer. 
+
+[doParallel](https://cran.r-project.org/web/packages/doParallel/vignettes/gettingstartedParallel.pdf)
+[Parallel Basics](http://www.r-bloggers.com/how-to-go-parallel-in-r-basics-tips/)
+[mclapply](http://www.inside-r.org/packages/cran/multicore/docs/mclapply)
+[HPC](https://cran.r-project.org/web/views/HighPerformanceComputing.html)
+
+## Rcpp
+
+The `Rcpp` package allows you to write C++ code and run it within R.
+
+https://cran.r-project.org/web/packages/Rcpp/index.html
+
+[Note: I am not very good at C++]
+
+## GPU computing
+
+There are packages that can rely on "graphics processing units" aka video cards that can greatly speed up linear computations
+
+http://www.r-tutor.com/gpu-computing
+http://www.r-tutor.com/gpu-computing/clustering/distance-matrix
+
+
+
