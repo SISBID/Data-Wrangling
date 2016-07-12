@@ -5,7 +5,7 @@ date: "July 7, 2015"
 output: html_document
 ---
 
-1. Download the samples data on the 1,000 genomes project from their website (ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/working/20130606_sample_info/20130606_sample_info.xlsx).
+1. Download the samples data on the 1,000 genomes project: (https://www.dropbox.com/s/7bg2pvzmcv4di3v/1000genomes.xlsx?dl=0).
 
 2. Open the sheet and look at the information listed. Go to the sheet _Final Phase Sequence Data_
 

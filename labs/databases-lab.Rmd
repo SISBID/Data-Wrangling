@@ -1,0 +1,22 @@
+---
+title: "Databases lab"
+author: "Jeff Leek"
+date: "July 12, 2016"
+output: html_document
+---
+
+1. Download and load the nycflights data with the command `install.packages('nycflights13')` and `library(nycflights13)`.
+
+2. Use the `pryr` package to figure out the size of the `flights` object. 
+
+3. Create a sqlite database, then add a table "flights" with the flights data from this package.
+
+4. Inspect the tables using the `src_tbls` command to make sure the copying happened correctly.
+
+5. Find the average delay time for American Airlines (hint: the abbreviation is AA).
+
+6. Can you add a variable for delay time to the database? 
+
+7. How long does it take to collect the results of your computation for 5? 
+
+8. Can you figure out the average delay time for each airline? 
