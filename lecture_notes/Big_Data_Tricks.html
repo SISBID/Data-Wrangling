@@ -102,9 +102,285 @@
 
 <p>R is pretty much limited by the amount of memory on your computer (or cluster), and potentially the number of cores on your computer (or cluster).</p>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Importing data</h2></hgroup><article  id="importing-data">
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Getting around memory limits</h2></hgroup><article  id="getting-around-memory-limits">
 
-</article></slide><slide class=''><hgroup><h2>Reading in large data</h2></hgroup><article  id="reading-in-large-data">
+</article></slide><slide class=''><hgroup><h2>Using Disk</h2></hgroup><article  id="using-disk">
+
+<p>The package <code>ff</code> can &quot;trick&quot; R into using disk space as virtual memory instead of relying on physical memory</p>
+
+<p><a href='https://cran.r-project.org/web/packages/ff/index.html' title=''>https://cran.r-project.org/web/packages/ff/index.html</a></p>
+
+</article></slide><slide class=''><hgroup><h2>Using Disk</h2></hgroup><article  id="using-disk-1">
+
+<p>There are <code>read.csv</code> and <code>read.table</code> functions for leveraging these <code>ff</code> objects.</p>
+
+<p>These functions are <code>read.csv.ffdf</code> and <code>read.table.ffdf</code> respectively.</p>
+
+<pre class = 'prettyprint lang-r'>suppressPackageStartupMessages(library(ff))
+mon_ff= read.csv.ffdf(file=&quot;../data/Monuments.csv&quot;)
+class(mon_ff)</pre>
+
+<pre >[1] &quot;ffdf&quot;</pre>
+
+</article></slide><slide class=''><hgroup><h2>Using Disk</h2></hgroup><article  id="using-disk-2">
+
+<p>New columns must be converted to the <code>ff</code> class:</p>
+
+<pre class = 'prettyprint lang-r'>mon_ff$newCol = ff(1:nrow(mon_ff))
+mon_ff[1:4,1:7]</pre>
+
+<pre >                              name zipCode neighborhood councilDistrict
+1           James Cardinal Gibbons   21201     Downtown              11
+2              The Battle Monument   21202     Downtown              11
+3 Negro Heroes of the U.S Monument   21202     Downtown              11
+4              Star Bangled Banner   21202     Downtown              11
+  policeDistrict                       Location.1 newCol
+1        CENTRAL  408 CHARLES ST\nBaltimore, MD\n      1
+2        CENTRAL                                       2
+3        CENTRAL                                       3
+4        CENTRAL 100 HOLLIDAY ST\nBaltimore, MD\n      4</pre>
+
+</article></slide><slide class=''><hgroup><h2>Using Disk</h2></hgroup><article  id="using-disk-3">
+
+<p>More info, with examples, can be found here:</p>
+
+<ul>
+<li><a href='http://hsinay.blogspot.com/p/big-data-analysis-using-ff-and-12-nov.html' title=''>http://hsinay.blogspot.com/p/big-data-analysis-using-ff-and-12-nov.html</a></li>
+<li><a href='http://ff.r-forge.r-project.org/bit&amp;ff2.1-2_WU_Vienna2010.pdf' title=''>http://ff.r-forge.r-project.org/bit&amp;ff2.1-2_WU_Vienna2010.pdf</a></li>
+<li><a href='https://www.r-project.org/conferences/useR-2007/program/presentations/adler.pdf' title=''>https://www.r-project.org/conferences/useR-2007/program/presentations/adler.pdf</a></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Leveraging sparsity</h2></hgroup><article  id="leveraging-sparsity">
+
+<p>If your data is very sparse, e.g. contains a lot of 0s, then the <code>sparseMatrix</code> command in the <code>Matrix</code> package might be helpful</p>
+
+<p><a href='https://stat.ethz.ch/R-manual/R-devel/library/Matrix/html/sparseMatrix.html' title=''>https://stat.ethz.ch/R-manual/R-devel/library/Matrix/html/sparseMatrix.html</a></p>
+
+<p>You need to provide which rows and columns have non-zero values (and the actual values themselves)</p>
+
+</article></slide><slide class=''><hgroup><h2>Leveraging sparsity</h2></hgroup><article  id="leveraging-sparsity-1">
+
+<p>We&#39;ve had to do this for genomics projects:</p>
+
+<ul>
+<li><a href='http://biorxiv.org/content/early/2016/01/29/038224' title=''>http://biorxiv.org/content/early/2016/01/29/038224</a> with corresponding code:</li>
+<li><a href='https://github.com/nellore/runs/blob/master/sra/v2/countJunctions.R' title=''>https://github.com/nellore/runs/blob/master/sra/v2/countJunctions.R</a></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Leveraging sparsity</h2></hgroup><article  id="leveraging-sparsity-2">
+
+<p>Run length encoding (RLE) is a popular approach for handling sparse vectors&#8230;the<code>DataFrame()</code> function in the <code>IRanges</code> package creates a more flexible extension of the <code>data.frame</code> class</p>
+
+<pre class = 'prettyprint lang-r'>x= rep(c(0,1,0,1,0), times=c(10000,4,10000,6,10000))
+length(x)</pre>
+
+<pre >[1] 30010</pre>
+
+<pre class = 'prettyprint lang-r'>rle(x) # base r</pre>
+
+<pre >Run Length Encoding
+  lengths: int [1:5] 10000 4 10000 6 10000
+  values : num [1:5] 0 1 0 1 0</pre>
+
+</article></slide><slide class=''><hgroup><h2>Leveraging sparsity</h2></hgroup><article  id="leveraging-sparsity-3">
+
+<pre class = 'prettyprint lang-r'>suppressPackageStartupMessages(library(IRanges))
+df= data.frame(x=x)
+DF = DataFrame(df)
+Rle(x) # from IRanges, s4-methods</pre>
+
+<pre >numeric-Rle of length 30010 with 5 runs
+  Lengths: 10000     4 10000     6 10000
+  Values :     0     1     0     1     0</pre>
+
+<pre class = 'prettyprint lang-r'>DF$x = Rle(DF$x) # note the capital R
+head(DF)</pre>
+
+<pre >DataFrame with 6 rows and 1 column
+      x
+  &lt;Rle&gt;
+1     0
+2     0
+3     0
+4     0
+5     0
+6     0</pre>
+
+</article></slide><slide class=''><hgroup><h2>Leveraging sparsity</h2></hgroup><article  id="leveraging-sparsity-4">
+
+<p>How much space did we save in memory?</p>
+
+<pre class = 'prettyprint lang-r'>s1=object.size(df)
+s1</pre>
+
+<pre >240752 bytes</pre>
+
+<pre class = 'prettyprint lang-r'>s2=object.size(DF)
+s2</pre>
+
+<pre >2896 bytes</pre>
+
+<pre class = 'prettyprint lang-r'>as.numeric(round(s1/s2))</pre>
+
+<pre >[1] 83</pre>
+
+<p>You can see this will can add up for large datasets. Note this doesn&#39;t rely on sparity per se, but rather many repeated fields that cluster together.</p>
+
+</article></slide><slide class=''><hgroup><h2>Leveraging Sparsity</h2></hgroup><article  id="leveraging-sparsity-5">
+
+<p>We&#39;ve also used these file encoding for genomics projects:</p>
+
+<ul>
+<li><a href='http://biorxiv.org/content/early/2016/05/19/015370' title=''>http://biorxiv.org/content/early/2016/05/19/015370</a> with package:</li>
+<li><a href='https://www.bioconductor.org/packages/release/bioc/html/derfinder.html' title=''>https://www.bioconductor.org/packages/release/bioc/html/derfinder.html</a></li>
+</ul>
+
+<p>We will talk about these tomorrow.</p>
+
+</article></slide><slide class=''><hgroup><h2>Using Databases</h2></hgroup><article  id="using-databases">
+
+<p>Jeff covered this yesterday. If you can store the really large dataset in a SQL database, then it&#39;s easy to create your own SQL queries to read in only a subset of the dataset.</p>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Speeding up computing</h2></hgroup><article  id="speeding-up-computing">
+
+</article></slide><slide class=''><hgroup><h2>Parallel libraries</h2></hgroup><article  id="parallel-libraries">
+
+<p>Almost all R functions use only a single core on your computer but you can leverage more cores. You can usually speed up code by using multiple cores on your computer.</p>
+
+<p><a href='https://cran.r-project.org/web/packages/doParallel/vignettes/gettingstartedParallel.pdf' title=''>doParallel</a> <a href='http://www.r-bloggers.com/how-to-go-parallel-in-r-basics-tips/' title=''>Parallel Basics</a> <a href='http://www.inside-r.org/packages/cran/multicore/docs/mclapply' title=''>mclapply</a> <a href='https://cran.r-project.org/web/views/HighPerformanceComputing.html' title=''>HPC</a></p>
+
+</article></slide><slide class=''><hgroup><h2>Parallel libraries</h2></hgroup><article  id="parallel-libraries-1">
+
+<p>You can parallelize <code>lapply()</code> (or <code>sapply()</code>) statements with the <code>parallel::mclapply()</code> function.</p>
+
+<p>You can parallel <code>for</code> loops with the <code>foreach()</code> with <code>%dopar%</code> syntax. [<code>foreach</code> with <code>%do%</code> are analogous to <code>for</code> loops]</p>
+
+</article></slide><slide class=''><hgroup><h2>mclapply</h2></hgroup><article  id="mclapply">
+
+<p>Let&#39;s make some data</p>
+
+<pre class = 'prettyprint lang-r'>set.seed(34)
+x = rnorm(10000)
+datList = replicate(10000, sample(1:10000),simplify = FALSE)
+class(datList)</pre>
+
+<pre >[1] &quot;list&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>lapply(datList[1:5], head)</pre>
+
+<pre >[[1]]
+[1] 4256 7445  260  313 9273  728
+
+[[2]]
+[1] 6459  630 7206 5323 7854   41
+
+[[3]]
+[1] 9448 4018 1092 5964 3374 7034
+
+[[4]]
+[1] 3469 1983 6275 1669 4334 9530
+
+[[5]]
+[1] 5305 8067 8928 3201 7422 6899</pre>
+
+<pre class = 'prettyprint lang-r'>head(x)</pre>
+
+<pre >[1] -0.1388900  1.1998129 -0.7477224 -0.5752482 -0.2635815 -0.4554921</pre>
+
+</article></slide><slide class=''><hgroup><h2>mclapply</h2></hgroup><article  id="mclapply-1">
+
+<p>Let&#39;s try to run <code>mclapply()</code> and compare to the output of <code>lapply()</code></p>
+
+<pre class = 'prettyprint lang-r'>system.time(lapply(datList,cor,x))</pre>
+
+<pre >   user  system elapsed 
+   1.33    0.10    1.42 </pre>
+
+<pre class = 'prettyprint lang-r'>system.time(mclapply(datList, cor, x))</pre>
+
+<pre >   user  system elapsed 
+   1.33    0.06    1.39 </pre>
+
+<p>???</p>
+
+</article></slide><slide class=''><hgroup><h2>mclapply</h2></hgroup><article  id="mclapply-2">
+
+<p>This only works on Linux/Mac, and not Windows <code>:(</code></p>
+
+<pre >&gt; system.time(mclapply(datList,function(y) cor(x,y),mc.cores=4))
+Error in mclapply(datList, sort, mc.cores = 4) : 
+  &#39;mc.cores&#39; &gt; 1 is not supported on Windows</pre>
+
+</article></slide><slide class=''><hgroup><h2>doParallel</h2></hgroup><article  id="doparallel">
+
+<p>The <code>doParallel</code> library works better on Windows:</p>
+
+<pre class = 'prettyprint lang-r'>suppressPackageStartupMessages(library(doParallel))
+system.time(foreach(i=1:10000) %do% cor(datList[[i]],x))</pre>
+
+<pre >   user  system elapsed 
+   3.74    0.01    3.76 </pre>
+
+<pre class = 'prettyprint lang-r'>system.time(foreach(i=1:10000) %dopar% cor(datList[[i]],x))</pre>
+
+<pre >Warning: executing %dopar% sequentially: no parallel backend registered</pre>
+
+<pre >   user  system elapsed 
+   3.74    0.00    3.74 </pre>
+
+<p>Oops! You need to initiate a parallel backend first!</p>
+
+</article></slide><slide class=''><hgroup><h2>doParallel</h2></hgroup><article  id="doparallel-1">
+
+<p>Implementing parallel backend:</p>
+
+<pre class = 'prettyprint lang-r'>registerDoParallel(cores=2)
+system.time(foreach(i=1:10000) %dopar% cor(datList[[i]], x))</pre>
+
+<pre >   user  system elapsed 
+   4.01    1.65    7.14 </pre>
+
+<p>This task was not particularly amenable to parallelization, but you get the idea of the code.</p>
+
+<p>This is a good quick-start guide: <a href='http://blog.aicry.com/r-parallel-computing-in-5-minutes/' title=''>http://blog.aicry.com/r-parallel-computing-in-5-minutes/</a></p>
+
+</article></slide><slide class=''><hgroup><h2>Vectorization</h2></hgroup><article  id="vectorization">
+
+<p>Some tasks can be computed quickly just using vector or matrix-based calculations instead of iterating:</p>
+
+<pre class = 'prettyprint lang-r'>datMat = simplify2array(datList)
+class(datMat)</pre>
+
+<pre >[1] &quot;matrix&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>dim(datMat)</pre>
+
+<pre >[1] 10000 10000</pre>
+
+<pre class = 'prettyprint lang-r'>system.time(cor(x,datMat))</pre>
+
+<pre >   user  system elapsed 
+   0.89    0.26    5.21 </pre>
+
+</article></slide><slide class=''><hgroup><h2>Rcpp</h2></hgroup><article  id="rcpp">
+
+<p>The <code>Rcpp</code> package allows you to write C++ code and run it within R.</p>
+
+<p><a href='http://gallery.rcpp.org/' title=''>http://gallery.rcpp.org/</a> <a href='http://dirk.eddelbuettel.com/code/rcpp/Rcpp-introduction.pdf' title=''>http://dirk.eddelbuettel.com/code/rcpp/Rcpp-introduction.pdf</a> <a href='https://cran.r-project.org/web/packages/Rcpp/index.html' title=''>https://cran.r-project.org/web/packages/Rcpp/index.html</a></p>
+
+<p>[Note: I am not very good at C++, and it usually takes me a lot less time to just let code run longer than figure out how to do something in C]</p>
+
+</article></slide><slide class=''><hgroup><h2>GPU computing</h2></hgroup><article  id="gpu-computing">
+
+<p>There are packages that can rely on &quot;graphics processing units&quot; aka video cards that can greatly speed up linear computations</p>
+
+<p><a href='http://www.r-tutor.com/gpu-computing' title=''>http://www.r-tutor.com/gpu-computing</a> <a href='http://www.r-tutor.com/gpu-computing/clustering/distance-matrix' title=''>http://www.r-tutor.com/gpu-computing/clustering/distance-matrix</a></p>
+
+<p>[Note: I have never actually used this, and it usually takes me a lot less time to just let code run longer than figure out how to do something using the GPU]</p>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Modifying data prior to importing</h2></hgroup><article  id="modifying-data-prior-to-importing">
+
+</article></slide><slide class=''><hgroup><h2>Slicing and dicing large data</h2></hgroup><article  id="slicing-and-dicing-large-data">
 
 <p>Say you have a large tab-delimited matrix that has dimensions: 100,000,000 (rows) x 500 (columns) called <code>foo.txt</code></p>
 
@@ -209,114 +485,7 @@
 
 </article></slide><slide class=''><hgroup><h2>Windows users</h2></hgroup><article  id="windows-users">
 
-<p>Doing all of this in Windows takes a lot more setup, and there are a more limited set of Linux commands: <a href='http://stackoverflow.com/questions/23963106/read-columns-of-a-csv-file-using-shell-or-pipe-inside-r-windows' title=''>http://stackoverflow.com/questions/23963106/read-columns-of-a-csv-file-using-shell-or-pipe-inside-r-windows</a></p>
-
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Getting around memory limits</h2></hgroup><article  id="getting-around-memory-limits">
-
-</article></slide><slide class=''><hgroup><h2>Using Disk</h2></hgroup><article  id="using-disk">
-
-<p>The package <code>ff</code> can &quot;trick&quot; R into using disk space as virtual memory instead of relying on physical memory</p>
-
-<p><a href='https://cran.r-project.org/web/packages/ff/index.html' title=''>https://cran.r-project.org/web/packages/ff/index.html</a></p>
-
-</article></slide><slide class=''><hgroup><h2>Leveraging sparsity</h2></hgroup><article  id="leveraging-sparsity">
-
-<p>If your data is very sparse, e.g. contains a lot of 0s, then the <code>sparseMatrix</code> command in the <code>Matrix</code> package might be helpful</p>
-
-<p><a href='https://stat.ethz.ch/R-manual/R-devel/library/Matrix/html/sparseMatrix.html' title=''>https://stat.ethz.ch/R-manual/R-devel/library/Matrix/html/sparseMatrix.html</a></p>
-
-<p>You need to provide which rows and columns have non-zero values (and the actual values themselves)</p>
-
-</article></slide><slide class=''><hgroup><h2>Leveraging sparsity</h2></hgroup><article  id="leveraging-sparsity-1">
-
-<p>We&#39;ve had to do this for genomics projects:</p>
-
-<p><a href='http://biorxiv.org/content/early/2016/01/29/038224' title=''>http://biorxiv.org/content/early/2016/01/29/038224</a> * <a href='https://github.com/nellore/runs/blob/master/sra/v2/countJunctions.R' title=''>https://github.com/nellore/runs/blob/master/sra/v2/countJunctions.R</a></p>
-
-</article></slide><slide class=''><hgroup><h2>Leveraging sparsity</h2></hgroup><article  id="leveraging-sparsity-2">
-
-<p>Run length encoding (RLE) is a popular approach for handling sparse vectors&#8230;the<code>DataFrame()</code> function in the <code>IRanges</code> package creates a more flexible extension of the <code>data.frame</code> class</p>
-
-<pre class = 'prettyprint lang-r'>x= rep(c(0,1,0,1,0), times=c(10000,4,10000,6,10000))
-length(x)</pre>
-
-<pre >[1] 30010</pre>
-
-<pre class = 'prettyprint lang-r'>rle(x) # base r</pre>
-
-<pre >Run Length Encoding
-  lengths: int [1:5] 10000 4 10000 6 10000
-  values : num [1:5] 0 1 0 1 0</pre>
-
-</article></slide><slide class=''><hgroup><h2>Leveraging sparsity</h2></hgroup><article  id="leveraging-sparsity-3">
-
-<pre class = 'prettyprint lang-r'>suppressPackageStartupMessages(library(IRanges))
-df= data.frame(x=x)
-DF = DataFrame(df)
-Rle(x) # from IRanges, s4-methods</pre>
-
-<pre >numeric-Rle of length 30010 with 5 runs
-  Lengths: 10000     4 10000     6 10000
-  Values :     0     1     0     1     0</pre>
-
-<pre class = 'prettyprint lang-r'>DF$x = Rle(DF$x) # note the capital R
-head(DF)</pre>
-
-<pre >DataFrame with 6 rows and 1 column
-      x
-  &lt;Rle&gt;
-1     0
-2     0
-3     0
-4     0
-5     0
-6     0</pre>
-
-</article></slide><slide class=''><hgroup><h2>Leveraging sparsity</h2></hgroup><article  id="leveraging-sparsity-4">
-
-<p>How much space did we save in memory?</p>
-
-<pre class = 'prettyprint lang-r'>s1=object.size(df)
-s1</pre>
-
-<pre >240752 bytes</pre>
-
-<pre class = 'prettyprint lang-r'>s2=object.size(DF)
-s2</pre>
-
-<pre >2896 bytes</pre>
-
-<pre class = 'prettyprint lang-r'>as.numeric(round(s1/s2))</pre>
-
-<pre >[1] 83</pre>
-
-<p>You can see this will can add up for large datasets. Note this doesn&#39;t rely on sparity per se, but rather many repeated fields that cluster together.</p>
-
-</article></slide><slide class=''><hgroup><h2>Using Databases</h2></hgroup><article  id="using-databases">
-
-<p>Jeff covered this yesterday. If you can store the really large dataset in a SQL database, then it&#39;s easy to create your own SQL queries to read in only a subset of the dataset.</p>
-
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Speeding up computing</h2></hgroup><article  id="speeding-up-computing">
-
-</article></slide><slide class=''><hgroup><h2>Parallel libraries</h2></hgroup><article  id="parallel-libraries">
-
-<p>Almost all R functions use only a single core on your computer but you can leverage more cores. TYou can usually speed up code by using multiple cores on your computer.</p>
-
-<p><a href='https://cran.r-project.org/web/packages/doParallel/vignettes/gettingstartedParallel.pdf' title=''>doParallel</a> <a href='http://www.r-bloggers.com/how-to-go-parallel-in-r-basics-tips/' title=''>Parallel Basics</a> <a href='http://www.inside-r.org/packages/cran/multicore/docs/mclapply' title=''>mclapply</a> <a href='https://cran.r-project.org/web/views/HighPerformanceComputing.html' title=''>HPC</a></p>
-
-</article></slide><slide class=''><hgroup><h2>Rcpp</h2></hgroup><article  id="rcpp">
-
-<p>The <code>Rcpp</code> package allows you to write C++ code and run it within R.</p>
-
-<p><a href='https://cran.r-project.org/web/packages/Rcpp/index.html' title=''>https://cran.r-project.org/web/packages/Rcpp/index.html</a></p>
-
-<p>[Note: I am not very good at C++]</p>
-
-</article></slide><slide class=''><hgroup><h2>GPU computing</h2></hgroup><article  id="gpu-computing">
-
-<p>There are packages that can rely on &quot;graphics processing units&quot; aka video cards that can greatly speed up linear computations</p>
-
-<p><a href='http://www.r-tutor.com/gpu-computing' title=''>http://www.r-tutor.com/gpu-computing</a> <a href='http://www.r-tutor.com/gpu-computing/clustering/distance-matrix' title=''>http://www.r-tutor.com/gpu-computing/clustering/distance-matrix</a></p></article></slide>
+<p>Doing all of this in Windows takes a lot more setup, and there are a more limited set of Linux commands: <a href='http://stackoverflow.com/questions/23963106/read-columns-of-a-csv-file-using-shell-or-pipe-inside-r-windows' title=''>http://stackoverflow.com/questions/23963106/read-columns-of-a-csv-file-using-shell-or-pipe-inside-r-windows</a></p></article></slide>
 
 
   <slide class="backdrop"></slide>

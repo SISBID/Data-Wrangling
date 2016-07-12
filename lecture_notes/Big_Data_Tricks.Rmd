@@ -21,9 +21,213 @@ There are several different tricks and approaches for handling "big" datasets in
 
 R is pretty much limited by the amount of memory on your computer (or cluster), and potentially the number of cores on your computer (or cluster).
 
-# Importing data
+# Getting around memory limits
 
-## Reading in large data
+## Using Disk
+
+The package `ff` can "trick" R into using disk space as virtual memory instead of relying on physical memory
+
+https://cran.r-project.org/web/packages/ff/index.html
+
+## Using Disk
+
+There are `read.csv` and `read.table` functions for leveraging these `ff` objects.
+
+These functions are `read.csv.ffdf` and `read.table.ffdf` respectively.
+
+```{r}
+suppressPackageStartupMessages(library(ff))
+mon_ff= read.csv.ffdf(file="../data/Monuments.csv")
+class(mon_ff)
+```
+
+## Using Disk
+
+New columns must be converted to the `ff` class: 
+
+```{r}
+mon_ff$newCol = ff(1:nrow(mon_ff))
+mon_ff[1:4,1:7]
+```
+
+## Using Disk 
+
+More info, with examples, can be found here:
+
+* http://hsinay.blogspot.com/p/big-data-analysis-using-ff-and-12-nov.html
+* http://ff.r-forge.r-project.org/bit&ff2.1-2_WU_Vienna2010.pdf
+* https://www.r-project.org/conferences/useR-2007/program/presentations/adler.pdf
+
+## Leveraging sparsity
+
+If your data is very sparse, e.g. contains a lot of 0s, then the `sparseMatrix` command in the `Matrix` package might be helpful
+
+https://stat.ethz.ch/R-manual/R-devel/library/Matrix/html/sparseMatrix.html
+
+You need to provide which rows and columns have non-zero values (and the actual values themselves)
+
+## Leveraging sparsity
+
+We've had to do this for genomics projects:
+
+* http://biorxiv.org/content/early/2016/01/29/038224 with corresponding code:
+* https://github.com/nellore/runs/blob/master/sra/v2/countJunctions.R
+
+## Leveraging sparsity
+
+Run length encoding (RLE) is a popular approach for handling sparse vectors...the`DataFrame()` function in the `IRanges` package creates a more flexible extension of the `data.frame` class
+
+```{r, rleExample}
+x= rep(c(0,1,0,1,0), times=c(10000,4,10000,6,10000))
+length(x)
+rle(x) # base r
+```
+
+## Leveraging sparsity
+
+```{r, rleExample2}
+suppressPackageStartupMessages(library(IRanges))
+df= data.frame(x=x)
+DF = DataFrame(df)
+Rle(x) # from IRanges, s4-methods
+DF$x = Rle(DF$x) # note the capital R
+head(DF)
+```
+## Leveraging sparsity
+
+How much space did we save in memory?
+
+```{r, sparseSize}
+s1=object.size(df)
+s1
+s2=object.size(DF)
+s2
+as.numeric(round(s1/s2))
+```
+You can see this will can add up for large datasets. Note this doesn't rely on sparity per se, but rather many repeated fields that cluster together.
+
+## Leveraging Sparsity
+
+We've also used these file encoding for genomics projects:
+
+* http://biorxiv.org/content/early/2016/05/19/015370 with package:
+* https://www.bioconductor.org/packages/release/bioc/html/derfinder.html
+
+We will talk about these tomorrow.
+
+## Using Databases
+
+Jeff covered this yesterday. If you can store the really large dataset in a SQL database, then it's easy to create your own SQL queries to read in only a subset of the dataset. 
+
+# Speeding up computing
+
+## Parallel libraries
+
+Almost all R functions use only a single core on your computer but you can leverage more cores. You can usually speed up code by using multiple cores on your computer. 
+
+[doParallel](https://cran.r-project.org/web/packages/doParallel/vignettes/gettingstartedParallel.pdf)
+[Parallel Basics](http://www.r-bloggers.com/how-to-go-parallel-in-r-basics-tips/)
+[mclapply](http://www.inside-r.org/packages/cran/multicore/docs/mclapply)
+[HPC](https://cran.r-project.org/web/views/HighPerformanceComputing.html)
+
+## Parallel libraries
+
+You can parallelize `lapply()` (or `sapply()`) statements with the `parallel::mclapply()` function. 
+
+You can parallel `for` loops with the `foreach()` with `%dopar%` syntax. [`foreach` with `%do%` are analogous to `for` loops]
+
+## mclapply
+
+Let's make some data
+
+```{r}
+set.seed(34)
+x = rnorm(10000)
+datList = replicate(10000, sample(1:10000),simplify = FALSE)
+class(datList)
+lapply(datList[1:5], head)
+head(x)
+```
+
+## mclapply 
+
+Let's try to run `mclapply()` and compare to the output of `lapply()`
+
+```{r}
+system.time(lapply(datList,cor,x))
+system.time(mclapply(datList, cor, x))
+```
+
+???
+
+## mclapply
+
+This only works on Linux/Mac, and not Windows `:(`
+
+```
+> system.time(mclapply(datList,function(y) cor(x,y),mc.cores=4))
+Error in mclapply(datList, sort, mc.cores = 4) : 
+  'mc.cores' > 1 is not supported on Windows
+```
+
+## doParallel
+
+The `doParallel` library works better on Windows:
+
+```{r}
+suppressPackageStartupMessages(library(doParallel))
+system.time(foreach(i=1:10000) %do% cor(datList[[i]],x))
+system.time(foreach(i=1:10000) %dopar% cor(datList[[i]],x))
+```
+
+Oops! You need to initiate a parallel backend first!
+
+## doParallel
+
+Implementing parallel backend:
+
+```{r}
+registerDoParallel(cores=2)
+system.time(foreach(i=1:10000) %dopar% cor(datList[[i]], x))
+```
+
+This task was not particularly amenable to parallelization, but you get the idea of the code.
+
+This is a good quick-start guide: http://blog.aicry.com/r-parallel-computing-in-5-minutes/
+
+## Vectorization
+
+Some tasks can be computed quickly just using vector or matrix-based calculations instead of iterating:
+
+```{r}
+datMat = simplify2array(datList)
+class(datMat)
+dim(datMat)
+system.time(cor(x,datMat))
+```
+
+## Rcpp
+
+The `Rcpp` package allows you to write C++ code and run it within R.
+
+http://gallery.rcpp.org/
+http://dirk.eddelbuettel.com/code/rcpp/Rcpp-introduction.pdf
+https://cran.r-project.org/web/packages/Rcpp/index.html
+
+[Note: I am not very good at C++, and it usually takes me a lot less time to just let code run longer than figure out how to do something in C]
+
+## GPU computing
+
+There are packages that can rely on "graphics processing units" aka video cards that can greatly speed up linear computations
+
+http://www.r-tutor.com/gpu-computing
+http://www.r-tutor.com/gpu-computing/clustering/distance-matrix
+
+[Note: I have never actually used this, and it usually takes me a lot less time to just let code run longer than figure out how to do something using the GPU]
+
+# Modifying data prior to importing
+
+## Slicing and dicing large data
 
 Say you have a large tab-delimited matrix that has dimensions: 100,000,000 (rows) x 500 (columns) called `foo.txt`
 
@@ -141,92 +345,3 @@ You can also use the linux pipe "|" within the R `pipe()` call:
 
 Doing all of this in Windows takes a lot more setup, and there are a more limited set of Linux commands:
 http://stackoverflow.com/questions/23963106/read-columns-of-a-csv-file-using-shell-or-pipe-inside-r-windows
-
-# Getting around memory limits
-
-## Using Disk
-
-The package `ff` can "trick" R into using disk space as virtual memory instead of relying on physical memory
-
-https://cran.r-project.org/web/packages/ff/index.html
-
-## Leveraging sparsity
-
-If your data is very sparse, e.g. contains a lot of 0s, then the `sparseMatrix` command in the `Matrix` package might be helpful
-
-https://stat.ethz.ch/R-manual/R-devel/library/Matrix/html/sparseMatrix.html
-
-You need to provide which rows and columns have non-zero values (and the actual values themselves)
-
-## Leveraging sparsity
-
-We've had to do this for genomics projects:
-
-http://biorxiv.org/content/early/2016/01/29/038224
-* https://github.com/nellore/runs/blob/master/sra/v2/countJunctions.R
-
-## Leveraging sparsity
-
-Run length encoding (RLE) is a popular approach for handling sparse vectors...the`DataFrame()` function in the `IRanges` package creates a more flexible extension of the `data.frame` class
-
-```{r, rleExample}
-x= rep(c(0,1,0,1,0), times=c(10000,4,10000,6,10000))
-length(x)
-rle(x) # base r
-```
-
-## Leveraging sparsity
-
-```{r, rleExample2}
-suppressPackageStartupMessages(library(IRanges))
-df= data.frame(x=x)
-DF = DataFrame(df)
-Rle(x) # from IRanges, s4-methods
-DF$x = Rle(DF$x) # note the capital R
-head(DF)
-```
-## Leveraging sparsity
-
-How much space did we save in memory?
-
-```{r, sparseSize}
-s1=object.size(df)
-s1
-s2=object.size(DF)
-s2
-as.numeric(round(s1/s2))
-```
-You can see this will can add up for large datasets. Note this doesn't rely on sparity per se, but rather many repeated fields that cluster together.
-
-## Using Databases
-
-Jeff covered this yesterday. If you can store the really large dataset in a SQL database, then it's easy to create your own SQL queries to read in only a subset of the dataset. 
-
-# Speeding up computing
-
-## Parallel libraries
-
-Almost all R functions use only a single core on your computer but you can leverage more cores. TYou can usually speed up code by using multiple cores on your computer. 
-
-[doParallel](https://cran.r-project.org/web/packages/doParallel/vignettes/gettingstartedParallel.pdf)
-[Parallel Basics](http://www.r-bloggers.com/how-to-go-parallel-in-r-basics-tips/)
-[mclapply](http://www.inside-r.org/packages/cran/multicore/docs/mclapply)
-[HPC](https://cran.r-project.org/web/views/HighPerformanceComputing.html)
-
-## Rcpp
-
-The `Rcpp` package allows you to write C++ code and run it within R.
-
-https://cran.r-project.org/web/packages/Rcpp/index.html
-
-[Note: I am not very good at C++]
-
-## GPU computing
-
-There are packages that can rely on "graphics processing units" aka video cards that can greatly speed up linear computations
-
-http://www.r-tutor.com/gpu-computing
-http://www.r-tutor.com/gpu-computing/clustering/distance-matrix
-
-
-
