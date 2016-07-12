@@ -1,0 +1,249 @@
+---
+title: "Data Cleaning"
+author: "Your name"
+date: "July 12, 2016"
+output: html_document
+---
+
+### A. "Real Property Taxes" Dataset 
+
+Download the "real property taxes" dataset from the website (via OpenBaltimore), 
+he data is located here (note you don\'t need to unzip it to read it into R):
+http://sisbid.github.io/Module1/data/real_property_tax.csv.gz
+
+1. Read the Property Tax data into R and call it the variable `tax`
+
+```{r}
+library(readr)
+library(stringr)
+suppressPackageStartupMessages(library(dplyr))
+tax = read_csv("http://sisbid.github.io/Module1/data/real_property_tax.csv.gz")
+# write_csv(tax, gzfile("table.csv.gz))
+```
+
+Note the `read_csv` function is treating the empty string `""` as missing whereas the `read.csv` function is not.
+
+2. How many addresses pay property taxes? 
+
+```{r}
+nrow(tax)
+dim(tax)
+```
+
+3. What is the total city and state tax paid?
+
+```{r}
+head(tax$cityTax)
+cityTax = tax$cityTax %>% 
+  str_replace(fixed("$"), "") %>%
+  as.numeric
+stateTax = tax$stateTax %>% 
+  str_replace(fixed("$"), "") %>%
+  as.numeric
+head(cityTax)
+
+head(tax$cityTax[ is.na(cityTax) ])
+table(tax$cityTax[ is.na(cityTax) ])
+
+head(tax$stateTax[ is.na(stateTax) ])
+table(tax$stateTax[ is.na(stateTax) ])
+
+tax$cityTax = cityTax
+tax$stateTax = stateTax
+
+sum(tax$cityTax, na.rm = TRUE)
+sum(tax$cityTax, na.rm = TRUE)/1e6
+
+sum(tax$stateTax, na.rm = TRUE)
+sum(tax$stateTax, na.rm = TRUE)/1e6
+```
+
+4. How many observations/properties are in each residence code?
+
+```{r}
+table(tax$resCode)
+```
+
+5. What is the 75th percentile of city and state tax paid by residence code?
+
+```{r}
+quantile(tax$cityTax[tax$resCode=="PRINCIPAL RESIDENCE"],0.75,na.rm=TRUE)
+quantile(tax$cityTax[tax$resCode=="NOT A PRINCIPAL RESIDENCE"],0.75,na.rm=TRUE)
+quantile(tax$stateTax[tax$resCode=="PRINCIPAL RESIDENCE"],0.75,na.rm=TRUE)
+quantile(tax$stateTax[tax$resCode=="NOT A PRINCIPAL RESIDENCE"],0.75,na.rm=TRUE)
+```
+
+Or we can use something like `tapply()`
+
+```{r}
+tapply(tax$cityTax, tax$resCode, quantile, 0.75,na.rm=TRUE)
+tapply(tax$stateTax, tax$resCode, quantile, 0.75,na.rm=TRUE)
+```
+
+Or in `dplyr` (more to come next lecture)
+
+```{r}
+tax %>% group_by(resCode) %>% 
+  summarise(quantile(stateTax, 0.75,na.rm=TRUE),
+            quantile(cityTax, 0.75,na.rm=TRUE)) 
+```
+
+6. Subset the data to only retain those houses that are principal residences and describe the distribution of property taxes on these residences.
+
+```{r}
+quantile(tax$cityTax[tax$resCode == "PRINCIPAL RESIDENCE"], na.rm=TRUE)
+quantile(tax$stateTax[tax$resCode == "PRINCIPAL RESIDENCE"], na.rm=TRUE)
+```
+
+7. Convert the 'lotSize' variable to a numeric square feet variable. Tips:
+* Look at the data 
+* Assume hyphens represent inches within square foot meassuremnts 
+* Assume decimals within acreage measurements
+* 1 acre = 43560 square feet
+* Look at the data 
+
+```{r}
+tax$lotSize = str_trim(tax$lotSize) # trim to be safe
+lot = tax$lotSize # for checking later
+```
+
+First lets take care of acres
+
+```{r}
+aIndex= c(grep("ACRE.*", tax$lotSize),
+            grep(" %", tax$lotSize, fixed=TRUE))
+head(aIndex)
+head(lot[aIndex])
+
+acre = tax$lotSize[aIndex] # temporary variable
+## find and replace character strings
+acre = gsub(" ACRE.*","",acre)
+acre = gsub(" %","",acre)
+table(!is.na(as.numeric(acre)))
+
+head(acre[is.na(as.numeric(acre))],50)
+
+## lets clean the rest
+acre = gsub("-",".",acre,fixed=TRUE) # hyphen instead of decimal
+head(acre[is.na(as.numeric(acre))])
+table(!is.na(as.numeric(acre)))
+
+acre = gsub("ACRES","", acre, fixed=TRUE)
+head(acre[is.na(as.numeric(acre))])
+
+# take care of individual mistakes
+acre = gsub("O","0", acre, fixed=TRUE) # 0 vs O
+acre = gsub("Q","", acre, fixed=TRUE) # Q, oops
+acre = gsub(",.",".", acre, fixed=TRUE) # extra ,
+acre = gsub(",","", acre, fixed=TRUE) # extra ,
+acre = gsub("L","0", acre, fixed=TRUE) # leading L
+acre[is.na(as.numeric(acre))]
+
+acre2 = as.numeric(acre)*43560 
+sum(is.na(acre2)) # all but one
+```
+
+Now let's convert all of the square feet variables
+
+```{r}
+fIndex = grep("X", tax$lotSize)
+ft = tax$lotSize[fIndex]
+
+ft = gsub("&", "-", ft, fixed=TRUE)
+ft = gsub("IMP ONLY ", "", ft, fixed=TRUE)
+ft = gsub("`","1",ft,fixed=TRUE)
+
+ft= sapply(str_split(ft, " "), first)
+
+# wrapper for string split and sapply
+#### ss = function(x, pattern, slot=1,...) sapply(strsplit(x,pattern,...), "[", slot)
+
+width = sapply(str_split(ft,"X"), first)
+length = sapply(str_split(ft,"X"), nth, 2) 
+
+## width
+widthFeet = as.numeric(sapply(str_split(width, "-"), first))
+widthInch = as.numeric(sapply(str_split(width, "-"),nth,2))/12
+widthInch[is.na(widthInch)] = 0 # when no inches present
+totalWidth = widthFeet + widthInch # add together
+
+# length
+lengthFeet = as.numeric(sapply(str_split(length, "-"),first))
+lengthInch = as.numeric(sapply(str_split(length, "-",2),nth,2))/12
+lengthInch[is.na(lengthInch)] = 0 # when no inches present
+totalLength = lengthFeet + lengthInch
+
+# combine together for square feet
+sqrtFt = totalWidth*totalLength 
+ft[is.na(sqrtFt)] # what is left?
+```
+
+And now we combine everything together:
+
+```{r}
+tax$sqft = rep(NA)
+tax$sqft[aIndex] = acre2
+tax$sqft[fIndex] = sqrtFt
+mean(!is.na(tax$sqft))
+
+# already in square feet, easy!!
+sIndex=c(grep("FT", tax$lotSize), 
+         grep("S.*F.", tax$lotSize))
+sf = tax$lotSize[sIndex] # subset temporary variable
+
+sqft2 = sapply(str_split(sf,"( |SQ|SF)"),first)
+sqft2 = as.numeric(gsub(",", "", sqft2)) # remove , and convert
+tax$sqft[sIndex] = sqft2
+table(is.na(tax$sqft)) 
+## progress!
+
+#what remains?
+lot[is.na(tax$sqft)]
+```
+
+### B. "Baltimore Salary 2015" Dataset 
+
+Download the "Salary 2015" Dataset from the website (via OpenBaltimore), which is located here:
+http://sisbid.github.io/Module1/data//Baltimore_City_Employee_Salaries_FY2015.csv
+
+8. Make an object called health.sal using the salaries data set,	with only agencies of those with "fire" (or any forms), if any, in the name
+
+```{r}
+Sal = read_csv("http://sisbid.github.io/Module1/data//Baltimore_City_Employee_Salaries_FY2015.csv")
+```
+9. Make a data set called trans which contains only agencies that contain "TRANS".
+
+```{r}
+trans = Sal[grep("Fire", Sal$Agency,ignore.case=TRUE),]
+```
+
+10. What is/are the profession(s) of people who have "abra" in their name for Baltimore's Salaries?
+
+```{r}
+names(Sal)[1] = "Name"
+table(Sal$JobTitle[grep("abra", Sal$Name)])
+```
+
+11. What is the distribution of annual salaries look like? What is the IQR?
+
+```{r}
+Sal$AnnualSalary = as.numeric(gsub(pattern = "$", replacement="", 
+                              Sal$AnnualSalary, fixed=TRUE))
+quantile(Sal$AnnualSalary)
+```
+
+12. Convert HireDate to the `Date` class - plot Annual Salary vs Hire Date
+
+```{r}
+library(lubridate)
+Sal$HireDate = mdy(Sal$HireDate)
+plot(Sal$AnnualSalary, Sal$HireDate)
+```
+
+13. Create a smaller dataset that only includes the Police Department, Fire Department and Sheriff's Office. How many employees are in this new dataset?
+
+```{r}
+new = Sal[grep("fire|police|sheriff", Sal$JobTitle, ignore.case=TRUE),]
+nrow(new)
+length(table(new$Agency))
+```
