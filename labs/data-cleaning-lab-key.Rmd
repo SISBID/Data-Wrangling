@@ -1,14 +1,13 @@
 ---
 title: "Data Cleaning"
-author: "Your name"
+author: "Andrew Jaffe (key)"
 date: "July 12, 2016"
 output: html_document
 ---
 
 ### A. "Real Property Taxes" Dataset 
 
-Download the "real property taxes" dataset from the website (via OpenBaltimore), 
-he data is located here (note you don\'t need to unzip it to read it into R):
+Download the "real property taxes" dataset from the website (via OpenBaltimore), the data is located here (note you don\'t need to unzip it to read it into R):
 http://sisbid.github.io/Module1/data/real_property_tax.csv.gz
 
 1. Read the Property Tax data into R and call it the variable `tax`
@@ -22,6 +21,15 @@ tax = read_csv("http://sisbid.github.io/Module1/data/real_property_tax.csv.gz")
 ```
 
 Note the `read_csv` function is treating the empty string `""` as missing whereas the `read.csv` function is not.
+
+```{r}
+tax2 = read.csv("../data/real_property_tax.csv.gz",as.is=TRUE)
+table(complete.cases(tax))
+table(complete.cases(tax2))
+ind = which(!complete.cases(tax))[1:3]
+tax[ind,]
+tax2[ind,]
+```
 
 2. How many addresses pay property taxes? 
 
@@ -57,6 +65,9 @@ sum(tax$cityTax, na.rm = TRUE)/1e6
 sum(tax$stateTax, na.rm = TRUE)
 sum(tax$stateTax, na.rm = TRUE)/1e6
 ```
+
+Combined would be `r round((sum(tax$stateTax, na.rm = TRUE) + sum(tax$cityTax, na.rm = TRUE))/1e6)` milion dollars paid.
+
 
 4. How many observations/properties are in each residence code?
 
@@ -110,14 +121,14 @@ lot = tax$lotSize # for checking later
 First lets take care of acres
 
 ```{r}
-aIndex= c(grep("ACRE.*", tax$lotSize),
+aIndex= c(grep("AC.*", tax$lotSize),
             grep(" %", tax$lotSize, fixed=TRUE))
 head(aIndex)
 head(lot[aIndex])
 
 acre = tax$lotSize[aIndex] # temporary variable
 ## find and replace character strings
-acre = gsub(" ACRE.*","",acre)
+acre = gsub(" AC.*","",acre)
 acre = gsub(" %","",acre)
 table(!is.na(as.numeric(acre)))
 
@@ -140,7 +151,7 @@ acre = gsub("L","0", acre, fixed=TRUE) # leading L
 acre[is.na(as.numeric(acre))]
 
 acre2 = as.numeric(acre)*43560 
-sum(is.na(acre2)) # all but one
+sum(is.na(acre2)) # all but 3
 ```
 
 Now let's convert all of the square feet variables
@@ -221,7 +232,7 @@ trans = Sal[grep("Fire", Sal$Agency,ignore.case=TRUE),]
 
 ```{r}
 names(Sal)[1] = "Name"
-table(Sal$JobTitle[grep("abra", Sal$Name)])
+table(Sal$JobTitle[grep("abra", Sal$Name, ignore.case=TRUE)])
 ```
 
 11. What is the distribution of annual salaries look like? What is the IQR?
@@ -237,7 +248,7 @@ quantile(Sal$AnnualSalary)
 ```{r}
 library(lubridate)
 Sal$HireDate = mdy(Sal$HireDate)
-plot(Sal$AnnualSalary, Sal$HireDate)
+plot(Sal$AnnualSalary ~ Sal$HireDate)
 ```
 
 13. Create a smaller dataset that only includes the Police Department, Fire Department and Sheriff's Office. How many employees are in this new dataset?
