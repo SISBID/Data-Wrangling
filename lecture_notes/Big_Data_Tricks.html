@@ -235,8 +235,6 @@ s2</pre>
 <li><a href='https://www.bioconductor.org/packages/release/bioc/html/derfinder.html' title=''>https://www.bioconductor.org/packages/release/bioc/html/derfinder.html</a></li>
 </ul>
 
-<p>We will talk about these tomorrow.</p>
-
 </article></slide><slide class=''><hgroup><h2>Using Databases</h2></hgroup><article  id="using-databases">
 
 <p>Jeff covered this yesterday. If you can store the really large dataset in a SQL database, then it&#39;s easy to create your own SQL queries to read in only a subset of the dataset.</p>
@@ -247,7 +245,12 @@ s2</pre>
 
 <p>Almost all R functions use only a single core on your computer but you can leverage more cores. You can usually speed up code by using multiple cores on your computer.</p>
 
-<p><a href='https://cran.r-project.org/web/packages/doParallel/vignettes/gettingstartedParallel.pdf' title=''>doParallel</a> <a href='http://www.r-bloggers.com/how-to-go-parallel-in-r-basics-tips/' title=''>Parallel Basics</a> <a href='http://www.inside-r.org/packages/cran/multicore/docs/mclapply' title=''>mclapply</a> <a href='https://cran.r-project.org/web/views/HighPerformanceComputing.html' title=''>HPC</a></p>
+<ul>
+<li><a href='https://cran.r-project.org/web/packages/doParallel/vignettes/gettingstartedParallel.pdf' title=''>doParallel</a></li>
+<li><a href='http://www.r-bloggers.com/how-to-go-parallel-in-r-basics-tips/' title=''>Parallel Basics</a></li>
+<li><a href='http://www.inside-r.org/packages/cran/multicore/docs/mclapply' title=''>mclapply</a></li>
+<li><a href='https://cran.r-project.org/web/views/HighPerformanceComputing.html' title=''>HPC</a></li>
+</ul>
 
 </article></slide><slide class=''><hgroup><h2>Parallel libraries</h2></hgroup><article  id="parallel-libraries-1">
 
@@ -294,12 +297,12 @@ class(datList)</pre>
 <pre class = 'prettyprint lang-r'>system.time(lapply(datList,cor,x))</pre>
 
 <pre >   user  system elapsed 
-   1.33    0.10    1.42 </pre>
+   1.50    0.04    1.55 </pre>
 
 <pre class = 'prettyprint lang-r'>system.time(mclapply(datList, cor, x))</pre>
 
 <pre >   user  system elapsed 
-   1.33    0.06    1.39 </pre>
+   1.46    0.11    1.57 </pre>
 
 <p>???</p>
 
@@ -319,14 +322,14 @@ Error in mclapply(datList, sort, mc.cores = 4) :
 system.time(foreach(i=1:10000) %do% cor(datList[[i]],x))</pre>
 
 <pre >   user  system elapsed 
-   3.74    0.01    3.76 </pre>
+   4.68    0.04    4.76 </pre>
 
 <pre class = 'prettyprint lang-r'>system.time(foreach(i=1:10000) %dopar% cor(datList[[i]],x))</pre>
 
 <pre >Warning: executing %dopar% sequentially: no parallel backend registered</pre>
 
 <pre >   user  system elapsed 
-   3.74    0.00    3.74 </pre>
+   4.37    0.00    4.39 </pre>
 
 <p>Oops! You need to initiate a parallel backend first!</p>
 
@@ -338,7 +341,7 @@ system.time(foreach(i=1:10000) %do% cor(datList[[i]],x))</pre>
 system.time(foreach(i=1:10000) %dopar% cor(datList[[i]], x))</pre>
 
 <pre >   user  system elapsed 
-   4.01    1.65    7.14 </pre>
+   4.57    1.87   13.31 </pre>
 
 <p>This task was not particularly amenable to parallelization, but you get the idea of the code.</p>
 
@@ -360,7 +363,7 @@ class(datMat)</pre>
 <pre class = 'prettyprint lang-r'>system.time(cor(x,datMat))</pre>
 
 <pre >   user  system elapsed 
-   0.89    0.26    5.21 </pre>
+   0.81    0.14    2.48 </pre>
 
 </article></slide><slide class=''><hgroup><h2>Rcpp</h2></hgroup><article  id="rcpp">
 
