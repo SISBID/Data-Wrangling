@@ -27,6 +27,7 @@ output:
 * [Rstudio](http://www.rstudio.com/),
 * [Bioconductor](http://bioconductor.org/)
 * [Rstudio's cheatsheets](http://www.rstudio.com/resources/cheatsheets/) 
+* [Data Wrangling cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
 * [Data.table cheatsheet](https://s3.amazonaws.com/assets.datacamp.com/img/blog/data+table+cheat+sheet.pdf)
 
 **Getting Started:**
@@ -64,7 +65,7 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 |2 | 2016-07-12 |  3:30PM - 5:00PM |[Data Cleaning Lab](labs/data-cleaning-lab.Rmd), [Key](labs/data-cleaning-lab-key.Rmd)|Cleaning Data|
 |3 | 2016-07-13 | 8:30AM-10:00AM | [Manipulation/Summarization](https://docs.google.com/presentation/d/15meI7W3MeF0afEV5ggdqXfwOIlwy5tcFYTJM-VUGHTs/edit?usp=sharing), [Reshaping](lecture_notes/Manipulating_Data_in_R.html)| |
 |3 | --- | 10:00AM - 10:30AM | Break | --- |
-|3 | 2016-07-13 | 10:30AM-12:00PM | [Databases/data.tables](https://docs.google.com/presentation/d/15meI7W3MeF0afEV5ggdqXfwOIlwy5tcFYTJM-VUGHTs/edit?usp=sharing), [Big Data "Tricks"](lecture_notes/Big_Data_Tricks.html), [Bioconductor/Genomics](https://docs.google.com/presentation/d/1N_98xkBZmPeeYdY5jRMFHNcIKMnUK_AXyiroGH6qhhg/edit?usp=sharing) |  | 
+|3 | 2016-07-13 | 10:30AM-12:00PM | [Databases/data.tables](https://docs.google.com/presentation/d/1Er4xRtvZA6iRuuCQcVK0H-WcxMe04IEZgNlWLQCOjGM/edit?usp=sharing), [Big Data "Tricks"](lecture_notes/Big_Data_Tricks.html), [Bioconductor/Genomics](https://docs.google.com/presentation/d/1N_98xkBZmPeeYdY5jRMFHNcIKMnUK_AXyiroGH6qhhg/edit?usp=sharing) |  | 
 
 
 **Miscellaneous**
