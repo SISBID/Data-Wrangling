@@ -62,7 +62,7 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 |2 | 2016-07-12 | 1:30PM - 3:00PM | [Cleaning data](lecture_notes/Data_Cleaning.html)|Cleaning Data|
 |2 | --- | 3:00PM - 3:30PM | Break | Break |
 |2 | 2016-07-12 |  3:30PM - 5:00PM |[Data Cleaning Lab](labs/data-cleaning-lab.Rmd), [Key](labs/data-cleaning-lab-key.Rmd)|Cleaning Data|
-|3 | 2016-07-13 | 8:30AM-10:00AM | [Manipulation/Summarization](https://docs.google.com/presentation/d/15meI7W3MeF0afEV5ggdqXfwOIlwy5tcFYTJM-VUGHTs/edit?usp=sharing), [Reshaping]()| |
+|3 | 2016-07-13 | 8:30AM-10:00AM | [Manipulation/Summarization](https://docs.google.com/presentation/d/15meI7W3MeF0afEV5ggdqXfwOIlwy5tcFYTJM-VUGHTs/edit?usp=sharing)|How to manipulate your data |
 |3 | --- | 10:00AM - 10:30AM | Break | --- |
 |3 | 2016-07-13 | 10:30AM-12:00PM | [Databases/data.tables](https://docs.google.com/presentation/d/15meI7W3MeF0afEV5ggdqXfwOIlwy5tcFYTJM-VUGHTs/edit?usp=sharing), [Big Data "Tricks"](lecture_notes/Big_Data_Tricks.html) |  | 
 
