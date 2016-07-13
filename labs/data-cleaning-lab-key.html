@@ -162,6 +162,7 @@ tax[ind,]</code></pre>
 ## 210   NOT A PRINCIPAL RESIDENCE
 ## 3358  NOT A PRINCIPAL RESIDENCE
 ## 41759 NOT A PRINCIPAL RESIDENCE</code></pre>
+<pre class="r"><code>tax3 = read.csv(&quot;../data/real_property_tax.csv.gz&quot;,as.is=TRUE,na.string=&quot;&quot;)</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>How many addresses pay property taxes?</li>
 </ol>
@@ -457,7 +458,7 @@ lot[is.na(tax$sqft)]</code></pre>
 <ol start="9" style="list-style-type: decimal">
 <li>Make a data set called trans which contains only agencies that contain “TRANS”.</li>
 </ol>
-<pre class="r"><code>trans = Sal[grep(&quot;Fire&quot;, Sal$Agency,ignore.case=TRUE),]</code></pre>
+<pre class="r"><code>trans = Sal[grep(&quot;trans&quot;, Sal$Agency,ignore.case=TRUE),]</code></pre>
 <ol start="10" style="list-style-type: decimal">
 <li>What is/are the profession(s) of people who have “abra” in their name for Baltimore’s Salaries?</li>
 </ol>
