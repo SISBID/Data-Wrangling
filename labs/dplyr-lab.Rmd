@@ -17,6 +17,6 @@ output: html_document
 
 6. Find the subset of samples that passed QC. 
 
-7.Find the subset that passed QC and came from the BCM center
+7. Find the subset that passed QC and came from the BCM center
 
 8. Calculate the average aligned coverage for each population on the subset of samples that passed QC that came from the BCM. 
