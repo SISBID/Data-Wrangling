@@ -31,6 +31,10 @@ tax[ind,]
 tax2[ind,]
 ```
 
+```{r}
+tax3 = read.csv("../data/real_property_tax.csv.gz",as.is=TRUE,na.string="")
+```
+
 2. How many addresses pay property taxes? 
 
 ```{r}
@@ -225,7 +229,7 @@ Sal = read_csv("http://sisbid.github.io/Module1/data//Baltimore_City_Employee_Sa
 9. Make a data set called trans which contains only agencies that contain "TRANS".
 
 ```{r}
-trans = Sal[grep("Fire", Sal$Agency,ignore.case=TRUE),]
+trans = Sal[grep("trans", Sal$Agency,ignore.case=TRUE),]
 ```
 
 10. What is/are the profession(s) of people who have "abra" in their name for Baltimore's Salaries?
