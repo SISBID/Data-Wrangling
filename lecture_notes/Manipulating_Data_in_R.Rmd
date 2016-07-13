@@ -20,7 +20,6 @@ In this module, we will show you how to:
 
 1. Reshaping data from long (tall) to wide (fat)
 2. Reshaping data from wide (fat) to long (tall)
-3. Merging Data
 
 ## Setup
 
