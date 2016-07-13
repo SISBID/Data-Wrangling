@@ -113,8 +113,6 @@ We've also used these file encoding for genomics projects:
 * http://biorxiv.org/content/early/2016/05/19/015370 with package:
 * https://www.bioconductor.org/packages/release/bioc/html/derfinder.html
 
-We will talk about these tomorrow.
-
 ## Using Databases
 
 Jeff covered this yesterday. If you can store the really large dataset in a SQL database, then it's easy to create your own SQL queries to read in only a subset of the dataset. 
@@ -125,10 +123,10 @@ Jeff covered this yesterday. If you can store the really large dataset in a SQL 
 
 Almost all R functions use only a single core on your computer but you can leverage more cores. You can usually speed up code by using multiple cores on your computer. 
 
-[doParallel](https://cran.r-project.org/web/packages/doParallel/vignettes/gettingstartedParallel.pdf)
-[Parallel Basics](http://www.r-bloggers.com/how-to-go-parallel-in-r-basics-tips/)
-[mclapply](http://www.inside-r.org/packages/cran/multicore/docs/mclapply)
-[HPC](https://cran.r-project.org/web/views/HighPerformanceComputing.html)
+* [doParallel](https://cran.r-project.org/web/packages/doParallel/vignettes/gettingstartedParallel.pdf)
+* [Parallel Basics](http://www.r-bloggers.com/how-to-go-parallel-in-r-basics-tips/)
+* [mclapply](http://www.inside-r.org/packages/cran/multicore/docs/mclapply)
+* [HPC](https://cran.r-project.org/web/views/HighPerformanceComputing.html)
 
 ## Parallel libraries
 
