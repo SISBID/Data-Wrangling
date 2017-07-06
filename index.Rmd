@@ -9,17 +9,12 @@ output:
 
 **Instructors:** [Andrew Jaffe](http://www.aejaffe.com/) and [Jeff Leek](http://www.jtleek.com/)
 
-**Teaching assitants:** 
-
-[Jeremy Roth](http://students.washington.edu/jhroth/)
-
-
+**Teaching assitants:** [Jeremy Roth](http://students.washington.edu/jhroth/) and [Sean Jewell](http://www.stat.washington.edu/~swjewell/)
 
 **Class Schedule:**
 
-* [Daily schedule](https://www.biostat.washington.edu/suminst/sisbid)
+* [Daily schedule](https://www.biostat.washington.edu/suminst/participants)
 * Location: FSH 102 (the big auditorium in Fisheries Sciences) [maps](https://www.biostat.washington.edu/suminst/maps)
-
 
 **Ressources:**
 
@@ -40,33 +35,34 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 
 | Day  | Date  |  Session | Resources  |  Description |
 |----|------------|--------------|---------------------|--------------------------------------|
-| 0  | 2016-07-11  | Background  | [Try R](http://tryr.codeschool.com/)  | Really simple intro to R online  |
-| 0  | 2016-07-11  | Background | [swirl](http://swirlstats.com/)  | More tutorials on R, in R  |
-| 0 | 2016-07-11 | Background | [Datacamp](http://datacamp.com/) | More tutorials on R, in the browser |
-| 1 | 2016-07-11 | 8:30AM - 10:00AM |[Welcome and motivation](https://docs.google.com/presentation/d/1WeOfmSZTWUm74rA-jqV-gnoQcI1oJpe6ecntWPJ-iK8/edit), [PDF](lecture_notes/SISBID_Intro.pdf)|Why you're here|
-| 1 | 2016-07-11 | 8:30AM - 10:00AM | [Who assessment](https://docs.google.com/spreadsheets/d/103vUoftv2dLNZ_FcAz08b5ptIkWN4W2RaFn7VF39FJ8/edit#gid=0) | How to see who we are|
-| 1 | 2016-07-11 | 8:30AM - 10:00AM | [Skills assessment](https://docs.google.com/spreadsheets/d/18KQQd4LY5k8Ucux1MvWCsQGQJlvd0ECTnn-3ixdOKFM/edit?usp=sharing) [Skills Notebook](https://raw.githubusercontent.com/SISBID/Module1/gh-pages/labs/skills_notebook.Rmd) | How to see how good we are|
-| 1 | 2016-07-11 | 8:30AM - 10:00AM |[Data brainstorming](https://docs.google.com/document/d/1yxcXeKAGhu1CyPatuBmgfRp4XbVJVEhc2Zp4Yl-Q9pk/edit?usp=sharing) | How to find data |
+| 0  | 2017-07-10  | Background  | [Try R](http://tryr.codeschool.com/)  | Really simple intro to R online  |
+| 0  | 2017-07-10  | Background | [swirl](http://swirlstats.com/)  | More tutorials on R, in R  |
+| 0 | 2017-07-10 | Background | [Datacamp](http://datacamp.com/) | More tutorials on R, in the browser |
+| 1 | 2017-07-10 | 8:30AM - 10:00AM |[Welcome and motivation](https://docs.google.com/presentation/d/1WeOfmSZTWUm74rA-jqV-gnoQcI1oJpe6ecntWPJ-iK8/edit), [PDF](lecture_notes/SISBID_Intro.pdf)|Why you're here|
+| 1 | 2017-07-10 | 8:30AM - 10:00AM | [Who assessment](https://docs.google.com/spreadsheets/d/103vUoftv2dLNZ_FcAz08b5ptIkWN4W2RaFn7VF39FJ8/edit#gid=0) | How to see who we are|
+| 1 | 2017-07-10 | 8:30AM - 10:00AM | [Skills assessment](https://docs.google.com/spreadsheets/d/1YuQ3EYXtp6uRgYxmSW6UP6km9FqEKM_FHBq5NtacK2U/pubhtml) [Skills Notebook](https://raw.githubusercontent.com/SISBID/Module1/gh-pages/labs/skills_notebook.Rmd) | How to see how good we are|
+| 1 | 2017-07-10 | 8:30AM - 10:00AM |[Data brainstorming](https://docs.google.com/document/d/1yxcXeKAGhu1CyPatuBmgfRp4XbVJVEhc2Zp4Yl-Q9pk/edit?usp=sharing) | How to find data |
 |1 | --- | 10:00AM - 10:30AM | Break | How to rest |
-|1 | 2016-07-11 | 10:30AM - 12:00PM | [Rep. Research/Version Control](https://docs.google.com/presentation/d/1F2tyP9nsHcY9DT5B6rSS95sIA9DEreDNt7s_HmbrINw/edit?usp=sharing) | How to reproduce analysis  |
-|1 | 2016-07-11 | 10:30AM - 12:00PM | [Try Git](https://try.github.io/levels/1/challenges/1) | How to try git|
-|1 | 2016-07-11 | 10:30AM - 12:00PM | [Install Git/Github](http://stat545.com/git00_index.html) | How to install git/github|
-|1 | 2016-07-11 | 10:30AM - 12:00PM | [Github lab](https://github.com/SISBID/Module1/blob/gh-pages/labs/github-lab.md) | How to practice git/github|
+|1 | 2017-07-10 | 10:30AM - 12:00PM | [Rep. Research/Version Control](https://docs.google.com/presentation/d/1F2tyP9nsHcY9DT5B6rSS95sIA9DEreDNt7s_HmbrINw/edit?usp=sharing) | How to reproduce analysis  |
+|1 | 2017-07-10 | 10:30AM - 12:00PM | [Try Git](https://try.github.io/levels/1/challenges/1) | How to try git|
+|1 | 2017-07-10 | 10:30AM - 12:00PM | [Install Git/Github](http://stat545.com/git00_index.html) | How to install git/github|
+|1 | 2017-07-10 | 10:30AM - 12:00PM | [Github lab](https://github.com/SISBID/Module1/blob/gh-pages/labs/github-lab.md) | How to practice git/github|
 |1 | --- | 12:00PM - 1:30PM | Lunch| How to eat |
-|1 | 2016-07-11 | 1:30PM - 3:00PM | [Data I/O and Structure](lecture_notes/Data_IO_and_structure.html)|How R sees data|
+<!--
+|1 | 2017-07-10 | 1:30PM - 3:00PM | [Data I/O and Structure](lecture_notes/Data_IO_and_structure.html)|How R sees data|
 |1 | --- | 3:00PM - 3:30PM | Break | How to break |
-|1 | 2016-07-11 | 3:30PM - 5:00PM |[Subsetting](lecture_notes/Subsetting_Data_in_R.html), [Lab](labs/subsetting-data-lab.Rmd), [Key](labs/subsetting-data-lab-key.Rmd)|How to select data|
-|2 | 2016-07-12 | 8:30AM - 10:00AM | [Advanced data IO](https://docs.google.com/presentation/d/1KNopKzl_cR9z9HQt_22RuvIQOsZe4pxM2G7spT_AVoc/edit?usp=sharing) | Different ways of accessing big data|
+|1 | 2017-07-10 | 3:30PM - 5:00PM |[Subsetting](lecture_notes/Subsetting_Data_in_R.html), [Lab](labs/subsetting-data-lab.Rmd)<!--, [Key](labs/subsetting-data-lab-key.Rmd)|How to select data|
+|2 | 2017-07-11 | 8:30AM - 10:00AM | [Advanced data IO](https://docs.google.com/presentation/d/1KNopKzl_cR9z9HQt_22RuvIQOsZe4pxM2G7spT_AVoc/edit?usp=sharing) | Different ways of accessing big data|
 |2 | --- | 10:00AM - 10:30AM | Break | --- |
-|2 | 2016-07-12 | 10:30AM - 12:PMAM | [Advanced data Lab](labs/web-api-lab.Rmd) | Different ways of accessing big data|
+|2 | 2017-07-11 | 10:30AM - 12:PMAM | [Advanced data Lab](labs/web-api-lab.Rmd) | Different ways of accessing big data|
 |2 | --- | 12:00PM - 1:30PM | Lunch| --- |
-|2 | 2016-07-12 | 1:30PM - 3:00PM | [Cleaning data](lecture_notes/Data_Cleaning.html)|Cleaning Data|
+|2 | 2017-07-11 | 1:30PM - 3:00PM | [Cleaning data](lecture_notes/Data_Cleaning.html)|Cleaning Data|
 |2 | --- | 3:00PM - 3:30PM | Break | Break |
-|2 | 2016-07-12 |  3:30PM - 5:00PM |[Data Cleaning Lab](labs/data-cleaning-lab.Rmd), [Key](labs/data-cleaning-lab-key.Rmd)|Cleaning Data|
-|3 | 2016-07-13 | 8:30AM-10:00AM | [Manipulation/Summarization](https://docs.google.com/presentation/d/15meI7W3MeF0afEV5ggdqXfwOIlwy5tcFYTJM-VUGHTs/edit?usp=sharing), [Reshaping](lecture_notes/Manipulating_Data_in_R.html)| |
+|2 | 2017-07-11 |  3:30PM - 5:00PM |[Data Cleaning Lab](labs/data-cleaning-lab.Rmd)<!--, [Key](labs/data-cleaning-lab-key.Rmd)|Cleaning Data|
+|3 | 2017-07-12 | 8:30AM-10:00AM | [Manipulation/Summarization](https://docs.google.com/presentation/d/15meI7W3MeF0afEV5ggdqXfwOIlwy5tcFYTJM-VUGHTs/edit?usp=sharing), [Reshaping](lecture_notes/Manipulating_Data_in_R.html)| |
 |3 | --- | 10:00AM - 10:30AM | Break | --- |
-|3 | 2016-07-13 | 10:30AM-12:00PM | [Databases/data.tables](https://docs.google.com/presentation/d/1Er4xRtvZA6iRuuCQcVK0H-WcxMe04IEZgNlWLQCOjGM/edit?usp=sharing), [Big Data "Tricks"](lecture_notes/Big_Data_Tricks.html), [Bioconductor/Genomics](https://docs.google.com/presentation/d/1N_98xkBZmPeeYdY5jRMFHNcIKMnUK_AXyiroGH6qhhg/edit?usp=sharing) |  | 
-
+|3 | 2017-07-12 | 10:30AM-12:00PM | [Databases/data.tables](https://docs.google.com/presentation/d/1Er4xRtvZA6iRuuCQcVK0H-WcxMe04IEZgNlWLQCOjGM/edit?usp=sharing), [Big Data "Tricks"](lecture_notes/Big_Data_Tricks.html), [Bioconductor/Genomics](https://docs.google.com/presentation/d/1N_98xkBZmPeeYdY5jRMFHNcIKMnUK_AXyiroGH6qhhg/edit?usp=sharing) |  | 
+-->
 
 **Miscellaneous**
 
