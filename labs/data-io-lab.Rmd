@@ -1,0 +1,21 @@
+---
+title: "Data Input/Output Lab"
+author: "Andrew Jaffe"
+date: "July 10, 2017"
+output: html_document
+---
+
+1. Download the UFO Dataset as a text file: http://sisbid.github.io/Module1/data/ufo/ufo_data_complete.txt and read in the text file as a new R object. Confirm the number of rows is the same as the CSV-based object
+
+2. Rename columns to ensure they have no spaces or non-alphanumeric characters. 
+
+3. Use the `lubridate` package to change the class of the `$datetime` column to the date class.
+
+4. Capitalize the states in the `$state` column
+
+5. Coerce the longitude and lattitude columns to the `numeric` class
+
+6. Write out this updated `data.frame` as a new CSV file
+
+7. Download the Excel-formatted UFO Dataset: http://sisbid.github.io/Module1/data/ufo/ufo_data_complete.xlsx and import the dataset as a new R object. Confirm it has the same number of lines as the CSV- and Tab-delimited-based R objects
+

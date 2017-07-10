@@ -1,7 +1,7 @@
 ---
 title: "Data I/O + Structure"
 author: "Andrew Jaffe"
-date: "July 11, 2016"
+date: "July 10, 2017"
 output:
   ioslides_presentation:
     css: styles.css
@@ -10,9 +10,91 @@ output:
 
 ```{r, echo = FALSE, message=FALSE}
 library(knitr)
+library(readr)
 # suppressPackageStartupMessages(library(dplyr))
 opts_chunk$set(comment = "")
 ```
+
+## Explaining output on slides
+
+In slides, a command (we'll also call them code or a code chunk) will look like this
+```{r code}
+print("I'm code")
+```
+
+And then directly after it, will be the output of the code.  
+So `print("I'm code")` is the code chunk and [1] "I'm code" is the output. 
+
+These slides were made in R using `knitr` and `R Markdown` which is covered in later modules, like reproducible research.
+
+
+## Common new user mistakes we have seen
+
+1.  **Working directory problems: trying to read files that R "can't find"**
+    - RStudio can help, and so do RStudio Projects
+    - discuss in this Data Input/Output lecture
+2.  Lack of comments in code
+3.  Typos (R is **case sensitive**, `x` and `X` are different)
+    - RStudio helps with "tab completion"
+    - discussed throughout
+4.  Data type problems (is that a string or a number?)
+5.  Open ended quotes, parentheses, and brackets     
+6.  Different versions of software
+    
+## Working Directories
+
+* R "looks" for files on your computer relative to the "working" directory
+* Many people recommend not setting a directory in the scripts 
+    - assume you're in the directory the script is in
+    - If you open an R file with a new RStudio session, it does this for you.
+* If you do set a working directory, do it at the beginning of your script. 
+* Example of getting and setting the working directory:
+
+```{r workingDirectory,eval=FALSE}
+## get the working directory
+getwd()
+setwd("~/Lectures") 
+```
+
+
+## Setting a Working Directory
+
+* Setting the directory can sometimes be finicky
+    * **Windows**: Default directory structure involves single backslashes ("\"), but R interprets these as "escape" characters. So you must replace the backslash with forward slashes ("/") or two backslashes ("\\")
+    * **Mac/Linux**: Default is forward slashes, so you are okay
+* Typical directory structure syntax applies
+    * ".." - goes up one level
+    * "./" - is the current directory
+    * "~" - is your "home" directory
+
+## Working Directory 
+
+Note that the `dir()` function interfaces with your operating system and can show you which files are in your current working directory. 
+
+You can try some directory navigation: 
+
+```{r directoryNav}
+dir("./") # shows directory contents
+dir("..")
+```
+
+## Relative vs. absolute paths (From Wiki)
+
+*An **absolute or full path** points to the same location in a file system, regardless of the current working directory. To do that, it must include the root directory.*
+
+This means if I try your code, and you use absolute paths, it won't work unless we have the exact same folder structure where R is looking (bad).
+
+*By contrast, a **relative path starts from some given working directory**, avoiding the need to provide the full absolute path. A filename can be considered as a relative path based at the current working directory. *
+
+## Setting the Working Directory
+
+In RStudio, go to `Session --> Set Working Directory --> To Source File Location`
+
+RStudio should put code in the Console, similar to this:
+```{r, eval = FALSE}
+setwd("~/Lectures/Data_IO/lecture")
+```
+    
 
 ## Getting Started
 
@@ -22,6 +104,45 @@ opts_chunk$set(comment = "")
 * Save the blank R script as "day1.R" in a directory of your choosing
 * Add a comment header
 
+## Setting the Working Directory
+    
+Again, if you open an R file with a new RStudio session, it does this for you.  You may need to make this a default.
+
+1. Make sure RStudio is the default application to open .R files
+    * Mac - right click --> Get Info --> Open With: RStudio --> Change All
+    * Windows - Andrew will show
+2. Close RStudio Double click `day1.R`
+
+* Confirm the directory contains "day1.R" using `dir()`:
+    * Type `dir()` in the R Console (`day1.R` should be there)    
+
+## Help
+
+For any function, you can write `?FUNCTION_NAME`, or `help("FUNCTION_NAME")` to look at the help file:
+
+```{r, eval = FALSE}
+?dir
+help("dir")
+```
+
+## Commenting in Scripts
+
+Commenting in code is super important. You should be able to go back to your code years after writing it and figure out exactly what the script is doing. Commenting helps you do this. This happens to me often...
+
+## Commenting in Scripts
+
+![The paper came out January 2012 with code made in 2011](media/code_request.jpg)
+
+
+## Commenting in Scripts
+
+![This was the figure...](media/dyr238f1.gif)
+
+## Commenting in Scripts
+
+![After some digging, I found the code](media/code_fu.jpg)
+
+
 ## Commenting in Scripts
 
 Add a comment header to day1.R :`#` is the comment symbol
@@ -30,7 +151,7 @@ Add a comment header to day1.R :`#` is the comment symbol
 #################
 # Title: Demo R Script
 # Author: Andrew Jaffe
-# Date: 7/11/2016
+# Date: 7/10/2017
 # Purpose: Demonstrate comments in R
 ###################
  
@@ -45,16 +166,6 @@ Add a comment header to day1.R :`#` is the comment symbol
 # Take it to another line
 ```
 
-## Explaining output on slides
-
-In slides, a command (we'll also call them code or a code chunk) will look like this
-```{r code}
-print("I'm code")
-```
-
-And then directly after it, will be the output of the code.  
-So `print("I'm code")` is the code chunk and [1] "I'm code" is the output.
-
 
 ## Data Input
 
@@ -67,39 +178,45 @@ So `print("I'm code")` is the code chunk and [1] "I'm code" is the output.
 
 ## Data Input
 
-Monuments Dataset: "This data set shows the point location of Baltimore City monuments. However, the completness and currentness of these data are uncertain."
+UFO Sightings via Kaggle.com: "Reports of unidentified flying object reports in the last century". 
 
-* Download data from http://sisbid.github.io/Module1/data/Monuments.csv
-* Save it (or move it) to the same folder as your day1.R script
-* Within RStudio: Session --> Set Working Directory --> To Source File Location
-* (data downloaded from https://data.baltimorecity.gov/Community/Monuments/cpxf-kxp3)
+"There are two versions of this dataset: scrubbed and complete. The complete data includes entries where the location of the sighting was not found or blank (0.8146%) or have an erroneous or blank time (8.0237%). Since the reports date back to the 20th century, some older data might be obscured. Data contains city, state, time, description, and duration of each sighting."
+
+https://www.kaggle.com/NUFORC/ufo-sightings
 
 ## Data Input
-R Studio features some nice "drop down" support, where you can run some tasks by selecting them from the toolbar.
+* Download data from http://sisbid.github.io/Module1/data/ufo/ufo_data_complete.csv.gz
+* Extract the CSV from the zipped file
+* Save it (or move it) to the same folder as your day1.R script
+* Within RStudio: Session --> Set Working Directory --> To Source File Location
+
+## Data Input
+
+Easy way: R Studio features some nice "drop down" support, where you can run some tasks by selecting them from the toolbar.
 
 For example, you can easily import text datasets using the "Tools --> Import Dataset" command. Selecting this will bring up a new screen that lets you specify the formatting of your text file. 
 
 After importing a datatset, you get the corresponding R commands that you can enter in the console if you want to re-import data.
 
-## Data Input {.smaller}
+## Data Input
+
+Initially-harder-but-gets-way-easier way: Utilizing functions like `read.table()`, and `read.csv()` or the equivalent packages in the `readr` package called `read_delim()` and `read_csv()`. 
+
+
+## Data Input
 
 So what is going on "behind the scenes"?
 
-`read.table()`: Reads a file in table format and creates a data frame from it, with cases corresponding to lines and variables to fields in the file.
+`read_delim()`: Read a delimited file into a data frame.
 
 ```
-# the four ones I've put at the top are the important inputs
-read.table( file, # filename
-           header = FALSE, # are there column names?
-           sep = "", # what separates columns?
-           as.is = !stringsAsFactors, # do you want character strings as factors or characters?
-           quote = "\"'",  dec = ".", row.names, col.names,
-           na.strings = "NA", nrows = -1,
-           skip = 0, check.names = TRUE, fill = !blank.lines.skip,
-           strip.white = FALSE, blank.lines.skip = TRUE, comment.char = "#",
-           stringsAsFactors = default.stringsAsFactors())
+read_delim(file, delim, quote = "\"", escape_backslash = FALSE,
+  escape_double = TRUE, col_names = TRUE, col_types = NULL,
+  locale = default_locale(), na = c("", "NA"), quoted_na = TRUE,
+  comment = "", trim_ws = FALSE, skip = 0, n_max = Inf,
+  guess_max = min(1000, n_max), progress = interactive())
            
-# for example: `read.table("file.txt", header = TRUE, sep="\t", as.is=TRUE)`
+# for example: `read_delim("file.txt",delim="\t")`
 ```
 
 ## Data Input
@@ -111,95 +228,60 @@ read.table( file, # filename
 
 ## Data Input
 
-There is a 'wrapper' function for reading CSV files: 
+There is another convenient function for reading in CSV files, where the delimiter is assumed to be a comma: 
 
 ```{r readCSV}
-read.csv
+read_csv
 ```
 
-Note: the `...` designates extra/optional arguments that can be passed to `read.table()` if needed
-
-
-## Before we get started: Working Directories
-
-* R looks for files on your computer relative to the "working" directory
-* It's always safer to set the working directory at the beginning of your script. Note that setting the working directory created the necessary code that you can copy into your script.
-* Example of help file
-
-```{r workingDirectory,eval=FALSE}
-## get the working directory
-getwd()
-# setwd("~/summerR_2016/Lectures")
-```
-
-## Setting a Working Directory
-
-* Setting the directory can sometimes be finicky
-    * Windows: Default directory structure involves single backslashes ("\"), but R interprets these as "escape" characters. So you must replace the backslash with forward slashed ("/") or two backslashes ("\\")
-    * Mac/Linux: Default is forward slashes, so you are okay
-* Typical linux/DOS directory structure syntax applies
-    * ".." goes up one level
-    * "./" is the current directory
-    * "~" is your home directory
-
-## Data Input {.smaller}
+## Data Input
 
 * Here would be reading in the data from the command line, specifying the file path:
 
 ```{r readCSV2}
-mon = read.csv("../data/Monuments.csv",header=TRUE,as.is=TRUE)
-head(mon)
+ufo = read_csv("../data/ufo/ufo_data_complete.csv")
 ```
 
-## What is going on "behind the scenes"
+The data is now successfully read into your R workspace, just like from using the dropdown menu.
 
-* R is reading in the Monuments CSV with specific arguments 
-* R assigns the read-in data to a newly-created R object called `mon` 
+## Data Input
 
-## R as a calculator
+The `read_delim()` and related functions returns a "tibble" is a `data.frame` with special printing, which is the primary data format for most data cleaning and analyses. 
 
-```{r calcDemo}
-2 + 2
-2 * 4
-2 ^ 3
+## Data Input with `tbl_df`s {.smaller}
+
+* When using the dropdown menu in RStudio, it uses `read_csv`, which is an improved version of reading in CSVs.  It is popular but `read.csv` is still largely used.  It returns a `tbl` (tibble), that is a `data.frame` with improved printing and subsetting properties: 
+
+```{r readCSV_readr, message=FALSE}
+library(readr)
+head(ufo)
+class(ufo)
 ```
 
-Note, when you type your command, R inherently thinks you want to print the result. 
+## Data Input
 
-## R as a calculator
-
-* The R console is a full calculator
-* Try to play around with it:
-    * +, -, /, * are add, subtract, divide and multiply
-    * ^ or ** is power
-    * parentheses -- ( and ) -- work with order of operations 
-
-## R as a calculator
-
-```{r calcDemo2}
-2 + (2 * 3)^2
-(1 + 3) / 2 + 45
+```{r, viewTibble}
+ufo
 ```
 
-## R as a calculator
 
-Try evaluating the following:
+## Data Input
 
-* `2 + 2 * 3 / 4 -3`
-* `2 * 3 / 4 * 2`
-* `2^4 - 1`
+There are also data importing functions provided in base R (rather than the `readr` package), like `read.delim` and `read.csv`. 
 
-## Assignment
+These functions have slightly different syntax for reading in data, like `header` and `as.is`. 
 
-* You can create variables from within the R environment and from files on your computer
-* R uses "=" or "<-" to assign values to a variable name
-* Variable names are case-sensitive, i.e. X and x are different
+However, while many online resources use the base R tools, the latest version of RStudio switched to use these new `readr` data import tools, so we will use them in the class for slides. They are also up to two times faster for reading in large datasets, and have a progress bar which is nice. 
 
-```{r assign}
-x = 2 # Same as: x <- 2
-x
-x * 4
-x + 2
+But you can use whatever function you feel more comfortable with.
+
+## Data Input
+
+Here is how to read in the same dataset using base R functionality, which returns a `data.frame` directly
+
+```{r, readingCSV}
+dat2 = read.csv("../data/ufo/ufo_data_complete.csv",as.is=TRUE)
+head(dat2)
 ```
 
 ## R variables
@@ -217,87 +299,15 @@ x + 2
     * Logical: variables composed of TRUE or FALSE
     * Date/POSIXct: represents calendar dates and times
 
-## R variables
 
-* `data.frame`s are somewhat advanced objects in R; we will start with simpler objects;
-* Here we introduce "1 dimensional" classes; these are often referred to as 'vectors'
-* Vectors can have multiple sets of observations, but each observation has to be the same class.
+# R variables
 
-```{r assignClass}
-class(x)
-y = "hello world!"
-print(y)
-class(y)
-```
-
-## R variables
-
-Try assigning your full name to an R variable called `name`
-
-## R variables
-
-Try assigning your full name to an R variable called `name`
-
-```{r myName}
-name = "Andrew Jaffe"
-name
-```
-
-## The 'combine' function
-
-The function `c()` collects/combines/joins single R objects into a vector of R objects. It is mostly used for creating vectors of numbers, character strings, and other data types. 
-
-```{r assign3a}
-x <- c(1, 4, 6, 8)
-x
-class(x)
-```
-
-## The 'combine' function
-
-Try assigning your first and last name as 2 separate character strings into a single vector called `name2`
-
-## The 'combine' function
-
-Try assigning your first and last name as 2 separate character strings into a length-2 vector called `name2`
-
-```{r myName2}
-name2 = c("Andrew","Jaffe")
-name2
-```
-
-## R variables
-
-`length()`: Get or set the length of vectors (including lists) and factors, and of any other R object for which a method has been defined.
-
-```{r assign3b}
-length(x)
-y
-length(y)
-```
-
-##  R variables
-
-What do you expect for the length of the `name` variable? What about the `name2` variable?
-
-What are the lengths of each?
-
-##  R variables
-
-What do you expect for the length of the `name` variable? What about the `name2` variable?
-
-What are the lengths of each?
-
-```{r myName3}
-length(name)
-length(name2)
-```
-
-## R variables
+## Numeric
 
 You can perform functions to entire vectors of numbers very easily.
 
 ```{r assign4}
+x = c(3,68,4,2)
 x + 2
 x * 3
 x + c(1, 2, 3, 4)
@@ -307,8 +317,9 @@ x + c(1, 2, 3, 4)
 
 But things like algebra can only be performed on numbers.
 
+
 ```
-> name2 + 4
+> c("Andrew", "Jaffe") + 4
 [1] Error in name2 * 4 : non-numeric argument
  to binary operator
 ```
@@ -318,6 +329,8 @@ But things like algebra can only be performed on numbers.
 And save these modified vectors as a new vector.
 
 ```{r assign5}
+y = "Hello World"
+y
 y = x + c(1, 2, 3, 4)
 y 
 ```
@@ -329,8 +342,8 @@ Note that the R object `y` is no longer "Hello  World!" - It has effectively bee
 * You can get more attributes than just class.  The function `str` gives you the structure of the object.
 
 ```{r assign2}
+class(x)
 str(x)
-str(y)
 ```
 This tells you that `x` is a numeric vector and tells you the length.
 
@@ -490,15 +503,6 @@ theTime + as.period(20, unit = "minutes") # the future
         * Each column can have a different class, from above
     * Matrix: two-dimensional data, composed of rows and columns. Unlike data frames, the entire matrix is composed of one R class, e.g. all numeric or all characters.
     
-## Matrices
-
-```{r matrix}
-n = 1:9 
-n
-mat = matrix(n, nrow = 3)
-mat
-```
-
 ## Matrix (and Data frame) Functions
 
 These are in addition to the previous useful vector functions:
@@ -530,17 +534,10 @@ mylist
 ## More on Data Frames
 
 ```{r subset5}
-colnames(mon) # column names
-head(mon$zipCode) # first few rows
+colnames(ufo) # column names
+head(ufo$city) # first few rows
 ```
 
-## Data Input
-
-The `read.table()` function returns a `data.frame`, which is the primary data format for most data cleaning and analyses
-
-```{r readCSV3}
-str(mon) # structure of an R object
-```
 
 ## Data Output
 
@@ -573,7 +570,7 @@ write.table(x,file = "", append = FALSE, quote = TRUE, sep = " ",
 For example, we can write back out the Monuments dataset with the new column name:
 
 ```{r writecsv}
-write.csv(mon, file="monuments_new.csv", row.names=FALSE)
+write.csv(ufo[1:100,], file="ufo_first100.csv", row.names=FALSE)
 ```
 
 Note that `row.names=TRUE` would make the first column contain the row names, here just the numbers `1:nrow(mon)`, which is not very useful for Excel. Note that row names can be useful/informative in R if they contain information (but then they would just be a separate column). 
@@ -583,18 +580,15 @@ Note that `row.names=TRUE` would make the first column contain the row names, he
 Many data analysts collaborate with researchers who use Excel to enter and curate their data. Often times, this is the input data for an analysis. You therefore have two options for getting this data into R:
 
 * Saving the Excel sheet as a .csv file, and using `read.csv()`
-* Using an add-on package, like `xlsx`, `readxl`, or `openxlsx`
+* Using an add-on package, like `readxl`
 
 For single worksheet .xlsx files, I often just save the spreadsheet as a .csv file (because I often have to strip off additional summary data from the columns)
 
-For an .xlsx file with multiple well-formated worksheets, I use the `xlsx`, `readxl`, or `openxlsx` package for reading in the data.
-
+For an .xlsx file with multiple well-formated worksheets, I use the `readxl`package for reading in the data.
 
 ## Data Input - Other Software
 
 * **haven** package (https://cran.r-project.org/web/packages/haven/index.html) reads in SAS, SPSS, Stata formats
-* **readxl** package - the `read_excel` function can read Excel sheets easily
-* **readr** package - Has *read_csv*/*write_csv* and *read_table* functions similar to *read.csv*/*write.csv* and *read.table*.  Has different defaults, but can read **much faster** for very large data sets
 * **sas7bdat** reads .sas7bdat files
 * **foreign** package - can read all the formats as **haven**.  Around longer (aka more testing), but not as maintained (bad for future).
 
