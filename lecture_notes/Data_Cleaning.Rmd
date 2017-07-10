@@ -1,7 +1,7 @@
 ---
 title: "Data Cleaning"
 author: "Andrew Jaffe"
-date: "July 12, 2016"
+date: "July 11, 2017"
 output:
   ioslides_presentation:
     css: styles.css
@@ -11,6 +11,7 @@ output:
 
 ```{r, echo = FALSE}
 library(knitr)
+library(readr)
 opts_chunk$set(comment = "")
 ```
 
@@ -201,16 +202,14 @@ ages[is.na(ages)] = -999
 ages
 ```
 
-## Download Salary FY2014 Data
+## Read in the UFO dataset
 
-From https://data.baltimorecity.gov/City-Government/Baltimore-City-Employee-Salaries-FY2014/2j28-xzd7
-http://www.aejaffe.com/summerR_2016/data/Baltimore_City_Employee_Salaries_FY2014.csv
+* Download data from http://sisbid.github.io/Module1/data/ufo/ufo_data_complete.csv.gz
+* Extract the CSV from the zipped file
+* Save it (or move it) to the same folder as your day1.R script
 
-Read the CSV into R `Sal`:
-
-```{r readSal}
-Sal = read.csv("../data/Baltimore_City_Employee_Salaries_FY2014.csv",
-               as.is = TRUE)
+```{r, importUfo}
+ufo = read_csv("../data/ufo/ufo_data_complete.csv")
 ```
 
 ## Checking for logical conditions {.smaller}
@@ -218,8 +217,8 @@ Sal = read.csv("../data/Baltimore_City_Employee_Salaries_FY2014.csv",
 * `all()` - checks if ALL are true
 
 ```{r isna}
-head(Sal,2)
-any(is.na(Sal$Name)) # are there any NAs?
+any(is.na(ufo$state)) # are there any NAs?
+table(is.na(ufo$state)) # are there any NAs?
 ```
 
 # Recoding Variables
@@ -430,9 +429,9 @@ Base R:
 These are the indices where the pattern match occurs:
 
 ```{r RawlMatch}
-grep("Rawlings",Sal$Name)
-which(grepl("Rawlings", Sal$Name))
-which(str_detect(Sal$Name, "Rawlings"))
+grep("two aliens",ufo$comments)[1:5]
+which(grepl("two aliens", ufo$comments))[1:5]
+which(str_detect(ufo$comments, "two aliens"))
 ```
 
 ## 'Find' functions: Finding Logicals
@@ -440,23 +439,23 @@ which(str_detect(Sal$Name, "Rawlings"))
 These are the indices where the pattern match occurs:
 
 ```{r RawlMatch_log}
-head(grepl("Rawlings",Sal$Name))
-head(str_detect(Sal$Name, "Rawlings"))
+head(grepl("two aliens", ufo$comments))
+head(str_detect(ufo$comments, "two aliens"))
 ```
 
 
 ## 'Find' functions: finding values, base R {.smaller}
 
 ```{r grepl}
-grep("Rawlings",Sal$Name,value=TRUE)
-Sal[grep("Rawlings",Sal$Name),]
+grep("two aliens", ufo$comments,value=TRUE)[1:3]
+ufo[grep("two aliens",ufo$comments)[1:3],]
 ```
 
 ## 'Find' functions: finding values, `stringr` and `dplyr` {.smaller}
 
 ```{r ggrep}
-str_subset(Sal$Name, "Rawlings")
-Sal %>% filter(str_detect(Name, "Rawlings"))
+str_subset(ufo$comments, "two aliens")
+ufo %>% filter(str_detect(comments, "two aliens"))
 ```
 
 ## Showing differnce in `str_extract`
@@ -464,20 +463,10 @@ Sal %>% filter(str_detect(Name, "Rawlings"))
 `str_extract` extracts just the matched string
 
 ```{r ggrep2}
-ss = str_extract(Sal$Name, "Rawling")
+ss = str_extract(ufo$comments, "two aliens")
 head(ss)
 ss[ !is.na(ss)]
 ```
-
-## Showing differnce in `str_extract` and  `str_extract_all`
-
-`str_extract_all` extracts all the matched strings
-
-```{r }
-head(str_extract(Sal$AgencyID, "\\d"))
-head(str_extract_all(Sal$AgencyID, "\\d"), 2)
-```
-
 
 
 ## Using Regular Expressions
@@ -487,32 +476,29 @@ head(str_extract_all(Sal$AgencyID, "\\d"), 2)
     * Spence then capital C
 
 ```{r grepstar}
-head(grep("^Payne.*", x = Sal$Name, value = TRUE), 3)
+grep("^aliens.*", x = ufo$comments, value = TRUE)
 ```
 
 ```{r grepstar2}
-head(grep("Leonard.?S", x = Sal$Name, value = TRUE))
-head(grep("Spence.*C.*", x = Sal$Name, value = TRUE))
+head(grep("space.?ship", x = ufo$comments, value = TRUE),3)
 ```
 
 
 
 ## Using Regular Expressions: `stringr`
 ```{r grepstar_stringr}
-head(str_subset( Sal$Name, "^Payne.*"), 3)
 ```
 
 ```{r grepstar2_stringr}
-head(str_subset( Sal$Name, "Leonard.?S"))
-head(str_subset( Sal$Name, "Spence.*C.*"))
+head(str_subset( ufo$comments, "space.?ship"),3)
 ```
 
 ## Replace
 
-Let's say we wanted to sort the data set by Annual Salary:
+Let's say we wanted to sort the data set by latitude and longitude:
 
 ```{r classSal}
-class(Sal$AnnualSalary)
+class(ufo$latitude)
 ```
 
 ```{r orderstring}
@@ -522,41 +508,42 @@ order(c("1", "2", "10"))
 
 ## Replace
 
-So we must change the annual pay into a numeric:
+So we must change the coordinates into a numeric:
 ```{r destringSal}
-head(Sal$AnnualSalary, 4)
-head(as.numeric(Sal$AnnualSalary), 4)
+head(ufo$latitude, 4)
+head(as.numeric(ufo$latitude), 4)
 ```
 
-R didn't like the `$` so it thought turned them all to `NA`.
+## Dropping bad observations
 
-`sub()` and `gsub()` can do the replacing part in base R.
+```{r, dropIndex}
+dropIndex = which(is.na(as.numeric(ufo$latitude)) | 
+                      is.na(as.numeric(ufo$longitude)))
+ufo_clean = ufo[-dropIndex,]
+dim(ufo_clean)
+```
 
-## Replacing and subbing {.smaller}
 
-Now we can replace the `$` with nothing (used `fixed=TRUE` because `$` means ending):
+## Ordering
 
-```{r orderSal}
-Sal$AnnualSalary <- as.numeric(gsub(pattern = "$", replacement="", 
-                              Sal$AnnualSalary, fixed=TRUE))
-Sal <- Sal[order(Sal$AnnualSalary, decreasing=TRUE), ] 
-Sal[1:5, c("Name", "AnnualSalary", "JobTitle")]
+```{r order}
+ufo2 = ufo_clean
+ufo2$latitude = as.numeric(ufo2$latitude)
+ufo2$longitude = as.numeric(ufo2$longitude)
+ufo2 <- ufo2[order(ufo2$latitude, ufo2$longitude), ] 
+ufo2[1:5, c("datetime", "latitude", "longitude")]
 ```
 
 ## Replacing and subbing: `stringr` {.smaller}
 
 We can do the same thing (with 2 piping operations!) in dplyr
+
 ```{r orderSal_stringr}
-dplyr_sal = Sal
-dplyr_sal = dplyr_sal %>% mutate( 
-  AnnualSalary = AnnualSalary %>%
-    str_replace(
-      fixed("$"), 
-      "") %>%
-    as.numeric) %>%
-  arrange(desc(AnnualSalary))
-check_Sal = Sal
-rownames(check_Sal) = NULL
-all.equal(check_Sal, dplyr_sal)
+ufo_dplyr = ufo_clean
+ufo_dplyr = ufo_dplyr %>% mutate( 
+  latitude = latitude %>% as.numeric,
+  longitude = longitude %>% as.numeric) %>% 
+    arrange(latitude,longitude)
+ufo_dplyr[1:5, c("datetime", "latitude", "longitude")]
 ```
 
