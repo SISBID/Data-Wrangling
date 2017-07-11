@@ -1,14 +1,14 @@
 ---
 title: "Data Cleaning"
 author: "Andrew Jaffe (key)"
-date: "July 12, 2016"
+date: "July 11, 2017"
 output: html_document
 ---
 
 ### A. "Real Property Taxes" Dataset 
 
 Download the "real property taxes" dataset from the website (via OpenBaltimore), the data is located here (note you don\'t need to unzip it to read it into R):
-http://sisbid.github.io/Module1/data/real_property_tax.csv.gz
+http://sisbid.github.io/Module1/data/Real_Property_Taxes.csv.gz
 
 1. Read the Property Tax data into R and call it the variable `tax`
 
@@ -16,14 +16,14 @@ http://sisbid.github.io/Module1/data/real_property_tax.csv.gz
 library(readr)
 library(stringr)
 suppressPackageStartupMessages(library(dplyr))
-tax = read_csv("http://sisbid.github.io/Module1/data/real_property_tax.csv.gz")
+tax = read_csv("http://sisbid.github.io/Module1/data/Real_Property_Taxes.csv.gz")
 # write_csv(tax, gzfile("table.csv.gz))
 ```
 
 Note the `read_csv` function is treating the empty string `""` as missing whereas the `read.csv` function is not.
 
 ```{r}
-tax2 = read.csv("../data/real_property_tax.csv.gz",as.is=TRUE)
+tax2 = read.csv("../data/Real_Property_Taxes.csv.gz",as.is=TRUE)
 table(complete.cases(tax))
 table(complete.cases(tax2))
 ind = which(!complete.cases(tax))[1:3]
@@ -32,7 +32,7 @@ tax2[ind,]
 ```
 
 ```{r}
-tax3 = read.csv("../data/real_property_tax.csv.gz",as.is=TRUE,na.string="")
+tax3 = read.csv("../data/Real_Property_Taxes.csv.gz",as.is=TRUE,na.string="")
 ```
 
 2. How many addresses pay property taxes? 
@@ -73,44 +73,8 @@ sum(tax$stateTax, na.rm = TRUE)/1e6
 Combined would be `r round((sum(tax$stateTax, na.rm = TRUE) + sum(tax$cityTax, na.rm = TRUE))/1e6)` milion dollars paid.
 
 
-4. How many observations/properties are in each residence code?
 
-```{r}
-table(tax$resCode)
-```
-
-5. What is the 75th percentile of city and state tax paid by residence code?
-
-```{r}
-quantile(tax$cityTax[tax$resCode=="PRINCIPAL RESIDENCE"],0.75,na.rm=TRUE)
-quantile(tax$cityTax[tax$resCode=="NOT A PRINCIPAL RESIDENCE"],0.75,na.rm=TRUE)
-quantile(tax$stateTax[tax$resCode=="PRINCIPAL RESIDENCE"],0.75,na.rm=TRUE)
-quantile(tax$stateTax[tax$resCode=="NOT A PRINCIPAL RESIDENCE"],0.75,na.rm=TRUE)
-```
-
-Or we can use something like `tapply()`
-
-```{r}
-tapply(tax$cityTax, tax$resCode, quantile, 0.75,na.rm=TRUE)
-tapply(tax$stateTax, tax$resCode, quantile, 0.75,na.rm=TRUE)
-```
-
-Or in `dplyr` (more to come next lecture)
-
-```{r}
-tax %>% group_by(resCode) %>% 
-  summarise(quantile(stateTax, 0.75,na.rm=TRUE),
-            quantile(cityTax, 0.75,na.rm=TRUE)) 
-```
-
-6. Subset the data to only retain those houses that are principal residences and describe the distribution of property taxes on these residences.
-
-```{r}
-quantile(tax$cityTax[tax$resCode == "PRINCIPAL RESIDENCE"], na.rm=TRUE)
-quantile(tax$stateTax[tax$resCode == "PRINCIPAL RESIDENCE"], na.rm=TRUE)
-```
-
-7. Convert the 'lotSize' variable to a numeric square feet variable. Tips:
+4. Convert the 'lotSize' variable to a numeric square feet variable. Tips:
 * Look at the data 
 * Assume hyphens represent inches within square foot meassuremnts 
 * Assume decimals within acreage measurements
@@ -214,51 +178,4 @@ table(is.na(tax$sqft))
 
 #what remains?
 lot[is.na(tax$sqft)]
-```
-
-### B. "Baltimore Salary 2015" Dataset 
-
-Download the "Salary 2015" Dataset from the website (via OpenBaltimore), which is located here:
-http://sisbid.github.io/Module1/data//Baltimore_City_Employee_Salaries_FY2015.csv
-
-8. Make an object called health.sal using the salaries data set,	with only agencies of those with "fire" (or any forms), if any, in the name
-
-```{r}
-Sal = read_csv("http://sisbid.github.io/Module1/data//Baltimore_City_Employee_Salaries_FY2015.csv")
-```
-9. Make a data set called trans which contains only agencies that contain "TRANS".
-
-```{r}
-trans = Sal[grep("trans", Sal$Agency,ignore.case=TRUE),]
-```
-
-10. What is/are the profession(s) of people who have "abra" in their name for Baltimore's Salaries?
-
-```{r}
-names(Sal)[1] = "Name"
-table(Sal$JobTitle[grep("abra", Sal$Name, ignore.case=TRUE)])
-```
-
-11. What is the distribution of annual salaries look like? What is the IQR?
-
-```{r}
-Sal$AnnualSalary = as.numeric(gsub(pattern = "$", replacement="", 
-                              Sal$AnnualSalary, fixed=TRUE))
-quantile(Sal$AnnualSalary)
-```
-
-12. Convert HireDate to the `Date` class - plot Annual Salary vs Hire Date
-
-```{r}
-library(lubridate)
-Sal$HireDate = mdy(Sal$HireDate)
-plot(Sal$AnnualSalary ~ Sal$HireDate)
-```
-
-13. Create a smaller dataset that only includes the Police Department, Fire Department and Sheriff's Office. How many employees are in this new dataset?
-
-```{r}
-new = Sal[grep("fire|police|sheriff", Sal$JobTitle, ignore.case=TRUE),]
-nrow(new)
-length(table(new$Agency))
 ```
