@@ -48,11 +48,11 @@ dim(tax)
 head(tax$CityTax)
 tax$CityTax = tax$CityTax %>% 
   str_replace(fixed("$"), "") %>%
-  str_replace(",", "") %>%
+  str_replace_all(",", "") %>%
   as.numeric
 tax$StateTax = tax$StateTax %>% 
   str_replace(fixed("$"), "") %>%
-  str_replace(",", "") %>%
+  str_replace_all(",", "") %>%
   as.numeric
 
 sum(tax$CityTax, na.rm = TRUE)
