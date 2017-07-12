@@ -18,4 +18,3 @@ output: html_document
 6. Write out this updated `data.frame` as a new CSV file
 
 7. Download the Excel-formatted UFO Dataset: http://sisbid.github.io/Module1/data/ufo/ufo_data_complete.xlsx and import the dataset as a new R object. Confirm it has the same number of lines as the CSV- and Tab-delimited-based R objects
-

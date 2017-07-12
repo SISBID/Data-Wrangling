@@ -429,8 +429,8 @@ Base R:
 These are the indices where the pattern match occurs:
 
 ```{r RawlMatch}
-grep("two aliens",ufo$comments)[1:5]
-which(grepl("two aliens", ufo$comments))[1:5]
+grep("two aliens",ufo$comments)
+which(grepl("two aliens", ufo$comments))
 which(str_detect(ufo$comments, "two aliens"))
 ```
 
@@ -439,16 +439,16 @@ which(str_detect(ufo$comments, "two aliens"))
 These are the indices where the pattern match occurs:
 
 ```{r RawlMatch_log}
-head(grepl("two aliens", ufo$comments))
-head(str_detect(ufo$comments, "two aliens"))
+grepl("two aliens", ufo$comments)
+str_detect(ufo$comments, "two aliens")
 ```
 
 
 ## 'Find' functions: finding values, base R {.smaller}
 
 ```{r grepl}
-grep("two aliens", ufo$comments,value=TRUE)[1:3]
-ufo[grep("two aliens",ufo$comments)[1:3],]
+grep("two aliens", ufo$comments,value=TRUE)
+ufo[grep("two aliens",ufo$comments),]
 ```
 
 ## 'Find' functions: finding values, `stringr` and `dplyr` {.smaller}
@@ -470,11 +470,9 @@ ss[ !is.na(ss)]
 
 
 ## Using Regular Expressions
-* Look for any name that starts with:
-    * Payne at the beginning, 
-    * Leonard and then an S
-    * Spence then capital C
 
+* Look for anycomment that starts with "aliens"
+  
 ```{r grepstar}
 grep("^aliens.*", x = ufo$comments, value = TRUE)
 ```
@@ -487,6 +485,7 @@ head(grep("space.?ship", x = ufo$comments, value = TRUE),3)
 
 ## Using Regular Expressions: `stringr`
 ```{r grepstar_stringr}
+grep("^aliens.*", x = ufo$comments, value = TRUE)
 ```
 
 ```{r grepstar2_stringr}
