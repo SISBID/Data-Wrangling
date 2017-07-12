@@ -45,36 +45,27 @@ dim(tax)
 3. What is the total city and state tax paid?
 
 ```{r}
-head(tax$cityTax)
-cityTax = tax$cityTax %>% 
+head(tax$CityTax)
+tax$CityTax = tax$CityTax %>% 
   str_replace(fixed("$"), "") %>%
+  str_replace(",", "") %>%
   as.numeric
-stateTax = tax$stateTax %>% 
+tax$StateTax = tax$StateTax %>% 
   str_replace(fixed("$"), "") %>%
+  str_replace(",", "") %>%
   as.numeric
-head(cityTax)
 
-head(tax$cityTax[ is.na(cityTax) ])
-table(tax$cityTax[ is.na(cityTax) ])
+sum(tax$CityTax, na.rm = TRUE)
+sum(tax$CityTax, na.rm = TRUE)/1e6
 
-head(tax$stateTax[ is.na(stateTax) ])
-table(tax$stateTax[ is.na(stateTax) ])
-
-tax$cityTax = cityTax
-tax$stateTax = stateTax
-
-sum(tax$cityTax, na.rm = TRUE)
-sum(tax$cityTax, na.rm = TRUE)/1e6
-
-sum(tax$stateTax, na.rm = TRUE)
-sum(tax$stateTax, na.rm = TRUE)/1e6
+sum(tax$StateTax, na.rm = TRUE)
+sum(tax$StateTax, na.rm = TRUE)/1e6
 ```
 
-Combined would be `r round((sum(tax$stateTax, na.rm = TRUE) + sum(tax$cityTax, na.rm = TRUE))/1e6)` milion dollars paid.
+Combined would be `r round((sum(tax$StateTax, na.rm = TRUE) + sum(tax$CityTax, na.rm = TRUE))/1e6)` milion dollars paid.
 
 
-
-4. Convert the 'lotSize' variable to a numeric square feet variable. Tips:
+4. Convert the 'LotSize' variable to a numeric square feet variable. Tips:
 * Look at the data 
 * Assume hyphens represent inches within square foot meassuremnts 
 * Assume decimals within acreage measurements
@@ -82,19 +73,19 @@ Combined would be `r round((sum(tax$stateTax, na.rm = TRUE) + sum(tax$cityTax, n
 * Look at the data 
 
 ```{r}
-tax$lotSize = str_trim(tax$lotSize) # trim to be safe
-lot = tax$lotSize # for checking later
+tax$LotSize = str_trim(tax$LotSize) # trim to be safe
+lot = tax$LotSize # for checking later
 ```
 
 First lets take care of acres
 
 ```{r}
-aIndex= c(grep("AC.*", tax$lotSize),
-            grep(" %", tax$lotSize, fixed=TRUE))
+aIndex= c(grep("AC.*", tax$LotSize),
+            grep(" %", tax$LotSize, fixed=TRUE))
 head(aIndex)
 head(lot[aIndex])
 
-acre = tax$lotSize[aIndex] # temporary variable
+acre = tax$LotSize[aIndex] # temporary variable
 ## find and replace character strings
 acre = gsub(" AC.*","",acre)
 acre = gsub(" %","",acre)
@@ -125,8 +116,8 @@ sum(is.na(acre2)) # all but 3
 Now let's convert all of the square feet variables
 
 ```{r}
-fIndex = grep("X", tax$lotSize)
-ft = tax$lotSize[fIndex]
+fIndex = grep("X", tax$LotSize)
+ft = tax$LotSize[fIndex]
 
 ft = gsub("&", "-", ft, fixed=TRUE)
 ft = gsub("IMP ONLY ", "", ft, fixed=TRUE)
@@ -166,9 +157,9 @@ tax$sqft[fIndex] = sqrtFt
 mean(!is.na(tax$sqft))
 
 # already in square feet, easy!!
-sIndex=c(grep("FT", tax$lotSize), 
-         grep("S.*F.", tax$lotSize))
-sf = tax$lotSize[sIndex] # subset temporary variable
+sIndex=c(grep("FT", tax$LotSize), 
+         grep("S.*F.", tax$LotSize))
+sf = tax$LotSize[sIndex] # subset temporary variable
 
 sqft2 = sapply(str_split(sf,"( |SQ|SF)"),first)
 sqft2 = as.numeric(gsub(",", "", sqft2)) # remove , and convert

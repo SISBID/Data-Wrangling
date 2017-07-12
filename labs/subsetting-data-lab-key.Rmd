@@ -1,5 +1,5 @@
 ---
-title: "subsetting Lab"
+title: "subsetting Lab - Key"
 author: "Andrew Jaffe"
 date: "July 10, 2017"
 output: html_document
@@ -51,6 +51,7 @@ There are `r nrow(mtcars)` cars.
 nrow(filter(mtcars, mpg > 20))
 mtcars %>% filter(mpg > 20) %>% nrow
 nrow(mtcars[ mtcars$mpg > 20, ])
+
 sum(mtcars$mpg > 20)
 length(which(mtcars$mpg > 20))
 ```
@@ -59,6 +60,7 @@ length(which(mtcars$mpg > 20))
 
 ```{r}
 mtcars %>% filter(mpg < 16 & hp > 100) %>% nrow
+mtcars %>% filter(mpg < 16, hp > 100) %>% nrow
 ```
 
 6. Create a subset of the data that only contains the columns: wt, qsec, and hp for only the cars that have 8 cylinder, and assign this object to `carsSub` - what are the dimensions of this dataset?
@@ -67,8 +69,9 @@ mtcars %>% filter(mpg < 16 & hp > 100) %>% nrow
 carsSub = mtcars %>% 
   filter(cyl == 8) %>% 
   select(wt, qsec, hp)
+
 carsSub = mtcars[
-    mtcars$cyl == 8, c("wt", "qsec", "hp")]
+  mtcars$cyl == 8, c("wt", "qsec", "hp")]
 ```
 
 7. Convert the column names of `carsSub` to all upper case
@@ -77,6 +80,7 @@ carsSub = mtcars[
 cn = colnames(carsSub)
 cn = toupper(cn)
 colnames(carsSub) = cn
+
 colnames(carsSub) = colnames(carsSub) %>% toupper
 
 colnames(carsSub) = toupper(colnames(carsSub))
@@ -93,7 +97,7 @@ carsSub[ order(carsSub$WT),]
 
 ```{r}
 cars = mtcars
-# cars$MPG = cars$mpg
+colnames(cars)[colnames(cars)=="mpg"] = "MPG"
 cars = rename(cars, MPG = mpg)
 ```
 
