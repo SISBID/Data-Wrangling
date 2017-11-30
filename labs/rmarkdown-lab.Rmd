@@ -43,7 +43,7 @@ plot(x)
 8. Uncomment this code and recompile the document. Then add a chunk command cache=TRUE and recompile. What files are created? Try compiling one more time. 
 
 ```{r longtime, cache=TRUE}
-Sys.sleep(10)
+#Sys.sleep(10)
 ```
 
 9. Check out the docs at: http://rmarkdown.rstudio.com/ and look under formats. See if you can create and compile an R markdown presentation. How about a parameterized report?
