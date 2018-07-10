@@ -1,7 +1,6 @@
 ---
 title: "Subsetting Data in R"
-author: "Andrew Jaffe"
-date: "July 10, 2017"
+author: "Data Wrangling in R"
 output:
   ioslides_presentation:
     css: styles.css
@@ -13,23 +12,23 @@ library(knitr)
 opts_chunk$set(comment = "")
 suppressPackageStartupMessages(library(dplyr))
 library(dplyr)
-library(readr)
 ```
 
 ## Overview
 
-We showed one way to read data into R using *read_csv()* and `read.csv()`.  In this module, we will show you how to:
+We showed one way to read data into R using `read_csv` and `read.csv`.  In this module, we will show you how to:
 
 1. Select specific elements of an object by an index or logical condition
-2. Subset rows of a `data.frame`
-3. Subset columns of a `data.frame`
-4. Add/remove new columns to a `data.frame`
-5. Order the columns of a `data.frame`
-6. Order the rows of a `data.frame`
+2. Renaming columns of a `data.frame`
+3. Subset rows of a `data.frame`
+4. Subset columns of a `data.frame`
+5. Add/remove new columns to a `data.frame`
+6. Order the columns of a `data.frame`
+7. Order the rows of a `data.frame`
 
 ## Setup
 
-We will show you how to do each operation in base R then show you how to use the `dplyr` package to do the same operation (if applicable).  
+We will show you how to do each operation in base R then show you how to use the `dplyr` package to do the same operation (if applicable).
 
 Many resources on how to use `dplyr` exist and are straightforward: 
 
@@ -38,7 +37,6 @@ Many resources on how to use `dplyr` exist and are straightforward:
 * https://www.datacamp.com/courses/dplyr-data-manipulation-r-tutorial
 
 The `dplyr` package also interfaces well with tibbles.
-
 
 ## Select specific elements using an index
 
@@ -76,8 +74,6 @@ x[-c(1,2,3)] # drop first 3
 x[-(1:3)] # needs parentheses
 ```
 
-
-
 ## Select specific elements using logical operators
 
 What about selecting rows based on the values of two variables? We use logical statements.  Here we select only elements of `x` greater than 2:
@@ -113,14 +109,11 @@ x[ x > 5 | x == 2 ]
 
 ## Creating a `data.frame` to work with
 
-Here we create a toy data.frame named `df` using random data:
+Here we use one of the datasets that comes with R called `mtcars` create a toy data.frame named `df` using random data:
 ```{r}
-set.seed(2016) # reproducbility
-df = data.frame(x = c(1, 2, 4, 10, 10),
-                x2 = rpois(5, 10),
-                y = rnorm(5),
-                z = rpois(5, 6)
-                )
+data(mtcars)
+df = mtcars
+tbl = as.tbl(df)
 ```
 
 
@@ -130,9 +123,9 @@ df = data.frame(x = c(1, 2, 4, 10, 10),
 
 We can use the `colnames` function to directly reassign column names of `df`:
 ```{r}
-colnames(df) = c("x", "X", "y", "z")
+colnames(df)[1:3] = c("MPG", "CYL", "DISP")
 head(df)
-colnames(df) = c("x", "x2", "y", "z") #reset
+colnames(df)[1:3] = c("mpg", "cyl", "disp") #reset
 ```
 
 ## Renaming Columns of a `data.frame`: base R
@@ -141,20 +134,19 @@ We can assign the column names, change the ones we want, and then re-assign
 the column names:
 ```{r}
 cn = colnames(df)
-cn[ cn == "x2"] = "X"
+cn[ cn == "drat"] = "DRAT"
 colnames(df) = cn
 head(df)
-colnames(df) = c("x", "x2", "y", "z") #reset
+colnames(df)[ colnames(df) == "DRAT"] = "drat" #reset
 ```
 
-## Renaming Columns of a `data.frame`: dplyr
-
+## Renaming Columns of a `data.frame`: dplyr and tidyverse
 
 ```{r}
-library(dplyr)
+library(tidyverse)
 ```
 
-Note, when loading `dplyr`, it says objects can be "masked".  That means if you 
+Note, when loading `dplyr`, it says objects can be "masked"/conflicts.  That means if you 
 use a function defined in 2 places, it uses the one that is loaded in **last**.
 
 ## Renaming Columns of a `data.frame`: dplyr
@@ -165,6 +157,7 @@ means when you type `filter`, it will use the one from the `dplyr` package.
 ```{r}
 filter
 ```
+
 ## Renaming Columns of a `data.frame`: dplyr
 
 A `filter` function exists by default in the `stats` package, however.  If you want
@@ -183,32 +176,41 @@ some conflicts/masking:
 To rename columns in `dplyr`, you use the `rename` command
 
 ```{r}
-df = dplyr::rename(df, X = x2)
+df = dplyr::rename(df, MPG = mpg)
 head(df)
-df = dplyr::rename(df, x2 = X) # reset
+df = rename(df, mpg = MPG) # reset - don't need :: b/c not masked
 ```
-
 
 # Subsetting Columns
 
-
 ## Subset columns of a `data.frame`: 
 
-We can grab the `x` column using the `$` operator. 
+We can grab the `carb` column using the `$` operator. 
 
 ```{r}
-df$x
+df$carb
 ```
 
 ## Subset columns of a `data.frame`: 
 
 We can also subset a `data.frame` using the bracket `[, ]` subsetting. 
 
-For `data.frame`s and matrices (2-dimensional objects), the brackets are `[rows, columns]` subsetting.  We can grab the `x` column using the index of the column or the column name ("`x`") 
+For `data.frame`s and matrices (2-dimensional objects), the brackets are `[rows, columns]` subsetting.  We can grab the `x` column using the index of the column or the column name ("`carb`") 
+
+```{r}
+df[, 11]
+df[, "carb"]
+```
+
+## Biggest difference between `tbl` and `data.frame`: 
+
+Mostly, `tbl` (tibbles) are the same as `data.frame`s, except they don't print all lines.  When subsetting only one column using brackets, a `data.frame` will return a vector, but a `tbl` will return a `tbl`
 
 ```{r}
 df[, 1]
-df[, "x"]
+tbl[, 1]
+tbl[, "mpg"]
+df[, 1, drop = FALSE]
 ```
 
 ## Subset columns of a `data.frame`: 
@@ -216,7 +218,7 @@ df[, "x"]
 We can select multiple columns using multiple column names:
 
 ```{r}
-df[, c("x", "y")]
+df[, c("mpg", "cyl")]
 ```
 
 
@@ -224,17 +226,16 @@ df[, c("x", "y")]
 
 The `select` command from `dplyr` allows you to subset
 ```{r}
-select(df, x)
+select(df, mpg)
 ```
 
 ## Select columns of a `data.frame`: dplyr
 
 The `select` command from `dplyr` allows you to subset columns of 
 ```{r}
-select(df, x, x2)
-select(df, starts_with("x"))
+select(df, mpg, cyl)
+select(df, starts_with("c"))
 ```
-
 
 # Subsetting Rows
 
@@ -246,49 +247,35 @@ Let's select **rows** 1 and 3 from `df` using brackets:
 df[ c(1, 3), ]
 ```
 
-
-## Subset rows of a `data.frame`: 
-
-Let's select the rows of `df` where the `x` column is greater than 5 or is equal to 2.  Without any index for columns, all columns are returned:
-
-```{r}
-df[ df$x > 5 | df$x == 2, ]
-```
-
-## Subset rows of a `data.frame`: 
-
-We can subset both rows and colums at the same time:
-
-```{r}
-df[ df$x > 5 | df$x == 2, c("y", "z")]
-```
-
-
 ## Subset rows of a `data.frame`: dplyr
 
 The command in `dplyr` for subsetting rows is `filter`.  Try `?filter`
 
 ```{r}
-filter(df, x > 5 | x == 2)
+filter(df, mpg > 20 | mpg < 14)
 ```
-Note, no `$` or subsetting is necessary.  R "knows" `x` refers to a column of `df`.
+Note, no `$` or subsetting is necessary.  R "knows" `mpg` refers to a column of `df`.
 
 ## Subset rows of a `data.frame`: dplyr
 
 By default, you can separate conditions by commas, and `filter` assumes these statements are joined by `&`
 
 ```{r}
-filter(df, x > 2 & y < 0)
-filter(df, x > 2, y < 0)
+filter(df, mpg > 20 & cyl == 4)
+filter(df, mpg > 20, cyl == 4)
 ```
 
+
+## Lab Part 3
+
+[Website](http://johnmuschelli.com/intro_to_r/index.html)
 
 ## Combining `filter` and `select`
 
 You can combine `filter` and `select` to subset the rows and columns, respectively, of a `data.frame`:
 
 ```{r}
-select(filter(df, x > 2 & y < 0), y, z)
+select(filter(df, mpg > 20 & cyl == 4), cyl, hp)
 ```
 
 In `R`, the common way to perform multiple operations is to wrap functions around each other in a nested way such as above 
@@ -298,19 +285,19 @@ In `R`, the common way to perform multiple operations is to wrap functions aroun
 One can also create temporary objects and reassign them:
 
 ```{r}
-df2 = filter(df, x > 2 & y < 0)
-df2 = select(df2, y, z)
+df2 = filter(df, mpg > 20 & cyl == 4)
+df2 = select(df2, cyl, hp)
 ```
 
-## Piping - a new concept
+## Using the `pipe` (comes with `dplyr`):
 
-There is another (newer) way of performing these operations, called "piping".  It is becoming more popular as it's easier to read:
+Recently, the pipe `%>%` makes things such as this much more readable.  It reads left side "pipes" into right side.  RStudio `CMD/Ctrl + Shift + M` shortcut. Pipe `df` into `filter`, then pipe that into `select`:
+
 
 ```{r}
-df %>% filter(x > 2 & y < 0) %>% select(y, z)
+df %>% filter(mpg > 20 & cyl == 4) %>% select(cyl, hp)
 ```
 
-It is read: "take df, then filter the rows and then select `y`, `z`".
 
 # Adding/Removing Columns
 
@@ -318,38 +305,33 @@ It is read: "take df, then filter the rows and then select `y`, `z`".
 
 You can add a new column, called `newcol` to `df`, using the `$` operator:
 ```{r}
-df$newcol = 5:1
-df$newcol = df$x + 2
-```
-
-
-
-## Removing columns to a `data.frame`: base R
-
-You can remove a column by assigning to `NULL`:
-```{r}
-df$newcol = NULL
-```
-or selecing only the columns that were not `newcol`:
-```{r}
-df = df[, colnames(df) != "newcol"]
-```
-
-## Adding new columns to a `data.frame`: base R
-
-You can also "**c**olumn **bind**" a `data.frame` with a vector (or series of vectors), using the `cbind` command:
-```{r}
-cbind(df, newcol = 5:1)
+df$newcol = df$wt/2.2
+head(df,3)
 ```
 
 
 ## Adding columns to a `data.frame`: dplyr
 
+The `$` method is very common.
+
 The `mutate` function in `dplyr` allows you to add or replace columns of a `data.frame`:
 ```{r}
-mutate(df, newcol = 5:1)
-print({df = mutate(df, newcol = x + 2)})
+df = mutate(df, newcol = wt/2.2)
 ```
+
+```{r, echo = FALSE}
+print({df = mutate(df, newcol = wt/2.2)})
+```
+
+
+## Removing columns to a `data.frame`: base R
+
+You can remove a column by assigning to `NULL`:
+```{r, eval = FALSE}
+df$newcol = NULL
+```
+
+
 
 ## Removing columns to a `data.frame`: dplyr
 
@@ -362,21 +344,13 @@ select(df, -newcol)
 
 ## Removing columns to a `data.frame`: dplyr
 
-Remove `newcol` and `y`
+Remove `newcol` and `drat`
 ```{r}
-select(df, -one_of("newcol", "y"))
+select(df, -one_of("newcol", "drat"))
 ```
+
 
 # Ordering columns
-
-## Ordering the columns of a `data.frame`: base R
-
-We can use the `colnames` function to get the column names of `df` and then put `newcol` first by subsetting `df` using brackets:
-
-```{r}
-cn = colnames(df)
-df[, c("newcol", cn[cn != "newcol"]) ]
-```
 
 ## Ordering the columns of a `data.frame`: dplyr
 
@@ -387,45 +361,23 @@ select(df, newcol, everything())
 
 # Ordering rows
 
-## Ordering the rows of a `data.frame`: base R
-
-We use the `order` function on a vector or set of vectors, in increasing order:
-
-```{r}
-df[ order(df$x), ]
-```
-
-## Ordering the rows of a `data.frame`: base R
-
-The `decreasing` argument will order it in decreasing order:
-```{r}
-df[ order(df$x, decreasing = TRUE), ]
-```
-
-## Ordering the rows of a `data.frame`: base R
-
-You can pass multiple vectors, and must use the negative (using `-`) to mix decreasing and increasing orderings (sort increasing on `x` and decreasing on `y`):
-```{r}
-df[ order(df$x, -df$y), ]
-```
-
 ## Ordering the rows of a `data.frame`: dplyr
 
 The `arrange` function can reorder rows  By default, `arrange` orders in ascending order:
 ```{r}
-arrange(df, x)
+arrange(df, mpg)
 ```
 
 ## Ordering the rows of a `data.frame`: dplyr
 Use the `desc` to arrange the rows in descending order:
 ```{r}
-arrange(df, desc(x))
+arrange(df, desc(mpg))
 ```
 
 ## Ordering the rows of a `data.frame`: dplyr
 It is a bit more straightforward to mix increasing and decreasing orderings:
 ```{r}
-arrange(df, x, desc(y))
+arrange(df, mpg, desc(hp))
 ```
 
 ## Transmutation
@@ -433,5 +385,5 @@ arrange(df, x, desc(y))
 The `transmute` function in `dplyr` combines both the `mutate` and `select` functions. One can create new columns and keep the only the columns wanted:
 
 ```{r}
-transmute(df, newcol2 = x * 3, x, y)
+transmute(df, newcol2 = wt/2.2, mpg, hp)
 ```

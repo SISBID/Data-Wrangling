@@ -1,7 +1,6 @@
 ---
 title: "Data Input/Output Lab"
-author: "Andrew Jaffe"
-date: "July 10, 2017"
+date: "July 12, 2018"
 output: html_document
 ---
 
@@ -9,7 +8,7 @@ output: html_document
 
 2. Rename columns to ensure they have no spaces or non-alphanumeric characters. 
 
-3. Use the `lubridate` package to change the class of the `$datetime` column to the date class.
+3. Use the [`lubridate` package](https://lubridate.tidyverse.org/) to change the class of the `$datetime` column to the date class.
 
 4. Capitalize the states in the `$state` column
 
