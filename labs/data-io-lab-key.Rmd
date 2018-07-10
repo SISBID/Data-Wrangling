@@ -1,7 +1,6 @@
 ---
 title: "Data Input/Output Lab Key"
-author: "Andrew Jaffe"
-date: "July 11, 2017"
+date: "July 12, 2018"
 output: html_document
 ---
 
@@ -25,7 +24,7 @@ colnames(ufo2) = c("DateTime", "City", "State", "Country", "Shape",
                    "PostedDate", "Latitude","Longitude")
 ```
 
-3. Use the `lubridate` package to change the class of the `$datetime` column to the date class.
+3. Use the [`lubridate` package](https://lubridate.tidyverse.org/) to change the class of the `$datetime` column to the date class.
 
 ```{r, date}
 library(lubridate)

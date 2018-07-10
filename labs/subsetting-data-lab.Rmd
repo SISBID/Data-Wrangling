@@ -1,7 +1,6 @@
 ---
-title: "subsetting Lab"
-author: "Andrew Jaffe"
-date: "July 10, 2017"
+title: "Subsetting Data Lab"
+author: "Data Wrangling in R"
 output: html_document
 ---
 
@@ -13,6 +12,8 @@ In this lab you can use the interactive console to explore but please record you
 
 Remember anything you type here can be "sent" to the console with: Cmd-Enter (OS-X) or Ctrl-Enter (Windows/Linux).
 
+### Part 1
+
 1. Check to see if you have the `mtcars` dataset (which is included in the `datasets` package)
 
 2. What class is `mtcars`?
@@ -23,7 +24,9 @@ Remember anything you type here can be "sent" to the console with: Cmd-Enter (OS
 
 5. Select the subset of rows that get less than 16 miles per gallon (mpg) of fuel efficiency and have more than 100 horsepower (hp) - how many are there?
 
-6. Create a subset of the data that only contains the columns:wt, qsec, and hp for only the cars that have 8 cylinder, and assign this object to `carsSub` - what are the dimensions of this dataset?
+### Part 2
+
+6. Create a subset of the data that only contains the columns: `wt`, `qsec`, and `hp` for only the cars that have 8 cylinder, and assign this object to `carsSub` - what are the dimensions of this dataset?
 
 7. Convert the column names of `carsSub` to all upper case
 

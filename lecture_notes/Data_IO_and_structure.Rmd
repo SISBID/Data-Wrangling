@@ -1,7 +1,6 @@
 ---
 title: "Data I/O + Structure"
-author: "Andrew Jaffe"
-date: "July 10, 2017"
+author: "Data Wrangling in R"
 output:
   ioslides_presentation:
     css: styles.css
@@ -101,7 +100,7 @@ setwd("~/Lectures/Data_IO/lecture")
 * You should have the latest version of R installed!
 * Open R Studio
 * Files --> New --> R Script
-* Save the blank R script as "day1.R" in a directory of your choosing
+* Save the blank R script as "day2.R" in a directory of your choosing
 * Add a comment header
 
 ## Setting the Working Directory
@@ -111,10 +110,10 @@ Again, if you open an R file with a new RStudio session, it does this for you.  
 1. Make sure RStudio is the default application to open .R files
     * Mac - right click --> Get Info --> Open With: RStudio --> Change All
     * Windows - Andrew will show
-2. Close RStudio Double click `day1.R`
+2. Close RStudio Double click `day2.R`
 
-* Confirm the directory contains "day1.R" using `dir()`:
-    * Type `dir()` in the R Console (`day1.R` should be there)    
+* Confirm the directory contains "day2.R" using `dir()`:
+    * Type `dir()` in the R Console (`day2.R` should be there)    
 
 ## Help
 
@@ -145,13 +144,13 @@ Commenting in code is super important. You should be able to go back to your cod
 
 ## Commenting in Scripts
 
-Add a comment header to day1.R :`#` is the comment symbol
+Add a comment header to day2.R :`#` is the comment symbol
 
 ```{r}
 #################
 # Title: Demo R Script
 # Author: Andrew Jaffe
-# Date: 7/10/2017
+# Date: 7/12/2018
 # Purpose: Demonstrate comments in R
 ###################
  
@@ -187,7 +186,7 @@ https://www.kaggle.com/NUFORC/ufo-sightings
 ## Data Input
 * Download data from http://sisbid.github.io/Module1/data/ufo/ufo_data_complete.csv.gz
 * Extract the CSV from the zipped file
-* Save it (or move it) to the same folder as your day1.R script
+* Save it (or move it) to the same folder as your day2.R script
 * Within RStudio: Session --> Set Working Directory --> To Source File Location
 
 ## Data Input
@@ -252,8 +251,7 @@ The `read_delim()` and related functions returns a "tibble" is a `data.frame` wi
 
 * When using the dropdown menu in RStudio, it uses `read_csv`, which is an improved version of reading in CSVs.  It is popular but `read.csv` is still largely used.  It returns a `tbl` (tibble), that is a `data.frame` with improved printing and subsetting properties: 
 
-```{r readCSV_readr, message=FALSE}
-library(readr)
+```{r viewInput, message=FALSE}
 head(ufo)
 class(ufo)
 ```
@@ -277,12 +275,121 @@ But you can use whatever function you feel more comfortable with.
 
 ## Data Input
 
+* Sometimes you get weird messages when reading in data:
+* The `spec()` and `problems()` functions show you the specification of how the data was read in.  
+
+```{r stop_problems}
+dim(problems(ufo))
+spec(ufo)
+```
+
+
+## Data Input: Checking for problems
+
+* The `stop_for_problems()` function will stop if your data had an error when reading in.  If this occurs, you can either use `col_types` (from `spec()`) for the problematic columns, or set `guess_max = Inf` (takes much longer):
+
+```{r stop_problems2, eval=FALSE}
+stop_for_problems(ufo)
+```
+
+
+## Data Input
+
+The `read_delim()` and related functions returns a "tibble" is a `data.frame` with special printing, which is the primary data format for most data cleaning and analyses. 
+
+
+## Base R: Data Input
+
+There are also data importing functions provided in base R (rather than the `readr` package), like `read.delim` and `read.csv`. 
+
+These functions have slightly different syntax for reading in data, like `header` and `as.is`. 
+
+However, while many online resources use the base R tools, the latest version of RStudio switched to use these new `readr` data import tools, so we will use them in the class for slides. They are also up to two times faster for reading in large datasets, and have a progress bar which is nice. 
+
+But you can use whatever function you feel more comfortable with.
+
+## Base R: Data Input
+
 Here is how to read in the same dataset using base R functionality, which returns a `data.frame` directly
 
 ```{r, readingCSV}
-dat2 = read.csv("../data/ufo/ufo_data_complete.csv",as.is=TRUE)
-head(dat2)
+ufo2 = read.csv("../data/ufo/ufo_data_complete.csv", as.is = TRUE)
+head(ufo2)
 ```
+
+We will use the `readr` functionality for certain reasons.
+
+## More ways to save: write_rds
+
+If you want to save **one** object, you can use `readr::write_rds` to save to an `rds` file:
+
+```{r}
+write_rds(ufo, path = "ufo_dataset.rds")
+```
+
+
+## More ways to save: read_rds
+
+To read this back in to R, you need to use `read_rds`, but **need to assign it**:
+
+```{r}
+ufo3 = read_rds(path = "ufo_dataset.rds")
+identical(ufo, ufo3) # test if they are the same 
+```
+
+## More ways to save: save
+
+The `save` command can save a set of `R` objects into an "R data file", with the extension `.rda` or `.RData`.  
+
+```{r, message = FALSE}
+x = 5
+save(ufo, x, file = "ufo_data.rda")
+```
+
+
+## More ways to save: load
+
+The opposite of `save` is `load`.  The `ls()` command lists the items in the workspace/environment and `rm` removes them:
+
+```{r}
+ls() # list things in the workspace
+rm(list = c("x", "yts"))
+ls()
+z = load("yts_data.rda")
+ls()
+```
+
+## More ways to save: load
+
+```{r}
+print(z)
+```
+
+Note, `z` is a **character vector** of the **names** of the objects loaded, **not** the objects themselves.
+
+
+## Data Summaries
+
+* `nrow()` displays the number of rows of a data frame
+* `ncol()` displays the number of columns 
+* `dim()` displays a vector of length 2: # rows, # columns
+
+```{r, dims}
+dim(ufo)
+nrow(ufo)
+ncol(ufo)
+```
+
+## Data Summaries
+
+* `colnames()` displays the column names (if any) and `rownames()` displays the row names (if any)
+* Note that tibbles do not have rownames
+
+```{r, colnames}
+colnames(ufo)
+```
+
+# Data Classes
 
 ## R variables
 
