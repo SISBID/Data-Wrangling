@@ -11,17 +11,21 @@ output:
 
 **Class Schedule:**
 
-* [Daily schedule](https://www.biostat.washington.edu/suminst/participants)
-* Location: FSH 102 (the big auditorium in Fisheries Sciences) [maps](https://www.biostat.washington.edu/suminst/maps)
+* [Summer Institute Info](https://www.biostat.washington.edu/suminst/participants)
+* Location: FSH 109 [maps](https://www.biostat.washington.edu/suminst/maps)
 
-**Ressources:**
+**Software:**
 
 * [R project](http://www.r-project.org/)
 * [Rstudio](http://www.rstudio.com/),
 * [Bioconductor](http://bioconductor.org/)
+* [Tidyverse](https://www.tidyverse.org/)
+
+**Resources:**
+
 * [Rstudio's cheatsheets](http://www.rstudio.com/resources/cheatsheets/) 
-* [Data Wrangling cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
-* [Data.table cheatsheet](https://s3.amazonaws.com/assets.datacamp.com/img/blog/data+table+cheat+sheet.pdf)
+* [R for Data Science](http://r4ds.had.co.nz/)
+* [JHU Chromebook Data Science](http://jhudatascience.org/chromebookdatascience/index.html)
 
 **Getting Started:**
 
