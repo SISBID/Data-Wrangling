@@ -26,6 +26,8 @@ output:
 * [Rstudio's cheatsheets](http://www.rstudio.com/resources/cheatsheets/) 
 * [R for Data Science](http://r4ds.had.co.nz/)
 * [JHU Chromebook Data Science](http://jhudatascience.org/chromebookdatascience/index.html)
+* [Git for Humans](https://speakerdeck.com/alicebartlett/git-for-humans)
+* [GitHub Labs](https://lab.github.com/)
 
 **Getting Started:**
 
