@@ -265,11 +265,6 @@ filter(df, mpg > 20 & cyl == 4)
 filter(df, mpg > 20, cyl == 4)
 ```
 
-
-## Lab Part 3
-
-[Website](http://johnmuschelli.com/intro_to_r/index.html)
-
 ## Combining `filter` and `select`
 
 You can combine `filter` and `select` to subset the rows and columns, respectively, of a `data.frame`:
