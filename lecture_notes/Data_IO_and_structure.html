@@ -177,15 +177,14 @@ setwd(&quot;~/Lectures&quot;) </pre>
 <pre > [1] &quot;Big_Data_Tricks.html&quot;        &quot;Big_Data_Tricks.Rmd&quot;        
  [3] &quot;Bioconductor_intro.Rmd&quot;      &quot;Data_Cleaning.html&quot;         
  [5] &quot;Data_Cleaning.pdf&quot;           &quot;Data_Cleaning.Rmd&quot;          
- [7] &quot;Data_IO_and_structure.html&quot;  &quot;Data_IO_and_Structure.pdf&quot;  
+ [7] &quot;Data_IO_and_structure.html&quot;  &quot;Data_IO_and_structure.pdf&quot;  
  [9] &quot;Data_IO_and_structure.Rmd&quot;   &quot;Manipulating_Data_in_R.html&quot;
 [11] &quot;Manipulating_Data_in_R.pdf&quot;  &quot;Manipulating_Data_in_R.Rmd&quot; 
 [13] &quot;media&quot;                       &quot;R_Big_Data_Tricks.pdf&quot;      
 [15] &quot;SISBID_Intro.pdf&quot;            &quot;styles.css&quot;                 
 [17] &quot;Subsetting_Data_in_R.html&quot;   &quot;Subsetting_Data_in_R.pdf&quot;   
 [19] &quot;Subsetting_Data_in_R.Rmd&quot;    &quot;ufo_data.rda&quot;               
-[21] &quot;ufo_dataset.rds&quot;             &quot;ufo_first100.csv&quot;           
-[23] &quot;yts_data.rda&quot;                &quot;yts_dataset.rds&quot;            </pre>
+[21] &quot;ufo_dataset.rds&quot;             &quot;ufo_first100.csv&quot;           </pre>
 
 <pre class = 'prettyprint lang-r'>dir(&quot;..&quot;)</pre>
 
@@ -368,7 +367,7 @@ help(&quot;dir&quot;)</pre>
         locale = locale, skip = skip, comment = comment, n_max = n_max, 
         guess_max = guess_max, progress = progress)
 }
-&lt;bytecode: 0x000000000c47d1f8&gt;
+&lt;bytecode: 0x000000000d391988&gt;
 &lt;environment: namespace:readr&gt;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-8">
@@ -574,31 +573,6 @@ save(ufo, x, file = &quot;ufo_data.rda&quot;)</pre>
 </article></slide><slide class=""><hgroup><h2>More ways to save: load</h2></hgroup><article  id="more-ways-to-save-load">
 
 <p>The opposite of <code>save</code> is <code>load</code>. The <code>ls()</code> command lists the items in the workspace/environment and <code>rm</code> removes them:</p>
-
-<pre class = 'prettyprint lang-r'>ls() # list things in the workspace</pre>
-
-<pre >[1] &quot;ufo&quot;  &quot;ufo2&quot; &quot;ufo3&quot; &quot;x&quot;   </pre>
-
-<pre class = 'prettyprint lang-r'>rm(list = c(&quot;x&quot;, &quot;yts&quot;))</pre>
-
-<pre >Warning in rm(list = c(&quot;x&quot;, &quot;yts&quot;)): object &#39;yts&#39; not found</pre>
-
-<pre class = 'prettyprint lang-r'>ls()</pre>
-
-<pre >[1] &quot;ufo&quot;  &quot;ufo2&quot; &quot;ufo3&quot;</pre>
-
-<pre class = 'prettyprint lang-r'>z = load(&quot;yts_data.rda&quot;)
-ls()</pre>
-
-<pre >[1] &quot;ufo&quot;  &quot;ufo2&quot; &quot;ufo3&quot; &quot;x&quot;    &quot;yts&quot;  &quot;z&quot;   </pre>
-
-</article></slide><slide class=""><hgroup><h2>More ways to save: load</h2></hgroup><article  id="more-ways-to-save-load-1">
-
-<pre class = 'prettyprint lang-r'>print(z)</pre>
-
-<pre >[1] &quot;yts&quot; &quot;x&quot;  </pre>
-
-<p>Note, <code>z</code> is a <strong>character vector</strong> of the <strong>names</strong> of the objects loaded, <strong>not</strong> the objects themselves.</p>
 
 </article></slide><slide class=""><hgroup><h2>Data Summaries</h2></hgroup><article  id="data-summaries">
 
@@ -904,7 +878,7 @@ newDate2</pre>
 <pre class = 'prettyprint lang-r'>theTime = Sys.time()
 theTime</pre>
 
-<pre >[1] &quot;2018-07-10 11:32:26 EDT&quot;</pre>
+<pre >[1] &quot;2018-07-12 13:30:14 PDT&quot;</pre>
 
 <pre class = 'prettyprint lang-r'>class(theTime)</pre>
 
@@ -912,7 +886,7 @@ theTime</pre>
 
 <pre class = 'prettyprint lang-r'>theTime + as.period(20, unit = &quot;minutes&quot;) # the future</pre>
 
-<pre >[1] &quot;2018-07-10 11:52:26 EDT&quot;</pre>
+<pre >[1] &quot;2018-07-12 13:50:14 PDT&quot;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Data Classes:</h2></hgroup><article  id="data-classes-2">
 
