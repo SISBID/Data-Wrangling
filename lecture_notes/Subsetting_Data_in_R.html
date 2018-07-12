@@ -97,6 +97,8 @@
           </hgroup>
   </slide>
 
+<pre >## Warning: package &#39;dplyr&#39; was built under R version 3.5.1</pre>
+
 <slide class=""><hgroup><h2>Overview</h2></hgroup><article  id="overview">
 
 <p>We showed one way to read data into R using <code>read_csv</code> and <code>read.csv</code>. In this module, we will show you how to:</p>
@@ -267,14 +269,16 @@ Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</pre>
 
 <pre class = 'prettyprint lang-r'>library(tidyverse)</pre>
 
-<pre >-- Attaching packages ---------------------------------- tidyverse 1.2.1 --</pre>
+<pre >-- Attaching packages -- tidyverse 1.2.1 --</pre>
 
 <pre >v ggplot2 3.0.0     v readr   1.1.1
 v tibble  1.4.2     v purrr   0.2.5
 v tidyr   0.8.1     v stringr 1.3.1
 v ggplot2 3.0.0     v forcats 0.3.0</pre>
 
-<pre >-- Conflicts ------------------------------------- tidyverse_conflicts() --
+<pre >Warning: package &#39;ggplot2&#39; was built under R version 3.5.1</pre>
+
+<pre >-- Conflicts ----- tidyverse_conflicts() --
 x dplyr::filter() masks stats::filter()
 x dplyr::lag()    masks stats::lag()</pre>
 
@@ -290,7 +294,7 @@ x dplyr::lag()    masks stats::lag()</pre>
 {
     UseMethod(&quot;filter&quot;)
 }
-&lt;bytecode: 0x000000000d0e2000&gt;
+&lt;bytecode: 0x000000000d9fb998&gt;
 &lt;environment: namespace:dplyr&gt;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Renaming Columns of a <code>data.frame</code>: dplyr</h2></hgroup><article  id="renaming-columns-of-a-data.frame-dplyr-1">
@@ -654,10 +658,6 @@ Datsun 710 22.8   4  108  93 3.85 2.32 18.61  1  1    4    1</pre>
 9  26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
 10 30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
 11 21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</pre>
-
-</article></slide><slide class=""><hgroup><h2>Lab Part 3</h2></hgroup><article  id="lab-part-3">
-
-<p><a href='http://johnmuschelli.com/intro_to_r/index.html' title=''>Website</a></p>
 
 </article></slide><slide class=""><hgroup><h2>Combining <code>filter</code> and <code>select</code></h2></hgroup><article  id="combining-filter-and-select">
 
