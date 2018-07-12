@@ -351,23 +351,6 @@ save(ufo, x, file = "ufo_data.rda")
 
 The opposite of `save` is `load`.  The `ls()` command lists the items in the workspace/environment and `rm` removes them:
 
-```{r}
-ls() # list things in the workspace
-rm(list = c("x", "yts"))
-ls()
-z = load("yts_data.rda")
-ls()
-```
-
-## More ways to save: load
-
-```{r}
-print(z)
-```
-
-Note, `z` is a **character vector** of the **names** of the objects loaded, **not** the objects themselves.
-
-
 ## Data Summaries
 
 * `nrow()` displays the number of rows of a data frame
