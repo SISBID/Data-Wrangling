@@ -16,9 +16,3 @@ output: html_document
 
 6. Now reunite these two columns, but now include a hyphen between the abbreviation and the year. 
 
-```{r}
-seps %>%
-  gather(year,value,FY1993:FY1998) %>%
-  spread(Field,value) %>%
-  separate(col=year,into = c("abb","year"),sep=2)
-```
