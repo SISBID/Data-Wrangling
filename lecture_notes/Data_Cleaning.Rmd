@@ -1,7 +1,6 @@
 ---
 title: "Data Cleaning"
-author: "Andrew Jaffe"
-date: "July 11, 2017"
+author: "Data Wrangling in R"
 output:
   ioslides_presentation:
     css: styles.css
@@ -204,9 +203,7 @@ ages
 
 ## Read in the UFO dataset
 
-* Download data from http://sisbid.github.io/Module1/data/ufo/ufo_data_complete.csv.gz
-* Extract the CSV from the zipped file
-* Save it (or move it) to the same folder as your day1.R script
+* Read in data from RStudio Cloud or download from: http://sisbid.github.io/Module1/data/ufo/ufo_data_complete.csv.gz
 
 ```{r, importUfo}
 ufo = read_csv("../data/ufo/ufo_data_complete.csv")
@@ -428,7 +425,7 @@ Base R:
 
 These are the indices where the pattern match occurs:
 
-```{r RawlMatch}
+```{r alienMatch}
 grep("two aliens",ufo$comments)
 which(grepl("two aliens", ufo$comments))
 which(str_detect(ufo$comments, "two aliens"))
@@ -438,7 +435,7 @@ which(str_detect(ufo$comments, "two aliens"))
 
 These are the indices where the pattern match occurs:
 
-```{r RawlMatch_log}
+```{r alienMatch_log}
 grepl("two aliens", ufo$comments)
 str_detect(ufo$comments, "two aliens")
 ```
