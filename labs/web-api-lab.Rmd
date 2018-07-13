@@ -27,6 +27,7 @@ Let's play around with the Ensembl API (http://rest.ensembl.org/) for extracting
 
 1. Download information on _Oct4_ from Ensembl using this call:
 ```{r,eval=FALSE}
+library(jsonlite)
 oct4_dat = fromJSON("http://rest.ensembl.org//lookup/id/ENSG00000204531?content-type=application/json;expand=1")
 ```
 
