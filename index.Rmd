@@ -61,12 +61,11 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 |3 | --- | 10:00AM - 10:30AM | Break | --- |
 |3 | 2018-07-13 | 10:30AM - 12:00PM | [Cleaning data](lecture_notes/Data_Cleaning.html), [PDF](https://github.com/SISBID/Module1/blob/gh-pages/lecture_notes/Data_Cleaning.pdf)|Cleaning Data|
 |3 | --- | 12:00PM - 1:30PM | Lunch| --- |
-|3 | 2018-07-13 | 1:30PM-3:00PM | [Merging + Databases](https://docs.google.com/presentation/d/1s3r4wMqdxHEEtUYNNZg7eqo_K9B5haNyHMUE96ze1hY/edit?usp=sharing) |  | 
+|3 | 2018-07-13 | 1:30PM-3:00PM | [Merging + Databases](https://docs.google.com/presentation/d/15meI7W3MeF0afEV5ggdqXfwOIlwy5tcFYTJM-VUGHTs/edit?usp=sharing) |  | 
 |3 | 2018-07-13 | 1:30PM-3:00PM | [Project](labs/data-cleaning-lab.Rmd), [Key](labs/data-cleaning-lab-key.Rmd) |   | 
 |3 | --- | 3:00PM - 3:30PM | Break | --- |
 |3 | 2018-07-13 | 3:30PM-5:00PM | [Big Data "Tricks"](lecture_notes/Big_Data_Tricks.html), [PDF](https://github.com/SISBID/Module1/blob/gh-pages/lecture_notes/R_Big_Data_Tricks.pdf) |   | 
-|3 | 2018-07-13 | 3:30PM-5:00PM |  [Slides] | Exploratory Data Analysis  | 
-|3 | 2018-07-13 | 3:30PM-5:00PM |  Concluding Remarks |   | 
+|3 | 2018-07-13 | 3:30PM-5:00PM |  [Slides](https://docs.google.com/presentation/d/10FU0v3TnkKAO7pPnaJ7OIddwBGMluKGZiNc02tOaK7U/edit?usp=sharing) | Putting it all together  | 
 
 
 **Miscellaneous**
