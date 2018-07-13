@@ -53,3 +53,6 @@ seps %>%
   separate(col=year,into = c("abb","year"),sep=2) %>%
   unite(newyear,abb,year,sep="-")
 ```
+
+
+This lab was adopted from this nice tutorial on tidyr: https://rstudio-pubs-static.s3.amazonaws.com/282405_e280f5f0073544d7be417cde893d78d0.html
