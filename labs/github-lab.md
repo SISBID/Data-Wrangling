@@ -21,6 +21,6 @@
 
 9. On https://github.com/yourusername/your_new_project click on the place where it says something like "3 commits". You can see each of the changes you have made. 
 
-15. If you are done and want to go big, find a partner and do this exercise: https://github.com/kbroman/Tools4RR/blob/master/05_Git_Lab/git_lab.md
+10. Find a partner and do this exercise: https://github.com/kbroman/Tools4RR/blob/master/05_Git_Lab/git_lab.md
 
 
