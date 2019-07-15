@@ -59,7 +59,7 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 |2 | --- | 10:00AM - 10:30AM | Break | --- |
 |2 | 2019-7-16 | 10:30AM - 12:00PM | [Advanced data IO](https://docs.google.com/presentation/d/1KNopKzl_cR9z9HQt_22RuvIQOsZe4pxM2G7spT_AVoc/edit?usp=sharing),[Lab](labs/web-api-lab.Rmd) | Different ways of accessing big data|
 |2 | --- | 12:00PM - 1:30PM | Lunch| --- |
-|2 | 2019-07-16 | 1:30PM-3:00PM | [Manipulation/Summarization](https://docs.google.com/presentation/d/15meI7W3MeF0afEV5ggdqXfwOIlwy5tcFYTJM-VUGHTs/edit?usp=sharing), [Reshaping](lecture_notes/Manipulating_Data_in_R.html)| |
+|2 | 2019-07-16 | 1:30PM-3:00PM | [Manipulation/Summarization](https://docs.google.com/presentation/d/15meI7W3MeF0afEV5ggdqXfwOIlwy5tcFYTJM-VUGHTs/edit?usp=sharing), [Reshaping](lecture_notes/Manipulating_Data_in_R.html), [Lab](labs/Manipulating_Data_in_R_Lab.R), [Key](labs/Manipulating_Data_in_R_Lab_Key.html)| |
 |2 | --- | 3:00PM - 3:30PM | Break | --- |
 |2 | 2019-07-16 | 3:30PM - 5:00PM | [Cleaning data](lecture_notes/Data_Cleaning.html), [PDF](https://github.com/SISBID/Module1/blob/gh-pages/lecture_notes/Data_Cleaning.pdf)| Cleaning Data |
 |----|------------|--------------|---------------------|--------------------------------------|
