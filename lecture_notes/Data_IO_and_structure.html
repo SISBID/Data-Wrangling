@@ -3239,14 +3239,15 @@ setwd(&quot;~/Lectures&quot;) </pre>
  [3] &quot;Bioconductor_intro.Rmd&quot;      &quot;Data_Cleaning.html&quot;         
  [5] &quot;Data_Cleaning.pdf&quot;           &quot;Data_Cleaning.Rmd&quot;          
  [7] &quot;Data_IO_and_structure.html&quot;  &quot;Data_IO_and_structure.pdf&quot;  
- [9] &quot;Data_IO_and_structure.Rmd&quot;   &quot;Data_IO_and_structure_files&quot;
-[11] &quot;Manipulating_Data_in_R.html&quot; &quot;Manipulating_Data_in_R.pdf&quot; 
-[13] &quot;Manipulating_Data_in_R.Rmd&quot;  &quot;media&quot;                      
-[15] &quot;R_Big_Data_Tricks.pdf&quot;       &quot;SISBID_Intro.pdf&quot;           
-[17] &quot;styles.css&quot;                  &quot;Subsetting_Data_in_R.html&quot;  
-[19] &quot;Subsetting_Data_in_R.pdf&quot;    &quot;Subsetting_Data_in_R.Rmd&quot;   
-[21] &quot;ufo_data.rda&quot;                &quot;ufo_dataset.rds&quot;            
-[23] &quot;ufo_first100.csv&quot;           </pre>
+ [9] &quot;Data_IO_and_structure.Rmd&quot;   &quot;Data_IO_and_structure.tex&quot;  
+[11] &quot;Data_IO_and_structure_files&quot; &quot;Manipulating_Data_in_R.html&quot;
+[13] &quot;Manipulating_Data_in_R.pdf&quot;  &quot;Manipulating_Data_in_R.Rmd&quot; 
+[15] &quot;media&quot;                       &quot;R_Big_Data_Tricks.pdf&quot;      
+[17] &quot;SISBID_Intro.pdf&quot;            &quot;styles.css&quot;                 
+[19] &quot;Subsetting_Data_in_R.html&quot;   &quot;Subsetting_Data_in_R.pdf&quot;   
+[21] &quot;Subsetting_Data_in_R.Rmd&quot;    &quot;Subsetting_Data_in_R_files&quot; 
+[23] &quot;ufo_data.rda&quot;                &quot;ufo_dataset.rds&quot;            
+[25] &quot;ufo_first100.csv&quot;           </pre>
 
 <pre class = 'prettyprint lang-r'>dir(&quot;..&quot;)</pre>
 
@@ -3360,7 +3361,7 @@ help(&quot;dir&quot;)</pre>
         comment = comment, n_max = n_max, guess_max = guess_max, 
         progress = progress)
 }
-&lt;bytecode: 0x000000001793c458&gt;
+&lt;bytecode: 0x000000001260bf30&gt;
 &lt;environment: namespace:readr&gt;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-8">
@@ -3873,7 +3874,7 @@ newDate2</pre>
 <pre class = 'prettyprint lang-r'>theTime = Sys.time()
 theTime</pre>
 
-<pre >[1] &quot;2019-07-15 08:27:53 PDT&quot;</pre>
+<pre >[1] &quot;2019-07-15 09:42:02 PDT&quot;</pre>
 
 <pre class = 'prettyprint lang-r'>class(theTime)</pre>
 
@@ -3881,7 +3882,7 @@ theTime</pre>
 
 <pre class = 'prettyprint lang-r'>theTime + as.period(20, unit = &quot;minutes&quot;) # the future</pre>
 
-<pre >[1] &quot;2019-07-15 08:47:53 PDT&quot;</pre>
+<pre >[1] &quot;2019-07-15 10:02:02 PDT&quot;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Data Classes:</h2></hgroup><article  id="data-classes-2">
 
