@@ -20,14 +20,26 @@ library(RSkittleBrewer)
 ```
 
 
-Read the data into R
+Set options and link to sheet
 
 ```{r}
+<<<<<<< HEAD
+options(httr_oob_default=TRUE) 
+my_url = "https://docs.google.com/spreadsheets/d/1WBrH655fxqKW1QqvD5hnqvvEWIvRzDJcKEgjjFeYxeM/edit?usp=sharing"
+=======
 my_url = "https://docs.google.com/spreadsheets/d/1UYlTZauga6AelXuhYUPWb_tun2CdND8z7d70c3wdMAM/pubhtml"
+>>>>>>> 866aca12dc0493172136211861ba18a460446439
 my_gs = gs_url(my_url)
+
+```
+
+Read the sheet
+
+```{r}
 dat = gs_read(my_gs)
 head(dat)
 ```
+
 
 
 Set up the colors
