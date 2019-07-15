@@ -1,6 +1,6 @@
 ---
 title: "Manipulating Data in R"
-author: "Andrew Jaffe"
+author: "Data Wrangling in R"
 output:
   beamer_presentation: default
   ioslides_presentation:
