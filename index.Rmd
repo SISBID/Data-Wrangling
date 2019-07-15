@@ -13,7 +13,7 @@ output:
 **Class Schedule:**
 
 * [Summer Institute Info](https://www.biostat.washington.edu/suminst/participants)
-* Location: FSH 109 [maps](https://www.biostat.washington.edu/suminst/maps)
+* Location: FSH 108 [maps](https://www.biostat.washington.edu/suminst/maps)
 
 **Software:**
 
