@@ -1,11 +1,14 @@
 ---
 title: "dplyr Lab"
-author: "Jeff Leek"
-date: "July 7, 2015"
+author: "Data Wrangling in R"
 output: html_document
 ---
 
-1. Download the samples data on the 1,000 genomes project: (https://www.dropbox.com/s/7bg2pvzmcv4di3v/1000genomes.xlsx?dl=0).
+1. Download the samples data on the 1,000 genomes project: (`https://sisbid.github.io/Module1/labs/1000genomes.xlsx).
+
+```{r}
+
+```
 
 2. Open the sheet and look at the information listed. Go to the sheet _Final Phase Sequence Data_
 
