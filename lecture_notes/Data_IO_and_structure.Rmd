@@ -2,9 +2,9 @@
 title: "Data I/O + Structure"
 author: "Data Wrangling in R"
 output:
+  beamer_presentation: default
   ioslides_presentation:
     css: styles.css
-  beamer_presentation: default
 ---
 
 ```{r, echo = FALSE, message=FALSE}
@@ -38,15 +38,6 @@ These slides were made in R using `knitr` and `R Markdown` which is covered in l
 
 ## Data Input
 
-* 'Reading in' data is the first step of any real project/analysis
-* R can read almost any file format, especially via add-on packages
-* We are going to focus on simple delimited files first
-    * tab delimited (e.g. '.txt')
-    * comma separated (e.g. '.csv')
-    * Microsoft excel (e.g. '.xlsx')
-
-## Data Input
-
 UFO Sightings via Kaggle.com: "Reports of unidentified flying object reports in the last century". 
 
 "There are two versions of this dataset: scrubbed and complete. The complete data includes entries where the location of the sighting was not found or blank (0.8146%) or have an erroneous or blank time (8.0237%). Since the reports date back to the 20th century, some older data might be obscured. Data contains city, state, time, description, and duration of each sighting."
@@ -56,7 +47,7 @@ https://www.kaggle.com/NUFORC/ufo-sightings
 ## Data Input
 * Download data from http://sisbid.github.io/Module1/data/ufo/ufo_data_complete.csv.gz
 * Extract the CSV from the zipped file
-* Save it (or move it) to the same folder as your day2.R script
+* Save it (or move it) to the same folder as a new script
 * Within RStudio: Session --> Set Working Directory --> To Source File Location
 
 ## Data Input

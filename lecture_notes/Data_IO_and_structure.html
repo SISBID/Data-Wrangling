@@ -3147,36 +3147,22 @@ slide:not(.current) .plotly.html-widget{
 
 </article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-1">
 
-<ul>
-<li>&lsquo;Reading in&rsquo; data is the first step of any real project/analysis</li>
-<li>R can read almost any file format, especially via add-on packages</li>
-<li>We are going to focus on simple delimited files first
-
-<ul>
-<li>tab delimited (e.g. &lsquo;.txt&rsquo;)</li>
-<li>comma separated (e.g. &lsquo;.csv&rsquo;)</li>
-<li>Microsoft excel (e.g. &lsquo;.xlsx&rsquo;)</li>
-</ul></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-2">
-
 <p>UFO Sightings via Kaggle.com: &ldquo;Reports of unidentified flying object reports in the last century&rdquo;.</p>
 
 <p>&ldquo;There are two versions of this dataset: scrubbed and complete. The complete data includes entries where the location of the sighting was not found or blank (0.8146%) or have an erroneous or blank time (8.0237%). Since the reports date back to the 20th century, some older data might be obscured. Data contains city, state, time, description, and duration of each sighting.&rdquo;</p>
 
 <p><a href='https://www.kaggle.com/NUFORC/ufo-sightings' title=''>https://www.kaggle.com/NUFORC/ufo-sightings</a></p>
 
-</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-3">
+</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-2">
 
 <ul>
 <li>Download data from <a href='http://sisbid.github.io/Module1/data/ufo/ufo_data_complete.csv.gz' title=''>http://sisbid.github.io/Module1/data/ufo/ufo_data_complete.csv.gz</a></li>
 <li>Extract the CSV from the zipped file</li>
-<li>Save it (or move it) to the same folder as your day2.R script</li>
+<li>Save it (or move it) to the same folder as a new script</li>
 <li>Within RStudio: Session –&gt; Set Working Directory –&gt; To Source File Location</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-4">
+</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-3">
 
 <p>Easy way: R Studio features some nice &ldquo;drop down&rdquo; support, where you can run some tasks by selecting them from the toolbar.</p>
 
@@ -3329,11 +3315,11 @@ help(&quot;dir&quot;)</pre>
 #    for a step in analysis. 
 # Take it to another line</pre>
 
-</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-5">
+</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-4">
 
 <p>Initially-harder-but-gets-way-easier way: Utilizing functions in the <code>readr</code> package called <code>read_delim()</code> and <code>read_csv()</code> [or like <code>read.table()</code> and <code>read.csv()</code> using base R functions.</p>
 
-</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-6">
+</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-5">
 
 <p>So what is going on &ldquo;behind the scenes&rdquo;?</p>
 
@@ -3347,7 +3333,7 @@ help(&quot;dir&quot;)</pre>
            
 # for example: `read_delim(&quot;file.txt&quot;,delim=&quot;\t&quot;)`</pre>
 
-</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-7">
+</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-6">
 
 <ul>
 <li>The filename is the path to your file, in quotes</li>
@@ -3355,7 +3341,7 @@ help(&quot;dir&quot;)</pre>
 <li>Note that the filename can also be a path to a file on a website (e.g. &lsquo;www.someurl.com/table1.txt&rsquo;)</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-8">
+</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-7">
 
 <p>There is another convenient function for reading in CSV files, where the delimiter is assumed to be a comma:</p>
 
@@ -3374,10 +3360,10 @@ help(&quot;dir&quot;)</pre>
         comment = comment, n_max = n_max, guess_max = guess_max, 
         progress = progress)
 }
-&lt;bytecode: 0x0000000012613570&gt;
+&lt;bytecode: 0x000000001793c458&gt;
 &lt;environment: namespace:readr&gt;</pre>
 
-</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-9">
+</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-8">
 
 <ul>
 <li>Here would be reading in the data from the command line, specifying the file path:</li>
@@ -3412,7 +3398,7 @@ See problems(...) for more details.</pre>
 
 <p>The data is now successfully read into your R workspace, just like from using the dropdown menu.</p>
 
-</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-10">
+</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-9">
 
 <p>The <code>read_delim()</code> and related functions returns a &ldquo;tibble&rdquo; is a <code>data.frame</code> with special printing, which is the primary data format for most data cleaning and analyses.</p>
 
@@ -3440,7 +3426,7 @@ See problems(...) for more details.</pre>
 
 <pre >[1] &quot;spec_tbl_df&quot; &quot;tbl_df&quot;      &quot;tbl&quot;         &quot;data.frame&quot; </pre>
 
-</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-11">
+</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-10">
 
 <pre class = 'prettyprint lang-r'>ufo</pre>
 
@@ -3460,7 +3446,7 @@ See problems(...) for more details.</pre>
 # ... with 88,865 more rows, and 4 more variables: comments &lt;chr&gt;, `date
 #   posted` &lt;chr&gt;, latitude &lt;chr&gt;, longitude &lt;dbl&gt;</pre>
 
-</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-12">
+</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-11">
 
 <p>There are also data importing functions provided in base R (rather than the <code>readr</code> package), like <code>read.delim</code> and <code>read.csv</code>.</p>
 
@@ -3470,7 +3456,7 @@ See problems(...) for more details.</pre>
 
 <p>But you can use whatever function you feel more comfortable with.</p>
 
-</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-13">
+</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-12">
 
 <ul>
 <li>Sometimes you get weird messages when reading in data:</li>
@@ -3505,7 +3491,7 @@ See problems(...) for more details.</pre>
 
 <pre class = 'prettyprint lang-r'>stop_for_problems(ufo)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-14">
+</article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-13">
 
 <p>The <code>read_delim()</code> and related functions returns a &ldquo;tibble&rdquo; is a <code>data.frame</code> with special printing, which is the primary data format for most data cleaning and analyses.</p>
 
@@ -3887,7 +3873,7 @@ newDate2</pre>
 <pre class = 'prettyprint lang-r'>theTime = Sys.time()
 theTime</pre>
 
-<pre >[1] &quot;2019-07-14 21:02:13 PDT&quot;</pre>
+<pre >[1] &quot;2019-07-15 08:27:53 PDT&quot;</pre>
 
 <pre class = 'prettyprint lang-r'>class(theTime)</pre>
 
@@ -3895,7 +3881,7 @@ theTime</pre>
 
 <pre class = 'prettyprint lang-r'>theTime + as.period(20, unit = &quot;minutes&quot;) # the future</pre>
 
-<pre >[1] &quot;2019-07-14 21:22:13 PDT&quot;</pre>
+<pre >[1] &quot;2019-07-15 08:47:53 PDT&quot;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Data Classes:</h2></hgroup><article  id="data-classes-2">
 
