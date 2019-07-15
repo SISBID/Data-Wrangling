@@ -13,17 +13,18 @@ output:
 **Class Schedule:**
 
 * [Summer Institute Info](https://www.biostat.washington.edu/suminst/participants)
-* Location: FSH 108 [maps](https://www.biostat.washington.edu/suminst/maps)
+* Location: FSH 108 ([maps](https://www.biostat.washington.edu/suminst/maps))
 
 **Software:**
 
 * [R project](http://www.r-project.org/)
-* [Rstudio](http://www.rstudio.com/),
+* [Rstudio](http://www.rstudio.com/)
 * [Bioconductor](http://bioconductor.org/)
 * [Tidyverse](https://www.tidyverse.org/)
 
 **Resources:**
 
+* [Rstudio Cloud Class Project Homepage](https://rstudio.cloud/spaces/21228/projects)
 * [Rstudio's cheatsheets](http://www.rstudio.com/resources/cheatsheets/) 
 * [R for Data Science](http://r4ds.had.co.nz/)
 * [JHU Chromebook Data Science](http://jhudatascience.org/chromebookdatascience/index.html)
