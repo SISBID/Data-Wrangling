@@ -4,7 +4,7 @@ author: "Data Wrangling in R"
 output: html_document
 ---
 
-1. Download the samples data on the 1,000 genomes project: (`https://sisbid.github.io/Module1/labs/1000genomes.xlsx).
+1. Download the samples data on the 1,000 genomes project: (https://sisbid.github.io/Module1/labs/1000genomes.xlsx).
 
 ```{r}
 
