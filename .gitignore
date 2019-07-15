@@ -1,6 +1,7 @@
 # History files
 .Rhistory
 .Rapp.history
+.httr-oauth
 
 # Example code in package build process
 *-Ex.R

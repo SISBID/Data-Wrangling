@@ -6,7 +6,7 @@ output:
   pdf_document: default
 ---
 
-## Big Data Wrangling in R 
+## Data Wrangling with R
 
 **Instructors:** [Andrew Jaffe](http://www.aejaffe.com/) and [Jeff Leek](http://www.jtleek.com/)
 
@@ -27,7 +27,7 @@ output:
 * [Rstudio Cloud Class Project Homepage](https://rstudio.cloud/spaces/21228/projects)
 * [Rstudio's cheatsheets](http://www.rstudio.com/resources/cheatsheets/) 
 * [R for Data Science](http://r4ds.had.co.nz/)
-* [JHU Chromebook Data Science](http://jhudatascience.org/chromebookdatascience/index.html)
+* [JHU Cloud-Based Data Science](https://leanpub.com/universities/set/jhu/cloud-based-data-science)
 * [Git for Humans](https://speakerdeck.com/alicebartlett/git-for-humans)
 * [GitHub Labs](https://lab.github.com/)
 * [swirl](http://swirlstats.com/)
@@ -41,16 +41,16 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 
 | Day  | Date  |  Session | Resources  |  Description |
 |----|------------|--------------|---------------------|--------------------------------------|
-| 1 | 2019-07-15 | 8:30AM - 10:00AM |[Welcome and motivation](https://docs.google.com/presentation/d/1WeOfmSZTWUm74rA-jqV-gnoQcI1oJpe6ecntWPJ-iK8/edit), [PDF](lecture_notes/SISBID_Intro.pdf)|Why you're here|
-| 1 | 2019-07-15 | 8:30AM - 10:00AM | [Who assessment](https://docs.google.com/spreadsheets/d/1SpYrtk0dyfwUxtbxstypXzEVvg_Mkz1Wexo1uSsGjY4/edit?usp=sharing) | How to see who we are|
-| 1 | 2019-07-15 | 8:30AM - 10:00AM | [Skills assessment](https://docs.google.com/spreadsheets/d/1UYlTZauga6AelXuhYUPWb_tun2CdND8z7d70c3wdMAM/edit?usp=sharing), [Skills Notebook](https://raw.githubusercontent.com/SISBID/Module1/gh-pages/labs/skills_notebook.Rmd) | How to see how good we are|
-| 1 | 2019-07-15 | 8:30AM - 10:00AM |[Data brainstorming](https://docs.google.com/document/d/1Y_cX7IXkN6TwIUFQF1DSD-lcosZ7RTOhCQAg8t4gapk/edit?usp=sharing) | How to find data |
+| 1 | 2019-07-15 | 8:30AM - 10:00AM |[Welcome and motivation](https://docs.google.com/presentation/d/109XPCQZXyooZQia33Lp0jpZxtWg5hCHw0LdnBedozwY/edit?usp=sharing), [PDF](lecture_notes/sisbid_intro.pdf)|Why you're here|
+| 1 | 2019-07-15 | 8:30AM - 10:00AM | [Who assessment](https://bit.ly/2xLMh7l) | Who is here|
+| 1 | 2019-07-15 | 8:30AM - 10:00AM | [Skills assessment](https://bit.ly/2YUy4B0), [Skills Notebook](https://raw.githubusercontent.com/SISBID/Module1/gh-pages/labs/skills_notebook.Rmd) | What do we already know?|
+| 1 | 2019-07-15 | 8:30AM - 10:00AM |[Data brainstorming](https://bit.ly/2LXhVap) | What data do we know about?|
 |1 | --- | 10:00AM - 10:30AM | Break | --- |
-|1 | 2019-07-15 | 10:30AM - 12:00PM | [Rep. Research/Version Control](https://docs.google.com/presentation/d/1F2tyP9nsHcY9DT5B6rSS95sIA9DEreDNt7s_HmbrINw/edit?usp=sharing) | How to reproduce analysis |
-|1 | 2019-07-15 | 10:30AM - 12:00PM | [Try Git](https://try.github.io/levels/1/challenges/1) | How to try git|
+|1 | 2019-07-15 | 10:30AM - 12:00PM | [Rep. Research/Version Control](https://docs.google.com/presentation/d/1JssHYRDGWM6L7hFtgs5XrBBUFvWHh8aHlTGotRIFs9Q/edit?usp=sharing) [PDF](lecture_notes/sisbid_intro.pdf)| Getting organized |
+|1 | 2019-07-15 | 10:30AM - 12:00PM | [Git Course](https://www.katacoda.com/courses/git) | How to try git|
 |1 | --- | 12:00PM - 1:30PM | Lunch | --- |
 |1 | 2019-07-15 | 1:30PM - 3:00PM | [Install Git/Github](http://stat545.com/git00_index.html) | How to install git/github|
-|1 | 2019-07-15 | 1:30PM - 3:00PM | [Github lab](https://github.com/SISBID/Module1/blob/gh-pages/labs/github-lab.md) | How to practice git/github|
+|1 | 2019-07-15 | 1:30PM - 3:00PM | [Github lab](https://github.com/SISBID/Module1/blob/gh-pages/labs/github-lab.md) | Practicing git/github|
 |1 | --- | 3:00PM - 3:30PM | Break | --- |
 |1 | 2019-07-15 | 3:30PM - 5:00PM | [Data I/O](lecture_notes/Data_IO_and_structure.html), [PDF](https://github.com/SISBID/Module1/blob/gh-pages/lecture_notes/Data_IO_and_structure.pdf) | Data import and classes |
 |1 | 2019-07-15 | 3:30PM - 5:00PM | [Import Lab](labs/data-io-lab.Rmd), [Import Key](labs/data-io-lab-key.html) |---|
