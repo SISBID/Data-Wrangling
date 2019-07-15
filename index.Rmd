@@ -42,9 +42,9 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 | Day  | Date  |  Session | Resources  |  Description |
 |----|------------|--------------|---------------------|--------------------------------------|
 | 1 | 2019-07-15 | 8:30AM - 10:00AM |[Welcome and motivation](https://docs.google.com/presentation/d/1WeOfmSZTWUm74rA-jqV-gnoQcI1oJpe6ecntWPJ-iK8/edit), [PDF](lecture_notes/SISBID_Intro.pdf)|Why you're here|
-| 1 | 2019-07-15 | 8:30AM - 10:00AM | [Who assessment](https://goo.gl/dqTe4Z) | How to see who we are|
-| 1 | 2019-07-15 | 8:30AM - 10:00AM | [Skills assessment](https://goo.gl/L6w1fv), [Skills Notebook](https://raw.githubusercontent.com/SISBID/Module1/gh-pages/labs/skills_notebook.Rmd) | How to see how good we are|
-| 1 | 2019-07-15 | 8:30AM - 10:00AM |[Data brainstorming](https://docs.google.com/document/d/1UY-nGKPLok385umzbi3yVjv1nQroIxCpYiAQVEZb-iM/edit) | How to find data |
+| 1 | 2019-07-15 | 8:30AM - 10:00AM | [Who assessment](https://docs.google.com/spreadsheets/d/1SpYrtk0dyfwUxtbxstypXzEVvg_Mkz1Wexo1uSsGjY4/edit?usp=sharing) | How to see who we are|
+| 1 | 2019-07-15 | 8:30AM - 10:00AM | [Skills assessment](https://docs.google.com/spreadsheets/d/1UYlTZauga6AelXuhYUPWb_tun2CdND8z7d70c3wdMAM/edit?usp=sharing), [Skills Notebook](https://raw.githubusercontent.com/SISBID/Module1/gh-pages/labs/skills_notebook.Rmd) | How to see how good we are|
+| 1 | 2019-07-15 | 8:30AM - 10:00AM |[Data brainstorming](https://docs.google.com/document/d/1Y_cX7IXkN6TwIUFQF1DSD-lcosZ7RTOhCQAg8t4gapk/edit?usp=sharing) | How to find data |
 |1 | --- | 10:00AM - 10:30AM | Break | --- |
 |1 | 2019-07-15 | 10:30AM - 12:00PM | [Rep. Research/Version Control](https://docs.google.com/presentation/d/1F2tyP9nsHcY9DT5B6rSS95sIA9DEreDNt7s_HmbrINw/edit?usp=sharing) | How to reproduce analysis |
 |1 | 2019-07-15 | 10:30AM - 12:00PM | [Try Git](https://try.github.io/levels/1/challenges/1) | How to try git|
