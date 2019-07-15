@@ -145,7 +145,7 @@ Commenting in code is super important. You should be able to go back to your cod
 
 ## Commenting in Scripts
 
-![This was the figure...](media/dyr238f1.gif)
+![This was the figure...](media/dyr238f1.jpg)
 
 ## Commenting in Scripts
 
