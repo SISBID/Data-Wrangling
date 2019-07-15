@@ -1,25 +1,30 @@
 ---
 title: "Manipulating Data in R"
 author: "Andrew Jaffe"
-date: "July 13, 2016"
 output:
   ioslides_presentation:
     css: styles.css
   beamer_presentation: default
 ---
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, include=FALSE}
 library(knitr)
+library(readr)
 opts_chunk$set(comment = "")
+library(tidyverse)
 ```
 
 
 ## Reshaping Data 
 
+```{r, echo = FALSE, message=FALSE}
+library(tidyverse)
+```
+
 In this module, we will show you how to:
 
-1. Reshaping data from long (tall) to wide (fat)
-2. Reshaping data from wide (fat) to long (tall)
+1. Reshaping data from wide (fat) to long (tall)
+2. Reshaping data from long (tall) to wide (fat)
 
 ## Setup
 
@@ -29,56 +34,19 @@ See the "Data Wrangling Cheat Sheet using `dplyr` and `tidyr`":
 
 * https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf
 
-## Data used: Charm City Circulator {.smaller}
-
-http://www.aejaffe.com/summerR_2016/data/Charm_City_Circulator_Ridership.csv
-
-```{r}
-circ = read.csv("../data/Charm_City_Circulator_Ridership.csv", 
-                as.is = TRUE)
-head(circ, 2)
-```
-
-## Creating a Date class from a character date
-
-```{r, message= FALSE}
-library(lubridate) # great for dates!
-library(dplyr) # mutate/summarise functions
-circ = mutate(circ, date = mdy(date))
-sum( is.na(circ$date) ) # all converted correctly
-head(circ$date)
-class(circ$date)
-```
-
-## Making column names a little more separated
-
-We will use `str_replace` from `stringr` to put periods in the column names.
-
-```{r}
-library(stringr)
-cn = colnames(circ)
-cn = cn %>% 
-  str_replace("Board", ".Board") %>% 
-  str_replace("Alight", ".Alight") %>% 
-  str_replace("Average", ".Average") 
-colnames(circ) = cn
-cn
-```
-
+## What is wide/long data?
 
 
 ```{r, echo = FALSE}
-ex_wide = data.frame(id = 1:2,
+ex_wide = tibble(id = 1:2,
                      visit1 = c(10, 5),
                      visit2 = c(4, 6),
                      visit3 = c(3, NA)
                      )
-ex_long = data.frame(id = c(rep(1, 3), rep(2, 2)),
+ex_long = tibble(id = c(rep(1, 3), rep(2, 2)),
                      visit = c(1:3, 1:2),
                      value = c(10, 4, 3, 5, 6))
 ```
-
-## Reshaping data from wide (fat) to long (tall)
 
 See http://www.cookbook-r.com/Manipulating_data/Converting_data_between_wide_and_long_format/
 
@@ -93,52 +61,147 @@ ex_wide
 ex_long
 ```
 
+## What is wide/long data?
 
+More accurately, data is wide or long **with respect** to certain variables.
+
+## Data used: Charm City Circulator
+
+```{r, message = FALSE}
+circ = read_csv("../data/Charm_City_Circulator_Ridership.csv")
+head(circ, 2)
+class(circ$date)
+```
+
+## Creating a Date class from a character date
+
+```{r, message = FALSE}
+library(lubridate) # great for dates!
+```
+
+```{r, message= FALSE}
+sum(is.na(circ$date))
+sum( circ$date == "")
+circ = mutate(circ, date = mdy(date))
+sum( is.na(circ$date) ) # all converted correctly
+head(circ$date, 3)
+class(circ$date)
+```
 
 ## Reshaping data from wide (fat) to long (tall): base R
 
 The `reshape` command exists.  It is a **confusing** function.  Don't use it.
 
-## Reshaping data from wide (fat) to long (tall): tidyr {.smaller}
+## tidyr package
+
+`tidyr` allows you to "tidy" your data.  We will be talking about:
+
+- `gather` - make multiple columns into variables, (wide to long)
+- `spread` - make a variable into multiple columns, (long to wide)
+- `separate` - string into multiple columns
+- `unite` - multiple columns into one string
+
+
+## Reshaping data from wide (fat) to long (tall): tidyr 
 
 `tidyr::gather` - puts column data into rows.
 
 We want the column names into "`var`" variable in the output dataset and the value in "`number`" variable. We then describe which columns we want to "gather:" 
+
 ```{r}
-library(tidyr)
 long = gather(circ, key = "var", value = "number", 
-              starts_with("orange"),
-              starts_with("purple"), 
-              starts_with("green"),
-              starts_with("banner"))
-head(long, 2)
-table(long$var)
+              -day, -date, -daily)
+head(long, 4)
+```
+
+
+## Reshaping data from wide (fat) to long (tall): tidyr 
+
+- Could be explicit on what we want to gather
+
+```{r}
+long = gather(circ, key = "var", value = "number", 
+              starts_with("orange"), starts_with("purple"),
+              starts_with("green"), starts_with("banner"))
+long
+```
+
+## Reshaping data from wide (fat) to long (tall): tidyr 
+
+```{r}
+long %>% count(var)
+```
+
+
+## Lab Part 1
+
+[Website](https://sisbid.github.io/Module1/)
+
+
+## Making a separator
+
+We will use `str_replace` from `stringr` to put periods in the names (periods are **not** special when in a replacement)
+
+```{r}
+long = long %>% mutate(
+  var = var %>% 
+    str_replace("Board", ".Board") %>% 
+    str_replace("Alight", ".Alight") %>% 
+    str_replace("Average", ".Average") 
+)
+long %>% count(var)
 ```
 
 ## Reshaping data from wide (fat) to long (tall): tidyr
 
-Now each `var` is boardings, averages, or alightings.  We want to separate these so we can have these by line.
+Now each `var` is boardings, averages, or alightings.  We want to separate these so we can have these by line. Remember "." is special character:
 
 ```{r}
-long = separate_(long, "var", 
-                 into = c("line", "type"), 
+long = separate(long, var, into = c("line", "type"), 
                  sep = "[.]")
-head(long, 3)
+head(long, 2)
 unique(long$line)
 unique(long$type)
 ```
 
-## Finding the First (or Last) record
+## Re-uniting all the lines
 
+If we had the opposite problem, we could use the `unite` function:
 
 ```{r}
-long = long %>% filter(!is.na(number) & number > 0)
-first_and_last = long %>% arrange(date) %>% # arrange by date
-  filter(type %in% "Boardings") %>% # keep boardings only
-  group_by(line) %>% # group by line
-  slice( c(1, n())) # select ("slice") first and last (n() command) lines
-first_and_last %>%  head(4)
+reunited = long %>% 
+  unite(col = var, line, type, sep = ".")  
+reunited %>% select(day, var) %>% head(3) %>% print
 ```
+We could also use `paste`/`paste0`.
+
+
+<!-- ## Making column names a little more separated -->
+
+<!-- Alternative: We could have replaced the column names first **then** reshaped: -->
+
+<!-- ```{r, eval = FALSE} -->
+<!-- cn = colnames(circ) -->
+<!-- cn = cn %>%  -->
+<!--   str_replace("Board", ".Board") %>%  -->
+<!--   str_replace("Alight", ".Alight") %>%  -->
+<!--   str_replace("Average", ".Average")  -->
+<!-- colnames(circ) = cn # then reshape using gather! -->
+<!-- ``` -->
+
+<!-- or (with some string working (see data cleaning)): -->
+
+<!-- ```{r, eval = FALSE} -->
+<!-- circ = circ %>%  -->
+<!--   rename_all(.funs = str_replace, -->
+<!--             pattern = "(orange|purple|green|banner)", -->
+<!--             replacement = "\\1.") -->
+<!-- ``` -->
+
+## Lab Part 2
+
+[Website](https://sisbid.github.io/Module1/)
+
 
 ## Reshaping data from long (tall) to wide (fat): tidyr
 
@@ -146,30 +209,12 @@ In `tidyr`, the `spread` function spreads rows into columns.  Now we have a long
 
 ```{r}
 # have to remove missing days
-wide = filter(long, !is.na(date))
-wide = spread(wide, type, number)
+wide = long %>% filter(!is.na(date))
+wide = wide %>% spread(type, number)
 head(wide)
 ```
 
 
-## Reshaping data from long (tall) to wide (fat): tidyr
+## Lab Part 3
 
-We can use `rowSums` to see if any values in the row is `NA` and keep if the row, which is a combination of date and line type has any non-missing data.
-
-```{r}
-# wide = wide %>%
-#     select(Alightings, Average, Boardings) %>%
-#     mutate(good = rowSums(is.na(.)) > 0)
-namat = !is.na(select(wide, Alightings, Average, Boardings))
-head(namat)
-wide$good = rowSums(namat) > 0
-head(wide, 3)
-```
-
-## Reshaping data from long (tall) to wide (fat): tidyr
-
-Now we can filter only the good rows and delete the `good` column.
-```{r}
-wide = filter(wide, good) %>% select(-good)
-head(wide)
-```
+[Website](https://sisbid.github.io/Module1/)
