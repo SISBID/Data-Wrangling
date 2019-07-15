@@ -6,8 +6,8 @@ output: html_notebook
 First if necessary install some packages:
 
 ```{r}
-install.packages(gplots)
-install.packages(googlesheets)
+install.packages('gplots')
+install.packages('googlesheets')
 install.packages('devtools')
 devtools::install_github('alyssafrazee/RSkittleBrewer')
 ```
@@ -20,14 +20,22 @@ library(RSkittleBrewer)
 ```
 
 
-Read the data into R
+Set options and link to sheet
 
 ```{r}
-my_url = "https://docs.google.com/spreadsheets/d/18KQQd4LY5k8Ucux1MvWCsQGQJlvd0ECTnn-3ixdOKFM/pubhtml"
+options(httr_oob_default=TRUE) 
+my_url = "https://docs.google.com/spreadsheets/d/1WBrH655fxqKW1QqvD5hnqvvEWIvRzDJcKEgjjFeYxeM/edit?usp=sharing"
 my_gs = gs_url(my_url)
+
+```
+
+Read the sheet
+
+```{r}
 dat = gs_read(my_gs)
 head(dat)
 ```
+
 
 
 Set up the colors
