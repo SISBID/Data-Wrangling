@@ -6,8 +6,8 @@ output: html_notebook
 First if necessary install some packages:
 
 ```{r}
-install.packages(gplots)
-install.packages(googlesheets)
+install.packages('gplots')
+install.packages('googlesheets')
 install.packages('devtools')
 devtools::install_github('alyssafrazee/RSkittleBrewer')
 ```
@@ -23,7 +23,7 @@ library(RSkittleBrewer)
 Read the data into R
 
 ```{r}
-my_url = "https://docs.google.com/spreadsheets/d/18KQQd4LY5k8Ucux1MvWCsQGQJlvd0ECTnn-3ixdOKFM/pubhtml"
+my_url = "https://docs.google.com/spreadsheets/d/1UYlTZauga6AelXuhYUPWb_tun2CdND8z7d70c3wdMAM/pubhtml"
 my_gs = gs_url(my_url)
 dat = gs_read(my_gs)
 head(dat)
