@@ -1,11 +1,11 @@
 ---
+title: "SISBID Module 1"
 output:
   html_document:
     theme: cosmo
   pdf_document: default
 ---
 
-## SISBID: Module 1
 ## Big Data Wrangling in R 
 
 **Instructors:** [Andrew Jaffe](http://www.aejaffe.com/) and [Jeff Leek](http://www.jtleek.com/)

@@ -1,38 +1,143 @@
 ---
-title: "Subsetting Data Lab"
-author: "Data Wrangling in R"
+title: "Subsetting Data in R - Lab"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-In this lab you can use the interactive console to explore but please record your commands here.  
+In this lab you can use the interactive console to explore but please record your commands here.  Remember anything you type here can be "sent" to the console with Cmd-Enter (OS-X) or Cntr-Enter (Windows/Linux) (But only in side the ```{r}``` areas).
 
-Remember anything you type here can be "sent" to the console with: Cmd-Enter (OS-X) or Ctrl-Enter (Windows/Linux).
+```{r, message = FALSE}
+library(dplyr)
+library(tidyverse)
+```
 
-### Part 1
+# Part 1
 
-1. Check to see if you have the `mtcars` dataset (which is included in the `datasets` package)
+1. Check to see if you have the `mtcars` dataset 
+```{r}
+
+
+
+```
+
 
 2. What class is `mtcars`?
+```{r}
+
+
+
+```
 
 3. How many observations (rows) and variables (columns) are in the `mtcars` dataset?
 
-4. Select the subset of rows that get more than 20 miles per gallon (mpg) of fuel efficiency - how many are there?
+```{r}
 
-5. Select the subset of rows that get less than 16 miles per gallon (mpg) of fuel efficiency and have more than 100 horsepower (hp) - how many are there?
 
-### Part 2
 
-6. Create a subset of the data that only contains the columns: `wt`, `qsec`, and `hp` for only the cars that have 8 cylinder, and assign this object to `carsSub` - what are the dimensions of this dataset?
+```
 
-7. Convert the column names of `carsSub` to all upper case
+4. Copy mtcars into an object called cars and rename `mpg` in cars to `MPG`. Use `rename`
 
-8. Re-order the rows of `carsSub` by weight in increasing order
+```{r}
+cars = mtcars
 
-9. Copy mtcars into a variable called `cars` and rename the `mpg` column in `cars` to `MPG`
 
-10. Subset the columns from mtcars that end in "p" and call the new data frame `pvars`
 
+```
+
+5. Convert the column names of `cars` to all upper case. Use rename_all, and the `toupper` command (or `colnames`).
+
+```{r}
+
+
+
+```
+
+
+# Part 2
+
+
+6. Copy `mtcars` into `cars` again.  Create a column called `car` using the `rownames_to_column` function. 
+```{r}
+
+
+```
+
+7. Subset the columns from `cars` that end in `"p"` and call it `pvars`, use `ends_with()`.
+
+```{r}
+
+
+
+```
+
+8. Create a subset of the data that only contains the columns: `wt`, `qsec`, and `hp` and assign this object to `carsSub` - what are the dimensions of this dataset? Use `select()` (and `dim`):
+
+```{r}
+
+
+
+```
+
+9. Convert the column names of `carsSub` to all upper case.  Use `rename_all()`, and the `toupper` command (or `colnames`)
+
+```{r}
+
+
+
+```
+
+
+
+# Part 3
+
+10. Subset the rows of cars that get more than 20 miles per gallon (`mpg`) of fuel efficiency - how many are there? Use `filter()`
+```{r}
+
+
+
+```
+
+
+11. Subset the rows that get less than 16 miles per gallon (`mpg`) of fuel efficiency and have more than 100 horsepower (`hp`) - how many are there?
+```{r}
+
+
+
+```
+
+
+# Part 4
+
+12. Create a subset from the `cars` data that only contains the columns:
+	`wt`, `qsec`, and `hp` for only the cars with 8 cylinders
+	and reassign this object to `carsSub` - what are the dimensions of this dataset?
+
+```{r}
+
+
+
+```
+
+
+13. Re-order the rows of `carsSub` by weight in increasing order. Use `arrange()`
+
+```{r}
+
+
+
+```
+
+
+14. Create a new variable in `carsSub` called `wt2`, which  is equal to `wt^2`, using `mutate()`.  Use piping `%>%`:
+
+```{r}
+
+
+
+```
