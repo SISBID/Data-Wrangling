@@ -14,7 +14,6 @@ In this lab you can use the interactive console to explore but please record you
 ```{r, message = FALSE}
 library(dplyr)
 library(tidyverse)
-library(jhur)
 ```
 
 # Part 1
