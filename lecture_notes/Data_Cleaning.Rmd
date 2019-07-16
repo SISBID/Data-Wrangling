@@ -2,9 +2,9 @@
 title: "Data Cleaning"
 author: "Data Wrangling in R"
 output:
+  beamer_presentation: default
   ioslides_presentation:
     css: styles.css
-  beamer_presentation: default
 ---
 
 
