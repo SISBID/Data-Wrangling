@@ -8,7 +8,7 @@ output:
 ---
 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE,message=FALSE}
 library(knitr)
 library(tidyverse)
 opts_chunk$set(comment = "")
@@ -241,9 +241,25 @@ ufo = read_csv("../data/ufo/ufo_data_complete.csv")
 You saw warning messages when reading in this dataset. 
 
 ```{r}
-problems(ufo)
+p = problems(ufo)
+p
 ```
 
+We might want to check these out manually
+
+## Data cleaning "before" R
+
+```{r}
+ufo[p$row, ]
+```
+
+## Data cleaning "before" R
+
+Let's just drop those rows for now
+
+```{r}
+ufo = ufo[-p$row,]
+```
 
 ## Checking for logical conditions {.smaller}
 * `any()` - checks if there are any `TRUE`s
@@ -344,41 +360,23 @@ Like `dplyr`, the `stringr` package:
 * `^` matches start of vector `^a` - starts with "a"
 * `$` matches end of vector `b$` - ends with "b"
 
-# Splitting Strings
-
 ## Substringing
-
-Very similar:
-
-Base R
-
-* `substr(x, start, stop)` - substrings from position start to position stop
-* `strsplit(x, split)` - splits strings up - returns list!
 
 `stringr`
 
 * `str_sub(x, start, end)` - substrings from position start to position end
 * `str_split(string, pattern)` - splits strings up - returns list!
 
-
-## Splitting String: base R
+## Splitting String: `stringr`
 
 In base R, `strsplit` splits a vector on a string into a list
-```{r strsplit}
+```{r strsplit_base}
 x <- c("I really", "like writing", "R code programs")
-y <- strsplit(x, split = " ") # returns a list
+y <- str_split(x, pattern = " ") # returns a list
 y
 ```
 
-## Splitting String: `stringr`
 
-`stringr::str_split` does the same thing:
-
-```{r str_split}
-library(stringr)
-y2 <- str_split(x, " ") # returns a list
-y2
-```
 
 ## Using a fixed expression
 
@@ -408,19 +406,6 @@ map_chr(y, last) # on the fly
 ```
 
 
-## 'Find' functions: base R
-
-`grep`: `grep`, `grepl`, `regexpr` and `gregexpr` search for matches to argument pattern within each element of a character vector: they differ in the format of and amount of detail in the results. 
-
-`grep(pattern, x, fixed=FALSE)`, where:
-
-* pattern = character string containing a regular expression to be matched in the given character vector.
-
-* x = a character vector where matches are sought, or an object which can be coerced by as.character to a character vector.
-
-* If fixed=TRUE, it will do exact matching for the phrase anywhere in the vector (regular find)
-
-
 ## 'Find' functions: `stringr`
 
 `str_detect`, `str_subset`, `str_replace`, and `str_replace_all` search for matches to argument pattern within each element of a character vector: they differ in the format of and amount of detail in the results. 
@@ -432,15 +417,6 @@ map_chr(y, last) # on the fly
 * `str_replace` - replaces `pattern` with `replacement` the first time
 * `str_replace_all` - replaces `pattern` with `replacement` as many times matched
 
-## 'Find' functions: stringr compared to base R
-
-Base R does not use these functions.  Here is a "translator" of the `stringr` function to base R functions
-
-* `str_detect` - similar to `grepl` (return logical)
-* `grep(value = FALSE)` is similar to `which(str_detect())`
-* `str_subset` - similar to `grep(value = TRUE)` - return value of matched
-* `str_replace` - similar to `sub` - replace one time 
-* `str_replace_all` - similar to `gsub` - replace many times
 
 ## Let's look at modifier for `stringr`
 
@@ -451,27 +427,12 @@ Base R does not use these functions.  Here is a "translator" of the `stringr` fu
 * `ignore_case` is an option to not have to use `tolower`
 
 
-## Important Comparisons
-
-Base R:
-
-* Argument order is `(pattern, x)`
-* Uses option `(fixed = TRUE)`
-
-`stringr`
-
-* Argument order is `(string, pattern)` aka `(x, pattern)`
-* Uses function `fixed(pattern)`
-
-
 
 ## 'Find' functions: Finding Indices
 
 These are the indices where the pattern match occurs:
 
 ```{r alienMatch}
-grep("two aliens",ufo$comments)
-which(grepl("two aliens", ufo$comments))
 which(str_detect(ufo$comments, "two aliens"))
 ```
 
@@ -480,17 +441,9 @@ which(str_detect(ufo$comments, "two aliens"))
 These are the indices where the pattern match occurs:
 
 ```{r alienMatch_log}
-grepl("two aliens", ufo$comments)
-str_detect(ufo$comments, "two aliens")
+str_detect(ufo$comments, "two aliens") %>% head()
 ```
 
-
-## 'Find' functions: finding values, base R {.smaller}
-
-```{r grepl}
-grep("two aliens", ufo$comments,value=TRUE)
-ufo[grep("two aliens",ufo$comments),]
-```
 
 ## 'Find' functions: finding values, `stringr` and `dplyr` {.smaller}
 
@@ -510,27 +463,18 @@ ss[ !is.na(ss)]
 ```
 
 
-## Using Regular Expressions
 
 * Look for anycomment that starts with "aliens"
   
 ```{r grepstar}
-grep("^aliens.*", x = ufo$comments, value = TRUE)
+str_subset(ufo$comments, "^aliens.*")
 ```
 
+## Using Regular Expressions
+
+That contains space then ship maybe with stuff in between
 ```{r grepstar2}
-head(grep("space.?ship", x = ufo$comments, value = TRUE),3)
-```
-
-
-
-## Using Regular Expressions: `stringr`
-```{r grepstar_stringr}
-grep("^aliens.*", x = ufo$comments, value = TRUE)
-```
-
-```{r grepstar2_stringr}
-head(str_subset( ufo$comments, "space.?ship"),3)
+str_subset(ufo$comments, "space.?ship") %>% head(7)
 ```
 
 ## Replace
@@ -586,4 +530,87 @@ ufo_dplyr = ufo_dplyr %>% mutate(
     arrange(latitude,longitude)
 ufo_dplyr[1:5, c("datetime", "latitude", "longitude")]
 ```
+
+## Special characters like money/$
+
+```{r}
+money = tibble(group = letters[1:5], 
+  amount = c("$12.32", "$43.64", "$765.43", "$93.31", "$12.13"))
+money %>% arrange(amount)
+as.numeric(money$amount)
+```
+
+## Special characters like money/$
+
+In the past, we would recommend just replacing the `$` sign with an empty string and convert to numeric:
+
+```{r} 
+money$amountNum = as.numeric(str_replace(money$amount, fixed("$"), ""))
+money %>% arrange(amountNum)
+```
+
+## Special characters like money/$
+
+But now there are better helper functions for this:
+
+```{r}
+money$amount = parse_number(money$amount)
+```
+
+This is way easier..."This drops any non-numeric characters before or after the first number. The grouping mark specified by the locale is ignored inside the number."
+
+# Base R versions
+
+## Substrings 
+
+Base R
+
+* `substr(x, start, stop)` - substrings from position start to position stop
+* `strsplit(x, split)` - splits strings up - returns list!
+
+
+## Splitting String: base R
+
+In base R, `strsplit` splits a vector on a string into a list
+```{r strsplit}
+x <- c("I really", "like writing", "R code programs")
+y <- strsplit(x, split = " ") # returns a list
+y
+```
+
+
+## 'Find' functions: base R
+
+`grep`: `grep`, `grepl`, `regexpr` and `gregexpr` search for matches to argument pattern within each element of a character vector: they differ in the format of and amount of detail in the results. 
+
+`grep(pattern, x, fixed=FALSE)`, where:
+
+* pattern = character string containing a regular expression to be matched in the given character vector.
+
+* x = a character vector where matches are sought, or an object which can be coerced by as.character to a character vector.
+
+* If fixed=TRUE, it will do exact matching for the phrase anywhere in the vector (regular find)
+
+## 'Find' functions: stringr compared to base R
+
+Base R does not use these functions.  Here is a "translator" of the `stringr` function to base R functions
+
+* `str_detect` - similar to `grepl` (return logical)
+* `grep(value = FALSE)` is similar to `which(str_detect())`
+* `str_subset` - similar to `grep(value = TRUE)` - return value of matched
+* `str_replace` - similar to `sub` - replace one time 
+* `str_replace_all` - similar to `gsub` - replace many times
+
+
+## Important Comparisons
+
+Base R:
+
+* Argument order is `(pattern, x)`
+* Uses option `(fixed = TRUE)`
+
+`stringr`
+
+* Argument order is `(string, pattern)` aka `(x, pattern)`
+* Uses function `fixed(pattern)`
 
