@@ -17,22 +17,7 @@ library(readr)
 library(stringr)
 suppressPackageStartupMessages(library(dplyr))
 tax = read_csv("http://sisbid.github.io/Module1/data/Real_Property_Taxes.csv.gz")
-# write_csv(tax, gzfile("table.csv.gz))
-```
-
-Note the `read_csv` function is treating the empty string `""` as missing whereas the `read.csv` function is not.
-
-```{r}
-tax2 = read.csv("../data/Real_Property_Taxes.csv.gz",as.is=TRUE)
-table(complete.cases(tax))
-table(complete.cases(tax2))
-ind = which(!complete.cases(tax))[1:3]
-tax[ind,]
-tax2[ind,]
-```
-
-```{r}
-tax3 = read.csv("../data/Real_Property_Taxes.csv.gz",as.is=TRUE,na.string="")
+tax = as.data.frame(tax)
 ```
 
 2. How many addresses pay property taxes? 
@@ -45,15 +30,10 @@ dim(tax)
 3. What is the total city and state tax paid?
 
 ```{r}
+options(digits=12) # so no rounding
 head(tax$CityTax)
-tax$CityTax = tax$CityTax %>% 
-  str_replace(fixed("$"), "") %>%
-  str_replace_all(",", "") %>%
-  as.numeric
-tax$StateTax = tax$StateTax %>% 
-  str_replace(fixed("$"), "") %>%
-  str_replace_all(",", "") %>%
-  as.numeric
+tax$CityTax = parse_number(tax$CityTax)
+tax$StateTax = parse_number(tax$StateTax)
 
 sum(tax$CityTax, na.rm = TRUE)
 sum(tax$CityTax, na.rm = TRUE)/1e6
@@ -65,8 +45,27 @@ sum(tax$StateTax, na.rm = TRUE)/1e6
 Combined would be `r round((sum(tax$StateTax, na.rm = TRUE) + sum(tax$CityTax, na.rm = TRUE))/1e6)` milion dollars paid.
 
 
-4. Convert the 'LotSize' variable to a numeric square feet variable. Tips:
-* Look at the data 
+4. Subset the data to only retain those houses that are principal residences. 
+
+```{r}
+taxRes = tax %>% filter(ResCode == "PRINCIPAL RESIDENCE")
+```
+
+a) How many such houses are there?
+
+```{r}
+taxRes %>% nrow()
+```
+
+  b) Describe the distribution of property taxes on these residences.  Use 
+  hist with certain breaks or `quantile()`
+
+```{r}
+quantile(taxRes$StateTax,na.rm=TRUE)
+quantile(taxRes$CityTax,na.rm=TRUE)
+```
+
+5. Convert the 'LotSize' variable to a numeric square feet variable. Tips:
 * Assume hyphens represent inches within square foot meassuremnts 
 * Assume decimals within acreage measurements
 * 1 acre = 43560 square feet
@@ -80,33 +79,33 @@ lot = tax$LotSize # for checking later
 First lets take care of acres
 
 ```{r}
-aIndex= c(grep("AC.*", tax$LotSize),
-            grep(" %", tax$LotSize, fixed=TRUE))
+aIndex= which(str_detect(tax$LotSize, "AC.*") | 
+            str_detect(tax$LotSize, fixed(" %")))
 head(aIndex)
 head(lot[aIndex])
 
 acre = tax$LotSize[aIndex] # temporary variable
 ## find and replace character strings
-acre = gsub(" AC.*","",acre)
-acre = gsub(" %","",acre)
+acre = str_replace_all(acre, " AC.*","")
+acre = str_replace_all(acre, " %","")
 table(!is.na(as.numeric(acre)))
 
 head(acre[is.na(as.numeric(acre))],50)
 
 ## lets clean the rest
-acre = gsub("-",".",acre,fixed=TRUE) # hyphen instead of decimal
+acre = str_replace_all(acre, "-",".") # hyphen instead of decimal
 head(acre[is.na(as.numeric(acre))])
 table(!is.na(as.numeric(acre)))
 
-acre = gsub("ACRES","", acre, fixed=TRUE)
+acre = str_replace_all(acre, "ACRES","")
 head(acre[is.na(as.numeric(acre))])
 
 # take care of individual mistakes
-acre = gsub("O","0", acre, fixed=TRUE) # 0 vs O
-acre = gsub("Q","", acre, fixed=TRUE) # Q, oops
-acre = gsub(",.",".", acre, fixed=TRUE) # extra ,
-acre = gsub(",","", acre, fixed=TRUE) # extra ,
-acre = gsub("L","0", acre, fixed=TRUE) # leading L
+acre = str_replace_all(acre, "O","0") # 0 vs O
+acre = str_replace_all(acre, "Q","") # Q, oops
+acre = str_replace_all(acre, ",.",".") # extra ,
+acre = str_replace_all(acre, ",","") # extra ,
+acre = str_replace_all(acre, "L","0") # leading L
 acre[is.na(as.numeric(acre))]
 
 acre2 = as.numeric(acre)*43560 
@@ -116,30 +115,30 @@ sum(is.na(acre2)) # all but 3
 Now let's convert all of the square feet variables
 
 ```{r}
-fIndex = grep("X", tax$LotSize)
+library(purrr)
+fIndex = which(str_detect(tax$LotSize, "X"))
+
 ft = tax$LotSize[fIndex]
 
-ft = gsub("&", "-", ft, fixed=TRUE)
-ft = gsub("IMP ONLY ", "", ft, fixed=TRUE)
-ft = gsub("`","1",ft,fixed=TRUE)
+ft = str_replace_all(ft, fixed("&"), "-")
+ft = str_replace_all(ft, "IMP ONLY ", "")
+ft = str_replace_all(ft, "`","1")
 
-ft= sapply(str_split(ft, " "), first)
+ft= map_chr(str_split(ft, " "), first)
 
-# wrapper for string split and sapply
-#### ss = function(x, pattern, slot=1,...) sapply(strsplit(x,pattern,...), "[", slot)
-
-width = sapply(str_split(ft,"X"), first)
-length = sapply(str_split(ft,"X"), nth, 2) 
+## now get the widths and lengths
+width = map_chr(str_split(ft,"X"), first)
+length = map_chr(str_split(ft,"X"), nth, 2) 
 
 ## width
-widthFeet = as.numeric(sapply(str_split(width, "-"), first))
-widthInch = as.numeric(sapply(str_split(width, "-"),nth,2))/12
+widthFeet = as.numeric(map_chr(str_split(width, "-"), first))
+widthInch = as.numeric(map_chr(str_split(width, "-"),nth,2))/12
 widthInch[is.na(widthInch)] = 0 # when no inches present
 totalWidth = widthFeet + widthInch # add together
 
 # length
-lengthFeet = as.numeric(sapply(str_split(length, "-"),first))
-lengthInch = as.numeric(sapply(str_split(length, "-",2),nth,2))/12
+lengthFeet = as.numeric(map_chr(str_split(length, "-"),first))
+lengthInch = as.numeric(map_chr(str_split(length, "-",2),nth,2))/12
 lengthInch[is.na(lengthInch)] = 0 # when no inches present
 totalLength = lengthFeet + lengthInch
 
@@ -157,12 +156,11 @@ tax$sqft[fIndex] = sqrtFt
 mean(!is.na(tax$sqft))
 
 # already in square feet, easy!!
-sIndex=c(grep("FT", tax$LotSize), 
-         grep("S.*F.", tax$LotSize))
+sIndex=which(str_detect(tax$LotSize, "FT") | str_detect(tax$LotSize, "S.*F."))
 sf = tax$LotSize[sIndex] # subset temporary variable
 
-sqft2 = sapply(str_split(sf,"( |SQ|SF)"),first)
-sqft2 = as.numeric(gsub(",", "", sqft2)) # remove , and convert
+sqft2 = map_chr(str_split(sf,"( |SQ|SF)"),first)
+sqft2 = as.numeric(str_replace_all(sqft2, ",", "")) # remove , and convert
 tax$sqft[sIndex] = sqft2
 table(is.na(tax$sqft)) 
 ## progress!
