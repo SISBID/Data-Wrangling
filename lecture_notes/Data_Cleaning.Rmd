@@ -10,7 +10,7 @@ output:
 
 ```{r, echo = FALSE}
 library(knitr)
-library(readr)
+library(tidyverse)
 opts_chunk$set(comment = "")
 ```
 
@@ -102,6 +102,16 @@ x %in% c(0, 2, NA) # NEVER has NA and returns logical
 x %in% c(0, 2) | is.na(x)
 ```
 
+## Filtering and tibbles
+
+Filter removes missing values, have to keep them if you want them:
+
+```{r}
+df = tibble(x = x)
+df %>% filter(x > 2)
+filter(df, between(x, -1, 3) | is.na(x))
+```
+
 
 ## Missing Data with Operations
 
@@ -166,9 +176,26 @@ tab[ tab > 0 ]
 A two-way table.  If you pass in 2 vectors, `table` creates a 2-dimensional table.
 
 ```{r}
-tab <- table(c(0, 1, 2, 3, 2, 3, 3, 2,2, 3), 
-             c(0, 1, 2, 3, 2, 3, 3, 4, 4, 3), 
+tab <- table(c(0, 0, 0, 1, 1,2, 3, 2, 3, 3, 2,2, 3,3,2,3,3), 
+             c(0, 0,1, 1, 2, 3, 3, 2, 3, 3, 4, 4, 3,2,2,1,1), 
               useNA = "always")
+```
+
+## Finding Row or Column Totals
+
+`margin.table` finds the marginal sums of the table.  `margin` is 1 for rows, 2 for columns in general in `R`.  Here is the column sums of the table:
+
+```{r margin}
+margin.table(tab, 2)
+```
+
+## Proportion Tables 
+
+`prop.table` finds the marginal proportions of the table. Think of it dividing the table by it's respective marginal totals.  If `margin` not set, divides by overall total.
+
+```{r table2}
+prop.table(tab)
+prop.table(tab,1) * 100
 ```
 
 ## Recoding to missing
@@ -208,6 +235,15 @@ ages
 ```{r, importUfo}
 ufo = read_csv("../data/ufo/ufo_data_complete.csv")
 ```
+
+## Data cleaning "before" R
+
+You saw warning messages when reading in this dataset. 
+
+```{r}
+problems(ufo)
+```
+
 
 ## Checking for logical conditions {.smaller}
 * `any()` - checks if there are any `TRUE`s
@@ -355,12 +391,20 @@ str_split("I.like.strings", fixed("."))
 
 ## Let's extract from `y`
 
+The `purrr` package allows you to more easily interface with lists.
+
+https://purrr.tidyverse.org/
+
+The main function family for this is `map()`
+
+## Let's extract from `y`
+
+`map_chr()` takes a list and returns a character vector 
+
 ```{r stsplit2}
-suppressPackageStartupMessages(library(dplyr)) # must be loaded AFTER plyr
-y[[2]]
-sapply(y, dplyr::first) # on the fly
-sapply(y, nth, 2) # on the fly
-sapply(y, last) # on the fly
+map_chr(y, first) # on the fly
+map_chr(y, nth, 2) # on the fly
+map_chr(y, last) # on the fly
 ```
 
 
