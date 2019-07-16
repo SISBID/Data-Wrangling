@@ -21,3 +21,9 @@ This is a lab to practice with Google Sheets and the `googlesheets` package.
 
 7. Convert the logical variable from \#6 into a factor with labels "Skilled" and "Learning" 
 
+8. Create a new spreadsheet that is private only to you.
+
+9. Use `gs_auth` to authorize your computer to access that sheet. 
+
+10. Read the data from your private spreadsheet. 
+
