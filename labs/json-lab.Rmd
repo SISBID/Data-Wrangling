@@ -11,8 +11,8 @@ output: html_document
 
 3. How many open issues are there? 
 
-4. Create a new data frame consisting of just the "owner" column of the resulting data set
+4. Create a new data frame consisting of just the "owner" column of the resulting data set called `owner_data`
 
-5. Add "owner_" to the name of all of the columns in this new data frame
+5. Add "owner_" to the name of all of the columns in this new data frame. You can use `names(owner_data) = paste0('owner_',names(owner_data))`
 
-6. Append these columns to the JSON data
+6. Append these columns to the JSON data using the `cbind` command. 
