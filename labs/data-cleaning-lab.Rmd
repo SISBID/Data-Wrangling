@@ -5,12 +5,14 @@ date: "July 11, 2017"
 output: html_document
 ---
 
-### A. "Real Property Taxes" Dataset 
+# "Real Property Taxes" Dataset 
+
+## Part 1
 
 Download the "real property taxes" dataset from the website (via OpenBaltimore), 
-The data is located here (note you don\'t need to unzip it to read it into R):
+The data is located here (note you don't need to unzip it to read it into R):
 http://sisbid.github.io/Module1/data/Real_Property_Taxes.csv.gz
-And is also stored in the RStudio Cloud session.
+And it is also stored in the RStudio Cloud session.
 
 1. Read the Property Tax data into R and call it the variable `tax`
 
@@ -18,31 +20,26 @@ And is also stored in the RStudio Cloud session.
 
 3. What is the total city and state tax paid?
 
-4. Using `table()` or group_by and summarize(n()) or tally()
+4. Subset the data to only retain those houses that are principal residences. 
+  a) How many such houses are there?
+  b) Describe the distribution of property taxes on these residences.  Use 
+  hist with certain breaks or `quantile()`
+
+5. Convert the 'lotSize' variable to a numeric square feet variable. Tips:
+* Look at the data 
+* Assume hyphens represent inches within square foot meassuremnts 
+* Assume decimals within acreage measurements
+* 1 acre = 43560 square feet
+
+## Part 2
+
+6. Using `table()` or `group_by()` and `summarize(n())` or `tally()`
   a. how many observations/properties are in each ward?
   b. what is the mean state tax per ward? use group_by and summarize
   c. what is the maximum amount still due in each ward?  different summarization (max)
   d. What is the 75th percentile of city and state tax paid by Ward? (quantile)
   
-5. Subset the data to only retain those houses that are principal residences. 
-  a) How many such houses are there?
-  b) Describe the distribution of property taxes on these residences.  Use 
-  hist with certain breaks or `quantile()`
-
-6. Convert the 'lotSize' variable to a numeric square feet variable. Tips:
-* Look at the data 
-* Assume hyphens represent inches within square foot meassuremnts 
-* Assume decimals within acreage measurements
-* 1 acre = 43560 square feet
-* Look at the data 
-
 7. Using the numeric square feet variable of the lot size:
   a. Which ward has the largest average lot size?
   b. Which neighborhood has the largest average lot size? 
 
-8. Joining data:
-  a. Retain/Filter to the largest property (by area) in each Police District. 
-  b. Read in the Baltimore City "Monuments" dataset in the `data/` folder in RStudio Cloud
-  c. Retain/filter to the first alphabetical monument by name in each police district. 
-  d. Join these two datasets by police district for left, right and inner joins
-  e. Which monument is in the police district with the largest property (by area)?
