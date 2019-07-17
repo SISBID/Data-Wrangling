@@ -61,12 +61,12 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 |2 | --- | 12:00PM - 1:30PM | Lunch| --- |
 |2 | 2019-07-16 | 12:00PM - 1:30PM | [Cleaning data](lecture_notes/Data_Cleaning.html), [PDF](lecture_notes/Data_Cleaning.pdf),[Lab](labs/data-cleaning-lab.Rmd), [Key](labs/data-cleaning-lab-key.html)| Cleaning Data |
 |2 | --- | 3:00PM - 3:30PM | Break | --- |
-|2 | 2019-07-16 | 3:30PM-5:00PM | [Manipulation/Summarization](https://docs.google.com/presentation/d/1YI91J4sDsIFC48PXJcpU1e_ICfT4qnNrh_zlK4GpSNw/edit?usp=sharing) [PDF](lecture_notes/sisbid-manipulation.pdf), [Reshaping](lecture_notes/Manipulating_Data_in_R.html), [Lab](labs/Manipulating_Data_in_R_Lab.Rmd), [Key](labs/Manipulating_Data_in_R_Lab_Key.html)| 
+|2 | 2019-07-16 | 3:30PM-5:00PM | [Manipulation/Summarization](https://docs.google.com/presentation/d/1YI91J4sDsIFC48PXJcpU1e_ICfT4qnNrh_zlK4GpSNw/edit?usp=sharing) [PDF](lecture_notes/sisbid-manipulation.pdf)| 
 |----|------------|--------------|---------------------|--------------------------------------|
-|3 | 2019-07-17 | 8:30AM-10:00AM | [Merging + Databases](https://docs.google.com/presentation/d/15meI7W3MeF0afEV5ggdqXfwOIlwy5tcFYTJM-VUGHTs/edit?usp=sharing) |  |
+|3 | 2019-07-17 | 8:30AM-10:00AM | [Databases](https://docs.google.com/presentation/d/11vCz5KrS2uKhr1rOlmeVzXGslkz5IKoEjgMTgpaK5ds/edit?usp=sharing) [Reshaping](lecture_notes/Manipulating_Data_in_R.html), [Lab](labs/Manipulating_Data_in_R_Lab.Rmd), [Key](labs/Manipulating_Data_in_R_Lab_Key.html) |  |
 |3 | --- | 3:00PM - 3:30PM | Break | --- |
 |3 | 2019-07-17 | 10:30AM-12:00PM | [Big Data "Tricks"](lecture_notes/Big_Data_Tricks.html), [PDF](lecture_notes/R_Big_Data_Tricks.pdf) |   | 
-|3 | 2019-07-17 | 10:30AM-12:00PM |  [Slides](https://docs.google.com/presentation/d/10FU0v3TnkKAO7pPnaJ7OIddwBGMluKGZiNc02tOaK7U/edit?usp=sharing) | Putting it all together  | 
+|3 | 2019-07-17 | 10:30AM-12:00PM |  [Slides](https://docs.google.com/presentation/d/1L2bK_4zEvvbOoPzo2g-mGXlugXjCEi-QIui8DgAUpvQ/edit?usp=sharing) [lab](labs/final_lab.Rmd) | Putting it all together  | 
 <!--|3 | 2019-07-17 | 1:30PM-3:00PM | [Project](labs/data-cleaning-lab.Rmd), [Key](labs/data-cleaning-lab-key.Rmd) |   |  -->
 
 **Miscellaneous**

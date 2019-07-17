@@ -14,14 +14,17 @@ download("ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/working/20130606_sa
 3. 
 ```{r,warning=FALSE}
 library(readxl)
+library(janitor)
 # Have to skip one row because there is an extra header
 kg_s4 = read_excel("1000genomes.xlsx",sheet=4,skip=1)
 # subset to just low coverage
 kg_s4 = kg_s4[,1:7]
+kg_s4 = kg_s4 %>% clean_names()
 dim(kg_s4)
 
 kg_s1 = read_excel("1000genomes.xlsx",sheet=1)
 dim(kg_s1)
+kg_s1 = kg_s1 %>% clean_names()
 
 ```
 
@@ -37,7 +40,7 @@ sj = semi_join(kg_s4,kg_s1)
 ## left join
 lj = left_join(kg_s4,kg_s1)
 
-## outer join
+## outer/full join
 oj = merge(kg_s4,kg_s1,all=TRUE)
 ```
 
