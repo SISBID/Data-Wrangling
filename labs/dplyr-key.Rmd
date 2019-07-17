@@ -15,47 +15,48 @@ download("ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/working/20130606_sa
 3. 
 ```{r}
 library(readxl)
+library(janitor)
 # Have to skip one row because there is an extra header
 kg = read_excel("1000genomes.xlsx",sheet=4,skip=1)
 # subset to just low coverage
 kg = kg[,1:7]
 
 # make column names easier to handle
-colnames(kg) = colnames(kg) %>% tolower() %>% gsub(x=.,pattern=" ",replacement="") %>% substr(1,10)
+kg = kg %>% clean_names()
 
 ```
 
 4. 
 ```{r}
-kg %>% group_by(platform) %>% summarize(sum(totalseque))
+kg %>% group_by(platform_4) %>% summarize(sum(total_sequence_5))
 ```
 
 5. 
 ```{r}
-kg %>% group_by(center) %>% summarize(sum(totalseque))
+kg %>% group_by(center_3) %>% summarize(sum(total_sequence_5))
 ```
 
 6. 
 
 ```{r}
-kg %>% filter(passedqc==1)
+kg %>% filter(passed_qc_7==1)
 ```
 
 
 7. 
 
 ```{r}
-kg %>% filter(passedqc==1) %>%
-  filter(center=="BCM")
+kg %>% filter(passed_qc_7==1) %>%
+  filter(center_3=="BCM")
 ```
 
 8. 
 
 ```{r}
-kg %>% filter(passedqc==1) %>%
-  filter(center=="BCM") %>%
+kg %>% filter(passed_qc_7==1) %>%
+  filter(center_3=="BCM") %>%
   group_by(population) %>%
-  summarize(meancov = mean(alignednon),nsamp=n())
+  summarize(meancov = mean(aligned_non_duplicated_coverage),nsamp=n())
 ```
 
 
