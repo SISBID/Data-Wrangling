@@ -21,9 +21,12 @@ kg = read_excel("1000genomes.xlsx",sheet=4,skip=1)
 # subset to just low coverage
 kg = kg[,1:7]
 
+
 # make column names easier to handle
 kg = kg %>% clean_names()
 
+# alternative name cleaning code
+names(kg) = map_chr(str_split(names(kg),"\\."),first) %>% tolower()
 ```
 
 4. 
