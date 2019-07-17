@@ -15,8 +15,8 @@ output: html_document
 
 5. Find the average delay time for American Airlines (hint: the abbreviation is AA).
 
-6. Can you add a variable for delay time to the database? 
+6. How long does it take to collect the results of your computation for 5? 
 
-7. How long does it take to collect the results of your computation for 5? 
+7. Can you figure out the average delay time for each airline? 
 
-8. Can you figure out the average delay time for each airline? 
+8. Can you add a variable for delay time to the database? 
