@@ -18,7 +18,7 @@ library(janitor)
 # Have to skip one row because there is an extra header
 kg_s4 = read_excel("1000genomes.xlsx",sheet=4,skip=1)
 # subset to just low coverage
-kg_s4 = kg_s4[,1:7]
+kg_s4 = kg_s4 %>% select(1:7)
 kg_s4 = kg_s4 %>% clean_names()
 dim(kg_s4)
 
@@ -40,6 +40,11 @@ sj = semi_join(kg_s4,kg_s1)
 ## left join
 lj = left_join(kg_s4,kg_s1)
 
+## How I actually write this
+
+lj = kg_s4 %>%
+  left_join(kg_s1)
+
 ## outer/full join
 oj = merge(kg_s4,kg_s1,all=TRUE)
 ```
@@ -52,22 +57,25 @@ dim(lj)
 dim(oj)
 ```
 
-7. They are the same 
+7. They are the same but different order
 
 ```{r}
 ## Check if names are the same
-sum(names(lj)==names(oj))
-## Check if values that aren't NA are the same
-sum(lj==oj,na.rm=T)
-## Check if NAs are the same
-sum(is.na(lj)==is.na(oj),na.rm=T)
+sum(names(lj) %in% names(oj))
+
 ```
 
-8. They are not the same because they have different dimensions. 
+
+8 
+
 ```{r}
-lj = left_join(kg_s4,kg_s1)
-dim(lj)
-lj2 = left_join(kg_s1,kg_s4)
-dim(lj2)
+
+lj = kg_s4 %>%
+  left_join(kg_s1)
+
+lj2 = kg_s1 %>%
+  left_join(kg_s4)
 ```
+
+
 

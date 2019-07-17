@@ -19,7 +19,7 @@ library(janitor)
 # Have to skip one row because there is an extra header
 kg = read_excel("1000genomes.xlsx",sheet=4,skip=1)
 # subset to just low coverage
-kg = kg[,1:7]
+kg = kg %>% select(1:7)
 
 
 # make column names easier to handle
@@ -36,7 +36,7 @@ kg %>% group_by(platform_4) %>% summarize(sum(total_sequence_5))
 
 5. 
 ```{r}
-kg %>% group_by(center_3) %>% summarize(sum(total_sequence_5))
+kg %>% group_by(center_3) %>% summarize( center_total =  sum(total_sequence_5))
 ```
 
 6. 
