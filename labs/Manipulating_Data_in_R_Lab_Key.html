@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -342,18 +343,6 @@ summary {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
@@ -379,16 +368,24 @@ $(document).ready(function () {
 
 
 <pre class="r"><code>library(readr)
-library(dplyr)
-library(ggplot2)
+library(dplyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>library(ggplot2)
 library(tidyr)
 library(stringr)</code></pre>
 <div id="part-1" class="section level1">
 <h1>Part 1</h1>
 <ol style="list-style-type: decimal">
-<li>Read in the Wide Bike lanes data: <a href="http://johnmuschelli.com/intro_to_r/data/Bike_Lanes_Wide.csv" class="uri">http://johnmuschelli.com/intro_to_r/data/Bike_Lanes_Wide.csv</a> . Name the data set <code>wide</code>.</li>
+<li>Read in the Wide Bike lanes data: <a href="https://sisbid.github.io/Module1/labs/Bike_Lanes_Wide.csv" class="uri">https://sisbid.github.io/Module1/labs/Bike_Lanes_Wide.csv</a> . Name the data set <code>wide</code>.</li>
 </ol>
-<pre class="r"><code>wide = read_csv(&quot;http://johnmuschelli.com/intro_to_r/data/Bike_Lanes_Wide.csv&quot;)</code></pre>
+<pre class="r"><code>wide = read_csv(&quot;https://sisbid.github.io/Module1/labs/Bike_Lanes_Wide.csv&quot;)</code></pre>
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   name = col_character(),
@@ -421,9 +418,9 @@ head(long)</code></pre>
 <h1>Part 2</h1>
 <p>This exercise is motivated by <a href="https://anythingbutrbitrary.blogspot.com/2012/08/manipulating-data-frames-using-sqldf.html" class="uri">https://anythingbutrbitrary.blogspot.com/2012/08/manipulating-data-frames-using-sqldf.html</a></p>
 <ol start="3" style="list-style-type: decimal">
-<li>read in the roads and crashes CSVs. Call them <code>crash</code> and <code>road</code> <code>crash</code>: <a href="http://johnmuschelli.com/intro_to_r/Manipulating_Data_in_R/lab/crashes.csv" class="uri">http://johnmuschelli.com/intro_to_r/Manipulating_Data_in_R/lab/crashes.csv</a> <code>road</code>: <a href="http://johnmuschelli.com/intro_to_r/Manipulating_Data_in_R/lab/roads.csv" class="uri">http://johnmuschelli.com/intro_to_r/Manipulating_Data_in_R/lab/roads.csv</a></li>
+<li>read in the roads and crashes CSVs. Call them <code>crash</code> and <code>road</code> <code>crash</code>: <a href="https://sisbid.github.io/Module1/labs//crashes.csv" class="uri">https://sisbid.github.io/Module1/labs//crashes.csv</a> <code>road</code>: <a href="https://sisbid.github.io/Module1/labs//roads.csv" class="uri">https://sisbid.github.io/Module1/labs//roads.csv</a></li>
 </ol>
-<pre class="r"><code>crash = read_csv(&quot;http://johnmuschelli.com/intro_to_r/Manipulating_Data_in_R/lab/crashes.csv&quot;)</code></pre>
+<pre class="r"><code>crash = read_csv(&quot;https://sisbid.github.io/Module1/labs//crashes.csv&quot;)</code></pre>
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   Year = col_double(),
@@ -431,7 +428,7 @@ head(long)</code></pre>
 ##   N_Crashes = col_double(),
 ##   Volume = col_double()
 ## )</code></pre>
-<pre class="r"><code>road = read_csv(&quot;http://johnmuschelli.com/intro_to_r/Manipulating_Data_in_R/lab/roads.csv&quot;)</code></pre>
+<pre class="r"><code>road = read_csv(&quot;https://sisbid.github.io/Module1/labs//roads.csv&quot;)</code></pre>
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   Road = col_character(),
@@ -498,9 +495,9 @@ table( crash2$road_hyphen)</code></pre>
 <div id="part-3" class="section level1">
 <h1>Part 3</h1>
 <ol start="8" style="list-style-type: decimal">
-<li>Read in the Bike lanes data: <a href="http://johnmuschelli.com/intro_to_r/data/Bike_Lanes.csv" class="uri">http://johnmuschelli.com/intro_to_r/data/Bike_Lanes.csv</a> or use <code>jhur::read_bike()</code>. Name the data set <code>bike</code>,</li>
+<li>Read in the Bike lanes data: <a href="https://sisbid.github.io/Module1/labs/Bike_Lanes.csv" class="uri">https://sisbid.github.io/Module1/labs/Bike_Lanes.csv</a>. Name the data set <code>bike</code>,</li>
 </ol>
-<pre class="r"><code>bike = read_csv(&quot;http://johnmuschelli.com/intro_to_r/data/Bike_Lanes.csv&quot;)</code></pre>
+<pre class="r"><code>bike = read_csv(&quot;https://sisbid.github.io/Module1/labs/Bike_Lanes.csv&quot;)</code></pre>
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   subType = col_character(),
@@ -580,6 +577,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
