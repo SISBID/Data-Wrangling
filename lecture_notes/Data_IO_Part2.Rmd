@@ -1,0 +1,120 @@
+---
+title: "Data I/O + Structure"
+author: "Data Wrangling in R"
+output:
+  beamer_presentation: default
+  ioslides_presentation:
+    css: styles.css
+---
+
+```{r, echo = FALSE, message=FALSE}
+library(knitr)
+library(readr)
+# suppressPackageStartupMessages(library(dplyr))
+opts_chunk$set(comment = "")
+```
+
+## Data Input
+
+* Sometimes you get weird messages when reading in data:
+* The `spec()` and `problems()` functions show you the specification of how the data was read in.  
+
+```{r stop_problems}
+dim(problems(ufo))
+spec(ufo)
+```
+
+
+## Data Input: Checking for problems
+
+* The `stop_for_problems()` function will stop if your data had an error when reading in.  If this occurs, you can either use `col_types` (from `spec()`) for the problematic columns, or set `guess_max = Inf` (takes much longer):
+
+```{r stop_problems2, eval=FALSE}
+stop_for_problems(ufo)
+```
+
+
+## More ways to save: write_rds
+
+If you want to save **one** object, you can use `readr::write_rds` to save to an `rds` file:
+
+```{r}
+write_rds(ufo, path = "ufo_dataset.rds")
+```
+
+
+## More ways to save: read_rds
+
+To read this back in to R, you need to use `read_rds`, but **need to assign it**:
+
+```{r}
+ufo3 = read_rds(path = "ufo_dataset.rds")
+identical(ufo, ufo3) # test if they are the same 
+```
+
+## More ways to save: save
+
+The `save` command can save a set of `R` objects into an "R data file", with the extension `.rda` or `.RData`.  
+
+```{r, message = FALSE}
+x = 5
+save(ufo, x, file = "ufo_data.RData")
+```
+
+
+## More ways to save: load
+
+The opposite of `save` is `load`.  The `ls()` command lists the items in the workspace/environment and `rm` removes them:
+
+## What did I just read in?
+
+* `nrow()` displays the number of rows of a data frame
+* `ncol()` displays the number of columns 
+* `dim()` displays a vector of length 2: # rows, # columns
+
+```{r, dims}
+dim(ufo)
+nrow(ufo)
+ncol(ufo)
+```
+
+## Data Summaries
+
+* `colnames()` displays the column names (if any) and `rownames()` displays the row names (if any)
+* Note that tibbles do not have row names
+
+```{r, colnames}
+colnames(ufo)
+```
+
+
+## Data Output
+
+While its nice to be able to read in a variety of data formats, it's equally important to be able to output data somewhere.
+
+`write_delim()`: Write a data frame to a delimited file
+"This is about twice as fast as write.csv(), and never writes row names."
+
+```{r}
+args(readr::write_delim)
+```
+
+## Data Output
+
+`x`: A data frame to write to disk
+
+`path`: the file name where you want to R object written. It can be an absolute path, or a filename (which writes the file to your working directory)
+
+`delim`: what character separates the columns? 
+
+* "," = .csv - Note there is also a `write_csv()` function
+* "\t" = tab delimited
+
+
+## Data Output
+
+For example, we can write back out the Monuments dataset with the new column name:
+
+```{r writecsv}
+write_csv(ufo[1:100,], path="ufo_first100.csv")
+```
