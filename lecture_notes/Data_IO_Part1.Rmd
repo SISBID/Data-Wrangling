@@ -2,9 +2,9 @@
 title: "Data I/O, Part 1"
 author: "Data Wrangling in R"
 output:
-  beamer_presentation: default
   ioslides_presentation:
     css: styles.css
+    widescreen: yes
 ---
 
 ```{r, echo = FALSE, message=FALSE}
