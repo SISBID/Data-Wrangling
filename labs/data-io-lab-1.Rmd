@@ -1,0 +1,8 @@
+---
+title: "Data I/O Lab, Part 1"
+output: html_document
+---
+
+This lab uses different versions of the `iris` dataset.
+
+1. 
