@@ -1,0 +1,55 @@
+---
+title: "Data I/O Lab, Part 1"
+output: html_document
+---
+
+This lab uses different versions of the `iris` dataset.
+You can see more about this dataset by running `?iris` in the console.
+
+```{r} 
+library(readr)
+library(readxl)
+```
+
+1. Read in the `iris_q1.csv` dataset into the `iris_q1` R object. What delimiter separates columns?
+
+```{r}
+iris_q1 = read_csv("../data/iris/iris_q1.csv")
+head(iris_q1)
+```
+
+2. Read in the `iris_q2.tsv` dataset into the `iris_q2` R object. What delimiter separates columns?
+
+```{r}
+iris_q2 = read_delim("../data/iris/iris_q2.tsv", delim = "\t")
+head(iris_q2)
+```
+
+3. Read in the `iris_q3.txt` dataset into the `iris_q3` R object. What delimiter separates columns?
+
+```{r}
+iris_q3 = read_delim("../data/iris/iris_q3.txt", delim = " ")
+head(iris_q3)
+```
+
+4. Read in the `iris_q4.csv` dataset into the `iris_q4` R object. What delimiter separates columns? [hint: file extension is ambiguous]
+
+```{r}
+iris_q4 = read_delim("../data/iris/iris_q4.csv", delim = ":")
+head(iris_q4)
+```
+
+5. Read in the `iris_q5.csv` dataset into the `iris_q5` R object. Some entries are supposed to be missing, e.g. have the value `NA` in the data.  
+
+```{r}
+iris_q5 = read_csv("../data/iris/iris_q5.csv", na = "-999")
+head(iris_q5)
+```
+
+6. Read in the `iris_q6.xlsx` dataset into the `iris_q6` R object. How many rows are in the dataset?
+
+
+```{r}
+iris_q6 = read_excel("../data/iris/iris_q6.xlsx", sheet= 2)
+dim(iris_q6)
+```
