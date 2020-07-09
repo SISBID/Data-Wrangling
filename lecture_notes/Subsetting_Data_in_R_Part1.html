@@ -40,6 +40,19 @@
     };
   </script>
 
+  <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
   <style type="text/css">@font-face {
 font-family: 'Open Sans';
 font-style: normal;
@@ -3107,7 +3120,45 @@ slide:not(.current) .plotly.html-widget{
 
   </style>
 
-  <style type="text/css">pre {font-family: 'Source Code Pro', 'Courier New', monospace;font-size: 24px;line-height: 24px;padding: 10px 0 10px 60px;letter-spacing: -1px;margin-bottom: 8px;width: 106%;left: -60px;position: relative;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}body{font-family: Helvetica;font-size: 16pt;}h1{font-size: 28pt;}h2{font-size: 24pt;}h3{font-size: 20pt;}.emphasized {font-size: 1.2em;}.small {font-size: 0.8em;}strong { font-weight: bold;color: black;}</style>
+  <style type="text/css">pre {
+font-family: 'Source Code Pro', 'Courier New', monospace;
+font-size: 24px;
+line-height: 24px;
+padding: 10px 0 10px 60px;
+letter-spacing: -1px;
+margin-bottom: 8px;
+width: 106%;
+left: -60px;
+position: relative;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+
+}
+
+body{
+font-family: Helvetica;
+font-size: 16pt;
+}
+
+h1{
+font-size: 28pt;
+}
+h2{
+font-size: 24pt;
+}
+h3{
+font-size: 20pt;
+}
+.emphasized {
+font-size: 1.2em;
+}
+.small {
+font-size: 0.8em;
+}
+strong { font-weight: bold;
+color: black;
+}</style>
 
 </head>
 
@@ -3176,7 +3227,7 @@ slide:not(.current) .plotly.html-widget{
  8 0.26 
  9 0.22 
 10 0.23 
-# ... with 53,930 more rows</pre>
+# … with 53,930 more rows</pre>
 
 </article></slide><slide class=""><hgroup><h2>Selecting multiple columns of a <code>data.frame</code>:</h2></hgroup><article  id="selecting-multiple-columns-of-a-data.frame">
 
@@ -3197,7 +3248,7 @@ slide:not(.current) .plotly.html-widget{
  8 0.26   61.9
  9 0.22   65.1
 10 0.23   59.4
-# ... with 53,930 more rows</pre>
+# … with 53,930 more rows</pre>
 
 </article></slide><slide class=""><hgroup><h2>Subset columns of a <code>data.frame</code>: dplyr</h2></hgroup><article  id="subset-columns-of-a-data.frame-dplyr">
 
@@ -3254,7 +3305,7 @@ matches() # Matches a regular expression - cover later</pre>
  8 0.26  Very Good H     SI1    
  9 0.22  Fair      E     VS2    
 10 0.23  Very Good H     VS1    
-# ... with 53,930 more rows</pre>
+# … with 53,930 more rows</pre>
 
 </article></slide><slide class=""><hgroup><h2>Tidyselect helpers</h2></hgroup><article  id="tidyselect-helpers-1">
 
@@ -3275,7 +3326,7 @@ matches() # Matches a regular expression - cover later</pre>
  8    55   337
  9    61   337
 10    61   338
-# ... with 53,930 more rows</pre>
+# … with 53,930 more rows</pre>
 
 </article></slide><slide class=""><hgroup><h2>Tidyselect helpers</h2></hgroup><article  id="tidyselect-helpers-2">
 
@@ -3302,7 +3353,7 @@ matches() # Matches a regular expression - cover later</pre>
  8 0.3   Good      J     SI1      64      55   339  4.25  4.28  2.73
  9 0.23  Ideal     J     VS1      62.8    56   340  3.93  3.9   2.46
 10 0.22  Premium   F     SI1      60.4    61   342  3.88  3.84  2.33
-# ... with 48,305 more rows</pre>
+# … with 48,305 more rows</pre>
 
 <p>Note, no <code>$</code> or subsetting is necessary. R &ldquo;knows&rdquo; <code>depth</code> refers to a column of <code>diamonds</code>.</p>
 
@@ -3325,7 +3376,7 @@ matches() # Matches a regular expression - cover later</pre>
  8 0.3   Good      J     SI1      64      55   339  4.25  4.28  2.73
  9 0.23  Ideal     J     VS1      62.8    56   340  3.93  3.9   2.46
 10 0.22  Premium   F     SI1      60.4    61   342  3.88  3.84  2.33
-# ... with 48,305 more rows</pre>
+# … with 48,305 more rows</pre>
 
 </article></slide><slide class=""><hgroup><h2>Subset rows of a <code>data.frame</code>:</h2></hgroup><article  id="subset-rows-of-a-data.frame-2">
 
@@ -3346,7 +3397,7 @@ matches() # Matches a regular expression - cover later</pre>
  8  0.7  Very Good F     VS2      60.9    61  2812  5.66  5.71  3.46
  9  0.71 Good      E     SI1      62.8    64  2817  5.6   5.54  3.5 
 10  0.7  Premium   E     VS2      62.4    61  2818  5.66  5.63  3.52
-# ... with 1,694 more rows</pre>
+# … with 1,694 more rows</pre>
 
 </article></slide><slide class=""><hgroup><h2>Subset rows of a <code>data.frame</code>:</h2></hgroup><article  id="subset-rows-of-a-data.frame-3">
 
@@ -3368,7 +3419,7 @@ matches() # Matches a regular expression - cover later</pre>
  8  1.06 Premium I     SI2      61.5    57  2968  6.57  6.49  4.02
  9  0.91 Premium I     SI2      60.2    59  2981  6.29  6.24  3.77
 10  0.9  Premium I     SI2      60.6    60  3001  6.23  6.28  3.79
-# ... with 302 more rows</pre>
+# … with 302 more rows</pre>
 
 </article></slide><slide class=""><hgroup><h2>Subset rows of a <code>data.frame</code>:</h2></hgroup><article  id="subset-rows-of-a-data.frame-4">
 
@@ -3389,7 +3440,7 @@ matches() # Matches a regular expression - cover later</pre>
  8  0.2  Premium   E     SI2      60.2    62   345  3.79  3.75  2.27
  9  0.3  Ideal     I     SI2      62      54   348  4.31  4.34  2.68
 10  0.3  Good      J     SI1      63.4    54   351  4.23  4.29  2.7 
-# ... with 22,249 more rows</pre>
+# … with 22,249 more rows</pre>
 
 </article></slide><slide class=""><hgroup><h2>Subset rows of a <code>data.frame</code>:</h2></hgroup><article  id="subset-rows-of-a-data.frame-5">
 
@@ -3411,7 +3462,7 @@ matches() # Matches a regular expression - cover later</pre>
  8  0.75 Premium E     SI1      61.7    60  3024  5.84  5.8   3.59
  9  0.75 Premium D     SI1      59.2    58  3024  5.96  5.93  3.52
 10  1.02 Premium G     SI2      61.7    58  3027  6.46  6.41  3.97
-# ... with 3,966 more rows</pre>
+# … with 3,966 more rows</pre>
 
 </article></slide><slide class=""><hgroup><h2>Subset rows of a <code>data.frame</code>:</h2></hgroup><article  id="subset-rows-of-a-data.frame-6">
 
@@ -3446,7 +3497,7 @@ matches() # Matches a regular expression - cover later</pre>
  8  0.7  Very Good F     VS2      60.9    61  2812  5.66  5.71  3.46
  9  0.71 Good      E     SI1      62.8    64  2817  5.6   5.54  3.5 
 10  0.7  Premium   E     VS2      62.4    61  2818  5.66  5.63  3.52
-# ... with 1,694 more rows</pre>
+# … with 1,694 more rows</pre>
 
 <p>You can use either syntax.</p>
 
@@ -3469,7 +3520,7 @@ matches() # Matches a regular expression - cover later</pre>
  8 0.26  Very Good H     SI1      61.9    55   337  4.07  4.11  2.53
  9 0.22  Fair      E     VS2      65.1    61   337  3.87  3.78  2.49
 10 0.23  Very Good H     VS1      59.4    61   338  4     4.05  2.39
-# ... with 52,188 more rows</pre>
+# … with 52,188 more rows</pre>
 
 </article></slide><slide class=""><hgroup><h2>Subset rows of a <code>data.frame</code>:</h2></hgroup><article  id="subset-rows-of-a-data.frame-9">
 
@@ -3490,7 +3541,7 @@ matches() # Matches a regular expression - cover later</pre>
  8  0.2  Premium   E     SI2      60.2    62   345  3.79  3.75  2.27
  9  0.3  Ideal     I     SI2      62      54   348  4.31  4.34  2.68
 10  0.3  Good      J     SI1      63.4    54   351  4.23  4.29  2.7 
-# ... with 22,249 more rows</pre>
+# … with 22,249 more rows</pre>
 
 </article></slide><slide class=""><hgroup><h2>Combining <code>filter</code> and <code>select</code></h2></hgroup><article  id="combining-filter-and-select">
 
@@ -3513,7 +3564,7 @@ matches() # Matches a regular expression - cover later</pre>
  8  0.33 Ideal     I     SI2    
  9  0.32 Good      H     SI2    
 10  0.32 Very Good H     SI2    
-# ... with 9,184 more rows</pre>
+# … with 9,184 more rows</pre>
 
 </article></slide><slide class=""><hgroup><h2>Combining <code>filter</code> and <code>select</code></h2></hgroup><article  id="combining-filter-and-select-1">
 

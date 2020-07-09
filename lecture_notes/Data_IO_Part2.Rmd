@@ -7,11 +7,12 @@ output:
     css: styles.css
 ---
 
-```{r, echo = FALSE, message=FALSE}
+```{r, include = FALSE}
 library(knitr)
 library(readr)
 # suppressPackageStartupMessages(library(dplyr))
-opts_chunk$set(comment = "")
+knitr::opts_chunk$set(comment = "")
+ufo = read_csv("../data/ufo/ufo_data_complete.csv")
 ```
 
 ## Data Input

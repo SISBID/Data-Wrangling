@@ -34,6 +34,9 @@ data/geo/GSE*
 
 # data
 lecture_notes/ufo_dataset.rds
+lecture_notes/ufo*.rda
+lecture_notes/ufo*.RData
+lecture_notes/ufo*.csv
 lecture_notes/*.pptx
 lecture_notes/*.tex
 

@@ -40,6 +40,19 @@
     };
   </script>
 
+  <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
   <style type="text/css">@font-face {
 font-family: 'Open Sans';
 font-style: normal;
@@ -3107,7 +3120,45 @@ slide:not(.current) .plotly.html-widget{
 
   </style>
 
-  <style type="text/css">pre {font-family: 'Source Code Pro', 'Courier New', monospace;font-size: 24px;line-height: 24px;padding: 10px 0 10px 60px;letter-spacing: -1px;margin-bottom: 8px;width: 106%;left: -60px;position: relative;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}body{font-family: Helvetica;font-size: 16pt;}h1{font-size: 28pt;}h2{font-size: 24pt;}h3{font-size: 20pt;}.emphasized {font-size: 1.2em;}.small {font-size: 0.8em;}strong { font-weight: bold;color: black;}</style>
+  <style type="text/css">pre {
+font-family: 'Source Code Pro', 'Courier New', monospace;
+font-size: 24px;
+line-height: 24px;
+padding: 10px 0 10px 60px;
+letter-spacing: -1px;
+margin-bottom: 8px;
+width: 106%;
+left: -60px;
+position: relative;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+
+}
+
+body{
+font-family: Helvetica;
+font-size: 16pt;
+}
+
+h1{
+font-size: 28pt;
+}
+h2{
+font-size: 24pt;
+}
+h3{
+font-size: 20pt;
+}
+.emphasized {
+font-size: 1.2em;
+}
+.small {
+font-size: 0.8em;
+}
+strong { font-weight: bold;
+color: black;
+}</style>
 
 </head>
 
@@ -3284,7 +3335,7 @@ NULL</pre>
         comment = comment, n_max = n_max, guess_max = guess_max, 
         progress = progress)
 }
-&lt;bytecode: 0x0000000014284408&gt;
+&lt;bytecode: 0x7fd12bd894a8&gt;
 &lt;environment: namespace:readr&gt;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-8">
@@ -3329,16 +3380,15 @@ See problems(...) for more details.</pre>
 <pre class = 'prettyprint lang-r'>head(ufo)</pre>
 
 <pre ># A tibble: 6 x 11
-  datetime city  state country shape `duration (seco~ `duration (hour~ comments
+  datetime city  state country shape `duration (seco… `duration (hour… comments
   &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;   
-1 10/10/1~ san ~ tx    us      cyli~             2700 45 minutes       This ev~
-2 10/10/1~ lack~ tx    &lt;NA&gt;    light             7200 1-2 hrs          1949 La~
-3 10/10/1~ ches~ &lt;NA&gt;  gb      circ~               20 20 seconds       Green/O~
-4 10/10/1~ edna  tx    us      circ~               20 1/2 hour         My olde~
-5 10/10/1~ kane~ hi    us      light              900 15 minutes       AS a Ma~
-6 10/10/1~ bris~ tn    us      sphe~              300 5 minutes        My fath~
-# ... with 3 more variables: `date posted` &lt;chr&gt;, latitude &lt;chr&gt;,
-#   longitude &lt;dbl&gt;</pre>
+1 10/10/1… san … tx    us      cyli…             2700 45 minutes       This ev…
+2 10/10/1… lack… tx    &lt;NA&gt;    light             7200 1-2 hrs          1949 La…
+3 10/10/1… ches… &lt;NA&gt;  gb      circ…               20 20 seconds       Green/O…
+4 10/10/1… edna  tx    us      circ…               20 1/2 hour         My olde…
+5 10/10/1… kane… hi    us      light              900 15 minutes       AS a Ma…
+6 10/10/1… bris… tn    us      sphe…              300 5 minutes        My fath…
+# … with 3 more variables: `date posted` &lt;chr&gt;, latitude &lt;chr&gt;, longitude &lt;dbl&gt;</pre>
 
 <pre class = 'prettyprint lang-r'>class(ufo)</pre>
 
@@ -3349,19 +3399,19 @@ See problems(...) for more details.</pre>
 <pre class = 'prettyprint lang-r'>ufo</pre>
 
 <pre ># A tibble: 88,875 x 11
-   datetime city  state country shape `duration (seco~ `duration (hour~ comments
+   datetime city  state country shape `duration (seco… `duration (hour… comments
    &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;   
- 1 10/10/1~ san ~ tx    us      cyli~             2700 45 minutes       This ev~
- 2 10/10/1~ lack~ tx    &lt;NA&gt;    light             7200 1-2 hrs          1949 La~
- 3 10/10/1~ ches~ &lt;NA&gt;  gb      circ~               20 20 seconds       Green/O~
- 4 10/10/1~ edna  tx    us      circ~               20 1/2 hour         My olde~
- 5 10/10/1~ kane~ hi    us      light              900 15 minutes       AS a Ma~
- 6 10/10/1~ bris~ tn    us      sphe~              300 5 minutes        My fath~
- 7 10/10/1~ pena~ &lt;NA&gt;  gb      circ~              180 about 3 mins     penarth~
- 8 10/10/1~ norw~ ct    us      disk              1200 20 minutes       A brigh~
- 9 10/10/1~ pell~ al    us      disk               180 3  minutes       Strobe ~
-10 10/10/1~ live~ fl    us      disk               120 several minutes  Saucer ~
-# ... with 88,865 more rows, and 3 more variables: `date posted` &lt;chr&gt;,
+ 1 10/10/1… san … tx    us      cyli…             2700 45 minutes       This ev…
+ 2 10/10/1… lack… tx    &lt;NA&gt;    light             7200 1-2 hrs          1949 La…
+ 3 10/10/1… ches… &lt;NA&gt;  gb      circ…               20 20 seconds       Green/O…
+ 4 10/10/1… edna  tx    us      circ…               20 1/2 hour         My olde…
+ 5 10/10/1… kane… hi    us      light              900 15 minutes       AS a Ma…
+ 6 10/10/1… bris… tn    us      sphe…              300 5 minutes        My fath…
+ 7 10/10/1… pena… &lt;NA&gt;  gb      circ…              180 about 3 mins     penarth…
+ 8 10/10/1… norw… ct    us      disk              1200 20 minutes       A brigh…
+ 9 10/10/1… pell… al    us      disk               180 3  minutes       Strobe …
+10 10/10/1… live… fl    us      disk               120 several minutes  Saucer …
+# … with 88,865 more rows, and 3 more variables: `date posted` &lt;chr&gt;,
 #   latitude &lt;chr&gt;, longitude &lt;dbl&gt;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-11">

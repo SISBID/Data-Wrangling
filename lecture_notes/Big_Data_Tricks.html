@@ -3378,12 +3378,12 @@ class(datList)</pre>
 <pre class = 'prettyprint lang-r'>system.time(lapply(datList,cor,x))</pre>
 
 <pre >   user  system elapsed 
-  1.352   0.392   1.757 </pre>
+  1.983   0.670   4.017 </pre>
 
 <pre class = 'prettyprint lang-r'>system.time(mclapply(datList, cor, x))</pre>
 
 <pre >   user  system elapsed 
-  0.005   0.025   1.842 </pre>
+  1.100   0.639   3.014 </pre>
 
 <p>???</p>
 
@@ -3403,14 +3403,14 @@ Error in mclapply(datList, sort, mc.cores = 4) :
 system.time(foreach(i=1:10000) %do% cor(datList[[i]],x))</pre>
 
 <pre >   user  system elapsed 
-  4.008   0.596   4.803 </pre>
+  6.364   0.936  10.999 </pre>
 
 <pre class = 'prettyprint lang-r'>system.time(foreach(i=1:10000) %dopar% cor(datList[[i]],x))</pre>
 
 <pre >Warning: executing %dopar% sequentially: no parallel backend registered</pre>
 
 <pre >   user  system elapsed 
-  3.456   0.485   3.965 </pre>
+  5.700   0.806   7.883 </pre>
 
 <p>Oops! You need to initiate a parallel backend first!</p>
 
@@ -3422,7 +3422,7 @@ system.time(foreach(i=1:10000) %do% cor(datList[[i]],x))</pre>
 system.time(foreach(i=1:10000) %dopar% cor(datList[[i]], x))</pre>
 
 <pre >   user  system elapsed 
-  2.866   0.915   2.478 </pre>
+  4.581   1.371   5.047 </pre>
 
 <p>This task was not particularly amenable to parallelization, but you get the idea of the code.</p>
 
@@ -3444,7 +3444,7 @@ class(datMat)</pre>
 <pre class = 'prettyprint lang-r'>system.time(cor(x,datMat))</pre>
 
 <pre >   user  system elapsed 
-  0.965   0.246   1.337 </pre>
+  1.097   0.322   1.675 </pre>
 
 </article></slide><slide class=""><hgroup><h2>Rcpp</h2></hgroup><article  id="rcpp">
 
