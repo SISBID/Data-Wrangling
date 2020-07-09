@@ -4,6 +4,7 @@ author: "Data Wrangling in R"
 output:
   ioslides_presentation:
     css: styles.css
+    widescreen: yes
   beamer_presentation: default
 ---
 

@@ -1,8 +1,8 @@
-## ---- echo = FALSE, message=FALSE-------------------------------------------------
+## ---- include = FALSE-------------------------------------------------------------
 library(knitr)
 library(readr)
 # suppressPackageStartupMessages(library(dplyr))
-opts_chunk$set(comment = "")
+knitr::opts_chunk$set(comment = "")
 
 
 ## ----code-------------------------------------------------------------------------

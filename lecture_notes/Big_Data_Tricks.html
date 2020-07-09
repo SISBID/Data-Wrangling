@@ -3164,7 +3164,7 @@ color: black;
 
 <body style="opacity: 0">
 
-<slides>
+<slides class="layout-widescreen">
 
   <slide class="title-slide segue nobackground">
         <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
@@ -3378,12 +3378,12 @@ class(datList)</pre>
 <pre class = 'prettyprint lang-r'>system.time(lapply(datList,cor,x))</pre>
 
 <pre >   user  system elapsed 
-  1.983   0.670   4.017 </pre>
+  1.730   0.491   2.376 </pre>
 
 <pre class = 'prettyprint lang-r'>system.time(mclapply(datList, cor, x))</pre>
 
 <pre >   user  system elapsed 
-  1.100   0.639   3.014 </pre>
+  0.006   0.360   1.785 </pre>
 
 <p>???</p>
 
@@ -3403,14 +3403,12 @@ Error in mclapply(datList, sort, mc.cores = 4) :
 system.time(foreach(i=1:10000) %do% cor(datList[[i]],x))</pre>
 
 <pre >   user  system elapsed 
-  6.364   0.936  10.999 </pre>
+  4.721   0.586   5.538 </pre>
 
 <pre class = 'prettyprint lang-r'>system.time(foreach(i=1:10000) %dopar% cor(datList[[i]],x))</pre>
 
-<pre >Warning: executing %dopar% sequentially: no parallel backend registered</pre>
-
 <pre >   user  system elapsed 
-  5.700   0.806   7.883 </pre>
+  1.709   0.497   3.898 </pre>
 
 <p>Oops! You need to initiate a parallel backend first!</p>
 
@@ -3422,7 +3420,7 @@ system.time(foreach(i=1:10000) %do% cor(datList[[i]],x))</pre>
 system.time(foreach(i=1:10000) %dopar% cor(datList[[i]], x))</pre>
 
 <pre >   user  system elapsed 
-  4.581   1.371   5.047 </pre>
+  1.844   0.547   4.267 </pre>
 
 <p>This task was not particularly amenable to parallelization, but you get the idea of the code.</p>
 
@@ -3444,7 +3442,7 @@ class(datMat)</pre>
 <pre class = 'prettyprint lang-r'>system.time(cor(x,datMat))</pre>
 
 <pre >   user  system elapsed 
-  1.097   0.322   1.675 </pre>
+  1.144   0.253   1.447 </pre>
 
 </article></slide><slide class=""><hgroup><h2>Rcpp</h2></hgroup><article  id="rcpp">
 
@@ -3496,7 +3494,7 @@ class(datMat)</pre>
 
 <p>Note in linux you would probably redirect this to a file, but R can handle this &ldquo;on the fly&rdquo;</p>
 
-</article></slide><slide class=""><hgroup><h2>awk</h2></hgroup><article  id="awk-2" class="smaller">
+</article></slide><slide class=""><hgroup><h2>awk</h2></hgroup><article  class="smaller" id="awk-2">
 
 <pre class = 'prettyprint lang-r'>&gt; awkCall = &quot;awk -F\&quot;\t\&quot; &#39;$2 == \&quot;chr21\&quot; { print $0 }&#39; foo.txt&quot;
 &gt; read.delim(pipe(awkCall),header=FALSE)
@@ -3513,7 +3511,7 @@ class(datMat)</pre>
 4 0.3595676 0.6895200 0.09194656
 5 0.1601413 0.4742028 0.07500326</pre>
 
-</article></slide><slide class=""><hgroup><h2>awk</h2></hgroup><article  id="awk-3" class="smaller">
+</article></slide><slide class=""><hgroup><h2>awk</h2></hgroup><article  class="smaller" id="awk-3">
 
 <p>Maybe we don’t want all of the columns</p>
 
@@ -3554,7 +3552,7 @@ class(datMat)</pre>
 
 <p>The <code>-d</code> option specifies that string that separates columns</p>
 
-</article></slide><slide class=""><hgroup><h2>Combining awk + cut</h2></hgroup><article  id="combining-awk-cut" class="smaller">
+</article></slide><slide class=""><hgroup><h2>Combining awk + cut</h2></hgroup><article  class="smaller" id="combining-awk-cut">
 
 <p>You can also use the linux pipe &ldquo;|&rdquo; within the R <code>pipe()</code> call:</p>
 

@@ -1,13 +1,13 @@
 ---
 title: 'SISBD: Introduction to Bioconductor'
 author: "Andrew Jaffe"
-date: "7/12/2016"
 output:
   ioslides_presentation:
     fig_caption: yes
     fig_retina: 1
     keep_md: yes
     smaller: yes
+    widescreen: yes
 ---
 
 ## Acknowledgements

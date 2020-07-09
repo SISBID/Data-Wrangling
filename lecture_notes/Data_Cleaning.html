@@ -40,6 +40,19 @@
     };
   </script>
 
+  <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
   <style type="text/css">@font-face {
 font-family: 'Open Sans';
 font-style: normal;
@@ -1352,6 +1365,11 @@ slides > slide {
 opacity: 0;
 }
 @media print {
+
+@page {
+size: landscape;
+margin: 0;
+}
 
 slides slide {
 display: block !important;
@@ -3102,19 +3120,57 @@ slide:not(.current) .plotly.html-widget{
 
   </style>
 
-  <style type="text/css">pre {font-family: 'Source Code Pro', 'Courier New', monospace;font-size: 24px;line-height: 24px;padding: 10px 0 10px 60px;letter-spacing: -1px;margin-bottom: 8px;width: 106%;left: -60px;position: relative;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}body{font-family: Helvetica;font-size: 16pt;}h1{font-size: 28pt;}h2{font-size: 24pt;}h3{font-size: 20pt;}.emphasized {font-size: 1.2em;}.small {font-size: 0.8em;}strong { font-weight: bold;color: black;}</style>
+  <style type="text/css">pre {
+font-family: 'Source Code Pro', 'Courier New', monospace;
+font-size: 24px;
+line-height: 24px;
+padding: 10px 0 10px 60px;
+letter-spacing: -1px;
+margin-bottom: 8px;
+width: 106%;
+left: -60px;
+position: relative;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+
+}
+
+body{
+font-family: Helvetica;
+font-size: 16pt;
+}
+
+h1{
+font-size: 28pt;
+}
+h2{
+font-size: 24pt;
+}
+h3{
+font-size: 20pt;
+}
+.emphasized {
+font-size: 1.2em;
+}
+.small {
+font-size: 0.8em;
+}
+strong { font-weight: bold;
+color: black;
+}</style>
 
 </head>
 
 <body style="opacity: 0">
 
-<slides>
+<slides class="layout-widescreen">
 
   <slide class="title-slide segue nobackground">
         <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
     <hgroup class="auto-fadein">
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
-      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      
       <p data-config-presenter><!-- populated from slide_config.json --></p>
           </hgroup>
   </slide>
@@ -3283,7 +3339,7 @@ df %&gt;% filter(x &gt; 2)</pre>
 <li><code>table(x, y)</code> - will give a cross-tab of <code>x</code> and <code>y</code></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Creating One-way Tables</h2></hgroup><article  id="creating-one-way-tables" class="smaller">
+</article></slide><slide class=""><hgroup><h2>Creating One-way Tables</h2></hgroup><article  class="smaller" id="creating-one-way-tables">
 
 <p>Here we will use <code>table</code> to make tabulations of the data. Look at <code>?table</code> to see options for missing data.</p>
 
@@ -3303,7 +3359,7 @@ df %&gt;% filter(x &gt; 2)</pre>
    0    2    3    4 &lt;NA&gt; 
    1    1    1    1    1 </pre>
 
-</article></slide><slide class=""><hgroup><h2>Creating One-way Tables</h2></hgroup><article  id="creating-one-way-tables-1" class="smaller">
+</article></slide><slide class=""><hgroup><h2>Creating One-way Tables</h2></hgroup><article  class="smaller" id="creating-one-way-tables-1">
 
 <p><code>useNA = &quot;ifany&quot;</code> will not have NA in table heading if no <code>NA</code>:</p>
 
@@ -3314,7 +3370,7 @@ df %&gt;% filter(x &gt; 2)</pre>
 0 1 2 3 
 1 1 4 4 </pre>
 
-</article></slide><slide class=""><hgroup><h2>Creating One-way Tables</h2></hgroup><article  id="creating-one-way-tables-2" class="smaller">
+</article></slide><slide class=""><hgroup><h2>Creating One-way Tables</h2></hgroup><article  class="smaller" id="creating-one-way-tables-2">
 
 <p>You can set <code>useNA = &quot;always&quot;</code> to have it always have a column for <code>NA</code></p>
 
@@ -3325,7 +3381,7 @@ df %&gt;% filter(x &gt; 2)</pre>
    0    1    2    3 &lt;NA&gt; 
    1    1    4    4    0 </pre>
 
-</article></slide><slide class=""><hgroup><h2>Tables with Factors</h2></hgroup><article  id="tables-with-factors" class="smaller">
+</article></slide><slide class=""><hgroup><h2>Tables with Factors</h2></hgroup><article  class="smaller" id="tables-with-factors">
 
 <p>If you use a <code>factor</code>, all levels will be given even if no exist! - (May be wanted or not):</p>
 
@@ -3344,7 +3400,7 @@ tab</pre>
 1 2 3 
 1 4 4 </pre>
 
-</article></slide><slide class=""><hgroup><h2>Creating Two-way Tables</h2></hgroup><article  id="creating-two-way-tables" class="smaller">
+</article></slide><slide class=""><hgroup><h2>Creating Two-way Tables</h2></hgroup><article  class="smaller" id="creating-two-way-tables">
 
 <p>A two-way table. If you pass in 2 vectors, <code>table</code> creates a 2-dimensional table.</p>
 
@@ -3474,7 +3530,7 @@ p</pre>
  8  5422 &lt;NA&gt;  11 columns 12 columns &#39;../data/ufo/ufo_data_complete.csv&#39;
  9  5613 &lt;NA&gt;  11 columns 12 columns &#39;../data/ufo/ufo_data_complete.csv&#39;
 10  5848 &lt;NA&gt;  11 columns 12 columns &#39;../data/ufo/ufo_data_complete.csv&#39;
-# ... with 189 more rows</pre>
+# … with 189 more rows</pre>
 
 <p>We might want to check these out manually</p>
 
@@ -3483,20 +3539,20 @@ p</pre>
 <pre class = 'prettyprint lang-r'>ufo[p$row, ]</pre>
 
 <pre ># A tibble: 199 x 11
-   datetime city  state country shape `duration (seco~ `duration (hour~
-   &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;           
- 1 10/1/20~ &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;    &lt;NA&gt;                 0 &lt;NA&gt;            
- 2 10/14/2~ &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;    &lt;NA&gt;                 0 &lt;NA&gt;            
- 3 10/14/2~ &lt;NA&gt;  nv    &lt;NA&gt;    &lt;NA&gt;                 0 light           
- 4 10/17/2~ &lt;NA&gt;  tx    &lt;NA&gt;    &lt;NA&gt;                 0 oval            
- 5 10/20/2~ &lt;NA&gt;  ct    &lt;NA&gt;    &lt;NA&gt;                 0 egg             
- 6 10/24/2~ &lt;NA&gt;  sd    &lt;NA&gt;    &lt;NA&gt;                 0 sphere          
- 7 10/27/2~ &lt;NA&gt;  ny    &lt;NA&gt;    &lt;NA&gt;                 0 &lt;NA&gt;            
- 8 10/27/2~ &lt;NA&gt;  mi    &lt;NA&gt;    &lt;NA&gt;                 0 light           
- 9 10/28/2~ &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;    &lt;NA&gt;                 0 &lt;NA&gt;            
-10 10/29/2~ &lt;NA&gt;  oh    &lt;NA&gt;    &lt;NA&gt;                 0 &lt;NA&gt;            
-# ... with 189 more rows, and 4 more variables: comments &lt;chr&gt;, `date
-#   posted` &lt;chr&gt;, latitude &lt;chr&gt;, longitude &lt;dbl&gt;</pre>
+   datetime city  state country shape `duration (seco… `duration (hour… comments
+   &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;   
+ 1 10/1/20… &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;    &lt;NA&gt;                 0 &lt;NA&gt;             &lt;NA&gt;    
+ 2 10/14/2… &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;    &lt;NA&gt;                 0 &lt;NA&gt;             &lt;NA&gt;    
+ 3 10/14/2… &lt;NA&gt;  nv    &lt;NA&gt;    &lt;NA&gt;                 0 light            22      
+ 4 10/17/2… &lt;NA&gt;  tx    &lt;NA&gt;    &lt;NA&gt;                 0 oval             5 minut…
+ 5 10/20/2… &lt;NA&gt;  ct    &lt;NA&gt;    &lt;NA&gt;                 0 egg              2 hours 
+ 6 10/24/2… &lt;NA&gt;  sd    &lt;NA&gt;    &lt;NA&gt;                 0 sphere           30sec   
+ 7 10/27/2… &lt;NA&gt;  ny    &lt;NA&gt;    &lt;NA&gt;                 0 &lt;NA&gt;             night   
+ 8 10/27/2… &lt;NA&gt;  mi    &lt;NA&gt;    &lt;NA&gt;                 0 light            &lt;NA&gt;    
+ 9 10/28/2… &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;    &lt;NA&gt;                 0 &lt;NA&gt;             &lt;NA&gt;    
+10 10/29/2… &lt;NA&gt;  oh    &lt;NA&gt;    &lt;NA&gt;                 0 &lt;NA&gt;             15 seco…
+# … with 189 more rows, and 3 more variables: `date posted` &lt;chr&gt;, latitude &lt;chr&gt;,
+#   longitude &lt;dbl&gt;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Data cleaning &ldquo;before&rdquo; R</h2></hgroup><article  id="data-cleaning-before-r-2">
 
@@ -3504,7 +3560,7 @@ p</pre>
 
 <pre class = 'prettyprint lang-r'>ufo = ufo[-p$row,]</pre>
 
-</article></slide><slide class=""><hgroup><h2>Checking for logical conditions</h2></hgroup><article  id="checking-for-logical-conditions" class="smaller">
+</article></slide><slide class=""><hgroup><h2>Checking for logical conditions</h2></hgroup><article  class="smaller" id="checking-for-logical-conditions">
 
 <ul>
 <li><code>any()</code> - checks if there are any <code>TRUE</code>s</li>
@@ -3539,10 +3595,8 @@ FALSE  TRUE
 <pre class = 'prettyprint lang-r'>table(gender)</pre>
 
 <pre >gender
-     F FeMAle FEMALE     Fm      M     Ma   mAle   Male   MaLe   MALE 
-    80     88     76     87     99     76     84     83     79     93 
-   Man  Woman 
-    84     71 </pre>
+     F FeMAle FEMALE     Fm      M     Ma   mAle   Male   MaLe   MALE    Man  Woman 
+    80     88     76     87     99     76     84     83     79     93     84     71 </pre>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>String functions</h2></hgroup><article  id="string-functions">
 
@@ -3740,7 +3794,7 @@ y</pre>
 
 <pre >[1] FALSE FALSE FALSE FALSE FALSE FALSE</pre>
 
-</article></slide><slide class=""><hgroup><h2>&lsquo;Find&rsquo; functions: finding values, <code>stringr</code> and <code>dplyr</code></h2></hgroup><article  id="find-functions-finding-values-stringr-and-dplyr" class="smaller">
+</article></slide><slide class=""><hgroup><h2>&lsquo;Find&rsquo; functions: finding values, <code>stringr</code> and <code>dplyr</code></h2></hgroup><article  class="smaller" id="find-functions-finding-values-stringr-and-dplyr">
 
 <pre class = 'prettyprint lang-r'>str_subset(ufo$comments, &quot;two aliens&quot;)</pre>
 
@@ -3750,12 +3804,11 @@ y</pre>
 <pre class = 'prettyprint lang-r'>ufo %&gt;% filter(str_detect(comments, &quot;two aliens&quot;))</pre>
 
 <pre ># A tibble: 2 x 11
-  datetime city  state country shape `duration (seco~ `duration (hour~
-  &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;           
-1 10/14/2~ yuma  va    us      form~              300 5 minutes       
-2 7/1/200~ nort~ ct    &lt;NA&gt;    unkn~               60 1 minute        
-# ... with 4 more variables: comments &lt;chr&gt;, `date posted` &lt;chr&gt;,
-#   latitude &lt;chr&gt;, longitude &lt;dbl&gt;</pre>
+  datetime city  state country shape `duration (seco… `duration (hour… comments
+  &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;   
+1 10/14/2… yuma  va    us      form…              300 5 minutes        ((HOAX?…
+2 7/1/200… nort… ct    &lt;NA&gt;    unkn…               60 1 minute         Witness…
+# … with 3 more variables: `date posted` &lt;chr&gt;, latitude &lt;chr&gt;, longitude &lt;dbl&gt;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Showing differnce in <code>str_extract</code></h2></hgroup><article  id="showing-differnce-in-str_extract">
 
@@ -3776,8 +3829,7 @@ head(ss)</pre>
 
 <pre class = 'prettyprint lang-r'>str_subset(ufo$comments, &quot;^aliens.*&quot;)</pre>
 
-<pre >[1] &quot;aliens speak german???&quot; &quot;aliens exist&quot;          
-[3] &quot;aliens in srilanka&quot;    </pre>
+<pre >[1] &quot;aliens speak german???&quot; &quot;aliens exist&quot;           &quot;aliens in srilanka&quot;    </pre>
 
 </article></slide><slide class=""><hgroup><h2>Using Regular Expressions</h2></hgroup><article  id="using-regular-expressions">
 
@@ -3853,7 +3905,7 @@ ufo2[1:5, c(&quot;datetime&quot;, &quot;latitude&quot;, &quot;longitude&quot;)]<
 4 10/23/2008 04:45    -46.2      170.
 5 6/1/1998 22:00      -45.7      171.</pre>
 
-</article></slide><slide class=""><hgroup><h2>Replacing and subbing: <code>stringr</code></h2></hgroup><article  id="replacing-and-subbing-stringr" class="smaller">
+</article></slide><slide class=""><hgroup><h2>Replacing and subbing: <code>stringr</code></h2></hgroup><article  class="smaller" id="replacing-and-subbing-stringr">
 
 <p>We can do the same thing (with 2 piping operations!) in dplyr</p>
 

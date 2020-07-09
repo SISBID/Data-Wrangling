@@ -12,4 +12,9 @@ sapply(x, function(x) {
 sapply(x, rmarkdown::render, envir = new.env())
 
 xx = sub("Rmd$", "html", x)
+# sapply(xx, function(r) {
+#   xaringan::decktape(r, output = sub("html$", "pdf", r), 
+#                      docker = FALSE)
+# })
+
 sapply(xx, pagedown::chrome_print)

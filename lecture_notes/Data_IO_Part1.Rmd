@@ -7,11 +7,11 @@ output:
     widescreen: yes
 ---
 
-```{r, echo = FALSE, message=FALSE}
+```{r, include = FALSE}
 library(knitr)
 library(readr)
 # suppressPackageStartupMessages(library(dplyr))
-opts_chunk$set(comment = "")
+knitr::opts_chunk$set(comment = "")
 ```
 
 ## Explaining output on slides

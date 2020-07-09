@@ -40,6 +40,19 @@
     };
   </script>
 
+  <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
   <style type="text/css">@font-face {
 font-family: 'Open Sans';
 font-style: normal;
@@ -1352,6 +1365,11 @@ slides > slide {
 opacity: 0;
 }
 @media print {
+
+@page {
+size: landscape;
+margin: 0;
+}
 
 slides slide {
 display: block !important;
@@ -3102,19 +3120,57 @@ slide:not(.current) .plotly.html-widget{
 
   </style>
 
-  <style type="text/css">pre {font-family: 'Source Code Pro', 'Courier New', monospace;font-size: 24px;line-height: 24px;padding: 10px 0 10px 60px;letter-spacing: -1px;margin-bottom: 8px;width: 106%;left: -60px;position: relative;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}body{font-family: Helvetica;font-size: 16pt;}h1{font-size: 28pt;}h2{font-size: 24pt;}h3{font-size: 20pt;}.emphasized {font-size: 1.2em;}.small {font-size: 0.8em;}strong { font-weight: bold;color: black;}</style>
+  <style type="text/css">pre {
+font-family: 'Source Code Pro', 'Courier New', monospace;
+font-size: 24px;
+line-height: 24px;
+padding: 10px 0 10px 60px;
+letter-spacing: -1px;
+margin-bottom: 8px;
+width: 106%;
+left: -60px;
+position: relative;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+
+}
+
+body{
+font-family: Helvetica;
+font-size: 16pt;
+}
+
+h1{
+font-size: 28pt;
+}
+h2{
+font-size: 24pt;
+}
+h3{
+font-size: 20pt;
+}
+.emphasized {
+font-size: 1.2em;
+}
+.small {
+font-size: 0.8em;
+}
+strong { font-weight: bold;
+color: black;
+}</style>
 
 </head>
 
 <body style="opacity: 0">
 
-<slides>
+<slides class="layout-widescreen">
 
   <slide class="title-slide segue nobackground">
         <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
     <hgroup class="auto-fadein">
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
-      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      
       <p data-config-presenter><!-- populated from slide_config.json --></p>
           </hgroup>
   </slide>
@@ -3179,14 +3235,13 @@ slide:not(.current) .plotly.html-widget{
 head(circ, 2)</pre>
 
 <pre ># A tibble: 2 x 15
-  day   date  orangeBoardings orangeAlightings orangeAverage
-  &lt;chr&gt; &lt;chr&gt;           &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;
-1 Mond~ 01/1~             877             1027           952
-2 Tues~ 01/1~             777              815           796
-# ... with 10 more variables: purpleBoardings &lt;dbl&gt;,
-#   purpleAlightings &lt;dbl&gt;, purpleAverage &lt;dbl&gt;, greenBoardings &lt;dbl&gt;,
-#   greenAlightings &lt;dbl&gt;, greenAverage &lt;dbl&gt;, bannerBoardings &lt;dbl&gt;,
-#   bannerAlightings &lt;dbl&gt;, bannerAverage &lt;dbl&gt;, daily &lt;dbl&gt;</pre>
+  day   date  orangeBoardings orangeAlightings orangeAverage purpleBoardings
+  &lt;chr&gt; &lt;chr&gt;           &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;           &lt;dbl&gt;
+1 Mond… 01/1…             877             1027           952              NA
+2 Tues… 01/1…             777              815           796              NA
+# … with 9 more variables: purpleAlightings &lt;dbl&gt;, purpleAverage &lt;dbl&gt;,
+#   greenBoardings &lt;dbl&gt;, greenAlightings &lt;dbl&gt;, greenAverage &lt;dbl&gt;,
+#   bannerBoardings &lt;dbl&gt;, bannerAlightings &lt;dbl&gt;, bannerAverage &lt;dbl&gt;, daily &lt;dbl&gt;</pre>
 
 <pre class = 'prettyprint lang-r'>class(circ$date)</pre>
 
@@ -3271,10 +3326,10 @@ long</pre>
  5 Friday    2010-01-15 1644  orangeBoardings   1645
  6 Saturday  2010-01-16 1490. orangeBoardings   1457
  7 Sunday    2010-01-17  888. orangeBoardings    839
- 8 Monday    2010-01-18 1000. orangeBoardings    999
+ 8 Monday    2010-01-18  999. orangeBoardings    999
  9 Tuesday   2010-01-19 1035  orangeBoardings   1023
 10 Wednesday 2010-01-20 1396. orangeBoardings   1375
-# ... with 13,742 more rows</pre>
+# … with 13,742 more rows</pre>
 
 </article></slide><slide class=""><hgroup><h2>Reshaping data from wide (fat) to long (tall): tidyr</h2></hgroup><article  id="reshaping-data-from-wide-fat-to-long-tall-tidyr-2">
 

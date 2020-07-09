@@ -48,3 +48,4 @@ vignettes/*.pdf
 .Rproj.user
 
 *.sqlite
+*.sqlite3
