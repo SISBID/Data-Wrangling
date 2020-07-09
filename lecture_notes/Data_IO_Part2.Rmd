@@ -36,10 +36,10 @@ stop_for_problems(ufo)
 
 ## More ways to save: write_rds
 
-If you want to save **one** object, you can use `readr::write_rds` to save to an `rds` file:
+If you want to save **one** object, you can use `readr::write_rds` to save to a compressed `rds` file:
 
 ```{r}
-write_rds(ufo, path = "ufo_dataset.rds")
+write_rds(ufo, path = "ufo_dataset.rds", compress = "xz")
 ```
 
 
@@ -117,4 +117,12 @@ For example, we can write back out the Monuments dataset with the new column nam
 
 ```{r writecsv}
 write_csv(ufo[1:100,], path="ufo_first100.csv")
+```
+
+
+```{r, include = FALSE}
+file.remove("ufo_dataset.rds")
+file.remove("ufo_data.RData")
+file.remove("ufo_data.rda")
+file.remove("ufo_first100.csv")
 ```

@@ -9,8 +9,9 @@
 # RStudio files
 .Rproj.user/
 
-# data
-data/geo/*
+
+
+lecture/
 
 # cache
 lecture_notes/*cache*/*
@@ -22,6 +23,20 @@ lecture_notes/data/geo/*.gz
 lecture_notes/data/geo/*.tar
 lecture_notes/data/geo/*.txt
 lecture_notes/data/geo/GSE*
+
+# data
+data/geo/*.soft
+data/geo/*.txt.gz
+data/geo/*.gz
+data/geo/*.tar
+data/geo/*.txt
+data/geo/GSE*
+
+# data
+lecture_notes/ufo_dataset.rds
+lecture_notes/*.pptx
+
+.git.bfg-report/
 
 # produced vignettes
 vignettes/*.html
