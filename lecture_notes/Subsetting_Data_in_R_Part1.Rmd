@@ -16,111 +16,22 @@ library(dplyr)
 
 ## Overview
 
-We showed one way to read data into R using `read_csv` and `read.csv`.  In this module, we will show you how to:
-
-1. Select specific elements of an object by an index or logical condition
-2. Renaming columns of a `data.frame`
-3. Subset rows of a `data.frame`
-4. Subset columns of a `data.frame`
-5. Add/remove new columns to a `data.frame`
-6. Order the columns of a `data.frame`
-7. Order the rows of a `data.frame`
+We showed different ways to read  data into R using `readr::read_csv()`, `readr::read_delim()` and `readxl::read_excel()`.  In this module, we will show you how select rows and columns of datasets. 
 
 ## Setup
 
-We will show you how to do each operation in base R then show you how to use the `dplyr` package to do the same operation (if applicable).
+We will be using the `dplyr` package in the tidyverse.
 
 Many resources on how to use `dplyr` exist and are straightforward: 
 
+* https://dplyr.tidyverse.org/
 * https://r4ds.had.co.nz/
-* https://cran.rstudio.com/web/packages/dplyr/vignettes/
-* https://stat545-ubc.github.io/block009_dplyr-intro.html
-* https://www.datacamp.com/courses/dplyr-data-manipulation-r-tutorial
+* https://cran.rstudio.com/web/packages/dplyr/vignettes/dplyr.html
+* https://stat545.com/dplyr-intro.html
 
 The `dplyr` package also interfaces well with tibbles.
 
-## Creating a `data.frame` to work with
-
-Here we use one of the datasets that comes with R called `mtcars` create a toy data.frame named `df` using random data:
-```{r}
-data(mtcars)
-df = mtcars # to save original
-```
-
-## No rownames in tibbles!
- 
-In the "tidy" data format, all information of interest is a variable (not a name). **as of tibble 2.0, rownames are removed**.  For example, `mtcars`  has each car name as a row name: 
-
-```{r}
-head(df, 2)
-head(as_tibble(df), 2)
-```
-
-## No rownames in tibbles!
-
-If you run into this, use `rownames_to_column` to add it before turning it into a `tibble` to keep them:
-
-```{r}
-library(tibble)
-df = rownames_to_column(df, var = "car")
-tbl = as_tibble(df)
-```
-
-
-
-## Renaming Columns of a `data.frame`
-
-```{r}
-library(tidyverse)
-```
-
-Note, when loading `dplyr`, it says objects can be "masked"/conflicts.  That means if you 
-use a function defined in 2 places, it uses the one that is loaded in **last**.
-
-## Renaming Columns of a `data.frame`: dplyr
-
-For example, if we print `filter`, then we see at the bottom `namespace:dplyr`, which
-means when you type `filter`, it will use the one from the `dplyr` package.
-
-```{r}
-filter
-```
-
-## Renaming Columns of a `data.frame`: dplyr
-
-A `filter` function exists by default in the `stats` package, however.  If you want
-to make sure you use that one, you use `PackageName::Function` with the colon-colon 
-("`::`") operator. 
-
-```{r}
-head(stats::filter,2)
-```
-
-This is important when loading many packages, and you may have
-some conflicts/masking:
-
-## Renaming Columns of a `data.frame`: dplyr
-
-To rename columns in `dplyr`, you use the `rename` command
-
-```{r}
-df = rename(df, MPG = mpg)
-head(df)
-df = rename(df, mpg = MPG) 
-```
-
-## Renaming All Columns of a `data.frame`: dplyr
-
-To rename all columns you use the `rename_all` command (with a function)
-
-```{r}
-df_upper = dplyr::rename_all(df, toupper)
-head(df_upper)
-```
-
-## Lab Part 1
-
-[Website](https://sisbid.github.io/Module1/)
+## 
 
 
 ## Subset columns of a `data.frame`: 
