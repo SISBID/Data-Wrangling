@@ -9,6 +9,9 @@
 # RStudio files
 .Rproj.user/
 
+# data
+data/geo/*
+
 # cache
 lecture_notes/*cache*/*
 
