@@ -35,6 +35,7 @@ data/geo/GSE*
 # data
 lecture_notes/ufo_dataset.rds
 lecture_notes/*.pptx
+lecture_notes/*.tex
 
 .git.bfg-report/
 
