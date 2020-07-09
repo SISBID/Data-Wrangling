@@ -8,7 +8,10 @@ output: html_document
 1. Download and load the nycflights data with the command `install.packages('nycflights13')` and `library(nycflights13)`.
 
 ```{r}
-install.packages("nycflights13")
+is_package_installed = function(package) {
+  requireNamespace(basename(package), quietly = TRUE)
+}
+if (!is_package_installed("nycflights13")) install.packages("nycflights13")
 library(nycflights13)
 ```
 

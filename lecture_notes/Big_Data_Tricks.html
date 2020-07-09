@@ -40,6 +40,19 @@
     };
   </script>
 
+  <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
   <style type="text/css">@font-face {
 font-family: 'Open Sans';
 font-style: normal;
@@ -1352,6 +1365,11 @@ slides > slide {
 opacity: 0;
 }
 @media print {
+
+@page {
+size: landscape;
+margin: 0;
+}
 
 slides slide {
 display: block !important;
@@ -3102,7 +3120,45 @@ slide:not(.current) .plotly.html-widget{
 
   </style>
 
-  <style type="text/css">pre {font-family: 'Source Code Pro', 'Courier New', monospace;font-size: 24px;line-height: 24px;padding: 10px 0 10px 60px;letter-spacing: -1px;margin-bottom: 8px;width: 106%;left: -60px;position: relative;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}body{font-family: Helvetica;font-size: 16pt;}h1{font-size: 28pt;}h2{font-size: 24pt;}h3{font-size: 20pt;}.emphasized {font-size: 1.2em;}.small {font-size: 0.8em;}strong { font-weight: bold;color: black;}</style>
+  <style type="text/css">pre {
+font-family: 'Source Code Pro', 'Courier New', monospace;
+font-size: 24px;
+line-height: 24px;
+padding: 10px 0 10px 60px;
+letter-spacing: -1px;
+margin-bottom: 8px;
+width: 106%;
+left: -60px;
+position: relative;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+
+}
+
+body{
+font-family: Helvetica;
+font-size: 16pt;
+}
+
+h1{
+font-size: 28pt;
+}
+h2{
+font-size: 24pt;
+}
+h3{
+font-size: 20pt;
+}
+.emphasized {
+font-size: 1.2em;
+}
+.small {
+font-size: 0.8em;
+}
+strong { font-weight: bold;
+color: black;
+}</style>
 
 </head>
 
@@ -3114,7 +3170,7 @@ slide:not(.current) .plotly.html-widget{
         <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
     <hgroup class="auto-fadein">
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
-      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      
       <p data-config-presenter><!-- populated from slide_config.json --></p>
           </hgroup>
   </slide>
@@ -3243,7 +3299,7 @@ s1</pre>
 <pre class = 'prettyprint lang-r'>s2=object.size(DF)
 s2</pre>
 
-<pre >3040 bytes</pre>
+<pre >3032 bytes</pre>
 
 <pre class = 'prettyprint lang-r'>as.numeric(round(s1/s2))</pre>
 
@@ -3322,12 +3378,12 @@ class(datList)</pre>
 <pre class = 'prettyprint lang-r'>system.time(lapply(datList,cor,x))</pre>
 
 <pre >   user  system elapsed 
-   1.59    0.49    2.08 </pre>
+  1.352   0.392   1.757 </pre>
 
 <pre class = 'prettyprint lang-r'>system.time(mclapply(datList, cor, x))</pre>
 
 <pre >   user  system elapsed 
-   1.42    0.50    1.96 </pre>
+  0.005   0.025   1.842 </pre>
 
 <p>???</p>
 
@@ -3347,14 +3403,14 @@ Error in mclapply(datList, sort, mc.cores = 4) :
 system.time(foreach(i=1:10000) %do% cor(datList[[i]],x))</pre>
 
 <pre >   user  system elapsed 
-   3.51    0.28    3.80 </pre>
+  4.008   0.596   4.803 </pre>
 
 <pre class = 'prettyprint lang-r'>system.time(foreach(i=1:10000) %dopar% cor(datList[[i]],x))</pre>
 
 <pre >Warning: executing %dopar% sequentially: no parallel backend registered</pre>
 
 <pre >   user  system elapsed 
-   3.36    0.00    3.39 </pre>
+  3.456   0.485   3.965 </pre>
 
 <p>Oops! You need to initiate a parallel backend first!</p>
 
@@ -3366,7 +3422,7 @@ system.time(foreach(i=1:10000) %do% cor(datList[[i]],x))</pre>
 system.time(foreach(i=1:10000) %dopar% cor(datList[[i]], x))</pre>
 
 <pre >   user  system elapsed 
-   4.53    1.20    7.22 </pre>
+  2.866   0.915   2.478 </pre>
 
 <p>This task was not particularly amenable to parallelization, but you get the idea of the code.</p>
 
@@ -3379,7 +3435,7 @@ system.time(foreach(i=1:10000) %dopar% cor(datList[[i]], x))</pre>
 <pre class = 'prettyprint lang-r'>datMat = simplify2array(datList)
 class(datMat)</pre>
 
-<pre >[1] &quot;matrix&quot;</pre>
+<pre >[1] &quot;matrix&quot; &quot;array&quot; </pre>
 
 <pre class = 'prettyprint lang-r'>dim(datMat)</pre>
 
@@ -3388,7 +3444,7 @@ class(datMat)</pre>
 <pre class = 'prettyprint lang-r'>system.time(cor(x,datMat))</pre>
 
 <pre >   user  system elapsed 
-   0.90    0.10    0.98 </pre>
+  0.965   0.246   1.337 </pre>
 
 </article></slide><slide class=""><hgroup><h2>Rcpp</h2></hgroup><article  id="rcpp">
 
@@ -3440,7 +3496,7 @@ class(datMat)</pre>
 
 <p>Note in linux you would probably redirect this to a file, but R can handle this &ldquo;on the fly&rdquo;</p>
 
-</article></slide><slide class=""><hgroup><h2>awk</h2></hgroup><article  class="smaller" id="awk-2">
+</article></slide><slide class=""><hgroup><h2>awk</h2></hgroup><article  id="awk-2" class="smaller">
 
 <pre class = 'prettyprint lang-r'>&gt; awkCall = &quot;awk -F\&quot;\t\&quot; &#39;$2 == \&quot;chr21\&quot; { print $0 }&#39; foo.txt&quot;
 &gt; read.delim(pipe(awkCall),header=FALSE)
@@ -3457,7 +3513,7 @@ class(datMat)</pre>
 4 0.3595676 0.6895200 0.09194656
 5 0.1601413 0.4742028 0.07500326</pre>
 
-</article></slide><slide class=""><hgroup><h2>awk</h2></hgroup><article  class="smaller" id="awk-3">
+</article></slide><slide class=""><hgroup><h2>awk</h2></hgroup><article  id="awk-3" class="smaller">
 
 <p>Maybe we don’t want all of the columns</p>
 
@@ -3498,7 +3554,7 @@ class(datMat)</pre>
 
 <p>The <code>-d</code> option specifies that string that separates columns</p>
 
-</article></slide><slide class=""><hgroup><h2>Combining awk + cut</h2></hgroup><article  class="smaller" id="combining-awk-cut">
+</article></slide><slide class=""><hgroup><h2>Combining awk + cut</h2></hgroup><article  id="combining-awk-cut" class="smaller">
 
 <p>You can also use the linux pipe &ldquo;|&rdquo; within the R <code>pipe()</code> call:</p>
 
