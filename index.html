@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -287,7 +286,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -349,6 +347,7 @@ summary {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -387,11 +386,11 @@ summary {
 
 <div id="data-wrangling-with-r" class="section level2">
 <h2>Data Wrangling with R</h2>
-<p><strong>Instructors:</strong> <a href="http://www.aejaffe.com/">Andrew Jaffe</a> and <a href="http://www.jtleek.com/">Jeff Leek</a></p>
+<p><strong>Instructors:</strong> <a href="http://www.aejaffe.com/">Andrew Jaffe</a> and <a href="http://johnmuschelli.com/">John Muschelli</a></p>
 <p><strong>Class Schedule:</strong></p>
 <ul>
-<li><a href="https://www.biostat.washington.edu/suminst/participants">Summer Institute Info</a></li>
-<li>Location: FSH 108 (<a href="https://www.biostat.washington.edu/suminst/maps">maps</a>)</li>
+<li><p>M/T: 8am-2pm PST, W: 8am-11am PST</p></li>
+<li><p>Location: Zoom (see class email for link)</p></li>
 </ul>
 <p><strong>Software:</strong></p>
 <ul>
@@ -399,226 +398,82 @@ summary {
 <li><a href="http://www.rstudio.com/">Rstudio</a></li>
 <li><a href="http://bioconductor.org/">Bioconductor</a></li>
 <li><a href="https://www.tidyverse.org/">Tidyverse</a></li>
+<li><a href="https://github.com/">GitHub</a></li>
 </ul>
-<p><strong>Resources:</strong></p>
-<ul>
-<li><a href="https://rstudio.cloud/spaces/21228/projects">Rstudio Cloud Class Project Homepage</a></li>
-<li><a href="http://www.rstudio.com/resources/cheatsheets/">Rstudio’s cheatsheets</a></li>
-<li><a href="http://r4ds.had.co.nz/">R for Data Science</a></li>
-<li><a href="https://leanpub.com/universities/set/jhu/cloud-based-data-science">JHU Cloud-Based Data Science</a></li>
-<li><a href="https://speakerdeck.com/alicebartlett/git-for-humans">Git for Humans</a></li>
-<li><a href="https://lab.github.com/">GitHub Labs</a></li>
-<li><a href="http://swirlstats.com/">swirl</a></li>
-<li><a href="http://datacamp.com/">Datacamp</a></li>
-</ul>
-<p>Please read this to setup your installation of R, git, and install required R packages <a href="https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md" class="uri">https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md</a></p>
+<!--
+**Resources:**
+
+* [Rstudio Cloud Class Project Homepage](https://rstudio.cloud/spaces/21228/projects)
+* [Rstudio's cheatsheets](http://www.rstudio.com/resources/cheatsheets/) 
+* [R for Data Science](http://r4ds.had.co.nz/)
+* [JHU Cloud-Based Data Science](https://leanpub.com/universities/set/jhu/cloud-based-data-science)
+* [Git for Humans](https://speakerdeck.com/alicebartlett/git-for-humans)
+* [GitHub Labs](https://lab.github.com/)
+* [swirl](http://swirlstats.com/)
+* [Datacamp](http://datacamp.com/)
+
+Please read this to setup your installation of R, git, and install required R packages
+https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
+-->
 <p><strong>Schedule</strong></p>
-<table>
-<colgroup>
-<col width="4%"></col>
-<col width="13%"></col>
-<col width="15%"></col>
-<col width="23%"></col>
-<col width="42%"></col>
-</colgroup>
-<thead>
-<tr class="header">
-<th>Day</th>
-<th>Date</th>
-<th>Session</th>
-<th>Resources</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>2019-07-15</td>
-<td>8:30AM - 10:00AM</td>
-<td><a href="https://docs.google.com/presentation/d/109XPCQZXyooZQia33Lp0jpZxtWg5hCHw0LdnBedozwY/edit?usp=sharing">Welcome and motivation</a>, <a href="lecture_notes/sisbid_intro.pdf">PDF</a></td>
-<td>Why you’re here</td>
-</tr>
-<tr class="even">
-<td>1</td>
-<td>2019-07-15</td>
-<td>8:30AM - 10:00AM</td>
-<td><a href="https://bit.ly/2xLMh7l">Who assessment</a></td>
-<td>Who is here</td>
-</tr>
-<tr class="odd">
-<td>1</td>
-<td>2019-07-15</td>
-<td>8:30AM - 10:00AM</td>
-<td><a href="https://bit.ly/2YUy4B0">Skills assessment</a>, <a href="labs/skills_notebook.Rmd">Skills Notebook</a></td>
-<td>What do we already know?</td>
-</tr>
-<tr class="even">
-<td>1</td>
-<td>2019-07-15</td>
-<td>8:30AM - 10:00AM</td>
-<td><a href="https://bit.ly/2LXhVap">Data brainstorming</a></td>
-<td>What data do we know about?</td>
-</tr>
-<tr class="odd">
-<td>1</td>
-<td>—</td>
-<td>10:00AM - 10:30AM</td>
-<td>Break</td>
-<td>—</td>
-</tr>
-<tr class="even">
-<td>1</td>
-<td>2019-07-15</td>
-<td>10:30AM - 12:00PM</td>
-<td><a href="https://docs.google.com/presentation/d/1JssHYRDGWM6L7hFtgs5XrBBUFvWHh8aHlTGotRIFs9Q/edit?usp=sharing">Rep. Research/Version Control</a> <a href="lecture_notes/sisbid_intro.pdf">PDF</a></td>
-<td>Getting organized</td>
-</tr>
-<tr class="odd">
-<td>1</td>
-<td>2019-07-15</td>
-<td>10:30AM - 12:00PM</td>
-<td><a href="https://www.katacoda.com/courses/git">Git Course</a></td>
-<td>How to try git</td>
-</tr>
-<tr class="even">
-<td>1</td>
-<td>—</td>
-<td>12:00PM - 1:30PM</td>
-<td>Lunch</td>
-<td>—</td>
-</tr>
-<tr class="odd">
-<td>1</td>
-<td>2019-07-15</td>
-<td>1:30PM - 3:00PM</td>
-<td><a href="http://stat545.com/git00_index.html">Install Git/Github</a></td>
-<td>How to install git/github</td>
-</tr>
-<tr class="even">
-<td>1</td>
-<td>2019-07-15</td>
-<td>1:30PM - 3:00PM</td>
-<td><a href="labs/github-lab.md">Github lab</a></td>
-<td>Practicing git/github</td>
-</tr>
-<tr class="odd">
-<td>1</td>
-<td>—</td>
-<td>3:00PM - 3:30PM</td>
-<td>Break</td>
-<td>—</td>
-</tr>
-<tr class="even">
-<td>1</td>
-<td>2019-07-15</td>
-<td>3:30PM - 5:00PM</td>
-<td><a href="lecture_notes/Data_IO_and_structure.html">Data I/O</a>, <a href="lecture_notes/Data_IO_and_structure.pdf">PDF</a></td>
-<td>Data import and classes</td>
-</tr>
-<tr class="odd">
-<td>1</td>
-<td>2019-07-15</td>
-<td>3:30PM - 5:00PM</td>
-<td><a href="labs/data-io-lab.Rmd">Import Lab</a>, <a href="labs/data-io-lab-key.html">Import Key</a></td>
-<td>—</td>
-</tr>
-<tr class="even">
-<td>—-</td>
-<td>————</td>
-<td>————–</td>
-<td>———————</td>
-<td>————————————–</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>2019-07-16</td>
-<td>8:30AM - 10:00AM</td>
-<td><a href="lecture_notes/Subsetting_Data_in_R.html">Subsetting</a>, <a href="lecture_notes/Subsetting_Data_in_R.pdf">PDF</a>, <a href="labs/subsetting-data-lab.Rmd">Lab</a>,<a href="labs/subsetting-data-lab-key.Rmd">Key</a></td>
-<td>How to select data</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>—</td>
-<td>10:00AM - 10:30AM</td>
-<td>Break</td>
-<td>—</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>2019-7-16</td>
-<td>10:30AM - 12:00PM</td>
-<td><a href="https://docs.google.com/presentation/d/1K-TxNcPg1qugUABMH5LATh2AqBPLVTplLfQ8aBUasD0/edit?usp=sharing">Advanced data IO</a>,<a href="lecture_notes/sisbid-advanced-io.pdf">PDF</a> <a href="labs/web-api-lab.Rmd">Lab</a></td>
-<td>Different ways of accessing big data</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>—</td>
-<td>12:00PM - 1:30PM</td>
-<td>Lunch</td>
-<td>—</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>2019-07-16</td>
-<td>12:00PM - 1:30PM</td>
-<td><a href="lecture_notes/Data_Cleaning.html">Cleaning data</a>, <a href="lecture_notes/Data_Cleaning.pdf">PDF</a>,<a href="labs/data-cleaning-lab.Rmd">Lab</a>, <a href="labs/data-cleaning-lab-key.html">Key</a></td>
-<td>Cleaning Data</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>—</td>
-<td>3:00PM - 3:30PM</td>
-<td>Break</td>
-<td>—</td>
-</tr>
-<tr class="odd">
-<td>2</td>
-<td>2019-07-16</td>
-<td>3:30PM-5:00PM</td>
-<td><a href="https://docs.google.com/presentation/d/1YI91J4sDsIFC48PXJcpU1e_ICfT4qnNrh_zlK4GpSNw/edit?usp=sharing">Manipulation/Summarization</a> <a href="lecture_notes/sisbid-manipulation.pdf">PDF</a></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>—-</td>
-<td>————</td>
-<td>————–</td>
-<td>———————</td>
-<td>————————————–</td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>2019-07-17</td>
-<td>8:30AM-10:00AM</td>
-<td><a href="https://docs.google.com/presentation/d/11vCz5KrS2uKhr1rOlmeVzXGslkz5IKoEjgMTgpaK5ds/edit?usp=sharing">Databases</a> <a href="lecture_notes/Manipulating_Data_in_R.html">Reshaping</a>,<a href="lecture_notes/Manipulating_Data_in_R.pdf">PDF</a>, <a href="labs/Manipulating_Data_in_R_Lab.Rmd">Lab</a>, <a href="labs/Manipulating_Data_in_R_Lab_Key.html">Key</a></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>3</td>
-<td>—</td>
-<td>3:00PM - 3:30PM</td>
-<td>Break</td>
-<td>—</td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>2019-07-17</td>
-<td>10:30AM-12:00PM</td>
-<td><a href="lecture_notes/Big_Data_Tricks.html">Big Data “Tricks”</a>, <a href="lecture_notes/R_Big_Data_Tricks.pdf">PDF</a>,<a href="https://rstudio.cloud/spaces/21228/project/415321">Cloud</a></td>
-<td></td>
-</tr>
-<tr class="even">
-<td>3</td>
-<td>2019-07-17</td>
-<td>10:30AM-12:00PM</td>
-<td><a href="https://docs.google.com/presentation/d/1L2bK_4zEvvbOoPzo2g-mGXlugXjCEi-QIui8DgAUpvQ/edit?usp=sharing">Slides</a> <a href="labs/final_lab.Rmd">lab</a></td>
-<td>Putting it all together</td>
-</tr>
-</tbody>
-</table>
+<p>Day 1</p>
+<ol style="list-style-type: decimal">
+<li>Introduction</li>
+<li>Data Input, Part 1</li>
+<li>Data Input/Output, Part 2</li>
+<li>Reproducible Research</li>
+<li>GitHib Concepts</li>
+<li>GitHub Practice</li>
+</ol>
+<p>Day 2:</p>
+<ol start="7" style="list-style-type: decimal">
+<li>Data Subsetting, Part 1</li>
+<li>Data Subsetting, Part 2</li>
+<li>Data Summarization</li>
+<li>Data Cleaning</li>
+<li>Data Reshaping</li>
+<li>Data Merging and Joining</li>
+</ol>
+<p>Day 3:</p>
+<ol start="13" style="list-style-type: decimal">
+<li>Advanced Data Input/Output</li>
+<li>Functionally Programming</li>
+<li>Bioconductor for Genomics</li>
+</ol>
+<!--
+
+| Day  | Date  |  Session | Resources  |  Description |
+|----|------------|--------------|---------------------|--------------------------------------|
+| 1 | 2019-07-15 | 8:30AM - 10:00AM |[Welcome and motivation](https://docs.google.com/presentation/d/109XPCQZXyooZQia33Lp0jpZxtWg5hCHw0LdnBedozwY/edit?usp=sharing), [PDF](lecture_notes/sisbid_intro.pdf)|Why you're here|
+| 1 | 2019-07-15 | 8:30AM - 10:00AM | [Who assessment](https://bit.ly/2xLMh7l) | Who is here|
+| 1 | 2019-07-15 | 8:30AM - 10:00AM | [Skills assessment](https://bit.ly/2YUy4B0), [Skills Notebook](labs/skills_notebook.Rmd) | What do we already know?|
+| 1 | 2019-07-15 | 8:30AM - 10:00AM |[Data brainstorming](https://bit.ly/2LXhVap) | What data do we know about?|
+|1 | --- | 10:00AM - 10:30AM | Break | --- |
+|1 | 2019-07-15 | 10:30AM - 12:00PM | [Rep. Research/Version Control](https://docs.google.com/presentation/d/1JssHYRDGWM6L7hFtgs5XrBBUFvWHh8aHlTGotRIFs9Q/edit?usp=sharing) [PDF](lecture_notes/sisbid_intro.pdf)| Getting organized |
+|1 | 2019-07-15 | 10:30AM - 12:00PM | [Git Course](https://www.katacoda.com/courses/git) | How to try git|
+|1 | --- | 12:00PM - 1:30PM | Lunch | --- |
+|1 | 2019-07-15 | 1:30PM - 3:00PM | [Install Git/Github](http://stat545.com/git00_index.html) | How to install git/github|
+|1 | 2019-07-15 | 1:30PM - 3:00PM | [Github lab](labs/github-lab.md) | Practicing git/github|
+|1 | --- | 3:00PM - 3:30PM | Break | --- |
+|1 | 2019-07-15 | 3:30PM - 5:00PM | [Data I/O](lecture_notes/Data_IO_and_structure.html), [PDF](lecture_notes/Data_IO_and_structure.pdf) | Data import and classes |
+|1 | 2019-07-15 | 3:30PM - 5:00PM | [Import Lab](labs/data-io-lab.Rmd), [Import Key](labs/data-io-lab-key.html) |---|
+|----|------------|--------------|---------------------|--------------------------------------|
+|2 | 2019-07-16 | 8:30AM - 10:00AM |[Subsetting](lecture_notes/Subsetting_Data_in_R.html), [PDF](lecture_notes/Subsetting_Data_in_R.pdf), [Lab](labs/subsetting-data-lab.Rmd),[Key](labs/subsetting-data-lab-key.Rmd)|How to select data|
+|2 | --- | 10:00AM - 10:30AM | Break | --- |
+|2 | 2019-7-16 | 10:30AM - 12:00PM | [Advanced data IO](https://docs.google.com/presentation/d/1K-TxNcPg1qugUABMH5LATh2AqBPLVTplLfQ8aBUasD0/edit?usp=sharing),[PDF](lecture_notes/sisbid-advanced-io.pdf) [Lab](labs/web-api-lab.Rmd) | Different ways of accessing big data|
+|2 | --- | 12:00PM - 1:30PM | Lunch| --- |
+|2 | 2019-07-16 | 12:00PM - 1:30PM | [Cleaning data](lecture_notes/Data_Cleaning.html), [PDF](lecture_notes/Data_Cleaning.pdf),[Lab](labs/data-cleaning-lab.Rmd), [Key](labs/data-cleaning-lab-key.html)| Cleaning Data |
+|2 | --- | 3:00PM - 3:30PM | Break | --- |
+|2 | 2019-07-16 | 3:30PM-5:00PM | [Manipulation/Summarization](https://docs.google.com/presentation/d/1YI91J4sDsIFC48PXJcpU1e_ICfT4qnNrh_zlK4GpSNw/edit?usp=sharing) [PDF](lecture_notes/sisbid-manipulation.pdf)| 
+|----|------------|--------------|---------------------|--------------------------------------|
+|3 | 2019-07-17 | 8:30AM-10:00AM | [Databases](https://docs.google.com/presentation/d/11vCz5KrS2uKhr1rOlmeVzXGslkz5IKoEjgMTgpaK5ds/edit?usp=sharing) [Reshaping](lecture_notes/Manipulating_Data_in_R.html),[PDF](lecture_notes/Manipulating_Data_in_R.pdf), [Lab](labs/Manipulating_Data_in_R_Lab.Rmd), [Key](labs/Manipulating_Data_in_R_Lab_Key.html) |  |
+|3 | --- | 3:00PM - 3:30PM | Break | --- |
+|3 | 2019-07-17 | 10:30AM-12:00PM | [Big Data "Tricks"](lecture_notes/Big_Data_Tricks.html), [PDF](lecture_notes/R_Big_Data_Tricks.pdf),[Cloud](https://rstudio.cloud/spaces/21228/project/415321) |   | 
+|3 | 2019-07-17 | 10:30AM-12:00PM |  [Slides](https://docs.google.com/presentation/d/1L2bK_4zEvvbOoPzo2g-mGXlugXjCEi-QIui8DgAUpvQ/edit?usp=sharing) [lab](labs/final_lab.Rmd) | Putting it all together  | 
 <!--|3 | 2019-07-17 | 1:30PM-3:00PM | [Project](labs/data-cleaning-lab.Rmd), [Key](labs/data-cleaning-lab-key.Rmd) |   |  -->
 <p><strong>Miscellaneous</strong></p>
 <p>Feel free to submit typos/errors/etc via the github repository associated with the class: <a href="https://github.com/SISBID/Module1" class="uri">https://github.com/SISBID/Module1</a></p>
-<p>This page was last updated on 2019-07-17 11:24:46 Eastern Time.</p>
+<p>This page was last updated on 2020-07-08 22:38:52 Eastern Time.</p>
 </div>
 
 

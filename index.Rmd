@@ -8,12 +8,13 @@ output:
 
 ## Data Wrangling with R
 
-**Instructors:** [Andrew Jaffe](http://www.aejaffe.com/) and [Jeff Leek](http://www.jtleek.com/)
+**Instructors:** [Andrew Jaffe](http://www.aejaffe.com/) and [John Muschelli](http://johnmuschelli.com/)
 
 **Class Schedule:**
 
-* [Summer Institute Info](https://www.biostat.washington.edu/suminst/participants)
-* Location: FSH 108 ([maps](https://www.biostat.washington.edu/suminst/maps))
+* M/T: 8am-2pm PST, W: 8am-11am PST
+
+* Location: Zoom (see class email for link)
 
 **Software:**
 
@@ -21,7 +22,9 @@ output:
 * [Rstudio](http://www.rstudio.com/)
 * [Bioconductor](http://bioconductor.org/)
 * [Tidyverse](https://www.tidyverse.org/)
+* [GitHub](https://github.com/)
 
+<!--
 **Resources:**
 
 * [Rstudio Cloud Class Project Homepage](https://rstudio.cloud/spaces/21228/projects)
@@ -35,9 +38,35 @@ output:
 
 Please read this to setup your installation of R, git, and install required R packages
 https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
+--> 
 
 **Schedule**
 
+Day 1
+
+1. Introduction
+2. Data Input, Part 1
+3. Data Input/Output, Part 2
+4. Reproducible Research
+5. GitHib Concepts
+6. GitHub Practice
+
+Day 2: 
+
+7. Data Subsetting, Part 1
+8. Data Subsetting, Part 2
+9. Data Summarization
+10. Data Cleaning
+11. Data Reshaping
+12. Data Merging and Joining
+
+Day 3: 
+
+13. Advanced Data Input/Output
+14. Functionally Programming
+15. Bioconductor for Genomics
+
+<!--
 
 | Day  | Date  |  Session | Resources  |  Description |
 |----|------------|--------------|---------------------|--------------------------------------|
