@@ -3,14 +3,14 @@ all: labs index.html lecture_notes
 index.html: index.Rmd 
 	Rscript -e "rmarkdown::render('index.Rmd')"
 
-lab_files := $(wildcard labs/*.Rmd)
+labs: labs/*.html
 
-labs: $(lab_files) run_labs.R
+labs/*.html: labs/*.Rmd run_labs.R 
 	Rscript run_labs.R
 
-ln_files := $(wildcard lecture_notes/*.Rmd)
+lecture_notes: lecture_notes/*.html
 
-lecture_notes: lecture_notes/*.Rmd run_lectures.R
+lecture_notes/*.html: lecture_notes/*.Rmd run_lectures.R
 	Rscript run_lectures.R		
 
 clean: 

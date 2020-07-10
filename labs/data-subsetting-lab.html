@@ -9,11 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Jeff Leek" />
 
-<meta name="date" content="2015-07-08" />
 
-<title>Final Lab</title>
+<title>Data Subsetting, Part 1 - Lab</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -376,22 +374,27 @@ summary {
 
 
 
-<h1 class="title toc-ignore">Final Lab</h1>
-<h4 class="author">Jeff Leek</h4>
-<h4 class="date">July 8, 2015</h4>
+<h1 class="title toc-ignore">Data Subsetting, Part 1 - Lab</h1>
 
 </div>
 
 
+<p>In this lab you can use the interactive console to explore but please record your commands here. Remember anything you type here can be “sent” to the console with Cmd-Enter (OS-X) or Cntr-Enter (Windows/Linux) (But only in side the <code>{r}</code> areas).</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<div id="part-1" class="section level1">
+<h1>Part 1</h1>
 <ol style="list-style-type: decimal">
-<li>Set up a repo on Github called <code>sisbid_final</code></li>
-<li>Create a folder structure like the one we learned in class with folders for data and code.</li>
-<li>Create an R markdown document to record what you are doing. Explain each step in words (don’t forget to add session info!). This is your raw analysis.</li>
-<li>Download the samples data on the 1,000 genomes project from their website: <a href="ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/working/20130606_sample_info/20130606_sample_info.xlsx" class="uri">ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/working/20130606_sample_info/20130606_sample_info.xlsx</a>, (be sure to save the date you downloaded!)</li>
-<li>Load and tidy each sheet of the spreadsheet using tools you’ve learned in this class.</li>
-<li>Merge all data sets into one tidy data set and save it as the processed data along with your script.</li>
-<li>Celebrate data collection and processing skillz!</li>
+<li><p>Check to see if you have the <code>mpg</code> dataset [hint: it’s in the <code>ggplot2</code> package].</p></li>
+<li><p>What data class is <code>mpg</code>?</p></li>
+<li><p>How many observations (rows) and variables (columns) are in the <code>mpg</code> dataset?</p></li>
+<li><p>Select the <code>manufacturer</code>, <code>model</code> and <code>year</code> columns from the <code>mpg</code> dataset.</p></li>
+<li><p>Identify the subset of cars/rows where city fuel economy (<code>cty</code>) is greater than 20 and highway fuel economy (<code>hwy</code>) is greater than 30. Assign this output to an object called <code>eff</code>. How many cars/rows are present?</p></li>
+<li><p>How many fuel efficient cars (in the <code>eff</code> dataset) were manufactured in the year 1999?</p></li>
+<li><p>Filter cars from the overall <code>mpg</code> dataset that do not have 4 cylinder engines. How many cars/rows are there?</p></li>
+<li><p>Filter cars from in the “suv” or “minivan” class. How many cars/rows are there?</p></li>
+<li><p>Filter cars with displacements (<code>displ</code>) greater than 4 and that are All/4 wheel drive. How many cars/rows are there.</p></li>
 </ol>
+</div>
 
 
 

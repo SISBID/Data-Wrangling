@@ -11,7 +11,7 @@
 
 
 
-<title>Manipulating Data in R Lab</title>
+<title>Subsetting Data in R - Lab</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -374,53 +374,216 @@ summary {
 
 
 
-<h1 class="title toc-ignore">Manipulating Data in R Lab</h1>
+<h1 class="title toc-ignore">Subsetting Data in R - Lab</h1>
 
 </div>
 
 
-<pre class="r"><code>library(readr)
-library(dplyr)
-library(ggplot2)
-library(tidyr)
-library(stringr)</code></pre>
+<p>In this lab you can use the interactive console to explore but please record your commands here. Remember anything you type here can be “sent” to the console with Cmd-Enter (OS-X) or Cntr-Enter (Windows/Linux) (But only in side the <code>{r}</code> areas).</p>
+<pre class="r"><code>library(dplyr)
+library(tidyverse)</code></pre>
 <div id="part-1" class="section level1">
 <h1>Part 1</h1>
 <ol style="list-style-type: decimal">
-<li><p>Read in the Wide Bike lanes data: <a href="https://sisbid.github.io/Module1/labs/Bike_Lanes_Wide.csv" class="uri">https://sisbid.github.io/Module1/labs/Bike_Lanes_Wide.csv</a> . Name the data set <code>wide</code>.</p></li>
-<li><p>Reshape <code>wide</code> using <code>gather.</code> Call this data <code>long.</code> Make the <code>key</code> <code>lanetype</code>, and the value <code>the_length.</code> Make sure we gather all columns <strong>but</strong> <code>name</code>, using <code>-name</code>. Note the <code>NA</code>s here:</p></li>
+<li>Check to see if you have the <code>mtcars</code> dataset</li>
 </ol>
+<pre class="r"><code>mtcars</code></pre>
+<pre><code>##                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
+## Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
+## Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
+## Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
+## Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
+## Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
+## Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
+## Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
+## Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
+## Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
+## Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
+## Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
+## Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
+## Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
+## Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
+## Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
+## Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
+## Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
+## AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
+## Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
+## Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
+## Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
+## Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
+## Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
+## Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
+## Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
+## Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
+## Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>What class is <code>mtcars</code>?</li>
+</ol>
+<pre class="r"><code>class(mtcars)</code></pre>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>How many observations (rows) and variables (columns) are in the <code>mtcars</code> dataset?</li>
+</ol>
+<pre class="r"><code>dim(mtcars)</code></pre>
+<pre><code>## [1] 32 11</code></pre>
+<pre class="r"><code>nrow(mtcars)</code></pre>
+<pre><code>## [1] 32</code></pre>
+<pre class="r"><code>ncol(mtcars)</code></pre>
+<pre><code>## [1] 11</code></pre>
+<pre class="r"><code>glimpse(mtcars)</code></pre>
+<pre><code>## Rows: 32
+## Columns: 11
+## $ mpg  &lt;dbl&gt; 21.0, 21.0, 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2, 17.8…
+## $ cyl  &lt;dbl&gt; 6, 6, 4, 6, 8, 6, 8, 4, 4, 6, 6, 8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 8…
+## $ disp &lt;dbl&gt; 160.0, 160.0, 108.0, 258.0, 360.0, 225.0, 360.0, 146.7, 140.8, 1…
+## $ hp   &lt;dbl&gt; 110, 110, 93, 110, 175, 105, 245, 62, 95, 123, 123, 180, 180, 18…
+## $ drat &lt;dbl&gt; 3.90, 3.90, 3.85, 3.08, 3.15, 2.76, 3.21, 3.69, 3.92, 3.92, 3.92…
+## $ wt   &lt;dbl&gt; 2.620, 2.875, 2.320, 3.215, 3.440, 3.460, 3.570, 3.190, 3.150, 3…
+## $ qsec &lt;dbl&gt; 16.46, 17.02, 18.61, 19.44, 17.02, 20.22, 15.84, 20.00, 22.90, 1…
+## $ vs   &lt;dbl&gt; 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0…
+## $ am   &lt;dbl&gt; 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0…
+## $ gear &lt;dbl&gt; 4, 4, 4, 3, 3, 3, 3, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 4, 4, 4, 3, 3…
+## $ carb &lt;dbl&gt; 4, 4, 1, 1, 2, 1, 4, 2, 2, 4, 4, 3, 3, 3, 4, 4, 4, 1, 2, 1, 1, 2…</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Copy mtcars into an object called cars and rename <code>mpg</code> in cars to <code>MPG</code>. Use <code>rename</code></li>
+</ol>
+<pre class="r"><code>cars = mtcars
+cars = rename(cars, MPG = mpg)
+head(cars)</code></pre>
+<pre><code>##                    MPG cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>Convert the column names of <code>cars</code> to all upper case. Use rename_all, and the <code>toupper</code> command (or <code>colnames</code>).</li>
+</ol>
+<pre class="r"><code>cars = rename_all(cars, toupper)
+head(cars)</code></pre>
+<pre><code>##                    MPG CYL DISP  HP DRAT    WT  QSEC VS AM GEAR CARB
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre>
+<pre class="r"><code>cars = mtcars
+cn = colnames(cars) # extract column names
+cn = toupper(cn) # make them uppercase
+colnames(cars) = cn # reassign
+head(cars)</code></pre>
+<pre><code>##                    MPG CYL DISP  HP DRAT    WT  QSEC VS AM GEAR CARB
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre>
 </div>
 <div id="part-2" class="section level1">
 <h1>Part 2</h1>
-<p>This exercise is motivated by <a href="https://anythingbutrbitrary.blogspot.com/2012/08/manipulating-data-frames-using-sqldf.html" class="uri">https://anythingbutrbitrary.blogspot.com/2012/08/manipulating-data-frames-using-sqldf.html</a></p>
-<ol start="3" style="list-style-type: decimal">
-<li><p>read in the roads and crashes CSVs. Call them <code>crash</code> and <code>road</code> <code>crash</code>: <a href="https://sisbid.github.io/Module1/labs/crashes.csv" class="uri">https://sisbid.github.io/Module1/labs/crashes.csv</a> <code>road</code>: <a href="https://sisbid.github.io/Module1/labs/roads.csv" class="uri">https://sisbid.github.io/Module1/labs/roads.csv</a></p></li>
-<li><p>Replace (using <code>str_replace</code>) any hyphens (<code>-</code>) with a space in <code>crash$Road</code>. Call this data <code>crash2</code>. Table the <code>Road</code> variable.</p></li>
-<li><p>How many observations are in each dataset?</p></li>
-<li><p>Separate the Road column (using <code>separate</code>) into (<code>type</code> and <code>number</code>) in <code>crash2.</code> Reassign this to <code>crash2.</code> Table <code>crash2$type</code></p></li>
+<ol start="6" style="list-style-type: decimal">
+<li>Copy <code>mtcars</code> into <code>cars</code> again. Create a column called <code>car</code> using the <code>rownames_to_column</code> function.</li>
 </ol>
-<p>Create a new variable calling it road_hyphen using the <code>unite</code> function. Unite the type and number columns using a hyphen (<code>-</code>) and then <code>table</code> <code>road_hyphen</code></p>
+<pre class="r"><code>cars = rownames_to_column(mtcars, var = &quot;car&quot;)</code></pre>
 <ol start="7" style="list-style-type: decimal">
-<li>Which and how many years were data collected?</li>
+<li>Subset the columns from <code>cars</code> that end in <code>&quot;p&quot;</code> and call it <code>pvars</code>, use <code>ends_with()</code>.</li>
 </ol>
+<pre class="r"><code>pvars = select(cars, ends_with(&quot;p&quot;))</code></pre>
+<ol start="8" style="list-style-type: decimal">
+<li>Create a subset of the data that only contains the columns: <code>wt</code>, <code>qsec</code>, and <code>hp</code> and assign this object to <code>carsSub</code> - what are the dimensions of this dataset? Use <code>select()</code> (and <code>dim</code>):</li>
+</ol>
+<pre class="r"><code>carsSub = select(mtcars, wt, qsec, hp)
+dim(carsSub)</code></pre>
+<pre><code>## [1] 32  3</code></pre>
+<ol start="9" style="list-style-type: decimal">
+<li>Convert the column names of <code>carsSub</code> to all upper case. Use <code>rename_all()</code>, and the <code>toupper</code> command (or <code>colnames</code>)</li>
+</ol>
+<pre class="r"><code>carsSub = rename_all(carsSub, toupper)</code></pre>
 </div>
 <div id="part-3" class="section level1">
 <h1>Part 3</h1>
-<ol start="8" style="list-style-type: decimal">
-<li><p>Read in the Bike lanes data: <a href="https://sisbid.github.io/Module1/data/Bike_Lanes.csv" class="uri">https://sisbid.github.io/Module1/data/Bike_Lanes.csv</a> . Name the data set <code>bike</code>.</p></li>
-<li><p>Keep rows where the record is not missing <code>type</code> and not missing <code>name</code> and re-assign the output to <code>bike</code>.</p></li>
-<li><p>Summarize and group the data by grouping <code>name</code> and <code>type</code> and take the <code>sum</code> of the length (reassign <code>length</code> variable). Call this data set <code>sub</code></p></li>
-<li><p>Reshape <code>sub</code> using <code>spread.</code> Spread the data where the <code>key</code> is type and we want the value in the new columns to be <code>length</code> - the bike lane length.<br />
-Call this <code>wide</code>.</p></li>
+<ol start="10" style="list-style-type: decimal">
+<li>Subset the rows of cars that get more than 20 miles per gallon (<code>mpg</code>) of fuel efficiency - how many are there? Use <code>filter()</code></li>
 </ol>
-<p>Look at the column names of <code>wide</code> - what are they? (they also have spaces)</p>
+<pre class="r"><code>cars_mpg = filter(cars, mpg &gt; 18)
+dim(cars_mpg)</code></pre>
+<pre><code>## [1] 19 12</code></pre>
+<pre class="r"><code>nrow(cars_mpg)</code></pre>
+<pre><code>## [1] 19</code></pre>
+<pre class="r"><code># filter(cars, mpg &gt; 20)</code></pre>
+<p>There are 19 cars. There are <code>nrow(cars_mpg)</code> cars.</p>
+<pre class="r"><code>cars %&gt;% filter(mpg &gt; 20) %&gt;% nrow()</code></pre>
+<pre><code>## [1] 14</code></pre>
+<pre class="r"><code>filter(cars, mpg &gt; 20) %&gt;% nrow()</code></pre>
+<pre><code>## [1] 14</code></pre>
+<ol start="11" style="list-style-type: decimal">
+<li>Subset the rows that get less than 16 miles per gallon (<code>mpg</code>) of fuel efficiency and have more than 100 horsepower (<code>hp</code>) - how many are there?</li>
+</ol>
+<pre class="r"><code>filter(cars, mpg &lt; 16 &amp; hp &gt; 100)</code></pre>
+<pre><code>##                    car  mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+## 1           Duster 360 14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
+## 2          Merc 450SLC 15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
+## 3   Cadillac Fleetwood 10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
+## 4  Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
+## 5    Chrysler Imperial 14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
+## 6     Dodge Challenger 15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
+## 7          AMC Javelin 15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
+## 8           Camaro Z28 13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
+## 9       Ford Pantera L 15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
+## 10       Maserati Bora 15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8</code></pre>
+<pre class="r"><code>nrow(filter(cars, mpg &lt; 16 &amp; hp &gt; 100))</code></pre>
+<pre><code>## [1] 10</code></pre>
+<pre class="r"><code>nrow(filter(cars, mpg &lt; 16, hp &gt; 100))</code></pre>
+<pre><code>## [1] 10</code></pre>
+<pre class="r"><code>cars %&gt;% filter(mpg &lt; 16, hp &gt; 100) %&gt;% nrow()</code></pre>
+<pre><code>## [1] 10</code></pre>
+</div>
+<div id="part-4" class="section level1">
+<h1>Part 4</h1>
 <ol start="12" style="list-style-type: decimal">
-<li><p>Join data to retain only complete data, (using an inner join) e.g. those observations with road lengths and districts. Merge without using <code>by</code> argument, then merge using <code>by = &quot;Road&quot;</code>. call the output <code>merged.</code> How many observations are there?</p></li>
-<li><p>Join data using a <code>full_join.</code> Call the output <code>full.</code> How many observations are there?</p></li>
-<li><p>Do a left join of the <code>road</code> and <code>crash</code>. ORDER matters here! How many observations are there?</p></li>
-<li><p>Repeat above with a <code>right_join</code> with the same order of the arguments. How many observations are there?</p></li>
+<li>Create a subset from the <code>cars</code> data that only contains the columns: <code>wt</code>, <code>qsec</code>, and <code>hp</code> for only the cars with 8 cylinders and reassign this object to <code>carsSub</code> - what are the dimensions of this dataset?</li>
 </ol>
+<pre class="r"><code>carsSub = filter(cars, cyl == 8) 
+carsSub = select(carsSub, wt, qsec, hp, car)
+dim(carsSub)</code></pre>
+<pre><code>## [1] 14  4</code></pre>
+<pre class="r"><code>carsSub = cars %&gt;% 
+  filter(cyl == 8) %&gt;% 
+  select(wt, qsec, hp, car)
+dim(carsSub)</code></pre>
+<pre><code>## [1] 14  4</code></pre>
+<ol start="13" style="list-style-type: decimal">
+<li>Re-order the rows of <code>carsSub</code> by weight in increasing order. Use <code>arrange()</code></li>
+</ol>
+<pre class="r"><code>carsSub = arrange(carsSub, wt)</code></pre>
+<ol start="14" style="list-style-type: decimal">
+<li>Create a new variable in <code>carsSub</code> called <code>wt2</code>, which is equal to <code>wt^2</code>, using <code>mutate()</code>. Use piping <code>%&gt;%</code>:</li>
+</ol>
+<pre class="r"><code>carsSub %&gt;% mutate(wt2 = wt^2)</code></pre>
+<pre><code>##       wt  qsec  hp                 car       wt2
+## 1  3.170 14.50 264      Ford Pantera L 10.048900
+## 2  3.435 17.30 150         AMC Javelin 11.799225
+## 3  3.440 17.02 175   Hornet Sportabout 11.833600
+## 4  3.520 16.87 150    Dodge Challenger 12.390400
+## 5  3.570 15.84 245          Duster 360 12.744900
+## 6  3.570 14.60 335       Maserati Bora 12.744900
+## 7  3.730 17.60 180          Merc 450SL 13.912900
+## 8  3.780 18.00 180         Merc 450SLC 14.288400
+## 9  3.840 15.41 245          Camaro Z28 14.745600
+## 10 3.845 17.05 175    Pontiac Firebird 14.784025
+## 11 4.070 17.40 180          Merc 450SE 16.564900
+## 12 5.250 17.98 205  Cadillac Fleetwood 27.562500
+## 13 5.345 17.42 230   Chrysler Imperial 28.569025
+## 14 5.424 17.82 215 Lincoln Continental 29.419776</code></pre>
+<pre class="r"><code>carsSub = carsSub %&gt;% mutate(wt2 = wt^2)</code></pre>
 </div>
 
 

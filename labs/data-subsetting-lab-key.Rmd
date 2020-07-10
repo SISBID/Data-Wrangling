@@ -38,7 +38,13 @@ ncol(mtcars)
 glimpse(mtcars)
 ```
 
-4. Copy mtcars into an object called cars and rename `mpg` in cars to `MPG`. Use `rename`
+4. Copy mtcars into an object called cars.
+
+```{r}
+cars = mtcars
+```
+
+and rename `mpg` in cars to `MPG`. Use `rename`
 
 ```{r}
 cars = mtcars
@@ -53,22 +59,10 @@ cars = rename_all(cars, toupper)
 head(cars)
 ```
 
-```{r alternative}
-cars = mtcars
-cn = colnames(cars) # extract column names
-cn = toupper(cn) # make them uppercase
-colnames(cars) = cn # reassign
-head(cars)
-```
 
 
 # Part 2
 
-
-6. Copy `mtcars` into `cars` again.  Create a column called `car` using the `rownames_to_column` function. 
-```{r}
-cars = rownames_to_column(mtcars, var = "car")
-```
 
 7. Subset the columns from `cars` that end in `"p"` and call it `pvars`, use `ends_with()`.
 
