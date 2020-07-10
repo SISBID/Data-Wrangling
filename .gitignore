@@ -16,6 +16,7 @@ lecture/
 # cache
 lecture_notes/*cache*/*
 labs/*cache*/*
+*token*.rds
 
 # data
 lecture_notes/data/geo/*.soft
