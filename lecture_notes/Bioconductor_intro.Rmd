@@ -17,10 +17,24 @@ Many slides courtesy of Raphael Gottardo.
 ## Setting up some options
 
 Let's first turn on the cache for increased performance and improved styling
-```{r, cache=FALSE}
+```{r, include = FALSE}
 # Set some global knitr options
+pkgs = c("RNAseqData.HNRNPC.bam.chr14", 
+         "TxDb.Hsapiens.UCSC.hg19.knownGene", 
+         "VariantAnnotation", "GenomicRanges", 
+         "GenomicAlignments", "Rsamtools",
+         "BSgenome.Hsapiens.UCSC.hg19", 
+         "TxDb.Hsapiens.UCSC.hg19.knownGene", 
+         "GenomicRanges", "IRanges")
+library(BiocManager)
+pkgs = setdiff(pkgs, rownames(installed.packages()))
+if (length(pkgs) > 0) {
+  BiocManager::install(pkgs, upgrade = FALSE, ask = FALSE)
+}
+library(data.table)    
 suppressMessages(library("knitr"))
 opts_chunk$set(cache = FALSE, messages = FALSE)
+suppressPackageStartupMessages(library(GEOquery))
 ```
 
 ## R in the NY Times
@@ -277,9 +291,9 @@ The rows are the features (i.e., probes). Columns are the samples.
 
 ```{r, eval=FALSE}
 # We first need to install our annotation package
-library(BiocInstaller)
+library(BiocManager)
 # Note that you don't have to use source anymore!
-biocLite("hthgu133a.db")
+if (!requireNamespace("hthgu133a.db")) BiocManager::install("hthgu133a.db", update = FALSE)
 ```
 
 
@@ -567,7 +581,7 @@ Related packages
 
 Example 
 
-- Whole-genome sequences are distrubuted by ENSEMBL, NCBI, and others
+- Whole-genome sequences are distributed by ENSEMBL, NCBI, and others
   as FASTA files; model organism whole genome sequences are packaged
   into more user-friendly `BSgenome` packages. The following
   calculates GC content across chr14.

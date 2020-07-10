@@ -62,3 +62,8 @@ url = paste0("https://docs.google.com/presentation/d/",
 
 res = sapply(c("pdf", "pptx"), download_gs_file,
   id = url, stub = "lecture_notes/sisbid_rep_research_2020")
+
+
+res = sapply("pdf", download_gs_file,
+             id = "1-j8KAkDUiYWoTpuSaRZqUBE47LhZVThicjSHPWEXGVQ", 
+             stub = "lecture_notes/sisbid_intro_2020")
