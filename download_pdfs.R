@@ -70,4 +70,4 @@ res = sapply("pdf", download_gs_file,
 
 download_gs_file("1wCJnKaYbtw9_U3AFoHbWWcTfh3oVZxqHD_N9o_eRQhA",
                  "pdf",
-                 stub = "lecture_notes/sisbid_github_2020"
+                 stub = "lecture_notes/sisbid_github_2020")
