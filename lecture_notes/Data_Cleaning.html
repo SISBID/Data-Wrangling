@@ -3158,7 +3158,9 @@ font-size: 0.8em;
 }
 strong { font-weight: bold;
 color: black;
-}</style>
+}
+.left-half{ float: left; width: 48%; }
+.right-half{ float: right; width: 48%; }</style>
 
 </head>
 
@@ -3248,7 +3250,7 @@ See problems(...) for more details.</pre>
 <pre class = 'prettyprint lang-r'>p = problems(ufo)
 ufo = ufo[-p$row,] # brackets can also be used for subsetting</pre>
 
-</article></slide><slide class=""><hgroup><h2>Checking for logical conditions</h2></hgroup><article  id="checking-for-logical-conditions" class="smaller">
+</article></slide><slide class=""><hgroup><h2>Checking for logical conditions</h2></hgroup><article  class="smaller" id="checking-for-logical-conditions">
 
 <ul>
 <li><code>any()</code> - checks if there are any <code>TRUE</code>s</li>
@@ -3441,7 +3443,7 @@ paste0(&quot;Visit&quot;,1:5)</pre>
 
 <pre >[1] FALSE FALSE FALSE FALSE FALSE FALSE</pre>
 
-</article></slide><slide class=""><hgroup><h2>&lsquo;Find&rsquo; functions: finding values, <code>stringr</code> and <code>dplyr</code></h2></hgroup><article  id="find-functions-finding-values-stringr-and-dplyr" class="smaller">
+</article></slide><slide class=""><hgroup><h2>&lsquo;Find&rsquo; functions: finding values, <code>stringr</code> and <code>dplyr</code></h2></hgroup><article  class="smaller" id="find-functions-finding-values-stringr-and-dplyr">
 
 <pre class = 'prettyprint lang-r'>str_subset(ufo$comments, &quot;two aliens&quot;)</pre>
 
@@ -3535,7 +3537,7 @@ dim(ufo_clean)</pre>
 
 <pre >[1] 88675    11</pre>
 
-</article></slide><slide class=""><hgroup><h2>Replacing and subbing: <code>stringr</code></h2></hgroup><article  id="replacing-and-subbing-stringr" class="smaller">
+</article></slide><slide class=""><hgroup><h2>Replacing and subbing: <code>stringr</code></h2></hgroup><article  class="smaller" id="replacing-and-subbing-stringr">
 
 <p>We can do the same thing (with 2 piping operations!) in dplyr</p>
 

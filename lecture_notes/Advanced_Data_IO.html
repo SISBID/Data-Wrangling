@@ -3213,9 +3213,15 @@ library(googlesheets)</pre></div>
 <pre class = 'prettyprint lang-r'>sheets_url = paste0(&quot;https://docs.google.com/spreadsheets/d/&quot;,
                     &quot;1WBrH655fxqKW1QqvD5hnqvvEWIvRzDJcKEgjjFeYxeM&quot;)
 
-gsurl1 = gs_url(sheets_url)
+gsurl1 = gs_url(sheets_url)</pre>
 
-dat = gs_read(gsurl1)
+<pre >Warning: `as_data_frame()` is deprecated as of tibble 2.0.0.
+Please use `as_tibble()` instead.
+The signature and semantics have changed, see `?as_tibble`.
+This warning is displayed once every 8 hours.
+Call `lifecycle::last_warnings()` to see where this warning was generated.</pre>
+
+<pre class = 'prettyprint lang-r'>dat = gs_read(gsurl1)
 date_read = lubridate::today()
 head(dat)</pre>
 
@@ -3268,8 +3274,16 @@ out = read_sheet(sheets_url)</pre>
 <p><a href='https://developer.github.com/v3/search/' title=''>https://developer.github.com/v3/search/</a></p>
 
 <pre class = 'prettyprint lang-r'>#install.packages(&quot;jsonlite&quot;)
-library(jsonlite)
-jsonData &lt;- fromJSON(&quot;https://api.github.com/users/jtleek/repos&quot;)
+library(jsonlite)</pre>
+
+<pre >
+Attaching package: &#39;jsonlite&#39;</pre>
+
+<pre >The following object is masked from &#39;package:purrr&#39;:
+
+    flatten</pre>
+
+<pre class = 'prettyprint lang-r'>jsonData &lt;- fromJSON(&quot;https://api.github.com/users/jtleek/repos&quot;)
 head(jsonData)</pre>
 
 <pre >         id                          node_id               name
@@ -3279,34 +3293,34 @@ head(jsonData)</pre>
 4 111447948 MDEwOlJlcG9zaXRvcnkxMTE0NDc5NDg= advdatasci-project
 5  47568815 MDEwOlJlcG9zaXRvcnk0NzU2ODgxNQ==   advdatasci-swirl
 6  41645119 MDEwOlJlcG9zaXRvcnk0MTY0NTExOQ==       advdatasci15
-                  full_name private owner.login owner.id
-1               jtleek/2018   FALSE      jtleek  1571674
-2            jtleek/ads2020   FALSE      jtleek  1571674
-3         jtleek/advdatasci   FALSE      jtleek  1571674
-4 jtleek/advdatasci-project   FALSE      jtleek  1571674
-5   jtleek/advdatasci-swirl   FALSE      jtleek  1571674
-6       jtleek/advdatasci15   FALSE      jtleek  1571674
-         owner.node_id                                     owner.avatar_url
-1 MDQ6VXNlcjE1NzE2NzQ= https://avatars2.githubusercontent.com/u/1571674?v=4
-2 MDQ6VXNlcjE1NzE2NzQ= https://avatars2.githubusercontent.com/u/1571674?v=4
-3 MDQ6VXNlcjE1NzE2NzQ= https://avatars2.githubusercontent.com/u/1571674?v=4
-4 MDQ6VXNlcjE1NzE2NzQ= https://avatars2.githubusercontent.com/u/1571674?v=4
-5 MDQ6VXNlcjE1NzE2NzQ= https://avatars2.githubusercontent.com/u/1571674?v=4
-6 MDQ6VXNlcjE1NzE2NzQ= https://avatars2.githubusercontent.com/u/1571674?v=4
-  owner.gravatar_id                           owner.url
-1                   https://api.github.com/users/jtleek
-2                   https://api.github.com/users/jtleek
-3                   https://api.github.com/users/jtleek
-4                   https://api.github.com/users/jtleek
-5                   https://api.github.com/users/jtleek
-6                   https://api.github.com/users/jtleek
-             owner.html_url                           owner.followers_url
-1 https://github.com/jtleek https://api.github.com/users/jtleek/followers
-2 https://github.com/jtleek https://api.github.com/users/jtleek/followers
-3 https://github.com/jtleek https://api.github.com/users/jtleek/followers
-4 https://github.com/jtleek https://api.github.com/users/jtleek/followers
-5 https://github.com/jtleek https://api.github.com/users/jtleek/followers
-6 https://github.com/jtleek https://api.github.com/users/jtleek/followers
+                  full_name private owner.login owner.id        owner.node_id
+1               jtleek/2018   FALSE      jtleek  1571674 MDQ6VXNlcjE1NzE2NzQ=
+2            jtleek/ads2020   FALSE      jtleek  1571674 MDQ6VXNlcjE1NzE2NzQ=
+3         jtleek/advdatasci   FALSE      jtleek  1571674 MDQ6VXNlcjE1NzE2NzQ=
+4 jtleek/advdatasci-project   FALSE      jtleek  1571674 MDQ6VXNlcjE1NzE2NzQ=
+5   jtleek/advdatasci-swirl   FALSE      jtleek  1571674 MDQ6VXNlcjE1NzE2NzQ=
+6       jtleek/advdatasci15   FALSE      jtleek  1571674 MDQ6VXNlcjE1NzE2NzQ=
+                                      owner.avatar_url owner.gravatar_id
+1 https://avatars2.githubusercontent.com/u/1571674?v=4                  
+2 https://avatars2.githubusercontent.com/u/1571674?v=4                  
+3 https://avatars2.githubusercontent.com/u/1571674?v=4                  
+4 https://avatars2.githubusercontent.com/u/1571674?v=4                  
+5 https://avatars2.githubusercontent.com/u/1571674?v=4                  
+6 https://avatars2.githubusercontent.com/u/1571674?v=4                  
+                            owner.url            owner.html_url
+1 https://api.github.com/users/jtleek https://github.com/jtleek
+2 https://api.github.com/users/jtleek https://github.com/jtleek
+3 https://api.github.com/users/jtleek https://github.com/jtleek
+4 https://api.github.com/users/jtleek https://github.com/jtleek
+5 https://api.github.com/users/jtleek https://github.com/jtleek
+6 https://api.github.com/users/jtleek https://github.com/jtleek
+                            owner.followers_url
+1 https://api.github.com/users/jtleek/followers
+2 https://api.github.com/users/jtleek/followers
+3 https://api.github.com/users/jtleek/followers
+4 https://api.github.com/users/jtleek/followers
+5 https://api.github.com/users/jtleek/followers
+6 https://api.github.com/users/jtleek/followers
                                          owner.following_url
 1 https://api.github.com/users/jtleek/following{/other_user}
 2 https://api.github.com/users/jtleek/following{/other_user}
@@ -3671,41 +3685,41 @@ head(jsonData)</pre>
 4 https://github.com/jtleek/advdatasci-project
 5   https://github.com/jtleek/advdatasci-swirl
 6       https://github.com/jtleek/advdatasci15
-                                homepage   size stargazers_count
-1 https://jhu-advdatasci.github.io/2018/  60855                0
-2                                   &lt;NA&gt;     12               32
-3                                   &lt;NA&gt; 172184               16
-4                                   &lt;NA&gt;    680                0
-5                                   &lt;NA&gt;    188                4
-6                                   &lt;NA&gt; 200992               14
-  watchers_count language has_issues has_projects has_downloads has_wiki
-1              0     HTML      FALSE         TRUE          TRUE     TRUE
-2             32     &lt;NA&gt;       TRUE         TRUE          TRUE     TRUE
-3             16     HTML      FALSE         TRUE          TRUE     TRUE
-4              0     HTML       TRUE         TRUE          TRUE     TRUE
-5              4     HTML       TRUE         TRUE          TRUE     TRUE
-6             14     HTML       TRUE         TRUE          TRUE     TRUE
-  has_pages forks_count mirror_url archived disabled open_issues_count
-1     FALSE           2         NA    FALSE    FALSE                 0
-2     FALSE           3         NA    FALSE    FALSE                 0
-3      TRUE           8         NA    FALSE    FALSE                 0
-4     FALSE           0         NA    FALSE    FALSE                 0
-5     FALSE           2         NA    FALSE    FALSE                 1
-6      TRUE           7         NA    FALSE    FALSE                 0
-  license.key license.name license.spdx_id license.url license.node_id
-1        &lt;NA&gt;         &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;            &lt;NA&gt;
-2        &lt;NA&gt;         &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;            &lt;NA&gt;
-3        &lt;NA&gt;         &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;            &lt;NA&gt;
-4        &lt;NA&gt;         &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;            &lt;NA&gt;
-5        &lt;NA&gt;         &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;            &lt;NA&gt;
-6        &lt;NA&gt;         &lt;NA&gt;            &lt;NA&gt;        &lt;NA&gt;            &lt;NA&gt;
-  forks open_issues watchers default_branch
-1     2           0        0         master
-2     3           0       32         master
-3     8           0       16         master
-4     0           0        0         master
-5     2           1        4         master
-6     7           0       14       gh-pages</pre>
+                                homepage   size stargazers_count watchers_count
+1 https://jhu-advdatasci.github.io/2018/  60855                0              0
+2                                   &lt;NA&gt;     12               32             32
+3                                   &lt;NA&gt; 172184               16             16
+4                                   &lt;NA&gt;    680                0              0
+5                                   &lt;NA&gt;    188                4              4
+6                                   &lt;NA&gt; 200992               14             14
+  language has_issues has_projects has_downloads has_wiki has_pages forks_count
+1     HTML      FALSE         TRUE          TRUE     TRUE     FALSE           2
+2     &lt;NA&gt;       TRUE         TRUE          TRUE     TRUE     FALSE           3
+3     HTML      FALSE         TRUE          TRUE     TRUE      TRUE           8
+4     HTML       TRUE         TRUE          TRUE     TRUE     FALSE           0
+5     HTML       TRUE         TRUE          TRUE     TRUE     FALSE           2
+6     HTML       TRUE         TRUE          TRUE     TRUE      TRUE           7
+  mirror_url archived disabled open_issues_count license.key license.name
+1         NA    FALSE    FALSE                 0        &lt;NA&gt;         &lt;NA&gt;
+2         NA    FALSE    FALSE                 0        &lt;NA&gt;         &lt;NA&gt;
+3         NA    FALSE    FALSE                 0        &lt;NA&gt;         &lt;NA&gt;
+4         NA    FALSE    FALSE                 0        &lt;NA&gt;         &lt;NA&gt;
+5         NA    FALSE    FALSE                 1        &lt;NA&gt;         &lt;NA&gt;
+6         NA    FALSE    FALSE                 0        &lt;NA&gt;         &lt;NA&gt;
+  license.spdx_id license.url license.node_id forks open_issues watchers
+1            &lt;NA&gt;        &lt;NA&gt;            &lt;NA&gt;     2           0        0
+2            &lt;NA&gt;        &lt;NA&gt;            &lt;NA&gt;     3           0       32
+3            &lt;NA&gt;        &lt;NA&gt;            &lt;NA&gt;     8           0       16
+4            &lt;NA&gt;        &lt;NA&gt;            &lt;NA&gt;     0           0        0
+5            &lt;NA&gt;        &lt;NA&gt;            &lt;NA&gt;     2           1        4
+6            &lt;NA&gt;        &lt;NA&gt;            &lt;NA&gt;     7           0       14
+  default_branch
+1         master
+2         master
+3         master
+4         master
+5         master
+6       gh-pages</pre>
 
 </article></slide><slide class=""><hgroup><h2>Data frame structure from JSON</h2></hgroup><article  id="data-frame-structure-from-json">
 
@@ -3772,8 +3786,22 @@ table(sapply(jsonData,class))</pre>
 
 <pre class = 'prettyprint lang-r'>recount_url = &quot;http://bowtie-bio.sourceforge.net/recount/&quot;
 # install.packages(&quot;rvest&quot;)
-library(rvest)
-htmlfile = read_html(recount_url)
+library(rvest)</pre>
+
+<pre >Loading required package: xml2</pre>
+
+<pre >
+Attaching package: &#39;rvest&#39;</pre>
+
+<pre >The following object is masked from &#39;package:purrr&#39;:
+
+    pluck</pre>
+
+<pre >The following object is masked from &#39;package:readr&#39;:
+
+    guess_encoding</pre>
+
+<pre class = 'prettyprint lang-r'>htmlfile = read_html(recount_url)
 
 nds = html_nodes(htmlfile,                
 xpath=&#39;//*[@id=&quot;recounttab&quot;]/table&#39;)
