@@ -24,7 +24,7 @@ sheet_url = "https://docs.google.com/spreadsheets/d/1KIRtcPVn58R3_qr97WNtcOJiY4A
 
 ```
 
-2. Using `sheet_names` function to get the sheet names from the `sheet_url`.
+3. Using `sheet_names` function to get the sheet names from the `sheet_url`.
 ```{r}
 
 ```
@@ -34,27 +34,3 @@ sheet_url = "https://docs.google.com/spreadsheets/d/1KIRtcPVn58R3_qr97WNtcOJiY4A
 ```{r}
 
 ```
-
-5. How many students are in the class (or at least have added their information to the Sheet)?
-```{r}
-
-```
-6. Create a logical variable for whether students have more than 2 years of R experience
-```{r}
-
-```
-7. Convert the logical variable from \#6 into a factor with labels "Skilled" and "Learning" 
-```{r}
-
-```
-8. Create a new spreadsheet that is private only to you.
-```{r}
-
-```
-9. Use `gs_auth` to authorize your computer to access that sheet. 
-```{r}
-
-```
-10. Read the data from your private spreadsheet. 
-```{r}
-

@@ -1,5 +1,7 @@
 ## ---- include=FALSE-------------------------------------------------------
 library(tidyverse)
+library(rvest)
+library(jsonlite)
 
 
 
@@ -9,6 +11,10 @@ library(tidyverse)
 ## ---- eval = FALSE--------------------------------------------------------
 install.packages("googlesheets")
 library(googlesheets)
+
+
+
+
 
 
 
@@ -38,6 +44,11 @@ library(googledrive)
 drive_auth(token = token) # could also use googlesheets4::gs4_auth
 library(googlesheets4)
 out = read_sheet(sheets_url)
+head(out)
+
+
+
+
 
 
 ## -------------------------------------------------------------------------
@@ -50,10 +61,18 @@ head(jsonData)
 ## -------------------------------------------------------------------------
 dim(jsonData)
 head(jsonData$name)
-#Some of the columns is a data frame!
-table(sapply(jsonData,class))
-dim(jsonData$owner)
-names(jsonData$owner)
+table(sapply(jsonData,class)) #Some of the columns is a data frame!
+dim(jsonData$owner); names(jsonData$owner)
+
+
+
+
+
+
+
+
+
+
 
 
 ## -------------------------------------------------------------------------
@@ -75,6 +94,24 @@ dat = dat[-1,]
 head(dat)
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## -------------------------------------------------------------------------
 #install.packages("httr")
 library(httr)
@@ -86,6 +123,8 @@ req = GET(query_url)
 names(content(req))
 
 
+
+
 ## ---- eval = FALSE--------------------------------------------------------
 myapp = oauth_app("twitter",
                    key="yourConsumerKeyHere",secret="yourConsumerSecretHere")
@@ -94,7 +133,7 @@ sig = sign_oauth1.0(myapp,
                       token_secret = "yourTokenSecretHere")
 homeTL = GET("https://api.twitter.com/1.1/statuses/home_timeline.json", sig)
 
-But you can get cool data
+# But you can get cool data
 json1 = content(homeTL)
 json2 = jsonlite::fromJSON(toJSON(json1))
 json2[1,1:4]

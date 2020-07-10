@@ -381,7 +381,7 @@ summary {
 
 <p>See GitHub Documentation at <a href="https://docs.github.com/en/rest/reference/repos" class="uri">https://docs.github.com/en/rest/reference/repos</a></p>
 <ol style="list-style-type: decimal">
-<li>Use Github API to get all of Hadley Wickham’s repo data (username = “hadley”), see: “<a href="https://api.github.com/users/XXXX/repos" class="uri">https://api.github.com/users/XXXX/repos</a>”. Use <code>httr:GET</code> and assign that output to <code>response</code> and then `httr::content(response).</li>
+<li>Use Github API to get all of Hadley Wickham’s repo data (username = “hadley”), see: “<a href="https://api.github.com/users/XXXX/repos" class="uri">https://api.github.com/users/XXXX/repos</a>”. Use <code>httr:GET</code> and assign that output to <code>response</code> and then <code>httr::content(response)</code>. Also run <code>httr:status_code(response)</code> to get the status code</li>
 </ol>
 <pre class="r"><code># response = httr::GET()</code></pre>
 <ol start="2" style="list-style-type: decimal">
@@ -393,12 +393,9 @@ summary {
 <pre><code>## Error in eval(expr, envir, enclos): object &#39;out&#39; not found</code></pre>
 <pre class="r"><code>head(out)</code></pre>
 <pre><code>## Error in head(out): object &#39;out&#39; not found</code></pre>
-<ol start="2" style="list-style-type: decimal">
+<ol start="3" style="list-style-type: decimal">
 <li><p>How many stars does he have on each repository? (it’s the <code>stargazers_count</code> element)</p></li>
-<li><p>How many open issues are there?</p></li>
 <li><p>Create a new data frame consisting of just the “owner” column of the resulting data set called <code>owner_data</code></p></li>
-<li><p>Add “owner_” to the name of all of the columns in this new data frame. You can use <code>names(owner_data) = paste0(&#39;owner_&#39;,names(owner_data))</code></p></li>
-<li><p>Append these columns to the JSON data using the <code>cbind</code> command.</p></li>
 </ol>
 
 

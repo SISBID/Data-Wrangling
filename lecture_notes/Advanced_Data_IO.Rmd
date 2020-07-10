@@ -15,26 +15,30 @@ opts_chunk$set(comment = "")
 
 ```{r, include=FALSE}
 library(tidyverse)
+library(rvest)
+library(jsonlite)
 ```
 
 
 
 # Google Sheets
 
-----
+---
+
 ```{r, out.width="100%", echo = FALSE, purl=FALSE}
 knitr::include_graphics("googlesheets.png")
 ```
 
 https://docs.google.com/spreadsheets
 
-----
+---
 
-```{r, out.width="100%", echo = FALSE, purl=FALSE}
+https://speakerdeck.com/jennybc/googlesheets-talk-at-user2015
+
+```{r, out.width="70%", echo = FALSE, purl=FALSE}
 knitr::include_graphics("gs_jenny_slide.png")
 ```
 
-https://speakerdeck.com/jennybc/googlesheets-talk-at-user2015
 
 ## Reading data with the googlesheets package
 
@@ -52,15 +56,22 @@ library(googlesheets)
 
 </div>
 
+---
 
-
-**need figure**
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("googlesheet.png")
+```
 
 https://docs.google.com/spreadsheets/d/1WBrH655fxqKW1QqvD5hnqvvEWIvRzDJcKEgjjFeYxeM/edit#gid=0
 
-**need publish figure**
+---
+
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("googlesheet_publish.png")
+```
 
 ----
+
 <div style="font-size:20pt">
 ```{r, message = FALSE}
 sheets_url = paste0("https://docs.google.com/spreadsheets/d/",
@@ -74,6 +85,7 @@ head(dat)
 ```
 <div>
 
+# Googlesheets4 - API v4 Google Sheets Package
 
 ## What if I don't want it public?
 
@@ -93,10 +105,8 @@ library(googledrive)
 drive_auth(token = token) # could also use googlesheets4::gs4_auth
 library(googlesheets4)
 out = read_sheet(sheets_url)
+head(out)
 ```
-
-
-https://docs.google.com/spreadsheets/d/1j9vbv8MrVV7EK15vyz-rnhjiXhRkmIFEHgdv1_p1cCc/edit?usp=sharing
 
 
 
@@ -104,14 +114,23 @@ https://docs.google.com/spreadsheets/d/1j9vbv8MrVV7EK15vyz-rnhjiXhRkmIFEHgdv1_p1
 
 # JSON: JavaScript Object Notation<br>Lists of stuff
 
-----
-** need figure **
+---
+
+```{r, out.width="80%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("wiki_json.png")
+```
 https://en.wikipedia.org/wiki/JSON
 
 ## Why JSON matters
-** need figure **
 
-https://developer.github.com/v3/search/
+```{r, out.width="80%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("github_json.png")
+```
+
+https://docs.github.com/en/rest/reference/search
+
+---
+
 
 ```{r}
 #install.packages("jsonlite")
@@ -126,10 +145,8 @@ head(jsonData)
 ```{r}
 dim(jsonData)
 head(jsonData$name)
-#Some of the columns is a data frame!
-table(sapply(jsonData,class))
-dim(jsonData$owner)
-names(jsonData$owner)
+table(sapply(jsonData,class)) #Some of the columns is a data frame!
+dim(jsonData$owner); names(jsonData$owner)
 ```
 
 
@@ -138,26 +155,40 @@ names(jsonData$owner)
 
 # Web Scraping
 
-# This is data
-*need figure* 
+## This is data
 
 http://bowtie-bio.sourceforge.net/recount/ 
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("recount.png")
+```
+
 
 ## View the source
 
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("recount_view.png")
+```
+
 ## What the computer sees
+
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("recount_source.png")
+```
 
 ## Ways to see the source
 
 <div class="left-half">
 Chrome:
+
 1. right click on page
 2. select "view source"
 
 Firefox:
+
 1. right click on page
 2. select "view source"
 Microsoft Edge:
+
 1. right click on page
 2. select "view source"
 </div>
@@ -165,6 +196,7 @@ Microsoft Edge:
 <div class="right-half">
 
 Safari
+
 1. click on "Safari"
 2. select "Preferences"
 3. go to "Advanced"
@@ -176,9 +208,17 @@ Safari
 
 https://github.com/simonmunzert/rscraping-jsm-2016/blob/c04fd91fec711df65c838e07723125155a7f2cda/02-scraping-with-rvest.r
 
-Inspect element
+## Inspect element
 
-Copy XPath
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("recount_inpsect.png")
+```
+
+## Copy XPath
+
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("recount_xpath.png")
+```
 
 ## rvest package
 ```{r}
@@ -203,34 +243,68 @@ head(dat)
 ```
 
 
-
+----
 
 http://motherboard.vice.com/read/70000-okcupid-users-just-had-their-data-published
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("okcupid.png")
+```
 
+----
 https://www.theguardian.com/science/2012/may/23/text-mining-research-tool-forbidden
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("textmining.png")
+```
 
 # APIs
 
 ## Application Programming Interfaces
-figure
 https://developers.facebook.com/
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("facebook_dev.png")
+```
 
 ## In biology too!
 http://www.ncbi.nlm.nih.gov/books/NBK25501/
 
-figure
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("nih_api.png")
+```
 
 ## Step 0: Did someone do this already
-https://ropensci.org/
+https://ropensci.org/packages/
 
-## Do it yourself
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("ropensci.png")
+```
+
+## Do it yourself: read the Docs
+
+https://docs.github.com/en/rest
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("github_rest.png")
+```
+
 
 ## Read the docs
-https://developer.github.com/v3/
+https://docs.github.com/en/rest/reference/repos
+
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("github_repo.png")
+```
+
+## Read the docs
+https://docs.github.com/en/rest/reference/rate-limit
+
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("github_ratelimit.png")
+```
 
 ## Read the docs
 
-## Read the docs
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("github_jquery.png")
+```
 
 ## A dissected example
 
@@ -281,9 +355,17 @@ names(content(req))
 ```
 
 ## Not all APIs are "open"
+
 https://apps.twitter.com/
 
-----
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("twitter.png")
+```
+
+---
+
+(see also `twitteR` package)
+
 ```{r, eval = FALSE}
 myapp = oauth_app("twitter",
                    key="yourConsumerKeyHere",secret="yourConsumerSecretHere")
@@ -292,7 +374,7 @@ sig = sign_oauth1.0(myapp,
                       token_secret = "yourTokenSecretHere")
 homeTL = GET("https://api.twitter.com/1.1/statuses/home_timeline.json", sig)
 
-But you can get cool data
+# But you can get cool data
 json1 = content(homeTL)
 json2 = jsonlite::fromJSON(toJSON(json1))
 json2[1,1:4]
@@ -305,8 +387,3 @@ json2[1,1:4]
 1 Now that P. Norvig's regex golf IPython notebook hit Slashdot, let's see if our traffic spike tops the previous one: http://t.co/Vc6JhZXOo8
 ```
 
-## Web + APIs lab
-
-<div style="font-size:30pt">
-https://SISBIB.github.io/Module1/labs/web-api-lab.Rmd
-</div>
