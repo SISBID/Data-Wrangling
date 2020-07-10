@@ -448,8 +448,8 @@ flights, temporary = FALSE,overwrite = TRUE)</code></pre>
   tbl(&quot;flights&quot;) %&gt;%
   filter(carrier == &quot;AA&quot;) %&gt;%
   summarise(ave_delay = mean(dep_delay)))</code></pre>
-<pre><code>##    user  system elapsed 
-##   0.005   0.000   0.006</code></pre>
+<pre><code>##             user           system          elapsed 
+## 0.00400000000000 0.00000000000000 0.00399999999999</code></pre>
 <ol start="7" style="list-style-type: decimal">
 <li>Can you figure out the average delay time for each airline?</li>
 </ol>
