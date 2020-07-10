@@ -1,15 +1,14 @@
 ---
 title: "dplyr key"
-author: "Jeff Leek"
-date: "July 7, 2015"
 output: html_document
 ---
 
 1. You could do this by hand or: 
 ```{r}
-library(dplyr)
-library(downloader)
-download("ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/working/20130606_sample_info/20130606_sample_info.xlsx",destfile="1000genomes.xlsx")
+library(tidyverse)
+if (!file.exists("1000genomes.xlsx")) {
+  curl::curl_download("ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/working/20130606_sample_info/20130606_sample_info.xlsx", destfile="1000genomes.xlsx")
+}
 ```
 
 3. 

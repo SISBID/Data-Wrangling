@@ -1,19 +1,22 @@
 ---
 title: "Web + API Key"
-author: "Jeff Leek"
-date: "July 6, 2015"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
+<!-- rdom::rdom(url = "http://bioconductor.org/packages/release/BiocViews.html#___Software", filename = "data/bioc-software.html") -->
 ### Web scraping 
 
 Load the html file and extract the data table
 ```{r}
 library(rvest)
-htmlfile = html("./bioc-software.html")
-nds = html_nodes(htmlfile,xpath='//*[@id="biocViews_package_table"]')
+# htmlfile = read_html("../data/R-wiki.html")
+# nds = html_nodes(htmlfile, xpath='//*[@class="wikitable"]')
+htmlfile = read_html("../data/bioc-software.html")
+nds = html_nodes(htmlfile, xpath='.//*[@class="dataTable"]')
 dat = html_table(nds)
-dat = as.data.frame(dat)
+dat = as.data.frame(dat[[2]])
 head(dat)
 ```
 
@@ -29,9 +32,9 @@ wordcloud(txt,max.words=50)
 
 You can modify the url like so to get _P53_ info:
 
-```{r}
+```{r, error = TRUE}
 library(jsonlite)
-p53_dat = fromJSON("http://rest.ensembl.org//lookup/id/ENSG00000141510?content-type=application/json;expand=1")
+p53_dat = fromJSON("http://rest.ensembl.org/lookup/id/ENSG00000157764?expand=1;content-type=application/json")
 ```
 
 To look up the BRAF gene information we would. 
@@ -39,9 +42,9 @@ To look up the BRAF gene information we would.
 1. Look at the docs under GET species lookup http://rest.ensembl.org/documentation/info/symbol_lookup. 
 2. We'd look at the Example Request: `/lookup/symbol/homo_sapiens/BRCA2?content-type=application/json;expand=1` and modify it with our gene like so: 
 `/lookup/symbol/homo_sapiens/BRAF?content-type=application/json;expand=1`
-3. We'd crete the url using the base url like this: `http://rest.ensembl.org//lookup/symbol/homo_sapiens/BRAF?content-type=application/json;expand=1`
+3. We'd create the url using the base url like this: `http://rest.ensembl.org//lookup/symbol/homo_sapiens/BRAF?content-type=application/json;expand=1`
 4. We'd request the information with `fromJSON`
-```{r}
+```{r, error = TRUE}
 braf_info = fromJSON("http://rest.ensembl.org//lookup/symbol/homo_sapiens/BRAF?content-type=application/json;expand=1")
 braf_info$id
 ```

@@ -2,6 +2,7 @@ x = list.files(pattern = ".Rmd$",
                path = here::here("labs"), 
                full.names = TRUE,
                recursive = TRUE)
+x = x[!grepl("rmarkdown", x)]
 
 sapply(x, function(x) {
   out = sub(".Rmd$", ".R", x)

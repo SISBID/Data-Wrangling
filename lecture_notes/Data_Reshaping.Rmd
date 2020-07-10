@@ -1,12 +1,12 @@
 ---
 title: "Manipulating Data in R"
-author: "Data Wrangling in R"
+author: "Introduction to R for Public Health Researchers"
 output:
   ioslides_presentation:
     css: styles.css
     widescreen: yes
-  beamer_presentation: default
 ---
+
 
 ```{r, echo = FALSE, include=FALSE}
 library(knitr)
@@ -26,6 +26,8 @@ In this module, we will show you how to:
 
 1. Reshaping data from wide (fat) to long (tall)
 2. Reshaping data from long (tall) to wide (fat)
+3. Merging Data/Joins
+4. Perform operations by a grouping variable
 
 ## Setup
 
@@ -64,12 +66,18 @@ ex_long
 
 ## What is wide/long data?
 
+<div style="font-size:40pt">
 More accurately, data is wide or long **with respect** to certain variables.
+</div>
 
 ## Data used: Charm City Circulator
 
+http://johnmuschelli.com/intro_to_r/data/Charm_City_Circulator_Ridership.csv
+
 ```{r, message = FALSE}
-circ = read_csv("../data/Charm_City_Circulator_Ridership.csv")
+circ = read_csv(
+  paste0("http://johnmuschelli.com/intro_to_r/",
+         "data/Charm_City_Circulator_Ridership.csv"))
 head(circ, 2)
 class(circ$date)
 ```
@@ -101,6 +109,8 @@ The `reshape` command exists.  It is a **confusing** function.  Don't use it.
 - `spread` - make a variable into multiple columns, (long to wide)
 - `separate` - string into multiple columns
 - `unite` - multiple columns into one string
+
+- All the "join" functions for mergin are in `dplyr`
 
 
 ## Reshaping data from wide (fat) to long (tall): tidyr 
@@ -134,74 +144,42 @@ long %>% count(var)
 ```
 
 
-## Lab Part 1
-
-[Website](https://sisbid.github.io/Module1/)
-
-
 ## Making a separator
 
-We will use `str_replace` from `stringr` to put periods in the names (periods are **not** special when in a replacement)
+We will use `str_replace` from `stringr` to put `_` in the names
 
 ```{r}
 long = long %>% mutate(
   var = var %>% 
-    str_replace("Board", ".Board") %>% 
-    str_replace("Alight", ".Alight") %>% 
-    str_replace("Average", ".Average") 
+    str_replace("Board", "_Board") %>% 
+    str_replace("Alight", "_Alight") %>% 
+    str_replace("Average", "_Average") 
 )
 long %>% count(var)
 ```
 
 ## Reshaping data from wide (fat) to long (tall): tidyr
 
-Now each `var` is boardings, averages, or alightings.  We want to separate these so we can have these by line. Remember "." is special character:
+Now each `var` is boardings, averages, or alightings.  We want to separate these so we can have these by route. Remember "." is special character:
 
 ```{r}
-long = separate(long, var, into = c("line", "type"), 
-                 sep = "[.]")
+long = separate(long, var, into = c("route", "type"), sep = "_")
 head(long, 2)
-unique(long$line)
+unique(long$route)
 unique(long$type)
 ```
 
-## Re-uniting all the lines
+## Re-uniting all the routes
 
 If we had the opposite problem, we could use the `unite` function:
 
 ```{r}
 reunited = long %>% 
-  unite(col = var, line, type, sep = ".")  
+  unite(col = var, route, type, sep = "_")  
 reunited %>% select(day, var) %>% head(3) %>% print
 ```
 We could also use `paste`/`paste0`.
 
-
-<!-- ## Making column names a little more separated -->
-
-<!-- Alternative: We could have replaced the column names first **then** reshaped: -->
-
-<!-- ```{r, eval = FALSE} -->
-<!-- cn = colnames(circ) -->
-<!-- cn = cn %>%  -->
-<!--   str_replace("Board", ".Board") %>%  -->
-<!--   str_replace("Alight", ".Alight") %>%  -->
-<!--   str_replace("Average", ".Average")  -->
-<!-- colnames(circ) = cn # then reshape using gather! -->
-<!-- ``` -->
-
-<!-- or (with some string working (see data cleaning)): -->
-
-<!-- ```{r, eval = FALSE} -->
-<!-- circ = circ %>%  -->
-<!--   rename_all(.funs = str_replace, -->
-<!--             pattern = "(orange|purple|green|banner)", -->
-<!--             replacement = "\\1.") -->
-<!-- ``` -->
-
-## Lab Part 2
-
-[Website](https://sisbid.github.io/Module1/)
 
 
 ## Reshaping data from long (tall) to wide (fat): tidyr
@@ -214,8 +192,39 @@ wide = long %>% filter(!is.na(date))
 wide = wide %>% spread(type, number)
 head(wide)
 ```
+## Pivoting Functions
 
+`pivot_longer` and `pivot_wider` are new (as of late 2019) `tidyr` functions.
 
-## Lab Part 3
+See link below:
 
-[Website](https://sisbid.github.io/Module1/)
+https://tidyr.tidyverse.org/dev/articles/pivot.html
+
+## Pivoting Functions
+
+```{r}
+long2 = circ %>% 
+  rename_all(function(var) {
+    var %>% 
+    str_replace("Board", "_Board") %>% 
+    str_replace("Alight", "_Alight") %>% 
+    str_replace("Average", "_Average") 
+  })
+longer =long2 %>% pivot_longer(
+  cols = matches("orange|purple|green|banner"),
+  names_to = c("route", "type"),
+  names_sep = "_"
+)
+head(longer)
+```
+
+## Pivoting Functions
+
+```{r}
+longer %>% 
+  filter(!is.na(value)) %>% # keep where there is data
+  pivot_wider(
+    names_from = type,
+    values_from = value
+  )
+```

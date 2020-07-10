@@ -1,0 +1,105 @@
+---
+title: "Data Summarization Lab Key"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Data used
+
+Circulator Lanes Dataset: the data is from https://data.baltimorecity.gov/Transportation/Charm-City-Circulator-Ridership/wwvu-583r
+
+You can Download as a CSV in your current working directory.  Note its also available at:  http://sisbid.github.io/Module1/data/Charm_City_Circulator_Ridership.csv
+
+```{r}
+library(tidyverse)
+
+circ = read_csv(paste0("http://sisbid.github.io/Module1/",
+                       "data/Charm_City_Circulator_Ridership.csv"))
+```
+
+
+
+1. How days are in the data set?  You can assume each observation/row is a different day
+```{r q1}
+nrow(circ)
+dim(circ)
+circ %>% 
+  nrow()
+```
+
+2. What is the total (sum) number boardings on the green bus?
+
+```{r q2}
+sum(circ$greenBoardings, na.rm = TRUE)
+```
+
+3.  How many days are missing daily ridership?  Use `is.na` and either table, count?
+   
+```{r q3}
+table(is.na(circ$daily), useNA = "ifany")
+
+circ %>% 
+  count(is.na(daily))
+
+circ %>% 
+  mutate(missing_daily = is.na(daily)) %>% 
+  group_by(missing_daily) %>% 
+  summarise(n())
+```
+
+
+4. Which day of the week has the most average ridership (using `daily`)?  How many days goes are observed for those days? Group the data.
+
+```{r q4}
+circ %>% 
+  group_by(day) %>% 
+  summarise(n = n(),
+            non_missing = sum(!is.na(daily)),
+            mean = mean(daily, na.rm = TRUE)) %>% 
+  arrange(desc(mean)) 
+
+circ %>% 
+  group_by(day) %>% 
+  summarise(n = n(),
+            non_missing = sum(!is.na(daily)),
+            mean = mean(daily, na.rm = TRUE)) %>% 
+  arrange(desc(mean)) %>% 
+  ungroup() %>% 
+  slice(1) %>% 
+  magrittr::extract("day")
+```
+
+
+
+5. (a) Numerically [hint: `quantile()`] and 
+		(b) graphically [hint: `qplot(, data = circ)`]
+		 describe the distribution of `orangeBoardings`
+```{r q6}
+quantile(circ$orangeBoardings, na.rm = TRUE)
+circ %>% 
+  summarise(quantile(orangeBoardings, na.rm = TRUE))
+
+qplot(x = orangeBoardings, data = circ, geom = "histogram")
+qplot(x = orangeBoardings, data = circ, geom = "density")
+```
+
+6. Then describe as above, after stratifying by day of the week.
+```{r q7}
+quantile(circ$orangeBoardings, na.rm = TRUE)
+circ %>% 
+  group_by(day) %>% 
+  summarise(quantile(orangeBoardings, na.rm = TRUE))
+```
+
+7.  Describe the following output and then flip the `x` and `y` variables:
+```{r}
+qplot(x = orangeBoardings, y = day, data = circ, geom = "boxplot")
+qplot(x = day, y = orangeBoardings, data = circ, geom = "boxplot")
+```
+
+
