@@ -1,0 +1,53 @@
+---
+title: "Data Subsetting, Part 1 - Lab"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In this lab you can use the interactive console to explore but please record your commands here.  Remember anything you type here can be "sent" to the console with Cmd-Enter (OS-X) or Cntr-Enter (Windows/Linux) (But only in side the ```{r}``` areas).
+
+```{r, message = FALSE}
+library(dplyr)
+library(tidyverse)
+```
+
+
+1. In the data set `mpg`, rename the column `year` to `YEAR` using `rename`.
+
+```{r}
+
+```
+
+2. Convert the column names of `mpg` to all upper case. Use `rename_all`, and the `toupper` command (or `colnames`).
+
+```{r}
+
+```
+
+
+
+3. Re-order the rows of `mpg` by `CYL` in increasing order. Use `arrange()`
+
+```{r}
+
+```
+
+
+4. Create a new variable in `mpg` called `CTY2`, which  is equal to `CTY^2`, using `mutate()`.  Use piping `%>%`:
+
+```{r}
+
+```
+
+
+5. Create a new variable in `mpg` called `group_class`, which in the `CLASS` variable keeps "pickup" and "suv" as they are, but map "compact", "midsize", "minivan", "subcompact", and "2seater" to "car" using
+`case_when` or `ifelse`, %in%, and `mutate`:
+
+```{r}
+
+```
