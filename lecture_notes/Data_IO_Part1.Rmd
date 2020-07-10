@@ -47,9 +47,11 @@ https://www.kaggle.com/NUFORC/ufo-sightings
 ## Data Input
 * Download data from http://sisbid.github.io/Module1/data/ufo/ufo_data_complete.csv.gz
 * Upload the data to RStudio Cloud 
+
 ```{r, echo = FALSE, out.width="100%"}
 knitr::include_graphics("upload.png")
 ```
+
 ## Data Input
 
 Easy way: R Studio features some nice "drop down" support, where you can run some tasks by selecting them from the toolbar.
