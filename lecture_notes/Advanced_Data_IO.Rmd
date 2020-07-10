@@ -145,7 +145,7 @@ head(jsonData)
 ```{r}
 dim(jsonData)
 head(jsonData$name)
-table(sapply(jsonData,class)) #Some of the columns is a data frame!
+class(jsonData$owner) #Some of the columns is a data frame!
 dim(jsonData$owner); names(jsonData$owner)
 ```
 

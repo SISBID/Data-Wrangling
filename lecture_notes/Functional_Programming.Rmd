@@ -119,8 +119,8 @@ The really old way involved `for` loops:
 
 ```{r}
 char_names = vector("character", length(got_chars)) # initiate
-for(i in seq(along=got_chars)) { # iterate
-    char_names[i] = got_chars[[i]]$name
+for (i in seq(along=got_chars)) { # iterate
+  char_names[i] = got_chars[[i]]$name
 }
 char_names[1:5] # examine
 ```
@@ -162,10 +162,8 @@ sapply(got_chars[2:3], "[[", "aliases")
 ```
 
 Compared to error: 
-```{r,eval=FALSE}
+```{r, error = TRUE}
 map_chr(got_chars[2:3], "aliases")
-Error: Result 1 must be a single string, not a character vector of length 11
-
 ```
 
 ## Example using string split output

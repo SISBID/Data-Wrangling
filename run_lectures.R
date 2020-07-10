@@ -3,7 +3,7 @@ x = list.files(pattern = ".Rmd$",
                path = here::here("lecture_notes"), 
                full.names = TRUE,
                recursive = TRUE)
-x = x[!grepl("Bioconductor_intro.Rmd", x)]
+x = x[!grepl("Advanced|Bioconductor_intro.Rmd", x)]
 sapply(x, function(x) {
   out = sub(".Rmd$", ".R", x)
   knitr::purl(input = x, output = out)

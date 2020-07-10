@@ -1,4 +1,4 @@
-all: labs index.html lecture_notes
+all: index.html lecture_notes labs
 
 index.html: index.Rmd 
 	Rscript -e "rmarkdown::render('index.Rmd')"

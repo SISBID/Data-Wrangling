@@ -3207,6 +3207,109 @@ color: black;
 <li>Iterate over tuples formed from the i-th element of several vectors of equal length</li>
 </ul>
 
+</article></slide><slide class=""><hgroup><h2>What is a &lsquo;list&rsquo;?</h2></hgroup><article  id="what-is-a-list">
+
+<ul>
+<li>Lists are the most flexible/&ldquo;generic&rdquo; data class in R</li>
+<li>Can be created using list()</li>
+<li>Can hold vectors, strings, matrices, models, list of other list, lists upon lists!</li>
+<li>Can reference data using $ (if the elements are named), or using [], or [[]]</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>&gt; mylist &lt;- list(letters=c(&quot;A&quot;, &quot;b&quot;, &quot;c&quot;), 
++         numbers=1:3, matrix(1:25, ncol=5))</pre>
+
+</article></slide><slide class=""><hgroup><h2>List Structure</h2></hgroup><article  id="list-structure">
+
+<pre class = 'prettyprint lang-r'>&gt; head(mylist)</pre>
+
+<pre >$letters
+[1] &quot;A&quot; &quot;b&quot; &quot;c&quot;
+
+$numbers
+[1] 1 2 3
+
+[[3]]
+     [,1] [,2] [,3] [,4] [,5]
+[1,]    1    6   11   16   21
+[2,]    2    7   12   17   22
+[3,]    3    8   13   18   23
+[4,]    4    9   14   19   24
+[5,]    5   10   15   20   25</pre>
+
+</article></slide><slide class=""><hgroup><h2>List referencing</h2></hgroup><article  id="list-referencing">
+
+<pre class = 'prettyprint lang-r'>&gt; mylist[1] # returns a list</pre>
+
+<pre >$letters
+[1] &quot;A&quot; &quot;b&quot; &quot;c&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>&gt; mylist[&quot;letters&quot;] # returns a list</pre>
+
+<pre >$letters
+[1] &quot;A&quot; &quot;b&quot; &quot;c&quot;</pre>
+
+</article></slide><slide class=""><hgroup><h2>List referencing</h2></hgroup><article  id="list-referencing-1">
+
+<pre class = 'prettyprint lang-r'>&gt; mylist[[1]] # returns the vector &#39;letters&#39;</pre>
+
+<pre >[1] &quot;A&quot; &quot;b&quot; &quot;c&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>&gt; mylist$letters # returns vector</pre>
+
+<pre >[1] &quot;A&quot; &quot;b&quot; &quot;c&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>&gt; mylist[[&quot;letters&quot;]] # returns the vector &#39;letters&#39;</pre>
+
+<pre >[1] &quot;A&quot; &quot;b&quot; &quot;c&quot;</pre>
+
+</article></slide><slide class=""><hgroup><h2>List referencing</h2></hgroup><article  id="list-referencing-2">
+
+<p>You can also select multiple lists with the single brackets.</p>
+
+<pre class = 'prettyprint lang-r'>&gt; mylist[1:2] # returns a list</pre>
+
+<pre >$letters
+[1] &quot;A&quot; &quot;b&quot; &quot;c&quot;
+
+$numbers
+[1] 1 2 3</pre>
+
+</article></slide><slide class=""><hgroup><h2>List referencing</h2></hgroup><article  id="list-referencing-3">
+
+<p>You can also select down several levels of a list at once</p>
+
+<pre class = 'prettyprint lang-r'>&gt; mylist$letters[1]</pre>
+
+<pre >[1] &quot;A&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>&gt; mylist[[2]][1]</pre>
+
+<pre >[1] 1</pre>
+
+<pre class = 'prettyprint lang-r'>&gt; mylist[[3]][1:2,1:2]</pre>
+
+<pre >     [,1] [,2]
+[1,]    1    6
+[2,]    2    7</pre>
+
+</article></slide><slide class=""><hgroup><h2>How would I encounter lists?</h2></hgroup><article  id="how-would-i-encounter-lists">
+
+<p>This comes up a lot in data cleaning (although many tasks can be accomplished by <code>separate</code>)</p>
+
+<pre class = 'prettyprint lang-r'>h = c(&quot;I like performing&quot;, &quot;much data wrangling in R&quot;, &quot;it is oh so fun&quot;)
+ll = str_split(h, &quot; &quot;)
+ll</pre>
+
+<pre >## [[1]]
+## [1] &quot;I&quot;          &quot;like&quot;       &quot;performing&quot;
+## 
+## [[2]]
+## [1] &quot;much&quot;      &quot;data&quot;      &quot;wrangling&quot; &quot;in&quot;        &quot;R&quot;        
+## 
+## [[3]]
+## [1] &quot;it&quot;  &quot;is&quot;  &quot;oh&quot;  &quot;so&quot;  &quot;fun&quot;</pre>
+
 </article></slide><slide class=""><hgroup><h2>Why do this at all?</h2></hgroup><article  id="why-do-this-at-all-1">
 
 <pre class = 'prettyprint lang-r'>class(got_chars)</pre>
@@ -3234,8 +3337,8 @@ color: black;
 <p>The really old way involved <code>for</code> loops:</p>
 
 <pre class = 'prettyprint lang-r'>char_names = vector(&quot;character&quot;, length(got_chars)) # initiate
-for(i in seq(along=got_chars)) { # iterate
-    char_names[i] = got_chars[[i]]$name
+for (i in seq(along=got_chars)) { # iterate
+  char_names[i] = got_chars[[i]]$name
 }
 char_names[1:5] # examine</pre>
 
@@ -3288,8 +3391,23 @@ char_names[1:5] # examine</pre>
 
 <p>Compared to error:</p>
 
-<pre class = 'prettyprint lang-r'>map_chr(got_chars[2:3], &quot;aliases&quot;)
-Error: Result 1 must be a single string, not a character vector of length 11</pre>
+<pre class = 'prettyprint lang-r'>map_chr(got_chars[2:3], &quot;aliases&quot;)</pre>
+
+<pre >## Error: Result 1 must be a single string, not a character vector of length 11</pre>
+
+</article></slide><slide class=""><hgroup><h2>Example using string split output</h2></hgroup><article  id="example-using-string-split-output">
+
+<pre class = 'prettyprint lang-r'>map_chr(ll, first)</pre>
+
+<pre >## [1] &quot;I&quot;    &quot;much&quot; &quot;it&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>map_chr(ll, last)</pre>
+
+<pre >## [1] &quot;performing&quot; &quot;R&quot;          &quot;fun&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>map_chr(ll, nth, 3)</pre>
+
+<pre >## [1] &quot;performing&quot; &quot;wrangling&quot;  &quot;oh&quot;</pre>
 
 </article></slide><slide class=""><hgroup><h2>More extensive examples</h2></hgroup><article  id="more-extensive-examples">
 

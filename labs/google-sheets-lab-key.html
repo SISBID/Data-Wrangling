@@ -388,50 +388,56 @@ summary {
 <li>Use the <code>googlesheets4::read_sheet</code> function to read in the data like we discussed in class, call this object <code>x</code>.</li>
 </ol>
 <pre class="r"><code>x = googlesheets4::read_sheet(sheet_url)</code></pre>
-<pre><code>Reading from &quot;data_wrangling_2019&quot;</code></pre>
-<pre><code>Range &quot;Sheet1&quot;</code></pre>
+<pre><code>## Using an auto-discovered, cached token.
+## To suppress this message, modify your code or options to clearly consent to the use of a cached token.
+## See gargle&#39;s &quot;Non-interactive auth&quot; vignette for more details:
+## https://gargle.r-lib.org/articles/non-interactive-auth.html</code></pre>
+<pre><code>## The googlesheets4 package is using a cached token for muschellij2@gmail.com.</code></pre>
+<pre><code>## Auto-refreshing stale OAuth token.</code></pre>
+<pre><code>## Reading from &quot;data_wrangling_2019&quot;</code></pre>
+<pre><code>## Range &quot;Sheet1&quot;</code></pre>
 <ol start="3" style="list-style-type: decimal">
 <li>Using <code>sheet_names</code> function to get the sheet names from the <code>sheet_url</code>.</li>
 </ol>
 <pre class="r"><code>googlesheets4::sheet_names(sheet_url)</code></pre>
-<pre><code>[1] &quot;Sheet1&quot;         &quot;Copy of Sheet1&quot;</code></pre>
+<pre><code>## [1] &quot;Sheet1&quot;         &quot;Copy of Sheet1&quot;</code></pre>
 <ol start="4" style="list-style-type: decimal">
 <li>Try reading in just the first two columns. See the <code>range</code> argument and look at the arguments for <code>cell_rows</code>, <code>cell_limits</code> and <code>cell_cols</code>.</li>
 </ol>
 <pre class="r"><code>googlesheets4::read_sheet(sheet_url, range =  cell_cols(1:2))</code></pre>
-<pre><code>Reading from &quot;data_wrangling_2019&quot;</code></pre>
-<pre><code>Range &quot;A:B&quot;</code></pre>
-<pre><code># A tibble: 35 x 2
-   `UW?` `R user (yes or no)`
-   &lt;chr&gt; &lt;chr&gt;               
- 1 no    yes                 
- 2 no    yes                 
- 3 no    yes                 
- 4 no    yes                 
- 5 no    yes                 
- 6 No    YEs but sparse      
- 7 no    yes                 
- 8 No    Yes                 
- 9 No    Yes                 
-10 &lt;NA&gt;  &lt;NA&gt;                
-# … with 25 more rows</code></pre>
+<pre><code>## Reading from &quot;data_wrangling_2019&quot;</code></pre>
+<pre><code>## Range &quot;A:B&quot;</code></pre>
+<pre><code>## # A tibble: 35 x 2
+##    `UW?` `R user (yes or no)`
+##    &lt;chr&gt; &lt;chr&gt;               
+##  1 no    yes                 
+##  2 no    yes                 
+##  3 no    yes                 
+##  4 no    yes                 
+##  5 no    yes                 
+##  6 No    YEs but sparse      
+##  7 no    yes                 
+##  8 No    Yes                 
+##  9 No    Yes                 
+## 10 &lt;NA&gt;  &lt;NA&gt;                
+## # … with 25 more rows</code></pre>
 <pre class="r"><code>googlesheets4::read_sheet(sheet_url, range =  cell_cols(&quot;A:B&quot;))</code></pre>
-<pre><code>Reading from &quot;data_wrangling_2019&quot;
-Range &quot;A:B&quot;</code></pre>
-<pre><code># A tibble: 35 x 2
-   `UW?` `R user (yes or no)`
-   &lt;chr&gt; &lt;chr&gt;               
- 1 no    yes                 
- 2 no    yes                 
- 3 no    yes                 
- 4 no    yes                 
- 5 no    yes                 
- 6 No    YEs but sparse      
- 7 no    yes                 
- 8 No    Yes                 
- 9 No    Yes                 
-10 &lt;NA&gt;  &lt;NA&gt;                
-# … with 25 more rows</code></pre>
+<pre><code>## Reading from &quot;data_wrangling_2019&quot;
+## Range &quot;A:B&quot;</code></pre>
+<pre><code>## # A tibble: 35 x 2
+##    `UW?` `R user (yes or no)`
+##    &lt;chr&gt; &lt;chr&gt;               
+##  1 no    yes                 
+##  2 no    yes                 
+##  3 no    yes                 
+##  4 no    yes                 
+##  5 no    yes                 
+##  6 No    YEs but sparse      
+##  7 no    yes                 
+##  8 No    Yes                 
+##  9 No    Yes                 
+## 10 &lt;NA&gt;  &lt;NA&gt;                
+## # … with 25 more rows</code></pre>
 
 
 

@@ -393,50 +393,50 @@ summary {
 library(stringr)
 suppressPackageStartupMessages(library(dplyr))
 tax = read_csv(&quot;http://sisbid.github.io/Module1/data/Real_Property_Taxes.csv.gz&quot;)</code></pre>
-<pre><code>Parsed with column specification:
-cols(
-  PropertyID = col_character(),
-  Block = col_character(),
-  Lot = col_character(),
-  Ward = col_character(),
-  Sect = col_character(),
-  PropertyAddress = col_character(),
-  LotSize = col_character(),
-  CityTax = col_character(),
-  StateTax = col_character(),
-  ResCode = col_character(),
-  AmountDue = col_character(),
-  AsOfDate = col_character(),
-  Neighborhood = col_character(),
-  PoliceDistrict = col_character(),
-  CouncilDistrict = col_double(),
-  Location = col_character()
-)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   PropertyID = col_character(),
+##   Block = col_character(),
+##   Lot = col_character(),
+##   Ward = col_character(),
+##   Sect = col_character(),
+##   PropertyAddress = col_character(),
+##   LotSize = col_character(),
+##   CityTax = col_character(),
+##   StateTax = col_character(),
+##   ResCode = col_character(),
+##   AmountDue = col_character(),
+##   AsOfDate = col_character(),
+##   Neighborhood = col_character(),
+##   PoliceDistrict = col_character(),
+##   CouncilDistrict = col_double(),
+##   Location = col_character()
+## )</code></pre>
 <pre class="r"><code>tax = as.data.frame(tax)</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>How many addresses pay property taxes?</li>
 </ol>
 <pre class="r"><code>nrow(tax)</code></pre>
-<pre><code>[1] 238198</code></pre>
+<pre><code>## [1] 238198</code></pre>
 <pre class="r"><code>dim(tax)</code></pre>
-<pre><code>[1] 238198     16</code></pre>
+<pre><code>## [1] 238198     16</code></pre>
 <ol start="3" style="list-style-type: decimal">
 <li>What is the total city and state tax paid?</li>
 </ol>
 <pre class="r"><code>options(digits=12) # so no rounding
 head(tax$CityTax)</code></pre>
-<pre><code>[1] NA          NA          &quot;$337.20&quot;   &quot;$1,463.45&quot; &quot;$1,960.26&quot; &quot;$2,242.00&quot;</code></pre>
+<pre><code>## [1] NA          NA          &quot;$337.20&quot;   &quot;$1,463.45&quot; &quot;$1,960.26&quot; &quot;$2,242.00&quot;</code></pre>
 <pre class="r"><code>tax$CityTax = parse_number(tax$CityTax)
 tax$StateTax = parse_number(tax$StateTax)
 
 sum(tax$CityTax, na.rm = TRUE)</code></pre>
-<pre><code>[1] 860112763.47</code></pre>
+<pre><code>## [1] 860112763.47</code></pre>
 <pre class="r"><code>sum(tax$CityTax, na.rm = TRUE)/1e6</code></pre>
-<pre><code>[1] 860.11276347</code></pre>
+<pre><code>## [1] 860.11276347</code></pre>
 <pre class="r"><code>sum(tax$StateTax, na.rm = TRUE)</code></pre>
-<pre><code>[1] 43506844.27</code></pre>
+<pre><code>## [1] 43506844.27</code></pre>
 <pre class="r"><code>sum(tax$StateTax, na.rm = TRUE)/1e6</code></pre>
-<pre><code>[1] 43.50684427</code></pre>
+<pre><code>## [1] 43.50684427</code></pre>
 <p>Combined would be 904 milion dollars paid.</p>
 <ol start="4" style="list-style-type: decimal">
 <li>Subset the data to only retain those houses that are principal residences.</li>
@@ -446,16 +446,16 @@ sum(tax$CityTax, na.rm = TRUE)</code></pre>
 <li>How many such houses are there?</li>
 </ol>
 <pre class="r"><code>taxRes %&gt;% nrow()</code></pre>
-<pre><code>[1] 113252</code></pre>
+<pre><code>## [1] 113252</code></pre>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>Describe the distribution of property taxes on these residences. Use hist with certain breaks or <code>quantile()</code></li>
 </ol>
 <pre class="r"><code>quantile(taxRes$StateTax,na.rm=TRUE)</code></pre>
-<pre><code>     0%     25%     50%     75%    100% 
-   0.11  100.95  139.03  200.14 3627.46 </code></pre>
+<pre><code>##      0%     25%     50%     75%    100% 
+##    0.11  100.95  139.03  200.14 3627.46</code></pre>
 <pre class="r"><code>quantile(taxRes$CityTax,na.rm=TRUE)</code></pre>
-<pre><code>      0%      25%      50%      75%     100% 
-    2.25  2026.19  2790.51  4017.18 72808.22 </code></pre>
+<pre><code>##       0%      25%      50%      75%     100% 
+##     2.25  2026.19  2790.51  4017.18 72808.22</code></pre>
 <ol start="5" style="list-style-type: decimal">
 <li>Convert the ‘LotSize’ variable to a numeric square feet variable. Tips:</li>
 </ol>
@@ -471,51 +471,50 @@ lot = tax$LotSize # for checking later</code></pre>
 <pre class="r"><code>aIndex= which(str_detect(tax$LotSize, &quot;AC.*&quot;) | 
             str_detect(tax$LotSize, fixed(&quot; %&quot;)))
 head(aIndex)</code></pre>
-<pre><code>[1]  1  2 10 11 12 16</code></pre>
+<pre><code>## [1]  1  2 10 11 12 16</code></pre>
 <pre class="r"><code>head(lot[aIndex])</code></pre>
-<pre><code>[1] &quot;0.020 ACRES&quot; &quot;0.020 ACRES&quot; &quot;0.020 ACRES&quot; &quot;0.020 ACRES&quot; &quot;0.020 ACRES&quot;
-[6] &quot;0.020 ACRES&quot;</code></pre>
+<pre><code>## [1] &quot;0.020 ACRES&quot; &quot;0.020 ACRES&quot; &quot;0.020 ACRES&quot; &quot;0.020 ACRES&quot; &quot;0.020 ACRES&quot;
+## [6] &quot;0.020 ACRES&quot;</code></pre>
 <pre class="r"><code>acre = tax$LotSize[aIndex] # temporary variable
 ## find and replace character strings
 acre = str_replace_all(acre, &quot; AC.*&quot;,&quot;&quot;)
 acre = str_replace_all(acre, &quot; %&quot;,&quot;&quot;)
 table(!is.na(as.numeric(acre)))</code></pre>
-<pre><code>Warning in table(!is.na(as.numeric(acre))): NAs introduced by coercion</code></pre>
-<pre><code>
-FALSE  TRUE 
-  236 18533 </code></pre>
+<pre><code>## Warning in table(!is.na(as.numeric(acre))): NAs introduced by coercion</code></pre>
+<pre><code>## 
+## FALSE  TRUE 
+##   236 18533</code></pre>
 <pre class="r"><code>head(acre[is.na(as.numeric(acre))],50)</code></pre>
-<pre><code>Warning in head(acre[is.na(as.numeric(acre))], 50): NAs introduced by
-coercion</code></pre>
-<pre><code> [1] &quot;2-158&quot;          &quot;O.084&quot;          &quot;1-303&quot;          &quot;0.104ACRES&quot;    
- [5] &quot;1-87&quot;           &quot;1-85&quot;           &quot;1-8&quot;            &quot;1-778&quot;         
- [9] &quot;2-423&quot;          &quot;1-791&quot;          &quot;1-81&quot;           &quot;1-0171&quot;        
-[13] &quot;O.018&quot;          &quot;IMP ONLY 0.190&quot; &quot;26,140&quot;         &quot;5-25&quot;          
-[17] &quot;8.OOO&quot;          &quot;1-1383&quot;         &quot;1-692&quot;          &quot;IMP.ONLY 3.615&quot;
-[21] &quot;2-688&quot;          &quot;1-566&quot;          &quot;0.073ACRES&quot;     &quot;1.914ACRES&quot;    
-[25] &quot;2-364&quot;          &quot;3-67&quot;           &quot;3-46&quot;           &quot;3-4&quot;           
-[29] &quot;2-617&quot;          &quot;2-617&quot;          &quot;2-617&quot;          &quot;4-40&quot;          
-[33] &quot;3-94&quot;           &quot;2-456&quot;          &quot;2-486&quot;          &quot;2-24&quot;          
-[37] &quot;1-36&quot;           &quot;21-8X5.5&quot;       &quot;3-14&quot;           &quot;O-70&quot;          
-[41] &quot;16-509&quot;         &quot;2-36&quot;           &quot;2-657&quot;          &quot;1-005&quot;         
-[45] &quot;0.029ACRES&quot;     &quot;0.053ACRES&quot;     &quot;0.041ACRES&quot;     &quot;0.047ACRES&quot;    
-[49] &quot;0.048ACRES&quot;     &quot;0.039ACRES&quot;    </code></pre>
+<pre><code>## Warning in head(acre[is.na(as.numeric(acre))], 50): NAs introduced by coercion</code></pre>
+<pre><code>##  [1] &quot;2-158&quot;          &quot;O.084&quot;          &quot;1-303&quot;          &quot;0.104ACRES&quot;    
+##  [5] &quot;1-87&quot;           &quot;1-85&quot;           &quot;1-8&quot;            &quot;1-778&quot;         
+##  [9] &quot;2-423&quot;          &quot;1-791&quot;          &quot;1-81&quot;           &quot;1-0171&quot;        
+## [13] &quot;O.018&quot;          &quot;IMP ONLY 0.190&quot; &quot;26,140&quot;         &quot;5-25&quot;          
+## [17] &quot;8.OOO&quot;          &quot;1-1383&quot;         &quot;1-692&quot;          &quot;IMP.ONLY 3.615&quot;
+## [21] &quot;2-688&quot;          &quot;1-566&quot;          &quot;0.073ACRES&quot;     &quot;1.914ACRES&quot;    
+## [25] &quot;2-364&quot;          &quot;3-67&quot;           &quot;3-46&quot;           &quot;3-4&quot;           
+## [29] &quot;2-617&quot;          &quot;2-617&quot;          &quot;2-617&quot;          &quot;4-40&quot;          
+## [33] &quot;3-94&quot;           &quot;2-456&quot;          &quot;2-486&quot;          &quot;2-24&quot;          
+## [37] &quot;1-36&quot;           &quot;21-8X5.5&quot;       &quot;3-14&quot;           &quot;O-70&quot;          
+## [41] &quot;16-509&quot;         &quot;2-36&quot;           &quot;2-657&quot;          &quot;1-005&quot;         
+## [45] &quot;0.029ACRES&quot;     &quot;0.053ACRES&quot;     &quot;0.041ACRES&quot;     &quot;0.047ACRES&quot;    
+## [49] &quot;0.048ACRES&quot;     &quot;0.039ACRES&quot;</code></pre>
 <pre class="r"><code>## lets clean the rest
 acre = str_replace_all(acre, &quot;-&quot;,&quot;.&quot;) # hyphen instead of decimal
 head(acre[is.na(as.numeric(acre))])</code></pre>
-<pre><code>Warning in head(acre[is.na(as.numeric(acre))]): NAs introduced by coercion</code></pre>
-<pre><code>[1] &quot;O.084&quot;          &quot;0.104ACRES&quot;     &quot;O.018&quot;          &quot;IMP ONLY 0.190&quot;
-[5] &quot;26,140&quot;         &quot;8.OOO&quot;         </code></pre>
+<pre><code>## Warning in head(acre[is.na(as.numeric(acre))]): NAs introduced by coercion</code></pre>
+<pre><code>## [1] &quot;O.084&quot;          &quot;0.104ACRES&quot;     &quot;O.018&quot;          &quot;IMP ONLY 0.190&quot;
+## [5] &quot;26,140&quot;         &quot;8.OOO&quot;</code></pre>
 <pre class="r"><code>table(!is.na(as.numeric(acre)))</code></pre>
-<pre><code>Warning in table(!is.na(as.numeric(acre))): NAs introduced by coercion</code></pre>
-<pre><code>
-FALSE  TRUE 
-   96 18673 </code></pre>
+<pre><code>## Warning in table(!is.na(as.numeric(acre))): NAs introduced by coercion</code></pre>
+<pre><code>## 
+## FALSE  TRUE 
+##    96 18673</code></pre>
 <pre class="r"><code>acre = str_replace_all(acre, &quot;ACRES&quot;,&quot;&quot;)
 head(acre[is.na(as.numeric(acre))])</code></pre>
-<pre><code>Warning in head(acre[is.na(as.numeric(acre))]): NAs introduced by coercion</code></pre>
-<pre><code>[1] &quot;O.084&quot;          &quot;O.018&quot;          &quot;IMP ONLY 0.190&quot; &quot;26,140&quot;        
-[5] &quot;8.OOO&quot;          &quot;IMP.ONLY 3.615&quot;</code></pre>
+<pre><code>## Warning in head(acre[is.na(as.numeric(acre))]): NAs introduced by coercion</code></pre>
+<pre><code>## [1] &quot;O.084&quot;          &quot;O.018&quot;          &quot;IMP ONLY 0.190&quot; &quot;26,140&quot;        
+## [5] &quot;8.OOO&quot;          &quot;IMP.ONLY 3.615&quot;</code></pre>
 <pre class="r"><code># take care of individual mistakes
 acre = str_replace_all(acre, &quot;O&quot;,&quot;0&quot;) # 0 vs O
 acre = str_replace_all(acre, &quot;Q&quot;,&quot;&quot;) # Q, oops
@@ -523,12 +522,12 @@ acre = str_replace_all(acre, &quot;,.&quot;,&quot;.&quot;) # extra ,
 acre = str_replace_all(acre, &quot;,&quot;,&quot;&quot;) # extra ,
 acre = str_replace_all(acre, &quot;L&quot;,&quot;0&quot;) # leading L
 acre[is.na(as.numeric(acre))]</code></pre>
-<pre><code>Warning: NAs introduced by coercion</code></pre>
-<pre><code>[1] &quot;IMP 0N0Y 0.190&quot; &quot;IMP.0N0Y 3.615&quot; &quot;21.8X5.5&quot;      </code></pre>
+<pre><code>## Warning: NAs introduced by coercion</code></pre>
+<pre><code>## [1] &quot;IMP 0N0Y 0.190&quot; &quot;IMP.0N0Y 3.615&quot; &quot;21.8X5.5&quot;</code></pre>
 <pre class="r"><code>acre2 = as.numeric(acre)*43560 </code></pre>
-<pre><code>Warning: NAs introduced by coercion</code></pre>
+<pre><code>## Warning: NAs introduced by coercion</code></pre>
 <pre class="r"><code>sum(is.na(acre2)) # all but 3</code></pre>
-<pre><code>[1] 3</code></pre>
+<pre><code>## [1] 3</code></pre>
 <p>Now let’s convert all of the square feet variables</p>
 <pre class="r"><code>library(purrr)
 fIndex = which(str_detect(tax$LotSize, &quot;X&quot;))
@@ -547,7 +546,7 @@ length = map_chr(str_split(ft,&quot;X&quot;), nth, 2)
 
 ## width
 widthFeet = as.numeric(map_chr(str_split(width, &quot;-&quot;), first))</code></pre>
-<pre><code>Warning: NAs introduced by coercion</code></pre>
+<pre><code>## Warning: NAs introduced by coercion</code></pre>
 <pre class="r"><code>widthInch = as.numeric(map_chr(str_split(width, &quot;-&quot;),nth,2))/12
 widthInch[is.na(widthInch)] = 0 # when no inches present
 totalWidth = widthFeet + widthInch # add together
@@ -555,107 +554,107 @@ totalWidth = widthFeet + widthInch # add together
 # length
 lengthFeet = as.numeric(map_chr(str_split(length, &quot;-&quot;),first))
 lengthInch = as.numeric(map_chr(str_split(length, &quot;-&quot;,2),nth,2))/12</code></pre>
-<pre><code>Warning: NAs introduced by coercion</code></pre>
+<pre><code>## Warning: NAs introduced by coercion</code></pre>
 <pre class="r"><code>lengthInch[is.na(lengthInch)] = 0 # when no inches present
 totalLength = lengthFeet + lengthInch
 
 # combine together for square feet
 sqrtFt = totalWidth*totalLength 
 ft[is.na(sqrtFt)] # what is left?</code></pre>
-<pre><code> [1] &quot;Q8X120&quot;            &quot;161X&quot;              &quot;11XX0&quot;            
- [4] &quot;X134&quot;              &quot;M2X169-9&quot;          &quot;{1-4X128-6&quot;       
- [7] &quot;13XX5&quot;             &quot;37-1X-60-10X57-11&quot; &quot;F7-10X80&quot;         
-[10] &quot;POINT&quot;             &quot;22-11&quot;             &quot;ASSESS&quot;           
-[13] &quot;ASSESSCTY56-2X1-1&quot; &quot;ASSESSCTY53-2X1-1&quot; &quot;O-7X125&quot;          
-[16] &quot;O-3X125&quot;           &quot;12-3XX4-2&quot;         &quot;N1-8X92-6&quot;        
-[19] &quot;POINTX100-5X10&quot;    &quot;]7X100&quot;            &quot;16-11XX5&quot;         
-[22] &quot;Q5X119&quot;           </code></pre>
+<pre><code>##  [1] &quot;Q8X120&quot;            &quot;161X&quot;              &quot;11XX0&quot;            
+##  [4] &quot;X134&quot;              &quot;M2X169-9&quot;          &quot;{1-4X128-6&quot;       
+##  [7] &quot;13XX5&quot;             &quot;37-1X-60-10X57-11&quot; &quot;F7-10X80&quot;         
+## [10] &quot;POINT&quot;             &quot;22-11&quot;             &quot;ASSESS&quot;           
+## [13] &quot;ASSESSCTY56-2X1-1&quot; &quot;ASSESSCTY53-2X1-1&quot; &quot;O-7X125&quot;          
+## [16] &quot;O-3X125&quot;           &quot;12-3XX4-2&quot;         &quot;N1-8X92-6&quot;        
+## [19] &quot;POINTX100-5X10&quot;    &quot;]7X100&quot;            &quot;16-11XX5&quot;         
+## [22] &quot;Q5X119&quot;</code></pre>
 <p>And now we combine everything together:</p>
 <pre class="r"><code>tax$sqft = rep(NA)
 tax$sqft[aIndex] = acre2
 tax$sqft[fIndex] = sqrtFt
 mean(!is.na(tax$sqft))</code></pre>
-<pre><code>[1] 0.934365527838</code></pre>
+<pre><code>## [1] 0.934365527838</code></pre>
 <pre class="r"><code># already in square feet, easy!!
 sIndex=which(str_detect(tax$LotSize, &quot;FT&quot;) | str_detect(tax$LotSize, &quot;S.*F.&quot;))
 sf = tax$LotSize[sIndex] # subset temporary variable
 
 sqft2 = map_chr(str_split(sf,&quot;( |SQ|SF)&quot;),first)
 sqft2 = as.numeric(str_replace_all(sqft2, &quot;,&quot;, &quot;&quot;)) # remove , and convert</code></pre>
-<pre><code>Warning: NAs introduced by coercion</code></pre>
+<pre><code>## Warning: NAs introduced by coercion</code></pre>
 <pre class="r"><code>tax$sqft[sIndex] = sqft2
 table(is.na(tax$sqft)) </code></pre>
-<pre><code>
- FALSE   TRUE 
-238006    192 </code></pre>
+<pre><code>## 
+##  FALSE   TRUE 
+## 238006    192</code></pre>
 <pre class="r"><code>## progress!
 
 #what remains?
 lot[is.na(tax$sqft)]</code></pre>
-<pre><code>  [1] &quot;IMPROVEMENTS ONLY&quot; &quot;0.040&quot;             &quot;AIR RIGHTS&quot;       
-  [4] &quot;0.067&quot;             &quot;0.858&quot;             &quot;Q8X120&quot;           
-  [7] &quot;161X 137&quot;          &quot;0.030&quot;             &quot;IMP ONLY&quot;         
- [10] &quot;0.036 ARES&quot;        &quot;11XX0&quot;             &quot;IMPROVEMENT ONLY&quot; 
- [13] &quot;IMPROVEMENT ONLY&quot;  &quot;IMPROVEMENT ONLY&quot;  &quot;IMPROVEMENT ONLY&quot; 
- [16] &quot;IMPROVEMENT ONLY&quot;  &quot;0.033&quot;             &quot;IMPROVEMENT ONLY&quot; 
- [19] &quot;IMPROVEMENT ONLY&quot;  &quot;IMP ONLY&quot;          &quot;IMP ONLY 0.190 AC&quot;
- [22] &quot;IMP ONLY&quot;          &quot;AIR RIGHTS&quot;        &quot;AIR RIGHTS&quot;       
- [25] &quot;AIR RIGHTS&quot;        &quot;IMP ONLY&quot;          &quot;IMP ONLY&quot;         
- [28] &quot;AIR RIGHTS&quot;        &quot;IMP ONLY&quot;          &quot;0.013&quot;            
- [31] NA                  &quot;IMP ONLY&quot;          &quot;IMP ONLY&quot;         
- [34] &quot;IMP ONLY&quot;          &quot;IMP ONLY&quot;          NA                 
- [37] NA                  NA                  &quot;196552-8&quot;         
- [40] &quot;IMP.ONLY 3.615 AC&quot; &quot;X134&quot;              &quot;M2X169-9&quot;         
- [43] &quot;{1-4X128-6&quot;        &quot;IMP ONLY&quot;          &quot;IMP ONLY&quot;         
- [46] &quot;IMPROVEMENTS ONLY&quot; &quot;IMPROVEMENTS ONLY&quot; &quot;IMPROVEMENTS ONLY&quot;
- [49] &quot;0.016&quot;             NA                  &quot;0.230&quot;            
- [52] &quot;0.026&quot;             &quot;\\560 S.F.&quot;        &quot;1233.04&quot;          
- [55] &quot;CO-57 (IMP ONLY)&quot;  &quot;IMP ONLY&quot;          &quot;0.649&quot;            
- [58] &quot;ASSESSMENT ONLY&quot;   &quot;11979&quot;             &quot;IMPROVEMENT ONLY&quot; 
- [61] NA                  &quot;IMP ONLY&quot;          &quot;2381437.2 CUBIC F&quot;
- [64] &quot;03281969&quot;          &quot;IMPROVEMENTS ONLY&quot; &quot;IMP ONLY&quot;         
- [67] &quot;0.028&quot;             &quot;IMPROVEMENT ONLY&quot;  &quot;IMP ONLY&quot;         
- [70] &quot;IMP ONLY&quot;          &quot;IMPROVEMENT ONLY&quot;  &quot;IMP ONLY&quot;         
- [73] &quot;IMP ONLY&quot;          &quot;AIR RIGHTS ONLY&quot;   &quot;IMPROVEMENT ONLY&quot; 
- [76] &quot;IMPROVEMENT ONLY&quot;  &quot;IMPROVEMENT ONLY&quot;  &quot;IMPROVEMENT ONLY&quot; 
- [79] &quot;0.681 ARCES&quot;       &quot;IMP ONLY&quot;          &quot;IMP ONLY&quot;         
- [82] &quot;IMP ONLY&quot;          &quot;IMPROVEMENT ONLY&quot;  &quot;IMP ONLY&quot;         
- [85] &quot;IMP ONLY&quot;          &quot;AIR RIGHTS&quot;        &quot;0.5404%&quot;          
- [88] &quot;IMPROVEMENT ONLY&quot;  &quot;IMP ONLY&quot;          &quot;13XX5&quot;            
- [91] &quot;19520819&quot;          &quot;37-1X-60-10X57-11&quot; &quot;0.024&quot;            
- [94] &quot;F7-10X80&quot;          &quot;1159-0 S.F.&quot;       &quot;IMPROVEMENT ONLY&quot; 
- [97] NA                  &quot;0.039&quot;             &quot;20080211&quot;         
-[100] &quot;IMPROVEMENT ONLY&quot;  &quot;IMP ONLY&quot;          &quot;IMP ONLY&quot;         
-[103] &quot;IMPROVEMENT ONLY&quot;  &quot;24179D096&quot;         &quot;IMP ONLY&quot;         
-[106] &quot;IMP ONLY&quot;          &quot;7,138 SF&quot;          &quot;13,846 SF&quot;        
-[109] &quot;9,745 SF&quot;          &quot;13,772 SF&quot;         &quot;17,294 SF&quot;        
-[112] &quot;15,745 SF&quot;         &quot;18, 162 SF&quot;        &quot;POINT X 57-9&quot;     
-[115] &quot;01185&quot;             &quot;AIR RIGHTS&quot;        &quot;IMPROVEMENT ONLY&quot; 
-[118] &quot;IMPROVEMENTS ONLY&quot; &quot;22-11 X57&quot;         &quot;0.129%&quot;           
-[121] &quot;0.129%&quot;            &quot;0.129%&quot;            &quot;0.129%&quot;           
-[124] &quot;0.129%&quot;            &quot;ASSESS CTY 84 S.F&quot; &quot;68I.0 SQ FT&quot;      
-[127] &quot;IMPROVEMENT ONLY&quot;  &quot;ASSESS CTY 50 S.F&quot; &quot;ASSESS CTY 57X1-1&quot;
-[130] &quot;IMP ONLY&quot;          &quot;ASSESSCTY56-2X1-1&quot; &quot;ASSESSCTY53-2X1-1&quot;
-[133] &quot;IMPROVEMENT ONLY&quot;  &quot;IMPROVEMENT ONLY&quot;  &quot;O-7X125&quot;          
-[136] &quot;O-3X125&quot;           &quot;0.026&quot;             &quot;IMPROVEMENT ONLY&quot; 
-[139] &quot;IMPROVEMENT ONLY&quot;  &quot;12-3XX4-2&quot;         &quot;ASSESS CTY&quot;       
-[142] &quot;IMP ONLY&quot;          &quot;IMP ONLY&quot;          &quot;IMP ONLY&quot;         
-[145] &quot;IMP ONLY&quot;          &quot;IMPROVEMENTS ONLY&quot; &quot;IMPROVEMENT ONLY&quot; 
-[148] &quot;0.032&quot;             &quot;20050712&quot;          &quot;IMP ONLY&quot;         
-[151] &quot;IMP ONLY&quot;          &quot;0.033&quot;             &quot;IMP.ONLY&quot;         
-[154] &quot;IMP ONLY&quot;          &quot;REAR PART 697 S.F&quot; &quot;IMP ONLY&quot;         
-[157] &quot;IMPROVEMENT ONLY&quot;  &quot;N1-8X92-6&quot;         &quot;POINTX100-5X10&quot;   
-[160] &quot;IMPROVEMENTS ONLY&quot; &quot;]7X100&quot;            &quot;07031966&quot;         
-[163] &quot;13O4 SQ FT&quot;        &quot;05081978&quot;          &quot;IMPROVEMENTS ONLY&quot;
-[166] &quot;AIR RIGHTS&quot;        &quot;AIR RIGHTS&quot;        &quot;IMPROVEMENT ONLY&quot; 
-[169] &quot;IMPROVEMENT ONLY&quot;  &quot;IMPROVEMENT ONLY&quot;  &quot;IMPROVEMENT ONLY&quot; 
-[172] &quot;0.191 ARES&quot;        &quot;19815-4&quot;           &quot;11`79&quot;            
-[175] NA                  NA                  &quot;IMPROVEMENT ONLY&quot; 
-[178] &quot;IMP ONLY&quot;          &quot;194415&quot;            &quot;IMP ONLY&quot;         
-[181] &quot;IMPROVEMENT ONLY&quot;  &quot;IMP ONLY&quot;          &quot;120-103&quot;          
-[184] &quot;IMP ONLY&quot;          &quot;IMP. ONLY&quot;         &quot;196700&quot;           
-[187] &quot;IMPROVEMENT ONLY&quot;  &quot;16-11XX5&quot;          &quot;Q5X119&quot;           
-[190] &quot;21210&quot;             &quot;IMPROVEMENT ONLY&quot;  &quot;5306120&quot;          </code></pre>
+<pre><code>##   [1] &quot;IMPROVEMENTS ONLY&quot; &quot;0.040&quot;             &quot;AIR RIGHTS&quot;       
+##   [4] &quot;0.067&quot;             &quot;0.858&quot;             &quot;Q8X120&quot;           
+##   [7] &quot;161X 137&quot;          &quot;0.030&quot;             &quot;IMP ONLY&quot;         
+##  [10] &quot;0.036 ARES&quot;        &quot;11XX0&quot;             &quot;IMPROVEMENT ONLY&quot; 
+##  [13] &quot;IMPROVEMENT ONLY&quot;  &quot;IMPROVEMENT ONLY&quot;  &quot;IMPROVEMENT ONLY&quot; 
+##  [16] &quot;IMPROVEMENT ONLY&quot;  &quot;0.033&quot;             &quot;IMPROVEMENT ONLY&quot; 
+##  [19] &quot;IMPROVEMENT ONLY&quot;  &quot;IMP ONLY&quot;          &quot;IMP ONLY 0.190 AC&quot;
+##  [22] &quot;IMP ONLY&quot;          &quot;AIR RIGHTS&quot;        &quot;AIR RIGHTS&quot;       
+##  [25] &quot;AIR RIGHTS&quot;        &quot;IMP ONLY&quot;          &quot;IMP ONLY&quot;         
+##  [28] &quot;AIR RIGHTS&quot;        &quot;IMP ONLY&quot;          &quot;0.013&quot;            
+##  [31] NA                  &quot;IMP ONLY&quot;          &quot;IMP ONLY&quot;         
+##  [34] &quot;IMP ONLY&quot;          &quot;IMP ONLY&quot;          NA                 
+##  [37] NA                  NA                  &quot;196552-8&quot;         
+##  [40] &quot;IMP.ONLY 3.615 AC&quot; &quot;X134&quot;              &quot;M2X169-9&quot;         
+##  [43] &quot;{1-4X128-6&quot;        &quot;IMP ONLY&quot;          &quot;IMP ONLY&quot;         
+##  [46] &quot;IMPROVEMENTS ONLY&quot; &quot;IMPROVEMENTS ONLY&quot; &quot;IMPROVEMENTS ONLY&quot;
+##  [49] &quot;0.016&quot;             NA                  &quot;0.230&quot;            
+##  [52] &quot;0.026&quot;             &quot;\\560 S.F.&quot;        &quot;1233.04&quot;          
+##  [55] &quot;CO-57 (IMP ONLY)&quot;  &quot;IMP ONLY&quot;          &quot;0.649&quot;            
+##  [58] &quot;ASSESSMENT ONLY&quot;   &quot;11979&quot;             &quot;IMPROVEMENT ONLY&quot; 
+##  [61] NA                  &quot;IMP ONLY&quot;          &quot;2381437.2 CUBIC F&quot;
+##  [64] &quot;03281969&quot;          &quot;IMPROVEMENTS ONLY&quot; &quot;IMP ONLY&quot;         
+##  [67] &quot;0.028&quot;             &quot;IMPROVEMENT ONLY&quot;  &quot;IMP ONLY&quot;         
+##  [70] &quot;IMP ONLY&quot;          &quot;IMPROVEMENT ONLY&quot;  &quot;IMP ONLY&quot;         
+##  [73] &quot;IMP ONLY&quot;          &quot;AIR RIGHTS ONLY&quot;   &quot;IMPROVEMENT ONLY&quot; 
+##  [76] &quot;IMPROVEMENT ONLY&quot;  &quot;IMPROVEMENT ONLY&quot;  &quot;IMPROVEMENT ONLY&quot; 
+##  [79] &quot;0.681 ARCES&quot;       &quot;IMP ONLY&quot;          &quot;IMP ONLY&quot;         
+##  [82] &quot;IMP ONLY&quot;          &quot;IMPROVEMENT ONLY&quot;  &quot;IMP ONLY&quot;         
+##  [85] &quot;IMP ONLY&quot;          &quot;AIR RIGHTS&quot;        &quot;0.5404%&quot;          
+##  [88] &quot;IMPROVEMENT ONLY&quot;  &quot;IMP ONLY&quot;          &quot;13XX5&quot;            
+##  [91] &quot;19520819&quot;          &quot;37-1X-60-10X57-11&quot; &quot;0.024&quot;            
+##  [94] &quot;F7-10X80&quot;          &quot;1159-0 S.F.&quot;       &quot;IMPROVEMENT ONLY&quot; 
+##  [97] NA                  &quot;0.039&quot;             &quot;20080211&quot;         
+## [100] &quot;IMPROVEMENT ONLY&quot;  &quot;IMP ONLY&quot;          &quot;IMP ONLY&quot;         
+## [103] &quot;IMPROVEMENT ONLY&quot;  &quot;24179D096&quot;         &quot;IMP ONLY&quot;         
+## [106] &quot;IMP ONLY&quot;          &quot;7,138 SF&quot;          &quot;13,846 SF&quot;        
+## [109] &quot;9,745 SF&quot;          &quot;13,772 SF&quot;         &quot;17,294 SF&quot;        
+## [112] &quot;15,745 SF&quot;         &quot;18, 162 SF&quot;        &quot;POINT X 57-9&quot;     
+## [115] &quot;01185&quot;             &quot;AIR RIGHTS&quot;        &quot;IMPROVEMENT ONLY&quot; 
+## [118] &quot;IMPROVEMENTS ONLY&quot; &quot;22-11 X57&quot;         &quot;0.129%&quot;           
+## [121] &quot;0.129%&quot;            &quot;0.129%&quot;            &quot;0.129%&quot;           
+## [124] &quot;0.129%&quot;            &quot;ASSESS CTY 84 S.F&quot; &quot;68I.0 SQ FT&quot;      
+## [127] &quot;IMPROVEMENT ONLY&quot;  &quot;ASSESS CTY 50 S.F&quot; &quot;ASSESS CTY 57X1-1&quot;
+## [130] &quot;IMP ONLY&quot;          &quot;ASSESSCTY56-2X1-1&quot; &quot;ASSESSCTY53-2X1-1&quot;
+## [133] &quot;IMPROVEMENT ONLY&quot;  &quot;IMPROVEMENT ONLY&quot;  &quot;O-7X125&quot;          
+## [136] &quot;O-3X125&quot;           &quot;0.026&quot;             &quot;IMPROVEMENT ONLY&quot; 
+## [139] &quot;IMPROVEMENT ONLY&quot;  &quot;12-3XX4-2&quot;         &quot;ASSESS CTY&quot;       
+## [142] &quot;IMP ONLY&quot;          &quot;IMP ONLY&quot;          &quot;IMP ONLY&quot;         
+## [145] &quot;IMP ONLY&quot;          &quot;IMPROVEMENTS ONLY&quot; &quot;IMPROVEMENT ONLY&quot; 
+## [148] &quot;0.032&quot;             &quot;20050712&quot;          &quot;IMP ONLY&quot;         
+## [151] &quot;IMP ONLY&quot;          &quot;0.033&quot;             &quot;IMP.ONLY&quot;         
+## [154] &quot;IMP ONLY&quot;          &quot;REAR PART 697 S.F&quot; &quot;IMP ONLY&quot;         
+## [157] &quot;IMPROVEMENT ONLY&quot;  &quot;N1-8X92-6&quot;         &quot;POINTX100-5X10&quot;   
+## [160] &quot;IMPROVEMENTS ONLY&quot; &quot;]7X100&quot;            &quot;07031966&quot;         
+## [163] &quot;13O4 SQ FT&quot;        &quot;05081978&quot;          &quot;IMPROVEMENTS ONLY&quot;
+## [166] &quot;AIR RIGHTS&quot;        &quot;AIR RIGHTS&quot;        &quot;IMPROVEMENT ONLY&quot; 
+## [169] &quot;IMPROVEMENT ONLY&quot;  &quot;IMPROVEMENT ONLY&quot;  &quot;IMPROVEMENT ONLY&quot; 
+## [172] &quot;0.191 ARES&quot;        &quot;19815-4&quot;           &quot;11`79&quot;            
+## [175] NA                  NA                  &quot;IMPROVEMENT ONLY&quot; 
+## [178] &quot;IMP ONLY&quot;          &quot;194415&quot;            &quot;IMP ONLY&quot;         
+## [181] &quot;IMPROVEMENT ONLY&quot;  &quot;IMP ONLY&quot;          &quot;120-103&quot;          
+## [184] &quot;IMP ONLY&quot;          &quot;IMP. ONLY&quot;         &quot;196700&quot;           
+## [187] &quot;IMPROVEMENT ONLY&quot;  &quot;16-11XX5&quot;          &quot;Q5X119&quot;           
+## [190] &quot;21210&quot;             &quot;IMPROVEMENT ONLY&quot;  &quot;5306120&quot;</code></pre>
 </div>
 
 
