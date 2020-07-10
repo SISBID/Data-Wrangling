@@ -8,32 +8,125 @@ output:
   beamer_presentation: default
 ---
 
+```{r, include=FALSE}
+library(tidyverse)
+library(repurrrsive)
+library(tidyr)
+```
 
+## Functional Programming
 
-## Using a fixed expression
+Allows you to flexibly iterate functions to each element of a list or vector
 
-One example case is when you want to split on a period "`.`".  In regular expressions `.` means **ANY** character, so
+* https://purrr.tidyverse.org/
+
+* https://github.com/rstudio/cheatsheets/raw/master/purrr.pdf
+
+## Examples we will use
+
+* https://jennybc.github.io/purrr-tutorial/
+
+* https://cran.r-project.org/web/packages/repurrrsive/index.html
+
+* https://tidyr.tidyverse.org/articles/rectangle.html
+
+## Why do this at all?
+
+https://jennybc.github.io/purrr-tutorial/bk01_base-functions.html
+
+You need a way to iterate in R in a data-structure-informed way. What does that mean?
+
+* Iterate over elements of a list
+* Iterate over rows or columns of a 2-dimensional object
+* Iterate over sub data frames induced by one or more factors
+* Iterate over tuples formed from the i-th element of several vectors of equal length
+
+## Why do this at all?
 
 ```{r}
-str_split("I.like.strings", ".")
-str_split("I.like.strings", fixed("."))
+class(got_chars)
+length(got_chars)
+lengths(got_chars)
+names(got_chars[[1]])
 ```
 
-## Let's extract from `y`
+## How would we get the names of each GoT character?
 
-The `purrr` package allows you to more easily interface with lists.
+The really old way involved `for` loops:
 
-https://purrr.tidyverse.org/
-
-The main function family for this is `map()`
-
-## Let's extract from `y`
-
-`map_chr()` takes a list and returns a character vector 
-
-```{r stsplit2}
-map_chr(y, first) # on the fly
-map_chr(y, nth, 2) # on the fly
-map_chr(y, last) # on the fly
+```{r}
+char_names = vector("character", length(got_chars)) # initiate
+for(i in seq(along=got_chars)) { # iterate
+    char_names[i] = got_chars[[i]]$name
+}
+char_names[1:5] # examine
 ```
 
+
+## How would we get the names of each GoT character?
+
+The kinda old way involved `apply` statements:
+
+```{r}
+sapply(got_chars[1:5], function(x) x$name)
+```
+
+
+## How would we get the names of each GoT character?
+
+This can still be pretty efficient:
+
+```{r}
+sapply(got_chars[1:5], "[[", "name")
+```
+
+The user interface of the “apply” functions is not as consistent as it could be, which slows down learning. The return objects frequently require further checking and massage to use downstream. In particular, there’s a tendency to return a vector (atomic or otherwise) or array, instead of data frame, with the original factor levels appearing in a names attribute. [https://jennybc.github.io/purrr-tutorial/bk01_base-functions.html]
+
+
+## How would we get the names of each GoT character?
+
+This can still be pretty efficient:
+
+```{r}
+map_chr(got_chars[1:5], "name")
+```
+
+## `sapply` versus `map_chr`
+
+Potentially confusing output:
+```{r}
+sapply(got_chars[2:3], "[[", "aliases")
+```
+
+Compared to error: 
+```{r,eval=FALSE}
+map_chr(got_chars[2:3], "aliases")
+Error: Result 1 must be a single string, not a character vector of length 11
+
+```
+
+## More extensive examples
+
+You can create tibbles where each observation is a list:
+
+https://tidyr.tidyverse.org/articles/rectangle.html
+
+```{r}
+chars <- tibble(char = got_chars)
+chars
+```
+
+## More extensive examples
+
+```{r}
+chars2 <- chars %>% unnest_wider(char)
+chars2
+```
+
+## Say you wanted all characters and their titles:
+
+```{r}
+chars2 %>%
+  select(name, title = titles) %>%
+  unnest_longer(title)
+```
