@@ -11,9 +11,9 @@
 
 <meta name="author" content="Jeff Leek" />
 
-<meta name="date" content="2016-07-12" />
+<meta name="date" content="2015-07-07" />
 
-<title>Databases lab</title>
+<title>dplyr key</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -376,133 +376,143 @@ summary {
 
 
 
-<h1 class="title toc-ignore">Databases lab</h1>
+<h1 class="title toc-ignore">dplyr key</h1>
 <h4 class="author">Jeff Leek</h4>
-<h4 class="date">July 12, 2016</h4>
+<h4 class="date">July 7, 2015</h4>
 
 </div>
 
 
 <ol style="list-style-type: decimal">
-<li>Download and load the nycflights data with the command <code>install.packages(&#39;nycflights13&#39;)</code> and <code>library(nycflights13)</code>.</li>
+<li>You could do this by hand or:</li>
 </ol>
-<pre class="r"><code>is_package_installed = function(package) {
-  requireNamespace(basename(package), quietly = TRUE)
-}
-if (!is_package_installed(&quot;nycflights13&quot;)) install.packages(&quot;nycflights13&quot;)
-library(nycflights13)</code></pre>
-<ol start="2" style="list-style-type: decimal">
-<li>Use the <code>pryr</code> package to figure out the size of the <code>flights</code> object.</li>
-</ol>
-<pre class="r"><code>pryr::object_size(flights)</code></pre>
-<pre><code>## Registered S3 method overwritten by &#39;pryr&#39;:
-##   method      from
-##   print.bytes Rcpp</code></pre>
-<pre><code>## 40.7 MB</code></pre>
+<pre class="r"><code>library(dplyr)
+library(downloader)
+download(&quot;ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/working/20130606_sample_info/20130606_sample_info.xlsx&quot;,destfile=&quot;1000genomes.xlsx&quot;)</code></pre>
 <ol start="3" style="list-style-type: decimal">
-<li>Create a sqlite database, then add a table “flights” with the flights data from this package.</li>
+<li></li>
 </ol>
-<pre class="r"><code>my_flights_db &lt;- src_sqlite(&quot;my_flights_db.sqlite3&quot;, 
-create = TRUE)</code></pre>
-<pre><code>## Warning: `src_sqlite()` is deprecated as of dplyr 1.0.0.
-## Please use `tbl()` directly with a database connection
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
-<pre class="r"><code>flights_sqlite &lt;- copy_to(my_flights_db, 
-flights, temporary = FALSE,overwrite = TRUE)</code></pre>
+<pre class="r"><code>library(readxl)
+library(janitor)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;janitor&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     chisq.test, fisher.test</code></pre>
+<pre class="r"><code># Have to skip one row because there is an extra header
+kg = read_excel(&quot;1000genomes.xlsx&quot;,sheet=4,skip=1)</code></pre>
+<pre><code>## New names:
+## * Center -&gt; Center...3
+## * Platform -&gt; Platform...4
+## * `Total Sequence` -&gt; `Total Sequence...5`
+## * `Passed QC` -&gt; `Passed QC...7`
+## * Center -&gt; Center...8
+## * ...</code></pre>
+<pre class="r"><code># subset to just low coverage
+kg = kg %&gt;% select(1:7)
+
+
+# make column names easier to handle
+kg = kg %&gt;% clean_names()
+
+# alternative name cleaning code
+names(kg) = map_chr(str_split(names(kg),&quot;\\.&quot;),first) %&gt;% tolower()</code></pre>
 <ol start="4" style="list-style-type: decimal">
-<li>Inspect the tables using the <code>src_tbls</code> command to make sure the copying happened correctly.</li>
+<li></li>
 </ol>
-<pre class="r"><code>src_tbls(my_flights_db)</code></pre>
-<pre><code>## [1] &quot;flights&quot;      &quot;sqlite_stat1&quot; &quot;sqlite_stat4&quot;</code></pre>
-<pre class="r"><code>my_flights_db %&gt;% tbl(&quot;flights&quot;)</code></pre>
-<pre><code>## # Source:   table&lt;flights&gt; [?? x 19]
-## # Database: sqlite 3.30.1
-## #   [/Users/johnmuschelli/Dropbox/Teaching/SISBID_Module1/labs/my_flights_db.sqlite3]
-##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
-##  1  2013     1     1      517            515         2      830            819
-##  2  2013     1     1      533            529         4      850            830
-##  3  2013     1     1      542            540         2      923            850
-##  4  2013     1     1      544            545        -1     1004           1022
-##  5  2013     1     1      554            600        -6      812            837
-##  6  2013     1     1      554            558        -4      740            728
-##  7  2013     1     1      555            600        -5      913            854
-##  8  2013     1     1      557            600        -3      709            723
-##  9  2013     1     1      557            600        -3      838            846
-## 10  2013     1     1      558            600        -2      753            745
-## # … with more rows, and 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,
-## #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;,
-## #   distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dbl&gt;</code></pre>
+<pre class="r"><code>kg %&gt;% group_by(platform_4) %&gt;% summarize(sum(total_sequence_5))</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##   platform_4 `sum(total_sequence_5)`
+##   &lt;chr&gt;                        &lt;dbl&gt;
+## 1 ILLUMINA            63066330237300
+## 2 &lt;NA&gt;                            NA</code></pre>
 <ol start="5" style="list-style-type: decimal">
-<li>Find the average delay time for American Airlines (hint: the abbreviation is AA).</li>
+<li></li>
 </ol>
-<pre class="r"><code>ave_delay = my_flights_db %&gt;%
-  tbl(&quot;flights&quot;) %&gt;%
-  filter(carrier == &quot;AA&quot;) %&gt;%
-  summarise(ave_delay = mean(dep_delay))</code></pre>
+<pre class="r"><code>kg %&gt;% group_by(center_3) %&gt;% summarize( center_total =  sum(total_sequence_5))</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre><code>## # A tibble: 15 x 2
+##    center_3       center_total
+##    &lt;chr&gt;                 &lt;dbl&gt;
+##  1 BCM                 4.03e12
+##  2 BCM,BGI             5.12e10
+##  3 BCM,BI              3.11e11
+##  4 BCM,SC              2.46e11
+##  5 BCM,WUGSC           8.16e10
+##  6 BGI                 1.42e13
+##  7 BI                  1.78e13
+##  8 BI,MPIMG            3.33e10
+##  9 Illumina            1.83e10
+## 10 ILLUMINA            2.38e12
+## 11 ILLUMINA,WUGSC      6.12e10
+## 12 MPIMG               2.10e12
+## 13 SC                  1.44e13
+## 14 WUGSC               7.24e12
+## 15 &lt;NA&gt;               NA</code></pre>
 <ol start="6" style="list-style-type: decimal">
-<li>How long does it take to collect the results of your computation for 5?</li>
+<li></li>
 </ol>
-<pre class="r"><code>system.time(my_flights_db %&gt;%
-  tbl(&quot;flights&quot;) %&gt;%
-  filter(carrier == &quot;AA&quot;) %&gt;%
-  summarise(ave_delay = mean(dep_delay)))</code></pre>
-<pre><code>##    user  system elapsed 
-##   0.003   0.000   0.003</code></pre>
+<pre class="r"><code>kg %&gt;% filter(passed_qc_7==1)</code></pre>
+<pre><code>## # A tibble: 2,558 x 7
+##    sample population center_3 platform_4 total_sequence_5 aligned_non_dup…
+##    &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;                 &lt;dbl&gt;            &lt;dbl&gt;
+##  1 HG000… GBR        WUGSC    ILLUMINA        14714705600             4.94
+##  2 HG000… GBR        BCM      ILLUMINA        30285067857            10.3 
+##  3 HG000… GBR        BCM      ILLUMINA        25134554475             8.65
+##  4 HG001… GBR        SC       ILLUMINA        42906753668            14.2 
+##  5 HG001… GBR        MPIMG    ILLUMINA        22115533074             7.55
+##  6 HG001… GBR        MPIMG    ILLUMINA        21621189887             7.42
+##  7 HG001… GBR        WUGSC    ILLUMINA        16331033600             5.42
+##  8 HG001… GBR        BCM      ILLUMINA        23765222634             8.06
+##  9 HG001… GBR        MPIMG    ILLUMINA        22262720677             7.64
+## 10 HG001… GBR        SC       ILLUMINA        24284331308             8.11
+## # … with 2,548 more rows, and 1 more variable: passed_qc_7 &lt;dbl&gt;</code></pre>
 <ol start="7" style="list-style-type: decimal">
-<li>Can you figure out the average delay time for each airline?</li>
+<li></li>
 </ol>
-<pre class="r"><code>ave_delay = my_flights_db %&gt;%
-  tbl(&quot;flights&quot;) %&gt;%
-  group_by(carrier) %&gt;%
-  summarise(ave_delay = mean(dep_delay))</code></pre>
+<pre class="r"><code>kg %&gt;% filter(passed_qc_7==1) %&gt;%
+  filter(center_3==&quot;BCM&quot;)</code></pre>
+<pre><code>## # A tibble: 159 x 7
+##    sample population center_3 platform_4 total_sequence_5 aligned_non_dup…
+##    &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;                 &lt;dbl&gt;            &lt;dbl&gt;
+##  1 HG000… GBR        BCM      ILLUMINA        30285067857            10.3 
+##  2 HG000… GBR        BCM      ILLUMINA        25134554475             8.65
+##  3 HG001… GBR        BCM      ILLUMINA        23765222634             8.06
+##  4 HG001… GBR        BCM      ILLUMINA        21830960322             7.37
+##  5 HG001… GBR        BCM      ILLUMINA        22729369260             7.81
+##  6 HG001… GBR        BCM      ILLUMINA        16653396009             5.78
+##  7 HG002… GBR        BCM      ILLUMINA        20860175087             7.09
+##  8 HG002… GBR        BCM      ILLUMINA        26964871728             9.28
+##  9 HG003… FIN        BCM      ILLUMINA        23116641337             7.91
+## 10 HG003… FIN        BCM      ILLUMINA        21058467781             7.22
+## # … with 149 more rows, and 1 more variable: passed_qc_7 &lt;dbl&gt;</code></pre>
 <ol start="8" style="list-style-type: decimal">
-<li>Can you add a variable for averge delay by carrier to the database?</li>
+<li></li>
 </ol>
-<pre class="r"><code>### Doesn&#39;t work!! No mutate 
-#ave_delay = my_flights_db %&gt;%
-#  tbl(&quot;flights&quot;) %&gt;%
-#  group_by(carrier) %&gt;%
-#  mutate(ave_delay = mean(dep_delay))
-
-ave_delay = my_flights_db %&gt;%
-  tbl(&quot;flights&quot;) %&gt;%
-  group_by(carrier) %&gt;%
-  summarise(ave_delay = mean(dep_delay)) %&gt;%
-  collect()</code></pre>
-<pre><code>## Warning: Missing values are always removed in SQL.
-## Use `mean(x, na.rm = TRUE)` to silence this warning
-## This warning is displayed only once per session.</code></pre>
-<pre class="r"><code>### Doesn&#39;t work! Have to copy it over
-
-# my_flights_db %&gt;%
-#  tbl(&quot;flights&quot;) %&gt;%
-#   left_join(ave_delay)
-
-
- my_flights_db %&gt;%
-  tbl(&quot;flights&quot;) %&gt;%
-   left_join(ave_delay,copy=TRUE)</code></pre>
-<pre><code>## Joining, by = &quot;carrier&quot;</code></pre>
-<pre><code>## # Source:   lazy query [?? x 20]
-## # Database: sqlite 3.30.1
-## #   [/Users/johnmuschelli/Dropbox/Teaching/SISBID_Module1/labs/my_flights_db.sqlite3]
-##     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
-##  1  2013     1     1      517            515         2      830            819
-##  2  2013     1     1      533            529         4      850            830
-##  3  2013     1     1      542            540         2      923            850
-##  4  2013     1     1      544            545        -1     1004           1022
-##  5  2013     1     1      554            600        -6      812            837
-##  6  2013     1     1      554            558        -4      740            728
-##  7  2013     1     1      555            600        -5      913            854
-##  8  2013     1     1      557            600        -3      709            723
-##  9  2013     1     1      557            600        -3      838            846
-## 10  2013     1     1      558            600        -2      753            745
-## # … with more rows, and 12 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,
-## #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;,
-## #   distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dbl&gt;, ave_delay &lt;dbl&gt;</code></pre>
+<pre class="r"><code>kg %&gt;% filter(passed_qc_7==1) %&gt;%
+  filter(center_3==&quot;BCM&quot;) %&gt;%
+  group_by(population) %&gt;%
+  summarize(meancov = mean(aligned_non_duplicated_coverage),nsamp=n())</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre><code>## # A tibble: 15 x 3
+##    population meancov nsamp
+##    &lt;chr&gt;        &lt;dbl&gt; &lt;int&gt;
+##  1 ACB           8.73     9
+##  2 ASW           8.98     7
+##  3 CEU           8.87    11
+##  4 CHB           8.21    14
+##  5 CLM           8.54     8
+##  6 FIN           7.47     6
+##  7 GBR           8.04     8
+##  8 GIH           8.35    15
+##  9 IBS           7.62    10
+## 10 JPT           9.29    15
+## 11 KHV           8.68    12
+## 12 LWK           9.55    13
+## 13 MXL           8.34     8
+## 14 PEL           9.04    12
+## 15 YRI           8.67    11</code></pre>
 
 
 

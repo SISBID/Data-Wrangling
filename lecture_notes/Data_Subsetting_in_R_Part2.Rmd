@@ -263,3 +263,7 @@ It is a bit more straightforward to mix increasing and decreasing orderings:
 ```{r}
 ufo %>% arrange(country, desc(duration_s))
 ```
+
+## Lab
+
+[Link to Lab](http://sisbid.github.io/Module1/labs/data-subsetting-lab-part2.Rmd)

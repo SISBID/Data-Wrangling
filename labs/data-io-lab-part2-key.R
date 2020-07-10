@@ -1,33 +1,34 @@
-## -----------------------------------------------------------------------------
-seps <- read_csv("http://www.mm-c.me/mdsi/hospitals93to98.csv")
+## ---- message = FALSE---------------------------------------------------------
+library(dplyr)
+library(tidyverse)
+library(naniar)
+library(visdat)
 
 
 ## -----------------------------------------------------------------------------
-if (interactive()) View(seps)
+circ = read_csv("http://sisbid.github.io/Module1/data/Charm_City_Circulator_Ridership.csv")
 
 
 ## -----------------------------------------------------------------------------
-seps %>% 
-  gather(year,value,FY1993:FY1998)
+nrow(circ)
 
 
 ## -----------------------------------------------------------------------------
-seps %>%
-  gather(year,value,FY1993:FY1998) %>%
-  spread(Field,value)
+vis_miss(circ)
 
 
 ## -----------------------------------------------------------------------------
-seps %>%
-  gather(year,value,FY1993:FY1998) %>%
-  spread(Field,value) %>%
-  separate(col=year,into = c("abb","year"),sep=2)
+miss_var_summary(circ)
 
 
 ## -----------------------------------------------------------------------------
-seps %>%
-  gather(year,value,FY1993:FY1998) %>%
-  spread(Field,value) %>%
-  separate(col=year,into = c("abb","year"),sep=2) %>%
-  unite(newyear,abb,year,sep="-")
+gg_miss_var(circ)
+
+
+## -----------------------------------------------------------------------------
+write_csv(circ, "Circulator.csv")
+
+
+## -----------------------------------------------------------------------------
+write_rds(circ, "Circulator.rds")
 

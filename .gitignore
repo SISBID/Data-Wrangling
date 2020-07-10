@@ -15,6 +15,7 @@ lecture/
 
 # cache
 lecture_notes/*cache*/*
+labs/*cache*/*
 
 # data
 lecture_notes/data/geo/*.soft

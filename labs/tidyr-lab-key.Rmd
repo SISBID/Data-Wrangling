@@ -14,7 +14,7 @@ seps <- read_csv("http://www.mm-c.me/mdsi/hospitals93to98.csv")
 2. Look at the data using `View`
 
 ```{r}
-View(seps)
+if (interactive()) View(seps)
 ```
 
 
