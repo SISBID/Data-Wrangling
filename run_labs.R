@@ -14,3 +14,4 @@ sapply(x, function(x) {
 sapply(x, rmarkdown::render, envir = new.env())
 
 
+file.remove("labs/my_flights_db.sqlite3")

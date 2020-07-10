@@ -27,7 +27,7 @@ pryr::object_size(flights)
 
 ```{r}
 my_flights_db <- src_sqlite("my_flights_db.sqlite3", 
-create = TRUE)
+                            create = TRUE)
 flights_sqlite <- copy_to(my_flights_db, 
 flights, temporary = FALSE,overwrite = TRUE)
 ```
