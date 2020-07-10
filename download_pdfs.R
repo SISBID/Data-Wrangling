@@ -67,3 +67,7 @@ res = sapply(c("pdf", "pptx"), download_gs_file,
 res = sapply("pdf", download_gs_file,
              id = "1-j8KAkDUiYWoTpuSaRZqUBE47LhZVThicjSHPWEXGVQ", 
              stub = "lecture_notes/sisbid_intro_2020")
+
+download_gs_file("1wCJnKaYbtw9_U3AFoHbWWcTfh3oVZxqHD_N9o_eRQhA",
+                 "pdf",
+                 stub = "lecture_notes/sisbid_github_2020"
