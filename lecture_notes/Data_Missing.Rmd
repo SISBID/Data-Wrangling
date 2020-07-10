@@ -1,0 +1,135 @@
+---
+title: "Data Cleaning"
+author: "Data Wrangling in R"
+output:
+  ioslides_presentation:
+    css: styles.css
+    widescreen: yes
+  beamer_presentation: default
+---
+
+
+```{r, include = FALSE}
+library(knitr)
+library(tidyverse)
+opts_chunk$set(comment = "")
+```
+
+# Dealing with Missing Data
+
+## Missing data types
+One of the most important aspects of data cleaning is missing values.  
+
+Types of "missing" data:
+
+* `NA` - general missing data
+* `NaN` - stands for "**N**ot **a** **N**umber", happens when you do 0/0.
+* `Inf` and `-Inf` - Infinity, happens when you take a positive number (or negative number) by 0.
+
+## Finding Missing data
+
+Each missing data type has a function that returns `TRUE` if the data is missing:
+
+* `NA` - `is.na`
+* `NaN` - `is.nan`
+* `Inf` and `-Inf` - `is.infinite`
+* `is.finite` returns `FALSE` for all missing data and `TRUE` for non-missing
+
+## Missing Data with Logicals
+
+One important aspect (esp with subsetting) is that logical operations return `NA` for `NA` values.  Think about it, the data could be `> 2` or not we don't know, 
+so `R` says there is no `TRUE` or `FALSE`, so that is missing:
+```{r}
+x = c(0, NA, 2, 3, 4)
+x > 2
+```
+
+## Missing Data with Logicals
+
+What to do?  What if we want if `x > 2` and `x` isn't `NA`?  
+Don't do `x != NA`, do `x > 2` and `x` is NOT `NA`:
+
+```{r}
+x != NA
+x > 2 & !is.na(x)
+```
+
+## Missing Data with Logicals
+
+What about seeing if a value is equal to multiple values?  You can do `(x == 1 | x == 2) & !is.na(x)`, but that is not efficient.  
+
+```{r}
+(x == 0 | x == 2) # has NA
+(x == 0 | x == 2) & !is.na(x) # No NA
+```
+
+what to do?
+
+## Missing Data with Logicals: `%in%`
+
+Introduce the `%in%` operator:
+```{r}
+x %in% c(0, 2) # NEVER has NA and returns logical
+```
+
+reads "return `TRUE` if `x` is in 0 or 2". (Like `inlist` in Stata).
+
+## Missing Data with Logicals: `%in%`
+
+NEVER has NA, even if you put it there (BUT DON'T DO THIS):
+
+```{r}
+x %in% c(0, 2, NA) # NEVER has NA and returns logical
+x %in% c(0, 2) | is.na(x)
+```
+
+## Filtering and tibbles
+
+Filter removes missing values, have to keep them if you want them:
+
+```{r}
+df = tibble(x = x)
+df %>% filter(x > 2)
+filter(df, between(x, -1, 3) | is.na(x))
+```
+
+
+## Missing Data with Operations
+
+Similarly with logicals, operations/arithmetic with `NA` will result in `NA`s:
+
+```{r}
+x + 2
+x * 2
+```
+ 
+ 
+## Recoding to missing
+
+Sometimes people code missing data in weird or inconsistent ways.
+
+```{r codeNA}
+ages = c(23,21,44,32,57,65,-999,54)
+range(ages)
+```
+
+
+## Recoding to missing
+
+How do we change the `-999` to be treated as missing?
+
+```{r codeNA2}
+ages[ages == -999] = NA
+range(ages)
+range(ages,na.rm=TRUE)
+```
+
+## Recoding from missing
+
+What if you were the person that coded the `-999`
+
+```{r codeFromNA}
+is.na(ages)
+ages[is.na(ages)] = -999
+ages
+```

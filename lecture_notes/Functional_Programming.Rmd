@@ -1,0 +1,39 @@
+---
+title: "Functional Programming"
+author: "Data Wrangling in R"
+output:
+  ioslides_presentation:
+    css: styles.css
+    widescreen: yes
+  beamer_presentation: default
+---
+
+
+
+## Using a fixed expression
+
+One example case is when you want to split on a period "`.`".  In regular expressions `.` means **ANY** character, so
+
+```{r}
+str_split("I.like.strings", ".")
+str_split("I.like.strings", fixed("."))
+```
+
+## Let's extract from `y`
+
+The `purrr` package allows you to more easily interface with lists.
+
+https://purrr.tidyverse.org/
+
+The main function family for this is `map()`
+
+## Let's extract from `y`
+
+`map_chr()` takes a list and returns a character vector 
+
+```{r stsplit2}
+map_chr(y, first) # on the fly
+map_chr(y, nth, 2) # on the fly
+map_chr(y, last) # on the fly
+```
+

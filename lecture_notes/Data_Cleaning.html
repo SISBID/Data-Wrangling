@@ -40,19 +40,6 @@
     };
   </script>
 
-  <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
-// be compatible with the behavior of Pandoc < 2.8).
-document.addEventListener('DOMContentLoaded', function(e) {
-  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
-  var i, h, a;
-  for (i = 0; i < hs.length; i++) {
-    h = hs[i];
-    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
-    a = h.attributes;
-    while (a.length > 0) h.removeAttribute(a[0].name);
-  }
-});
-</script>
   <style type="text/css">@font-face {
 font-family: 'Open Sans';
 font-style: normal;
@@ -3120,45 +3107,7 @@ slide:not(.current) .plotly.html-widget{
 
   </style>
 
-  <style type="text/css">pre {
-font-family: 'Source Code Pro', 'Courier New', monospace;
-font-size: 24px;
-line-height: 24px;
-padding: 10px 0 10px 60px;
-letter-spacing: -1px;
-margin-bottom: 8px;
-width: 106%;
-left: -60px;
-position: relative;
--webkit-box-sizing: border-box;
--moz-box-sizing: border-box;
-box-sizing: border-box;
-
-}
-
-body{
-font-family: Helvetica;
-font-size: 16pt;
-}
-
-h1{
-font-size: 28pt;
-}
-h2{
-font-size: 24pt;
-}
-h3{
-font-size: 20pt;
-}
-.emphasized {
-font-size: 1.2em;
-}
-.small {
-font-size: 0.8em;
-}
-strong { font-weight: bold;
-color: black;
-}</style>
+  <style type="text/css">pre {font-family: 'Source Code Pro', 'Courier New', monospace;font-size: 24px;line-height: 24px;padding: 10px 0 10px 60px;letter-spacing: -1px;margin-bottom: 8px;width: 106%;left: -60px;position: relative;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}body{font-family: Helvetica;font-size: 16pt;}h1{font-size: 28pt;}h2{font-size: 24pt;}h3{font-size: 20pt;}.emphasized {font-size: 1.2em;}.small {font-size: 0.8em;}strong { font-weight: bold;color: black;}</style>
 
 </head>
 
@@ -3200,282 +3149,13 @@ color: black;
 <ul>
 <li><code>any(is.na(x))</code> - do we have any <code>NA</code>’s in <code>x</code>?</li>
 </ul></li>
-<li><code>complete.cases</code> - returns <code>TRUE</code> if EVERY value of a row is NOT <code>NA</code>
+<li><code>complete.cases()</code> - returns <code>TRUE</code> if EVERY value of a row is NOT <code>NA</code>
 
 <ul>
 <li>very stringent condition</li>
 <li><code>FALSE</code> missing one value (even if not important)</li>
 </ul></li>
 </ul>
-
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Dealing with Missing Data</h2></hgroup><article  id="dealing-with-missing-data">
-
-</article></slide><slide class=""><hgroup><h2>Missing data types</h2></hgroup><article  id="missing-data-types">
-
-<p>One of the most important aspects of data cleaning is missing values.</p>
-
-<p>Types of &ldquo;missing&rdquo; data:</p>
-
-<ul>
-<li><code>NA</code> - general missing data</li>
-<li><code>NaN</code> - stands for &ldquo;<strong>N</strong>ot <strong>a</strong> <strong>N</strong>umber&rdquo;, happens when you do 0/0.</li>
-<li><code>Inf</code> and <code>-Inf</code> - Infinity, happens when you take a positive number (or negative number) by 0.</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Finding Missing data</h2></hgroup><article  id="finding-missing-data">
-
-<p>Each missing data type has a function that returns <code>TRUE</code> if the data is missing:</p>
-
-<ul>
-<li><code>NA</code> - <code>is.na</code></li>
-<li><code>NaN</code> - <code>is.nan</code></li>
-<li><code>Inf</code> and <code>-Inf</code> - <code>is.infinite</code></li>
-<li><code>is.finite</code> returns <code>FALSE</code> for all missing data and <code>TRUE</code> for non-missing</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Missing Data with Logicals</h2></hgroup><article  id="missing-data-with-logicals">
-
-<p>One important aspect (esp with subsetting) is that logical operations return <code>NA</code> for <code>NA</code> values. Think about it, the data could be <code>&gt; 2</code> or not we don’t know, so <code>R</code> says there is no <code>TRUE</code> or <code>FALSE</code>, so that is missing:</p>
-
-<pre class = 'prettyprint lang-r'>x = c(0, NA, 2, 3, 4)
-x &gt; 2</pre>
-
-<pre >[1] FALSE    NA FALSE  TRUE  TRUE</pre>
-
-</article></slide><slide class=""><hgroup><h2>Missing Data with Logicals</h2></hgroup><article  id="missing-data-with-logicals-1">
-
-<p>What to do? What if we want if <code>x &gt; 2</code> and <code>x</code> isn’t <code>NA</code>?<br/>Don’t do <code>x != NA</code>, do <code>x &gt; 2</code> and <code>x</code> is NOT <code>NA</code>:</p>
-
-<pre class = 'prettyprint lang-r'>x != NA</pre>
-
-<pre >[1] NA NA NA NA NA</pre>
-
-<pre class = 'prettyprint lang-r'>x &gt; 2 &amp; !is.na(x)</pre>
-
-<pre >[1] FALSE FALSE FALSE  TRUE  TRUE</pre>
-
-</article></slide><slide class=""><hgroup><h2>Missing Data with Logicals</h2></hgroup><article  id="missing-data-with-logicals-2">
-
-<p>What about seeing if a value is equal to multiple values? You can do <code>(x == 1 | x == 2) &amp; !is.na(x)</code>, but that is not efficient.</p>
-
-<pre class = 'prettyprint lang-r'>(x == 0 | x == 2) # has NA</pre>
-
-<pre >[1]  TRUE    NA  TRUE FALSE FALSE</pre>
-
-<pre class = 'prettyprint lang-r'>(x == 0 | x == 2) &amp; !is.na(x) # No NA</pre>
-
-<pre >[1]  TRUE FALSE  TRUE FALSE FALSE</pre>
-
-<p>what to do?</p>
-
-</article></slide><slide class=""><hgroup><h2>Missing Data with Logicals: <code>%in%</code></h2></hgroup><article  id="missing-data-with-logicals-in">
-
-<p>Introduce the <code>%in%</code> operator:</p>
-
-<pre class = 'prettyprint lang-r'>x %in% c(0, 2) # NEVER has NA and returns logical</pre>
-
-<pre >[1]  TRUE FALSE  TRUE FALSE FALSE</pre>
-
-<p>reads &ldquo;return <code>TRUE</code> if <code>x</code> is in 0 or 2&rdquo;. (Like <code>inlist</code> in Stata).</p>
-
-</article></slide><slide class=""><hgroup><h2>Missing Data with Logicals: <code>%in%</code></h2></hgroup><article  id="missing-data-with-logicals-in-1">
-
-<p>NEVER has NA, even if you put it there (BUT DON’T DO THIS):</p>
-
-<pre class = 'prettyprint lang-r'>x %in% c(0, 2, NA) # NEVER has NA and returns logical</pre>
-
-<pre >[1]  TRUE  TRUE  TRUE FALSE FALSE</pre>
-
-<pre class = 'prettyprint lang-r'>x %in% c(0, 2) | is.na(x)</pre>
-
-<pre >[1]  TRUE  TRUE  TRUE FALSE FALSE</pre>
-
-</article></slide><slide class=""><hgroup><h2>Filtering and tibbles</h2></hgroup><article  id="filtering-and-tibbles">
-
-<p>Filter removes missing values, have to keep them if you want them:</p>
-
-<pre class = 'prettyprint lang-r'>df = tibble(x = x)
-df %&gt;% filter(x &gt; 2)</pre>
-
-<pre ># A tibble: 2 x 1
-      x
-  &lt;dbl&gt;
-1     3
-2     4</pre>
-
-<pre class = 'prettyprint lang-r'>filter(df, between(x, -1, 3) | is.na(x))</pre>
-
-<pre ># A tibble: 4 x 1
-      x
-  &lt;dbl&gt;
-1     0
-2    NA
-3     2
-4     3</pre>
-
-</article></slide><slide class=""><hgroup><h2>Missing Data with Operations</h2></hgroup><article  id="missing-data-with-operations">
-
-<p>Similarly with logicals, operations/arithmetic with <code>NA</code> will result in <code>NA</code>s:</p>
-
-<pre class = 'prettyprint lang-r'>x + 2</pre>
-
-<pre >[1]  2 NA  4  5  6</pre>
-
-<pre class = 'prettyprint lang-r'>x * 2</pre>
-
-<pre >[1]  0 NA  4  6  8</pre>
-
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Tables and Tabulations</h2></hgroup><article  id="tables-and-tabulations">
-
-</article></slide><slide class=""><hgroup><h2>Useful checking functions</h2></hgroup><article  id="useful-checking-functions-1">
-
-<ul>
-<li><code>unique</code> - gives you the unique values of a variable</li>
-<li><code>table(x)</code> - will give a one-way table of <code>x</code>
-
-<ul>
-<li><code>table(x, useNA = &quot;ifany&quot;)</code> - will have row NA</li>
-</ul></li>
-<li><code>table(x, y)</code> - will give a cross-tab of <code>x</code> and <code>y</code></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Creating One-way Tables</h2></hgroup><article  class="smaller" id="creating-one-way-tables">
-
-<p>Here we will use <code>table</code> to make tabulations of the data. Look at <code>?table</code> to see options for missing data.</p>
-
-<pre class = 'prettyprint lang-r'>unique(x)</pre>
-
-<pre >[1]  0 NA  2  3  4</pre>
-
-<pre class = 'prettyprint lang-r'>table(x)</pre>
-
-<pre >x
-0 2 3 4 
-1 1 1 1 </pre>
-
-<pre class = 'prettyprint lang-r'>table(x, useNA = &quot;ifany&quot;) # will not </pre>
-
-<pre >x
-   0    2    3    4 &lt;NA&gt; 
-   1    1    1    1    1 </pre>
-
-</article></slide><slide class=""><hgroup><h2>Creating One-way Tables</h2></hgroup><article  class="smaller" id="creating-one-way-tables-1">
-
-<p><code>useNA = &quot;ifany&quot;</code> will not have NA in table heading if no <code>NA</code>:</p>
-
-<pre class = 'prettyprint lang-r'>table(c(0, 1, 2, 3, 2, 3, 3, 2,2, 3), 
-        useNA = &quot;ifany&quot;)</pre>
-
-<pre >
-0 1 2 3 
-1 1 4 4 </pre>
-
-</article></slide><slide class=""><hgroup><h2>Creating One-way Tables</h2></hgroup><article  class="smaller" id="creating-one-way-tables-2">
-
-<p>You can set <code>useNA = &quot;always&quot;</code> to have it always have a column for <code>NA</code></p>
-
-<pre class = 'prettyprint lang-r'>table(c(0, 1, 2, 3, 2, 3, 3, 2,2, 3), 
-        useNA = &quot;always&quot;)</pre>
-
-<pre >
-   0    1    2    3 &lt;NA&gt; 
-   1    1    4    4    0 </pre>
-
-</article></slide><slide class=""><hgroup><h2>Tables with Factors</h2></hgroup><article  class="smaller" id="tables-with-factors">
-
-<p>If you use a <code>factor</code>, all levels will be given even if no exist! - (May be wanted or not):</p>
-
-<pre class = 'prettyprint lang-r'>fac = factor(c(0, 1, 2, 3, 2, 3, 3, 2,2, 3),
-             levels = 1:4)
-tab = table(fac)
-tab</pre>
-
-<pre >fac
-1 2 3 4 
-1 4 4 0 </pre>
-
-<pre class = 'prettyprint lang-r'>tab[ tab &gt; 0 ]</pre>
-
-<pre >fac
-1 2 3 
-1 4 4 </pre>
-
-</article></slide><slide class=""><hgroup><h2>Creating Two-way Tables</h2></hgroup><article  class="smaller" id="creating-two-way-tables">
-
-<p>A two-way table. If you pass in 2 vectors, <code>table</code> creates a 2-dimensional table.</p>
-
-<pre class = 'prettyprint lang-r'>tab &lt;- table(c(0, 0, 0, 1, 1,2, 3, 2, 3, 3, 2,2, 3,3,2,3,3), 
-             c(0, 0,1, 1, 2, 3, 3, 2, 3, 3, 4, 4, 3,2,2,1,1), 
-              useNA = &quot;always&quot;)</pre>
-
-</article></slide><slide class=""><hgroup><h2>Finding Row or Column Totals</h2></hgroup><article  id="finding-row-or-column-totals">
-
-<p><code>margin.table</code> finds the marginal sums of the table. <code>margin</code> is 1 for rows, 2 for columns in general in <code>R</code>. Here is the column sums of the table:</p>
-
-<pre class = 'prettyprint lang-r'>margin.table(tab, 2)</pre>
-
-<pre >
-   0    1    2    3    4 &lt;NA&gt; 
-   2    4    4    5    2    0 </pre>
-
-</article></slide><slide class=""><hgroup><h2>Proportion Tables</h2></hgroup><article  id="proportion-tables">
-
-<p><code>prop.table</code> finds the marginal proportions of the table. Think of it dividing the table by it’s respective marginal totals. If <code>margin</code> not set, divides by overall total.</p>
-
-<pre class = 'prettyprint lang-r'>prop.table(tab)</pre>
-
-<pre >      
-                0          1          2          3          4       &lt;NA&gt;
-  0    0.11764706 0.05882353 0.00000000 0.00000000 0.00000000 0.00000000
-  1    0.00000000 0.05882353 0.05882353 0.00000000 0.00000000 0.00000000
-  2    0.00000000 0.00000000 0.11764706 0.05882353 0.11764706 0.00000000
-  3    0.00000000 0.11764706 0.05882353 0.23529412 0.00000000 0.00000000
-  &lt;NA&gt; 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000</pre>
-
-<pre class = 'prettyprint lang-r'>prop.table(tab,1) * 100</pre>
-
-<pre >      
-              0        1        2        3        4     &lt;NA&gt;
-  0    66.66667 33.33333  0.00000  0.00000  0.00000  0.00000
-  1     0.00000 50.00000 50.00000  0.00000  0.00000  0.00000
-  2     0.00000  0.00000 40.00000 20.00000 40.00000  0.00000
-  3     0.00000 28.57143 14.28571 57.14286  0.00000  0.00000
-  &lt;NA&gt;                                                      </pre>
-
-</article></slide><slide class=""><hgroup><h2>Recoding to missing</h2></hgroup><article  id="recoding-to-missing">
-
-<p>Sometimes people code missing data in weird or inconsistent ways.</p>
-
-<pre class = 'prettyprint lang-r'>ages = c(23,21,44,32,57,65,-999,54)
-range(ages)</pre>
-
-<pre >[1] -999   65</pre>
-
-</article></slide><slide class=""><hgroup><h2>Recoding to missing</h2></hgroup><article  id="recoding-to-missing-1">
-
-<p>How do we change the <code>-999</code> to be treated as missing?</p>
-
-<pre class = 'prettyprint lang-r'>ages[ages == -999] = NA
-range(ages)</pre>
-
-<pre >[1] NA NA</pre>
-
-<pre class = 'prettyprint lang-r'>range(ages,na.rm=TRUE)</pre>
-
-<pre >[1] 21 65</pre>
-
-</article></slide><slide class=""><hgroup><h2>Recoding from missing</h2></hgroup><article  id="recoding-from-missing">
-
-<p>What if you were the person that coded the <code>-999</code></p>
-
-<pre class = 'prettyprint lang-r'>is.na(ages)</pre>
-
-<pre >[1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE</pre>
-
-<pre class = 'prettyprint lang-r'>ages[is.na(ages)] = -999
-ages</pre>
-
-<pre >[1]   23   21   44   32   57   65 -999   54</pre>
 
 </article></slide><slide class=""><hgroup><h2>Read in the UFO dataset</h2></hgroup><article  id="read-in-the-ufo-dataset">
 
@@ -3512,53 +3192,10 @@ See problems(...) for more details.</pre>
 
 </article></slide><slide class=""><hgroup><h2>Data cleaning &ldquo;before&rdquo; R</h2></hgroup><article  id="data-cleaning-before-r">
 
-<p>You saw warning messages when reading in this dataset.</p>
+<p>You saw warning messages when reading in this dataset. Let’s just drop those rows for now</p>
 
 <pre class = 'prettyprint lang-r'>p = problems(ufo)
-p</pre>
-
-<pre ># A tibble: 199 x 5
-     row col   expected   actual     file                               
-   &lt;int&gt; &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;                              
- 1   877 &lt;NA&gt;  11 columns 12 columns &#39;../data/ufo/ufo_data_complete.csv&#39;
- 2  1712 &lt;NA&gt;  11 columns 12 columns &#39;../data/ufo/ufo_data_complete.csv&#39;
- 3  1814 &lt;NA&gt;  11 columns 12 columns &#39;../data/ufo/ufo_data_complete.csv&#39;
- 4  2857 &lt;NA&gt;  11 columns 12 columns &#39;../data/ufo/ufo_data_complete.csv&#39;
- 5  3733 &lt;NA&gt;  11 columns 12 columns &#39;../data/ufo/ufo_data_complete.csv&#39;
- 6  4755 &lt;NA&gt;  11 columns 12 columns &#39;../data/ufo/ufo_data_complete.csv&#39;
- 7  5388 &lt;NA&gt;  11 columns 12 columns &#39;../data/ufo/ufo_data_complete.csv&#39;
- 8  5422 &lt;NA&gt;  11 columns 12 columns &#39;../data/ufo/ufo_data_complete.csv&#39;
- 9  5613 &lt;NA&gt;  11 columns 12 columns &#39;../data/ufo/ufo_data_complete.csv&#39;
-10  5848 &lt;NA&gt;  11 columns 12 columns &#39;../data/ufo/ufo_data_complete.csv&#39;
-# … with 189 more rows</pre>
-
-<p>We might want to check these out manually</p>
-
-</article></slide><slide class=""><hgroup><h2>Data cleaning &ldquo;before&rdquo; R</h2></hgroup><article  id="data-cleaning-before-r-1">
-
-<pre class = 'prettyprint lang-r'>ufo[p$row, ]</pre>
-
-<pre ># A tibble: 199 x 11
-   datetime city  state country shape `duration (seco… `duration (hour… comments
-   &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;   
- 1 10/1/20… &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;    &lt;NA&gt;                 0 &lt;NA&gt;             &lt;NA&gt;    
- 2 10/14/2… &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;    &lt;NA&gt;                 0 &lt;NA&gt;             &lt;NA&gt;    
- 3 10/14/2… &lt;NA&gt;  nv    &lt;NA&gt;    &lt;NA&gt;                 0 light            22      
- 4 10/17/2… &lt;NA&gt;  tx    &lt;NA&gt;    &lt;NA&gt;                 0 oval             5 minut…
- 5 10/20/2… &lt;NA&gt;  ct    &lt;NA&gt;    &lt;NA&gt;                 0 egg              2 hours 
- 6 10/24/2… &lt;NA&gt;  sd    &lt;NA&gt;    &lt;NA&gt;                 0 sphere           30sec   
- 7 10/27/2… &lt;NA&gt;  ny    &lt;NA&gt;    &lt;NA&gt;                 0 &lt;NA&gt;             night   
- 8 10/27/2… &lt;NA&gt;  mi    &lt;NA&gt;    &lt;NA&gt;                 0 light            &lt;NA&gt;    
- 9 10/28/2… &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;    &lt;NA&gt;                 0 &lt;NA&gt;             &lt;NA&gt;    
-10 10/29/2… &lt;NA&gt;  oh    &lt;NA&gt;    &lt;NA&gt;                 0 &lt;NA&gt;             15 seco…
-# … with 189 more rows, and 3 more variables: `date posted` &lt;chr&gt;, latitude &lt;chr&gt;,
-#   longitude &lt;dbl&gt;</pre>
-
-</article></slide><slide class=""><hgroup><h2>Data cleaning &ldquo;before&rdquo; R</h2></hgroup><article  id="data-cleaning-before-r-2">
-
-<p>Let’s just drop those rows for now</p>
-
-<pre class = 'prettyprint lang-r'>ufo = ufo[-p$row,]</pre>
+ufo = ufo[-p$row,] # brackets can also be used for subsetting</pre>
 
 </article></slide><slide class=""><hgroup><h2>Checking for logical conditions</h2></hgroup><article  class="smaller" id="checking-for-logical-conditions">
 
@@ -3595,8 +3232,10 @@ FALSE  TRUE
 <pre class = 'prettyprint lang-r'>table(gender)</pre>
 
 <pre >gender
-     F FeMAle FEMALE     Fm      M     Ma   mAle   Male   MaLe   MALE    Man  Woman 
-    80     88     76     87     99     76     84     83     79     93     84     71 </pre>
+     F FeMAle FEMALE     Fm      M     Ma   mAle   Male   MaLe   MALE    Man 
+    80     88     76     87     99     76     84     83     79     93     84 
+ Woman 
+    71 </pre>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>String functions</h2></hgroup><article  id="string-functions">
 
@@ -3662,6 +3301,27 @@ paste0(&quot;Visit&quot;,1:5)</pre>
 </ul></li>
 </ul>
 
+</article></slide><slide class=""><hgroup><h2>Substringing</h2></hgroup><article  id="substringing">
+
+<p><code>stringr</code></p>
+
+<ul>
+<li><code>str_sub(x, start, end)</code> - substrings from position start to position end</li>
+<li><code>str_split(string, pattern)</code> - splits strings up - returns list! [we’ll revisit in &ldquo;Functional Programming&rdquo;]</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Substringing</h2></hgroup><article  id="substringing-1">
+
+<p>Examples:</p>
+
+<pre class = 'prettyprint lang-r'>str_sub(&quot;I like pizza&quot;, 8,12)</pre>
+
+<pre >[1] &quot;pizza&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>str_sub(c(&quot;Site A&quot;, &quot;Site B&quot;, &quot;Site C&quot;), 6,6)</pre>
+
+<pre >[1] &quot;A&quot; &quot;B&quot; &quot;C&quot;</pre>
+
 </article></slide><slide class=""><hgroup><h2>Splitting/Find/Replace and Regular Expressions</h2></hgroup><article  id="splittingfindreplace-and-regular-expressions">
 
 <ul>
@@ -3687,70 +3347,6 @@ paste0(&quot;Visit&quot;,1:5)</pre>
 <li><code>^</code> matches start of vector <code>^a</code> - starts with &ldquo;a&rdquo;</li>
 <li><code>$</code> matches end of vector <code>b$</code> - ends with &ldquo;b&rdquo;</li>
 </ul>
-
-</article></slide><slide class=""><hgroup><h2>Substringing</h2></hgroup><article  id="substringing">
-
-<p><code>stringr</code></p>
-
-<ul>
-<li><code>str_sub(x, start, end)</code> - substrings from position start to position end</li>
-<li><code>str_split(string, pattern)</code> - splits strings up - returns list!</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Splitting String: <code>stringr</code></h2></hgroup><article  id="splitting-string-stringr">
-
-<p>In base R, <code>strsplit</code> splits a vector on a string into a list</p>
-
-<pre class = 'prettyprint lang-r'>x &lt;- c(&quot;I really&quot;, &quot;like writing&quot;, &quot;R code programs&quot;)
-y &lt;- str_split(x, pattern = &quot; &quot;) # returns a list
-y</pre>
-
-<pre >[[1]]
-[1] &quot;I&quot;      &quot;really&quot;
-
-[[2]]
-[1] &quot;like&quot;    &quot;writing&quot;
-
-[[3]]
-[1] &quot;R&quot;        &quot;code&quot;     &quot;programs&quot;</pre>
-
-</article></slide><slide class=""><hgroup><h2>Using a fixed expression</h2></hgroup><article  id="using-a-fixed-expression">
-
-<p>One example case is when you want to split on a period &ldquo;<code>.</code>&rdquo;. In regular expressions <code>.</code> means <strong>ANY</strong> character, so</p>
-
-<pre class = 'prettyprint lang-r'>str_split(&quot;I.like.strings&quot;, &quot;.&quot;)</pre>
-
-<pre >[[1]]
- [1] &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot;</pre>
-
-<pre class = 'prettyprint lang-r'>str_split(&quot;I.like.strings&quot;, fixed(&quot;.&quot;))</pre>
-
-<pre >[[1]]
-[1] &quot;I&quot;       &quot;like&quot;    &quot;strings&quot;</pre>
-
-</article></slide><slide class=""><hgroup><h2>Let’s extract from <code>y</code></h2></hgroup><article  id="lets-extract-from-y">
-
-<p>The <code>purrr</code> package allows you to more easily interface with lists.</p>
-
-<p><a href='https://purrr.tidyverse.org/' title=''>https://purrr.tidyverse.org/</a></p>
-
-<p>The main function family for this is <code>map()</code></p>
-
-</article></slide><slide class=""><hgroup><h2>Let’s extract from <code>y</code></h2></hgroup><article  id="lets-extract-from-y-1">
-
-<p><code>map_chr()</code> takes a list and returns a character vector</p>
-
-<pre class = 'prettyprint lang-r'>map_chr(y, first) # on the fly</pre>
-
-<pre >[1] &quot;I&quot;    &quot;like&quot; &quot;R&quot;   </pre>
-
-<pre class = 'prettyprint lang-r'>map_chr(y, nth, 2) # on the fly</pre>
-
-<pre >[1] &quot;really&quot;  &quot;writing&quot; &quot;code&quot;   </pre>
-
-<pre class = 'prettyprint lang-r'>map_chr(y, last) # on the fly</pre>
-
-<pre >[1] &quot;really&quot;   &quot;writing&quot;  &quot;programs&quot;</pre>
 
 </article></slide><slide class=""><hgroup><h2>&lsquo;Find&rsquo; functions: <code>stringr</code></h2></hgroup><article  id="find-functions-stringr">
 
@@ -3804,11 +3400,12 @@ y</pre>
 <pre class = 'prettyprint lang-r'>ufo %&gt;% filter(str_detect(comments, &quot;two aliens&quot;))</pre>
 
 <pre ># A tibble: 2 x 11
-  datetime city  state country shape `duration (seco… `duration (hour… comments
+  datetime city  state country shape `duration (seco~ `duration (hour~ comments
   &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;   
-1 10/14/2… yuma  va    us      form…              300 5 minutes        ((HOAX?…
-2 7/1/200… nort… ct    &lt;NA&gt;    unkn…               60 1 minute         Witness…
-# … with 3 more variables: `date posted` &lt;chr&gt;, latitude &lt;chr&gt;, longitude &lt;dbl&gt;</pre>
+1 10/14/2~ yuma  va    us      form~              300 5 minutes        ((HOAX?~
+2 7/1/200~ nort~ ct    &lt;NA&gt;    unkn~               60 1 minute         Witness~
+# ... with 3 more variables: `date posted` &lt;chr&gt;, latitude &lt;chr&gt;,
+#   longitude &lt;dbl&gt;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Showing differnce in <code>str_extract</code></h2></hgroup><article  id="showing-differnce-in-str_extract">
 
@@ -3824,7 +3421,7 @@ head(ss)</pre>
 <pre >[1] &quot;two aliens&quot; &quot;two aliens&quot;</pre>
 
 <ul>
-<li>Look for anycomment that starts with &ldquo;aliens&rdquo;</li>
+<li>Look for any comment that starts with &ldquo;aliens&rdquo;</li>
 </ul>
 
 <pre class = 'prettyprint lang-r'>str_subset(ufo$comments, &quot;^aliens.*&quot;)</pre>
@@ -3888,23 +3485,6 @@ dim(ufo_clean)</pre>
 
 <pre >[1] 88675    11</pre>
 
-</article></slide><slide class=""><hgroup><h2>Ordering</h2></hgroup><article  id="ordering">
-
-<pre class = 'prettyprint lang-r'>ufo2 = ufo_clean
-ufo2$latitude = as.numeric(ufo2$latitude)
-ufo2$longitude = as.numeric(ufo2$longitude)
-ufo2 &lt;- ufo2[order(ufo2$latitude, ufo2$longitude), ] 
-ufo2[1:5, c(&quot;datetime&quot;, &quot;latitude&quot;, &quot;longitude&quot;)]</pre>
-
-<pre ># A tibble: 5 x 3
-  datetime         latitude longitude
-  &lt;chr&gt;               &lt;dbl&gt;     &lt;dbl&gt;
-1 5/15/1994 13:00     -82.9     -135 
-2 4/14/2002 22:22     -46.4      168.
-3 7/3/2002 22:35      -46.4      168.
-4 10/23/2008 04:45    -46.2      170.
-5 6/1/1998 22:00      -45.7      171.</pre>
-
 </article></slide><slide class=""><hgroup><h2>Replacing and subbing: <code>stringr</code></h2></hgroup><article  class="smaller" id="replacing-and-subbing-stringr">
 
 <p>We can do the same thing (with 2 piping operations!) in dplyr</p>
@@ -3925,7 +3505,7 @@ ufo_dplyr[1:5, c(&quot;datetime&quot;, &quot;latitude&quot;, &quot;longitude&quo
 4 10/23/2008 04:45    -46.2      170.
 5 6/1/1998 22:00      -45.7      171.</pre>
 
-</article></slide><slide class=""><hgroup><h2>Special characters like money/$</h2></hgroup><article  id="special-characters-like-money">
+</article></slide><slide class=""><hgroup><h2>Special characters</h2></hgroup><article  id="special-characters">
 
 <pre class = 'prettyprint lang-r'>money = tibble(group = letters[1:5], 
   amount = c(&quot;$12.32&quot;, &quot;$43.64&quot;, &quot;$765.43&quot;, &quot;$93.31&quot;, &quot;$12.13&quot;))
@@ -3946,7 +3526,7 @@ money %&gt;% arrange(amount)</pre>
 
 <pre >[1] NA NA NA NA NA</pre>
 
-</article></slide><slide class=""><hgroup><h2>Special characters like money/$</h2></hgroup><article  id="special-characters-like-money-1">
+</article></slide><slide class=""><hgroup><h2>Special characters</h2></hgroup><article  id="special-characters-1">
 
 <p>In the past, we would recommend just replacing the <code>$</code> sign with an empty string and convert to numeric:</p>
 
@@ -3962,81 +3542,29 @@ money %&gt;% arrange(amountNum)</pre>
 4 d     $93.31       93.3
 5 c     $765.43     765. </pre>
 
-</article></slide><slide class=""><hgroup><h2>Special characters like money/$</h2></hgroup><article  id="special-characters-like-money-2">
+</article></slide><slide class=""><hgroup><h2>Special characters</h2></hgroup><article  id="special-characters-2">
 
 <p>But now there are better helper functions for this:</p>
 
-<pre class = 'prettyprint lang-r'>money$amount = parse_number(money$amount)</pre>
+<pre class = 'prettyprint lang-r'>money$amount = parse_number(money$amount)
+money %&gt;% arrange(amount)</pre>
 
-<p>This is way easier…&ldquo;This drops any non-numeric characters before or after the first number. The grouping mark specified by the locale is ignored inside the number.&rdquo;</p>
+<pre ># A tibble: 5 x 3
+  group amount amountNum
+  &lt;chr&gt;  &lt;dbl&gt;     &lt;dbl&gt;
+1 e       12.1      12.1
+2 a       12.3      12.3
+3 b       43.6      43.6
+4 d       93.3      93.3
+5 c      765.      765. </pre>
 
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Base R versions</h2></hgroup><article  id="base-r-versions">
+</article></slide><slide class=""><hgroup><h2>Special characters</h2></hgroup><article  id="special-characters-3">
 
-</article></slide><slide class=""><hgroup><h2>Substrings</h2></hgroup><article  id="substrings">
+<p>Also works for internal commas:</p>
 
-<p>Base R</p>
+<pre class = 'prettyprint lang-r'>parse_number(c(&quot;12,123,123.00&quot;, &quot;12,465.10&quot;))</pre>
 
-<ul>
-<li><code>substr(x, start, stop)</code> - substrings from position start to position stop</li>
-<li><code>strsplit(x, split)</code> - splits strings up - returns list!</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Splitting String: base R</h2></hgroup><article  id="splitting-string-base-r">
-
-<p>In base R, <code>strsplit</code> splits a vector on a string into a list</p>
-
-<pre class = 'prettyprint lang-r'>x &lt;- c(&quot;I really&quot;, &quot;like writing&quot;, &quot;R code programs&quot;)
-y &lt;- strsplit(x, split = &quot; &quot;) # returns a list
-y</pre>
-
-<pre >[[1]]
-[1] &quot;I&quot;      &quot;really&quot;
-
-[[2]]
-[1] &quot;like&quot;    &quot;writing&quot;
-
-[[3]]
-[1] &quot;R&quot;        &quot;code&quot;     &quot;programs&quot;</pre>
-
-</article></slide><slide class=""><hgroup><h2>&lsquo;Find&rsquo; functions: base R</h2></hgroup><article  id="find-functions-base-r">
-
-<p><code>grep</code>: <code>grep</code>, <code>grepl</code>, <code>regexpr</code> and <code>gregexpr</code> search for matches to argument pattern within each element of a character vector: they differ in the format of and amount of detail in the results.</p>
-
-<p><code>grep(pattern, x, fixed=FALSE)</code>, where:</p>
-
-<ul>
-<li><p>pattern = character string containing a regular expression to be matched in the given character vector.</p></li>
-<li><p>x = a character vector where matches are sought, or an object which can be coerced by as.character to a character vector.</p></li>
-<li><p>If fixed=TRUE, it will do exact matching for the phrase anywhere in the vector (regular find)</p></li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>&lsquo;Find&rsquo; functions: stringr compared to base R</h2></hgroup><article  id="find-functions-stringr-compared-to-base-r">
-
-<p>Base R does not use these functions. Here is a &ldquo;translator&rdquo; of the <code>stringr</code> function to base R functions</p>
-
-<ul>
-<li><code>str_detect</code> - similar to <code>grepl</code> (return logical)</li>
-<li><code>grep(value = FALSE)</code> is similar to <code>which(str_detect())</code></li>
-<li><code>str_subset</code> - similar to <code>grep(value = TRUE)</code> - return value of matched</li>
-<li><code>str_replace</code> - similar to <code>sub</code> - replace one time</li>
-<li><code>str_replace_all</code> - similar to <code>gsub</code> - replace many times</li>
-</ul>
-
-</article></slide><slide class=""><hgroup><h2>Important Comparisons</h2></hgroup><article  id="important-comparisons">
-
-<p>Base R:</p>
-
-<ul>
-<li>Argument order is <code>(pattern, x)</code></li>
-<li>Uses option <code>(fixed = TRUE)</code></li>
-</ul>
-
-<p><code>stringr</code></p>
-
-<ul>
-<li>Argument order is <code>(string, pattern)</code> aka <code>(x, pattern)</code></li>
-<li>Uses function <code>fixed(pattern)</code></li>
-</ul></article></slide>
+<pre >[1] 12123123.0    12465.1</pre></article></slide>
 
 
   <slide class="backdrop"></slide>

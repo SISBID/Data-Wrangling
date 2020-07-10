@@ -31,203 +31,10 @@ MOST IMPORTANT RULE - LOOK AT YOUR DATA!
     - `all(!is.na(x))` - are all values of `x` NOT NA
 - `any` will be `TRUE` if ANY are true
     - `any(is.na(x))` - do we have any `NA`'s in `x`?
-- `complete.cases` - returns `TRUE` if EVERY value of a row is NOT `NA`
+- `complete.cases()` - returns `TRUE` if EVERY value of a row is NOT `NA`
     - very stringent condition 
     - `FALSE` missing one value (even if not important)
  
-# Dealing with Missing Data
-
-## Missing data types
-One of the most important aspects of data cleaning is missing values.  
-
-Types of "missing" data:
-
-* `NA` - general missing data
-* `NaN` - stands for "**N**ot **a** **N**umber", happens when you do 0/0.
-* `Inf` and `-Inf` - Infinity, happens when you take a positive number (or negative number) by 0.
-
-## Finding Missing data
-
-Each missing data type has a function that returns `TRUE` if the data is missing:
-
-* `NA` - `is.na`
-* `NaN` - `is.nan`
-* `Inf` and `-Inf` - `is.infinite`
-* `is.finite` returns `FALSE` for all missing data and `TRUE` for non-missing
-
-## Missing Data with Logicals
-
-One important aspect (esp with subsetting) is that logical operations return `NA` for `NA` values.  Think about it, the data could be `> 2` or not we don't know, 
-so `R` says there is no `TRUE` or `FALSE`, so that is missing:
-```{r}
-x = c(0, NA, 2, 3, 4)
-x > 2
-```
-
-## Missing Data with Logicals
-
-What to do?  What if we want if `x > 2` and `x` isn't `NA`?  
-Don't do `x != NA`, do `x > 2` and `x` is NOT `NA`:
-
-```{r}
-x != NA
-x > 2 & !is.na(x)
-```
-
-## Missing Data with Logicals
-
-What about seeing if a value is equal to multiple values?  You can do `(x == 1 | x == 2) & !is.na(x)`, but that is not efficient.  
-
-```{r}
-(x == 0 | x == 2) # has NA
-(x == 0 | x == 2) & !is.na(x) # No NA
-```
-
-what to do?
-
-## Missing Data with Logicals: `%in%`
-
-Introduce the `%in%` operator:
-```{r}
-x %in% c(0, 2) # NEVER has NA and returns logical
-```
-
-reads "return `TRUE` if `x` is in 0 or 2". (Like `inlist` in Stata).
-
-## Missing Data with Logicals: `%in%`
-
-NEVER has NA, even if you put it there (BUT DON'T DO THIS):
-
-```{r}
-x %in% c(0, 2, NA) # NEVER has NA and returns logical
-x %in% c(0, 2) | is.na(x)
-```
-
-## Filtering and tibbles
-
-Filter removes missing values, have to keep them if you want them:
-
-```{r}
-df = tibble(x = x)
-df %>% filter(x > 2)
-filter(df, between(x, -1, 3) | is.na(x))
-```
-
-
-## Missing Data with Operations
-
-Similarly with logicals, operations/arithmetic with `NA` will result in `NA`s:
-
-```{r}
-x + 2
-x * 2
-```
- 
-# Tables and Tabulations
-
-## Useful checking functions
-
-- `unique` - gives you the unique values of a variable
-- `table(x)` - will give a one-way table of `x`
-    - `table(x, useNA = "ifany")` - will have row NA 
-- `table(x, y)` - will give a cross-tab of `x` and `y`
-
-## Creating One-way Tables {.smaller}
-
-Here we will use `table` to make tabulations of the data.   Look at `?table` to see options for missing data.
-
-```{r table}
-unique(x)
-table(x)
-table(x, useNA = "ifany") # will not 
-```
-
-
-## Creating One-way Tables {.smaller}
-
-`useNA = "ifany"` will not have NA in table heading if no `NA`:
-```{r onetab_ifany}
-table(c(0, 1, 2, 3, 2, 3, 3, 2,2, 3), 
-        useNA = "ifany")
-```
-
-## Creating One-way Tables {.smaller}
-
-You can set `useNA = "always"` to have it always have a column for `NA`
-```{r onetab}
-table(c(0, 1, 2, 3, 2, 3, 3, 2,2, 3), 
-        useNA = "always")
-```
-
-## Tables with Factors {.smaller}
-
-If you use a `factor`, all levels will be given even if no exist! 
-  - (May be wanted or not):
-
-```{r onetab_fact}
-fac = factor(c(0, 1, 2, 3, 2, 3, 3, 2,2, 3),
-             levels = 1:4)
-tab = table(fac)
-tab
-tab[ tab > 0 ]
-```
-
-## Creating Two-way Tables {.smaller}
-
-A two-way table.  If you pass in 2 vectors, `table` creates a 2-dimensional table.
-
-```{r}
-tab <- table(c(0, 0, 0, 1, 1,2, 3, 2, 3, 3, 2,2, 3,3,2,3,3), 
-             c(0, 0,1, 1, 2, 3, 3, 2, 3, 3, 4, 4, 3,2,2,1,1), 
-              useNA = "always")
-```
-
-## Finding Row or Column Totals
-
-`margin.table` finds the marginal sums of the table.  `margin` is 1 for rows, 2 for columns in general in `R`.  Here is the column sums of the table:
-
-```{r margin}
-margin.table(tab, 2)
-```
-
-## Proportion Tables 
-
-`prop.table` finds the marginal proportions of the table. Think of it dividing the table by it's respective marginal totals.  If `margin` not set, divides by overall total.
-
-```{r table2}
-prop.table(tab)
-prop.table(tab,1) * 100
-```
-
-## Recoding to missing
-
-Sometimes people code missing data in weird or inconsistent ways.
-
-```{r codeNA}
-ages = c(23,21,44,32,57,65,-999,54)
-range(ages)
-```
-
-
-## Recoding to missing
-
-How do we change the `-999` to be treated as missing?
-
-```{r codeNA2}
-ages[ages == -999] = NA
-range(ages)
-range(ages,na.rm=TRUE)
-```
-
-## Recoding from missing
-
-What if you were the person that coded the `-999`
-
-```{r codeFromNA}
-is.na(ages)
-ages[is.na(ages)] = -999
-ages
-```
 
 ## Read in the UFO dataset
 
@@ -239,27 +46,11 @@ ufo = read_csv("../data/ufo/ufo_data_complete.csv")
 
 ## Data cleaning "before" R
 
-You saw warning messages when reading in this dataset. 
+You saw warning messages when reading in this dataset. Let's just drop those rows for now
 
 ```{r}
 p = problems(ufo)
-p
-```
-
-We might want to check these out manually
-
-## Data cleaning "before" R
-
-```{r}
-ufo[p$row, ]
-```
-
-## Data cleaning "before" R
-
-Let's just drop those rows for now
-
-```{r}
-ufo = ufo[-p$row,]
+ufo = ufo[-p$row,] # brackets can also be used for subsetting
 ```
 
 ## Checking for logical conditions {.smaller}
@@ -340,6 +131,21 @@ Like `dplyr`, the `stringr` package:
     * the first argument is a string like first argument is a `data.frame` in `dplyr`
 
 
+## Substringing
+
+`stringr`
+
+* `str_sub(x, start, end)` - substrings from position start to position end
+* `str_split(string, pattern)` - splits strings up - returns list! [we'll revisit in "Functional Programming"]
+
+## Substringing
+
+Examples: 
+
+```{r}
+str_sub("I like pizza", 8,12)
+str_sub(c("Site A", "Site B", "Site C"), 6,6)
+```
 
 ## Splitting/Find/Replace and Regular Expressions
 
@@ -360,52 +166,6 @@ Like `dplyr`, the `stringr` package:
 * `?` makes the last thing optional
 * `^` matches start of vector `^a` - starts with "a"
 * `$` matches end of vector `b$` - ends with "b"
-
-## Substringing
-
-`stringr`
-
-* `str_sub(x, start, end)` - substrings from position start to position end
-* `str_split(string, pattern)` - splits strings up - returns list!
-
-## Splitting String: `stringr`
-
-In base R, `strsplit` splits a vector on a string into a list
-```{r strsplit_base}
-x <- c("I really", "like writing", "R code programs")
-y <- str_split(x, pattern = " ") # returns a list
-y
-```
-
-
-
-## Using a fixed expression
-
-One example case is when you want to split on a period "`.`".  In regular expressions `.` means **ANY** character, so
-
-```{r}
-str_split("I.like.strings", ".")
-str_split("I.like.strings", fixed("."))
-```
-
-## Let's extract from `y`
-
-The `purrr` package allows you to more easily interface with lists.
-
-https://purrr.tidyverse.org/
-
-The main function family for this is `map()`
-
-## Let's extract from `y`
-
-`map_chr()` takes a list and returns a character vector 
-
-```{r stsplit2}
-map_chr(y, first) # on the fly
-map_chr(y, nth, 2) # on the fly
-map_chr(y, last) # on the fly
-```
-
 
 ## 'Find' functions: `stringr`
 
@@ -464,8 +224,7 @@ ss[ !is.na(ss)]
 ```
 
 
-
-* Look for anycomment that starts with "aliens"
+* Look for any comment that starts with "aliens"
   
 ```{r grepstar}
 str_subset(ufo$comments, "^aliens.*")
@@ -509,16 +268,6 @@ dim(ufo_clean)
 ```
 
 
-## Ordering
-
-```{r order}
-ufo2 = ufo_clean
-ufo2$latitude = as.numeric(ufo2$latitude)
-ufo2$longitude = as.numeric(ufo2$longitude)
-ufo2 <- ufo2[order(ufo2$latitude, ufo2$longitude), ] 
-ufo2[1:5, c("datetime", "latitude", "longitude")]
-```
-
 ## Replacing and subbing: `stringr` {.smaller}
 
 We can do the same thing (with 2 piping operations!) in dplyr
@@ -532,7 +281,7 @@ ufo_dplyr = ufo_dplyr %>% mutate(
 ufo_dplyr[1:5, c("datetime", "latitude", "longitude")]
 ```
 
-## Special characters like money/$
+## Special characters
 
 ```{r}
 money = tibble(group = letters[1:5], 
@@ -541,7 +290,7 @@ money %>% arrange(amount)
 as.numeric(money$amount)
 ```
 
-## Special characters like money/$
+## Special characters
 
 In the past, we would recommend just replacing the `$` sign with an empty string and convert to numeric:
 
@@ -550,68 +299,20 @@ money$amountNum = as.numeric(str_replace(money$amount, fixed("$"), ""))
 money %>% arrange(amountNum)
 ```
 
-## Special characters like money/$
+## Special characters
 
 But now there are better helper functions for this:
 
 ```{r}
 money$amount = parse_number(money$amount)
+money %>% arrange(amount)
+
 ```
 
-This is way easier..."This drops any non-numeric characters before or after the first number. The grouping mark specified by the locale is ignored inside the number."
+## Special characters
 
-# Base R versions
+Also works for internal commas:
 
-## Substrings 
-
-Base R
-
-* `substr(x, start, stop)` - substrings from position start to position stop
-* `strsplit(x, split)` - splits strings up - returns list!
-
-
-## Splitting String: base R
-
-In base R, `strsplit` splits a vector on a string into a list
-```{r strsplit}
-x <- c("I really", "like writing", "R code programs")
-y <- strsplit(x, split = " ") # returns a list
-y
+```{r}
+parse_number(c("12,123,123.00", "12,465.10"))
 ```
-
-
-## 'Find' functions: base R
-
-`grep`: `grep`, `grepl`, `regexpr` and `gregexpr` search for matches to argument pattern within each element of a character vector: they differ in the format of and amount of detail in the results. 
-
-`grep(pattern, x, fixed=FALSE)`, where:
-
-* pattern = character string containing a regular expression to be matched in the given character vector.
-
-* x = a character vector where matches are sought, or an object which can be coerced by as.character to a character vector.
-
-* If fixed=TRUE, it will do exact matching for the phrase anywhere in the vector (regular find)
-
-## 'Find' functions: stringr compared to base R
-
-Base R does not use these functions.  Here is a "translator" of the `stringr` function to base R functions
-
-* `str_detect` - similar to `grepl` (return logical)
-* `grep(value = FALSE)` is similar to `which(str_detect())`
-* `str_subset` - similar to `grep(value = TRUE)` - return value of matched
-* `str_replace` - similar to `sub` - replace one time 
-* `str_replace_all` - similar to `gsub` - replace many times
-
-
-## Important Comparisons
-
-Base R:
-
-* Argument order is `(pattern, x)`
-* Uses option `(fixed = TRUE)`
-
-`stringr`
-
-* Argument order is `(string, pattern)` aka `(x, pattern)`
-* Uses function `fixed(pattern)`
-
