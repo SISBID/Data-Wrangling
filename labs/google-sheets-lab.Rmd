@@ -1,29 +1,60 @@
 ---
 title: "Google Sheets"
-author: "Your name"
-date: "July 11, 2016"
 output: html_document
 ---
 
+```{r, include=FALSE}
+library(tidyverse)
+library(httr)
+library(jsonlite)
+library(googlesheets4)
+```
+
 This is a lab to practice with Google Sheets and the `googlesheets` package.
 
-1. If you haven't already go to the class Google Sheet and add your information: https://docs.google.com/spreadsheets/d/1KIRtcPVn58R3_qr97WNtcOJiY4AaytHzGDzLW_3_R1s/edit?usp=sharing
+1. We are going to use a sheet from previous years: https://docs.google.com/spreadsheets/d/1KIRtcPVn58R3_qr97WNtcOJiY4AaytHzGDzLW_3_R1s/edit?usp=sharing
 
-2. Use the `googlesheets` package to read in the data like we discussed in class. 
+```{r}
+sheet_url = "https://docs.google.com/spreadsheets/d/1KIRtcPVn58R3_qr97WNtcOJiY4AaytHzGDzLW_3_R1s/edit?usp=sharing"
+```
 
-3. Look at the arguments for `cell_rows`, `cell_limits` and `cell_cols`. 
 
-4. Try reading in just the first two columns. 
+2. Use the `googlesheets4::read_sheet` function to read in the data like we discussed in class, call this object `x`.
+```{r}
+
+```
+
+2. Using `sheet_names` function to get the sheet names from the `sheet_url`.
+```{r}
+
+```
+
+
+4. Try reading in just the first two columns. See the `range` argument and look at the arguments for `cell_rows`, `cell_limits` and `cell_cols`.
+```{r}
+
+```
 
 5. How many students are in the class (or at least have added their information to the Sheet)?
+```{r}
 
+```
 6. Create a logical variable for whether students have more than 2 years of R experience
+```{r}
 
+```
 7. Convert the logical variable from \#6 into a factor with labels "Skilled" and "Learning" 
+```{r}
 
+```
 8. Create a new spreadsheet that is private only to you.
+```{r}
 
+```
 9. Use `gs_auth` to authorize your computer to access that sheet. 
+```{r}
 
+```
 10. Read the data from your private spreadsheet. 
+```{r}
 

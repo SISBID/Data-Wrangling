@@ -9,9 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Your name" />
 
-<meta name="date" content="2016-07-11" />
 
 <title>Google Sheets</title>
 
@@ -377,18 +375,19 @@ summary {
 
 
 <h1 class="title toc-ignore">Google Sheets</h1>
-<h4 class="author">Your name</h4>
-<h4 class="date">July 11, 2016</h4>
 
 </div>
 
 
 <p>This is a lab to practice with Google Sheets and the <code>googlesheets</code> package.</p>
 <ol style="list-style-type: decimal">
-<li><p>If you haven’t already go to the class Google Sheet and add your information: <a href="https://docs.google.com/spreadsheets/d/1KIRtcPVn58R3_qr97WNtcOJiY4AaytHzGDzLW_3_R1s/edit?usp=sharing" class="uri">https://docs.google.com/spreadsheets/d/1KIRtcPVn58R3_qr97WNtcOJiY4AaytHzGDzLW_3_R1s/edit?usp=sharing</a></p></li>
-<li><p>Use the <code>googlesheets</code> package to read in the data like we discussed in class.</p></li>
-<li><p>Look at the arguments for <code>cell_rows</code>, <code>cell_limits</code> and <code>cell_cols</code>.</p></li>
-<li><p>Try reading in just the first two columns.</p></li>
+<li>We are going to use a sheet from previous years: <a href="https://docs.google.com/spreadsheets/d/1KIRtcPVn58R3_qr97WNtcOJiY4AaytHzGDzLW_3_R1s/edit?usp=sharing" class="uri">https://docs.google.com/spreadsheets/d/1KIRtcPVn58R3_qr97WNtcOJiY4AaytHzGDzLW_3_R1s/edit?usp=sharing</a></li>
+</ol>
+<pre class="r"><code>sheet_url = &quot;https://docs.google.com/spreadsheets/d/1KIRtcPVn58R3_qr97WNtcOJiY4AaytHzGDzLW_3_R1s/edit?usp=sharing&quot;</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Use the <code>googlesheets4::read_sheet</code> function to read in the data like we discussed in class, call this object <code>x</code>.</p></li>
+<li><p>Using <code>sheet_names</code> function to get the sheet names from the <code>sheet_url</code>.</p></li>
+<li><p>Try reading in just the first two columns. See the <code>range</code> argument and look at the arguments for <code>cell_rows</code>, <code>cell_limits</code> and <code>cell_cols</code>.</p></li>
 <li><p>How many students are in the class (or at least have added their information to the Sheet)?</p></li>
 <li><p>Create a logical variable for whether students have more than 2 years of R experience</p></li>
 <li><p>Convert the logical variable from #6 into a factor with labels “Skilled” and “Learning”</p></li>

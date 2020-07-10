@@ -44,3 +44,11 @@ strong {
     font-weight: bold;
     color: black;
 }
+
+
+.left-half{ 
+  float: left; width: 48%; 
+}
+.right-half{ 
+  float: right; width: 48%; 
+}

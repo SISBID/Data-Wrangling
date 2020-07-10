@@ -8,9 +8,12 @@ output:
 ---
 
 
-```{r, echo = FALSE, include=FALSE}
+```{r, echo = FALSE, include=FALSE, purl=FALSE}
 library(knitr)
 opts_chunk$set(comment = "")
+```
+
+```{r, include=FALSE}
 library(tidyverse)
 ```
 
@@ -18,16 +21,16 @@ library(tidyverse)
 
 # Google Sheets
 
----
-```{r}
+----
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
 knitr::include_graphics("googlesheets.png")
 ```
 
 https://docs.google.com/spreadsheets
 
----
+----
 
-```{r}
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
 knitr::include_graphics("gs_jenny_slide.png")
 ```
 
@@ -43,7 +46,7 @@ library(googlesheets)
 ```
 
  
-```{r, echo = FALSE}
+```{r, echo = FALSE, purl = FALSE}
 library(googlesheets)
 ```
 
@@ -57,10 +60,11 @@ https://docs.google.com/spreadsheets/d/1WBrH655fxqKW1QqvD5hnqvvEWIvRzDJcKEgjjFeY
 
 **need publish figure**
 
----
-<div style="font-size:30pt">
-```{r}
-sheets_url = "https://docs.google.com/spreadsheets/d/1WBrH655fxqKW1QqvD5hnqvvEWIvRzDJcKEgjjFeYxeM/edit?usp=sharing"
+----
+<div style="font-size:20pt">
+```{r, message = FALSE}
+sheets_url = paste0("https://docs.google.com/spreadsheets/d/",
+                    "1WBrH655fxqKW1QqvD5hnqvvEWIvRzDJcKEgjjFeYxeM")
 
 gsurl1 = gs_url(sheets_url)
 
@@ -71,103 +75,104 @@ head(dat)
 <div>
 
 
-# What if I don't want it public?
+## What if I don't want it public?
 
-<div style="font-size:30pt">
 ```{r, eval = FALSE}
-library(googledrive)
-drive_auth() # will ask you to log in
-drive_get("1WBrH655fxqKW1QqvD5hnqvvEWIvRzDJcKEgjjFeYxeM")
 library(googlesheets4)
-out = read_sheet("https://docs.google.com/spreadsheets/d/1WBrH655fxqKW1QqvD5hnqvvEWIvRzDJcKEgjjFeYxeM/edit?usp=sharing")
+# May be necessary on rstudio.cloud
+options(httr_oob_default=TRUE)
+# Will ask you to log in
+out = read_sheet(sheets_url)
 ```
-<div>
+
+## Can also save and load a token
+
+```{r, message = FALSE}
+token = readr::read_rds("googledrive_token.rds")
+library(googledrive)
+drive_auth(token = token) # could also use googlesheets4::gs4_auth
+library(googlesheets4)
+out = read_sheet(sheets_url)
+```
 
 
 https://docs.google.com/spreadsheets/d/1j9vbv8MrVV7EK15vyz-rnhjiXhRkmIFEHgdv1_p1cCc/edit?usp=sharing
 
 
 
-```{r, eval = FALSE}
-library(googlesheets4)
-# Only necessary on rstudio.cloud
-options(httr_oob_default=TRUE)
-# Will ask you to log in
-out = read_sheet("https://docs.google.com/spreadsheets/d/1WBrH655fxqKW1QqvD5hnqvvEWIvRzDJcKEgjjFeYxeM/edit?usp=sharing")
+# Google Sheets<br> https://SISBIB.github.io/Module1/labs/google-sheets-lab.Rmd
 
+# JSON: JavaScript Object Notation<br>Lists of stuff
 
-gs_auth()
-gsurl1 = gs_url(sheets_url)
-dat = gs_read(gsurl1)
-sheets_url = "https://docs.google.com/spreadsheets/d/1j9vbv8MrVV7EK15vyz-rnhjiXhRkmIFEHgdv1_p1cCc/edit?usp=sharing"
-```
-
-Google Sheets
-https://bit.ly/1Cgzjxb
-
-JSON
-
+----
+** need figure **
 https://en.wikipedia.org/wiki/JSON
 
-Why JSON matters
+## Why JSON matters
+** need figure **
+
 https://developer.github.com/v3/search/
 
-github_url = "https://api.github.com/users/jtleek/repos"
-
+```{r}
 #install.packages("jsonlite")
 library(jsonlite)
-jsonData <- fromJSON(github_url)
-date_read = date()
-date_read
+jsonData <- fromJSON("https://api.github.com/users/jtleek/repos")
+head(jsonData)
+```
 
 
+## Data frame structure from JSON
 
-
-
-Data frame structure from JSON
+```{r}
 dim(jsonData)
-jsonData$name
-#One of the columns is a data frame!
+head(jsonData$name)
+#Some of the columns is a data frame!
 table(sapply(jsonData,class))
 dim(jsonData$owner)
 names(jsonData$owner)
+```
 
 
 
+# JSON Lab<br> https://SISBIB.github.io/Module1/labs/json-lab.Rmd
 
+# Web Scraping
 
+# This is data
+*need figure* 
 
-JSON Lab
-https://bit.ly/2JNLUil
-
-Web Scraping
-
-This is data
 http://bowtie-bio.sourceforge.net/recount/ 
 
-View the source
+## View the source
 
-What the computer sees
+## What the computer sees
 
-Ways to see the source
-# Chrome:
- # 1. right click on page
- # 2. select "view source"
-# Firefox:
- # 1. right click on page
- # 2. select "view source"
-# Microsoft Edge:
-# 1. right click on page
-# 2. select "view source"
+## Ways to see the source
 
-# Safari
- # 1. click on "Safari"
- # 2. select "Preferences"
- # 3. go to "Advanced"
- # 4. check "Show Develop menu in menu bar"
- # 5. click on "Develop"
- # 6. select "show page source"
- # 7. alternatively to 5./6., right click on page and select "view source"
+<div class="left-half">
+Chrome:
+1. right click on page
+2. select "view source"
+
+Firefox:
+1. right click on page
+2. select "view source"
+Microsoft Edge:
+1. right click on page
+2. select "view source"
+</div>
+
+<div class="right-half">
+
+Safari
+1. click on "Safari"
+2. select "Preferences"
+3. go to "Advanced"
+4. check "Show Develop menu in menu bar"
+5. click on "Develop"
+6. select "show page source"
+7. alternatively to 5./6., right click on page and select "view source"
+</div>
 
 https://github.com/simonmunzert/rscraping-jsm-2016/blob/c04fd91fec711df65c838e07723125155a7f2cda/02-scraping-with-rvest.r
 
@@ -175,7 +180,8 @@ Inspect element
 
 Copy XPath
 
-rvest package
+## rvest package
+```{r}
 recount_url = "http://bowtie-bio.sourceforge.net/recount/"
 # install.packages("rvest")
 library(rvest)
@@ -186,6 +192,15 @@ xpath='//*[@id="recounttab"]/table')
 dat = html_table(nds)
 dat = as.data.frame(dat)
 head(dat)
+```
+
+## Little cleanup
+
+```{r}
+colnames(dat) = as.character(dat[1,])
+dat = dat[-1,]
+head(dat)
+```
 
 
 
@@ -194,58 +209,82 @@ http://motherboard.vice.com/read/70000-okcupid-users-just-had-their-data-publish
 
 https://www.theguardian.com/science/2012/may/23/text-mining-research-tool-forbidden
 
-APIs
+# APIs
 
+## Application Programming Interfaces
+figure
 https://developers.facebook.com/
-Application Programming Interfaces
 
+## In biology too!
 http://www.ncbi.nlm.nih.gov/books/NBK25501/
-In biology too!
 
-Step 0: Did someone do this already
+figure
+
+## Step 0: Did someone do this already
 https://ropensci.org/
 
-Do it yourself
+## Do it yourself
 
-Read the docs
+## Read the docs
 https://developer.github.com/v3/
 
-Read the docs
+## Read the docs
 
-Read the docs
+## Read the docs
 
-A dissected example
-https://api.github.com/search/repositories?q=created:2014-08-13+language:r+-user:cran&type
+## A dissected example
 
-The base URL
-https://api.github.com/search/repositories?q=created:2014-08-13+language:r+-user:cran&type
+<div style="font-size:30pt">
+https://api.github.com/search/repositories?q=created:2014-08-13+language:r+-user:cran
+</div>
 
-Search repositories
-https://api.github.com/search/repositories?q=created:2014-08-13+language:r+-user:cran&type
+## The base URL
+<div style="font-size:30pt">
+**https://api.github.com/**search/repositories?q=created:2014-08-13+language:r+-user:cran
+</div>
 
-Create a query
-https://api.github.com/search/repositories?q=created:2014-08-13+language:r+-user:cran&type
+## The Path: Search repositories
+<div style="font-size:30pt">
+https://api.github.com/**search/repositories**?q=created:2014-08-13+language:r+-user:cran
+</div>
 
-Date repo was created
-https://api.github.com/search/repositories?q=created:2014-08-13+language:r+-user:cran&type
+## Create a query - pass the `q` parameter
+<div style="font-size:30pt">
+https://api.github.com/search/repositories**?q**=created:2014-08-13+language:r+-user:cran
+</div>
 
-Language repo is in
-https://api.github.com/search/repositories?q=created:2014-08-13+language:r+-user:cran&type
+## Date repo was created
+<div style="font-size:30pt">
+https://api.github.com/search/repositories?q=**created:2014-08-13**+language:r+-user:cran
+</div>
 
-Ignore repos from “cran”
-https://api.github.com/search/repositories?q=created:2014-08-13+language:r+-user:cran&type
+## Language repo is in
+<div style="font-size:30pt">
+https://api.github.com/search/repositories?q=created:2014-08-13+**language:r**+-user:cran
+</div>
 
+## Ignore repos from "cran"
+<div style="font-size:30pt">
+https://api.github.com/search/repositories?q=created:2014-08-13+language:r+**-user:cran**
+</div>
+
+----
+```{r}
 #install.packages("httr")
 library(httr)
 
-query_url = "https://api.github.com/search/repositories?q=created:2014-08-13+language:r+-user:cran"
+query_url = paste0("https://api.github.com/", "search/repositories", 
+                   "?q=created:2014-08-13", "+language:r", "+-user:cran")
 
 req = GET(query_url)
 names(content(req))
+```
 
-Not all APIs are “open”
+## Not all APIs are "open"
 https://apps.twitter.com/
 
+----
+```{r, eval = FALSE}
 myapp = oauth_app("twitter",
                    key="yourConsumerKeyHere",secret="yourConsumerSecretHere")
 sig = sign_oauth1.0(myapp,
@@ -257,12 +296,17 @@ But you can get cool data
 json1 = content(homeTL)
 json2 = jsonlite::fromJSON(toJSON(json1))
 json2[1,1:4]
+```
 
+```{r, eval = FALSE}
                     created_at           id             id_str
 1 Mon Jan 13 05:18:04 +0000 2014 4.225984e+17 422598398940684288
                                                                                                                                          text
 1 Now that P. Norvig's regex golf IPython notebook hit Slashdot, let's see if our traffic spike tops the previous one: http://t.co/Vc6JhZXOo8
+```
 
-Web + APIs lab
-https://bit.ly/2JIwlIt
+## Web + APIs lab
 
+<div style="font-size:30pt">
+https://SISBIB.github.io/Module1/labs/web-api-lab.Rmd
+</div>

@@ -9,9 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Jeff Leek" />
 
-<meta name="date" content="2016-07-12" />
 
 <title>json lab</title>
 
@@ -377,15 +375,26 @@ summary {
 
 
 <h1 class="title toc-ignore">json lab</h1>
-<h4 class="author">Jeff Leek</h4>
-<h4 class="date">July 12, 2016</h4>
 
 </div>
 
 
+<p>See GitHub Documentation at <a href="https://docs.github.com/en/rest/reference/repos" class="uri">https://docs.github.com/en/rest/reference/repos</a></p>
 <ol style="list-style-type: decimal">
-<li><p>Use Github API to get all of Hadley Wickham’s repo data (username = “hadley”)</p></li>
-<li><p>How many stars does he have on each repository?</p></li>
+<li>Use Github API to get all of Hadley Wickham’s repo data (username = “hadley”), see: “<a href="https://api.github.com/users/XXXX/repos" class="uri">https://api.github.com/users/XXXX/repos</a>”. Use <code>httr:GET</code> and assign that output to <code>response</code> and then `httr::content(response).</li>
+</ol>
+<pre class="r"><code># response = httr::GET()</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Try <code>jsonlite::fromJSON(httr::content(response, as = &quot;text&quot;, flatten = TRUE))</code></li>
+</ol>
+<pre class="r"><code>out = jsonlite::fromJSON(httr::content(response, as = &quot;text&quot;, flatten = TRUE))</code></pre>
+<pre><code>## Error in is.response(x): object &#39;response&#39; not found</code></pre>
+<pre class="r"><code>class(out)</code></pre>
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;out&#39; not found</code></pre>
+<pre class="r"><code>head(out)</code></pre>
+<pre><code>## Error in head(out): object &#39;out&#39; not found</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li><p>How many stars does he have on each repository? (it’s the <code>stargazers_count</code> element)</p></li>
 <li><p>How many open issues are there?</p></li>
 <li><p>Create a new data frame consisting of just the “owner” column of the resulting data set called <code>owner_data</code></p></li>
 <li><p>Add “owner_” to the name of all of the columns in this new data frame. You can use <code>names(owner_data) = paste0(&#39;owner_&#39;,names(owner_data))</code></p></li>

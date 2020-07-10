@@ -1,13 +1,30 @@
 ---
 title: "json lab"
-author: "Jeff Leek"
-date: "July 12, 2016"
 output: html_document
 ---
 
-1. Use Github API to get all of Hadley Wickham's repo data (username = "hadley")
+```{r, include=FALSE}
+library(tidyverse)
+library(httr)
+library(jsonlite)
+```
 
-2. How many stars does he have on each repository?
+See GitHub Documentation at https://docs.github.com/en/rest/reference/repos
+
+1. Use Github API to get all of Hadley Wickham's repo data (username = "hadley"), see: "https://api.github.com/users/XXXX/repos".  Use `httr:GET` and assign that output to `response` and then `httr::content(response).
+
+```{r}
+# response = httr::GET()
+```
+
+2.  Try `jsonlite::fromJSON(httr::content(response, as = "text", flatten = TRUE))`
+```{r, error = TRUE}
+out = jsonlite::fromJSON(httr::content(response, as = "text", flatten = TRUE))
+class(out)
+head(out)
+```
+
+2. How many stars does he have on each repository? (it's the `stargazers_count` element)
 
 3. How many open issues are there? 
 
