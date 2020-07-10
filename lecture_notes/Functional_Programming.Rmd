@@ -41,6 +41,67 @@ You need a way to iterate in R in a data-structure-informed way. What does that 
 * Iterate over sub data frames induced by one or more factors
 * Iterate over tuples formed from the i-th element of several vectors of equal length
 
+## What is a 'list'?
+
+* Lists are the most flexible/"generic" data class in R
+* Can be created using list()
+* Can hold vectors, strings, matrices, models, list of other list, lists upon lists!
+* Can reference data using $ (if the elements are named), or using [], or [[]]
+
+```{r makeList, comment="", prompt=TRUE}
+mylist <- list(letters=c("A", "b", "c"), 
+        numbers=1:3, matrix(1:25, ncol=5))
+```
+
+## List Structure
+
+```{r Lists, comment="", prompt=TRUE}
+head(mylist)
+```
+
+## List referencing
+
+```{r Listsref1, comment="", prompt=TRUE}
+mylist[1] # returns a list
+mylist["letters"] # returns a list
+```
+
+## List referencing
+  
+```{r Listsrefvec, comment="", prompt=TRUE}  
+mylist[[1]] # returns the vector 'letters'
+mylist$letters # returns vector
+mylist[["letters"]] # returns the vector 'letters'
+```
+
+## List referencing
+
+You can also select multiple lists with the single brackets. 
+
+```{r Listsref2, comment="", prompt=TRUE}
+mylist[1:2] # returns a list
+```
+
+## List referencing
+
+You can also select down several levels of a list at once
+
+```{r Listsref3, comment="", prompt=TRUE}
+mylist$letters[1]
+mylist[[2]][1]
+mylist[[3]][1:2,1:2]
+```
+
+## How would I encounter lists?
+
+This comes up a lot in data cleaning (although many tasks can be accomplished by `separate`)
+
+```{r} 
+h = c("I like performing", "much data wrangling in R", "it is oh so fun")
+ll = str_split(h, " ")
+ll
+```
+
 ## Why do this at all?
 
 ```{r}
@@ -49,6 +110,8 @@ length(got_chars)
 lengths(got_chars)
 names(got_chars[[1]])
 ```
+
+
 
 ## How would we get the names of each GoT character?
 
@@ -104,6 +167,15 @@ map_chr(got_chars[2:3], "aliases")
 Error: Result 1 must be a single string, not a character vector of length 11
 
 ```
+
+## Example using string split output
+
+```{r}
+map_chr(ll, first)
+map_chr(ll, last)
+map_chr(ll, nth, 3)
+```
+
 
 ## More extensive examples
 

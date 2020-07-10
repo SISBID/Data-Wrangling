@@ -1,6 +1,6 @@
 ---
-title: 'SISBD: Introduction to Bioconductor'
-author: "Andrew Jaffe"
+title: 'Introduction to Bioconductor'
+author: "Data Wrangling in R"
 output:
   ioslides_presentation:
     fig_caption: yes
@@ -10,32 +10,6 @@ output:
     widescreen: yes
 ---
 
-## Acknowledgements
-
-Many slides courtesy of Raphael Gottardo.
-
-## Setting up some options
-
-Let's first turn on the cache for increased performance and improved styling
-```{r, include = FALSE}
-# Set some global knitr options
-pkgs = c("RNAseqData.HNRNPC.bam.chr14", 
-         "TxDb.Hsapiens.UCSC.hg19.knownGene", 
-         "VariantAnnotation", "GenomicRanges", 
-         "GenomicAlignments", "Rsamtools",
-         "BSgenome.Hsapiens.UCSC.hg19", 
-         "TxDb.Hsapiens.UCSC.hg19.knownGene", 
-         "GenomicRanges", "IRanges")
-library(BiocManager)
-pkgs = setdiff(pkgs, rownames(installed.packages()))
-if (length(pkgs) > 0) {
-  BiocManager::install(pkgs, upgrade = FALSE, ask = FALSE)
-}
-library(data.table)    
-suppressMessages(library("knitr"))
-opts_chunk$set(cache = FALSE, messages = FALSE)
-suppressPackageStartupMessages(library(GEOquery))
-```
 
 ## R in the NY Times
 
@@ -90,16 +64,16 @@ The broad goals of the Bioconductor project are:
 
 ```{r, eval=FALSE}
 # Note that this is not evaluated here, so you will have to do it before using this knitr doc
-source("http://bioconductor.org/biocLite.R")
+install.packages("BiocManager")
 # Install all core packages and update all installed packages
-biocLite()
+BiocManager::install()
 ```
 
 You can also install specific packages
 
 ```{r, eval=FALSE}
 # Note that this is not evaluated here, so you will have to do it before using this knitr doc
-biocLite(c("GEOmetadb", "GEOquery", "limma", "affy"))
+BiocManager::install(c("GEOmetadb", "GEOquery", "limma", "affy"))
 ```
 
 ## The Gene Expression Omnibus (GEO)
