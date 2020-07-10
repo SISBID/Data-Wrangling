@@ -18,11 +18,7 @@ library(tidyverse)
 
 
 ```{r, message = FALSE}
-wide = read_csv(
-  paste0("http://sisbid.github.io/Module1/",
-         "data/Charm_City_Circulator_Ridership.csv"))
-head(wide, 2)
-class(wide$date)
+
 ```
 
 
@@ -31,27 +27,25 @@ class(wide$date)
 `daily`, `day`, `date`, using things like `-day`. Table `long$day`
 
 ```{r}
-long = wide %>% 
-  gather(key = "variable", value = "n_people", -daily, -day, -date)
-head(long$day)
+
+
 ```
 
 
 3.  Separate the `date` column into ("month", "day", "year") using a sep of "/"
 Make sure you don't remove the `date` column, call this `long2`.  Do a table of the day column.  Where did the original `day` column go?
 ```{r}
-long2 = separate(long, col = "date", into = c("month", "day", "year"), 
-                sep = "/", remove = FALSE)
-table(long2$day)
+
+
 ```
 
 4. Create a new variable in `long2` calling it `newdate` using the `unite` function.  Unite the year, month, day, columns using a hyphen (`-`) and then `table` `road_hyphen`
 ```{r}
-long2 = unite(long2, col = "newdate", year, month, day, sep = "-")
-head(long2)
+
+
 ```
 
-```{r}
+```{r, error = TRUE}
 long = long %>% 
   mutate(
     variable = variable %>% 
@@ -61,16 +55,16 @@ long = long %>%
   )
 ```
 
-3.  Separate the `variable` column from `long` (not `long2`) into ("route", "type") using a sep of "_"
+5.  Separate the `variable` column from `long` (not `long2`) into ("route", "type") using a sep of "_"
 ```{r}
-long = separate(long, col = "variable", into = c("route", "type"), 
-                sep = "_")
+
+
 ```
 
-5. Reshape `long` (not `long2`) using `spread.`  Spread the data where the `route` and we want the value in the new columns to be `n_people` .  Call this `wide_by_route`
+6. Reshape `long` (not `long2`) using `spread.`  Spread the data where the `route` and we want the value in the new columns to be `n_people` .  Call this `wide_by_route`
 
 ```{r}
-wide_by_route = spread(long, key = route, value = n_people)
+
 ```
 
 

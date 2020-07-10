@@ -9,10 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Data Wrangling in R" />
 
 
-<title>Merging Lab</title>
+<title>dplyr key</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -375,42 +374,142 @@ summary {
 
 
 
-<h1 class="title toc-ignore">Merging Lab</h1>
-<h4 class="author">Data Wrangling in R</h4>
+<h1 class="title toc-ignore">dplyr key</h1>
 
 </div>
 
 
-<p>This exercise is motivated by <a href="https://anythingbutrbitrary.blogspot.com/2012/08/manipulating-data-frames-using-sqldf.html" class="uri">https://anythingbutrbitrary.blogspot.com/2012/08/manipulating-data-frames-using-sqldf.html</a></p>
 <ol style="list-style-type: decimal">
-<li>read in the roads and crashes CSVs. Call them <code>crash</code> and <code>road</code> <code>crash</code>: <a href="https://sisbid.github.io/Module1/labs/crashes.csv" class="uri">https://sisbid.github.io/Module1/labs/crashes.csv</a> <code>road</code>: <a href="https://sisbid.github.io/Module1/labs/roads.csv" class="uri">https://sisbid.github.io/Module1/labs/roads.csv</a></li>
+<li>You could do this by hand or:</li>
 </ol>
-<pre class="r"><code>crash = read_csv(&quot;https://sisbid.github.io/Module1/labs/crashes.csv&quot;)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   Year = col_double(),
-##   Road = col_character(),
-##   N_Crashes = col_double(),
-##   Volume = col_double()
-## )</code></pre>
-<pre class="r"><code>head(crash)</code></pre>
-<pre><code>## # A tibble: 6 x 4
-##    Year Road          N_Crashes Volume
-##   &lt;dbl&gt; &lt;chr&gt;             &lt;dbl&gt;  &lt;dbl&gt;
-## 1  1991 Interstate 65        25  40000
-## 2  1992 Interstate 65        37  41000
-## 3  1993 Interstate 65        45  45000
-## 4  1994 Interstate 65        46  45600
-## 5  1995 Interstate 65        46  49000
-## 6  1996 Interstate 65        59  51000</code></pre>
-<pre class="r"><code># need to do the same for road
-# head(road)</code></pre>
-<ol start="2" style="list-style-type: decimal">
-<li><p>Join data to retain only complete data, (using an inner join) e.g. those observations with road lengths and districts. Merge without using <code>by</code> argument, then merge using <code>by = &quot;Road&quot;</code>. call the output <code>merged.</code> How many observations are there?</p></li>
-<li><p>Join data using a <code>full_join.</code> Call the output <code>full.</code> How many observations are there?</p></li>
-<li><p>Do a left join of the <code>road</code> and <code>crash</code>. ORDER matters here! How many observations are there?</p></li>
-<li><p>Repeat above with a <code>right_join</code> with the same order of the arguments. How many observations are there?</p></li>
+<pre class="r"><code>library(tidyverse)
+if (!file.exists(&quot;1000genomes.xlsx&quot;)) {
+  curl::curl_download(&quot;https://sisbid.github.io/Module1/labs/1000genomes.xlsx&quot;, destfile=&quot;1000genomes.xlsx&quot;)
+}</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li></li>
 </ol>
+<pre class="r"><code>library(readxl)
+library(janitor)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;janitor&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     chisq.test, fisher.test</code></pre>
+<pre class="r"><code># Have to skip one row because there is an extra header
+kg = read_excel(&quot;1000genomes.xlsx&quot;,sheet=4,skip=1)</code></pre>
+<pre><code>## New names:
+## * Center -&gt; Center...3
+## * Platform -&gt; Platform...4
+## * `Total Sequence` -&gt; `Total Sequence...5`
+## * `Passed QC` -&gt; `Passed QC...7`
+## * Center -&gt; Center...8
+## * ...</code></pre>
+<pre class="r"><code># subset to just low coverage
+kg = kg %&gt;% select(1:7)
+
+
+# make column names easier to handle
+kg = kg %&gt;% clean_names()
+
+# alternative name cleaning code
+names(kg) = map_chr(str_split(names(kg),&quot;\\.&quot;),first) %&gt;% tolower()</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li></li>
+</ol>
+<pre class="r"><code>kg %&gt;% group_by(platform_4) %&gt;% summarize(sum(total_sequence_5))</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##   platform_4 `sum(total_sequence_5)`
+##   &lt;chr&gt;                        &lt;dbl&gt;
+## 1 ILLUMINA            63066330237300
+## 2 &lt;NA&gt;                            NA</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li></li>
+</ol>
+<pre class="r"><code>kg %&gt;% group_by(center_3) %&gt;% summarize( center_total =  sum(total_sequence_5))</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre><code>## # A tibble: 15 x 2
+##    center_3       center_total
+##    &lt;chr&gt;                 &lt;dbl&gt;
+##  1 BCM                 4.03e12
+##  2 BCM,BGI             5.12e10
+##  3 BCM,BI              3.11e11
+##  4 BCM,SC              2.46e11
+##  5 BCM,WUGSC           8.16e10
+##  6 BGI                 1.42e13
+##  7 BI                  1.78e13
+##  8 BI,MPIMG            3.33e10
+##  9 Illumina            1.83e10
+## 10 ILLUMINA            2.38e12
+## 11 ILLUMINA,WUGSC      6.12e10
+## 12 MPIMG               2.10e12
+## 13 SC                  1.44e13
+## 14 WUGSC               7.24e12
+## 15 &lt;NA&gt;               NA</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li></li>
+</ol>
+<pre class="r"><code>kg %&gt;% filter(passed_qc_7==1)</code></pre>
+<pre><code>## # A tibble: 2,558 x 7
+##    sample population center_3 platform_4 total_sequence_5 aligned_non_dup…
+##    &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;                 &lt;dbl&gt;            &lt;dbl&gt;
+##  1 HG000… GBR        WUGSC    ILLUMINA        14714705600             4.94
+##  2 HG000… GBR        BCM      ILLUMINA        30285067857            10.3 
+##  3 HG000… GBR        BCM      ILLUMINA        25134554475             8.65
+##  4 HG001… GBR        SC       ILLUMINA        42906753668            14.2 
+##  5 HG001… GBR        MPIMG    ILLUMINA        22115533074             7.55
+##  6 HG001… GBR        MPIMG    ILLUMINA        21621189887             7.42
+##  7 HG001… GBR        WUGSC    ILLUMINA        16331033600             5.42
+##  8 HG001… GBR        BCM      ILLUMINA        23765222634             8.06
+##  9 HG001… GBR        MPIMG    ILLUMINA        22262720677             7.64
+## 10 HG001… GBR        SC       ILLUMINA        24284331308             8.11
+## # … with 2,548 more rows, and 1 more variable: passed_qc_7 &lt;dbl&gt;</code></pre>
+<ol start="7" style="list-style-type: decimal">
+<li></li>
+</ol>
+<pre class="r"><code>kg %&gt;% filter(passed_qc_7==1) %&gt;%
+  filter(center_3==&quot;BCM&quot;)</code></pre>
+<pre><code>## # A tibble: 159 x 7
+##    sample population center_3 platform_4 total_sequence_5 aligned_non_dup…
+##    &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;                 &lt;dbl&gt;            &lt;dbl&gt;
+##  1 HG000… GBR        BCM      ILLUMINA        30285067857            10.3 
+##  2 HG000… GBR        BCM      ILLUMINA        25134554475             8.65
+##  3 HG001… GBR        BCM      ILLUMINA        23765222634             8.06
+##  4 HG001… GBR        BCM      ILLUMINA        21830960322             7.37
+##  5 HG001… GBR        BCM      ILLUMINA        22729369260             7.81
+##  6 HG001… GBR        BCM      ILLUMINA        16653396009             5.78
+##  7 HG002… GBR        BCM      ILLUMINA        20860175087             7.09
+##  8 HG002… GBR        BCM      ILLUMINA        26964871728             9.28
+##  9 HG003… FIN        BCM      ILLUMINA        23116641337             7.91
+## 10 HG003… FIN        BCM      ILLUMINA        21058467781             7.22
+## # … with 149 more rows, and 1 more variable: passed_qc_7 &lt;dbl&gt;</code></pre>
+<ol start="8" style="list-style-type: decimal">
+<li></li>
+</ol>
+<pre class="r"><code>kg %&gt;% filter(passed_qc_7==1) %&gt;%
+  filter(center_3==&quot;BCM&quot;) %&gt;%
+  group_by(population) %&gt;%
+  summarize(meancov = mean(aligned_non_duplicated_coverage),nsamp=n())</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre><code>## # A tibble: 15 x 3
+##    population meancov nsamp
+##    &lt;chr&gt;        &lt;dbl&gt; &lt;int&gt;
+##  1 ACB           8.73     9
+##  2 ASW           8.98     7
+##  3 CEU           8.87    11
+##  4 CHB           8.21    14
+##  5 CLM           8.54     8
+##  6 FIN           7.47     6
+##  7 GBR           8.04     8
+##  8 GIH           8.35    15
+##  9 IBS           7.62    10
+## 10 JPT           9.29    15
+## 11 KHV           8.68    12
+## 12 LWK           9.55    13
+## 13 MXL           8.34     8
+## 14 PEL           9.04    12
+## 15 YRI           8.67    11</code></pre>
 
 
 

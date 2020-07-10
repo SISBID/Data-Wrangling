@@ -9,11 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Jeff Leek" />
+<meta name="author" content="Data Wrangling in R" />
 
-<meta name="date" content="2015-07-08" />
 
-<title>merging-lab-key.Rmd</title>
+<title>Merging Lab Key</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -376,85 +375,79 @@ summary {
 
 
 
-<h1 class="title toc-ignore">merging-lab-key.Rmd</h1>
-<h4 class="author">Jeff Leek</h4>
-<h4 class="date">July 8, 2015</h4>
+<h1 class="title toc-ignore">Merging Lab Key</h1>
+<h4 class="author">Data Wrangling in R</h4>
 
 </div>
 
 
+<p>This exercise is motivated by <a href="https://anythingbutrbitrary.blogspot.com/2012/08/manipulating-data-frames-using-sqldf.html" class="uri">https://anythingbutrbitrary.blogspot.com/2012/08/manipulating-data-frames-using-sqldf.html</a></p>
 <ol style="list-style-type: decimal">
-<li>You could do this by hand or (if you need to download the data set when running this code, set <code>eval=TRUE</code> in the chunk below):</li>
+<li>read in the roads and crashes CSVs. Call them <code>crash</code> and <code>road</code> <code>crash</code>: <a href="https://sisbid.github.io/Module1/labs//crashes.csv" class="uri">https://sisbid.github.io/Module1/labs//crashes.csv</a> <code>road</code>: <a href="https://sisbid.github.io/Module1/labs//roads.csv" class="uri">https://sisbid.github.io/Module1/labs//roads.csv</a></li>
 </ol>
-<pre class="r"><code>library(downloader)
-download(&quot;ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/working/20130606_sample_info/20130606_sample_info.xlsx&quot;,destfile=&quot;1000genomes.xlsx&quot;)</code></pre>
+<pre class="r"><code>crash = read_csv(&quot;https://sisbid.github.io/Module1/labs/crashes.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   Year = col_double(),
+##   Road = col_character(),
+##   N_Crashes = col_double(),
+##   Volume = col_double()
+## )</code></pre>
+<pre class="r"><code>road = read_csv(&quot;https://sisbid.github.io/Module1/labs/roads.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   Road = col_character(),
+##   District = col_character(),
+##   Length = col_double()
+## )</code></pre>
+<pre class="r"><code>head(crash)</code></pre>
+<pre><code>## # A tibble: 6 x 4
+##    Year Road          N_Crashes Volume
+##   &lt;dbl&gt; &lt;chr&gt;             &lt;dbl&gt;  &lt;dbl&gt;
+## 1  1991 Interstate 65        25  40000
+## 2  1992 Interstate 65        37  41000
+## 3  1993 Interstate 65        45  45000
+## 4  1994 Interstate 65        46  45600
+## 5  1995 Interstate 65        46  49000
+## 6  1996 Interstate 65        59  51000</code></pre>
+<pre class="r"><code>head(road)</code></pre>
+<pre><code>## # A tibble: 5 x 3
+##   Road          District       Length
+##   &lt;chr&gt;         &lt;chr&gt;           &lt;dbl&gt;
+## 1 Interstate 65 Greenfield        262
+## 2 Interstate 70 Vincennes         156
+## 3 US-36         Crawfordsville    139
+## 4 US-40         Greenfield        150
+## 5 US-52         Crawfordsville    172</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Join data to retain only complete data, (using an inner join) e.g. those observations with road lengths and districts. Merge without using <code>by</code> argument, then merge using <code>by = &quot;Road&quot;</code>. call the output <code>merged.</code> How many observations are there?</li>
+</ol>
+<pre class="r"><code>merged = inner_join(crash, road)</code></pre>
+<pre><code>## Joining, by = &quot;Road&quot;</code></pre>
+<pre class="r"><code>merged = inner_join(crash, road, by = &quot;Road&quot;)
+dim(merged)</code></pre>
+<pre><code>## [1] 88  6</code></pre>
 <ol start="3" style="list-style-type: decimal">
-<li></li>
+<li>Join data using a <code>full_join.</code> Call the output <code>full.</code> How many observations are there?</li>
 </ol>
-<pre class="r"><code>library(readxl)
-library(janitor)
-# Have to skip one row because there is an extra header
-kg_s4 = read_excel(&quot;1000genomes.xlsx&quot;,sheet=4,skip=1)</code></pre>
-<pre><code>## New names:
-## * Center -&gt; Center...3
-## * Platform -&gt; Platform...4
-## * `Total Sequence` -&gt; `Total Sequence...5`
-## * `Passed QC` -&gt; `Passed QC...7`
-## * Center -&gt; Center...8
-## * ...</code></pre>
-<pre class="r"><code># subset to just low coverage
-kg_s4 = kg_s4 %&gt;% select(1:7)
-kg_s4 = kg_s4 %&gt;% clean_names()
-dim(kg_s4)</code></pre>
-<pre><code>## [1] 3500    7</code></pre>
-<pre class="r"><code>kg_s1 = read_excel(&quot;1000genomes.xlsx&quot;,sheet=1)
-dim(kg_s1)</code></pre>
-<pre><code>## [1] 3500   15</code></pre>
-<pre class="r"><code>kg_s1 = kg_s1 %&gt;% clean_names()</code></pre>
+<pre class="r"><code>full = full_join(crash, road)</code></pre>
+<pre><code>## Joining, by = &quot;Road&quot;</code></pre>
+<pre class="r"><code>nrow(full)</code></pre>
+<pre><code>## [1] 111</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Do a left join of the <code>road</code> and <code>crash</code>. ORDER matters here! How many observations are there?</li>
+</ol>
+<pre class="r"><code>left = left_join(road, crash)</code></pre>
+<pre><code>## Joining, by = &quot;Road&quot;</code></pre>
+<pre class="r"><code>nrow(left)</code></pre>
+<pre><code>## [1] 89</code></pre>
 <ol start="5" style="list-style-type: decimal">
-<li></li>
+<li>Repeat above with a <code>right_join</code> with the same order of the arguments. How many observations are there?</li>
 </ol>
-<pre class="r"><code>library(dplyr)
-## inner join
-ij = inner_join(kg_s4,kg_s1)</code></pre>
-<pre><code>## Joining, by = c(&quot;sample&quot;, &quot;population&quot;)</code></pre>
-<pre class="r"><code>## semi join
-sj = semi_join(kg_s4,kg_s1)</code></pre>
-<pre><code>## Joining, by = c(&quot;sample&quot;, &quot;population&quot;)</code></pre>
-<pre class="r"><code>## left join
-lj = left_join(kg_s4,kg_s1)</code></pre>
-<pre><code>## Joining, by = c(&quot;sample&quot;, &quot;population&quot;)</code></pre>
-<pre class="r"><code>## How I actually write this
-
-lj = kg_s4 %&gt;%
-  left_join(kg_s1)</code></pre>
-<pre><code>## Joining, by = c(&quot;sample&quot;, &quot;population&quot;)</code></pre>
-<pre class="r"><code>## outer/full join
-oj = merge(kg_s4,kg_s1,all=TRUE)</code></pre>
-<ol start="6" style="list-style-type: decimal">
-<li></li>
-</ol>
-<pre class="r"><code>dim(ij)</code></pre>
-<pre><code>## [1] 3500   20</code></pre>
-<pre class="r"><code>dim(sj)</code></pre>
-<pre><code>## [1] 3500    7</code></pre>
-<pre class="r"><code>dim(lj)</code></pre>
-<pre><code>## [1] 3500   20</code></pre>
-<pre class="r"><code>dim(oj)</code></pre>
-<pre><code>## [1] 3500   20</code></pre>
-<ol start="7" style="list-style-type: decimal">
-<li>They are the same but different order</li>
-</ol>
-<pre class="r"><code>## Check if names are the same
-sum(names(lj) %in% names(oj))</code></pre>
-<pre><code>## [1] 20</code></pre>
-<p>8</p>
-<pre class="r"><code>lj = kg_s4 %&gt;%
-  left_join(kg_s1)</code></pre>
-<pre><code>## Joining, by = c(&quot;sample&quot;, &quot;population&quot;)</code></pre>
-<pre class="r"><code>lj2 = kg_s1 %&gt;%
-  left_join(kg_s4)</code></pre>
-<pre><code>## Joining, by = c(&quot;sample&quot;, &quot;population&quot;)</code></pre>
+<pre class="r"><code>right = right_join(road, crash)</code></pre>
+<pre><code>## Joining, by = &quot;Road&quot;</code></pre>
+<pre class="r"><code>nrow(right)</code></pre>
+<pre><code>## [1] 110</code></pre>
 
 
 

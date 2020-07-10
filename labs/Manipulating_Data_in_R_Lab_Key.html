@@ -9,9 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Data Wrangling in R" />
 
 
-<title>Manipulating Data in R Lab</title>
+<title>Data Reshaping Lab</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -374,196 +375,79 @@ summary {
 
 
 
-<h1 class="title toc-ignore">Manipulating Data in R Lab</h1>
+<h1 class="title toc-ignore">Data Reshaping Lab</h1>
+<h4 class="author">Data Wrangling in R</h4>
 
 </div>
 
 
-<pre class="r"><code>library(readr)
-library(dplyr)
-library(ggplot2)
-library(tidyr)
-library(stringr)</code></pre>
-<div id="part-1" class="section level1">
-<h1>Part 1</h1>
+<pre class="r"><code>library(tidyverse)</code></pre>
 <ol style="list-style-type: decimal">
-<li>Read in the Wide Bike lanes data: <a href="https://sisbid.github.io/Module1/labs/Bike_Lanes_Wide.csv" class="uri">https://sisbid.github.io/Module1/labs/Bike_Lanes_Wide.csv</a> . Name the data set <code>wide</code>.</li>
+<li>Read in the Circulator Data from <a href="http://sisbid.github.io/Module1/data/Charm_City_Circulator_Ridership.csv" class="uri">http://sisbid.github.io/Module1/data/Charm_City_Circulator_Ridership.csv</a>. Name the data set <code>wide</code>.</li>
 </ol>
-<pre class="r"><code>wide = read_csv(&quot;https://sisbid.github.io/Module1/labs/Bike_Lanes_Wide.csv&quot;)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   name = col_character(),
-##   `BIKE BOULEVARD` = col_double(),
-##   `BIKE LANE` = col_double(),
-##   CONTRAFLOW = col_double(),
-##   `SHARED BUS BIKE` = col_double(),
-##   SHARROW = col_double(),
-##   SIDEPATH = col_double(),
-##   `SIGNED ROUTE` = col_double(),
-##   `&lt;NA&gt;` = col_double()
-## )</code></pre>
+<pre class="r"><code>wide = read_csv(
+  paste0(&quot;http://sisbid.github.io/Module1/&quot;,
+         &quot;data/Charm_City_Circulator_Ridership.csv&quot;))
+head(wide, 2)</code></pre>
+<pre><code>## # A tibble: 2 x 15
+##   day   date  orangeBoardings orangeAlightings orangeAverage purpleBoardings
+##   &lt;chr&gt; &lt;chr&gt;           &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;           &lt;dbl&gt;
+## 1 Mond… 01/1…             877             1027           952              NA
+## 2 Tues… 01/1…             777              815           796              NA
+## # … with 9 more variables: purpleAlightings &lt;dbl&gt;, purpleAverage &lt;dbl&gt;,
+## #   greenBoardings &lt;dbl&gt;, greenAlightings &lt;dbl&gt;, greenAverage &lt;dbl&gt;,
+## #   bannerBoardings &lt;dbl&gt;, bannerAlightings &lt;dbl&gt;, bannerAverage &lt;dbl&gt;,
+## #   daily &lt;dbl&gt;</code></pre>
+<pre class="r"><code>class(wide$date)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li>Reshape <code>wide</code> using <code>gather.</code> Call this data <code>long.</code> Make the <code>key</code> <code>lanetype</code>, and the value <code>the_length.</code> Make sure we gather all columns <strong>but</strong> <code>name</code>, using <code>-name</code>. Note the <code>NA</code>s here:</li>
+<li>Reshape <code>wide</code> using <code>gather.</code> Call this data <code>long.</code> Make the <code>key</code> <code>variable</code>, and the value <code>n_people</code> Make sure we gather all columns <strong>but</strong> <code>daily</code>, <code>day</code>, <code>date</code>, using things like <code>-day</code>. Table <code>long$day</code></li>
 </ol>
 <pre class="r"><code>long = wide %&gt;% 
-  gather(key = &quot;lanetype&quot;, value = &quot;the_length&quot;, -name)
-head(long)</code></pre>
-<pre><code>## # A tibble: 6 x 3
-##   name              lanetype       the_length
-##   &lt;chr&gt;             &lt;chr&gt;               &lt;dbl&gt;
-## 1 ALBEMARLE ST      BIKE BOULEVARD         NA
-## 2 ALICEANNA ST      BIKE BOULEVARD         NA
-## 3 ARGONNE DR        BIKE BOULEVARD         NA
-## 4 ART MUSEUM DR     BIKE BOULEVARD         NA
-## 5 AUCHENTOROLY TERR BIKE BOULEVARD         NA
-## 6 BANK ST           BIKE BOULEVARD         NA</code></pre>
-</div>
-<div id="part-2" class="section level1">
-<h1>Part 2</h1>
-<p>This exercise is motivated by <a href="https://anythingbutrbitrary.blogspot.com/2012/08/manipulating-data-frames-using-sqldf.html" class="uri">https://anythingbutrbitrary.blogspot.com/2012/08/manipulating-data-frames-using-sqldf.html</a></p>
+  gather(key = &quot;variable&quot;, value = &quot;n_people&quot;, -daily, -day, -date)
+head(long$day)</code></pre>
+<pre><code>## [1] &quot;Monday&quot;    &quot;Tuesday&quot;   &quot;Wednesday&quot; &quot;Thursday&quot;  &quot;Friday&quot;    &quot;Saturday&quot;</code></pre>
 <ol start="3" style="list-style-type: decimal">
-<li>read in the roads and crashes CSVs. Call them <code>crash</code> and <code>road</code> <code>crash</code>: <a href="https://sisbid.github.io/Module1/labs//crashes.csv" class="uri">https://sisbid.github.io/Module1/labs//crashes.csv</a> <code>road</code>: <a href="https://sisbid.github.io/Module1/labs//roads.csv" class="uri">https://sisbid.github.io/Module1/labs//roads.csv</a></li>
+<li>Separate the <code>date</code> column into (“month”, “day”, “year”) using a sep of “/” Make sure you don’t remove the <code>date</code> column, call this <code>long2</code>. Do a table of the day column. Where did the original <code>day</code> column go?</li>
 </ol>
-<pre class="r"><code>crash = read_csv(&quot;https://sisbid.github.io/Module1/labs//crashes.csv&quot;)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   Year = col_double(),
-##   Road = col_character(),
-##   N_Crashes = col_double(),
-##   Volume = col_double()
-## )</code></pre>
-<pre class="r"><code>road = read_csv(&quot;https://sisbid.github.io/Module1/labs//roads.csv&quot;)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   Road = col_character(),
-##   District = col_character(),
-##   Length = col_double()
-## )</code></pre>
-<pre class="r"><code>head(crash)</code></pre>
-<pre><code>## # A tibble: 6 x 4
-##    Year Road          N_Crashes Volume
-##   &lt;dbl&gt; &lt;chr&gt;             &lt;dbl&gt;  &lt;dbl&gt;
-## 1  1991 Interstate 65        25  40000
-## 2  1992 Interstate 65        37  41000
-## 3  1993 Interstate 65        45  45000
-## 4  1994 Interstate 65        46  45600
-## 5  1995 Interstate 65        46  49000
-## 6  1996 Interstate 65        59  51000</code></pre>
-<pre class="r"><code>head(road)</code></pre>
-<pre><code>## # A tibble: 5 x 3
-##   Road          District       Length
-##   &lt;chr&gt;         &lt;chr&gt;           &lt;dbl&gt;
-## 1 Interstate 65 Greenfield        262
-## 2 Interstate 70 Vincennes         156
-## 3 US-36         Crawfordsville    139
-## 4 US-40         Greenfield        150
-## 5 US-52         Crawfordsville    172</code></pre>
+<pre class="r"><code>long2 = separate(long, col = &quot;date&quot;, into = c(&quot;month&quot;, &quot;day&quot;, &quot;year&quot;), 
+                sep = &quot;/&quot;, remove = FALSE)
+table(long2$day)</code></pre>
+<pre><code>## 
+##  01  02  03  04  05  06  07  08  09  10  11  12  13  14  15  16  17  18  19  20 
+## 456 444 444 444 444 444 444 444 444 444 456 456 456 456 456 456 456 456 456 456 
+##  21  22  23  24  25  26  27  28  29  30  31 
+## 456 456 456 456 456 456 456 456 420 408 264</code></pre>
 <ol start="4" style="list-style-type: decimal">
-<li>Replace (using <code>str_replace</code>) any hyphens (<code>-</code>) with a space in <code>crash$Road</code>. Call this data <code>crash2</code>. Table the <code>Road</code> variable.</li>
+<li>Create a new variable in <code>long2</code> calling it <code>newdate</code> using the <code>unite</code> function. Unite the year, month, day, columns using a hyphen (<code>-</code>) and then <code>table</code> <code>road_hyphen</code></li>
 </ol>
-<pre class="r"><code>crash2 = crash %&gt;% mutate(Road = str_replace(Road, &quot;-&quot;, &quot; &quot;))
-table(crash2$Road)</code></pre>
-<pre><code>## 
-## Interstate 275  Interstate 65  Interstate 70          US 36          US 40 
-##             22             22             22             22             22</code></pre>
+<pre class="r"><code>long2 = unite(long2, col = &quot;newdate&quot;, year, month, day, sep = &quot;-&quot;)
+head(long2)</code></pre>
+<pre><code>## # A tibble: 6 x 5
+##   date       daily newdate    variable        n_people
+##   &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;              &lt;dbl&gt;
+## 1 01/11/2010  952  2010-01-11 orangeBoardings      877
+## 2 01/12/2010  796  2010-01-12 orangeBoardings      777
+## 3 01/13/2010 1212. 2010-01-13 orangeBoardings     1203
+## 4 01/14/2010 1214. 2010-01-14 orangeBoardings     1194
+## 5 01/15/2010 1644  2010-01-15 orangeBoardings     1645
+## 6 01/16/2010 1490. 2010-01-16 orangeBoardings     1457</code></pre>
+<pre class="r"><code>long = long %&gt;% 
+  mutate(
+    variable = variable %&gt;% 
+      str_replace(&quot;Board&quot;, &quot;_Board&quot;) %&gt;% 
+      str_replace(&quot;Alight&quot;, &quot;_Alight&quot;) %&gt;% 
+      str_replace(&quot;Average&quot;, &quot;_Average&quot;) 
+  )</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Separate the <code>variable</code> column from <code>long</code> (not <code>long2</code>) into (“route”, “type”) using a sep of &quot;_&quot;</li>
+</ol>
+<pre class="r"><code>long = separate(long, col = &quot;variable&quot;, into = c(&quot;route&quot;, &quot;type&quot;), 
+                sep = &quot;_&quot;)</code></pre>
 <ol start="5" style="list-style-type: decimal">
-<li>How many observations are in each dataset?</li>
+<li>Reshape <code>long</code> (not <code>long2</code>) using <code>spread.</code> Spread the data where the <code>route</code> and we want the value in the new columns to be <code>n_people</code> . Call this <code>wide_by_route</code></li>
 </ol>
-<pre class="r"><code>dim(crash)</code></pre>
-<pre><code>## [1] 110   4</code></pre>
-<pre class="r"><code>dim(road)</code></pre>
-<pre><code>## [1] 5 3</code></pre>
-<ol start="6" style="list-style-type: decimal">
-<li>Separate the Road column (using <code>separate</code>) into (<code>type</code> and <code>number</code>) in <code>crash2.</code> Reassign this to <code>crash2.</code> Table <code>crash2$type</code></li>
-</ol>
-<pre class="r"><code>crash2 = separate(crash2, col = &quot;Road&quot;, into = c(&quot;type&quot;, &quot;number&quot;))
-table( crash2$type)</code></pre>
-<pre><code>## 
-## Interstate         US 
-##         66         44</code></pre>
-<p>Create a new variable calling it road_hyphen using the <code>unite</code> function. Unite the type and number columns using a hyphen (<code>-</code>) and then <code>table</code> <code>road_hyphen</code></p>
-<pre class="r"><code>crash2 = unite(crash2, col = &quot;road_hyphen&quot;, type, number ,sep = &quot;-&quot;)
-table( crash2$road_hyphen)</code></pre>
-<pre><code>## 
-## Interstate-275  Interstate-65  Interstate-70          US-36          US-40 
-##             22             22             22             22             22</code></pre>
-<ol start="7" style="list-style-type: decimal">
-<li>Which and how many years were data collected?</li>
-</ol>
-<pre class="r"><code>unique(crash$Year)</code></pre>
-<pre><code>##  [1] 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005
-## [16] 2006 2007 2008 2009 2010 2011 2012</code></pre>
-<pre class="r"><code>length(unique(crash$Year))</code></pre>
-<pre><code>## [1] 22</code></pre>
-</div>
-<div id="part-3" class="section level1">
-<h1>Part 3</h1>
-<ol start="8" style="list-style-type: decimal">
-<li>Read in the Bike lanes data: <a href="https://sisbid.github.io/Module1/labs/Bike_Lanes.csv" class="uri">https://sisbid.github.io/Module1/labs/Bike_Lanes.csv</a>. Name the data set <code>bike</code>,</li>
-</ol>
-<pre class="r"><code>bike = read_csv(&quot;https://sisbid.github.io/Module1/labs/Bike_Lanes.csv&quot;)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   subType = col_character(),
-##   name = col_character(),
-##   block = col_character(),
-##   type = col_character(),
-##   numLanes = col_double(),
-##   project = col_character(),
-##   route = col_character(),
-##   length = col_double(),
-##   dateInstalled = col_double()
-## )</code></pre>
-<ol start="9" style="list-style-type: decimal">
-<li>Keep rows where the record is not missing <code>type</code> and not missing <code>name</code> and re-assign the output to <code>bike</code>.</li>
-</ol>
-<pre class="r"><code>bike = filter(bike, !is.na(type) &amp; !is.na(name))</code></pre>
-<ol start="10" style="list-style-type: decimal">
-<li>Summarize and group the data by grouping <code>name</code> and <code>type</code> and take the <code>sum</code> of the length (reassign <code>length</code> variable). Call this data set <code>sub</code></li>
-</ol>
-<pre class="r"><code>sub = bike %&gt;% 
-  group_by(name, type) %&gt;% 
-  summarize(length = sum(length))</code></pre>
-<pre><code>## `summarise()` regrouping output by &#39;name&#39; (override with `.groups` argument)</code></pre>
-<ol start="11" style="list-style-type: decimal">
-<li>Reshape <code>sub</code> using <code>spread.</code> Spread the data where the <code>key</code> is type and we want the value in the new columns to be <code>length</code> - the bike lane length.<br />
-Call this <code>wide</code>.</li>
-</ol>
-<pre class="r"><code>wide = spread(sub, key = type, value = length)</code></pre>
-<p>Look at the column names of <code>wide</code> - what are they? (they also have spaces)</p>
-</div>
-<div id="part-4" class="section level1">
-<h1>Part 4</h1>
-<ol start="12" style="list-style-type: decimal">
-<li>Join data to retain only complete data, (using an inner join) e.g. those observations with road lengths and districts. Merge without using <code>by</code> argument, then merge using <code>by = &quot;Road&quot;</code>. call the output <code>merged.</code> How many observations are there?</li>
-</ol>
-<pre class="r"><code>merged = inner_join(crash, road)</code></pre>
-<pre><code>## Joining, by = &quot;Road&quot;</code></pre>
-<pre class="r"><code>merged = inner_join(crash, road, by = &quot;Road&quot;)
-dim(merged)</code></pre>
-<pre><code>## [1] 88  6</code></pre>
-<ol start="13" style="list-style-type: decimal">
-<li>Join data using a <code>full_join.</code> Call the output <code>full.</code> How many observations are there?</li>
-</ol>
-<pre class="r"><code>full = full_join(crash, road)</code></pre>
-<pre><code>## Joining, by = &quot;Road&quot;</code></pre>
-<pre class="r"><code>nrow(full)</code></pre>
-<pre><code>## [1] 111</code></pre>
-<ol start="14" style="list-style-type: decimal">
-<li>Do a left join of the <code>road</code> and <code>crash</code>. ORDER matters here! How many observations are there?</li>
-</ol>
-<pre class="r"><code>left = left_join(road, crash)</code></pre>
-<pre><code>## Joining, by = &quot;Road&quot;</code></pre>
-<pre class="r"><code>nrow(left)</code></pre>
-<pre><code>## [1] 89</code></pre>
-<ol start="15" style="list-style-type: decimal">
-<li>Repeat above with a <code>right_join</code> with the same order of the arguments. How many observations are there?</li>
-</ol>
-<pre class="r"><code>right = right_join(road, crash)</code></pre>
-<pre><code>## Joining, by = &quot;Road&quot;</code></pre>
-<pre class="r"><code>nrow(right)</code></pre>
-<pre><code>## [1] 110</code></pre>
-</div>
+<pre class="r"><code>wide_by_route = spread(long, key = route, value = n_people)</code></pre>
 
 
 

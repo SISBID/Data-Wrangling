@@ -1,81 +1,48 @@
 ---
-title: "merging-lab-key.Rmd"
-author: "Jeff Leek"
-date: "July 8, 2015"
+title: "Merging Lab Key"
+author: "Data Wrangling in R"
 output: html_document
 ---
 
-1. You could do this by hand or (if you need to download the data set when running this code, set `eval=TRUE` in the chunk below):
-```{r,warning=FALSE,eval=FALSE}
-library(downloader)
-download("ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/working/20130606_sample_info/20130606_sample_info.xlsx",destfile="1000genomes.xlsx")
-```
+This exercise is motivated by https://anythingbutrbitrary.blogspot.com/2012/08/manipulating-data-frames-using-sqldf.html
 
-3. 
-```{r,warning=FALSE}
-library(readxl)
-library(janitor)
-# Have to skip one row because there is an extra header
-kg_s4 = read_excel("1000genomes.xlsx",sheet=4,skip=1)
-# subset to just low coverage
-kg_s4 = kg_s4 %>% select(1:7)
-kg_s4 = kg_s4 %>% clean_names()
-dim(kg_s4)
-
-kg_s1 = read_excel("1000genomes.xlsx",sheet=1)
-dim(kg_s1)
-kg_s1 = kg_s1 %>% clean_names()
-
-```
-
-5. 
-```{r}
-library(dplyr)
-## inner join
-ij = inner_join(kg_s4,kg_s1)
-
-## semi join
-sj = semi_join(kg_s4,kg_s1)
-
-## left join
-lj = left_join(kg_s4,kg_s1)
-
-## How I actually write this
-
-lj = kg_s4 %>%
-  left_join(kg_s1)
-
-## outer/full join
-oj = merge(kg_s4,kg_s1,all=TRUE)
-```
-
-6.
-```{r}
-dim(ij)
-dim(sj)
-dim(lj)
-dim(oj)
-```
-
-7. They are the same but different order
+1. read in the roads and crashes CSVs.  Call them `crash` and `road`
+`crash`: https://sisbid.github.io/Module1/labs//crashes.csv
+`road`: https://sisbid.github.io/Module1/labs//roads.csv
 
 ```{r}
-## Check if names are the same
-sum(names(lj) %in% names(oj))
-
+crash = read_csv("https://sisbid.github.io/Module1/labs/crashes.csv")
+road = read_csv("https://sisbid.github.io/Module1/labs/roads.csv")
+head(crash)
+head(road)
 ```
 
 
-8 
+2. Join data to retain only complete data, (using an inner join) e.g. those observations with road lengths and districts.  Merge without using `by` argument, then merge using `by = "Road"`. call the output `merged.`  How many observations are there?
 
 ```{r}
-
-lj = kg_s4 %>%
-  left_join(kg_s1)
-
-lj2 = kg_s1 %>%
-  left_join(kg_s4)
+merged = inner_join(crash, road)
+merged = inner_join(crash, road, by = "Road")
+dim(merged)
 ```
 
+3. Join data using a `full_join.`  Call the output `full.`   How many observations are there?
 
+```{r}
+full = full_join(crash, road)
+nrow(full)
+```
 
+4. Do a left join of the `road` and `crash`.  ORDER matters here!  How many observations are there?
+
+```{r}
+left = left_join(road, crash)
+nrow(left)
+```
+
+5. Repeat above with a `right_join` with the same order of the arguments. How many observations are there?
+
+```{r}
+right = right_join(road, crash)
+nrow(right)
+```

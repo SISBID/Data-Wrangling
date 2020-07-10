@@ -1,5 +1,5 @@
 ---
-title: "Data Reshaping Lab"
+title: "Data Reshaping Lab Key"
 author: "Data Wrangling in R"
 output: html_document
 editor_options: 
@@ -51,7 +51,7 @@ long2 = unite(long2, col = "newdate", year, month, day, sep = "-")
 head(long2)
 ```
 
-```{r}
+```{r, error = TRUE}
 long = long %>% 
   mutate(
     variable = variable %>% 
@@ -61,13 +61,13 @@ long = long %>%
   )
 ```
 
-3.  Separate the `variable` column from `long` (not `long2`) into ("route", "type") using a sep of "_"
+5.  Separate the `variable` column from `long` (not `long2`) into ("route", "type") using a sep of "_"
 ```{r}
 long = separate(long, col = "variable", into = c("route", "type"), 
                 sep = "_")
 ```
 
-5. Reshape `long` (not `long2`) using `spread.`  Spread the data where the `route` and we want the value in the new columns to be `n_people` .  Call this `wide_by_route`
+6. Reshape `long` (not `long2`) using `spread.`  Spread the data where the `route` and we want the value in the new columns to be `n_people` .  Call this `wide_by_route`
 
 ```{r}
 wide_by_route = spread(long, key = route, value = n_people)

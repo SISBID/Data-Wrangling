@@ -31,7 +31,7 @@ long2 = unite(long2, col = "newdate", year, month, day, sep = "-")
 head(long2)
 
 
-## -----------------------------------------------------------------------------
+## ---- error = TRUE------------------------------------------------------------
 long = long %>% 
   mutate(
     variable = variable %>% 

@@ -4,25 +4,40 @@ author: "Data Wrangling in R"
 output: html_document
 ---
 
-1. Download the samples data on the 1,000 genomes project from our website (https://sisbid.github.io/Module1/labs/1000genomes.xlsx).
+This exercise is motivated by https://anythingbutrbitrary.blogspot.com/2012/08/manipulating-data-frames-using-sqldf.html
+
+1. read in the roads and crashes CSVs.  Call them `crash` and `road`
+`crash`: https://sisbid.github.io/Module1/labs/crashes.csv
+`road`: https://sisbid.github.io/Module1/labs/roads.csv
+
+```{r}
+crash = read_csv("https://sisbid.github.io/Module1/labs/crashes.csv")
+head(crash)
+# need to do the same for road
+# head(road)
+```
+
+
+2. Join data to retain only complete data, (using an inner join) e.g. those observations with road lengths and districts.  Merge without using `by` argument, then merge using `by = "Road"`. call the output `merged.`  How many observations are there?
 
 ```{r}
 
 ```
 
-2. Open the sheet and look at the information listed. Go to the sheet *Final Phase Sequence Data*
+3. Join data using a `full_join.`  Call the output `full.`   How many observations are there?
 
-3. Read in the first and fourth sheets (you may want to use the `readxl` package). Keep only the low coverage data from the 4th sheet. 
+```{r}
 
-4. Look at the cheetsheet on merging:  http://stat545.com/bit001_dplyr-cheatsheet.html
+```
 
+4. Do a left join of the `road` and `crash`.  ORDER matters here!  How many observations are there?
 
-5. Try merging the data sets with `inner_join`, `semi_join`, `left_join`,`full_join`. 
+```{r}
 
-6. What are the dimensions of the resulting data sets? 
+```
 
-7. The full join and and left join have the same dimensions. Are they exactly identical? 
+5. Repeat above with a `right_join` with the same order of the arguments. How many observations are there?
 
-8. Reverse the order of that sets on `left_join`. Do you get the same result? 
+```{r}
 
-9. Try `anti_join`. What happens? Read here for more on filtering joins: http://r4ds.had.co.nz/relational-data.html
+```

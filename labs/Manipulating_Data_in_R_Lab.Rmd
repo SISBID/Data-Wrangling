@@ -1,5 +1,6 @@
 ---
-title: "Manipulating Data in R Lab"
+title: "Data Reshaping"
+author: "Data Wrangling in R"
 output: html_document
 editor_options: 
   chunk_output_type: console
@@ -11,11 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r}
-library(readr)
-library(dplyr)
-library(ggplot2)
-library(tidyr)
-library(stringr)
+library(tidyverse)
 ```
 
 # Part 1

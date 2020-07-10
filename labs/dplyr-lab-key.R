@@ -1,7 +1,7 @@
 ## -----------------------------------------------------------------------------
 library(tidyverse)
 if (!file.exists("1000genomes.xlsx")) {
-  curl::curl_download("ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/working/20130606_sample_info/20130606_sample_info.xlsx", destfile="1000genomes.xlsx")
+  curl::curl_download("https://sisbid.github.io/Module1/labs/1000genomes.xlsx", destfile="1000genomes.xlsx")
 }
 
 
