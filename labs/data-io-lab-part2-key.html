@@ -388,29 +388,29 @@ library(visdat)</code></pre>
 <li>Read in the the Charm City Circulator Dataset from “<a href="http://sisbid.github.io/Module1/data/Charm_City_Circulator_Ridership.csv" class="uri">http://sisbid.github.io/Module1/data/Charm_City_Circulator_Ridership.csv</a>” using <code>read_csv</code>, call it <code>circ</code></li>
 </ol>
 <pre class="r"><code>circ = read_csv(&quot;http://sisbid.github.io/Module1/data/Charm_City_Circulator_Ridership.csv&quot;)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   day = col_character(),
-##   date = col_character(),
-##   orangeBoardings = col_double(),
-##   orangeAlightings = col_double(),
-##   orangeAverage = col_double(),
-##   purpleBoardings = col_double(),
-##   purpleAlightings = col_double(),
-##   purpleAverage = col_double(),
-##   greenBoardings = col_double(),
-##   greenAlightings = col_double(),
-##   greenAverage = col_double(),
-##   bannerBoardings = col_double(),
-##   bannerAlightings = col_double(),
-##   bannerAverage = col_double(),
-##   daily = col_double()
-## )</code></pre>
+<pre><code>Parsed with column specification:
+cols(
+  day = col_character(),
+  date = col_character(),
+  orangeBoardings = col_double(),
+  orangeAlightings = col_double(),
+  orangeAverage = col_double(),
+  purpleBoardings = col_double(),
+  purpleAlightings = col_double(),
+  purpleAverage = col_double(),
+  greenBoardings = col_double(),
+  greenAlightings = col_double(),
+  greenAverage = col_double(),
+  bannerBoardings = col_double(),
+  bannerAlightings = col_double(),
+  bannerAverage = col_double(),
+  daily = col_double()
+)</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Print the number of rows of <code>circ</code></li>
 </ol>
 <pre class="r"><code>nrow(circ)</code></pre>
-<pre><code>## [1] 1146</code></pre>
+<pre><code>[1] 1146</code></pre>
 <ol start="3" style="list-style-type: decimal">
 <li>Visualize the missing data patterns of <code>circ</code> with <code>vis_miss</code>:</li>
 </ol>
@@ -420,24 +420,24 @@ library(visdat)</code></pre>
 <li>Determine the percent missing in each column using <code>miss_var_summary</code></li>
 </ol>
 <pre class="r"><code>miss_var_summary(circ)</code></pre>
-<pre><code>## # A tibble: 15 x 3
-##    variable         n_miss pct_miss
-##    &lt;chr&gt;             &lt;int&gt;    &lt;dbl&gt;
-##  1 bannerBoardings     876   76.4  
-##  2 bannerAlightings    876   76.4  
-##  3 bannerAverage       876   76.4  
-##  4 greenBoardings      661   57.7  
-##  5 greenAlightings     661   57.7  
-##  6 greenAverage        661   57.7  
-##  7 purpleBoardings     210   18.3  
-##  8 purpleAlightings    210   18.3  
-##  9 purpleAverage       153   13.4  
-## 10 daily               124   10.8  
-## 11 orangeBoardings      67    5.85 
-## 12 orangeAlightings     67    5.85 
-## 13 orangeAverage        10    0.873
-## 14 day                   0    0    
-## 15 date                  0    0</code></pre>
+<pre><code># A tibble: 15 x 3
+   variable         n_miss pct_miss
+   &lt;chr&gt;             &lt;int&gt;    &lt;dbl&gt;
+ 1 bannerBoardings     876   76.4  
+ 2 bannerAlightings    876   76.4  
+ 3 bannerAverage       876   76.4  
+ 4 greenBoardings      661   57.7  
+ 5 greenAlightings     661   57.7  
+ 6 greenAverage        661   57.7  
+ 7 purpleBoardings     210   18.3  
+ 8 purpleAlightings    210   18.3  
+ 9 purpleAverage       153   13.4  
+10 daily               124   10.8  
+11 orangeBoardings      67    5.85 
+12 orangeAlightings     67    5.85 
+13 orangeAverage        10    0.873
+14 day                   0    0    
+15 date                  0    0    </code></pre>
 <ol start="5" style="list-style-type: decimal">
 <li>Determine the number missing in each column using <code>gg_miss_var</code>:</li>
 </ol>

@@ -389,49 +389,49 @@ summary {
   paste0(&quot;http://sisbid.github.io/Module1/&quot;,
          &quot;data/Charm_City_Circulator_Ridership.csv&quot;))
 head(wide, 2)</code></pre>
-<pre><code>## # A tibble: 2 x 15
-##   day   date  orangeBoardings orangeAlightings orangeAverage purpleBoardings
-##   &lt;chr&gt; &lt;chr&gt;           &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;           &lt;dbl&gt;
-## 1 Mond… 01/1…             877             1027           952              NA
-## 2 Tues… 01/1…             777              815           796              NA
-## # … with 9 more variables: purpleAlightings &lt;dbl&gt;, purpleAverage &lt;dbl&gt;,
-## #   greenBoardings &lt;dbl&gt;, greenAlightings &lt;dbl&gt;, greenAverage &lt;dbl&gt;,
-## #   bannerBoardings &lt;dbl&gt;, bannerAlightings &lt;dbl&gt;, bannerAverage &lt;dbl&gt;,
-## #   daily &lt;dbl&gt;</code></pre>
+<pre><code># A tibble: 2 x 15
+  day   date  orangeBoardings orangeAlightings orangeAverage purpleBoardings
+  &lt;chr&gt; &lt;chr&gt;           &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;           &lt;dbl&gt;
+1 Mond… 01/1…             877             1027           952              NA
+2 Tues… 01/1…             777              815           796              NA
+# … with 9 more variables: purpleAlightings &lt;dbl&gt;, purpleAverage &lt;dbl&gt;,
+#   greenBoardings &lt;dbl&gt;, greenAlightings &lt;dbl&gt;, greenAverage &lt;dbl&gt;,
+#   bannerBoardings &lt;dbl&gt;, bannerAlightings &lt;dbl&gt;, bannerAverage &lt;dbl&gt;,
+#   daily &lt;dbl&gt;</code></pre>
 <pre class="r"><code>class(wide$date)</code></pre>
-<pre><code>## [1] &quot;character&quot;</code></pre>
+<pre><code>[1] &quot;character&quot;</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Reshape <code>wide</code> using <code>gather.</code> Call this data <code>long.</code> Make the <code>key</code> <code>variable</code>, and the value <code>n_people</code> Make sure we gather all columns <strong>but</strong> <code>daily</code>, <code>day</code>, <code>date</code>, using things like <code>-day</code>. Table <code>long$day</code></li>
 </ol>
 <pre class="r"><code>long = wide %&gt;% 
   gather(key = &quot;variable&quot;, value = &quot;n_people&quot;, -daily, -day, -date)
 head(long$day)</code></pre>
-<pre><code>## [1] &quot;Monday&quot;    &quot;Tuesday&quot;   &quot;Wednesday&quot; &quot;Thursday&quot;  &quot;Friday&quot;    &quot;Saturday&quot;</code></pre>
+<pre><code>[1] &quot;Monday&quot;    &quot;Tuesday&quot;   &quot;Wednesday&quot; &quot;Thursday&quot;  &quot;Friday&quot;    &quot;Saturday&quot; </code></pre>
 <ol start="3" style="list-style-type: decimal">
 <li>Separate the <code>date</code> column into (“month”, “day”, “year”) using a sep of “/” Make sure you don’t remove the <code>date</code> column, call this <code>long2</code>. Do a table of the day column. Where did the original <code>day</code> column go?</li>
 </ol>
 <pre class="r"><code>long2 = separate(long, col = &quot;date&quot;, into = c(&quot;month&quot;, &quot;day&quot;, &quot;year&quot;), 
                 sep = &quot;/&quot;, remove = FALSE)
 table(long2$day)</code></pre>
-<pre><code>## 
-##  01  02  03  04  05  06  07  08  09  10  11  12  13  14  15  16  17  18  19  20 
-## 456 444 444 444 444 444 444 444 444 444 456 456 456 456 456 456 456 456 456 456 
-##  21  22  23  24  25  26  27  28  29  30  31 
-## 456 456 456 456 456 456 456 456 420 408 264</code></pre>
+<pre><code>
+ 01  02  03  04  05  06  07  08  09  10  11  12  13  14  15  16  17  18  19 
+456 444 444 444 444 444 444 444 444 444 456 456 456 456 456 456 456 456 456 
+ 20  21  22  23  24  25  26  27  28  29  30  31 
+456 456 456 456 456 456 456 456 456 420 408 264 </code></pre>
 <ol start="4" style="list-style-type: decimal">
 <li>Create a new variable in <code>long2</code> calling it <code>newdate</code> using the <code>unite</code> function. Unite the year, month, day, columns using a hyphen (<code>-</code>) and then <code>table</code> <code>road_hyphen</code></li>
 </ol>
 <pre class="r"><code>long2 = unite(long2, col = &quot;newdate&quot;, year, month, day, sep = &quot;-&quot;)
 head(long2)</code></pre>
-<pre><code>## # A tibble: 6 x 5
-##   date       daily newdate    variable        n_people
-##   &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;              &lt;dbl&gt;
-## 1 01/11/2010  952  2010-01-11 orangeBoardings      877
-## 2 01/12/2010  796  2010-01-12 orangeBoardings      777
-## 3 01/13/2010 1212. 2010-01-13 orangeBoardings     1203
-## 4 01/14/2010 1214. 2010-01-14 orangeBoardings     1194
-## 5 01/15/2010 1644  2010-01-15 orangeBoardings     1645
-## 6 01/16/2010 1490. 2010-01-16 orangeBoardings     1457</code></pre>
+<pre><code># A tibble: 6 x 5
+  date       daily newdate    variable        n_people
+  &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;              &lt;dbl&gt;
+1 01/11/2010  952  2010-01-11 orangeBoardings      877
+2 01/12/2010  796  2010-01-12 orangeBoardings      777
+3 01/13/2010 1212. 2010-01-13 orangeBoardings     1203
+4 01/14/2010 1214. 2010-01-14 orangeBoardings     1194
+5 01/15/2010 1644  2010-01-15 orangeBoardings     1645
+6 01/16/2010 1490. 2010-01-16 orangeBoardings     1457</code></pre>
 <pre class="r"><code>long = long %&gt;% 
   mutate(
     variable = variable %&gt;% 

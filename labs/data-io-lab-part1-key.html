@@ -386,118 +386,118 @@ library(readxl)</code></pre>
 <li>Read in the <code>iris_q1.csv</code> dataset into the <code>iris_q1</code> R object. What delimiter separates columns?</li>
 </ol>
 <pre class="r"><code>iris_q1 = read_csv(&quot;../data/iris/iris_q1.csv&quot;)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   Sepal.Length = col_double(),
-##   Sepal.Width = col_double(),
-##   Petal.Length = col_double(),
-##   Petal.Width = col_double(),
-##   Species = col_character()
-## )</code></pre>
+<pre><code>Parsed with column specification:
+cols(
+  Sepal.Length = col_double(),
+  Sepal.Width = col_double(),
+  Petal.Length = col_double(),
+  Petal.Width = col_double(),
+  Species = col_character()
+)</code></pre>
 <pre class="r"><code>head(iris_q1)</code></pre>
-<pre><code>## # A tibble: 6 x 5
-##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-##          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
-## 1          5.1         3.5          1.4         0.2 setosa 
-## 2          4.9         3            1.4         0.2 setosa 
-## 3          4.7         3.2          1.3         0.2 setosa 
-## 4          4.6         3.1          1.5         0.2 setosa 
-## 5          5           3.6          1.4         0.2 setosa 
-## 6          5.4         3.9          1.7         0.4 setosa</code></pre>
+<pre><code># A tibble: 6 x 5
+  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+         &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
+1          5.1         3.5          1.4         0.2 setosa 
+2          4.9         3            1.4         0.2 setosa 
+3          4.7         3.2          1.3         0.2 setosa 
+4          4.6         3.1          1.5         0.2 setosa 
+5          5           3.6          1.4         0.2 setosa 
+6          5.4         3.9          1.7         0.4 setosa </code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Read in the <code>iris_q2.tsv</code> dataset into the <code>iris_q2</code> R object. What delimiter separates columns?</li>
 </ol>
 <pre class="r"><code>iris_q2 = read_delim(&quot;../data/iris/iris_q2.tsv&quot;, delim = &quot;\t&quot;)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   Sepal.Length = col_double(),
-##   Sepal.Width = col_double(),
-##   Petal.Length = col_double(),
-##   Petal.Width = col_double(),
-##   Species = col_character()
-## )</code></pre>
+<pre><code>Parsed with column specification:
+cols(
+  Sepal.Length = col_double(),
+  Sepal.Width = col_double(),
+  Petal.Length = col_double(),
+  Petal.Width = col_double(),
+  Species = col_character()
+)</code></pre>
 <pre class="r"><code>head(iris_q2)</code></pre>
-<pre><code>## # A tibble: 6 x 5
-##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-##          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
-## 1          5.1         3.5          1.4         0.2 setosa 
-## 2          4.9         3            1.4         0.2 setosa 
-## 3          4.7         3.2          1.3         0.2 setosa 
-## 4          4.6         3.1          1.5         0.2 setosa 
-## 5          5           3.6          1.4         0.2 setosa 
-## 6          5.4         3.9          1.7         0.4 setosa</code></pre>
+<pre><code># A tibble: 6 x 5
+  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+         &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
+1          5.1         3.5          1.4         0.2 setosa 
+2          4.9         3            1.4         0.2 setosa 
+3          4.7         3.2          1.3         0.2 setosa 
+4          4.6         3.1          1.5         0.2 setosa 
+5          5           3.6          1.4         0.2 setosa 
+6          5.4         3.9          1.7         0.4 setosa </code></pre>
 <ol start="3" style="list-style-type: decimal">
 <li>Read in the <code>iris_q3.txt</code> dataset into the <code>iris_q3</code> R object. What delimiter separates columns?</li>
 </ol>
 <pre class="r"><code>iris_q3 = read_delim(&quot;../data/iris/iris_q3.txt&quot;, delim = &quot; &quot;)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   Sepal.Length = col_double(),
-##   Sepal.Width = col_double(),
-##   Petal.Length = col_double(),
-##   Petal.Width = col_double(),
-##   Species = col_character()
-## )</code></pre>
+<pre><code>Parsed with column specification:
+cols(
+  Sepal.Length = col_double(),
+  Sepal.Width = col_double(),
+  Petal.Length = col_double(),
+  Petal.Width = col_double(),
+  Species = col_character()
+)</code></pre>
 <pre class="r"><code>head(iris_q3)</code></pre>
-<pre><code>## # A tibble: 6 x 5
-##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-##          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
-## 1          5.1         3.5          1.4         0.2 setosa 
-## 2          4.9         3            1.4         0.2 setosa 
-## 3          4.7         3.2          1.3         0.2 setosa 
-## 4          4.6         3.1          1.5         0.2 setosa 
-## 5          5           3.6          1.4         0.2 setosa 
-## 6          5.4         3.9          1.7         0.4 setosa</code></pre>
+<pre><code># A tibble: 6 x 5
+  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+         &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
+1          5.1         3.5          1.4         0.2 setosa 
+2          4.9         3            1.4         0.2 setosa 
+3          4.7         3.2          1.3         0.2 setosa 
+4          4.6         3.1          1.5         0.2 setosa 
+5          5           3.6          1.4         0.2 setosa 
+6          5.4         3.9          1.7         0.4 setosa </code></pre>
 <ol start="4" style="list-style-type: decimal">
 <li>Read in the <code>iris_q4.csv</code> dataset into the <code>iris_q4</code> R object. What delimiter separates columns? [hint: file extension is ambiguous]</li>
 </ol>
 <pre class="r"><code>iris_q4 = read_delim(&quot;../data/iris/iris_q4.csv&quot;, delim = &quot;:&quot;)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   Sepal.Length = col_double(),
-##   Sepal.Width = col_double(),
-##   Petal.Length = col_double(),
-##   Petal.Width = col_double(),
-##   Species = col_character()
-## )</code></pre>
+<pre><code>Parsed with column specification:
+cols(
+  Sepal.Length = col_double(),
+  Sepal.Width = col_double(),
+  Petal.Length = col_double(),
+  Petal.Width = col_double(),
+  Species = col_character()
+)</code></pre>
 <pre class="r"><code>head(iris_q4)</code></pre>
-<pre><code>## # A tibble: 6 x 5
-##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-##          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
-## 1          5.1         3.5          1.4         0.2 setosa 
-## 2          4.9         3            1.4         0.2 setosa 
-## 3          4.7         3.2          1.3         0.2 setosa 
-## 4          4.6         3.1          1.5         0.2 setosa 
-## 5          5           3.6          1.4         0.2 setosa 
-## 6          5.4         3.9          1.7         0.4 setosa</code></pre>
+<pre><code># A tibble: 6 x 5
+  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+         &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
+1          5.1         3.5          1.4         0.2 setosa 
+2          4.9         3            1.4         0.2 setosa 
+3          4.7         3.2          1.3         0.2 setosa 
+4          4.6         3.1          1.5         0.2 setosa 
+5          5           3.6          1.4         0.2 setosa 
+6          5.4         3.9          1.7         0.4 setosa </code></pre>
 <ol start="5" style="list-style-type: decimal">
 <li>Read in the <code>iris_q5.csv</code> dataset into the <code>iris_q5</code> R object. Some entries are supposed to be missing, e.g. have the value <code>NA</code> in the data.</li>
 </ol>
 <pre class="r"><code>iris_q5 = read_csv(&quot;../data/iris/iris_q5.csv&quot;, na = &quot;-999&quot;)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   Sepal.Length = col_double(),
-##   Sepal.Width = col_double(),
-##   Petal.Length = col_double(),
-##   Petal.Width = col_double(),
-##   Species = col_character()
-## )</code></pre>
+<pre><code>Parsed with column specification:
+cols(
+  Sepal.Length = col_double(),
+  Sepal.Width = col_double(),
+  Petal.Length = col_double(),
+  Petal.Width = col_double(),
+  Species = col_character()
+)</code></pre>
 <pre class="r"><code>head(iris_q5)</code></pre>
-<pre><code>## # A tibble: 6 x 5
-##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-##          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
-## 1         NA           3.5          1.4         0.2 setosa 
-## 2         NA           3            1.4         0.2 setosa 
-## 3         NA           3.2          1.3         0.2 setosa 
-## 4          4.6         3.1          1.5         0.2 setosa 
-## 5          5           3.6          1.4         0.2 setosa 
-## 6          5.4         3.9          1.7         0.4 setosa</code></pre>
+<pre><code># A tibble: 6 x 5
+  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+         &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
+1         NA           3.5          1.4         0.2 setosa 
+2         NA           3            1.4         0.2 setosa 
+3         NA           3.2          1.3         0.2 setosa 
+4          4.6         3.1          1.5         0.2 setosa 
+5          5           3.6          1.4         0.2 setosa 
+6          5.4         3.9          1.7         0.4 setosa </code></pre>
 <ol start="6" style="list-style-type: decimal">
 <li>Read in the <code>iris_q6.xlsx</code> dataset into the <code>iris_q6</code> R object. How many rows are in the dataset?</li>
 </ol>
 <pre class="r"><code>iris_q6 = read_excel(&quot;../data/iris/iris_q6.xlsx&quot;, sheet= 2)
 dim(iris_q6)</code></pre>
-<pre><code>## [1] 150   5</code></pre>
+<pre><code>[1] 150   5</code></pre>
 
 
 

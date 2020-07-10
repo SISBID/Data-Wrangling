@@ -24,8 +24,14 @@ class(out)
 head(out)
 ```
 
-3. How many stars does he have on each repository? (it's the `stargazers_count` element)
 
+3. How many stars does he have on each repository? (it's the `stargazers_count` element)
+```{r}
+
+```
 
 4. Create a new data frame consisting of just the "owner" column of the resulting data set called `owner_data`
 
+```{r}
+
+```

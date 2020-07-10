@@ -3,6 +3,8 @@ x = list.files(pattern = ".Rmd$",
                full.names = TRUE,
                recursive = TRUE)
 x = x[!grepl("rmarkdown", x)]
+x = x[grepl("key", x)]
+
 
 sapply(x, function(x) {
   out = sub(".Rmd$", ".R", x)
