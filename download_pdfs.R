@@ -60,7 +60,7 @@ download_gs_file = function(id, out_type = "pptx",
 url = paste0("https://docs.google.com/presentation/d/", 
              "1OAUbr-41EgwlSq0ZB-Edj_e0ix5I13pM3C_dfQ-W-Gw")
 
-res = sapply(c("pdf", "pptx"), download_gs_file,
+res = sapply(c("pdf"), download_gs_file,
   id = url, stub = "lecture_notes/sisbid_rep_research_2020")
 
 
@@ -76,4 +76,7 @@ download_gs_file("1bJYZuXAcwmd2GQJdFPxO5wkvzD7IR-2YHdLUBpMlMUM",
                  "pdf",
                  stub = "lecture_notes/sisbid_advanced_io_2020")
 
+download_gs_file("1DIEOk6JMF9pPpFhvoI9Mv8yDdSZsehvqI_5K34VPN1o",
+                 "pdf",
+                 stub = "lecture_notes/sisbid_wrap_up_2020")
 
