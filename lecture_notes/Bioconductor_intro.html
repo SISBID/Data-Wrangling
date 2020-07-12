@@ -40,6 +40,19 @@
     };
   </script>
 
+  <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
   <style type="text/css">@font-face {
 font-family: 'Open Sans';
 font-style: normal;
@@ -3222,7 +3235,7 @@ geo_data = getGEO(&quot;GSE146760&quot;)[[1]] # find accession in paper</pre>
 
 <pre >## File stored at:</pre>
 
-<pre >## C:\Users\Andrew\AppData\Local\Temp\RtmpOYXKyH/GPL11154.soft</pre>
+<pre >## /var/folders/1s/wrtqcpxn685_zk570bnx9_rr0000gr/T//RtmpXB9l63/GPL11154.soft</pre>
 
 </article></slide><slide class=""><hgroup><h2>Getting data from GEO</h2></hgroup><article  id="getting-data-from-geo-2">
 
@@ -3231,18 +3244,18 @@ geo_data = getGEO(&quot;GSE146760&quot;)[[1]] # find accession in paper</pre>
 <pre >## # A tibble: 11 x 44
 ##    title geo_accession status submission_date last_update_date type 
 ##    &lt;chr&gt; &lt;chr&gt;         &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;            &lt;chr&gt;
-##  1 OCC ~ GSM4405470    Publi~ Mar 10 2020     Jul 02 2020      SRA  
-##  2 OCC ~ GSM4405471    Publi~ Mar 10 2020     Jul 02 2020      SRA  
-##  3 OCC ~ GSM4405472    Publi~ Mar 10 2020     Jul 02 2020      SRA  
-##  4 OCC ~ GSM4405473    Publi~ Mar 10 2020     Jul 02 2020      SRA  
-##  5 PFC ~ GSM4405474    Publi~ Mar 10 2020     Jul 02 2020      SRA  
-##  6 PFC ~ GSM4405475    Publi~ Mar 10 2020     Jul 02 2020      SRA  
-##  7 PFC ~ GSM4405476    Publi~ Mar 10 2020     Jul 02 2020      SRA  
-##  8 PFC ~ GSM4405477    Publi~ Mar 10 2020     Jul 02 2020      SRA  
-##  9 NSC-~ GSM4405478    Publi~ Mar 10 2020     Jul 02 2020      SRA  
-## 10 NSC-~ GSM4405479    Publi~ Mar 10 2020     Jul 02 2020      SRA  
-## 11 NSC-~ GSM4405480    Publi~ Mar 10 2020     Jul 02 2020      SRA  
-## # ... with 38 more variables: channel_count &lt;chr&gt;, source_name_ch1 &lt;chr&gt;,
+##  1 OCC … GSM4405470    Publi… Mar 10 2020     Jul 02 2020      SRA  
+##  2 OCC … GSM4405471    Publi… Mar 10 2020     Jul 02 2020      SRA  
+##  3 OCC … GSM4405472    Publi… Mar 10 2020     Jul 02 2020      SRA  
+##  4 OCC … GSM4405473    Publi… Mar 10 2020     Jul 02 2020      SRA  
+##  5 PFC … GSM4405474    Publi… Mar 10 2020     Jul 02 2020      SRA  
+##  6 PFC … GSM4405475    Publi… Mar 10 2020     Jul 02 2020      SRA  
+##  7 PFC … GSM4405476    Publi… Mar 10 2020     Jul 02 2020      SRA  
+##  8 PFC … GSM4405477    Publi… Mar 10 2020     Jul 02 2020      SRA  
+##  9 NSC-… GSM4405478    Publi… Mar 10 2020     Jul 02 2020      SRA  
+## 10 NSC-… GSM4405479    Publi… Mar 10 2020     Jul 02 2020      SRA  
+## 11 NSC-… GSM4405480    Publi… Mar 10 2020     Jul 02 2020      SRA  
+## # … with 38 more variables: channel_count &lt;chr&gt;, source_name_ch1 &lt;chr&gt;,
 ## #   organism_ch1 &lt;chr&gt;, characteristics_ch1 &lt;chr&gt;, characteristics_ch1.1 &lt;chr&gt;,
 ## #   growth_protocol_ch1 &lt;chr&gt;, molecule_ch1 &lt;chr&gt;, extract_protocol_ch1 &lt;chr&gt;,
 ## #   extract_protocol_ch1.1 &lt;chr&gt;, taxid_ch1 &lt;chr&gt;, description &lt;chr&gt;,
@@ -3276,27 +3289,36 @@ geo_data = getGEO(&quot;GSE146760&quot;)[[1]] # find accession in paper</pre>
 
 <pre class = 'prettyprint lang-r'>getGEOSuppFiles(&quot;GSE146760&quot;)</pre>
 
-<pre >##                                                                                                                 size
-## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASample_Info_v2.txt.gz              277
-## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz 769233
-##                                                                                                               isdir
-## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASample_Info_v2.txt.gz           FALSE
-## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz FALSE
-##                                                                                                               mode
-## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASample_Info_v2.txt.gz            666
-## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz  666
-##                                                                                                                             mtime
-## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASample_Info_v2.txt.gz           2020-07-10 22:02:29
-## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz 2020-07-10 22:02:29
-##                                                                                                                             ctime
-## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASample_Info_v2.txt.gz           2020-07-10 21:24:58
-## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz 2020-07-10 21:24:58
-##                                                                                                                             atime
-## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASample_Info_v2.txt.gz           2020-07-10 22:02:29
-## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz 2020-07-10 22:02:29
-##                                                                                                               exe
-## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASample_Info_v2.txt.gz            no
-## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz  no</pre>
+<pre >##                                                                                                                             size
+## /Users/johnmuschelli/Dropbox/Teaching/SISBID_Module1/lecture_notes/GSE146760/GSE146760_RNASample_Info_v2.txt.gz              277
+## /Users/johnmuschelli/Dropbox/Teaching/SISBID_Module1/lecture_notes/GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz 769233
+##                                                                                                                           isdir
+## /Users/johnmuschelli/Dropbox/Teaching/SISBID_Module1/lecture_notes/GSE146760/GSE146760_RNASample_Info_v2.txt.gz           FALSE
+## /Users/johnmuschelli/Dropbox/Teaching/SISBID_Module1/lecture_notes/GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz FALSE
+##                                                                                                                           mode
+## /Users/johnmuschelli/Dropbox/Teaching/SISBID_Module1/lecture_notes/GSE146760/GSE146760_RNASample_Info_v2.txt.gz            644
+## /Users/johnmuschelli/Dropbox/Teaching/SISBID_Module1/lecture_notes/GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz  644
+##                                                                                                                                         mtime
+## /Users/johnmuschelli/Dropbox/Teaching/SISBID_Module1/lecture_notes/GSE146760/GSE146760_RNASample_Info_v2.txt.gz           2020-07-12 19:55:58
+## /Users/johnmuschelli/Dropbox/Teaching/SISBID_Module1/lecture_notes/GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz 2020-07-12 19:55:58
+##                                                                                                                                         ctime
+## /Users/johnmuschelli/Dropbox/Teaching/SISBID_Module1/lecture_notes/GSE146760/GSE146760_RNASample_Info_v2.txt.gz           2020-07-12 19:55:58
+## /Users/johnmuschelli/Dropbox/Teaching/SISBID_Module1/lecture_notes/GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz 2020-07-12 19:55:58
+##                                                                                                                                         atime
+## /Users/johnmuschelli/Dropbox/Teaching/SISBID_Module1/lecture_notes/GSE146760/GSE146760_RNASample_Info_v2.txt.gz           2020-07-12 18:49:12
+## /Users/johnmuschelli/Dropbox/Teaching/SISBID_Module1/lecture_notes/GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz 2020-07-12 18:49:12
+##                                                                                                                           uid
+## /Users/johnmuschelli/Dropbox/Teaching/SISBID_Module1/lecture_notes/GSE146760/GSE146760_RNASample_Info_v2.txt.gz           504
+## /Users/johnmuschelli/Dropbox/Teaching/SISBID_Module1/lecture_notes/GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz 504
+##                                                                                                                           gid
+## /Users/johnmuschelli/Dropbox/Teaching/SISBID_Module1/lecture_notes/GSE146760/GSE146760_RNASample_Info_v2.txt.gz            20
+## /Users/johnmuschelli/Dropbox/Teaching/SISBID_Module1/lecture_notes/GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz  20
+##                                                                                                                                   uname
+## /Users/johnmuschelli/Dropbox/Teaching/SISBID_Module1/lecture_notes/GSE146760/GSE146760_RNASample_Info_v2.txt.gz           johnmuschelli
+## /Users/johnmuschelli/Dropbox/Teaching/SISBID_Module1/lecture_notes/GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz johnmuschelli
+##                                                                                                                           grname
+## /Users/johnmuschelli/Dropbox/Teaching/SISBID_Module1/lecture_notes/GSE146760/GSE146760_RNASample_Info_v2.txt.gz            staff
+## /Users/johnmuschelli/Dropbox/Teaching/SISBID_Module1/lecture_notes/GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz  staff</pre>
 
 <pre class = 'prettyprint lang-r'>counts  = read.delim(&quot;GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz&quot;)
 pheno = read.delim(&quot;GSE146760/GSE146760_RNASample_Info_v2.txt.gz&quot;)</pre>
@@ -3325,11 +3347,8 @@ colnames(counts) = pheno$Status</pre>
 <p>We can also add gene annotation information with the <code>biomaRt</code> package</p>
 
 <pre class = 'prettyprint lang-r'>library(biomaRt)
-ensembl &lt;- useEnsembl(biomart = &quot;genes&quot;, dataset = &quot;hsapiens_gene_ensembl&quot;)</pre>
-
-<pre >## Ensembl site unresponsive, trying uswest mirror</pre>
-
-<pre class = 'prettyprint lang-r'>geneMap = getBM(attributes = c(&quot;ensembl_gene_id&quot;,
+ensembl &lt;- useEnsembl(biomart = &quot;genes&quot;, dataset = &quot;hsapiens_gene_ensembl&quot;)
+geneMap = getBM(attributes = c(&quot;ensembl_gene_id&quot;,
                 &quot;chromosome_name&quot;,&quot;start_position&quot;,
           &quot;end_position&quot;, &quot;strand&quot;, &quot;external_gene_name&quot;),
             values=rownames(counts), mart=ensembl)</pre>
