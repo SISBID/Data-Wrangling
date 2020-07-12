@@ -6,12 +6,17 @@ x = x[!grepl("rmarkdown|googlesheets", x)]
 x = x[grepl("key", x)]
 
 
-sapply(x, function(x) {
-  out = sub(".Rmd$", ".R", x)
-  knitr::purl(input = x, output = out)
-  })
-
-sapply(x, rmarkdown::render, envir = new.env())
+sapply(x, function(xx) {
+  out = sub(".Rmd$", ".R", xx)
+  out_html = sub(".Rmd$", ".html", xx)
+  
+  knitr::purl(input = xx, output = out)
+  if (!file.exists(out_html) ||
+      file.info(out_html)$mtime < 
+      file.info(xx)$mtime) {
+    rmarkdown::render(xx, envir = new.env())
+  }
+})
 
 
 file.remove("labs/my_flights_db.sqlite3")

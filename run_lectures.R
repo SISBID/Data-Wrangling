@@ -9,11 +9,23 @@ sapply(x, function(x) {
   knitr::purl(input = x, output = out)
 })
 
-sapply(x, function(r) {
-  rmarkdown::render(r, envir = new.env())
-  xx = sub("Rmd$", "html", r)
-  pagedown::chrome_print(xx)
-  r
+sapply(x, function(xx) {
+  out_html = sub("Rmd$", "html", xx)
+  if (!file.exists(out_html) ||
+      file.info(out_html)$mtime < 
+      file.info(xx)$mtime) {
+    rmarkdown::render(xx, envir = new.env())
+  }
+  out_pdf = sub("Rmd$", "pdf", xx)
+  
+  if (!file.exists(out_pdf) ||
+      file.info(out_pdf)$mtime < 
+      file.info(xx)$mtime ||
+      file.info(out_pdf)$mtime < 
+      file.info(out_html)$mtime) {
+    pagedown::chrome_print(out_html)
+  }
+  xx
 })
 
 # xx = sub("Rmd$", "html", x)

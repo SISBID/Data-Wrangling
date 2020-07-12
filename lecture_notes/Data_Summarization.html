@@ -3302,9 +3302,10 @@ mean of x
 <pre class = 'prettyprint lang-r'>broom::tidy(t.test(circ$daily))</pre>
 
 <pre ># A tibble: 1 x 8
-  estimate statistic   p.value parameter conf.low conf.high method   alternative
-     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;      
-1    7233.      56.6 2.27e-317      1021    6983.     7484. One Sam… two.sided  </pre>
+  estimate statistic   p.value parameter conf.low conf.high method
+     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt; 
+1    7233.      56.6 2.27e-317      1021    6983.     7484. One S…
+# … with 1 more variable: alternative &lt;chr&gt;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Length and unique</h2></hgroup><article  id="length-and-unique">
 
@@ -3516,22 +3517,23 @@ head(day_avgs)</pre>
 sub_circ</pre>
 
 <pre ># A tibble: 1,146 x 16
-   day   date  orangeBoardings orangeAlightings orangeAverage purpleBoardings
-   &lt;chr&gt; &lt;chr&gt;           &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;           &lt;dbl&gt;
- 1 Mond… 01/1…             877             1027          952               NA
- 2 Tues… 01/1…             777              815          796               NA
- 3 Wedn… 01/1…            1203             1220         1212.              NA
- 4 Thur… 01/1…            1194             1233         1214.              NA
- 5 Frid… 01/1…            1645             1643         1644               NA
- 6 Satu… 01/1…            1457             1524         1490.              NA
- 7 Sund… 01/1…             839              938          888.              NA
- 8 Mond… 01/1…             999             1000          999.              NA
- 9 Tues… 01/1…            1023             1047         1035               NA
-10 Wedn… 01/2…            1375             1416         1396.              NA
-# … with 1,136 more rows, and 10 more variables: purpleAlightings &lt;dbl&gt;,
-#   purpleAverage &lt;dbl&gt;, greenBoardings &lt;dbl&gt;, greenAlightings &lt;dbl&gt;,
-#   greenAverage &lt;dbl&gt;, bannerBoardings &lt;dbl&gt;, bannerAlightings &lt;dbl&gt;,
-#   bannerAverage &lt;dbl&gt;, daily &lt;dbl&gt;, mean_boarding &lt;dbl&gt;</pre>
+   day   date  orangeBoardings orangeAlightings orangeAverage
+   &lt;chr&gt; &lt;chr&gt;           &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;
+ 1 Mond… 01/1…             877             1027          952 
+ 2 Tues… 01/1…             777              815          796 
+ 3 Wedn… 01/1…            1203             1220         1212.
+ 4 Thur… 01/1…            1194             1233         1214.
+ 5 Frid… 01/1…            1645             1643         1644 
+ 6 Satu… 01/1…            1457             1524         1490.
+ 7 Sund… 01/1…             839              938          888.
+ 8 Mond… 01/1…             999             1000          999.
+ 9 Tues… 01/1…            1023             1047         1035 
+10 Wedn… 01/2…            1375             1416         1396.
+# … with 1,136 more rows, and 11 more variables: purpleBoardings &lt;dbl&gt;,
+#   purpleAlightings &lt;dbl&gt;, purpleAverage &lt;dbl&gt;, greenBoardings &lt;dbl&gt;,
+#   greenAlightings &lt;dbl&gt;, greenAverage &lt;dbl&gt;, bannerBoardings &lt;dbl&gt;,
+#   bannerAlightings &lt;dbl&gt;, bannerAverage &lt;dbl&gt;, daily &lt;dbl&gt;,
+#   mean_boarding &lt;dbl&gt;</pre>
 
 </article></slide><slide class=""><hgroup><h2><code>group_by</code> with <code>mutate</code> - just add data</h2></hgroup><article  id="group_by-with-mutate---just-add-data">
 
