@@ -1,11 +1,13 @@
 ## ---- include = FALSE---------------------------------------------------------
 library(knitr)
 library(tidyverse)
+library(janitor)
 opts_chunk$set(comment = "")
 
 
 ## ---- importUfo---------------------------------------------------------------
 ufo = read_csv("../data/ufo/ufo_data_complete.csv")
+ufo = clean_names(ufo)
 
 
 ## -----------------------------------------------------------------------------
@@ -127,4 +129,11 @@ money %>% arrange(amount)
 
 ## -----------------------------------------------------------------------------
 parse_number(c("12,123,123.00", "12,465.10"))
+
+
+## -----------------------------------------------------------------------------
+library(lubridate)
+ufo$timestamp = mdy_hm(ufo$datetime)
+ufo$date_posted = mdy(ufo$date_posted)
+head(ufo$timestamp)
 

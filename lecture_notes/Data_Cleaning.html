@@ -40,6 +40,19 @@
     };
   </script>
 
+  <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
   <style type="text/css">@font-face {
 font-family: 'Open Sans';
 font-style: normal;
@@ -3107,7 +3120,47 @@ slide:not(.current) .plotly.html-widget{
 
   </style>
 
-  <style type="text/css">pre {font-family: 'Source Code Pro', 'Courier New', monospace;font-size: 24px;line-height: 24px;padding: 10px 0 10px 60px;letter-spacing: -1px;margin-bottom: 8px;width: 106%;left: -60px;position: relative;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}body{font-family: Helvetica;font-size: 16pt;}h1{font-size: 28pt;}h2{font-size: 24pt;}h3{font-size: 20pt;}.emphasized {font-size: 1.2em;}.small {font-size: 0.8em;}strong { font-weight: bold;color: black;}.left-half{ float: left; width: 48%; }.right-half{ float: right; width: 48%; }</style>
+  <style type="text/css">pre {
+font-family: 'Source Code Pro', 'Courier New', monospace;
+font-size: 24px;
+line-height: 24px;
+padding: 10px 0 10px 60px;
+letter-spacing: -1px;
+margin-bottom: 8px;
+width: 106%;
+left: -60px;
+position: relative;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+
+}
+
+body{
+font-family: Helvetica;
+font-size: 16pt;
+}
+
+h1{
+font-size: 28pt;
+}
+h2{
+font-size: 24pt;
+}
+h3{
+font-size: 20pt;
+}
+.emphasized {
+font-size: 1.2em;
+}
+.small {
+font-size: 0.8em;
+}
+strong { font-weight: bold;
+color: black;
+}
+.left-half{ float: left; width: 48%; }
+.right-half{ float: right; width: 48%; }</style>
 
 </head>
 
@@ -3402,11 +3455,11 @@ paste0(&quot;Visit&quot;,1:5)</pre>
 <pre class = 'prettyprint lang-r'>ufo %&gt;% filter(str_detect(comments, &quot;two aliens&quot;))</pre>
 
 <pre ># A tibble: 2 x 11
-  datetime city  state country shape duration_seconds duration_hours_~ comments
+  datetime city  state country shape duration_seconds duration_hours_… comments
   &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;            &lt;chr&gt;   
-1 10/14/2~ yuma  va    us      form~              300 5 minutes        ((HOAX?~
-2 7/1/200~ nort~ ct    &lt;NA&gt;    unkn~               60 1 minute         Witness~
-# ... with 3 more variables: date_posted &lt;chr&gt;, latitude &lt;chr&gt;, longitude &lt;dbl&gt;</pre>
+1 10/14/2… yuma  va    us      form…              300 5 minutes        ((HOAX?…
+2 7/1/200… nort… ct    &lt;NA&gt;    unkn…               60 1 minute         Witness…
+# … with 3 more variables: date_posted &lt;chr&gt;, latitude &lt;chr&gt;, longitude &lt;dbl&gt;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Showing differnce in <code>str_extract</code></h2></hgroup><article  id="showing-differnce-in-str_extract">
 
