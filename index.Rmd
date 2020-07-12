@@ -45,16 +45,16 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 Day 1
 
 1. [Introduction](https://docs.google.com/presentation/d/1-j8KAkDUiYWoTpuSaRZqUBE47LhZVThicjSHPWEXGVQ/edit?usp=sharing) or [PDF](lecture_notes/sisbid_intro_2020.pdf)
-2. [Data Input, Part 1](lecture_notes/Data_IO_Part1.html) or [PDF](lecture_notes/Data_IO_Part1.pdf), [lab](labs/data-io-lab-part1.Rmd), [lab key](labs/data-io-lab-part1-key.Rmd)
-3. [Data Input/Output, Part 2](lecture_notes/Data_IO_Part2.html) or [PDF](lecture_notes/Data_IO_Part2.pdf), [lab](labs/data-io-lab-part1.Rmd), [lab key](labs/data-io-lab-part2-key.Rmd)
+2. [Data Input/Output Part 1](lecture_notes/Data_IO_Part1.html) or [PDF](lecture_notes/Data_IO_Part1.pdf), [lab](labs/data-io-lab-part1.Rmd), [lab key](labs/data-io-lab-part1-key.Rmd)
+3. [Data Input/Output Part 2](lecture_notes/Data_IO_Part2.html) or [PDF](lecture_notes/Data_IO_Part2.pdf), [lab](labs/data-io-lab-part1.Rmd), [lab key](labs/data-io-lab-part2-key.Rmd)
 4. [Reproducible Research](https://docs.google.com/presentation/d/1OAUbr-41EgwlSq0ZB-Edj_e0ix5I13pM3C_dfQ-W-Gw/edit?usp=sharing) or [PDF](lecture_notes/sisbid_rep_research_2020.pdf), [lab](labs/rmarkdown-lab.Rmd), [lab key](labs/rmarkdown-lab-key.Rmd)
 5. [GitHub Concepts](https://docs.google.com/presentation/d/1wCJnKaYbtw9_U3AFoHbWWcTfh3oVZxqHD_N9o_eRQhA/edit?usp=sharing) or [PDF](lecture_notes/sisbid_github_2020.pdf), [lab](https://lab.github.com/githubtraining/introduction-to-github)
 6. [GitHub Practice](https://guides.github.com/activities/hello-world/)
 
 Day 2: 
 
-7. [Data Subsetting, Part 1](lecture_notes/Data_Subsetting_Part1.html) or [PDF](lecture_notes/Data_Subsetting_Part1.pdf), [lab](labs/data-subsetting-lab-part1.Rmd), [lab key](labs/data-subsetting-lab-part2-key.Rmd)
-8. [Data Subsetting, Part 2](lecture_notes/Data_Subsetting_Part2.html) or [PDF](lecture_notes/Data_Subsetting_Part2.pdf), [lab](labs/data-subsetting-lab-part2.Rmd), [lab key](labs/data-subsetting-lab-part2-key.Rmd)
+7. [Data Subsetting Part 1](lecture_notes/Data_Subsetting_Part1.html) or [PDF](lecture_notes/Data_Subsetting_Part1.pdf), [lab](labs/data-subsetting-lab-part1.Rmd), [lab key](labs/data-subsetting-lab-part2-key.Rmd)
+8. [Data Subsetting Part 2](lecture_notes/Data_Subsetting_Part2.html) or [PDF](lecture_notes/Data_Subsetting_Part2.pdf), [lab](labs/data-subsetting-lab-part2.Rmd), [lab key](labs/data-subsetting-lab-part2-key.Rmd)
 9. [Data Summarization](lecture_notes/Data_Summarization.html) or [PDF](lecture_notes/Data_Summarization.pdf), [lab](labs/data-summarization-lab.Rmd), [lab key](labs/data-summarization-lab-key.Rmd)
 10. [Data Cleaning](lecture_notes/Data_Cleaning.html) or [PDF](lecture_notes/Data_Cleaning.pdf) [lab](labs/data-cleaning-lab.Rmd), [lab key](labs/data-cleaning-lab-key.Rmd)
 11. [Data Reshaping](lecture_notes/Data_Reshaping.html) or [PDF](lecture_notes/Data_Reshaping.pdf), [lab](labs/data-reshaping-lab.Rmd), [lab key](labs/data-reshaping-lab-key.Rmd)
