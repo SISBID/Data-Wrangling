@@ -3,3 +3,56 @@ title: "Functional Programming"
 author: "Your name"
 output: html_document
 ---
+
+This lab involves working through one of the purrr tutorials by Jenny Bryan: https://jennybc.github.io/purrr-tutorial/ls02_map-extraction-advanced.html
+
+Additional content to read up on: 
+https://jennybc.github.io/purrr-tutorial/ls01_map-name-position-shortcuts.html
+
+Specifically, you should create an R code chunk for each exercise. 
+
+# Part 1: Visualizing lists
+
+1. Read the documentation on `str()`. What does `max.level` control? Do `str(gh_users, max.level = i)` for `i` in 0,1, and 2.
+
+2. What does the `list.len` argument of `str()` control? What is it's default value? Call `str()` on `gh_users` and then on a single component of `gh_users` with `list.len` set to a value much smaller than the default.
+
+3. Call `str()` on `gh_users`, specifying both `max.level` and `list.len`.
+
+4. Inspect elements 1, 2, 6, 18, 21, and 24 of the list component for the 5th GitHub user. One of these should be the URL for the user's profile on GitHub.com. Go there and compare info you see there with the info you just extracted from `gh_users`.
+
+5. Consider the interactive view of `gh_users` here. Or, optionally, install the listviewer package via `install.packages("listviewer")` and call `jsonedit(gh_users)` to run this widget locally. Can you find the same info you extracted in the previous exercise? The same info you see in user's GitHub.com profile?
+
+# Part 2
+
+
+6. Use `names()` to inspect the names of the list elements associated with a single user. What is the index or position of the `created_at` element? Use the character and position shortcuts to extract the `created_at` elements for all 6 users.
+7. What happens if you use the character shortcut with a string that does not appear in the lists' names?
+8. What happens if you use the position shortcut with a number greater than the length of the lists?
+9. What if these shortcuts did not exist? Write a function that takes a list and a string as input and returns the list element that bears the name in the string. Apply this to `gh_users` via `map()`. Do you get the same result as with the shortcut? Reflect on code length and readability.
+10. Write another function that takes a list and an integer as input and returns the list element at that position. Apply this to `gh_users` via `map()`. How does this result and process compare with the shortcut?
+
+# Part 3
+
+
+11. Use your list inspection skills to determine the position of the elements named "login", "name", "id", and "location". Map `[` or `magrittr::extract()` over users, requesting these four elements by position instead of name.
+
+# Part 4
+
+12. Use `map_dfr()` to create a data frame with one row per user and variables for "name", "following", and "created_at". What type are the variables?
+
+# Part 5
+
+13. How many elements does `gh_repos` have? How many elements does each of those elements have?
+
+14. Extract a list with all the info for one repo for one user. Use `str()` on it. Maybe print the whole thing to screen. How many elements does this list have and what are their names? Do the same for at least one other repo from a different user and get an rough sense for whether these repo-specific lists tend to look similar.
+
+15. What are three pieces of repo information that strike you as the most useful? I.e. if you were going to make a data frame of repositories, what might the variables be?
+
+# Part 6
+
+16. Each repository carries information about its owner in a list. Use `map_chr()` and the position indexing shortcut with vector input to get an atomic character vector of the 6 GitHub usernames for our 6 users: "gaborcsardi", "jennybc", etc. You will need to use your list inspection skills to figure out where this info lives.
+
+
+
+
