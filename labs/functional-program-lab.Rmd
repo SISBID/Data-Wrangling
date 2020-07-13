@@ -27,9 +27,13 @@ Specifically, you should create an R code chunk for each exercise.
 
 
 6. Use `names()` to inspect the names of the list elements associated with a single user. What is the index or position of the `created_at` element? Use the character and position shortcuts to extract the `created_at` elements for all 6 users.
+
 7. What happens if you use the character shortcut with a string that does not appear in the lists' names?
+
 8. What happens if you use the position shortcut with a number greater than the length of the lists?
+
 9. What if these shortcuts did not exist? Write a function that takes a list and a string as input and returns the list element that bears the name in the string. Apply this to `gh_users` via `map()`. Do you get the same result as with the shortcut? Reflect on code length and readability.
+
 10. Write another function that takes a list and an integer as input and returns the list element at that position. Apply this to `gh_users` via `map()`. How does this result and process compare with the shortcut?
 
 # Part 3
