@@ -1,8 +1,11 @@
 ---
-title: "Data Cleaning"
-author: "Your name"
+title: "Data Cleaning lab"
 output: html_document
 ---
+
+```{r}
+library(tidyverse)
+```
 
 
 1. Read in the UFO dataset (used in the Data IO lectures) as an R object called `ufo`.
