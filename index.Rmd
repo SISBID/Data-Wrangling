@@ -49,7 +49,7 @@ Day 1
 3. [Data Input/Output Part 2](lecture_notes/Data_IO_Part2.html) or [PDF](lecture_notes/Data_IO_Part2.pdf), [lab](labs/data-io-lab-part1.Rmd), [lab key](labs/data-io-lab-part2-key.Rmd), [lab key output](labs/data-io-lab-part2-key.html)
 4. [Reproducible Research](https://docs.google.com/presentation/d/1OAUbr-41EgwlSq0ZB-Edj_e0ix5I13pM3C_dfQ-W-Gw/edit?usp=sharing) or [PDF](lecture_notes/sisbid_rep_research_2020.pdf), [lab](labs/rmarkdown-lab.Rmd), [lab key](labs/rmarkdown-lab-key.Rmd), [lab key] output(labs/rmarkdown-lab-key.html)
 5. [GitHub Concepts](https://docs.google.com/presentation/d/1wCJnKaYbtw9_U3AFoHbWWcTfh3oVZxqHD_N9o_eRQhA/edit?usp=sharing) or [PDF](lecture_notes/sisbid_github_2020.pdf), [lab](https://lab.github.com/githubtraining/introduction-to-github)
-6. [GitHub Practice](https://guides.github.com/activities/hello-world/)
+6. [GitHub Practice](labs/github-lab.md)
 
 Day 2: 
 
