@@ -63,7 +63,7 @@ Day 2:
 Day 3: 
 
 13. [Advanced Data Input/Output](lecture_notes/Advanced_Data_IO.html) or [PDF](lecture_notes/Advanced_Data_IO.pdf), [lab](labs/advanced-io-lab.Rmd),  [lab key](labs/advanced-io-lab-key.Rmd)
-14. [Functionally Programming](lecture_notes/Functional_Programming.html) or [PDF](lecture_notes/Functional_Programming.pdf), [lab](labs/functional-program-lab.Rmd)
+14. [Functional Programming](lecture_notes/Functional_Programming.html) or [PDF](lecture_notes/Functional_Programming.pdf), [lab](labs/functional-program-lab.Rmd)
 15. [Bioconductor for Genomics](lecture_notes/Bioconductor_intro.html) or [PDF](lecture_notes/Bioconductor_intro.pdf)
 16. [Wrap up](https://docs.google.com/presentation/d/1DIEOk6JMF9pPpFhvoI9Mv8yDdSZsehvqI_5K34VPN1o/edit?usp=sharing) or [PDF](lecture_notes/sisbid_wrap_up_2020.pdf)
 
