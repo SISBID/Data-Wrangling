@@ -200,12 +200,11 @@ However, while many online resources use the base R tools, recent versions of RS
 
 Many data analysts collaborate with researchers who use Excel to enter and curate their data. Often times, this is the input data for an analysis. You therefore have two options for getting this data into R:
 
-* Saving the Excel sheet as a .csv file, and using `read.csv()`
-* Using an add-on package, like `readxl`
+* Saving the Excel sheet as a .csv file, and using `read_csv()`
+* Using an add-on package, like `readxl`, the `read_excel` function
 
-For single worksheet .xlsx files, I often just save the spreadsheet as a .csv file (because I often have to strip off additional summary data from the columns)
+For single worksheet .xlsx files, better to keep the XLSX file as the raw data as Excel exporting CSV can make slight changes (but I often have to strip off additional summary data from the columns).
 
-For an .xlsx file with multiple well-formated worksheets, I use the `readxl`package for reading in the data.
 
 ## Data Input - Other Software
 

@@ -26,7 +26,6 @@ You can ignore the "problems" with some rows.
 
 ```{r}
 
-
 ```
 
 4. How accurate is the (formerly-named) `duration (seconds)` column? I.e. how many of the above minutes-scale observations have durations less than 60 seconds or greater than 3600 seconds? 
@@ -40,12 +39,10 @@ You can ignore the "problems" with some rows.
 
 ```{r}
 
-
 ```
 
 6. Drop countries that contain ufo sightings/rows where the listed states are possibly indicative of errors. How many countries are realistically represented in these data? (hint: look at cross-tabulations of state and country)
 
 ```{r}
-
 
 ```

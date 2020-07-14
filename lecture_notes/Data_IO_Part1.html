@@ -3339,7 +3339,7 @@ NULL</pre>
         comment = comment, n_max = n_max, guess_max = guess_max, 
         progress = progress)
 }
-&lt;bytecode: 0x7f9e41f64738&gt;
+&lt;bytecode: 0x7fbb7e8aaac0&gt;
 &lt;environment: namespace:readr&gt;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Data Input</h2></hgroup><article  id="data-input-8">
@@ -3431,13 +3431,11 @@ See problems(...) for more details.</pre>
 <p>Many data analysts collaborate with researchers who use Excel to enter and curate their data. Often times, this is the input data for an analysis. You therefore have two options for getting this data into R:</p>
 
 <ul>
-<li>Saving the Excel sheet as a .csv file, and using <code>read.csv()</code></li>
-<li>Using an add-on package, like <code>readxl</code></li>
+<li>Saving the Excel sheet as a .csv file, and using <code>read_csv()</code></li>
+<li>Using an add-on package, like <code>readxl</code>, the <code>read_excel</code> function</li>
 </ul>
 
-<p>For single worksheet .xlsx files, I often just save the spreadsheet as a .csv file (because I often have to strip off additional summary data from the columns)</p>
-
-<p>For an .xlsx file with multiple well-formated worksheets, I use the <code>readxl</code>package for reading in the data.</p>
+<p>For single worksheet .xlsx files, better to keep the XLSX file as the raw data as Excel exporting CSV can make slight changes (but I often have to strip off additional summary data from the columns).</p>
 
 </article></slide><slide class=""><hgroup><h2>Data Input - Other Software</h2></hgroup><article  id="data-input---other-software">
 
