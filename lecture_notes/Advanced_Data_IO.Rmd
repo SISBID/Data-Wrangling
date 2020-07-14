@@ -220,6 +220,12 @@ knitr::include_graphics("recount_inpsect.png")
 knitr::include_graphics("recount_xpath.png")
 ```
 
+## Use SelectorGadget
+
+https://cran.r-project.org/web/packages/rvest/vignettes/selectorgadget.html
+
+
+
 ## rvest package
 ```{r}
 recount_url = "http://bowtie-bio.sourceforge.net/recount/"
