@@ -45,7 +45,8 @@ long2 = separate(long, col = "date", into = c("month", "day", "year"),
 table(long2$day)
 ```
 
-4. Create a new variable in `long2` calling it `newdate` using the `unite` function.  Unite the year, month, day, columns using a hyphen (`-`) and then `table` `road_hyphen`
+4. Create a new variable in `long2` calling it `newdate` using the `unite` function.  Unite the year, month, day, columns using a hyphen (`-`) and then `table` the new column `newdate`
+
 ```{r}
 long2 = unite(long2, col = "newdate", year, month, day, sep = "-")
 head(long2)

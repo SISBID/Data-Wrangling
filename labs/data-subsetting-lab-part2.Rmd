@@ -1,5 +1,5 @@
 ---
-title: "Data Subsetting, Part 1 - Lab"
+title: "Data Subsetting, Part 2 - Lab"
 output: html_document
 editor_options: 
   chunk_output_type: console

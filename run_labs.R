@@ -18,5 +18,6 @@ sapply(x, function(xx) {
   }
 })
 
-
-file.remove("labs/my_flights_db.sqlite3")
+if (file.exists("labs/my_flights_db.sqlite3")) {
+  file.remove("labs/my_flights_db.sqlite3")
+}
