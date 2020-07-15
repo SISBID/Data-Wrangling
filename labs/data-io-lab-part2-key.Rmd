@@ -40,7 +40,7 @@ gg_miss_var(circ)
 ```
 
 
-6. Write out `circ` to a file called "Circulator.csv" using `write_rds`:
+6. Write out `circ` to a file called "Circulator.csv" using `write_csv`:
 ```{r}
 write_csv(circ, "Circulator.csv")
 ```

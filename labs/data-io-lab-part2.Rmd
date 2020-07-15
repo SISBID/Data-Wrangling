@@ -40,7 +40,7 @@ circ = read_csv("http://sisbid.github.io/Module1/data/Charm_City_Circulator_Ride
 ```
 
 
-6. Write out `circ` to a file called "Circulator.csv" using `write_rds`:
+6. Write out `circ` to a file called "Circulator.csv" using `write_csv`:
 ```{r}
 
 ```
