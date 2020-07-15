@@ -5,6 +5,7 @@ output: html_document
 
 ```{r, include = FALSE}
 library(tidyverse)
+library(repurrrsive)
 ```
 
 This lab involves working through one of the purrr tutorials by Jenny Bryan: https://jennybc.github.io/purrr-tutorial/ls02_map-extraction-advanced.html
@@ -16,40 +17,45 @@ Specifically, you should create an R code chunk for each exercise.
 
 1. Call `str()` on `gh_users`, specifying both `max.level` and `list.len`.
 ```{r}
-
+str(gh_users, max.level = 2, list.len = 3)
 ```
 
 2. Inspect elements 1, 2, 6, 18, 21, and 24 of the list component for the 5th GitHub user. One of these should be the URL for the user's profile on GitHub.com. Go there and compare info you see there with the info you just extracted from `gh_users`.
 ```{r}
-
+gh_users[[5]][c(1,2,6,18,21)]
 ```
 
 3. Consider the interactive view of `gh_users` here. Or, optionally, install the `listviewer` package via `install.packages("listviewer")` and call `jsonedit(gh_users)` to run this widget locally. Can you find the same info you extracted in the previous exercise? The same info you see in user's GitHub.com profile?
 ```{r}
-
+library(listviewer)
+jsonedit(gh_users)
 ```
 
 4. Use `names()` to inspect the names of the list elements associated with a single user. What is the index or position of the `created_at` element? Use the character and position shortcuts to extract the `created_at` elements for all 6 users.
 ```{r}
+names(gh_users[[1]])
+map_chr(gh_users, "created_at")
+map_chr(gh_users, 29)
 
 ```
 
 
 5. Use your list inspection skills to determine the position of the elements named "login", "name", "id", and "location". Map `[` or `magrittr::extract()` over users, requesting these four elements by position instead of name.
 ```{r}
-
+map(gh_users, `[`, c("login", "name", "id","location"))
 ```
 
 
 6. How many elements does `gh_repos` have? How many elements does each of those elements have?
 ```{r}
-
+length(gh_repos)
+lengths(gh_repos)
 ```
 
 
 7. Each repository carries information about its owner in a list. Use `map_chr()` and the position indexing shortcut with vector input to get an atomic character vector of the 6 GitHub usernames for our 6 users: "gaborcsardi", "jennybc", etc. You will need to use your list inspection skills to figure out where this info lives.
 ```{r}
-
+map_chr(gh_repos, c(1,4,1))
 ```
 
 
