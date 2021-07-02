@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
-1.  Read in the Circulator Data from http://sisbid.github.io/Module1/data/Charm_City_Circulator_Ridership.csv.  Name the data set `wide`.
+1.  Read in the Circulator Data from http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv.  Name the data set `wide`.
 
 
 ```{r, message = FALSE}

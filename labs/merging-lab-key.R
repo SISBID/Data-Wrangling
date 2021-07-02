@@ -1,6 +1,10 @@
+## ---- message = FALSE---------------------------------------------------------
+library(tidyverse)
+
+
 ## -----------------------------------------------------------------------------
-crash = read_csv("https://sisbid.github.io/Module1/labs/crashes.csv")
-road = read_csv("https://sisbid.github.io/Module1/labs/roads.csv")
+crash = read_csv("https://sisbid.github.io/Data-Wrangling/labs/crashes.csv")
+road = read_csv("https://sisbid.github.io/Data-Wrangling/labs/roads.csv")
 head(crash)
 head(road)
 

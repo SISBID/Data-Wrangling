@@ -16,9 +16,9 @@ library(tidyverse)
 
 ## Quick Data read in
 
-We can use the Charm City Circulator Dataset from "http://sisbid.github.io/Module1/data/Charm_City_Circulator_Ridership.csv".  
+We can use the Charm City Circulator Dataset from "http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv".  
 ```{r}
-circ = read_csv(paste0("http://sisbid.github.io/Module1/",
+circ = read_csv(paste0("http://sisbid.github.io/Data-Wrangling/",
                        "data/Charm_City_Circulator_Ridership.csv"))
 ```
 

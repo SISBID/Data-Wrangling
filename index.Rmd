@@ -8,18 +8,19 @@ output:
 
 ## Data Wrangling with R
 
-**Instructors:** [Andrew Jaffe](http://www.aejaffe.com/) and [John Muschelli](http://johnmuschelli.com/)
+**Instructors:** [Carrie Wright](https://carriewright11.github.io) and [Ava Hoffman](https://www.avahoffman.com/)
 
 **Class Schedule:**
 
-* M/T: 8am-2pm PST, W: 8am-11am PST
+* M/T: 8am-2:30pm PST, W: 8am-11am PST
 
 * Location: Zoom (see class email for link)
 
 **Software:**
 
 * [R project](http://www.r-project.org/)
-* [Rstudio](http://www.rstudio.com/)
+* [RStudio](http://www.rstudio.com/)
+* [RStudio Cloud](https://rstudio.cloud)
 * [Bioconductor](http://bioconductor.org/)
 * [Tidyverse](https://www.tidyverse.org/)
 * [GitHub](https://github.com/)
@@ -42,68 +43,112 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 
 **Schedule**
 
-Day 1
+|             | **Lecture**                                  | **Lab**               | **Lab Key**                          |
+|-------------|----------------------------------------------|-----------------------|--------------------------------------|
+| **Day 1**   |                                              |                       |                                      |
+| 8:00-8:50   | [Introduction][01] ([PDF][02])               |                       |                                      |
+| 8:50-9:05   | Break                                        |                       |                                      |
+| 9:05-9:55   | [Data Input/Output Part 1][03] ([PDF][04])   | [lab][05]             | [lab key][06] / [lab key output][07] |
+| 9:55-10:10  | Break                                        |                       |                                      |
+| 10:10-11:00 | [Data Input/Output Part 2][08] ([PDF][09])   | [lab][10]             | [lab key][11] / [lab key output][12] |
+| 11:00-11:30 | Break                                        |                       |                                      |
+| 11:30-12:20 | [Reproducible Research][13] ([PDF][14])      | [lab][15]             | [lab key][16] / [lab key output][17] |
+| 12:20-12:35 | Break                                        |                       |                                      |
+| 12:35-1:25  | [GitHub Concepts][18] ([PDF][19])            | [lab][20]             |                                      |
+| 1:25-1:40   | Break                                        |                       |                                      |
+| 1:40-2:30   |                                              | [GitHub Practice][21] |                                      |
+| **Day 2**   |                                              |                       |                                      |
+| 8:00-8:50   | [Data Subsetting Part 1][22] ([PDF][23])     | [lab][24]             | [lab key][25] / [lab key output][26] |
+| 8:50-9:05   | Break                                        |                       |                                      |
+| 9:05-9:55   | [Data Subsetting Part 2][27] ([PDF][28])     | [lab][29]             | [lab key][30] / [lab key output][31] |
+| 9:55-10:10  | Break                                        |                       |                                      |
+| 10:10-11:00 | [Data Summarization][32] ([PDF][33])         | [lab][34]             | [lab key][35] / [lab key output][36] |
+| 11:00-11:30 | Break                                        |                       |                                      |
+| 11:30-12:20 | [Data Cleaning][37] ([PDF][38])              | [lab][39]             | [lab key][40] / [lab key output][41] |
+| 12:20-12:35 | Break                                        |                       |                                      |
+| 12:35-1:25  | [Data Reshaping][42] ([PDF][43])             | [lab][44]             | [lab key][45] / [lab key output][46] |
+| 1:25-1:40   | Break                                        |                       |                                      |
+| 1:40-2:30   | [Data Merging and Joining][47] ([PDF][48])   | [lab][49]             | [lab key][50] / [lab key output][51] |
+| **Day 3**   |                                              |                       |                                      |
+| 8:00-8:50   | [Advanced Data Input/Output][52] ([PDF][53]) | [lab][54]             | [lab key][55] / [lab key output][56] |
+| 8:50-9:05   | Break                                        |                       |                                      |
+| 9:05-9:55   | [Functionally Programming][57] ([PDF][58])   | [lab][59]             | [lab key][60] / [lab key output][61] |
+| 9:55-10:10  | Break                                        |                       |                                      |
+| 10:10-11:00 | [Bioconductor for Genomics][62] ([PDF][63])  |                       |                                      |
+|             | [Wrap Up][64] ([PDF][65])                    |                       |                                      |
 
-1. [Introduction](https://docs.google.com/presentation/d/1-j8KAkDUiYWoTpuSaRZqUBE47LhZVThicjSHPWEXGVQ/edit?usp=sharing) or [PDF](lecture_notes/sisbid_intro_2020.pdf)
-2. [Data Input/Output Part 1](lecture_notes/Data_IO_Part1.html) or [PDF](lecture_notes/Data_IO_Part1.pdf), [lab](labs/data-io-lab-part1.Rmd), [lab key](labs/data-io-lab-part1-key.Rmd), [lab key output](labs/data-io-lab-part1-key.html)
-3. [Data Input/Output Part 2](lecture_notes/Data_IO_Part2.html) or [PDF](lecture_notes/Data_IO_Part2.pdf), [lab](labs/data-io-lab-part1.Rmd), [lab key](labs/data-io-lab-part2-key.Rmd), [lab key output](labs/data-io-lab-part2-key.html)
-4. [Reproducible Research](https://docs.google.com/presentation/d/1OAUbr-41EgwlSq0ZB-Edj_e0ix5I13pM3C_dfQ-W-Gw/edit?usp=sharing) or [PDF](lecture_notes/sisbid_rep_research_2020.pdf), [lab](labs/rmarkdown-lab.Rmd), [lab key](labs/rmarkdown-lab-key.Rmd), [lab key] output(labs/rmarkdown-lab-key.html)
-5. [GitHub Concepts](https://docs.google.com/presentation/d/1wCJnKaYbtw9_U3AFoHbWWcTfh3oVZxqHD_N9o_eRQhA/edit?usp=sharing) or [PDF](lecture_notes/sisbid_github_2020.pdf), [lab](https://lab.github.com/githubtraining/introduction-to-github)
-6. [GitHub Practice](labs/github-lab.md)
+[01]: https://docs.google.com/presentation/d/1-j8KAkDUiYWoTpuSaRZqUBE47LhZVThicjSHPWEXGVQ/edit?usp=sharing
+[02]: lecture_notes/sisbid_intro_2020.pdf
+[03]: lecture_notes/Data_IO_Part1.html
+[04]: lecture_notes/Data_IO_Part1.pdf
+[05]: labs/data-io-lab-part1.Rmd
+[06]: labs/data-io-lab-part1-key.Rmd
+[07]: labs/data-io-lab-part1-key.html
+[08]: lecture_notes/Data_IO_Part2.html
+[09]: lecture_notes/Data_IO_Part2.pdf
+[10]: labs/data-io-lab-part1.Rmd
+[11]: labs/data-io-lab-part2-key.Rmd
+[12]: labs/data-io-lab-part2-key.html
+[13]: https://docs.google.com/presentation/d/1OAUbr-41EgwlSq0ZB-Edj_e0ix5I13pM3C_dfQ-W-Gw/edit?usp=sharing
+[14]: lecture_notes/sisbid_rep_research_2020.pdf
+[15]: labs/rmarkdown-lab.Rmd
+[16]: labs/rmarkdown-lab-key.Rmd
+[17]: labs/rmarkdown-lab-key.html
+[18]: https://docs.google.com/presentation/d/1wCJnKaYbtw9_U3AFoHbWWcTfh3oVZxqHD_N9o_eRQhA/edit?usp=sharing
+[19]: lecture_notes/sisbid_github_2020.pdf
+[20]: https://lab.github.com/githubtraining/introduction-to-github
+[21]: labs/github-lab.md
 
-Day 2: 
+[22]: lecture_notes/Data_Subsetting_Part1.html
+[23]: lecture_notes/Data_Subsetting_Part1.pdf
+[24]: labs/data-subsetting-lab-part1.Rmd
+[25]: labs/data-subsetting-lab-part2-key.Rmd
+[26]: labs/data-subsetting-lab-part2-key.html
+[27]: lecture_notes/Data_Subsetting_Part2.html
+[28]: lecture_notes/Data_Subsetting_Part2.pdf
+[29]: labs/data-subsetting-lab-part2.Rmd
+[30]: labs/data-subsetting-lab-part2-key.Rmd
+[31]: labs/data-subsetting-lab-part2-key.html
+[32]: lecture_notes/Data_Summarization.html
+[33]: lecture_notes/Data_Summarization.pdf
+[34]: labs/data-summarization-lab.Rmd
+[35]: labs/data-summarization-lab-key.Rmd
+[36]: labs/data-summarization-lab-key.html
+[37]: lecture_notes/Data_Cleaning.html
+[38]: lecture_notes/Data_Cleaning.pdf
+[39]: labs/data-cleaning-lab.Rmd
+[40]: labs/data-cleaning-lab-key.Rmd
+[41]: labs/data-cleaning-lab-key.html
+[42]: lecture_notes/Data_Reshaping.html
+[43]: lecture_notes/Data_Reshaping.pdf
+[44]: labs/data-reshaping-lab.Rmd
+[45]: labs/data-reshaping-lab-key.Rmd
+[46]: labs/data-reshaping-lab-key.html
+[47]: lecture_notes/Merging_Join.html
+[48]: lecture_notes/Merging_Join.pdf
+[49]: labs/merging-lab.Rmd
+[50]: labs/merging-lab-key.Rmd
+[51]: labs/merging-lab-key.html
 
-7. [Data Subsetting Part 1](lecture_notes/Data_Subsetting_Part1.html) or [PDF](lecture_notes/Data_Subsetting_Part1.pdf), [lab](labs/data-subsetting-lab-part1.Rmd), [lab key](labs/data-subsetting-lab-part2-key.Rmd), [lab key output](labs/data-subsetting-lab-part2-key.html)
-8. [Data Subsetting Part 2](lecture_notes/Data_Subsetting_Part2.html) or [PDF](lecture_notes/Data_Subsetting_Part2.pdf), [lab](labs/data-subsetting-lab-part2.Rmd), [lab key](labs/data-subsetting-lab-part2-key.Rmd), [lab key output](labs/data-subsetting-lab-part2-key.html)
-
-9. [Data Summarization](lecture_notes/Data_Summarization.html) or [PDF](lecture_notes/Data_Summarization.pdf), [lab](labs/data-summarization-lab.Rmd), [lab key](labs/data-summarization-lab-key.Rmd), [lab key output](labs/data-summarization-lab-key.html)
-10. [Data Cleaning](lecture_notes/Data_Cleaning.html) or [PDF](lecture_notes/Data_Cleaning.pdf) [lab](labs/data-cleaning-lab.Rmd), [lab key](labs/data-cleaning-lab-key.Rmd), [lab key output](labs/data-cleaning-lab-key.jtml)
-11. [Data Reshaping](lecture_notes/Data_Reshaping.html) or [PDF](lecture_notes/Data_Reshaping.pdf), [lab](labs/data-reshaping-lab.Rmd), [lab key](labs/data-reshaping-lab-key.Rmd), [lab key output](labs/data-reshaping-lab-key.html)
-12. [Data Merging and Joining](lecture_notes/Merging_Join.html) or [PDF](lecture_notes/Merging_Join.pdf), [lab](labs/merging-lab.Rmd), [lab key](labs/merging-lab-key.Rmd), [lab key output](labs/merging-lab-key.html)
-
-Day 3: 
-
-13. [Advanced Data Input/Output](lecture_notes/Advanced_Data_IO.html) or [PDF](lecture_notes/Advanced_Data_IO.pdf), [lab](labs/advanced-io-lab.Rmd), [lab key](labs/advanced-io-lab-key.Rmd), [lab key output](labs/advanced-io-lab-key.html)
-14. [Functionally Programming](lecture_notes/Functional_Programming.html) or [PDF](lecture_notes/Functional_Programming.pdf), [lab](labs/functional-program-lab.Rmd)
-15. [Bioconductor for Genomics](lecture_notes/Bioconductor_intro.html) or [PDF](lecture_notes/Bioconductor_intro.pdf)
-16. [Wrap up](https://docs.google.com/presentation/d/1DIEOk6JMF9pPpFhvoI9Mv8yDdSZsehvqI_5K34VPN1o/edit?usp=sharing) or [PDF](lecture_notes/sisbid_wrap_up_2020.pdf)
-
-<!--
-
-| Day  | Date  |  Session | Resources  |  Description |
-|----|------------|--------------|---------------------|--------------------------------------|
-| 1 | 2019-07-15 | 8:30AM - 10:00AM |[Welcome and motivation](https://docs.google.com/presentation/d/109XPCQZXyooZQia33Lp0jpZxtWg5hCHw0LdnBedozwY/edit?usp=sharing), [PDF](lecture_notes/sisbid_intro.pdf)|Why you're here|
-| 1 | 2019-07-15 | 8:30AM - 10:00AM | [Who assessment](https://bit.ly/2xLMh7l) | Who is here|
-| 1 | 2019-07-15 | 8:30AM - 10:00AM | [Skills assessment](https://bit.ly/2YUy4B0), [Skills Notebook](labs/skills_notebook.Rmd) | What do we already know?|
-| 1 | 2019-07-15 | 8:30AM - 10:00AM |[Data brainstorming](https://bit.ly/2LXhVap) | What data do we know about?|
-|1 | --- | 10:00AM - 10:30AM | Break | --- |
-|1 | 2019-07-15 | 10:30AM - 12:00PM | [Rep. Research/Version Control](https://docs.google.com/presentation/d/1JssHYRDGWM6L7hFtgs5XrBBUFvWHh8aHlTGotRIFs9Q/edit?usp=sharing) [PDF](lecture_notes/sisbid_intro.pdf)| Getting organized |
-|1 | 2019-07-15 | 10:30AM - 12:00PM | [Git Course](https://www.katacoda.com/courses/git) | How to try git|
-|1 | --- | 12:00PM - 1:30PM | Lunch | --- |
-|1 | 2019-07-15 | 1:30PM - 3:00PM | [Install Git/Github](http://stat545.com/git00_index.html) | How to install git/github|
-|1 | 2019-07-15 | 1:30PM - 3:00PM | [Github lab](labs/github-lab.md) | Practicing git/github|
-|1 | --- | 3:00PM - 3:30PM | Break | --- |
-|1 | 2019-07-15 | 3:30PM - 5:00PM | [Data I/O](lecture_notes/Data_IO_and_structure.html), [PDF](lecture_notes/Data_IO_and_structure.pdf) | Data import and classes |
-|1 | 2019-07-15 | 3:30PM - 5:00PM | [Import Lab](labs/data-io-lab.Rmd), [Import Key](labs/data-io-lab-key.html) |---|
-|----|------------|--------------|---------------------|--------------------------------------|
-|2 | 2019-07-16 | 8:30AM - 10:00AM |[Subsetting](lecture_notes/Subsetting_Data_in_R.html), [PDF](lecture_notes/Subsetting_Data_in_R.pdf), [Lab](labs/subsetting-data-lab.Rmd),[Key](labs/subsetting-data-lab-key.Rmd)|How to select data|
-|2 | --- | 10:00AM - 10:30AM | Break | --- |
-|2 | 2019-7-16 | 10:30AM - 12:00PM | [Advanced data IO](https://docs.google.com/presentation/d/1K-TxNcPg1qugUABMH5LATh2AqBPLVTplLfQ8aBUasD0/edit?usp=sharing),[PDF](lecture_notes/sisbid-advanced-io.pdf) [Lab](labs/web-api-lab.Rmd) | Different ways of accessing big data|
-|2 | --- | 12:00PM - 1:30PM | Lunch| --- |
-|2 | 2019-07-16 | 12:00PM - 1:30PM | [Cleaning data](lecture_notes/Data_Cleaning.html), [PDF](lecture_notes/Data_Cleaning.pdf),[Lab](labs/data-cleaning-lab.Rmd), [Key](labs/data-cleaning-lab-key.html)| Cleaning Data |
-|2 | --- | 3:00PM - 3:30PM | Break | --- |
-|2 | 2019-07-16 | 3:30PM-5:00PM | [Manipulation/Summarization](https://docs.google.com/presentation/d/1YI91J4sDsIFC48PXJcpU1e_ICfT4qnNrh_zlK4GpSNw/edit?usp=sharing) [PDF](lecture_notes/sisbid-manipulation.pdf)| 
-|----|------------|--------------|---------------------|--------------------------------------|
-|3 | 2019-07-17 | 8:30AM-10:00AM | [Databases](https://docs.google.com/presentation/d/11vCz5KrS2uKhr1rOlmeVzXGslkz5IKoEjgMTgpaK5ds/edit?usp=sharing) [Reshaping](lecture_notes/Manipulating_Data_in_R.html),[PDF](lecture_notes/Manipulating_Data_in_R.pdf), [Lab](labs/Manipulating_Data_in_R_Lab.Rmd), [Key](labs/Manipulating_Data_in_R_Lab_Key.html) |  |
-|3 | --- | 3:00PM - 3:30PM | Break | --- |
-|3 | 2019-07-17 | 10:30AM-12:00PM | [Big Data "Tricks"](lecture_notes/Big_Data_Tricks.html), [PDF](lecture_notes/R_Big_Data_Tricks.pdf),[Cloud](https://rstudio.cloud/spaces/21228/project/415321) |   | 
-|3 | 2019-07-17 | 10:30AM-12:00PM |  [Slides](https://docs.google.com/presentation/d/1L2bK_4zEvvbOoPzo2g-mGXlugXjCEi-QIui8DgAUpvQ/edit?usp=sharing) [lab](labs/final_lab.Rmd) | Putting it all together  | 
-<!--|3 | 2019-07-17 | 1:30PM-3:00PM | [Project](labs/data-cleaning-lab.Rmd), [Key](labs/data-cleaning-lab-key.Rmd) |   |  -->
+[52]: lecture_notes/Advanced_Data_IO.html
+[53]: lecture_notes/Advanced_Data_IO.pdf
+[54]: labs/advanced-io-lab.Rmd
+[55]: labs/advanced-io-lab-key.Rmd
+[56]: labs/advanced-io-lab-key.html
+[57]: lecture_notes/Functional_Programming.html
+[58]: lecture_notes/Functional_Programming.pdf
+[59]: labs/functional-program-lab.Rmd
+[60]: labs/functional-program-lab-key.Rmd
+[61]: labs/functional-program-lab-key.html
+[62]: lecture_notes/Bioconductor_intro.html
+[63]: lecture_notes/Bioconductor_intro.pdf
+[64]: https://docs.google.com/presentation/d/1DIEOk6JMF9pPpFhvoI9Mv8yDdSZsehvqI_5K34VPN1o/edit?usp=sharing
+[65]: lecture_notes/sisbid_wrap_up_2020.pdf
 
 **Miscellaneous**
 
 Feel free to submit typos/errors/etc via the github repository associated with the class: 
-https://github.com/SISBID/Module1
+https://github.com/SISBID/Data-Wrangling
 
 ```{r, eval = FALSE, echo = FALSE}
 ## Render this file:
