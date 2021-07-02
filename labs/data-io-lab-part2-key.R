@@ -6,7 +6,7 @@ library(visdat)
 
 
 ## -----------------------------------------------------------------------------
-circ = read_csv("http://sisbid.github.io/Module1/data/Charm_City_Circulator_Ridership.csv")
+circ = read_csv("http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv")
 
 
 ## -----------------------------------------------------------------------------
