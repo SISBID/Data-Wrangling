@@ -25,9 +25,9 @@ ufo = read_csv("../data/ufo/ufo_data_complete.csv")
 * `dim()` displays a vector of length 2: # rows, # columns
 
 ```{r, dims}
-dim(ufo)
 nrow(ufo)
 ncol(ufo)
+dim(ufo)
 ```
 
 ## All Column Names
@@ -45,36 +45,36 @@ colnames(ufo)
 * The problems()` function shows you any issues with the data read-in.
 
 ```{r stop_problems}
-problems(ufo)
+head(problems(ufo))
+```
+
+```{r}
 dim(problems(ufo))
 ```
 
 ## Data Input
 
-* The `spec()` functions show you the specification of how the data was read in, `cols_condense` can help with this.
+* The `spec()` functions show you the specification of how the data was read in.
 
 ```{r spec}
+# Use cols_condense(spec(ufo)) for a summary
 spec(ufo)
-cols_condense(spec(ufo))
 ```
 
 ## Data Input
 
-This specification is passed to `readr` functions:
+Specification can be passed to `readr` functions:
 
 ```{r col_types}
 ufo_char = read_csv("../data/ufo/ufo_data_complete.csv", col_types = cols(
-  .default = col_character(),
-  longitude = col_double()
+  .default = col_character()
 ))
-dim(problems(ufo))
 dim(problems(ufo_char))
 ```
 
-
 ## Data Input: Checking for problems
 
-* The `stop_for_problems()` function will stop if your data had an error when reading in.  If this occurs, you can either use `col_types` (from `spec()`) for the problematic columns, or set `guess_max = Inf` (takes much longer):
+* The `stop_for_problems()` function will stop if your data had an error when reading in.  If this occurs, you can use `col_types` (from `spec()`) for the problematic columns:
 
 ```{r stop_problems2, eval=FALSE}
 stop_for_problems(ufo)
@@ -85,8 +85,8 @@ stop_for_problems(ufo)
 The `vis_dat` function can give you an overview 
 
 ```{r vis_dat}
-library(visdat) # only so many rows can be visualized are good
-ufo_samp = ufo %>% sample_n(size = 1000)
+library(visdat)
+ufo_samp = ufo %>% sample_n(size = 1000) # Subset for big data
 vis_dat(ufo_samp)
 ```
 
@@ -107,7 +107,7 @@ gg_miss_var(ufo)
 
 ## Missing data with the `vizdat`/`naniar` packages
 
-`miss_case_summary` which rows have missing data
+`miss_case_summary` which rows have missing data in order
 ```{r}
 miss_case_summary(ufo)
 ```
@@ -127,16 +127,15 @@ miss_var_summary(ufo)
 If you want to save **one** object, you can use `readr::write_rds` to save to a compressed `rds` file:
 
 ```{r}
-write_rds(ufo, path = "ufo_dataset.rds", compress = "xz")
+write_rds(ufo, file = "ufo_dataset.rds", compress = "xz")
 ```
-
 
 ## More ways to save: `read_rds`
 
 To read this back in to R, you need to use `read_rds`, but **need to assign it**:
 
 ```{r}
-ufo3 = read_rds(path = "ufo_dataset.rds")
+ufo3 = read_rds(file = "ufo_dataset.rds")
 identical(ufo, ufo3) # test if they are the same 
 ```
 
@@ -149,11 +148,17 @@ x = 5
 save(ufo, x, file = "ufo_data.rda")
 ```
 
+```{r, echo = FALSE, out.width="100%"}
+knitr::include_graphics("media/IO_save.png")
+```
 
 ## More ways to save: load
 
-The opposite of `save` is `load`.  The `ls()` command lists the items in the workspace/environment and `rm` removes them
+The opposite of `save` is `load`.  The `ls()` command lists the items in the workspace/environment and `rm()` removes them
 
+```{r, eval = FALSE}
+load(file = "ufo_data.rda")
+```
 
 ## Data Output
 
@@ -170,25 +175,21 @@ args(readr::write_delim)
 
 `x`: A data frame to write to disk
 
-`path`: the file name where you want to R object written. It can be an absolute path, or a filename (which writes the file to your working directory)
+`file`: the file name where you want to R object written. It can be an absolute path, or a filename (which writes the file to your working directory)
 
-`delim`: what character separates the columns? 
-
-* "," = .csv - Note there is also a `write_csv()` function
-* "\t" = tab delimited
-
+`delim`: what character separates the columns?  
+  
+  * `","` = .csv - Note there is also a `write_csv()` function
+  * `"\t"` = tab delimited
 
 ## Data Output
 
-For example, we can write back out the `ufo` dataset with the new column name:
+For example, we can write back out just the first 100 lines of the `ufo` dataset:
 
 ```{r writecsv}
-write_csv(ufo[1:100,], path = "ufo_first100.csv")
+write_delim(ufo[1:100,], file = "ufo_first100.csv", delim = ",")
+# same as write_csv(ufo[1:100,], file = "ufo_first100.csv")
 ```
-
-## Lab
-[Link to Lab](http://sisbid.github.io/Module1/labs/data-io-lab-part2.Rmd)
-
 
 ```{r, include = FALSE}
 file.remove("ufo_dataset.rds")

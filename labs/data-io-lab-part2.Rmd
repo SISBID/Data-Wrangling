@@ -15,13 +15,13 @@ library(visdat)
 
 1. Read in the the Charm City Circulator Dataset from "http://sisbid.github.io/Module1/data/Charm_City_Circulator_Ridership.csv" using `read_csv`, call it `circ`
 ```{r}
-circ = read_csv("http://sisbid.github.io/Module1/data/Charm_City_Circulator_Ridership.csv")
+circ = read_csv("http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv")
 ```
+
 2. Print the number of rows of `circ`
 ```{r}
 
 ```
-
 
 3. Visualize the missing data patterns of `circ` with `vis_miss`:
 ```{r}
@@ -39,12 +39,10 @@ circ = read_csv("http://sisbid.github.io/Module1/data/Charm_City_Circulator_Ride
 
 ```
 
-
 6. Write out `circ` to a file called "Circulator.csv" using `write_csv`:
 ```{r}
 
 ```
-
 
 7. Write out `circ` to a file called "Circulator.rds" using `write_rds`:
 
