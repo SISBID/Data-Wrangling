@@ -266,4 +266,4 @@ ufo %>% arrange(country, desc(duration_s))
 
 ## Lab
 
-[Link to Lab](http://sisbid.github.io/Module1/labs/data-subsetting-lab-part2.Rmd)
+[Link to Lab](http://sisbid.github.io/Data-Wrangling/labs/data-subsetting-lab-part2.Rmd)
