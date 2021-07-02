@@ -16,7 +16,7 @@ library(tidyverse)
 ```
 
 # Part 1
-1.  Read in the Wide Bike lanes data: https://sisbid.github.io/Module1/labs/Bike_Lanes_Wide.csv .  Name the data set `wide`.
+1.  Read in the Wide Bike lanes data: https://sisbid.github.io/Data-Wrangling/labs/Bike_Lanes_Wide.csv .  Name the data set `wide`.
 
 ```{r}
 
@@ -36,8 +36,8 @@ library(tidyverse)
 This exercise is motivated by https://anythingbutrbitrary.blogspot.com/2012/08/manipulating-data-frames-using-sqldf.html
 
 3. read in the roads and crashes CSVs.  Call them `crash` and `road`
-`crash`: https://sisbid.github.io/Module1/labs/crashes.csv
-`road`: https://sisbid.github.io/Module1/labs/roads.csv
+`crash`: https://sisbid.github.io/Data-Wrangling/labs/crashes.csv
+`road`: https://sisbid.github.io/Data-Wrangling/labs/roads.csv
 
 ```{r}
 
@@ -74,7 +74,7 @@ Create a new variable calling it road_hyphen using the `unite` function.  Unite 
 ```
 
 # Part 3
-8.  Read in the Bike lanes data: https://sisbid.github.io/Module1/data/Bike_Lanes.csv .
+8.  Read in the Bike lanes data: https://sisbid.github.io/Data-Wrangling/data/Bike_Lanes.csv .
 Name the data set `bike`.
 ```{r}
 
