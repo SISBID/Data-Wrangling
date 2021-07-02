@@ -5,7 +5,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## -----------------------------------------------------------------------------
 library(tidyverse)
 
-circ = read_csv(paste0("http://sisbid.github.io/Module1/",
+circ = read_csv(paste0("http://sisbid.github.io/Data-Wrangling/",
                        "data/Charm_City_Circulator_Ridership.csv"))
 
 

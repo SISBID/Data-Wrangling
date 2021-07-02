@@ -13,12 +13,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Circulator Lanes Dataset: the data is from https://data.baltimorecity.gov/Transportation/Charm-City-Circulator-Ridership/wwvu-583r
 
-You can Download as a CSV in your current working directory.  Note its also available at:  http://sisbid.github.io/Module1/data/Charm_City_Circulator_Ridership.csv
+You can Download as a CSV in your current working directory.  Note its also available at:  http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv
 
 ```{r}
 library(tidyverse)
 
-circ = read_csv(paste0("http://sisbid.github.io/Module1/",
+circ = read_csv(paste0("http://sisbid.github.io/Data-Wrangling/",
                        "data/Charm_City_Circulator_Ridership.csv"))
 ```
 
