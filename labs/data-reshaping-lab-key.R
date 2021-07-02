@@ -8,7 +8,7 @@ library(tidyverse)
 
 ## ---- message = FALSE---------------------------------------------------------
 wide = read_csv(
-  paste0("http://sisbid.github.io/Module1/",
+  paste0("http://sisbid.github.io/Data-Wrangling/",
          "data/Charm_City_Circulator_Ridership.csv"))
 head(wide, 2)
 class(wide$date)
