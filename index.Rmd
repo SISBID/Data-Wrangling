@@ -75,6 +75,7 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 | 9:05-9:55   | [Functionally Programming][57] ([PDF][58])   | [lab][59]             | [lab key][60] / [lab key output][61] |
 | 9:55-10:10  | Break                                        |                       |                                      |
 | 10:10-11:00 | [Bioconductor for Genomics][62] ([PDF][63])  |                       |                                      |
+|             | [Wrap Up][64] ([PDF][65])                    |                       |                                      |
 
 [01]: https://docs.google.com/presentation/d/1-j8KAkDUiYWoTpuSaRZqUBE47LhZVThicjSHPWEXGVQ/edit?usp=sharing
 [02]: lecture_notes/sisbid_intro_2020.pdf
@@ -137,10 +138,12 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 [57]: lecture_notes/Functional_Programming.html
 [58]: lecture_notes/Functional_Programming.pdf
 [59]: labs/functional-program-lab.Rmd
-[60]: lecture_notes/Bioconductor_intro.html
-[61]: lecture_notes/Bioconductor_intro.pdf
-[62]: https://docs.google.com/presentation/d/1DIEOk6JMF9pPpFhvoI9Mv8yDdSZsehvqI_5K34VPN1o/edit?usp=sharing
-[63]: lecture_notes/sisbid_wrap_up_2020.pdf
+[60]: labs/functional-program-lab-key.Rmd
+[61]: labs/functional-program-lab-key.html
+[62]: lecture_notes/Bioconductor_intro.html
+[63]: lecture_notes/Bioconductor_intro.pdf
+[64]: https://docs.google.com/presentation/d/1DIEOk6JMF9pPpFhvoI9Mv8yDdSZsehvqI_5K34VPN1o/edit?usp=sharing
+[65]: lecture_notes/sisbid_wrap_up_2020.pdf
 
 **Miscellaneous**
 
