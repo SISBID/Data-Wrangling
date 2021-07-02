@@ -24,8 +24,7 @@ print("I'm code")
 And then directly after it, will be the output of the code.  
 So `print("I'm code")` is the code chunk and [1] "I'm code" is the output. 
 
-These slides were made in R using `knitr` and `R Markdown` which is covered in later today when we discuss reproducible research.
-
+These slides were made in R using `knitr` and `R Markdown` (covered later today when we discuss reproducible research)
 
 ## Data Input
 
@@ -49,35 +48,54 @@ https://www.kaggle.com/NUFORC/ufo-sightings
 * Upload the data to RStudio Cloud 
 
 ```{r, echo = FALSE, out.width="100%"}
-knitr::include_graphics("upload.png")
+knitr::include_graphics("media/IO_upload.png")
 ```
 
 ## Data Input
 
-Easy way: R Studio features some nice "drop down" support, where you can run some tasks by selecting them from the toolbar.
+<!-- R Studio features some nice "drop down" support, where you can run some tasks by selecting them from the toolbar. -->
 
-For example, you can easily import text datasets using the "Tools --> Import Dataset --> From Text (readr)" command. Selecting this will bring up a new screen that lets you specify the formatting of your text file. 
+Easy way: import text datasets using the "File --> Import Dataset --> From Text (readr)" command. Selecting this will bring up a new screen that lets you specify the formatting of your text file. 
 
-After importing a dataset, you get the corresponding R commands that you can enter in the console if you want to re-import data.
+Going through this process enters the corresponding R commands in the console (you can copy these for later!)
 
+## Data Input
+
+```{r, echo = FALSE, out.width="100%"}
+knitr::include_graphics("media/IO_file_menu_RStudiocloud.png")
+```
+
+## Data Input
+
+```{r, echo = FALSE, out.width="100%"}
+knitr::include_graphics("media/IO_file_import_browser_RStudiocloud.png")
+```
+
+## Data Input
+
+```{r, echo = FALSE, out.width="100%"}
+knitr::include_graphics("media/IO_file_import_browse_RStudiocloud.png")
+```
+
+## Data Input
+
+```{r, echo = FALSE, out.width="100%"}
+knitr::include_graphics("media/IO_file_import_preview_RStudiocloud.png")
+```
+
+## Data Input
+
+```{r, echo = FALSE, out.width="100%"}
+knitr::include_graphics("media/IO_file_import_console_code.png")
+```
 
 ## Commenting in Scripts
 
-Commenting in code is super important. You should be able to go back to your code years after writing it and figure out exactly what the script is doing. Commenting helps you do this. This happens to me often...
+Commenting in code is super important. You should be able to go back to your code years after writing it and figure out exactly what the script is doing. Commenting helps you do this. 
 
-## Commenting in Scripts
-
-![The paper came out January 2012 with code made in 2011](media/code_request.jpg)
-
-
-## Commenting in Scripts
-
-![This was the figure...](media/dyr238f1.jpg)
-
-## Commenting in Scripts
-
-![After some digging, I found the code](media/code_fu.jpg)
-
+```{r, echo = FALSE, out.width="70%"}
+knitr::include_graphics("media/IO_comments_to_self.png")
+```
 
 ## Commenting in Scripts
 
@@ -86,22 +104,20 @@ Add a comment header to your script from today:`#` is the comment symbol
 ```{r}
 #################
 # Title: Demo R Script
-# Author: Andrew Jaffe
 # Date: 7/13/2020
 # Purpose: Demonstrate comments in R
 ###################
  
 # nothing to its right is evaluated
+x = 2 # but the left will be
 
 # this # is still a comment
-### you can use many #'s as you want
+### you can use many #s as you want
+##### 5 #s or more make a collapsible section 
 
-# sometimes you have a really long comment,
-#    like explaining what you are doing 
-#    for a step in analysis. 
-# Take it to another line
+# sometimes if you have a really long comment,
+# you can take it to another line
 ```
-
 
 ## R variables 
 
@@ -125,6 +141,9 @@ For any function, you can write `?FUNCTION_NAME`, or `help("FUNCTION_NAME")` to 
 help("dir")
 ```
 
+```{r, echo = FALSE, out.width="70%"}
+knitr::include_graphics("media/IO_help.png")
+```
 
 ## Data Input
 
@@ -136,15 +155,15 @@ So what is going on "behind the scenes"?
 
 `read_delim()`: Read a delimited file into a data frame.
 
-
 ```{r, echo = FALSE}
 args(readr::read_delim)
 ```
 
-```   
-# for example: read_delim("file.txt",delim="\t")
+```{r eval=FALSE} 
+# example: 
+read_delim(file = "file.txt", delim = "\t") 
+read_delim("file.txt", "\t")
 ```
-
 
 ## Data Input
 
@@ -157,26 +176,17 @@ args(readr::read_delim)
 
 There is another convenient function for reading in CSV files, where the delimiter is assumed to be a comma: 
 
-```{r readCSV}
-read_csv
-```
-
-## Data Input
-
-* Here would be reading in the data from the command line, specifying the file path:
-
 ```{r readCSV2}
 ufo = read_csv("../data/ufo/ufo_data_complete.csv")
 ```
 
-The data is now successfully read into your R workspace, just like from using the dropdown menu.
+<!-- The data is now successfully read into your R workspace, just like from using the dropdown menu. -->
 
 ## Data Input
 
-The `read_delim()` and related functions returns a "tibble" is a `data.frame` with special printing, which is the primary data format for most data cleaning and analyses. 
+The `read_delim()` and related functions return a "tibble" is a `data.frame` with special printing, which is the primary data format for most data cleaning and analyses. 
 
 ```{r viewInput, message=FALSE}
-head(ufo)
 class(ufo)
 ```
 
@@ -185,7 +195,6 @@ class(ufo)
 ```{r, viewTibble}
 ufo
 ```
-
 
 ## Data Input
 
@@ -205,33 +214,29 @@ Many data analysts collaborate with researchers who use Excel to enter and curat
 
 For single worksheet .xlsx files, better to keep the XLSX file as the raw data as Excel exporting CSV can make slight changes (but I often have to strip off additional summary data from the columns).
 
-
 ## Data Input - Other Software
 
-* **haven** package (https://cran.r-project.org/web/packages/haven/index.html) reads in SAS, SPSS, Stata formats
-* **sas7bdat** reads .sas7bdat files
-* **foreign** package - can read all the formats as **haven**.  Around longer (aka more testing), but not as maintained (bad for future).
-
+* `haven` package (https://cran.r-project.org/web/packages/haven/index.html) reads in SAS, SPSS, Stata formats
+* `sas7bdat` reads .sas7bdat files
+* `sf` & `rgdal` read in spatial data
+* `pdftools` reads .pdf, but things can get tricky quickly
 
 ## Common new user mistakes we have seen
 
 1.  **Working directory problems: trying to read files that R "can't find"**
     - RStudio can help, and so do RStudio Projects
-    - discuss in this Data Input/Output lecture
 2.  Lack of comments in code
 3.  Typos (R is **case sensitive**, `x` and `X` are different)
     - RStudio helps with "tab completion"
-    - discussed throughout
 4.  Data type problems (is that a string or a number?)
-5.  Open ended quotes, parentheses, and brackets     
-6.  Different versions of software
+5.  Open ended quotes, parentheses, and brackets    
     
 ## Working Directories
 
 * R "looks" for files on your computer (or cloud) relative to the "working" directory
-* Many people recommend not setting a directory in the scripts 
-    - assume you're in the directory the script is in
-    - If you open an R file with a new RStudio session, it does this for you.
+* Best practice is to double-click an R file to start a new RStudio session, instead of launching RStudio from Desktop or somewhere else.
+  - it sets the working directory to match that file
+  - RStudio Cloud can simplify things
 * If you do set a working directory, do it at the beginning of your script. 
 * Example of getting and setting the working directory:
 
