@@ -30,7 +30,7 @@ ex_long
 
 ## ---- message = FALSE---------------------------------------------------------
 circ = read_csv(
-  paste0("http://sisbid.github.io/Module1/",
+  paste0("http://sisbid.github.io/Data-Wrangling/",
          "data/Charm_City_Circulator_Ridership.csv"))
 head(circ, 2)
 class(circ$date)
