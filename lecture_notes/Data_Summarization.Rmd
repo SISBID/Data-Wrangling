@@ -18,8 +18,9 @@ library(tidyverse)
 
 We can use the Charm City Circulator Dataset from "http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv".  
 ```{r}
-circ = read_csv(paste0("http://sisbid.github.io/Data-Wrangling/",
-                       "data/Charm_City_Circulator_Ridership.csv"))
+# circ = read_csv(paste0("http://sisbid.github.io/Data-Wrangling/",
+#                        "data/Charm_City_Circulator_Ridership.csv"))
+circ = read_csv("../data/Charm_City_Circulator_Ridership.csv")
 ```
 
 ## Head and Tail Commands
@@ -27,15 +28,20 @@ circ = read_csv(paste0("http://sisbid.github.io/Data-Wrangling/",
 The `head`/`tail` commands displays the first/last `6` (default) rows:
 
 ```{r}
-head(circ, 3)
-tail(circ)
+head(circ)
 ```
 
-# Most important skills after the data is clean
+## Head and Tail Commands
+
+The `head`/`tail` commands displays the first/last `6` (default) rows:
+
+```{r}
+tail(circ, 10)
+```
 
 ## Data Summarization
 
-* Basic statistical summarization
+* Basic statistical summarization is key after cleaning data!
     * `mean(x)`: takes the mean of x
     * `sd(x)`: takes the standard deviation of x
     * `median(x)`: takes the median of x
@@ -47,8 +53,6 @@ tail(circ)
     * `log`, `log2`, `log10` - log transformation
     * `sqrt` - square root
 
-
-
 ## Statistical summarization
 
 Remember `NA` is "missing" so it's unknown what the mean or sum of something is (by default). `na.rm` argument ("remove NAs"). 
@@ -57,14 +61,7 @@ Remember `NA` is "missing" so it's unknown what the mean or sum of something is 
 mean(circ$daily)
 sum(circ$daily)
 mean(circ$daily, na.rm = TRUE)
-```
-
-## Statistical summarization
-
-Quantile is pretty picky about NA (it errors)
-
-```{r, error=TRUE}
-quantile(circ$daily)
+sum(circ$daily, na.rm = TRUE)
 ```
 
 ## Statistical summarization
@@ -74,18 +71,6 @@ quantile(circ$daily, na.rm = TRUE)
 quantile(circ$daily, na.rm = TRUE, probs = c(0.6, 0.84))
 median(circ$daily, na.rm = TRUE)
 ```
-
-
-
-## Statistical summarization
-
-`t.test` is good for t-tests, but also gives a mean and 95\% CI:
-
-```{r}
-t.test(circ$daily)
-broom::tidy(t.test(circ$daily))
-```
-
 
 ## Length and unique
 
@@ -102,37 +87,115 @@ length(unique(circ$date))
 ```
 
 ## Table
+
 `table(x)` will return a frequency table of unique elements of `x`
 
 ```{r, message = FALSE}
 table(circ$day)
 ```
 
-## `dplyr`: `count` 
+## The `tidy` way: `dplyr`: `count` 
 
 ```{r, message = FALSE}
 circ %>% count(day)
 ```
 
-## `dplyr`: `count` 
+## The `tidy` way: `dplyr`: `count` 
 
 ```{r, message = FALSE}
 circ %>% mutate(many_riders = daily > 1000) %>% count(many_riders, day)
 ```
 
-
 ## Summarize the data: `dplyr` `summarize`/`summarise` function
 
-`dplyr::summarise` will allow you to summarize data.  Format is `new = SUMMARY`. If you don't set a `new` name, it will be a messy output:
+`dplyr::summarise` will allow you to summarize data.  Format is `new_column = SUMMARY`. If you don't set a `new` name, it will be a messy output:
 
 ```{r}
 circ %>% 
   summarize(mean_purple = mean(purpleAverage, na.rm = TRUE),
-            median_orange = median(orangeAverage, na.rm = TRUE),
-            median(bannerAverage, na.rm = TRUE))
+            mean(bannerAverage, na.rm = TRUE))
 ```
 
+## `across` - summarize multiple columns!
 
+If you would like to a bunch of columns, you can use `across` and pass in a function (with other arguments) with select helpers:
+
+```{r}
+circ %>% summarise(across(ends_with("Boardings"), mean, na.rm = TRUE))
+```
+
+## Perform Operations By Groups: dplyr
+
+`group_by` allows you group the data set by grouping variables:
+
+```{r}
+sub_circ = circ %>% group_by(day)
+head(sub_circ)
+```
+
+- doesn't change the data in any way, but how **functions operate on it**
+
+## Summarize the data
+
+It's grouped!
+
+```{r}
+sub_circ %>% summarize(avg_daily = mean(daily, na.rm = TRUE))
+```
+
+## Using the `pipe` 
+
+Pipe `sub_circ` into `group_by`, then pipe that into `summarise`:
+
+```{r}
+day_avgs = circ %>% 
+  group_by(day) %>% 
+  summarize(avg_daily = mean(daily, na.rm = TRUE))
+head(day_avgs)
+```
+
+## Ungroup the data
+
+You usually want to perform operations on groups and may want to redefine the groups.  The `ungroup` function will allow you to clear the groups from the data: 
+
+```{r}
+sub_circ = ungroup(sub_circ)
+sub_circ
+```
+
+## `group_by` with `mutate`
+
+We can use `mutate` instead of `summarise` to add the summary back in to the original data!
+
+```{r}
+circ %>% 
+  group_by(day) %>% 
+  mutate(mean = mean(daily, na.rm = TRUE)) %>% 
+  select(day, date, mean, daily)
+```
+
+## Counting with `n()`
+
+Standard statistics can be calculated: `n()` counts the number of observations.
+
+```{r}
+circ %>% 
+  group_by(day) %>% 
+  summarize(n = n(),
+            mean = mean(daily, na.rm = TRUE)) %>% 
+  head
+```
+
+# Bonus material
+
+## Statistical summarization
+
+`t.test` is good for t-tests, but also gives a mean and 95\% CI:
+
+```{r}
+t.test(circ$daily)
+broom::tidy(t.test(circ$daily))
+```
 
 ## Data Summarization on matrices/data frames
 
@@ -159,98 +222,6 @@ circ = circ %>% mutate(mean_boarding = rowMeans(avgs, na.rm = TRUE))
 head(circ %>% select(day, mean_boarding))
 ```
 
-## Summarize the data: `dplyr` `summarise` function
-
-`dplyr::summarise` will allow you to summarize data. 
-
-```{r}
-circ %>% summarize(avg_boarding = mean(orangeBoardings, na.rm = TRUE))
-```
-
-# `colSums/colMeans` good, but `summarise` can do that
-
-## Across - the new magic function
-
-If you would like to a bunch of columns, you can use `across` and pass in a function (with other arguments) with select helpers:
-
-```{r}
-circ %>% summarise(across(ends_with("Boardings"), mean, na.rm = TRUE))
-```
-
-
-
-## Perform Operations By Groups: dplyr
-
-`group_by` allows you group the data set by grouping variables:
-
-```{r}
-sub_circ = group_by(circ, day)
-head(sub_circ)
-```
-
-- doesn't change the data in any way, but how **functions operate on it**
-
-## Summarize the data
-
-It's grouped!
-
-```{r}
-sub_circ %>% summarize(avg_daily = mean(daily, na.rm = TRUE))
-```
-
-
-
-## Using the `pipe` 
-
-Pipe `sub_circ` into `group_by`, then pipe that into `summarise`:
-
-```{r}
-day_avgs = circ %>% 
-  group_by(day) %>% 
-  summarize(mean = mean(daily, na.rm = TRUE),
-            med = median(daily, na.rm = TRUE))
-head(day_avgs)
-```
-
-
-## Ungroup the data
-
-You usually want to perform operations on groups and may want to redefine the groups.  The `ungroup` function will allow you to clear the groups from the data: 
-
-```{r}
-sub_circ = ungroup(sub_circ)
-sub_circ
-```
-
-## `group_by` with `mutate` - just add data
-
-We can also use `mutate` to calculate the mean value for each year and add it as a column:
-
-```{r}
-circ %>% 
-  group_by(day) %>% 
-  mutate(mean = mean(daily, na.rm = TRUE)) %>% 
-  select(day, date, mean, daily)
-```
-
-## Counting
-
-Standard statistics can be calculated.  There are other functions, such as `n()` count the number of observations.
-
-```{r}
-circ %>% 
-  group_by(day) %>% 
-  summarize(n = n(),
-            mean = mean(daily, na.rm = TRUE)) %>% 
-  head
-```
-
-
-## Conclusion
-
-- `group_by` is very powerful, especially with `summarise/summarize`
-- Using `group_by` and `mutate` keeps all the rows and repeates a value, `summarise` reduces the number of rows
-- The `matrixStats` package extends this to `colMedians`, `colMaxs`, etc.
 
 ## Basic Plots
 
@@ -275,5 +246,3 @@ circ %>%
   mutate(date = lubridate::mdy(date)) %>% 
   qplot(x = date, y = daily, colour = day, data = .) + geom_line()
 ```
-
-# SISBID MODULE ON VISUALIZATION!
