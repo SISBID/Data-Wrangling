@@ -18,9 +18,9 @@ library(tidyverse)
 
 We can use the Charm City Circulator Dataset from "http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv".  
 ```{r}
-# circ = read_csv(paste0("http://sisbid.github.io/Data-Wrangling/",
-#                        "data/Charm_City_Circulator_Ridership.csv"))
-circ = read_csv("../data/Charm_City_Circulator_Ridership.csv")
+circ = read_csv(paste0("http://sisbid.github.io/Data-Wrangling/",
+                       "data/Charm_City_Circulator_Ridership.csv"))
+# or circ = read_csv("../data/Charm_City_Circulator_Ridership.csv")
 ```
 
 ## Head and Tail Commands
