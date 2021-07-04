@@ -368,44 +368,42 @@ pre code {
 
 
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ── Attaching packages ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
 <pre><code>## ✔ ggplot2 3.3.3     ✔ purrr   0.3.4
 ## ✔ tibble  3.1.2     ✔ dplyr   1.0.6
 ## ✔ tidyr   1.1.3     ✔ stringr 1.4.0
 ## ✔ readr   1.4.0     ✔ forcats 0.5.1</code></pre>
-<pre><code>## ── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+<pre><code>## ── Conflicts ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <ol style="list-style-type: decimal">
 <li>Read in the Circulator Data from <a href="http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv" class="uri">http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv</a>. Name the data set <code>wide</code>.</li>
 </ol>
 <pre class="r"><code>wide = read_csv(
-  paste0(&quot;http://sisbid.github.io/Data-Wrangling/&quot;,
-         &quot;data/Charm_City_Circulator_Ridership.csv&quot;))
-head(wide, 2)</code></pre>
-<pre><code>## # A tibble: 2 x 15
-##   day     date    orangeBoardings orangeAlightings orangeAverage purpleBoardings
-##   &lt;chr&gt;   &lt;chr&gt;             &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;           &lt;dbl&gt;
-## 1 Monday  01/11/…             877             1027           952              NA
-## 2 Tuesday 01/12/…             777              815           796              NA
-## # … with 9 more variables: purpleAlightings &lt;dbl&gt;, purpleAverage &lt;dbl&gt;,
-## #   greenBoardings &lt;dbl&gt;, greenAlightings &lt;dbl&gt;, greenAverage &lt;dbl&gt;,
-## #   bannerBoardings &lt;dbl&gt;, bannerAlightings &lt;dbl&gt;, bannerAverage &lt;dbl&gt;,
-## #   daily &lt;dbl&gt;</code></pre>
-<pre class="r"><code>class(wide$date)</code></pre>
-<pre><code>## [1] &quot;character&quot;</code></pre>
+  &quot;http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv&quot;
+)</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li>Reshape <code>wide</code> using <code>gather.</code> Call this data <code>long.</code> Make the <code>key</code> <code>variable</code>, and the value <code>n_people</code> Make sure we gather all columns <strong>but</strong> <code>daily</code>, <code>day</code>, <code>date</code>, using things like <code>-day</code>. Table <code>long$day</code></li>
+<li>Reshape wide using <code>pivot_wider</code>. Call this data <code>long.</code> Make the <code>names_to =</code> <code>variable</code>, and the value <code>n_people</code> Make sure we gather all columns <strong>but</strong> <code>daily</code>, <code>day</code>, <code>date</code>, using the <code>!</code>.</li>
 </ol>
 <pre class="r"><code>long = wide %&gt;% 
-  gather(key = &quot;variable&quot;, value = &quot;n_people&quot;, -daily, -day, -date)
-head(long$day)</code></pre>
-<pre><code>## [1] &quot;Monday&quot;    &quot;Tuesday&quot;   &quot;Wednesday&quot; &quot;Thursday&quot;  &quot;Friday&quot;    &quot;Saturday&quot;</code></pre>
+  pivot_longer( !c(daily, day, date), names_to = &quot;variable&quot;, values_to = &quot;n_people&quot;)
+head(long)</code></pre>
+<pre><code>## # A tibble: 6 x 5
+##   day    date       daily variable         n_people
+##   &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;               &lt;dbl&gt;
+## 1 Monday 01/11/2010   952 orangeBoardings       877
+## 2 Monday 01/11/2010   952 orangeAlightings     1027
+## 3 Monday 01/11/2010   952 orangeAverage         952
+## 4 Monday 01/11/2010   952 purpleBoardings        NA
+## 5 Monday 01/11/2010   952 purpleAlightings       NA
+## 6 Monday 01/11/2010   952 purpleAverage          NA</code></pre>
 <ol start="3" style="list-style-type: decimal">
 <li>Separate the <code>date</code> column into (“month”, “day”, “year”) using a sep of “/” Make sure you don’t remove the <code>date</code> column, call this <code>long2</code>. Do a table of the day column. Where did the original <code>day</code> column go?</li>
 </ol>
-<pre class="r"><code>long2 = separate(long, col = &quot;date&quot;, into = c(&quot;month&quot;, &quot;day&quot;, &quot;year&quot;), 
-                sep = &quot;/&quot;, remove = FALSE)
+<pre class="r"><code># We over-wrote the day column by assigning it new values (in this case, calendar &quot;day&quot;)
+long2 = long %&gt;%
+  separate(col = &quot;date&quot;, into = c(&quot;month&quot;, &quot;day&quot;, &quot;year&quot;),
+           sep = &quot;/&quot;, remove = FALSE)
 table(long2$day)</code></pre>
 <pre><code>## 
 ##  01  02  03  04  05  06  07  08  09  10  11  12  13  14  15  16  17  18  19  20 
@@ -415,33 +413,58 @@ table(long2$day)</code></pre>
 <ol start="4" style="list-style-type: decimal">
 <li>Create a new variable in <code>long2</code> calling it <code>newdate</code> using the <code>unite</code> function. Unite the year, month, day, columns using a hyphen (<code>-</code>) and then <code>table</code> the new column <code>newdate</code></li>
 </ol>
-<pre class="r"><code>long2 = unite(long2, col = &quot;newdate&quot;, year, month, day, sep = &quot;-&quot;)
+<pre class="r"><code>long2 = long2 %&gt;%
+  unite(col = &quot;newdate&quot;, year, month, day, sep = &quot;-&quot;)
 head(long2)</code></pre>
 <pre><code>## # A tibble: 6 x 5
-##   date       daily newdate    variable        n_people
-##   &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;              &lt;dbl&gt;
-## 1 01/11/2010  952  2010-01-11 orangeBoardings      877
-## 2 01/12/2010  796  2010-01-12 orangeBoardings      777
-## 3 01/13/2010 1212. 2010-01-13 orangeBoardings     1203
-## 4 01/14/2010 1214. 2010-01-14 orangeBoardings     1194
-## 5 01/15/2010 1644  2010-01-15 orangeBoardings     1645
-## 6 01/16/2010 1490. 2010-01-16 orangeBoardings     1457</code></pre>
+##   date       daily newdate    variable         n_people
+##   &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;               &lt;dbl&gt;
+## 1 01/11/2010   952 2010-01-11 orangeBoardings       877
+## 2 01/11/2010   952 2010-01-11 orangeAlightings     1027
+## 3 01/11/2010   952 2010-01-11 orangeAverage         952
+## 4 01/11/2010   952 2010-01-11 purpleBoardings        NA
+## 5 01/11/2010   952 2010-01-11 purpleAlightings       NA
+## 6 01/11/2010   952 2010-01-11 purpleAverage          NA</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>Use <code>str_replace()</code> on <code>long</code> (not <code>long2</code>) to replace “Board” with &quot;_Board“,”Alight&quot; with &quot;_Alight“, and”Average&quot; with &quot;_Average&quot;.</li>
+</ol>
 <pre class="r"><code>long = long %&gt;% 
   mutate(
     variable = variable %&gt;% 
       str_replace(&quot;Board&quot;, &quot;_Board&quot;) %&gt;% 
       str_replace(&quot;Alight&quot;, &quot;_Alight&quot;) %&gt;% 
       str_replace(&quot;Average&quot;, &quot;_Average&quot;) 
-  )</code></pre>
-<ol start="5" style="list-style-type: decimal">
-<li>Separate the <code>variable</code> column from <code>long</code> (not <code>long2</code>) into (“route”, “type”) using a sep of &quot;_&quot;</li>
-</ol>
-<pre class="r"><code>long = separate(long, col = &quot;variable&quot;, into = c(&quot;route&quot;, &quot;type&quot;), 
-                sep = &quot;_&quot;)</code></pre>
+  )
+head(long)</code></pre>
+<pre><code>## # A tibble: 6 x 5
+##   day    date       daily variable          n_people
+##   &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;                &lt;dbl&gt;
+## 1 Monday 01/11/2010   952 orange_Boardings       877
+## 2 Monday 01/11/2010   952 orange_Alightings     1027
+## 3 Monday 01/11/2010   952 orange_Average         952
+## 4 Monday 01/11/2010   952 purple_Boardings        NA
+## 5 Monday 01/11/2010   952 purple_Alightings       NA
+## 6 Monday 01/11/2010   952 purple_Average          NA</code></pre>
 <ol start="6" style="list-style-type: decimal">
-<li>Reshape <code>long</code> (not <code>long2</code>) using <code>spread.</code> Spread the data where the <code>route</code> and we want the value in the new columns to be <code>n_people</code> . Call this <code>wide_by_route</code></li>
+<li>Separate the <code>variable</code> column from <code>long</code> into (“route”, “type”) using a sep of &quot;_&quot;.</li>
 </ol>
-<pre class="r"><code>wide_by_route = spread(long, key = route, value = n_people)</code></pre>
+<pre class="r"><code>long = long %&gt;%
+  separate(col = &quot;variable&quot;, into = c(&quot;route&quot;, &quot;type&quot;), sep = &quot;_&quot;)
+head(long)</code></pre>
+<pre><code>## # A tibble: 6 x 6
+##   day    date       daily route  type       n_people
+##   &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;         &lt;dbl&gt;
+## 1 Monday 01/11/2010   952 orange Boardings       877
+## 2 Monday 01/11/2010   952 orange Alightings     1027
+## 3 Monday 01/11/2010   952 orange Average         952
+## 4 Monday 01/11/2010   952 purple Boardings        NA
+## 5 Monday 01/11/2010   952 purple Alightings       NA
+## 6 Monday 01/11/2010   952 purple Average          NA</code></pre>
+<ol start="7" style="list-style-type: decimal">
+<li>Reshape <code>long</code> (not <code>long2</code>) using <code>pivot_wider</code>. Spread the data out so the <code>route</code> becomes the new column name and the cells are filled with the <code>n_people</code> value. Call this <code>wide_by_route</code>.</li>
+</ol>
+<pre class="r"><code>wide_by_route = long %&gt;% 
+  pivot_wider(names_from = route, values_from = n_people)</code></pre>
 
 
 

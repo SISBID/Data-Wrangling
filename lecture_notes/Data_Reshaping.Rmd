@@ -82,6 +82,16 @@ Data is wide or long **with respect** to certain variables.
 knitr::include_graphics("media/Reshape_pivot.jpg")
 ```
 
+## What is wide/long data?
+
+```{r, fig.alt="Wide versus long data rearanges the position of column names and row content, animated.", out.width = "50%", echo = FALSE, fig.align='center'}
+knitr::include_graphics("media/Reshape_pivot_animated.gif")
+```
+
+<div style="font-size:10pt">
+[https://github.com/gadenbuie/tidyexplain/blob/master/images/tidyr-spread-gather.gif](https://github.com/gadenbuie/tidyexplain/blob/master/images/tidyr-spread-gather.gif)
+</div>
+
 ## Why do we need to switch between wide/long data?
 
 Wide: **Easier for humans to read**
@@ -190,4 +200,10 @@ In `tidyr`, the `pivot_wider` function spreads rows into columns.  Now we have a
 wide = long %>% pivot_wider(names_from = "type", 
                             values_from = "number") 
 wide
+```
+
+## `pivot_longer`
+
+```{r, fig.alt="Long form sandwich", out.width = "50%", echo = FALSE, fig.align='center'}
+knitr::include_graphics("media/Reshape_pivot_sandwich.png")
 ```
