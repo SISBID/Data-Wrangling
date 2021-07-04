@@ -18,49 +18,49 @@ circ = read_csv(paste0("http://sisbid.github.io/Data-Wrangling/",
                        "data/Charm_City_Circulator_Ridership.csv"))
 ```
 
+1. How many days are in the data set?  You can assume each observation/row is a different day
 
-
-1. How days are in the data set?  You can assume each observation/row is a different day
 ```{r q1}
 
 ```
 
-2. What is the total (sum) number boardings on the green bus?
+2. What is the total (sum) number boardings on the green bus (`greenBoardings`)?
 
 ```{r q2}
 
 ```
 
-3.  How many days are missing daily ridership?  Use `is.na` and either table, count?
-   
+3. How many days are missing daily ridership?  Use `is.na()` and either `table()`, `count()`, or `n()`.
+
 ```{r q3}
 
 ```
 
-
-4. Which day of the week has the most average ridership (using `daily`)?  How many days goes are observed for those days? Group the data.
+4. Group the data by day of the week (`day`). Which day of the week has the most average ridership (the `daily` column)?  How many days goes are observed for those days?
 
 ```{r q4}
 
 ```
 
+5. Describe the distribution of `orangeBoardings`(use `quantile()`).
 
-
-5. (a) Numerically [hint: `quantile()`] and 
-		(b) graphically [hint: `qplot(, data = circ)`]
-		 describe the distribution of `orangeBoardings`
 ```{r q6}
 
+
 ```
 
-6. Then describe as above, after stratifying by day of the week.
+6. Describe the distribution of `orangeBoardings`(use `quantile()`), but this time stratify by day of the week.
+
 ```{r q7}
 
+
 ```
 
-7.  Describe the following output and then flip the `x` and `y` variables:
+7.  Bonus: Describe the results of #5 but using a boxplot visualization:
+
 ```{r}
-qplot(x = orangeBoardings, y = day, data = circ, geom = "boxplot")
+# Hint:
+# qplot(x = ???, y = ???, data = ???, geom = "boxplot")
+
+
 ```
-
-

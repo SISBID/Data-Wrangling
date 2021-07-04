@@ -35,20 +35,9 @@ circ %>%
 ## ----q4-----------------------------------------------------------------------
 circ %>% 
   group_by(day) %>% 
-  summarise(n = n(),
-            non_missing = sum(!is.na(daily)),
-            mean = mean(daily, na.rm = TRUE)) %>% 
+  summarise(mean = mean(daily, na.rm = TRUE),
+            n = n()) %>% 
   arrange(desc(mean)) 
-
-circ %>% 
-  group_by(day) %>% 
-  summarise(n = n(),
-            non_missing = sum(!is.na(daily)),
-            mean = mean(daily, na.rm = TRUE)) %>% 
-  arrange(desc(mean)) %>% 
-  ungroup() %>% 
-  slice(1) %>% 
-  magrittr::extract("day")
 
 
 ## ----q6-----------------------------------------------------------------------
@@ -56,18 +45,15 @@ quantile(circ$orangeBoardings, na.rm = TRUE)
 circ %>% 
   summarise(quantile(orangeBoardings, na.rm = TRUE))
 
-qplot(x = orangeBoardings, data = circ, geom = "histogram")
-qplot(x = orangeBoardings, data = circ, geom = "density")
-
 
 ## ----q7-----------------------------------------------------------------------
-quantile(circ$orangeBoardings, na.rm = TRUE)
 circ %>% 
   group_by(day) %>% 
   summarise(quantile(orangeBoardings, na.rm = TRUE))
 
 
 ## -----------------------------------------------------------------------------
+# Hint:
+# qplot(x = ???, y = ???, data = ???, geom = "boxplot")
 qplot(x = orangeBoardings, y = day, data = circ, geom = "boxplot")
-qplot(x = day, y = orangeBoardings, data = circ, geom = "boxplot")
 

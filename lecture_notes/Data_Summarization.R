@@ -7,32 +7,28 @@ library(tidyverse)
 ## -----------------------------------------------------------------------------
 circ = read_csv(paste0("http://sisbid.github.io/Data-Wrangling/",
                        "data/Charm_City_Circulator_Ridership.csv"))
+# or circ = read_csv("../data/Charm_City_Circulator_Ridership.csv")
 
 
 ## -----------------------------------------------------------------------------
-head(circ, 3)
-tail(circ)
+head(circ)
+
+
+## -----------------------------------------------------------------------------
+tail(circ, 10)
 
 
 ## -----------------------------------------------------------------------------
 mean(circ$daily)
 sum(circ$daily)
 mean(circ$daily, na.rm = TRUE)
-
-
-## ---- error=TRUE--------------------------------------------------------------
-quantile(circ$daily)
+sum(circ$daily, na.rm = TRUE)
 
 
 ## -----------------------------------------------------------------------------
 quantile(circ$daily, na.rm = TRUE)
 quantile(circ$daily, na.rm = TRUE, probs = c(0.6, 0.84))
 median(circ$daily, na.rm = TRUE)
-
-
-## -----------------------------------------------------------------------------
-t.test(circ$daily)
-broom::tidy(t.test(circ$daily))
 
 
 ## ---- message = FALSE---------------------------------------------------------
@@ -58,22 +54,7 @@ circ %>% mutate(many_riders = daily > 1000) %>% count(many_riders, day)
 ## -----------------------------------------------------------------------------
 circ %>% 
   summarize(mean_purple = mean(purpleAverage, na.rm = TRUE),
-            median_orange = median(orangeAverage, na.rm = TRUE),
-            median(bannerAverage, na.rm = TRUE))
-
-
-## ----colMeans-----------------------------------------------------------------
-avgs = circ %>% select(ends_with("Boardings"))
-colMeans(avgs, na.rm = TRUE)
-
-
-## -----------------------------------------------------------------------------
-circ = circ %>% mutate(mean_boarding = rowMeans(avgs, na.rm = TRUE))
-head(circ %>% select(day, mean_boarding))
-
-
-## -----------------------------------------------------------------------------
-circ %>% summarize(avg_boarding = mean(orangeBoardings, na.rm = TRUE))
+            mean(bannerAverage, na.rm = TRUE))
 
 
 ## -----------------------------------------------------------------------------
@@ -81,7 +62,7 @@ circ %>% summarise(across(ends_with("Boardings"), mean, na.rm = TRUE))
 
 
 ## -----------------------------------------------------------------------------
-sub_circ = group_by(circ, day)
+sub_circ = circ %>% group_by(day)
 head(sub_circ)
 
 
@@ -92,8 +73,7 @@ sub_circ %>% summarize(avg_daily = mean(daily, na.rm = TRUE))
 ## -----------------------------------------------------------------------------
 day_avgs = circ %>% 
   group_by(day) %>% 
-  summarize(mean = mean(daily, na.rm = TRUE),
-            med = median(daily, na.rm = TRUE))
+  summarize(avg_daily = mean(daily, na.rm = TRUE))
 head(day_avgs)
 
 
@@ -115,6 +95,21 @@ circ %>%
   summarize(n = n(),
             mean = mean(daily, na.rm = TRUE)) %>% 
   head
+
+
+## -----------------------------------------------------------------------------
+t.test(circ$daily)
+broom::tidy(t.test(circ$daily))
+
+
+## ----colMeans-----------------------------------------------------------------
+avgs = circ %>% select(ends_with("Boardings"))
+colMeans(avgs, na.rm = TRUE)
+
+
+## -----------------------------------------------------------------------------
+circ = circ %>% mutate(mean_boarding = rowMeans(avgs, na.rm = TRUE))
+head(circ %>% select(day, mean_boarding))
 
 
 ## ---- eval = FALSE------------------------------------------------------------
