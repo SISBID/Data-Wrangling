@@ -84,3 +84,8 @@ fj %>% mutate(dup_id = duplicated(id))
 # for multiple, by = c(col1, col2)
 head(full_join(base, visits, by = "id"))
 
+
+## ----use_by_diff_colnames-----------------------------------------------------
+base2 = base %>% rename(patient = id) # rename the column
+head(full_join(base2, visits, by = c("patient" = "id")))
+

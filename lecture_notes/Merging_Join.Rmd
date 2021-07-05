@@ -163,7 +163,7 @@ head(full_join(base, visits, by = "id"))
 
 You can use `by` if the column names don't match exactly.
 
-```{r use_by}
+```{r use_by_diff_colnames}
 base2 = base %>% rename(patient = id) # rename the column
 head(full_join(base2, visits, by = c("patient" = "id")))
 ```
