@@ -158,3 +158,12 @@ By default - uses intersection of column names.  If `by` specified, then uses th
 # for multiple, by = c(col1, col2)
 head(full_join(base, visits, by = "id"))
 ```
+
+## Using the `by` argument
+
+You can use `by` if the column names don't match exactly.
+
+```{r use_by}
+base2 = base %>% rename(patient = id) # rename the column
+head(full_join(base2, visits, by = c("patient" = "id")))
+```
