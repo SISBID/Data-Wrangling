@@ -10,14 +10,45 @@ library(tidyverse)
 
 
 ## ---- echo = FALSE------------------------------------------------------------
-ex_wide = tibble(id = 1:2,
-                     visit1 = c(10, 5),
-                     visit2 = c(4, 6),
-                     visit3 = c(3, NA)
+ex_wide = tibble(State = "Alabama",
+                 June_vacc_rate = "37.2%",
+                 May_vacc_rate = "36.0%",
+                 April_vacc_rate = "32.4%"
                      )
-ex_long = tibble(id = c(rep(1, 3), rep(2, 2)),
-                     visit = c(1:3, 1:2),
-                     value = c(10, 4, 3, 5, 6))
+ex_long = pivot_longer(ex_wide, cols = c(June_vacc_rate, May_vacc_rate, April_vacc_rate))
+
+
+## ---- echo = FALSE------------------------------------------------------------
+ex_wide
+
+
+## ---- echo = FALSE------------------------------------------------------------
+ex_long
+
+
+## ---- echo = FALSE------------------------------------------------------------
+ex_wide = tibble(State = c("Alabama", "Alaska"),
+                 June_vacc_rate = c("37.2%", "47.5%"),
+                 May_vacc_rate = c("36.0%", "46.2%"),
+                 April_vacc_rate = c("32.4%", "41.7%")
+                     )
+ex_long = pivot_longer(ex_wide, cols = c(June_vacc_rate, May_vacc_rate, April_vacc_rate))
+
+
+## ---- echo = FALSE------------------------------------------------------------
+ex_wide
+
+
+## ---- echo = FALSE------------------------------------------------------------
+ex_long
+
+
+## ---- fig.alt="Wide versus long data rearanges the position of column names and row content.", out.width = "60%", echo = FALSE, fig.align='center'----
+knitr::include_graphics("media/Reshape_pivot.jpg")
+
+
+## ---- fig.alt="Wide versus long data rearanges the position of column names and row content, animated.", out.width = "50%", echo = FALSE, fig.align='center'----
+knitr::include_graphics("media/Reshape_pivot_animated.gif")
 
 
 ## ---- echo = FALSE------------------------------------------------------------
@@ -30,35 +61,21 @@ ex_long
 
 ## ---- message = FALSE---------------------------------------------------------
 circ = read_csv(
-  paste0("http://sisbid.github.io/Data-Wrangling/",
+  paste0("http://jhudatascience.org/intro_to_r/",
          "data/Charm_City_Circulator_Ridership.csv"))
-head(circ, 2)
-class(circ$date)
-
-
-## ---- message = FALSE---------------------------------------------------------
-library(lubridate) # great for dates!
-
-
-## ---- message= FALSE----------------------------------------------------------
-sum(is.na(circ$date))
-sum( circ$date == "")
-circ = mutate(circ, date = mdy(date))
-sum( is.na(circ$date) ) # all converted correctly
-head(circ$date, 3)
-class(circ$date)
+head(circ, 5)
 
 
 ## -----------------------------------------------------------------------------
-long = gather(circ, key = "var", value = "number", 
-              -day, -date, -daily)
-head(long, 4)
+long = circ %>% 
+  pivot_longer(starts_with(c("orange","purple","green","banner")),
+               names_to = "var", values_to = "number")
+long
 
 
 ## -----------------------------------------------------------------------------
-long = gather(circ, key = "var", value = "number", 
-              starts_with("orange"), starts_with("purple"),
-              starts_with("green"), starts_with("banner"))
+long = circ %>% pivot_longer(!c(day, date, daily),
+                    names_to = "var", values_to = "number")
 long
 
 
@@ -68,55 +85,32 @@ long %>% count(var)
 
 ## -----------------------------------------------------------------------------
 long = long %>% mutate(
-  var = var %>% 
-    str_replace("Board", "_Board") %>% 
-    str_replace("Alight", "_Alight") %>% 
-    str_replace("Average", "_Average") 
+  var = str_replace(var, "Board", "_Board"),
+  var = str_replace(var, "Alight", "_Alight"),
+  var = str_replace(var, "Average", "_Average") 
 )
-long %>% count(var)
+long
 
 
 ## -----------------------------------------------------------------------------
-long = separate(long, var, into = c("route", "type"), sep = "_")
-head(long, 2)
-unique(long$route)
-unique(long$type)
+long = 
+  long %>% 
+  separate(var, into = c("line", "type"), sep = "_")
+long
 
 
 ## -----------------------------------------------------------------------------
 reunited = long %>% 
-  unite(col = var, route, type, sep = "_")  
-reunited %>% select(day, var) %>% head(3) %>% print
+  unite(var, line, type, sep = "_")  
+reunited
 
 
 ## -----------------------------------------------------------------------------
-# have to remove missing days
-wide = long %>% filter(!is.na(date))
-wide = wide %>% spread(type, number)
-head(wide)
+wide = long %>% pivot_wider(names_from = "type", 
+                            values_from = "number") 
+wide
 
 
-## -----------------------------------------------------------------------------
-long2 = circ %>% 
-  rename_all(function(var) {
-    var %>% 
-    str_replace("Board", "_Board") %>% 
-    str_replace("Alight", "_Alight") %>% 
-    str_replace("Average", "_Average") 
-  })
-longer =long2 %>% pivot_longer(
-  cols = matches("orange|purple|green|banner"),
-  names_to = c("route", "type"),
-  names_sep = "_"
-)
-head(longer)
-
-
-## -----------------------------------------------------------------------------
-longer %>% 
-  filter(!is.na(value)) %>% # keep where there is data
-  pivot_wider(
-    names_from = type,
-    values_from = value
-  )
+## ---- fig.alt="Long form sandwich", out.width = "50%", echo = FALSE, fig.align='center'----
+knitr::include_graphics("media/Reshape_pivot_sandwich.png")
 

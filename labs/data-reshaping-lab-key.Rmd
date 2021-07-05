@@ -16,41 +16,42 @@ library(tidyverse)
 
 1.  Read in the Circulator Data from http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv.  Name the data set `wide`.
 
-
 ```{r, message = FALSE}
 wide = read_csv(
-  paste0("http://sisbid.github.io/Data-Wrangling/",
-         "data/Charm_City_Circulator_Ridership.csv"))
-head(wide, 2)
-class(wide$date)
+  "http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv"
+)
 ```
 
-
-2. Reshape `wide` using `gather.`  Call this data `long.`  Make the `key`
+2. Reshape wide using `pivot_wider`. Call this data `long.`  Make the `names_to = `
 `variable`, and the value `n_people`  Make sure we gather all columns **but**
-`daily`, `day`, `date`, using things like `-day`. Table `long$day`
+`daily`, `day`, `date`, using the `!`.
 
 ```{r}
 long = wide %>% 
-  gather(key = "variable", value = "n_people", -daily, -day, -date)
-head(long$day)
+  pivot_longer( !c(daily, day, date), names_to = "variable", values_to = "n_people")
+head(long)
 ```
-
 
 3.  Separate the `date` column into ("month", "day", "year") using a sep of "/"
 Make sure you don't remove the `date` column, call this `long2`.  Do a table of the day column.  Where did the original `day` column go?
+
 ```{r}
-long2 = separate(long, col = "date", into = c("month", "day", "year"), 
-                sep = "/", remove = FALSE)
+# We over-wrote the day column by assigning it new values (in this case, calendar "day")
+long2 = long %>%
+  separate(col = "date", into = c("month", "day", "year"),
+           sep = "/", remove = FALSE)
 table(long2$day)
 ```
 
 4. Create a new variable in `long2` calling it `newdate` using the `unite` function.  Unite the year, month, day, columns using a hyphen (`-`) and then `table` the new column `newdate`
 
 ```{r}
-long2 = unite(long2, col = "newdate", year, month, day, sep = "-")
+long2 = long2 %>%
+  unite(col = "newdate", year, month, day, sep = "-")
 head(long2)
 ```
+
+5. Use `str_replace()` on `long` (not `long2`) to replace "Board" with "_Board", "Alight" with "_Alight", and "Average" with "_Average".
 
 ```{r, error = TRUE}
 long = long %>% 
@@ -60,18 +61,20 @@ long = long %>%
       str_replace("Alight", "_Alight") %>% 
       str_replace("Average", "_Average") 
   )
+head(long)
 ```
 
-5.  Separate the `variable` column from `long` (not `long2`) into ("route", "type") using a sep of "_"
-```{r}
-long = separate(long, col = "variable", into = c("route", "type"), 
-                sep = "_")
-```
-
-6. Reshape `long` (not `long2`) using `spread.`  Spread the data where the `route` and we want the value in the new columns to be `n_people` .  Call this `wide_by_route`
+6.  Separate the `variable` column from `long` into ("route", "type") using a sep of "_".
 
 ```{r}
-wide_by_route = spread(long, key = route, value = n_people)
+long = long %>%
+  separate(col = "variable", into = c("route", "type"), sep = "_")
+head(long)
 ```
 
+7. Reshape `long` (not `long2`) using `pivot_wider`.  Spread the data out so the `route` becomes the new column name and the cells are filled with the `n_people` value.  Call this `wide_by_route`.
 
+```{r}
+wide_by_route = long %>% 
+  pivot_wider(names_from = route, values_from = n_people)
+```
