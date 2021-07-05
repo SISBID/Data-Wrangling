@@ -14,19 +14,15 @@ opts_chunk$set(comment = "")
 library(tidyverse)
 ```
 
-# The `merge` function exists, don't use it
-
 ## Joining in `dplyr`
 
 * Merging/joining data sets together - usually on key variables, usually "id"
 * `?join` - see different types of joining for `dplyr`
-* Let's look at https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf
 * `inner_join(x, y)` - only rows that match for `x` and `y` are kept
 * `full_join(x, y)` - all rows of `x` and `y` are kept 
 * `left_join(x, y)` - all rows of `x` are kept even if not merged with `y`
 * `right_join(x, y)` - all rows of `y` are kept even if not merged with `x`
 * `anti_join(x, y)` - all rows from `x` not in `y` keeping just columns from `x`.
-
 
 ## Merging: Simple Data
 
@@ -36,101 +32,129 @@ library(tidyverse)
 base <- tibble(id = 1:10, Age = seq(55,60, length=10))
 head(base, 2)
 ```
-`visits` has ids 1 to 8, then 11 (new id), and 3 visits and outcome
+`visits` has ids `2` to `11`, 3 different visits, and an outcome
 
 ```{r}
-visits <- tibble(id = c(rep(1:8, 3), 11), visit= c(rep(1:3, 8), 3),
-                    Outcome = seq(10,50, length=25))
-tail(visits, 2)
+visits <- tibble(id = rep(2:11, 3), visit= rep(1:3, 10),
+                    Outcome = seq(10,50, length=30))
+head(visits, 2)
 ```
 
+## Inner Join
+
+```{r, fig.alt="Innner join of two data frames.", out.width = "50%", echo = FALSE, fig.align='center'}
+knitr::include_graphics("media/Join_inner-join.gif")
+```
+
+<div style="font-size:10pt">
+[https://github.com/gadenbuie/tidyexplain/blob/master/images/inner-join.gif](https://github.com/gadenbuie/tidyexplain/blob/master/images/inner-join.gif)
+</div>
 
 ## Inner Join
 
 ```{r inner_join}
 ij = inner_join(base, visits)
 dim(ij)
-tail(ij)
+head(ij)
 ```
 
+## Left Join
+
+```{r, fig.alt="Left join of two data frames.", out.width = "50%", echo = FALSE, fig.align='center'}
+knitr::include_graphics("media/Join_left-join.gif")
+```
+
+<div style="font-size:10pt">
+[https://github.com/gadenbuie/tidyexplain/blob/master/images/left-join.gif](https://github.com/gadenbuie/tidyexplain/blob/master/images/left-join.gif)
+</div>
 
 ## Left Join
 
 ```{r left_join}
 lj = left_join(base, visits)
 dim(lj)
-tail(lj)
+head(lj)
 ```
 
-## Right Join
-
-```{r right_join}
-rj = right_join(base, visits)
-tail(rj, 3)
-```
-
-## Right Join: Switching arguments
-
-```{r right_join2}
-rj2 = right_join(visits, base)
-tail(rj2, 3)
-```
-```{r right_join_arrange, echo = FALSE}
-rj2 = arrange(rj2, id, visit) %>% select(id, visit, Outcome, Age)
-lj = arrange(lj, id, visit) %>% select(id, visit, Outcome, Age)
-```
-```{r right_join_arrange_out}
-identical(rj2, lj) ## after some rearranging
-```
-
-## Full Join
-
-```{r full_join}
-fj = full_join(base, visits)
-tail(fj, 4)
-```
-
-## Logging the joins
-
-The `tidylog` package can show you log outputs from `dplyr` (newly added).  You will need to install to use.
+## Install `tidylog` package to log outputs
 
 ```{r, include=FALSE}
 library(tidylog)
 ```
 
 ```{r left_join_log}
+# install.packages("tidylog")
 library(tidylog)
 left_join(base, visits)
+```
+
+## Right Join
+
+```{r, fig.alt="Right join of two data frames.", out.width = "50%", echo = FALSE, fig.align='center'}
+knitr::include_graphics("media/Join_right-join.gif")
+```
+
+<div style="font-size:10pt">
+[https://github.com/gadenbuie/tidyexplain/blob/master/images/right-join.gif](https://github.com/gadenbuie/tidyexplain/blob/master/images/right-join.gif)
+</div>
+
+## Right Join
+
+```{r right_join}
+rj = right_join(base, visits)
+```
+
+
+## Left Join: Switching arguments
+
+```{r right_join2}
+lj2 = left_join(visits, base)
+```
+
+## Full Join
+
+```{r, fig.alt="Full join of two data frames.", out.width = "50%", echo = FALSE, fig.align='center'}
+knitr::include_graphics("media/Join_full-join.gif")
+```
+
+<div style="font-size:10pt">
+[https://github.com/gadenbuie/tidyexplain/blob/master/images/full-join.gif](https://github.com/gadenbuie/tidyexplain/blob/master/images/full-join.gif)
+</div>
+
+## Full Join
+
+```{r full_join}
+fj = full_join(base, visits)
+```
+
+## Full Join
+
+Note what tidylog means by `includes duplicates`. Data from `base` is being duplicated.
+
+```{r}
+# fj = full_join(base, visits)
+head(fj, 10)
 ```
 
 ```{r include=FALSE}
 unloadNamespace("tidylog")
 ```
+
+## Duplicated
+
+The `duplicated` command can give you indications if there are duplications in a **vector**:
+
+```{r}
+duplicated(1:5)
+duplicated(c(1:5, 1))
+fj %>% mutate(dup_id = duplicated(id))
+```
+
 ## Using the `by` argument
 
-By default - uses intersection of column names.  If `by` specified, then uses that, but if other columns with same name, adds `suffix`.
+By default - uses intersection of column names.  If `by` specified, then uses that.
 
 ```{r use_by}
-base = base %>% mutate(x = 5)
-visits = visits %>% mutate(x = 4)
-head(full_join(base, visits))
-```
-
-## Using the `by` argument
-
-```{r use_by_suffix}
+# for multiple, by = c(col1, col2)
 head(full_join(base, visits, by = "id"))
-head(full_join(base, visits, by = "id", suffix = c("_base", "_visit")))
-```
-
-## Using the `by` argument if column names different
-
-```{r use_by_diff}
-base = base %>% 
-  select(-x) %>% 
-  mutate(myvar = 4)
-visits = visits %>% 
-  select(-x) %>% 
-  mutate(MyVar = 4)
-full_join(base, visits, by = c("id", "myvar" = "MyVar"))
 ```

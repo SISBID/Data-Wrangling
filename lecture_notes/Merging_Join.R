@@ -1,84 +1,86 @@
-## ---- echo = FALSE, include=FALSE-----------------------------------------
+## ---- echo = FALSE, include=FALSE---------------------------------------------
 library(knitr)
 opts_chunk$set(comment = "")
 library(tidyverse)
 
 
-## ----merging--------------------------------------------------------------
+## ----merging------------------------------------------------------------------
 base <- tibble(id = 1:10, Age = seq(55,60, length=10))
 head(base, 2)
 
 
-## -------------------------------------------------------------------------
-visits <- tibble(id = c(rep(1:8, 3), 11), visit= c(rep(1:3, 8), 3),
-                    Outcome = seq(10,50, length=25))
-tail(visits, 2)
+## -----------------------------------------------------------------------------
+visits <- tibble(id = rep(2:11, 3), visit= rep(1:3, 10),
+                    Outcome = seq(10,50, length=30))
+head(visits, 2)
 
 
-## ----inner_join-----------------------------------------------------------
+## ---- fig.alt="Innner join of two data frames.", out.width = "50%", echo = FALSE, fig.align='center'----
+knitr::include_graphics("media/Join_inner-join.gif")
+
+
+## ----inner_join---------------------------------------------------------------
 ij = inner_join(base, visits)
 dim(ij)
-tail(ij)
+head(ij)
 
 
-## ----left_join------------------------------------------------------------
+## ---- fig.alt="Left join of two data frames.", out.width = "50%", echo = FALSE, fig.align='center'----
+knitr::include_graphics("media/Join_left-join.gif")
+
+
+## ----left_join----------------------------------------------------------------
 lj = left_join(base, visits)
 dim(lj)
-tail(lj)
+head(lj)
 
 
-## ----right_join-----------------------------------------------------------
-rj = right_join(base, visits)
-tail(rj, 3)
-
-
-## ----right_join2----------------------------------------------------------
-rj2 = right_join(visits, base)
-tail(rj2, 3)
-
-## ----right_join_arrange, echo = FALSE-------------------------------------
-rj2 = arrange(rj2, id, visit) %>% select(id, visit, Outcome, Age)
-lj = arrange(lj, id, visit) %>% select(id, visit, Outcome, Age)
-
-## ----right_join_arrange_out-----------------------------------------------
-identical(rj2, lj) ## after some rearranging
-
-
-## ----full_join------------------------------------------------------------
-fj = full_join(base, visits)
-tail(fj, 4)
-
-
-## ---- include=FALSE-------------------------------------------------------
+## ---- include=FALSE-----------------------------------------------------------
 library(tidylog)
 
 
-## ----left_join_log--------------------------------------------------------
+## ----left_join_log------------------------------------------------------------
+# install.packages("tidylog")
 library(tidylog)
 left_join(base, visits)
 
 
-## ----include=FALSE--------------------------------------------------------
+## ---- fig.alt="Right join of two data frames.", out.width = "50%", echo = FALSE, fig.align='center'----
+knitr::include_graphics("media/Join_right-join.gif")
+
+
+## ----right_join---------------------------------------------------------------
+rj = right_join(base, visits)
+
+
+## ----right_join2--------------------------------------------------------------
+lj2 = left_join(visits, base)
+
+
+## ---- fig.alt="Full join of two data frames.", out.width = "50%", echo = FALSE, fig.align='center'----
+knitr::include_graphics("media/Join_full-join.gif")
+
+
+## ----full_join----------------------------------------------------------------
+fj = full_join(base, visits)
+
+
+## -----------------------------------------------------------------------------
+# fj = full_join(base, visits)
+head(fj, 10)
+
+
+## ----include=FALSE------------------------------------------------------------
 unloadNamespace("tidylog")
 
 
-## ----use_by---------------------------------------------------------------
-base = base %>% mutate(x = 5)
-visits = visits %>% mutate(x = 4)
-head(full_join(base, visits))
+## -----------------------------------------------------------------------------
+duplicated(1:5)
+duplicated(c(1:5, 1))
+fj %>% mutate(dup_id = duplicated(id))
 
 
-## ----use_by_suffix--------------------------------------------------------
+## ----use_by-------------------------------------------------------------------
+# for multiple, by = c(col1, col2)
 head(full_join(base, visits, by = "id"))
-head(full_join(base, visits, by = "id", suffix = c("_base", "_visit")))
-
-
-## ----use_by_diff----------------------------------------------------------
-base = base %>% 
-  select(-x) %>% 
-  mutate(myvar = 4)
-visits = visits %>% 
-  select(-x) %>% 
-  mutate(MyVar = 4)
-full_join(base, visits, by = c("id", "myvar" = "MyVar"))
 
