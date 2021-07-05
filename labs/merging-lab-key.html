@@ -367,29 +367,12 @@ pre code {
 </div>
 
 
-<p>This exercise is motivated by <a href="https://anythingbutrbitrary.blogspot.com/2012/08/manipulating-data-frames-using-sqldf.html" class="uri">https://anythingbutrbitrary.blogspot.com/2012/08/manipulating-data-frames-using-sqldf.html</a></p>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<ol style="list-style-type: decimal">
-<li>read in the roads and crashes CSVs. Call them <code>crash</code> and <code>road</code> <code>crash</code>: <a href="https://sisbid.github.io/Data-Wrangling/labs//crashes.csv" class="uri">https://sisbid.github.io/Data-Wrangling/labs//crashes.csv</a> <code>road</code>: <a href="https://sisbid.github.io/Data-Wrangling/labs//roads.csv" class="uri">https://sisbid.github.io/Data-Wrangling/labs//roads.csv</a></li>
-</ol>
-<pre class="r"><code>crash = read_csv(&quot;https://sisbid.github.io/Data-Wrangling/labs/crashes.csv&quot;)</code></pre>
-<pre><code>## 
-## ── Column specification ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-## cols(
-##   Year = col_double(),
-##   Road = col_character(),
-##   N_Crashes = col_double(),
-##   Volume = col_double()
-## )</code></pre>
-<pre class="r"><code>road = read_csv(&quot;https://sisbid.github.io/Data-Wrangling/labs/roads.csv&quot;)</code></pre>
-<pre><code>## 
-## ── Column specification ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-## cols(
-##   Road = col_character(),
-##   District = col_character(),
-##   Length = col_double()
-## )</code></pre>
-<pre class="r"><code>head(crash)</code></pre>
+<p>(This exercise is motivated by <a href="https://anythingbutrbitrary.blogspot.com/2012/08/manipulating-data-frames-using-sqldf.html" class="uri">https://anythingbutrbitrary.blogspot.com/2012/08/manipulating-data-frames-using-sqldf.html</a>)</p>
+<pre class="r"><code>library(tidyverse)
+
+crash = read_csv(&quot;https://sisbid.github.io/Data-Wrangling/labs/crashes.csv&quot;)
+road = read_csv(&quot;https://sisbid.github.io/Data-Wrangling/labs/roads.csv&quot;)
+head(crash)</code></pre>
 <pre><code>## # A tibble: 6 x 4
 ##    Year Road          N_Crashes Volume
 ##   &lt;dbl&gt; &lt;chr&gt;             &lt;dbl&gt;  &lt;dbl&gt;
@@ -408,29 +391,29 @@ pre code {
 ## 3 US-36         Crawfordsville    139
 ## 4 US-40         Greenfield        150
 ## 5 US-52         Crawfordsville    172</code></pre>
-<ol start="2" style="list-style-type: decimal">
+<ol style="list-style-type: decimal">
 <li>Join data to retain only complete data, (using an inner join) e.g. those observations with road lengths and districts. Merge without using <code>by</code> argument, then merge using <code>by = &quot;Road&quot;</code>. call the output <code>merged.</code> How many observations are there?</li>
 </ol>
 <pre class="r"><code>merged = inner_join(crash, road)</code></pre>
 <pre><code>## Joining, by = &quot;Road&quot;</code></pre>
 <pre class="r"><code>merged = inner_join(crash, road, by = &quot;Road&quot;)
-dim(merged)</code></pre>
-<pre><code>## [1] 88  6</code></pre>
-<ol start="3" style="list-style-type: decimal">
+nrow(merged)</code></pre>
+<pre><code>## [1] 88</code></pre>
+<ol start="2" style="list-style-type: decimal">
 <li>Join data using a <code>full_join.</code> Call the output <code>full.</code> How many observations are there?</li>
 </ol>
 <pre class="r"><code>full = full_join(crash, road)</code></pre>
 <pre><code>## Joining, by = &quot;Road&quot;</code></pre>
 <pre class="r"><code>nrow(full)</code></pre>
 <pre><code>## [1] 111</code></pre>
-<ol start="4" style="list-style-type: decimal">
+<ol start="3" style="list-style-type: decimal">
 <li>Do a left join of the <code>road</code> and <code>crash</code>. ORDER matters here! How many observations are there?</li>
 </ol>
 <pre class="r"><code>left = left_join(road, crash)</code></pre>
 <pre><code>## Joining, by = &quot;Road&quot;</code></pre>
 <pre class="r"><code>nrow(left)</code></pre>
 <pre><code>## [1] 89</code></pre>
-<ol start="5" style="list-style-type: decimal">
+<ol start="4" style="list-style-type: decimal">
 <li>Repeat above with a <code>right_join</code> with the same order of the arguments. How many observations are there?</li>
 </ol>
 <pre class="r"><code>right = right_join(road, crash)</code></pre>

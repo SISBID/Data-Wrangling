@@ -4,44 +4,42 @@ author: "Data Wrangling in R"
 output: html_document
 ---
 
-This exercise is motivated by https://anythingbutrbitrary.blogspot.com/2012/08/manipulating-data-frames-using-sqldf.html
+
+(This exercise is motivated by https://anythingbutrbitrary.blogspot.com/2012/08/manipulating-data-frames-using-sqldf.html)
 
 ```{r, message = FALSE}
 library(tidyverse)
-```
 
-1. read in the roads and crashes CSVs.  Call them `crash` and `road`
-`crash`: https://sisbid.github.io/Data-Wrangling/labs/crashes.csv
-`road`: https://sisbid.github.io/Data-Wrangling/labs/roads.csv
-
-```{r}
 crash = read_csv("https://sisbid.github.io/Data-Wrangling/labs/crashes.csv")
+road = read_csv("https://sisbid.github.io/Data-Wrangling/labs/roads.csv")
 head(crash)
-# need to do the same for road
-# head(road)
+head(road)
 ```
 
-
-2. Join data to retain only complete data, (using an inner join) e.g. those observations with road lengths and districts.  Merge without using `by` argument, then merge using `by = "Road"`. call the output `merged.`  How many observations are there?
+1. Join data to retain only complete data, (using an inner join) e.g. those observations with road lengths and districts.  Merge without using `by` argument, then merge using `by = "Road"`. call the output `merged.`  How many observations are there?
 
 ```{r}
 
-```
-
-3. Join data using a `full_join.`  Call the output `full.`   How many observations are there?
-
-```{r}
 
 ```
 
-4. Do a left join of the `road` and `crash`.  ORDER matters here!  How many observations are there?
+2. Join data using a `full_join.`  Call the output `full.`   How many observations are there?
 
 ```{r}
+
 
 ```
 
-5. Repeat above with a `right_join` with the same order of the arguments. How many observations are there?
+3. Do a left join of the `road` and `crash`.  ORDER matters here!  How many observations are there?
 
 ```{r}
+
+
+```
+
+4. Repeat above with a `right_join` with the same order of the arguments. How many observations are there?
+
+```{r}
+
 
 ```
