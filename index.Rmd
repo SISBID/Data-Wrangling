@@ -77,7 +77,7 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 | 10:10-11:00 | [Bioconductor for Genomics][62] ([PDF][63])  |                       |                                      |
 |             | [Wrap Up][64] ([PDF][65])                    |                       |                                      |
 
-[01]: https://docs.google.com/presentation/d/1-j8KAkDUiYWoTpuSaRZqUBE47LhZVThicjSHPWEXGVQ/edit?usp=sharing
+[01]: https://docs.google.com/presentation/d/1aNFX9d0qLLfSW7nF4uOaE39D0ESlwenDg-1Ww9bDyJs/edit?usp=sharing
 [02]: lecture_notes/sisbid_intro_2020.pdf
 [03]: lecture_notes/Data_IO_Part1.html
 [04]: lecture_notes/Data_IO_Part1.pdf
