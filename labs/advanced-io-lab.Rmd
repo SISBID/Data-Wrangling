@@ -1,5 +1,5 @@
 ---
-title: "Advanced IO lab"
+title: "Advanced IO lab key"
 output: html_document
 editor_options: 
   chunk_output_type: console
@@ -19,52 +19,54 @@ This is a lab to practice with Google Sheets and the `googlesheets` package.
 1. We are going to use a sheet from previous years: https://docs.google.com/spreadsheets/d/1KIRtcPVn58R3_qr97WNtcOJiY4AaytHzGDzLW_3_R1s/edit?usp=sharing
 
 ```{r}
-sheet_url = "https://docs.google.com/spreadsheets/d/1KIRtcPVn58R3_qr97WNtcOJiY4AaytHzGDzLW_3_R1s/edit?usp=sharing"
+
 ```
 
 
 2. Use the `googlesheets4::read_sheet` function to read in the data like we discussed in class, call this object `x`.
+
 ```{r}
 
 ```
 
 3. Using `sheet_names` function to get the sheet names from the `sheet_url`.
+
 ```{r}
 
 ```
 
 
 4. Try reading in just the first two columns. See the `range` argument and look at the arguments for `cell_rows`, `cell_limits` and `cell_cols`.
+
 ```{r}
 
 ```
-
 
 ## JSON Lab
 
+<!-- See here for more fun practice! https://github.com/jdorfman/Awesome-JSON-Datasets -->
 
-See GitHub Documentation at https://docs.github.com/en/rest/reference/repos
+The following dataset lists airports in the US and details about the number of late flights over time.
 
-1. Use Github API to get all of Hadley Wickham's repo data (username = "hadley"), see: "https://api.github.com/users/XXXX/repos".  Use `httr:GET` and assign that output to `response` and then `httr::content(response)`.  Also run `httr:status_code(response)` to get the status code
+1. Read in data from the following link: https://think.cs.vt.edu/corgis/datasets/json/airlines/airlines.json. Call this `jsonData`.
 
 ```{r}
-# response = httr::GET()
+
 ```
 
-2.  Try `jsonlite::fromJSON(httr::content(response, as = "text", flatten = TRUE))`
+2. Investigate the data. What are the three main items in `jsonData`?
+
 ```{r, error = TRUE}
-out = jsonlite::fromJSON(httr::content(response, as = "text", flatten = TRUE))
-class(out)
-head(out)
+
 ```
 
+3. Filter `jsonData` to include only NYC LaGuardia and Chicago O'Hare airports (Code : "LGA", "ORD") and Year : 2016. Call this `lga_ord`.
 
-3. How many stars does he have on each repository? (it's the `stargazers_count` element)
 ```{r}
 
 ```
 
-4. Create a new data frame consisting of just the "owner" column of the resulting data set called `owner_data`
+4. Create a new tibble out of Airport Code (`Airport$Code`), Total Flights (`Statistics$Flights$Total`), and create a new column for proportion of delayed flights using (`Statistics$Flights$Delayed`). Call this new tibble `airport_compare`.
 
 ```{r}
 
