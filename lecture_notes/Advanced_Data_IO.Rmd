@@ -115,6 +115,8 @@ out = read_sheet(sheets_url)
 head(out)
 ```
 
+# googlesheets Lab<br> http://sisbid.github.io/Data-Wrangling/labs/advanced-io-lab.Rmd
+
 # JSON: JavaScript Object Notation<br>Lists of stuff
 
 ---
@@ -150,7 +152,7 @@ class(jsonData$pokemon$type) # Can be lists
 class(jsonData$pokemon$next_evolution[[1]]) # Or lists of data.frames!
 ```
 
-# JSON Lab<br> https://SISBIB.github.io/Module1/labs/json-lab.Rmd
+# JSON Lab<br> http://sisbid.github.io/Data-Wrangling/labs/advanced-io-lab.Rmd
 
 # Web Scraping
 
