@@ -70,7 +70,7 @@ https://docs.google.com/spreadsheets/d/1WBrH655fxqKW1QqvD5hnqvvEWIvRzDJcKEgjjFeY
 knitr::include_graphics("googlesheet_publish.png")
 ```
 
-----
+## Reading data with the googlesheets package
 
 <div style="font-size:20pt">
 ```{r, message = FALSE}
@@ -78,12 +78,17 @@ sheets_url = paste0("https://docs.google.com/spreadsheets/d/",
                     "1WBrH655fxqKW1QqvD5hnqvvEWIvRzDJcKEgjjFeYxeM")
 
 gsurl1 = gs_url(sheets_url)
+gsurl1
+```
+<div>
 
+## Reading data with the googlesheets package
+
+```{r}
 dat = gs_read(gsurl1)
 date_read = lubridate::today()
 head(dat)
 ```
-<div>
 
 # Googlesheets4 - API v4 Google Sheets Package
 
@@ -91,10 +96,19 @@ head(dat)
 
 ```{r, eval = FALSE}
 library(googlesheets4)
-# May be necessary on rstudio.cloud
 options(httr_oob_default=TRUE)
-# Will ask you to log in
+# Do the following if you need to re-prompt the browser popup!
+gs_auth(new_user = TRUE)
 out = read_sheet(sheets_url)
+```
+
+## Can also save and load a token (might not work with RStudio Cloud)
+
+```{r, message = FALSE}
+# Do this once
+# Always make sure to .gitignore your token file!
+token_in = "your-token-hash-here"
+readr::write_rds(token_in, file = "googledrive_token.rds")
 ```
 
 ## Can also save and load a token
