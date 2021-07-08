@@ -18,14 +18,12 @@ library(rvest)
 library(jsonlite)
 ```
 
-# Google Sheets<br>https://jhudatascience.org/tidyversecourse/get-data.html#google-sheets
+# Google Sheets
 
 ---
 
-[[[pic of google sheet]]]
-
 ```{r, out.width="100%", echo = FALSE, purl=FALSE}
-knitr::include_graphics("googlesheets.png")
+knitr::include_graphics("media/AdvancedIO_googlesheet.png")
 ```
 
 https://docs.google.com/spreadsheets/d/1U6Cf_qEOhiR9AZqTqS3mbMF3zt2db48ZP5v3rkrAEJY/edit#gid=780868077
@@ -105,6 +103,10 @@ Use the `gs4_find()` function, coupled with `drive_auth()` credentials:
 googledrive::drive_auth(email = "avamariehoffman@gmail.com")
 head(gs4_find(),1)
 ```
+
+## JHU Tidyverse Book
+
+https://jhudatascience.org/tidyversecourse/get-data.html#google-sheets
 
 # googlesheets Lab<br> http://sisbid.github.io/Data-Wrangling/labs/advanced-io-lab.Rmd
 
