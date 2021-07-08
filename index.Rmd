@@ -45,6 +45,8 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 
 |             | **Lecture**                                  | **Lab**               | **Lab Key**                          |
 |-------------|----------------------------------------------|-----------------------|--------------------------------------|
+| **Day 0**   |                                              |                       |                                      |
+|             | [Setup][x1] ([PDF][x2])                      |                       |                                      |
 | **Day 1**   |                                              |                       |                                      |
 | 8:00-8:50   | [Introduction][01] ([PDF][02])               |                       |                                      |
 | 8:50-9:05   | Break                                        |                       |                                      |
@@ -77,6 +79,9 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 | 10:10-11:00 | [Bioconductor for Genomics][62] ([PDF][63])  |                       |                                      |
 |             | [Wrap Up][64] ([PDF][65])                    |                       |                                      |
 
+
+[x1]: lecture_notes/Setup.html
+[x2]: lecture_notes/Setup.pdf
 [01]: https://docs.google.com/presentation/d/1aNFX9d0qLLfSW7nF4uOaE39D0ESlwenDg-1Ww9bDyJs/edit?usp=sharing
 [02]: lecture_notes/sisbid_intro_2020.pdf
 [03]: lecture_notes/Data_IO_Part1.html
