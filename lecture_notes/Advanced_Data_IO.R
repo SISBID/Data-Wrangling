@@ -6,45 +6,69 @@ library(jsonlite)
 
 
 
-
-
-## ---- eval = FALSE------------------------------------------------------------
-## install.packages("googlesheets")
-## library(googlesheets)
-
-
-
-
-
-
-
-
-## ---- message = FALSE---------------------------------------------------------
-sheets_url = paste0("https://docs.google.com/spreadsheets/d/",
-                    "1WBrH655fxqKW1QqvD5hnqvvEWIvRzDJcKEgjjFeYxeM")
-
-gsurl1 = gs_url(sheets_url)
-
-dat = gs_read(gsurl1)
-date_read = lubridate::today()
-head(dat)
-
-
-## ---- eval = FALSE------------------------------------------------------------
-## library(googlesheets4)
-## # May be necessary on rstudio.cloud
-## options(httr_oob_default=TRUE)
-## # Will ask you to log in
-## out = read_sheet(sheets_url)
-
-
-## ---- message = FALSE---------------------------------------------------------
-token = readr::read_rds("googledrive_token.rds")
-library(googledrive)
-drive_auth(token = token) # could also use googlesheets4::gs4_auth
+## -----------------------------------------------------------------------------
 library(googlesheets4)
-out = read_sheet(sheets_url)
-head(out)
+
+## ----eval=FALSE---------------------------------------------------------------
+## # Prompts a browser pop-up
+## gs4_auth()
+
+## -----------------------------------------------------------------------------
+# Once set up, you can automate this process by passing your email
+gs4_auth(email = "avamariehoffman@gmail.com")
+
+
+## ----eval = FALSE-------------------------------------------------------------
+## library(googledrive)
+## drive_auth(email= "<email>",
+##            token = readRDS("google-sheets-token.rds")) # Saved in a file
+
+
+## -----------------------------------------------------------------------------
+sheet_url = paste0("https://docs.google.com/spreadsheets/d/1U6Cf_qEOhiR9",
+                   "AZqTqS3mbMF3zt2db48ZP5v3rkrAEJY/edit#gid=780868077")
+sheet_dat_1 = read_sheet(sheet_url)
+head(sheet_dat_1)
+
+
+## -----------------------------------------------------------------------------
+sheet_url = paste0("https://docs.google.com/spreadsheets/d/1U6Cf_qEOhiR9",
+                   "AZqTqS3mbMF3zt2db48ZP5v3rkrAEJY/edit#gid=780868077")
+sheet_dat_oceania = read_sheet(sheet_url, sheet = "Oceania")
+head(sheet_dat_oceania)
+
+
+## -----------------------------------------------------------------------------
+sheet_names(sheet_url)
+
+
+## -----------------------------------------------------------------------------
+gapminder_sheets = sheet_names(sheet_url)
+
+data_list = list()
+for(g_sheet in gapminder_sheets){
+  data_list[[g_sheet]] = read_sheet(sheet_url, sheet = g_sheet)
+}
+str(data_list)
+
+
+## -----------------------------------------------------------------------------
+str(data_list)
+
+
+## -----------------------------------------------------------------------------
+sheet_dat_oceania = sheet_dat_oceania %>%
+  mutate(lifeExp_days = lifeExp * 365)
+sheet_out = gs4_create("Oceania-days", 
+                       sheets = list(Oceania_days = sheet_dat_oceania))
+
+## ----eval = FALSE-------------------------------------------------------------
+## # Opens a browser window
+## gs4_browse(sheet_out)
+
+
+## -----------------------------------------------------------------------------
+sheet_append(sheet_out, data = sheet_dat_oceania, sheet = "Oceania_days")
 
 
 
@@ -54,15 +78,19 @@ head(out)
 ## -----------------------------------------------------------------------------
 #install.packages("jsonlite")
 library(jsonlite)
-jsonData <- fromJSON("https://api.github.com/users/jtleek/repos")
+jsonData <- fromJSON("https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json")
 head(jsonData)
 
 
 ## -----------------------------------------------------------------------------
-dim(jsonData)
-head(jsonData$name)
-class(jsonData$owner) #Some of the columns is a data frame!
-dim(jsonData$owner); names(jsonData$owner)
+dim(jsonData$pokemon)
+class(jsonData$pokemon$type) # Can be lists
+jsonData$pokemon$type
+
+
+## -----------------------------------------------------------------------------
+class(jsonData$pokemon$next_evolution[[1]]) # Or lists of data.frames!
+jsonData$pokemon$next_evolution
 
 
 
