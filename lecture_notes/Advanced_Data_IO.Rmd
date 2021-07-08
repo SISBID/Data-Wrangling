@@ -76,6 +76,36 @@ sheet_dat_oceania = read_sheet(sheet_url, sheet = "Oceania")
 head(sheet_dat_oceania)
 ```
 
+## Reading data with the googlesheets4 package
+
+Alternatively, list out the sheet names using `sheet_names()`.
+
+```{r}
+sheet_names(sheet_url)
+```
+
+## Reading data with the googlesheets4 package
+
+Iterate through the sheet names:
+
+```{r}
+gapminder_sheets = sheet_names(sheet_url)
+
+data_list = list()
+for(g_sheet in gapminder_sheets){
+  data_list[[g_sheet]] = read_sheet(sheet_url, sheet = g_sheet)
+}
+str(data_list)
+```
+
+## Reading data with the googlesheets4 package
+
+Iterate through the sheet names:
+
+```{r}
+str(data_list)
+```
+
 ## Writing data with the googlesheets4 package
 
 ```{r}
@@ -93,15 +123,6 @@ gs4_browse(sheet_out)
 
 ```{r}
 sheet_append(sheet_out, data = sheet_dat_oceania, sheet = "Oceania_days")
-```
-
-## Browse sheets in your Google Drive, descending by date
-
-Use the `gs4_find()` function, coupled with `drive_auth()` credentials:
-
-```{r}
-googledrive::drive_auth(email = "avamariehoffman@gmail.com")
-head(gs4_find(),1)
 ```
 
 ## JHU Tidyverse Book
