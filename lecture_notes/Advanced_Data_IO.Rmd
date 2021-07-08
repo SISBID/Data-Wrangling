@@ -18,101 +18,92 @@ library(rvest)
 library(jsonlite)
 ```
 
-# Google Sheets
+# Google Sheets<br>https://jhudatascience.org/tidyversecourse/get-data.html#google-sheets
 
 ---
+
+[[[pic of google sheet]]]
 
 ```{r, out.width="100%", echo = FALSE, purl=FALSE}
 knitr::include_graphics("googlesheets.png")
 ```
 
-https://docs.google.com/spreadsheets
+https://docs.google.com/spreadsheets/d/1U6Cf_qEOhiR9AZqTqS3mbMF3zt2db48ZP5v3rkrAEJY/edit#gid=780868077
 
----
+## Reading data with the googlesheets4 package
 
-https://speakerdeck.com/jennybc/googlesheets-talk-at-user2015
-
-```{r, out.width="70%", echo = FALSE, purl=FALSE}
-knitr::include_graphics("gs_jenny_slide.png")
-```
-
-## Reading data with the googlesheets package
-
-<div style="font-size:30pt">
-```{r, eval = FALSE}
-install.packages("googlesheets")
-library(googlesheets)
-```
-
-```{r, echo = FALSE, purl = FALSE}
-library(googlesheets)
-```
-</div>
-
----
-
-```{r, out.width="100%", echo = FALSE, purl=FALSE}
-knitr::include_graphics("googlesheet.png")
-```
-
-https://docs.google.com/spreadsheets/d/1WBrH655fxqKW1QqvD5hnqvvEWIvRzDJcKEgjjFeYxeM/edit#gid=0
-
----
-
-```{r, out.width="100%", echo = FALSE, purl=FALSE}
-knitr::include_graphics("googlesheet_publish.png")
-```
-
-## Reading data with the googlesheets package
-
-<div style="font-size:20pt">
-```{r, message = FALSE}
-sheets_url = paste0("https://docs.google.com/spreadsheets/d/",
-                    "1WBrH655fxqKW1QqvD5hnqvvEWIvRzDJcKEgjjFeYxeM")
-
-gsurl1 = gs_url(sheets_url)
-gsurl1
-```
-<div>
-
-## Reading data with the googlesheets package
+First, set up Google credentials
 
 ```{r}
-dat = gs_read(gsurl1)
-date_read = lubridate::today()
-head(dat)
-```
-
-# Googlesheets4 - API v4 Google Sheets Package
-
-## What if I don't want it public?
-
-```{r, eval = FALSE}
 library(googlesheets4)
-options(httr_oob_default=TRUE)
-# Do the following if you need to re-prompt the browser popup!
-gs_auth(new_user = TRUE)
-out = read_sheet(sheets_url)
+```
+```{r eval=FALSE}
+# Prompts a browser pop-up
+gs4_auth()
+```
+```{r}
+# Once set up, you can automate this process by passing your email
+gs4_auth(email = "avamariehoffman@gmail.com")
 ```
 
-## Can also save and load a token
+## Reading data with the googlesheets4 package
 
-```{r, message = FALSE}
-# Do this once - might not work with RStudio Cloud
-# Always make sure to .gitignore your token file!
-token_in = "your-token-hash-here"
-readr::write_rds(token_in, file = "googledrive_token.rds")
-```
+You can also supply an authorization token directly, but make sure to add any files to your .gitignore!
 
-## Can also save and load a token
-
-```{r, message = FALSE}
-token = readr::read_rds("googledrive_token.rds")
+```{r eval = FALSE}
 library(googledrive)
-drive_auth(token = token) # could also use googlesheets4::gs4_auth
-library(googlesheets4)
-out = read_sheet(sheets_url)
-head(out)
+drive_auth(email= "<email>",
+           token = readRDS("google-sheets-token.rds")) # Saved in a file
+```
+
+## Reading data with the googlesheets4 package
+
+Read in using `googlesheets4::read_sheet`
+
+```{r}
+sheet_url = paste0("https://docs.google.com/spreadsheets/d/1U6Cf_qEOhiR9",
+                   "AZqTqS3mbMF3zt2db48ZP5v3rkrAEJY/edit#gid=780868077")
+sheet_dat_1 = read_sheet(sheet_url)
+head(sheet_dat_1)
+```
+
+## Reading data with the googlesheets4 package
+
+Specify the sheet name if necessary:
+
+```{r}
+sheet_url = paste0("https://docs.google.com/spreadsheets/d/1U6Cf_qEOhiR9",
+                   "AZqTqS3mbMF3zt2db48ZP5v3rkrAEJY/edit#gid=780868077")
+sheet_dat_oceania = read_sheet(sheet_url, sheet = "Oceania")
+head(sheet_dat_oceania)
+```
+
+## Writing data with the googlesheets4 package
+
+```{r}
+sheet_dat_oceania = sheet_dat_oceania %>%
+  mutate(lifeExp_days = lifeExp * 365)
+sheet_out = gs4_create("Oceania-days", 
+                       sheets = list(Oceania_days = sheet_dat_oceania))
+```
+```{r eval = FALSE}
+# Opens a browser window
+gs4_browse(sheet_out)
+```
+
+## Append data with the googlesheets4 package
+
+```{r}
+sheet_append(sheet_out, data = sheet_dat_oceania, sheet = "Oceania_days")
+```
+
+## Browse sheets in your Google Drive, descending by date
+
+Use the `gs4_find()` function, coupled with `drive_auth()` credentials:
+
+```{r}
+googledrive::drive_auth(email = "avamariehoffman@gmail.com")
+head(gs4_find(),1)
 ```
 
 # googlesheets Lab<br> http://sisbid.github.io/Data-Wrangling/labs/advanced-io-lab.Rmd
@@ -149,7 +140,14 @@ head(jsonData)
 ```{r}
 dim(jsonData$pokemon)
 class(jsonData$pokemon$type) # Can be lists
+jsonData$pokemon$type
+```
+
+## Data frame structure from JSON
+
+```{r}
 class(jsonData$pokemon$next_evolution[[1]]) # Or lists of data.frames!
+jsonData$pokemon$next_evolution
 ```
 
 # JSON Lab<br> http://sisbid.github.io/Data-Wrangling/labs/advanced-io-lab.Rmd
@@ -162,7 +160,6 @@ http://bowtie-bio.sourceforge.net/recount/
 ```{r, out.width="100%", echo = FALSE, purl=FALSE}
 knitr::include_graphics("recount.png")
 ```
-
 
 ## View the source
 
@@ -179,6 +176,7 @@ knitr::include_graphics("recount_source.png")
 ## Ways to see the source
 
 <div class="left-half">
+<div style="font-size:15pt">
 Chrome:
 
 1. right click on page
@@ -188,10 +186,12 @@ Firefox:
 
 1. right click on page
 2. select "view source"
+
 Microsoft Edge:
 
 1. right click on page
 2. select "view source"
+</div>
 </div>
 
 <div class="right-half">
