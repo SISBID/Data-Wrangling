@@ -1,0 +1,17 @@
+Hi class,
+
+We are only a few days away from our Data Wrangling course!
+
+Before we get started on Monday we have a few things for you to take note of:
+
+1. Please take a moment to familiarize yourself with the schedule for next week: http://sisbid.github.io/Data-Wrangling/ 
+
+2. Note we will be using a recurring Zoom link for all of our sessions: https://jh.zoom.us/j/94855360770?pwd=WW1DUEIyMDByYXp0ZXZ1SGNGdzdnUT09.
+
+3. Please take a moment to join Slack if you haven't already. This will be a space for you to meet each other and ask questions as they arise.
+
+4. Finally, it will help us hit the ground running Monday if you can take a moment and set up RStudio Cloud using the instructions here: http://sisbid.github.io/Data-Wrangling/lecture_notes/Setup.html#1
+
+Thanks and see you all soon!
+
+Ava, Carrie, and Grant
