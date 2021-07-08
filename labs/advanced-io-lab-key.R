@@ -22,23 +22,24 @@ googlesheets4::read_sheet(sheet_url, range =  cell_cols(1:2))
 googlesheets4::read_sheet(sheet_url, range =  cell_cols("A:B"))
 
 
-
 ## -----------------------------------------------------------------------------
-response = httr::GET("https://api.github.com/users/hadley/repos")
-httr::content(response)
-httr::status_code(response)
+jsonData = fromJSON("https://think.cs.vt.edu/corgis/datasets/json/airlines/airlines.json")
 
 
 ## ---- error = TRUE------------------------------------------------------------
-out = jsonlite::fromJSON(httr::content(response, as = "text", flatten = TRUE))
-class(out)
-head(out)
+str(jsonData)
 
 
 ## -----------------------------------------------------------------------------
-out$stargazers_count
+lga_ord = jsonData %>% 
+  filter(Airport$Code %in% c("LGA", "ORD") & Time$Year == 2016)
 
 
 ## -----------------------------------------------------------------------------
-owner_data = out$owner
+airport_compare = as_tibble(list(
+  airport_code = lga_ord$Airport$Code,
+  total_flights = lga_ord$Statistics$Flights$Total,
+  delayed_proportion = lga_ord$Statistics$Flights$Delayed / lga_ord$Statistics$Flights$Total
+  ))
+airport_compare
 

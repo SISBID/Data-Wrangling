@@ -83,7 +83,7 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 [x1]: lecture_notes/Setup.html
 [x2]: lecture_notes/Setup.pdf
 [01]: https://docs.google.com/presentation/d/1aNFX9d0qLLfSW7nF4uOaE39D0ESlwenDg-1Ww9bDyJs/edit?usp=sharing
-[02]: lecture_notes/sisbid_intro_2020.pdf
+[02]: lecture_notes/sisbid_intro_2021.pdf
 [03]: lecture_notes/Data_IO_Part1.html
 [04]: lecture_notes/Data_IO_Part1.pdf
 [05]: labs/data-io-lab-part1.Rmd
@@ -94,8 +94,8 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 [10]: labs/data-io-lab-part1.Rmd
 [11]: labs/data-io-lab-part2-key.Rmd
 [12]: labs/data-io-lab-part2-key.html
-[13]: https://docs.google.com/presentation/d/1OAUbr-41EgwlSq0ZB-Edj_e0ix5I13pM3C_dfQ-W-Gw/edit?usp=sharing
-[14]: lecture_notes/sisbid_rep_research_2020.pdf
+[13]: https://docs.google.com/presentation/d/1qorxqdmHxo1jzU0OlRrtRqFPF2k5auoZ-9L2pk_thSg/edit?usp=sharing
+[14]: lecture_notes/sisbid_rep_research_2021.pdf
 [15]: labs/rmarkdown-lab.Rmd
 [16]: labs/rmarkdown-lab-key.Rmd
 [17]: labs/rmarkdown-lab-key.html
