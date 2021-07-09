@@ -257,3 +257,7 @@ diamonds %>%
   select(starts_with("c") %>%
   filter(table > 60))
 ```
+
+## Lab
+
+[Link to Lab](http://sisbid.github.io/Data-Wrangling/labs/data-subsetting-lab-part1.Rmd)
