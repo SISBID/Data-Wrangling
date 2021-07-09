@@ -31,7 +31,7 @@ library(tidyverse)
 
 
 
-3. Re-order the rows of `mpg` by `CYL` in increasing order. Use `arrange()`
+3. Re-order the rows of `mpg` by `CYL` in increasing order. Use `arrange()`. Don't forget to reassign the `mpg` data!
 
 ```{r}
 

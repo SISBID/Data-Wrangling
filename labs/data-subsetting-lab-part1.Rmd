@@ -73,7 +73,7 @@ library(tidyverse)
 
 ```
 
-8. Filter cars from in the "suv" or "minivan" class. How many cars/rows are there?
+8. Filter cars to only those in the "suv" or "minivan" class. How many cars/rows are there?
 
 ```{r}
 

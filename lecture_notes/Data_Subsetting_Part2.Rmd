@@ -27,15 +27,15 @@ Types of "missing" data:
 
 Each missing data type has a function that returns `TRUE` if the data is missing:
 
-* `NA` - `is.na`
-* `NaN` - `is.nan`
-* `Inf` and `-Inf` - `is.infinite`
-* `is.finite` returns `FALSE` for all missing data and `TRUE` for non-missing
+* `NA` - `is.na()`
+* `NaN` - `is.nan()`
+* `Inf` and `-Inf` - `is.infinite()`
+* `is.finite()` returns `FALSE` for all missing data and `TRUE` for non-missing
 
 ## Missing Data with Logicals
 
-One important aspect (esp with subsetting) is that logical operations return `NA` for `NA` values.  Think about it, the data could be `> 2` or not we don't know, 
-so `R` says there is no `TRUE` or `FALSE`, so that is missing:
+One important aspect (esp with subsetting) is that logical operations return `NA` for `NA` values.  Think about it, the data could be `> 2` or not. We don't know, 
+so `R` says there is no `TRUE` or `FALSE`, and instead that is missing:
 ```{r}
 x = c(0, NA, 2, 3, 4)
 x > 2
@@ -71,15 +71,6 @@ x %in% c(0, 2) # NEVER has NA and returns logical
 
 reads "return `TRUE` if `x` is in 0 or 2". (Like `inlist` in Stata).
 
-## Missing Data with Logicals: `%in%`
-
-NEVER has NA, even if you put it there (BUT DON'T DO THIS):
-
-```{r}
-x %in% c(0, 2, NA) # NEVER has NA and returns logical
-x %in% c(0, 2) | is.na(x)
-```
-
 
 ## Missing Data with Operations
 
@@ -102,7 +93,8 @@ ufo = read_csv("../data/ufo/ufo_data_complete.csv", col_types =
                  ))
 head(ufo)
 ```
-```{r, echo = FALSE}
+
+```{r, echo = FALSE, warning = FALSE}
 ufo = read_csv("../data/ufo/ufo_data_complete.csv", col_types = 
                  cols(
                    .default = col_character(),
@@ -162,15 +154,6 @@ ufo2 = ufo %>% mutate(State = toupper(state)) # we renamed city
 ufo2 %>% select(State) %>% head
 ```
 
-## Recoding to missing
-
-Sometimes people code missing data in weird or inconsistent ways.
-
-```{r codeNA}
-ages = data.frame(age = c(23,-999,21,44,32,57,65,54))
-range(ages$age)
-```
-
 
 ## Adding new columns to a `data.frame`: base R
 
@@ -178,6 +161,15 @@ Can also use `$` to add columns, but only one column at a time
 ```{r}
 ufo2$State2 = tolower(ufo2$State)
 ufo2 %>% select(state, State, State2) %>% head
+```
+
+## Recoding to missing
+
+Sometimes people code missing data in weird or inconsistent ways.
+
+```{r codeNA}
+ages = data.frame(age = c(23,-999,21,44,32,57,65,54))
+range(ages$age)
 ```
 
 
@@ -196,41 +188,69 @@ ifelse(test, yes, no)
 # no: return values for false elements of test.
 ```
 
-## Recoding to missing
+## Recoding to create new column
+Say we want to make a new column about if the age was over 30?
 
-How do we change the `-999` to be treated as missing?
+```{r}
+pull(ages, age)
+ages = ages %>% mutate(over_20 = ifelse(age > 30, "Yes", "No"))
+ages
+```
+
+## Recoding value to missing
+
+How do we change the `-999` to be treated as missing for the age column?
 
 ```{r codeNA2}
+pull(ages, age)
 ages = ages %>% mutate(age = ifelse(age == -999, NA, age))
 range(ages$age)
-range(ages$age,na.rm=TRUE)
-ages
+range(ages$age, na.rm=TRUE)
+pull(ages, age)
 ```
 
-## Recoding from missing
+<!-- ## Recoding from missing -->
 
-What if you were the person that coded the `-999`
+<!-- What if you were the person that coded the `-999` -->
 
-```{r codeFromNA}
-ages = ages %>% mutate(age = ifelse(is.na(age), -999, age))
-ages
-```
+<!-- ```{r codeFromNA} -->
+<!-- ages = ages %>% mutate(age = ifelse(is.na(age), -999, age)) -->
+<!-- ages -->
+<!-- ``` -->
 
 ## Adding columns to a `data.frame`: dplyr
 
 ```{r}
 ufo = ufo %>% mutate( 
-            region = ifelse(
+              region = ifelse(
               country %in% c("us", "ca"),
               "North America",
               "Not North America")
             )
-ufo %>% select(country, region) %>% head
+ufo %>% select(country, region) %>% head()
 ```
 
 ## Adding columns to a `data.frame`: dplyr
+Alternatively, `case_when` provides a more general way (multiple tests easily):
+```
+casewhen(test ~ value if test is true,
+         test2 ~ vlue if test2 is true,
+         TRUE ~ value if all above tests are not true) # defaults to NA
+```
 
-Alternatively, `case_when` provides a more general way:
+```{r}
+ufo = ufo %>% mutate( 
+            region = case_when(
+              country %in% c("us", "ca") ~ "North America",
+              country %in% c("de") ~ "Europe",
+              country %in% "gb" ~ "Great Britain"
+            ))
+
+ufo %>% select(country, region) %>% head()
+```
+
+
+## `case_when()` with value if all tests fail
 
 ```{r}
 ufo = ufo %>% mutate( 
@@ -240,7 +260,7 @@ ufo = ufo %>% mutate(
               country %in% "gb" ~ "Great Britain",
               TRUE ~ "Other"
             ))
-ufo %>% select(country, region) %>% head
+ufo %>% select(country, region) %>% head()
 ```
 
 
