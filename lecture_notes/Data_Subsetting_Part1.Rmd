@@ -18,13 +18,33 @@ library(ggplot2)
 
 ## Overview
 
-We showed different ways to read  data into R using `readr::read_csv()`, `readr::read_delim()` and `readxl::read_excel()`.  In this module, we will show you how select rows and columns of datasets. 
+```{css, echo=FALSE}
+.watch-out {
+  #background-color: lightpink;
+  border: 3px solid red;
+  font-weight: bold;
+}
+# from: https://bookdown.org/yihui/rmarkdown-cookbook/chunk-styling.html
+```
+
+
+
+We showed different ways to read data into R using:  
+
+```{r, eval = FALSE}
+readr::read_csv()
+readr::read_delim()
+readxl::read_excel()
+```
+
+In this module, we will show you how select rows and columns of datasets. 
 
 ## Setup
 
-We will be using the `dplyr` package in the tidyverse.
 
-Many resources on how to use `dplyr` exist and are straightforward: 
+We will be using the $\color{red}{\text{dplyr}}$  package in the tidyverse.
+
+Here are several resources on how to use `dplyr`: 
 
 * https://dplyr.tidyverse.org/
 * https://r4ds.had.co.nz/
@@ -39,9 +59,19 @@ We will be using the `diamonds` dataset in the `ggplot2` package as an example (
 
 ## Selecting a single column of a `data.frame`: 
 
+If you were just selecting a single column, and you wanted the output to be a vector (and not a `tibble`), you need to use `pull` function. Since this is a long vector we will just show the first 6 values using the `head` function around the output of the `pull` function.
+```{r, class.source="watch-out"}
+head(pull(diamonds,carat))
+```
+
+## Selecting a single column of a `data.frame:
+
+The `pull` function is equivalent to using the `$` method (in base R). 
+
 We can grab the `carat` column using the `$` operator. 
 
 ```{r}
+head(pull(diamonds,carat))
 head(diamonds$carat)
 ```
 
@@ -49,7 +79,7 @@ Note this does *not* return a `tibble` (or `data.frame`) but rather a vector.
 
 ## Selecting a single column of a `data.frame`: 
 
-The `select` function extracts one or more columns from a `tibble` or `data.frame` and returns a `tibble` (not a vector)
+The `select` function extracts one or more columns from a `tibble` or `data.frame` and returns a `tibble` (not a vector).
 
 ```{r}
 select(diamonds, carat)
@@ -58,19 +88,11 @@ select(diamonds, carat)
 
 ## Selecting multiple columns of a `data.frame`: 
 
-The `select` command from `dplyr` is very flexible. You just need to list all columns you want to extract separated by commas
+The `select` command from `dplyr` is very flexible. You just need to list all columns you want to extract separated by commas.
 
 ```{r}
 select(diamonds, carat, depth)
 ```
-
-## Subset columns of a `data.frame`: dplyr
-
-If you were just selecting a single column, and you wanted the output to be a vector (and not a `tibble`), you need to use `pull`:
-```{r}
-head(pull(select(diamonds, carat)))
-```
-This is equivalent to using the `$` method (in base R). 
 
 
 ## Using the `pipe` (comes with `dplyr`):
@@ -82,8 +104,9 @@ That was a lot of typing and nested functions, which can be confusing. Recently,
 Pipe `diamonds` into `select`, then pipe that into `pull`, and then show the `head`:
 
 ```{r}
-diamonds %>% select(carat) %>% pull() %>% head()
+diamonds %>% pull(carat) %>% head()
 ```
+
 ## See the Select "helpers"
 
 Run the command:
@@ -95,7 +118,6 @@ Run the command:
 Here are a few:
 
 ```{r, eval = FALSE}
-one_of()
 last_col()
 ends_with()
 contains() # like searching
@@ -112,7 +134,7 @@ diamonds %>% select(starts_with("c"))
 
 ## Tidyselect helpers
 
-Or we can  take all columns that end with an "e":
+Or we can take all columns that end with an "e":
 
 ```{r}
 diamonds %>% select(ends_with("e"))
@@ -216,7 +238,7 @@ The OR operator (`|`) can be a substitute for `%in%` (although it might take mor
 diamonds %>% filter(clarity =="SI1" | clarity == "SI2")
 ```
 
-## Combining `filter` and `select`
+## Combining `filter` and `select`:
 
 You can combine `filter` and `select` to subset the rows and columns, respectively, of a `data.frame`:
 
@@ -226,7 +248,7 @@ diamonds %>%
   select(starts_with("c"))
 ```
 
-## Combining `filter` and `select`
+## Combining `filter` and `select`:
 
 The order of these functions matters though, since you can remove columns that you might want to filter on. 
 
