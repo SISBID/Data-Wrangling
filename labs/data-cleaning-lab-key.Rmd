@@ -44,12 +44,7 @@ mean(sub$duration_seconds < 60 | sub$duration_seconds > 3600)
 ```{r}
 str_subset(ufo$city, "field$") %>% length() # A
 str_subset(ufo$city, "ton$") %>% length() # B
-str_subset(ufo$city, "port$") %>% length() # B
+str_subset(ufo$city, "port$") %>% length() # C
 ```
 
-6. Drop countries that contain ufo sightings/rows where the listed states are possibly indicative of errors. How many countries are realistically represented in these data? (hint: look at cross-tabulations of state and country)
 
-```{r}
-table(ufo$state, ufo$country)
-ufo = ufo %>% filter(country %in% c("ca", "us"))
-```
