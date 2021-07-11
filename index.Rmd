@@ -107,8 +107,8 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 [22]: lecture_notes/Data_Subsetting_Part1.html
 [23]: lecture_notes/Data_Subsetting_Part1.pdf
 [24]: labs/data-subsetting-lab-part1.Rmd
-[25]: labs/data-subsetting-lab-part2-key.Rmd
-[26]: labs/data-subsetting-lab-part2-key.html
+[25]: labs/data-subsetting-lab-part1-key.Rmd
+[26]: labs/data-subsetting-lab-part1-key.html
 [27]: lecture_notes/Data_Subsetting_Part2.html
 [28]: lecture_notes/Data_Subsetting_Part2.pdf
 [29]: labs/data-subsetting-lab-part2.Rmd
