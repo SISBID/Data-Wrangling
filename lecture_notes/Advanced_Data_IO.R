@@ -78,7 +78,8 @@ sheet_append(sheet_out, data = sheet_dat_oceania, sheet = "Oceania_days")
 ## -----------------------------------------------------------------------------
 #install.packages("jsonlite")
 library(jsonlite)
-jsonData <- fromJSON("https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json")
+jsonData <- fromJSON(paste0("https://raw.githubusercontent.com/Biuni",
+                            "/PokemonGO-Pokedex/master/pokedex.json"))
 head(jsonData)
 
 
@@ -109,8 +110,7 @@ recount_url = "http://bowtie-bio.sourceforge.net/recount/"
 library(rvest)
 htmlfile = read_html(recount_url)
 
-nds = html_nodes(htmlfile,                
-xpath='//*[@id="recounttab"]/table')
+nds = html_nodes(htmlfile, xpath = '//*[@id="recounttab"]/table')
 dat = html_table(nds)
 dat = as.data.frame(dat)
 head(dat)
@@ -120,6 +120,10 @@ head(dat)
 colnames(dat) = as.character(dat[1,])
 dat = dat[-1,]
 head(dat)
+
+
+
+
 
 
 

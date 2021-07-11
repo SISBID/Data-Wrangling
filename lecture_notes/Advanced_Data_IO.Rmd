@@ -154,7 +154,8 @@ https://docs.github.com/en/rest/reference/search
 ```{r}
 #install.packages("jsonlite")
 library(jsonlite)
-jsonData <- fromJSON("https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json")
+jsonData <- fromJSON(paste0("https://raw.githubusercontent.com/Biuni",
+                            "/PokemonGO-Pokedex/master/pokedex.json"))
 head(jsonData)
 ```
 
@@ -181,19 +182,19 @@ jsonData$pokemon$next_evolution
 
 http://bowtie-bio.sourceforge.net/recount/ 
 ```{r, out.width="100%", echo = FALSE, purl=FALSE}
-knitr::include_graphics("recount.png")
+knitr::include_graphics("media/AdvancedIO_recount.png")
 ```
 
 ## View the source
 
 ```{r, out.width="100%", echo = FALSE, purl=FALSE}
-knitr::include_graphics("recount_view.png")
+knitr::include_graphics("media/AdvancedIO_recount_view.png")
 ```
 
 ## What the computer sees
 
 ```{r, out.width="100%", echo = FALSE, purl=FALSE}
-knitr::include_graphics("recount_source.png")
+knitr::include_graphics("media/AdvancedIO_recount_source.png")
 ```
 
 ## Ways to see the source
@@ -203,12 +204,12 @@ knitr::include_graphics("recount_source.png")
 Chrome:
 
 1. right click on page
-2. select "view source"
+2. select "View Page Source"
 
 Firefox:
 
 1. right click on page
-2. select "view source"
+2. select "View Page Source"
 
 Microsoft Edge:
 
@@ -218,16 +219,16 @@ Microsoft Edge:
 </div>
 
 <div class="right-half">
-
+<div style="font-size:15pt">
 Safari
 
 1. click on "Safari"
 2. select "Preferences"
 3. go to "Advanced"
 4. check "Show Develop menu in menu bar"
-5. click on "Develop"
-6. select "show page source"
-7. alternatively to 5./6., right click on page and select "view source"
+5. right click on page
+6. select "View Page Source"
+</div>
 </div>
 
 https://github.com/simonmunzert/rscraping-jsm-2016/blob/c04fd91fec711df65c838e07723125155a7f2cda/02-scraping-with-rvest.r
@@ -235,20 +236,18 @@ https://github.com/simonmunzert/rscraping-jsm-2016/blob/c04fd91fec711df65c838e07
 ## Inspect element
 
 ```{r, out.width="100%", echo = FALSE, purl=FALSE}
-knitr::include_graphics("recount_inpsect.png")
+knitr::include_graphics("media/AdvancedIO_recount_inpsect.png")
 ```
 
 ## Copy XPath
 
 ```{r, out.width="100%", echo = FALSE, purl=FALSE}
-knitr::include_graphics("recount_xpath.png")
+knitr::include_graphics("media/AdvancedIO_recount_xpath.png")
 ```
 
 ## Use SelectorGadget
 
-https://cran.r-project.org/web/packages/rvest/vignettes/selectorgadget.html
-
-
+https://rvest.tidyverse.org/articles/selectorgadget.html
 
 ## rvest package
 ```{r}
@@ -257,8 +256,7 @@ recount_url = "http://bowtie-bio.sourceforge.net/recount/"
 library(rvest)
 htmlfile = read_html(recount_url)
 
-nds = html_nodes(htmlfile,                
-xpath='//*[@id="recounttab"]/table')
+nds = html_nodes(htmlfile, xpath = '//*[@id="recounttab"]/table')
 dat = html_table(nds)
 dat = as.data.frame(dat)
 head(dat)
@@ -272,18 +270,32 @@ dat = dat[-1,]
 head(dat)
 ```
 
+## Ethics and Web Scraping
 
-----
-
-http://motherboard.vice.com/read/70000-okcupid-users-just-had-their-data-published
-```{r, out.width="100%", echo = FALSE, purl=FALSE}
-knitr::include_graphics("okcupid.png")
+https://slate.com/culture/2020/04/whitney-museum-new-york-apartment-exhibit-creators-interview.html
+```{r, out.width="75%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("media/AdvancedIO_scrape_1.png")
 ```
 
-----
-https://www.theguardian.com/science/2012/may/23/text-mining-research-tool-forbidden
-```{r, out.width="100%", echo = FALSE, purl=FALSE}
-knitr::include_graphics("textmining.png")
+## Ethics and Web Scraping
+
+https://doi.org/10.1016/j.dib.2020.106178
+```{r, out.width="50%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("media/AdvancedIO_scrape_2.png")
+```
+
+## Ethics and Web Scraping
+
+https://techcrunch.com/2017/04/28/someone-scraped-40000-tinder-selfies-to-make-a-facial-dataset-for-ai-experiments/
+```{r, out.width="50%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("media/AdvancedIO_scrape_3.png")
+```
+
+## Ethics and Web Scraping
+
+https://on.wsj.com/3hzeu9i
+```{r, out.width="75%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("media/AdvancedIO_scrape_4.png")
 ```
 
 # APIs
@@ -291,30 +303,30 @@ knitr::include_graphics("textmining.png")
 ## Application Programming Interfaces
 https://developers.facebook.com/
 ```{r, out.width="100%", echo = FALSE, purl=FALSE}
-knitr::include_graphics("facebook_dev.png")
+knitr::include_graphics("media/AdvancedIO_facebook_dev.png")
 ```
 
 ## In biology too!
 http://www.ncbi.nlm.nih.gov/books/NBK25501/
+https://www.ncbi.nlm.nih.gov/home/develop/api/
 
 ```{r, out.width="100%", echo = FALSE, purl=FALSE}
-knitr::include_graphics("nih_api.png")
+knitr::include_graphics("media/AdvancedIO_nih_api.png")
 ```
 
 ## Step 0: Did someone do this already
 https://ropensci.org/packages/
 
-```{r, out.width="100%", echo = FALSE, purl=FALSE}
-knitr::include_graphics("ropensci.png")
+```{r, out.width="50%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("media/AdvancedIO_ropensci.png")
 ```
 
 ## Do it yourself: read the Docs
 
 https://docs.github.com/en/rest
 ```{r, out.width="100%", echo = FALSE, purl=FALSE}
-knitr::include_graphics("github_rest.png")
+knitr::include_graphics("media/AdvancedIO_github_rest.png")
 ```
-
 
 ## Read the docs
 https://docs.github.com/en/rest/reference/repos
