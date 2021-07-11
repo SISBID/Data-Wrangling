@@ -24,13 +24,13 @@ MOST IMPORTANT RULE - LOOK AT YOUR DATA!
 
 ## Useful checking functions
 
-- `is.na` - is `TRUE` if the data is `FALSE` otherwise
+- `is.na()` - is `TRUE` if the data is `FALSE` otherwise
 - `!` - negation (NOT) 
     - if `is.na(x)` is `TRUE`, then `!is.na(x)` is `FALSE`
 
-- `all` takes in a `logical` and will be `TRUE` if ALL are `TRUE`
+- `all()` takes in a `logical` and will be `TRUE` if ALL are `TRUE`
     - `all(!is.na(x))` - are all values of `x` NOT NA
-- `any` will be `TRUE` if ANY are true
+- `any()` will be `TRUE` if ANY are true
     - `any(is.na(x))` - do we have any `NA`'s in `x`?
 - `complete.cases()` - returns `TRUE` if EVERY value of a row is NOT `NA`
     - very stringent condition 
@@ -39,19 +39,35 @@ MOST IMPORTANT RULE - LOOK AT YOUR DATA!
 
 ## Read in the UFO dataset
 
-* Read in data from RStudio Cloud or download from: http://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv.gz
+Read in data from RStudio Cloud or download from: http://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv.gz
 
 ```{r, importUfo}
 ufo = read_csv("../data/ufo/ufo_data_complete.csv")
+```
+
+
+## Clean names with the `clean_names()` function from the `janitor` package
+
+```{r}
+colnames(ufo)
 ufo = clean_names(ufo)
+colnames(ufo)
 ```
 
 ## Data cleaning "before" R
 
-You saw warning messages when reading in this dataset. Let's just drop those rows for now
+You saw warning messages when reading in this dataset. We can see these with the `problems()` function from `readr`. 
 
 ```{r}
 p = problems(ufo)
+p
+```
+
+## Let's just drop those problematic rows for now.
+
+Though you would usually want to check them!
+
+```{r}
 ufo = ufo[-p$row,] # brackets can also be used for subsetting
 ```
 
@@ -61,47 +77,81 @@ ufo = ufo[-p$row,] # brackets can also be used for subsetting
 
 ```{r isna}
 any(is.na(ufo$state)) # are there any NAs?
-table(is.na(ufo$state)) # are there any NAs?
+all(is.na(ufo$state)) # are the values all NAs?
 ```
 
 # Recoding Variables
 
-## Example of Recoding: base R
+## Example of Cleaning: more complicated
 
 For example, let's say gender was coded as Male, M, m, Female, F, f.  Using Excel to find all of these would be a matter of filtering and changing all by hand or using if statements.
 
-In R, you can simply do something like:
-
-```{r, eval = FALSE}
-data$gender[data$gender %in% 
-    c("Male", "M", "m")] <- "Male"
-```
-
-## Example of Cleaning: more complicated
-
-Sometimes though, it's not so simple.  That's where functions that find patterns come in very useful.
+Sometimes though, it's not so simple.  That's where functions that find patterns come to be very useful.
 
 ```{r gender, echo=FALSE}
 set.seed(4) # random sample below - make sure same every time
 gender <- sample(c("Male", "mAle", "MaLe", "M", "MALE", "Ma", "FeMAle", "F", "Woman", "Man", "Fm", "FEMALE"), 1000, replace = TRUE)
+data_gen = tibble(gender)
 ```
 
 ```{r gentab}
 table(gender)
 ```
 
+## Example of Cleaning: more complicated
+In R, you could use `case_when()`:
+
+```{r}
+#case_when way:
+data_gen <-data_gen %>% mutate(gender = 
+                      case_when(gender %in% c("Male", "M", "m", "Man")
+                                ~ "Male",
+                           TRUE ~ gender)) 
+head(data_gen)
+```
+
+Oh dear! This only fixes some values! It is difficult to notice values like `"MaLe"`.
+
 # String functions
+
+## The `stringr` package
+
+Like `dplyr`, the `stringr` package:
+
+* Makes some things more intuitive
+* Is different than base R
+* Is used on forums for answers
+* Has a standard format for most functions: `str_`
+    * the first argument is a string like first argument is a `data.frame` in `dplyr`
+
 
 ## Useful String Functions
 
-Useful String functions
+Useful String functions from base R and `stringr`
 
-* `toupper()`, `tolower()` - uppercase or lowercase your data:
+* `toupper()`, `tolower()` - uppercase or lowercase your data
+* `str_sentence()`  - uppercase just the first character (in the `stringr` package)
+
+* `paste()` - paste strings together with a space 
+* `paste0` - paste strings together with no space as default
+
 * `str_trim()` (in the `stringr` package) or `trimws` in base 
     - will trim whitespace
 * `nchar` - get the number of characters in a string
-* `paste()` - paste strings together with a space 
-* `paste0` - paste strings together with no space as default
+
+## recoding with `str_to_sentence()`
+
+```{r}
+#case_when way:
+data_gen <-data_gen %>%
+                mutate(gender = str_to_sentence(gender)) %>%
+                mutate(gender = 
+                      case_when(gender %in% c("Male", "M", "m", "Man")
+                                ~ "Male",
+                           TRUE ~ gender)) 
+head(data_gen)
+```
+OK, now we are getting somewhere!
 
 ## Pasting strings with `paste` and `paste0`
 
@@ -119,18 +169,11 @@ paste0("Visit",1:5)
 
 ```{r Paste2}
 paste(1:5)
+paste(1:5) %>% length()
 paste(1:5, collapse = " ")
+paste(1:5, collapse = " ") %>% length()
 ```
 
-## The `stringr` package
-
-Like `dplyr`, the `stringr` package:
-
-* Makes some things more intuitive
-* Is different than base R
-* Is used on forums for answers
-* Has a standard format for most functions
-    * the first argument is a string like first argument is a `data.frame` in `dplyr`
 
 
 ## Substringing
@@ -145,7 +188,9 @@ Like `dplyr`, the `stringr` package:
 Examples: 
 
 ```{r}
-str_sub("I like pizza", 8,12)
+str_sub("I like friesian horses", 8,12)
+#123456789101112
+#I like fries
 str_sub(c("Site A", "Site B", "Site C"), 6,6)
 ```
 
@@ -196,26 +241,31 @@ str_sub(c("Site A", "Site B", "Site C"), 6,6)
 These are the indices where the pattern match occurs:
 
 ```{r alienMatch}
+str_detect(ufo$comments, "two aliens") %>% head()
+str_detect(ufo$comments, "two aliens") %>% table()
 which(str_detect(ufo$comments, "two aliens"))
 ```
 
-## 'Find' functions: Finding Logicals
+## 'Find' functions: Finding Logicals {.smaller}
 
-These are the indices where the pattern match occurs:
+`filter()` using `str_detect()` gives a tibble:
 
-```{r alienMatch_log}
-str_detect(ufo$comments, "two aliens") %>% head()
+```{r}
+filter(ufo, str_detect(comments, "two aliens"))
+filter(ufo, str_detect(comments, "two aliens")) %>% select(comments)
+
 ```
 
+## 'Find' functions: `str_subset()` is easier {.smaller}
 
-## 'Find' functions: finding values, `stringr` and `dplyr` {.smaller}
+`str_subset()` gives the values that match the pattern:
 
 ```{r ggrep}
 str_subset(ufo$comments, "two aliens")
-ufo %>% filter(str_detect(comments, "two aliens"))
+
 ```
 
-## Showing differnce in `str_extract`
+## Showing difference in `str_extract`
 
 `str_extract` extracts just the matched string
 
@@ -232,55 +282,55 @@ ss[ !is.na(ss)]
 str_subset(ufo$comments, "^aliens.*")
 ```
 
-## Using Regular Expressions
+## Using Regular Expressions{.smaller}
 
 That contains space then ship maybe with stuff in between
 ```{r grepstar2}
-str_subset(ufo$comments, "space.?ship") %>% head(7)
+str_subset(ufo$comments, "space.?ship") %>% head(4) # gets "spaceship" or "space ship" or...
+str_subset(ufo$comments, "space.ship") %>% head(4) # no "spaceship" must have character in bw
+
 ```
 
-## Replace
+## str_replace()
 
-Let's say we wanted to sort the data set by latitude and longitude:
+
+Let's say we wanted to make the time information more consistent. 
+Using `case_when()` would be very tedious and error-prone!
+
+We can use `str_replace()` to do so.
 
 ```{r classSal}
-class(ufo$latitude)
+head(ufo$duration_hours_min, 8)
+
+ufo %>% mutate(duration_hours_min = 
+                 str_replace(string = duration_hours_min, 
+                             pattern = "minutes", 
+                             replacement ="mins")) %>%
+  pull(duration_hours_min) %>%
+  head(8)
+
 ```
 
-```{r orderstring}
-sort(c("1", "2", "10")) #  not sort correctly (order simply ranks the data)
-order(c("1", "2", "10"))
+## Separating columns
+
+Better yet, you might notice that this data isn't tidy- there are more than two entries for each value - amount of time and unit. We could separate this using `separate()` from the `tidyr` package.
+```{r, warning=FALSE }
+ufo %>% separate(duration_hours_min, 
+                 into = c("duration_amount", "duration_unit"),
+                 sep = " ") %>%
+  select(duration_amount, duration_unit) %>% head()
 ```
+As you can see there is still plenty of cleaning to do!
 
-## Replace
+## Dates and times{.smaller}
 
-So we must change the coordinates into a numeric:
-```{r destringSal}
-head(ufo$latitude, 4)
-head(as.numeric(ufo$latitude), 4)
-```
+The `[lubridate`](https://lubridate.tidyverse.org/) package is amazing, there's no reason to use anything else.
 
-## Dropping bad observations
-
-```{r, dropIndex}
-dropIndex = which(is.na(as.numeric(ufo$latitude)) | 
-                      is.na(as.numeric(ufo$longitude)))
-ufo_clean = ufo[-dropIndex,]
-dim(ufo_clean)
-```
-
-
-## Replacing and subbing: `stringr` {.smaller}
-
-We can do the same thing (with 2 piping operations!) in dplyr
-
-```{r orderSal_stringr}
-ufo_dplyr = ufo_clean
-ufo_dplyr = ufo_dplyr %>% mutate( 
-  latitude = latitude %>% as.numeric,
-  longitude = longitude %>% as.numeric) %>% 
-    arrange(latitude,longitude)
-ufo_dplyr[1:5, c("datetime", "latitude", "longitude")]
+```{r, message = FALSE}
+library(lubridate)#need to load this one!
+head(ufo$datetime)
+ufo$date_posted = mdy(ufo$date_posted)
+head(ufo$date_posted)
 ```
 
 ## Special characters
@@ -319,15 +369,4 @@ Also works for internal commas:
 parse_number(c("12,123,123.00", "12,465.10"))
 ```
 
-## Dates and times
 
-The `lubridate` package is amazing, there's no reason to use anything else.
-
-https://lubridate.tidyverse.org/
-
-```{r}
-library(lubridate)
-ufo$timestamp = mdy_hm(ufo$datetime)
-ufo$date_posted = mdy(ufo$date_posted)
-head(ufo$timestamp)
-```

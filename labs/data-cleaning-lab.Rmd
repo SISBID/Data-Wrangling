@@ -41,8 +41,3 @@ You can ignore the "problems" with some rows.
 
 ```
 
-6. Drop countries that contain ufo sightings/rows where the listed states are possibly indicative of errors. How many countries are realistically represented in these data? (hint: look at cross-tabulations of state and country)
-
-```{r}
-
-```
