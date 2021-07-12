@@ -44,7 +44,9 @@ plot(x)
 #Sys.sleep(10)
 ```
 
-9. Check out the docs at: http://rmarkdown.rstudio.com/ and look under formats. See if you can create and compile an R markdown presentation. How about a parameterized report?
+9. Check out the docs at: http://rmarkdown.rstudio.com/ and look under formats. See if you can create and compile an R markdown presentation. How about a parameterized report? 
+
+See https://www.rstudio.com/resources/rstudioconf-2018/parameterized-r-markdown-reports-with-rstudio-connect/ to learn more about parameterized reports. Check out the lecturs for how to make presentations.
 
 10. Add the command devtools::session_info() to this chunk and look at the output
 
