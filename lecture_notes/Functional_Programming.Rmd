@@ -16,30 +16,155 @@ library(tidyr)
 
 ## Functional Programming
 
-Allows you to flexibly iterate functions to each element of a list or vector
+"R, at its heart, is a functional programming (FP) language. This means that it provides many tools for the creation and manipulation of functions. In particular, R has what’s known as first class functions. You can do anything with functions that you can do with vectors: you can assign them to variables, store them in lists, **pass them as arguments to other functions**, create them inside functions, and even return them as the result of a function." - [Hadley Wickham](http://adv-r.had.co.nz/Functional-programming.html)
+
+Allows you to flexibly iterate functions to multiple elements of a data object!
+
+Useful when you want to apply a function to:  
+ * lots of columns in a tibble  
+ * multiple tibbles  
+ * multiple data files  
+ 
+## working **`across`** mulptiple columns
+
+Say we wanted to round multiple columns of the `mtcars` data. 
+We could do so one column at a time, or we could use the `across` function from the `dplyr` package.
+Needs to be used **within other dplyr functions** such as `mutate`.
+```
+mutate(across(which_columns, which function or operation))
+```
+
+```{r}
+head(mtcars, 2)
+
+mtcars %>% 
+  mutate(across(.cols = c(disp, drat, wt, qsec), round)) %>%
+  head(2)
+```
+
+## Using `across` with arguments 
+
+Need to use the `~` if you wish to pass arguments to the function that you are applying to the various columns.
+
+```{r}
+mtcars %>% 
+  mutate(across(.cols = c(disp, drat, wt, qsec), round)) %>%
+  head(2)
+
+mtcars %>% 
+  mutate(across(.cols = c(disp, drat, wt, qsec), ~ round(digits = 1))) %>%
+  head(2)
+
+```
+
+## tidy select helpers
+
+https://tidyselect.r-lib.org/reference/select_helpers.html  
+
+?tidyr_tidy_select
+
+* : range of consecutive variables  
+
+* ! ignore a variable  
+
+* everything(): Matches all variables.  
+
+* starts_with(): Starts with a prefix.  
+
+* ends_with(): Ends with a suffix.  
+
+* contains(): Contains a literal string.  
+
+* matches(): Matches a regular expression.  
+
+## Using across with helpers to apply function to multiple columns
+
+```{r}
+
+mtcars %>% 
+  mutate(across(.cols = disp:qsec, round)) %>%
+  head(2)
+
+mtcars %>% 
+  mutate(across(.cols = everything(), round))%>%
+  head(2)
+```
+## `purrr` is also a super helpful package!
+
+
+The `purrr` package can be very helpful!
 
 * https://purrr.tidyverse.org/
 
 * https://github.com/rstudio/cheatsheets/raw/master/purrr.pdf
 
-## Examples we will use
 
-* https://jennybc.github.io/purrr-tutorial/
 
-* https://cran.r-project.org/web/packages/repurrrsive/index.html
+## `purrr` - apply function to all columns
 
-* https://tidyr.tidyverse.org/articles/rectangle.html
+```{r}
+library(purrr)
+head(mtcars, 2)
+ mtcars %>% 
+   map_df(round) %>% # will be a tibble now - will remove rownames
+   head(2)
+ mtcars %>% 
+   modify(round) %>% # modify keeps original data type
+   head(2)
+```
 
-## Why do this at all?
 
-https://jennybc.github.io/purrr-tutorial/bk01_base-functions.html
+## `purrr` apply function to some 
 
-You need a way to iterate in R in a data-structure-informed way. What does that mean?
+Using `modify_if()`, we can specify what columns to modify
 
-* Iterate over elements of a list
-* Iterate over rows or columns of a 2-dimensional object
-* Iterate over sub data frames induced by one or more factors
-* Iterate over tuples formed from the i-th element of several vectors of equal length
+```{r}
+head(iris, 3)
+
+iris %>% 
+  modify_if(is.numeric, as.character) %>%
+  head(3)
+```
+
+## rowwise
+```{r}
+iris %>% 
+  mutate(new =Sepal.Length + Petal.Width + Petal.Length + Sepal.Width) %>%
+  head(2)
+
+iris %>% 
+  rowwise() %>%
+  mutate(new =sum(Sepal.Length:Petal.Width))
+  head(2)
+```
+
+
+## `pmap` from `purrr`
+```{r}
+iris %>%
+  pmap(paste) %>%
+  head()
+```
+
+
+<!-- ## Examples we will use -->
+
+ * https://jennybc.github.io/purrr-tutorial/ -->
+
+<!-- * https://cran.r-project.org/web/packages/repurrrsive/index.html -->
+
+<!-- * https://tidyr.tidyverse.org/articles/rectangle.html -->
+
+<!-- ## Why do this at all? -->
+
+<!-- https://jennybc.github.io/purrr-tutorial/bk01_base-functions.html -->
+
+<!-- You need a way to iterate in R in a data-structure-informed way. What does that mean? -->
+
+<!-- * Iterate over elements of a list -->
+<!-- * Iterate over rows or columns of a 2-dimensional object -->
+<!-- * Iterate over sub data frames induced by one or more factors -->
+<!-- * Iterate over tuples formed from the i-th element of several vectors of equal length -->
 
 ## What is a 'list'?
 
@@ -50,7 +175,7 @@ You need a way to iterate in R in a data-structure-informed way. What does that 
 
 ```{r makeList, comment="", prompt=TRUE}
 mylist <- list(letters=c("A", "b", "c"), 
-        numbers=1:3, matrix(1:25, ncol=5))
+        numbers=1:3, matrix(1:25, ncol=5), matrix(1:25, ncol=5))
 ```
 
 ## List Structure
@@ -92,111 +217,275 @@ mylist[[2]][1]
 mylist[[3]][1:2,1:2]
 ```
 
-## How would I encounter lists?
+## How would I encounter lists? {.smaller}
 
-This comes up a lot in data cleaning (although many tasks can be accomplished by `separate`)
+This comes up a lot in data cleaning and also when reading in multiple files!
 
-```{r} 
-h = c("I like performing", "much data wrangling in R", "it is oh so fun")
-ll = str_split(h, " ")
-ll
+```{r, message = FALSE}
+library(here)
+list.files(here::here("data", "iris"), pattern = "*.csv")
+
+file_list <- paste0(here::here(), "/data/iris/", list.files(here::here("data", "iris"), pattern = "*.csv"))
+
+multifile_data <- file_list %>%
+  map(read_csv)
+
+class(multifile_data)
+
 ```
 
-## Why do this at all?
+
+## Reading in multiple files{.smaller}
+
+```{r, eval = FALSE}
+head(multifile_data[[1]], 3)
+dim(multifile_data[[1]])
+head(multifile_data[[2]], 3)
+dim(multifile_data[[2]])
+head(multifile_data[[3]], 3)
+dim(multifile_data[[3]])
+
+multifile_data[[2]] <- separate(multifile_data[[2]], 
+                            col =`Sepal.Length:Sepal.Width:Petal.Length:Petal.Width:Species`, 
+                         into = c("Sepal.Length", "Sepal.Width", 
+                                  'Petal.Length', "Petal.Width", "Species"), sep = ":")
+head(multifile_data[[2]], 3)
+
+multifile_data[[2]] <-multifile_data[[2]] %>% mutate(across(!Species, as.numeric))
+
+```
+
+
+## Reading in multiple files{.smaller}
+
+ldply combines results of applying a function to each element in a list into a data frame
+```{r, eval = FALSE}
+library(plyr)
+combined<-ldply(multifile_data)
+dim(combined)
+
+```
 
 ```{r}
-class(got_chars)
-length(got_chars)
-lengths(got_chars)
-names(got_chars[[1]])
+bindrows_data <- multifile_data %>%
+    map_df(bind_rows, .id = "experiment") # recall that modify keeps the same data type 
+# so that will not do what we want here because we want a data frame!
+dim(bindrows_data)
+tail(bindrows_data, 2)
 ```
 
+See https://www.opencasestudies.org/ocs-bp-vaping-case-study for more information!
 
 
-## How would we get the names of each GoT character?
 
-The really old way involved `for` loops:
+## Factors
+
+First we will create some data about absences for different students. Each row is a different student. We have information about the number of days absent and the grade for the individual students. We will use the `tibble()` function to create the data. We will use the `sample()` function to create a random sequence of numbers from 0 to 7 with replacements for 32 hypothetical students. Since there are four grades and 8*4 is 32, we will repeat the grade values 8 times. We use the `set.seed()` function so that the random sample from 0 to 7 is the same each time the code is run.
 
 ```{r}
-char_names = vector("character", length(got_chars)) # initiate
-for (i in seq(along=got_chars)) { # iterate
-  char_names[i] = got_chars[[i]]$name
-}
-char_names[1:5] # examine
+set.seed(123)
+data_highschool <- tibble(absences = sample(0:7, size = 32, replace = TRUE), 
+                          grade = rep(c("Freshman","Sophmore", 
+                                        "Junior", "Senior"), 8))
+head(data_highschool, 3)
 ```
 
+Notice that `grade` is a `chr` variable. This indicates that the values are character strings. R does not realize that there is any order related to the `grade` values. However, we know that the order is: freshman, sophomore, junior, senior.
 
-## How would we get the names of each GoT character?
-
-The kinda old way involved `apply` statements:
+## Let's make a plot first:
 
 ```{r}
-sapply(got_chars[1:5], function(x) x$name)
+#boxplot(data = data_highschool, absences ~ grade)
+data_highschool %>%
+  ggplot(mapping = aes(x = grade, y = absences)) +
+  geom_boxplot()
+
 ```
 
 
-## How would we get the names of each GoT character?
+## Not quite what we want
 
-This can still be pretty efficient:
+OK this is very useful, but it is a bit difficult to read, because we expect the values to be plotted by the order that we know, not by alphabetical order. Currently `grade` is class `character` but let's change that to class `factor` which allows us to specify the levels or order of the values.
+
+## As factor now
+
+Using `as_factor()` from the `forcats` package the levels will be in the order in which they occur in the data!
+
+https://forcats.tidyverse.org/ 
+
+```{R}
+class(data_highschool$grade)
+data_highschool_fct <- data_highschool %>% 
+  mutate(grade = as_factor(grade))
+head(data_highschool_fct, 3)
+```
+
+## Now let's make our plot again:
 
 ```{r}
-sapply(got_chars[1:5], "[[", "name")
+#boxplot(data = data_highschool_fct, absences ~ grade)
+data_highschool_fct %>%
+  ggplot(mapping = aes(x = grade, y = absences)) +
+  geom_boxplot()
+
 ```
 
-The user interface of the “apply” functions is not as consistent as it could be, which slows down learning. The return objects frequently require further checking and massage to use downstream. In particular, there’s a tendency to return a vector (atomic or otherwise) or array, instead of data frame, with the original factor levels appearing in a names attribute. [https://jennybc.github.io/purrr-tutorial/bk01_base-functions.html]
+## Calculatons with factors?
 
-
-## How would we get the names of each GoT character?
-
-This can still be pretty efficient:
+Now what about results from some calculations.
 
 ```{r}
-map_chr(got_chars[1:5], "name")
+data_highschool %>% group_by(grade) %>% summarise(mean = mean(absences))
+
+data_highschool_fct %>% group_by(grade) %>% summarise(mean = mean(absences))
 ```
 
-## `sapply` versus `map_chr`
+Here we see that the mean is calculated in the order we would like only for the version of the data that has absences coded as a factor!
 
-Potentially confusing output:
-```{r}
-sapply(got_chars[2:3], "[[", "aliases")
-```
+## What if we want to change the factor level order? {.smaller}
 
-Compared to error: 
-```{r, error = TRUE}
-map_chr(got_chars[2:3], "aliases")
-```
-
-## Example using string split output
 
 ```{r}
-map_chr(ll, first)
-map_chr(ll, last)
-map_chr(ll, nth, 3)
+#boxplot(data = data_highschool_fct, absences ~ fct_reorder(grade, absences))
+data_highschool_fct %>%
+  ggplot(mapping = aes(x = fct_reorder(grade, absences), 
+                       y = absences)) +
+  geom_boxplot()
+
 ```
 
-
-## More extensive examples
-
-You can create tibbles where each observation is a list:
-
-https://tidyr.tidyverse.org/articles/rectangle.html
+## Descending factor order {.smaller}
 
 ```{r}
-chars <- tibble(char = got_chars)
-chars
+#boxplot(data = data_highschool_fct, absences ~ fct_reorder(grade, absences, .desc = TRUE))
+data_highschool_fct %>%
+  ggplot(mapping = aes(x = fct_reorder(grade, absences, .desc = TRUE),
+                       y = absences)) +
+  geom_boxplot()
+
 ```
 
-## More extensive examples
+## Claculations with reoder
 
 ```{r}
-chars2 <- chars %>% unnest_wider(char)
-chars2
+
+data_highschool_fct %>% group_by(grade) %>% summarise(mean = mean(absences))
+data_highschool_fct$grade <- fct_reorder(data_highschool_fct$grade, 
+                                         data_highschool_fct$absences,
+                                         .desc = TRUE)
+data_highschool_fct %>% group_by(grade) %>% summarise(mean = mean(absences))
 ```
 
-## Say you wanted all characters and their titles:
+<!-- ## `purrr` map2 -->
 
-```{r}
-chars2 %>%
-  select(name, title = titles) %>%
-  unnest_longer(title)
-```
+<!-- ```{r} -->
+<!-- mtcars_list<-list(head(mtcars,4), head(mtcars,4), head(mtcars,4)) -->
+<!-- map(mtcars_list, round) -->
+<!-- map2(multifile_data[[1]], multifile_data[[2]], paste)
+<!-- ``` -->
+  
+
+<!-- ```{r}  -->
+<!-- h = c("I like performing", "much data wrangling in R", "it is oh so fun") -->
+<!-- ll = str_split(h, " ") -->
+<!-- ll -->
+<!-- ``` -->
+
+<!-- ## Why do this at all? -->
+
+<!-- ```{r} -->
+<!-- class(got_chars) -->
+<!-- length(got_chars) -->
+<!-- lengths(got_chars) -->
+<!-- names(got_chars[[1]]) -->
+<!-- ``` -->
+
+
+
+<!-- ## How would we get the names of each GoT character? -->
+
+<!-- The really old way involved `for` loops: -->
+
+<!-- ```{r} -->
+<!-- char_names = vector("character", length(got_chars)) # initiate -->
+<!-- for (i in seq(along=got_chars)) { # iterate -->
+<!--   char_names[i] = got_chars[[i]]$name -->
+<!-- } -->
+<!-- char_names[1:5] # examine -->
+<!-- ``` -->
+
+
+<!-- ## How would we get the names of each GoT character? -->
+
+<!-- The kinda old way involved `apply` statements: -->
+
+<!-- ```{r} -->
+<!-- sapply(got_chars[1:5], function(x) x$name) -->
+<!-- ``` -->
+
+
+<!-- ## How would we get the names of each GoT character? -->
+
+<!-- This can still be pretty efficient: -->
+
+<!-- ```{r} -->
+<!-- sapply(got_chars[1:5], "[[", "name") -->
+<!-- ``` -->
+
+<!-- The user interface of the “apply” functions is not as consistent as it could be, which slows down learning. The return objects frequently require further checking and massage to use downstream. In particular, there’s a tendency to return a vector (atomic or otherwise) or array, instead of data frame, with the original factor levels appearing in a names attribute. [https://jennybc.github.io/purrr-tutorial/bk01_base-functions.html] -->
+
+
+<!-- ## How would we get the names of each GoT character? -->
+
+<!-- This can still be pretty efficient: -->
+
+<!-- ```{r} -->
+<!-- map_chr(got_chars[1:5], "name") -->
+<!-- ``` -->
+
+<!-- ## `sapply` versus `map_chr` -->
+
+<!-- Potentially confusing output: -->
+<!-- ```{r} -->
+<!-- sapply(got_chars[2:3], "[[", "aliases") -->
+<!-- ``` -->
+
+<!-- Compared to error:  -->
+<!-- ```{r, error = TRUE} -->
+<!-- map_chr(got_chars[2:3], "aliases") -->
+<!-- ``` -->
+
+<!-- ## Example using string split output -->
+
+<!-- ```{r} -->
+<!-- map_chr(ll, first) -->
+<!-- map_chr(ll, last) -->
+<!-- map_chr(ll, nth, 3) -->
+<!-- ``` -->
+
+
+<!-- ## More extensive examples -->
+
+<!-- You can create tibbles where each observation is a list: -->
+
+<!-- https://tidyr.tidyverse.org/articles/rectangle.html -->
+
+<!-- ```{r} -->
+<!-- chars <- tibble(char = got_chars) -->
+<!-- chars -->
+<!-- ``` -->
+
+<!-- ## More extensive examples -->
+
+<!-- ```{r} -->
+<!-- chars2 <- chars %>% unnest_wider(char) -->
+<!-- chars2 -->
+<!-- ``` -->
+
+<!-- ## Say you wanted all characters and their titles: -->
+
+<!-- ```{r} -->
+<!-- chars2 %>% -->
+<!--   select(name, title = titles) %>% -->
+<!--   unnest_longer(title) -->
+<!-- ``` -->
