@@ -99,8 +99,8 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 [15]: labs/rmarkdown-lab.Rmd
 [16]: labs/rmarkdown-lab-key.Rmd
 [17]: labs/rmarkdown-lab-key.html
-[18]: https://docs.google.com/presentation/d/1wCJnKaYbtw9_U3AFoHbWWcTfh3oVZxqHD_N9o_eRQhA/edit?usp=sharing
-[19]: lecture_notes/sisbid_github_2020.pdf
+[18]: https://docs.google.com/presentation/d/1HDgwTpnfdy0f_0RFuclBcA2ipu0UihwYLIsu_RT3QRg/edit?usp=sharing
+[19]: lecture_notes/sisbid_github_2021.pdf
 [20]: https://lab.github.com/githubtraining/introduction-to-github
 [21]: labs/github-lab.md
 
