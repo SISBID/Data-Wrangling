@@ -60,6 +60,7 @@ select(diamonds, carat, depth)
 ## ---- eval = FALSE------------------------------------------------------------
 ## last_col()
 ## ends_with()
+## starts_with()
 ## contains() # like searching
 
 
