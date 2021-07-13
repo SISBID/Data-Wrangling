@@ -211,39 +211,37 @@ x &gt; 2</pre>
 
 </article></slide><slide class=""><hgroup><h2>Missing Data with Logicals</h2></hgroup><article  id="missing-data-with-logicals-1">
 
-<p>What to do? What if we want if <code>x &gt; 2</code> and <code>x</code> isn’t <code>NA</code>?<br/>Don’t do <code>x != NA</code>, do <code>x &gt; 2</code> and <code>x</code> is NOT <code>NA</code>:</p>
+<p>What to do? What if we want if <code>x &gt; 2</code> and <code>x</code> isn’t <code>NA</code>?</p>
 
-<pre class = 'prettyprint lang-r'>x != NA</pre>
+<pre class = 'prettyprint lang-r'>x</pre>
 
-<pre >[1] NA NA NA NA NA</pre>
+<pre >[1]  0 NA  2  3  4</pre>
+
+<pre class = 'prettyprint lang-r'>!is.na(x)</pre>
+
+<pre >[1]  TRUE FALSE  TRUE  TRUE  TRUE</pre>
 
 <pre class = 'prettyprint lang-r'>x &gt; 2 &amp; !is.na(x)</pre>
 
 <pre >[1] FALSE FALSE FALSE  TRUE  TRUE</pre>
 
-</article></slide><slide class=""><hgroup><h2>Missing Data with Logicals</h2></hgroup><article  id="missing-data-with-logicals-2">
+<!-- ## Missing Data with Logicals: `%in%` -->
 
-<p>What about seeing if a value is equal to multiple values? You can do <code>(x == 1 | x == 2) &amp; !is.na(x)</code>, but that is not efficient.</p>
+<!-- What about seeing if a value is equal to multiple values?   -->
 
-<pre class = 'prettyprint lang-r'>(x == 0 | x == 2) # has NA</pre>
+<!-- You can do `(x == 1 | x == 2) & !is.na(x)`, but that is not efficient.   -->
 
-<pre >[1]  TRUE    NA  TRUE FALSE FALSE</pre>
+<!-- ```{r} -->
 
-<pre class = 'prettyprint lang-r'>(x == 0 | x == 2) &amp; !is.na(x) # No NA</pre>
+<!-- x -->
 
-<pre >[1]  TRUE FALSE  TRUE FALSE FALSE</pre>
+<!-- (x == 0 | x == 2) & !is.na(x) # No NA -->
 
-<p>what to do?</p>
+<!-- x %in% c(0, 2) # NEVER has NA and returns logical -->
 
-</article></slide><slide class=""><hgroup><h2>Missing Data with Logicals: <code>%in%</code></h2></hgroup><article  id="missing-data-with-logicals-in">
+<!-- ``` -->
 
-<p>Introduce the <code>%in%</code> operator:</p>
-
-<pre class = 'prettyprint lang-r'>x %in% c(0, 2) # NEVER has NA and returns logical</pre>
-
-<pre >[1]  TRUE FALSE  TRUE FALSE FALSE</pre>
-
-<p>reads &ldquo;return <code>TRUE</code> if <code>x</code> is in 0 or 2&rdquo;. (Like <code>inlist</code> in Stata).</p>
+<!-- reads "return `TRUE` if `x` is in 0 or 2". (Like `inlist` in Stata). -->
 
 </article></slide><slide class=""><hgroup><h2>Missing Data with Operations</h2></hgroup><article  id="missing-data-with-operations">
 
@@ -280,11 +278,11 @@ head(ufo)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Filtering and tibbles</h2></hgroup><article  id="filtering-and-tibbles">
 
-<p>Missing value and filter can be powerful (<code>head</code> - show first few rows)</p>
+<p>Missing value and filter can be powerful</p>
 
 <pre class = 'prettyprint lang-r'>ufo %&gt;% 
   filter(is.na(state) | is.na(country)) %&gt;% 
-  head</pre>
+  head()</pre>
 
 <pre ># A tibble: 6 x 11
   datetime  city  state country shape `duration (seco… `duration (hour… comments
@@ -304,7 +302,7 @@ head(ufo)</pre>
 <pre class = 'prettyprint lang-r'>ufo %&gt;% 
   filter( 
     (!is.na(state) &amp; is.na(country)) | city == &quot;seattle&quot;) %&gt;% 
-  head</pre>
+  head()</pre>
 
 <pre ># A tibble: 6 x 11
   datetime  city  state country shape `duration (seco… `duration (hour… comments
@@ -359,44 +357,36 @@ head(ufo_upper)</pre>
 
 <p><code>mutate</code> - allows you to add or replace columns (need to reassign for it to stick)</p>
 
-<pre class = 'prettyprint lang-r'>ufo2 = ufo %&gt;% mutate(State = toupper(state)) # we renamed city
-ufo2 %&gt;% select(State) %&gt;% head</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% select(state) %&gt;% head(3)</pre>
 
-<pre ># A tibble: 6 x 1
+<pre ># A tibble: 3 x 1
+  state
+  &lt;chr&gt;
+1 tx   
+2 tx   
+3 &lt;NA&gt; </pre>
+
+<pre class = 'prettyprint lang-r'>ufo2 = ufo %&gt;% mutate(State = toupper(state)) # we renamed city
+ufo2 %&gt;% select(State) %&gt;% head(3)</pre>
+
+<pre ># A tibble: 3 x 1
   State
   &lt;chr&gt;
 1 TX   
 2 TX   
-3 &lt;NA&gt; 
-4 TX   
-5 HI   
-6 TN   </pre>
+3 &lt;NA&gt; </pre>
 
-</article></slide><slide class=""><hgroup><h2>Adding new columns to a <code>data.frame</code>: base R</h2></hgroup><article  id="adding-new-columns-to-a-data.frame-base-r">
+<!-- ## Adding new columns to a `data.frame`: base R -->
 
-<p>Can also use <code>$</code> to add columns, but only one column at a time</p>
+<!-- Can also use `$` to add columns, but only one column at a time -->
 
-<pre class = 'prettyprint lang-r'>ufo2$State2 = tolower(ufo2$State)
-ufo2 %&gt;% select(state, State, State2) %&gt;% head</pre>
+<!-- ```{r} -->
 
-<pre ># A tibble: 6 x 3
-  state State State2
-  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; 
-1 tx    TX    tx    
-2 tx    TX    tx    
-3 &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  
-4 tx    TX    tx    
-5 hi    HI    hi    
-6 tn    TN    tn    </pre>
+<!-- ufo2$State2 = tolower(ufo2$State) -->
 
-</article></slide><slide class=""><hgroup><h2>Recoding to missing</h2></hgroup><article  id="recoding-to-missing">
+<!-- ufo2 %>% select(state, State, State2) %>% head -->
 
-<p>Sometimes people code missing data in weird or inconsistent ways.</p>
-
-<pre class = 'prettyprint lang-r'>ages = data.frame(age = c(23,-999,21,44,32,57,65,54))
-range(ages$age)</pre>
-
-<pre >[1] -999   65</pre>
+<!-- ``` -->
 
 </article></slide><slide class=""><hgroup><h2>Creating conditional variables</h2></hgroup><article  id="creating-conditional-variables">
 
@@ -410,6 +400,15 @@ range(ages$age)</pre>
     to logical mode.
 # yes: return values for true elements of test.
 # no: return values for false elements of test.</pre>
+
+</article></slide><slide class=""><hgroup><h2>Recoding to missing</h2></hgroup><article  id="recoding-to-missing">
+
+<p>Sometimes people code missing data in weird or inconsistent ways.</p>
+
+<pre class = 'prettyprint lang-r'>ages = data.frame(age = c(23,-999,21,44,32,57,65,54))
+range(ages$age)</pre>
+
+<pre >[1] -999   65</pre>
 
 </article></slide><slide class=""><hgroup><h2>Recoding to create new column</h2></hgroup><article  id="recoding-to-create-new-column">
 

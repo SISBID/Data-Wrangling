@@ -7,62 +7,98 @@ opts_chunk$set(comment = "")
 
 ## ---- importUfo---------------------------------------------------------------
 ufo = read_csv("../data/ufo/ufo_data_complete.csv")
+
+
+## -----------------------------------------------------------------------------
+colnames(ufo)
 ufo = clean_names(ufo)
+colnames(ufo)
 
 
 ## -----------------------------------------------------------------------------
 p = problems(ufo)
+p
+
+
+## -----------------------------------------------------------------------------
 ufo = ufo[-p$row,] # brackets can also be used for subsetting
 
 
 ## ----isna---------------------------------------------------------------------
 any(is.na(ufo$state)) # are there any NAs?
-table(is.na(ufo$state)) # are there any NAs?
-
-
-## ---- eval = FALSE------------------------------------------------------------
-## data$gender[data$gender %in%
-##     c("Male", "M", "m")] <- "Male"
+all(is.na(ufo$state)) # are the values all NAs?
 
 
 ## ----gender, echo=FALSE-------------------------------------------------------
 set.seed(4) # random sample below - make sure same every time
 gender <- sample(c("Male", "mAle", "MaLe", "M", "MALE", "Ma", "FeMAle", "F", "Woman", "Man", "Fm", "FEMALE"), 1000, replace = TRUE)
+data_gen = tibble(gender)
 
 
 ## ----gentab-------------------------------------------------------------------
 table(gender)
 
 
-## ----Paste--------------------------------------------------------------------
-paste("Visit", 1:5, sep = "_")
-paste("Visit", 1:5, sep = "_", collapse = " ")
-paste("To", "is going be the ", "we go to the store!", sep = "day ")
-# and paste0 can be even simpler see ?paste0 
-paste0("Visit",1:5)
-
-
-## ----Paste2-------------------------------------------------------------------
-paste(1:5)
-paste(1:5, collapse = " ")
+## -----------------------------------------------------------------------------
+#case_when way:
+data_gen <-data_gen %>% mutate(gender = 
+                      case_when(gender %in% c("Male", "M", "m", "Man")
+                                ~ "Male",
+                           TRUE ~ gender)) 
+head(data_gen)
 
 
 ## -----------------------------------------------------------------------------
-str_sub("I like pizza", 8,12)
+#case_when way:
+data_gen <-data_gen %>%
+                mutate(gender = str_to_sentence(gender)) %>%
+                mutate(gender = 
+                      case_when(gender %in% c("Male", "M", "m", "Man")
+                                ~ "Male",
+                           TRUE ~ gender)) 
+head(data_gen)
+
+
+## ----Paste--------------------------------------------------------------------
+paste("Visit", 1:5, sep = "_")
+paste("Visit", 1:5, sep = "_", collapse = " ")
+# and paste0 can be even simpler see ?paste0 
+paste0("Visit", 1:5)
+
+
+## ----Paste2-------------------------------------------------------------------
+
+paste("Visit", 1:5, sep = "_") %>% length()
+paste("Visit", 1:5, sep = "_", collapse = " ") %>% length()
+
+
+## -----------------------------------------------------------------------------
+paste("To", "is going be the ", "we go to the store!", sep = "day ")
+
+
+
+## -----------------------------------------------------------------------------
+str_sub("I like friesian horses", 8,12)
+#123456789101112
+#I like fries
 str_sub(c("Site A", "Site B", "Site C"), 6,6)
 
 
 ## ----alienMatch---------------------------------------------------------------
+str_detect(ufo$comments, "two aliens") %>% head()
+str_detect(ufo$comments, "two aliens") %>% table()
 which(str_detect(ufo$comments, "two aliens"))
 
 
-## ----alienMatch_log-----------------------------------------------------------
-str_detect(ufo$comments, "two aliens") %>% head()
+## -----------------------------------------------------------------------------
+filter(ufo, str_detect(comments, "two aliens"))
+filter(ufo, str_detect(comments, "two aliens")) %>% select(comments)
+
 
 
 ## ----ggrep--------------------------------------------------------------------
 str_subset(ufo$comments, "two aliens")
-ufo %>% filter(str_detect(comments, "two aliens"))
+
 
 
 ## ----ggrep2-------------------------------------------------------------------
@@ -76,64 +112,26 @@ str_subset(ufo$comments, "^aliens.*")
 
 
 ## ----grepstar2----------------------------------------------------------------
-str_subset(ufo$comments, "space.?ship") %>% head(7)
+str_subset(ufo$comments, "space.?ship") %>% head(4) # gets "spaceship" or "space ship" or...
+str_subset(ufo$comments, "space.ship") %>% head(4) # no "spaceship" must have character in bw
+
 
 
 ## ----classSal-----------------------------------------------------------------
-class(ufo$latitude)
+head(ufo$duration_hours_min, 8)
 
-
-## ----orderstring--------------------------------------------------------------
-sort(c("1", "2", "10")) #  not sort correctly (order simply ranks the data)
-order(c("1", "2", "10"))
-
-
-## ----destringSal--------------------------------------------------------------
-head(ufo$latitude, 4)
-head(as.numeric(ufo$latitude), 4)
-
-
-## ---- dropIndex---------------------------------------------------------------
-dropIndex = which(is.na(as.numeric(ufo$latitude)) | 
-                      is.na(as.numeric(ufo$longitude)))
-ufo_clean = ufo[-dropIndex,]
-dim(ufo_clean)
-
-
-## ----orderSal_stringr---------------------------------------------------------
-ufo_dplyr = ufo_clean
-ufo_dplyr = ufo_dplyr %>% mutate( 
-  latitude = latitude %>% as.numeric,
-  longitude = longitude %>% as.numeric) %>% 
-    arrange(latitude,longitude)
-ufo_dplyr[1:5, c("datetime", "latitude", "longitude")]
-
-
-## -----------------------------------------------------------------------------
-money = tibble(group = letters[1:5], 
-  amount = c("$12.32", "$43.64", "$765.43", "$93.31", "$12.13"))
-money %>% arrange(amount)
-as.numeric(money$amount)
-
-
-## -----------------------------------------------------------------------------
-money$amountNum = as.numeric(str_replace(money$amount, fixed("$"), ""))
-money %>% arrange(amountNum)
-
-
-## -----------------------------------------------------------------------------
-money$amount = parse_number(money$amount)
-money %>% arrange(amount)
+ufo %>% mutate(duration_hours_min = 
+                 str_replace(string = duration_hours_min, 
+                             pattern = "minutes", 
+                             replacement ="mins")) %>%
+  pull(duration_hours_min) %>%
+  head(8)
 
 
 
-## -----------------------------------------------------------------------------
-parse_number(c("12,123,123.00", "12,465.10"))
-
-
-## -----------------------------------------------------------------------------
-library(lubridate)
-ufo$timestamp = mdy_hm(ufo$datetime)
+## ---- message = FALSE---------------------------------------------------------
+library(lubridate)#need to load this one!
+head(ufo$datetime)
 ufo$date_posted = mdy(ufo$date_posted)
-head(ufo$timestamp)
+head(ufo$date_posted)
 

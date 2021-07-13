@@ -9,22 +9,9 @@ x > 2
 
 
 ## -----------------------------------------------------------------------------
-x != NA
+x
+!is.na(x)
 x > 2 & !is.na(x)
-
-
-## -----------------------------------------------------------------------------
-(x == 0 | x == 2) # has NA
-(x == 0 | x == 2) & !is.na(x) # No NA
-
-
-## -----------------------------------------------------------------------------
-x %in% c(0, 2) # NEVER has NA and returns logical
-
-
-## -----------------------------------------------------------------------------
-x %in% c(0, 2, NA) # NEVER has NA and returns logical
-x %in% c(0, 2) | is.na(x)
 
 
 ## -----------------------------------------------------------------------------
@@ -41,7 +28,8 @@ x * 2
 ##                  ))
 ## head(ufo)
 
-## ---- echo = FALSE------------------------------------------------------------
+
+## ---- echo = FALSE, warning = FALSE-------------------------------------------
 ufo = read_csv("../data/ufo/ufo_data_complete.csv", col_types = 
                  cols(
                    .default = col_character(),
@@ -54,14 +42,14 @@ head(ufo)
 ## -----------------------------------------------------------------------------
 ufo %>% 
   filter(is.na(state) | is.na(country)) %>% 
-  head
+  head()
 
 
 ## -----------------------------------------------------------------------------
 ufo %>% 
   filter( 
     (!is.na(state) & is.na(country)) | city == "seattle") %>% 
-  head
+  head()
 
 
 ## -----------------------------------------------------------------------------
@@ -75,8 +63,9 @@ head(ufo_upper)
 
 
 ## -----------------------------------------------------------------------------
+ufo %>% select(state) %>% head(3)
 ufo2 = ufo %>% mutate(State = toupper(state)) # we renamed city
-ufo2 %>% select(State) %>% head
+ufo2 %>% select(State) %>% head(3)
 
 
 ## ----codeNA-------------------------------------------------------------------
@@ -85,30 +74,38 @@ range(ages$age)
 
 
 ## -----------------------------------------------------------------------------
-ufo2$State2 = tolower(ufo2$State)
-ufo2 %>% select(state, State, State2) %>% head
+pull(ages, age)
+ages = ages %>% mutate(over_20 = ifelse(age > 30, "Yes", "No"))
+ages
 
 
 ## ----codeNA2------------------------------------------------------------------
+pull(ages, age)
 ages = ages %>% mutate(age = ifelse(age == -999, NA, age))
 range(ages$age)
-range(ages$age,na.rm=TRUE)
-ages
-
-
-## ----codeFromNA---------------------------------------------------------------
-ages = ages %>% mutate(age = ifelse(is.na(age), -999, age))
-ages
+range(ages$age, na.rm=TRUE)
+pull(ages, age)
 
 
 ## -----------------------------------------------------------------------------
 ufo = ufo %>% mutate( 
-            region = ifelse(
+              region = ifelse(
               country %in% c("us", "ca"),
               "North America",
               "Not North America")
             )
-ufo %>% select(country, region) %>% head
+ufo %>% select(country, region) %>% head()
+
+
+## -----------------------------------------------------------------------------
+ufo = ufo %>% mutate( 
+            region = case_when(
+              country %in% c("us", "ca") ~ "North America",
+              country %in% c("de") ~ "Europe",
+              country %in% "gb" ~ "Great Britain"
+            ))
+
+ufo %>% select(country, region) %>% head()
 
 
 ## -----------------------------------------------------------------------------
@@ -119,7 +116,7 @@ ufo = ufo %>% mutate(
               country %in% "gb" ~ "Great Britain",
               TRUE ~ "Other"
             ))
-ufo %>% select(country, region) %>% head
+ufo %>% select(country, region) %>% head()
 
 
 ## -----------------------------------------------------------------------------

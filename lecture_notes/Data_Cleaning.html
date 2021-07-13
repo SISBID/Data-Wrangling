@@ -396,9 +396,7 @@ head(data_gen)</pre>
 
 <p>OK, now we are getting somewhere!</p>
 
-</article></slide><slide class=""><hgroup><h2>Pasting strings with <code>paste</code> and <code>paste0</code></h2></hgroup><article  id="pasting-strings-with-paste-and-paste0">
-
-<p>Paste can be very useful for joining vectors together:</p>
+</article></slide><slide class=""><hgroup><h2>Pasting strings with <code>paste</code> and <code class="smaller">paste0</code></h2></hgroup><article  id="pasting-strings-with-paste-and-paste0">
 
 <pre class = 'prettyprint lang-r'>paste(&quot;Visit&quot;, 1:5, sep = &quot;_&quot;)</pre>
 
@@ -408,32 +406,26 @@ head(data_gen)</pre>
 
 <pre >[1] &quot;Visit_1 Visit_2 Visit_3 Visit_4 Visit_5&quot;</pre>
 
-<pre class = 'prettyprint lang-r'>paste(&quot;To&quot;, &quot;is going be the &quot;, &quot;we go to the store!&quot;, sep = &quot;day &quot;)</pre>
-
-<pre >[1] &quot;Today is going be the day we go to the store!&quot;</pre>
-
 <pre class = 'prettyprint lang-r'># and paste0 can be even simpler see ?paste0 
-paste0(&quot;Visit&quot;,1:5)</pre>
+paste0(&quot;Visit&quot;, 1:5)</pre>
 
 <pre >[1] &quot;Visit1&quot; &quot;Visit2&quot; &quot;Visit3&quot; &quot;Visit4&quot; &quot;Visit5&quot;</pre>
 
-</article></slide><slide class=""><hgroup><h2>Paste Depicting How Collapse Works</h2></hgroup><article  id="paste-depicting-how-collapse-works">
+</article></slide><slide class=""><hgroup><h2>Paste</h2></hgroup><article  id="paste">
 
-<pre class = 'prettyprint lang-r'>paste(1:5)</pre>
-
-<pre >[1] &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; &quot;5&quot;</pre>
-
-<pre class = 'prettyprint lang-r'>paste(1:5) %&gt;% length()</pre>
+<pre class = 'prettyprint lang-r'>paste(&quot;Visit&quot;, 1:5, sep = &quot;_&quot;) %&gt;% length()</pre>
 
 <pre >[1] 5</pre>
 
-<pre class = 'prettyprint lang-r'>paste(1:5, collapse = &quot; &quot;)</pre>
-
-<pre >[1] &quot;1 2 3 4 5&quot;</pre>
-
-<pre class = 'prettyprint lang-r'>paste(1:5, collapse = &quot; &quot;) %&gt;% length()</pre>
+<pre class = 'prettyprint lang-r'>paste(&quot;Visit&quot;, 1:5, sep = &quot;_&quot;, collapse = &quot; &quot;) %&gt;% length()</pre>
 
 <pre >[1] 1</pre>
+
+</article></slide><slide class=""><hgroup><h2>Fancier pastes</h2></hgroup><article  id="fancier-pastes">
+
+<pre class = 'prettyprint lang-r'>paste(&quot;To&quot;, &quot;is going be the &quot;, &quot;we go to the store!&quot;, sep = &quot;day &quot;)</pre>
+
+<pre >[1] &quot;Today is going be the day we go to the store!&quot;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Substringing</h2></hgroup><article  id="substringing">
 
@@ -618,26 +610,23 @@ head(ss)</pre>
 <pre >[1] &quot;45 mins&quot;      &quot;1-2 hrs&quot;      &quot;20 seconds&quot;   &quot;1/2 hour&quot;     &quot;15 mins&quot;     
 [6] &quot;5 mins&quot;       &quot;about 3 mins&quot; &quot;20 mins&quot;     </pre>
 
-</article></slide><slide class=""><hgroup><h2>Separating columns</h2></hgroup><article  id="separating-columns">
+<!-- ## Separating columns -->
 
-<p>Better yet, you might notice that this data isn’t tidy- there are more than two entries for each value - amount of time and unit. We could separate this using <code>separate()</code> from the <code>tidyr</code> package.</p>
+<!-- Better yet, you might notice that this data isn't tidy- there are more than two entries for each value - amount of time and unit. We could separate this using `separate()` from the `tidyr` package. -->
 
-<pre class = 'prettyprint lang-r'>ufo %&gt;% separate(duration_hours_min, 
-                 into = c(&quot;duration_amount&quot;, &quot;duration_unit&quot;),
-                 sep = &quot; &quot;) %&gt;%
-  select(duration_amount, duration_unit) %&gt;% head()</pre>
+<!-- ```{r, warning=FALSE } -->
 
-<pre ># A tibble: 6 x 2
-  duration_amount duration_unit
-  &lt;chr&gt;           &lt;chr&gt;        
-1 45              minutes      
-2 1-2             hrs          
-3 20              seconds      
-4 1/2             hour         
-5 15              minutes      
-6 5               minutes      </pre>
+<!-- ufo %>% separate(duration_hours_min,  -->
 
-<p>As you can see there is still plenty of cleaning to do!</p>
+<!--                  into = c("duration_amount", "duration_unit"), -->
+
+<!--                  sep = " ") %>% -->
+
+<!--   select(duration_amount, duration_unit) %>% head() -->
+
+<!-- ``` -->
+
+<!-- As you can see there is still plenty of cleaning to do! -->
 
 </article></slide><slide class=""><hgroup><h2>Dates and times</h2></hgroup><article  class="smaller" id="dates-and-times">
 
@@ -655,66 +644,53 @@ head(ufo$date_posted)</pre>
 <pre >[1] &quot;2004-04-27&quot; &quot;2005-12-16&quot; &quot;2008-01-21&quot; &quot;2004-01-17&quot; &quot;2004-01-22&quot;
 [6] &quot;2007-04-27&quot;</pre>
 
-</article></slide><slide class=""><hgroup><h2>Special characters</h2></hgroup><article  id="special-characters">
+<!-- ## Special characters -->
 
-<pre class = 'prettyprint lang-r'>money = tibble(group = letters[1:5], 
-  amount = c(&quot;$12.32&quot;, &quot;$43.64&quot;, &quot;$765.43&quot;, &quot;$93.31&quot;, &quot;$12.13&quot;))
-money %&gt;% arrange(amount)</pre>
+<!-- ```{r} -->
 
-<pre ># A tibble: 5 x 2
-  group amount 
-  &lt;chr&gt; &lt;chr&gt;  
-1 e     $12.13 
-2 a     $12.32 
-3 b     $43.64 
-4 c     $765.43
-5 d     $93.31 </pre>
+<!-- money = tibble(group = letters[1:5],  -->
 
-<pre class = 'prettyprint lang-r'>as.numeric(money$amount)</pre>
+<!--   amount = c("$12.32", "$43.64", "$765.43", "$93.31", "$12.13")) -->
 
-<pre >Warning: NAs introduced by coercion</pre>
+<!-- money %>% arrange(amount) -->
 
-<pre >[1] NA NA NA NA NA</pre>
+<!-- as.numeric(money$amount) -->
 
-</article></slide><slide class=""><hgroup><h2>Special characters</h2></hgroup><article  id="special-characters-1">
+<!-- ``` -->
 
-<p>In the past, we would recommend just replacing the <code>$</code> sign with an empty string and convert to numeric:</p>
+<!-- ## Special characters -->
 
-<pre class = 'prettyprint lang-r'>money$amountNum = as.numeric(str_replace(money$amount, fixed(&quot;$&quot;), &quot;&quot;))
-money %&gt;% arrange(amountNum)</pre>
+<!-- In the past, we would recommend just replacing the `$` sign with an empty string and convert to numeric: -->
 
-<pre ># A tibble: 5 x 3
-  group amount  amountNum
-  &lt;chr&gt; &lt;chr&gt;       &lt;dbl&gt;
-1 e     $12.13       12.1
-2 a     $12.32       12.3
-3 b     $43.64       43.6
-4 d     $93.31       93.3
-5 c     $765.43     765. </pre>
+<!-- ```{r}  -->
 
-</article></slide><slide class=""><hgroup><h2>Special characters</h2></hgroup><article  id="special-characters-2">
+<!-- money$amountNum = as.numeric(str_replace(money$amount, fixed("$"), "")) -->
 
-<p>But now there are better helper functions for this:</p>
+<!-- money %>% arrange(amountNum) -->
 
-<pre class = 'prettyprint lang-r'>money$amount = parse_number(money$amount)
-money %&gt;% arrange(amount)</pre>
+<!-- ``` -->
 
-<pre ># A tibble: 5 x 3
-  group amount amountNum
-  &lt;chr&gt;  &lt;dbl&gt;     &lt;dbl&gt;
-1 e       12.1      12.1
-2 a       12.3      12.3
-3 b       43.6      43.6
-4 d       93.3      93.3
-5 c      765.      765. </pre>
+<!-- ## Special characters -->
 
-</article></slide><slide class=""><hgroup><h2>Special characters</h2></hgroup><article  id="special-characters-3">
+<!-- But now there are better helper functions for this: -->
 
-<p>Also works for internal commas:</p>
+<!-- ```{r} -->
 
-<pre class = 'prettyprint lang-r'>parse_number(c(&quot;12,123,123.00&quot;, &quot;12,465.10&quot;))</pre>
+<!-- money$amount = parse_number(money$amount) -->
 
-<pre >[1] 12123123.0    12465.1</pre></article></slide>
+<!-- money %>% arrange(amount) -->
+
+<!-- ``` -->
+
+<!-- ## Special characters -->
+
+<!-- Also works for internal commas: -->
+
+<!-- ```{r} -->
+
+<!-- parse_number(c("12,123,123.00", "12,465.10")) -->
+
+<!-- ``` --></article></slide>
 
 
   <slide class="backdrop"></slide>

@@ -44,32 +44,26 @@ x > 2
 ## Missing Data with Logicals
 
 What to do?  What if we want if `x > 2` and `x` isn't `NA`?  
-Don't do `x != NA`, do `x > 2` and `x` is NOT `NA`:
 
 ```{r}
-x != NA
+x
+!is.na(x)
 x > 2 & !is.na(x)
 ```
 
-## Missing Data with Logicals
+<!-- ## Missing Data with Logicals: `%in%` -->
 
-What about seeing if a value is equal to multiple values?  You can do `(x == 1 | x == 2) & !is.na(x)`, but that is not efficient.  
+<!-- What about seeing if a value is equal to multiple values?   -->
 
-```{r}
-(x == 0 | x == 2) # has NA
-(x == 0 | x == 2) & !is.na(x) # No NA
-```
+<!-- You can do `(x == 1 | x == 2) & !is.na(x)`, but that is not efficient.   -->
 
-what to do?
+<!-- ```{r} -->
+<!-- x -->
+<!-- (x == 0 | x == 2) & !is.na(x) # No NA -->
+<!-- x %in% c(0, 2) # NEVER has NA and returns logical -->
+<!-- ``` -->
 
-## Missing Data with Logicals: `%in%`
-
-Introduce the `%in%` operator:
-```{r}
-x %in% c(0, 2) # NEVER has NA and returns logical
-```
-
-reads "return `TRUE` if `x` is in 0 or 2". (Like `inlist` in Stata).
+<!-- reads "return `TRUE` if `x` is in 0 or 2". (Like `inlist` in Stata). -->
 
 
 ## Missing Data with Operations
@@ -104,14 +98,15 @@ ufo = read_csv("../data/ufo/ufo_data_complete.csv", col_types =
 head(ufo)
 ```
 
+
 ## Filtering and tibbles
 
-Missing value and filter can be powerful (`head` - show first few rows)
+Missing value and filter can be powerful 
 
 ```{r}
 ufo %>% 
   filter(is.na(state) | is.na(country)) %>% 
-  head
+  head()
 ```
 
 ## Filtering and tibbles
@@ -122,7 +117,7 @@ Group logical statements with parentheses
 ufo %>% 
   filter( 
     (!is.na(state) & is.na(country)) | city == "seattle") %>% 
-  head
+  head()
 ```
 
 # Renaming Columns
@@ -150,27 +145,20 @@ head(ufo_upper)
  `mutate` - allows you to add or replace columns (need to reassign for it to stick)
  
 ```{r}
+ufo %>% select(state) %>% head(3)
 ufo2 = ufo %>% mutate(State = toupper(state)) # we renamed city
-ufo2 %>% select(State) %>% head
+ufo2 %>% select(State) %>% head(3)
 ```
 
 
-## Adding new columns to a `data.frame`: base R
+<!-- ## Adding new columns to a `data.frame`: base R -->
 
-Can also use `$` to add columns, but only one column at a time
-```{r}
-ufo2$State2 = tolower(ufo2$State)
-ufo2 %>% select(state, State, State2) %>% head
-```
+<!-- Can also use `$` to add columns, but only one column at a time -->
+<!-- ```{r} -->
+<!-- ufo2$State2 = tolower(ufo2$State) -->
+<!-- ufo2 %>% select(state, State, State2) %>% head -->
+<!-- ``` -->
 
-## Recoding to missing
-
-Sometimes people code missing data in weird or inconsistent ways.
-
-```{r codeNA}
-ages = data.frame(age = c(23,-999,21,44,32,57,65,54))
-range(ages$age)
-```
 
 
 ## Creating conditional variables
@@ -188,6 +176,16 @@ ifelse(test, yes, no)
 # no: return values for false elements of test.
 ```
 
+## Recoding to missing
+
+Sometimes people code missing data in weird or inconsistent ways.
+
+```{r codeNA}
+ages = data.frame(age = c(23,-999,21,44,32,57,65,54))
+range(ages$age)
+```
+
+
 ## Recoding to create new column
 Say we want to make a new column about if the age was over 30?
 
@@ -196,6 +194,8 @@ pull(ages, age)
 ages = ages %>% mutate(over_20 = ifelse(age > 30, "Yes", "No"))
 ages
 ```
+
+
 
 ## Recoding value to missing
 

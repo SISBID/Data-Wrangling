@@ -25,6 +25,8 @@ library(ggplot2)
   font-weight: bold;
 }
 # from: https://bookdown.org/yihui/rmarkdown-cookbook/chunk-styling.html
+
+#Then just use class.source="watch-out" in the chunk parameters
 ```
 
 
@@ -57,21 +59,41 @@ The `dplyr` package also interfaces well with tibbles.
 
 We will be using the `diamonds` dataset in the `ggplot2` package as an example (so make sure you initiate the `ggplot2` package if you are following along on your own). 
 
+```{r}
+head(diamonds)
+```
+
 ## Selecting a single column of a `data.frame`: 
 
-If you were just selecting a single column, and you wanted the output to be a vector (and not a `tibble`), you need to use `pull` function. Since this is a long vector we will just show the first 6 values using the `head` function around the output of the `pull` function.
-```{r, class.source="watch-out"}
+To grab just the values from a single column, you would use the `pull` function. The output will be a vector (and not a `tibble`). 
+
+Since this is a long vector we will just show the first 6 values using the `head` function around the output of the `pull` function.
+
+```{r}
 head(pull(diamonds,carat))
 ```
 
-## Selecting a single column of a `data.frame:
+## Using the `pipe` (comes with `dplyr`):
+
+That was a lot of typing and nested functions, which can be confusing. Recently, the pipe `%>%` makes things such as this much more readable.  It reads left side "pipes" into right side.  RStudio `CMD/Ctrl + Shift + M` shortcut. 
+
+## Using the `pipe` (comes with `dplyr`):
+
+Pipe `diamonds` into `select`, then pipe that into `pull`, and then show the `head`:
+
+```{r}
+diamonds %>% pull(carat) %>% head()
+```
+
+
+## Selecting a single column of a `data.frame`:
 
 The `pull` function is equivalent to using the `$` method (in base R). 
 
 We can grab the `carat` column using the `$` operator. 
 
 ```{r}
-head(pull(diamonds,carat))
+head(pull(diamonds, carat))
 head(diamonds$carat)
 ```
 
@@ -88,24 +110,13 @@ select(diamonds, carat)
 
 ## Selecting multiple columns of a `data.frame`: 
 
-The `select` command from `dplyr` is very flexible. You just need to list all columns you want to extract separated by commas.
+The `select` command from `dplyr` is very flexible. You just need to list all columns you want to extract separated by commas.  You can use this as a way to just keep the columns you want for example.
 
 ```{r}
 select(diamonds, carat, depth)
 ```
 
 
-## Using the `pipe` (comes with `dplyr`):
-
-That was a lot of typing and nested functions, which can be confusing. Recently, the pipe `%>%` makes things such as this much more readable.  It reads left side "pipes" into right side.  RStudio `CMD/Ctrl + Shift + M` shortcut. 
-
-## Using the `pipe` (comes with `dplyr`):
-
-Pipe `diamonds` into `select`, then pipe that into `pull`, and then show the `head`:
-
-```{r}
-diamonds %>% pull(carat) %>% head()
-```
 
 ## See the Select "helpers"
 
@@ -121,7 +132,6 @@ Here are a few:
 last_col()
 ends_with()
 contains() # like searching
-matches() # Matches a regular expression - cover later
 ```
 
 ## Tidyselect helpers
@@ -235,7 +245,8 @@ diamonds %>% filter(depth > 60 | table > 60 | price > 2775)
 The OR operator (`|`) can be a substitute for `%in%` (although it might take more typing):
 
 ```{r}
-diamonds %>% filter(clarity =="SI1" | clarity == "SI2")
+diamonds %>% filter(clarity =="SI1" | clarity == "SI2") %>% head(2)
+diamonds %>% filter(clarity %in% c("SI1", "SI2")) %>% head(2)
 ```
 
 ## Combining `filter` and `select`:
@@ -257,6 +268,8 @@ diamonds %>%
   select(starts_with("c") %>%
   filter(table > 60))
 ```
+
+This will result in an error because the table column is now gone after the `select()` function!
 
 ## Lab
 

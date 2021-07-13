@@ -35,7 +35,8 @@ str_subset(ufo$duration_hours_min, "min") %>% length()
 
 ```{r}
 sub = ufo %>% filter(str_detect(duration_hours_min, "min"))
-mean(sub$duration_seconds < 60 | sub$duration_seconds > 3600)
+sum(sub$duration_seconds < 60 | sub$duration_seconds > 3600)
+(449/length(sub$duration_seconds))*100 # to get the percentage
 ```
 
 5. How many ufo sighting cities end in (a) "field", (b) "ton" and (c) "port"?
