@@ -41,8 +41,9 @@ mpg %>% filter(cyl != 4) %>% nrow()
 
 
 ## -----------------------------------------------------------------------------
+# both give same result
 mpg %>% filter(class %in% c("suv", "minivan")) %>% nrow()
-
+mpg %>% filter(class =="suv" | class == "minivan") %>% nrow()
 
 
 ## -----------------------------------------------------------------------------

@@ -184,6 +184,8 @@ slide:not(.current) .plotly.html-widget{
   font-weight: bold;
 }
 # from: https://bookdown.org/yihui/rmarkdown-cookbook/chunk-styling.html
+
+#Then just use class.source="watch-out" in the chunk parameters
 </style>
 
 <p>We showed different ways to read data into R using:</p>
@@ -213,21 +215,47 @@ readxl::read_excel()</pre>
 
 <p>We will be using the <code>diamonds</code> dataset in the <code>ggplot2</code> package as an example (so make sure you initiate the <code>ggplot2</code> package if you are following along on your own).</p>
 
+<pre class = 'prettyprint lang-r'>head(diamonds)</pre>
+
+<pre ># A tibble: 6 x 10
+  carat cut       color clarity depth table price     x     y     z
+  &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1  0.23 Ideal     E     SI2      61.5    55   326  3.95  3.98  2.43
+2  0.21 Premium   E     SI1      59.8    61   326  3.89  3.84  2.31
+3  0.23 Good      E     VS1      56.9    65   327  4.05  4.07  2.31
+4  0.29 Premium   I     VS2      62.4    58   334  4.2   4.23  2.63
+5  0.31 Good      J     SI2      63.3    58   335  4.34  4.35  2.75
+6  0.24 Very Good J     VVS2     62.8    57   336  3.94  3.96  2.48</pre>
+
 </article></slide><slide class=""><hgroup><h2>Selecting a single column of a <code>data.frame</code>:</h2></hgroup><article  id="selecting-a-single-column-of-a-data.frame">
 
-<p>If you were just selecting a single column, and you wanted the output to be a vector (and not a <code>tibble</code>), you need to use <code>pull</code> function. Since this is a long vector we will just show the first 6 values using the <code>head</code> function around the output of the <code>pull</code> function.</p>
+<p>To grab just the values from a single column, you would use the <code>pull</code> function. The output will be a vector (and not a <code>tibble</code>).</p>
 
-<pre class = 'prettyprint lang-r watch-out'>head(pull(diamonds,carat))</pre>
+<p>Since this is a long vector we will just show the first 6 values using the <code>head</code> function around the output of the <code>pull</code> function.</p>
+
+<pre class = 'prettyprint lang-r'>head(pull(diamonds,carat))</pre>
 
 <pre >[1] 0.23 0.21 0.23 0.29 0.31 0.24</pre>
 
-</article></slide><slide class=""><hgroup><h2>Selecting a single column of a `data.frame:</h2></hgroup><article  id="selecting-a-single-column-of-a-data.frame-1">
+</article></slide><slide class=""><hgroup><h2>Using the <code>pipe</code> (comes with <code>dplyr</code>):</h2></hgroup><article  id="using-the-pipe-comes-with-dplyr">
+
+<p>That was a lot of typing and nested functions, which can be confusing. Recently, the pipe <code>%&gt;%</code> makes things such as this much more readable. It reads left side &ldquo;pipes&rdquo; into right side. RStudio <code>CMD/Ctrl + Shift + M</code> shortcut.</p>
+
+</article></slide><slide class=""><hgroup><h2>Using the <code>pipe</code> (comes with <code>dplyr</code>):</h2></hgroup><article  id="using-the-pipe-comes-with-dplyr-1">
+
+<p>Pipe <code>diamonds</code> into <code>select</code>, then pipe that into <code>pull</code>, and then show the <code>head</code>:</p>
+
+<pre class = 'prettyprint lang-r'>diamonds %&gt;% pull(carat) %&gt;% head()</pre>
+
+<pre >[1] 0.23 0.21 0.23 0.29 0.31 0.24</pre>
+
+</article></slide><slide class=""><hgroup><h2>Selecting a single column of a <code>data.frame</code>:</h2></hgroup><article  id="selecting-a-single-column-of-a-data.frame-1">
 
 <p>The <code>pull</code> function is equivalent to using the <code>$</code> method (in base R).</p>
 
 <p>We can grab the <code>carat</code> column using the <code>$</code> operator.</p>
 
-<pre class = 'prettyprint lang-r'>head(pull(diamonds,carat))</pre>
+<pre class = 'prettyprint lang-r'>head(pull(diamonds, carat))</pre>
 
 <pre >[1] 0.23 0.21 0.23 0.29 0.31 0.24</pre>
 
@@ -260,7 +288,7 @@ readxl::read_excel()</pre>
 
 </article></slide><slide class=""><hgroup><h2>Selecting multiple columns of a <code>data.frame</code>:</h2></hgroup><article  id="selecting-multiple-columns-of-a-data.frame">
 
-<p>The <code>select</code> command from <code>dplyr</code> is very flexible. You just need to list all columns you want to extract separated by commas.</p>
+<p>The <code>select</code> command from <code>dplyr</code> is very flexible. You just need to list all columns you want to extract separated by commas. You can use this as a way to just keep the columns you want for example.</p>
 
 <pre class = 'prettyprint lang-r'>select(diamonds, carat, depth)</pre>
 
@@ -279,18 +307,6 @@ readxl::read_excel()</pre>
 10  0.23  59.4
 # … with 53,930 more rows</pre>
 
-</article></slide><slide class=""><hgroup><h2>Using the <code>pipe</code> (comes with <code>dplyr</code>):</h2></hgroup><article  id="using-the-pipe-comes-with-dplyr">
-
-<p>That was a lot of typing and nested functions, which can be confusing. Recently, the pipe <code>%&gt;%</code> makes things such as this much more readable. It reads left side &ldquo;pipes&rdquo; into right side. RStudio <code>CMD/Ctrl + Shift + M</code> shortcut.</p>
-
-</article></slide><slide class=""><hgroup><h2>Using the <code>pipe</code> (comes with <code>dplyr</code>):</h2></hgroup><article  id="using-the-pipe-comes-with-dplyr-1">
-
-<p>Pipe <code>diamonds</code> into <code>select</code>, then pipe that into <code>pull</code>, and then show the <code>head</code>:</p>
-
-<pre class = 'prettyprint lang-r'>diamonds %&gt;% pull(carat) %&gt;% head()</pre>
-
-<pre >[1] 0.23 0.21 0.23 0.29 0.31 0.24</pre>
-
 </article></slide><slide class=""><hgroup><h2>See the Select &ldquo;helpers&rdquo;</h2></hgroup><article  id="see-the-select-helpers">
 
 <p>Run the command:</p>
@@ -301,8 +317,7 @@ readxl::read_excel()</pre>
 
 <pre class = 'prettyprint lang-r'>last_col()
 ends_with()
-contains() # like searching
-matches() # Matches a regular expression - cover later</pre>
+contains() # like searching</pre>
 
 </article></slide><slide class=""><hgroup><h2>Tidyselect helpers</h2></hgroup><article  id="tidyselect-helpers">
 
@@ -544,22 +559,21 @@ matches() # Matches a regular expression - cover later</pre>
 
 <p>The OR operator (<code>|</code>) can be a substitute for <code>%in%</code> (although it might take more typing):</p>
 
-<pre class = 'prettyprint lang-r'>diamonds %&gt;% filter(clarity ==&quot;SI1&quot; | clarity == &quot;SI2&quot;)</pre>
+<pre class = 'prettyprint lang-r'>diamonds %&gt;% filter(clarity ==&quot;SI1&quot; | clarity == &quot;SI2&quot;) %&gt;% head(2)</pre>
 
-<pre ># A tibble: 22,259 x 10
-   carat cut       color clarity depth table price     x     y     z
-   &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
- 1  0.23 Ideal     E     SI2      61.5    55   326  3.95  3.98  2.43
- 2  0.21 Premium   E     SI1      59.8    61   326  3.89  3.84  2.31
- 3  0.31 Good      J     SI2      63.3    58   335  4.34  4.35  2.75
- 4  0.26 Very Good H     SI1      61.9    55   337  4.07  4.11  2.53
- 5  0.3  Good      J     SI1      64      55   339  4.25  4.28  2.73
- 6  0.22 Premium   F     SI1      60.4    61   342  3.88  3.84  2.33
- 7  0.31 Ideal     J     SI2      62.2    54   344  4.35  4.37  2.71
- 8  0.2  Premium   E     SI2      60.2    62   345  3.79  3.75  2.27
- 9  0.3  Ideal     I     SI2      62      54   348  4.31  4.34  2.68
-10  0.3  Good      J     SI1      63.4    54   351  4.23  4.29  2.7 
-# … with 22,249 more rows</pre>
+<pre ># A tibble: 2 x 10
+  carat cut     color clarity depth table price     x     y     z
+  &lt;dbl&gt; &lt;ord&gt;   &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1  0.23 Ideal   E     SI2      61.5    55   326  3.95  3.98  2.43
+2  0.21 Premium E     SI1      59.8    61   326  3.89  3.84  2.31</pre>
+
+<pre class = 'prettyprint lang-r'>diamonds %&gt;% filter(clarity %in% c(&quot;SI1&quot;, &quot;SI2&quot;)) %&gt;% head(2)</pre>
+
+<pre ># A tibble: 2 x 10
+  carat cut     color clarity depth table price     x     y     z
+  &lt;dbl&gt; &lt;ord&gt;   &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1  0.23 Ideal   E     SI2      61.5    55   326  3.95  3.98  2.43
+2  0.21 Premium E     SI1      59.8    61   326  3.89  3.84  2.31</pre>
 
 </article></slide><slide class=""><hgroup><h2>Combining <code>filter</code> and <code>select</code>:</h2></hgroup><article  id="combining-filter-and-select">
 
@@ -591,6 +605,8 @@ matches() # Matches a regular expression - cover later</pre>
 <pre class = 'prettyprint lang-r'>diamonds %&gt;% 
   select(starts_with(&quot;c&quot;) %&gt;%
   filter(table &gt; 60))</pre>
+
+<p>This will result in an error because the table column is now gone after the <code>select()</code> function!</p>
 
 </article></slide><slide class=""><hgroup><h2>Lab</h2></hgroup><article  id="lab">
 

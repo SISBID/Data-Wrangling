@@ -226,8 +226,10 @@ str_subset(ufo$duration_hours_min, &quot;min&quot;) %&gt;% length()</code></pre>
 <li>How accurate is the (formerly-named) <code>duration (seconds)</code> column? I.e. how many of the above minutes-scale observations have durations less than 60 seconds or greater than 3600 seconds?</li>
 </ol>
 <pre class="r"><code>sub = ufo %&gt;% filter(str_detect(duration_hours_min, &quot;min&quot;))
-mean(sub$duration_seconds &lt; 60 | sub$duration_seconds &gt; 3600)</code></pre>
-<pre><code>## [1] 0.00895993</code></pre>
+sum(sub$duration_seconds &lt; 60 | sub$duration_seconds &gt; 3600)</code></pre>
+<pre><code>## [1] 449</code></pre>
+<pre class="r"><code>(449/length(sub$duration_seconds))*100 # to get the percentage</code></pre>
+<pre><code>## [1] 0.895993</code></pre>
 <ol start="5" style="list-style-type: decimal">
 <li>How many ufo sighting cities end in (a) “field”, (b) “ton” and (c) “port”?</li>
 </ol>
