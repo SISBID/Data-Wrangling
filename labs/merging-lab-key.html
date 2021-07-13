@@ -367,6 +367,8 @@ pre code {
 </div>
 
 
+<div id="part-1" class="section level2">
+<h2>Part 1</h2>
 <p>(This exercise is motivated by <a href="https://anythingbutrbitrary.blogspot.com/2012/08/manipulating-data-frames-using-sqldf.html" class="uri">https://anythingbutrbitrary.blogspot.com/2012/08/manipulating-data-frames-using-sqldf.html</a>)</p>
 <pre class="r"><code>library(tidyverse)
 
@@ -420,6 +422,64 @@ nrow(merged)</code></pre>
 <pre><code>## Joining, by = &quot;Road&quot;</code></pre>
 <pre class="r"><code>nrow(right)</code></pre>
 <pre><code>## [1] 110</code></pre>
+</div>
+<div id="part-2" class="section level2">
+<h2>Part 2</h2>
+<ol start="5" style="list-style-type: decimal">
+<li>Which highways do not have road data? Do this in a “tidy” format. Summarize by the total count of <code>N_Crashes</code> per highway.</li>
+</ol>
+<pre class="r"><code>no_dat = crash %&gt;% 
+  anti_join(road) %&gt;% 
+  group_by(Road) %&gt;%
+  summarize(total_crashes = sum(N_Crashes))</code></pre>
+<pre><code>## Joining, by = &quot;Road&quot;</code></pre>
+<pre class="r"><code>no_dat</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##   Road           total_crashes
+##   &lt;chr&gt;                  &lt;dbl&gt;
+## 1 Interstate 275           549</code></pre>
+<p><strong>Bonus</strong></p>
+<ol start="6" style="list-style-type: decimal">
+<li>You have an intern who has been pouring over the raw data and found a few mistakes in the <code>crash</code> dataset. They have made a spreadsheet for you containing only the corrected entries. Modify the original tibble with the following:</li>
+</ol>
+<ul>
+<li>A column (<code>Corrected</code>) indicating if a particular entry has a corresponding correction in <code>corrections</code>.</li>
+<li>If the row has a correction, take the corrected value</li>
+<li>Keep the original columns (Year, Road, N_Crashes, Volume) plus the column indicating whether the data is corrected or not (<code>Corrected</code>).</li>
+</ul>
+<p><em>hint: take a look at the two datasets - are you sure they’re joining correctly?</em></p>
+<pre class="r"><code>corrections = read_csv(&quot;https://sisbid.github.io/Data-Wrangling/labs/crashes_corrections.csv&quot;)</code></pre>
+<pre><code>## 
+## ── Column specification ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+## cols(
+##   YEAR = col_double(),
+##   ROAD = col_character(),
+##   N_Crashes = col_double(),
+##   Volume = col_double()
+## )</code></pre>
+<pre class="r"><code>corrections$ROAD = corrections$ROAD %&gt;% str_replace(&quot;INTERSTATE&quot;, &quot;Interstate&quot;)
+
+crash %&gt;% 
+  full_join(corrections, by = c(&quot;Year&quot; = &quot;YEAR&quot;, &quot;Road&quot; = &quot;ROAD&quot;), suffix = c(&quot;.orig&quot;, &quot;.checked&quot;)) %&gt;%
+  mutate(Corrected = ifelse(is.na(N_Crashes.checked), 0, 1)) %&gt;%
+  mutate(N_Crashes = ifelse(Corrected == 0, N_Crashes.orig, N_Crashes.checked)) %&gt;%
+  select(Year, Road, N_Crashes, Volume.orig, Corrected) %&gt;%
+  rename(Volume = Volume.orig)</code></pre>
+<pre><code>## # A tibble: 110 x 5
+##     Year Road          N_Crashes Volume Corrected
+##    &lt;dbl&gt; &lt;chr&gt;             &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;
+##  1  1991 Interstate 65        25  40000         0
+##  2  1992 Interstate 65        37  41000         0
+##  3  1993 Interstate 65        45  45000         0
+##  4  1994 Interstate 65        46  45600         0
+##  5  1995 Interstate 65        46  49000         0
+##  6  1996 Interstate 65        59  51000         0
+##  7  1997 Interstate 65        76  52000         0
+##  8  1998 Interstate 65        90  58000         0
+##  9  1999 Interstate 65        95  65000         0
+## 10  2000 Interstate 65        95  74000         0
+## # … with 100 more rows</code></pre>
+</div>
 
 
 
