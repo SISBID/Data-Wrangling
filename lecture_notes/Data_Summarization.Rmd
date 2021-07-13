@@ -186,8 +186,6 @@ circ %>%
   head
 ```
 
-# Bonus material
-
 ## Statistical summarization
 
 `t.test` is good for t-tests, but also gives a mean and 95\% CI:
@@ -220,29 +218,4 @@ colMeans(avgs, na.rm = TRUE)
 ```{r}
 circ = circ %>% mutate(mean_boarding = rowMeans(avgs, na.rm = TRUE))
 head(circ %>% select(day, mean_boarding))
-```
-
-
-## Basic Plots
-
-Plotting is an important component of exploratory data analysis.
-
-`ggplot2` is a package of plotting that is very popular and powerful (using the **g**rammar of **g**raphics). We will use `qplot` ("quick plot") for most of the basic examples:
-
-```{r, eval = FALSE}
-qplot
-```
-
-```{r, echo = FALSE}
-args(qplot)
-```
-
-
-## Scatterplot
-
-```{r, warning =FALSE}
-library(ggplot2)
-circ %>% 
-  mutate(date = lubridate::mdy(date)) %>% 
-  qplot(x = date, y = daily, colour = day, data = .) + geom_line()
 ```

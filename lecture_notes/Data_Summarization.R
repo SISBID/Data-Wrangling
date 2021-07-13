@@ -111,18 +111,3 @@ colMeans(avgs, na.rm = TRUE)
 circ = circ %>% mutate(mean_boarding = rowMeans(avgs, na.rm = TRUE))
 head(circ %>% select(day, mean_boarding))
 
-
-## ---- eval = FALSE------------------------------------------------------------
-## qplot
-
-
-## ---- echo = FALSE------------------------------------------------------------
-args(qplot)
-
-
-## ---- warning =FALSE----------------------------------------------------------
-library(ggplot2)
-circ %>% 
-  mutate(date = lubridate::mdy(date)) %>% 
-  qplot(x = date, y = daily, colour = day, data = .) + geom_line()
-
