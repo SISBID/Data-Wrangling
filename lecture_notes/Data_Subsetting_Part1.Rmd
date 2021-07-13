@@ -131,6 +131,7 @@ Here are a few:
 ```{r, eval = FALSE}
 last_col()
 ends_with()
+starts_with()
 contains() # like searching
 ```
 
