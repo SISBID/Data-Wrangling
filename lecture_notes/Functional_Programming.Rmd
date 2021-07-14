@@ -195,6 +195,7 @@ the _* options specify the type of data output
 
 ## map (and modify)
 ![](https://dcl-prog.stanford.edu/images/map-step-2.png)
+[[source](https://dcl-prog.stanford.edu/purrr-parallel.html)]
 
 ```{r}
 x <-c(1.2,2.3,3.5,4.6)
@@ -207,6 +208,7 @@ map_df(x,  round)
 Good if you need to use multiple vectors in a function together.
 
 ![](https://dcl-prog.stanford.edu/images/map2.png)
+[[source](https://dcl-prog.stanford.edu/purrr-parallel.html)]
 
 ```{r}
 x <-c(1.2,2.3,3.5,4.6)
@@ -226,6 +228,8 @@ map2_dbl(trees$Girth, trees$Height, function(x,y){ pi * ((x/2)/12)^2 * y})
 ## pmap {.smaller}
 
 ![](https://dcl-prog.stanford.edu/images/pmap-list.png)
+[[source](https://dcl-prog.stanford.edu/purrr-parallel.html)]
+
 ```{r}
 pmap_list <-
   list(x = c(1.2,2.3,3.5,4.6), y = c(2.4,5.3, 6.4, 1.0), z = c(2,9, 4, 11.0))
