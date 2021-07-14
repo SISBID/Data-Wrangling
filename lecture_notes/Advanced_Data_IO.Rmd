@@ -317,115 +317,57 @@ knitr::include_graphics("media/AdvancedIO_nih_api.png")
 ## Step 0: Did someone do this already
 https://ropensci.org/packages/
 
-```{r, out.width="50%", echo = FALSE, purl=FALSE}
+```{r, out.width="70%", echo = FALSE, purl=FALSE}
 knitr::include_graphics("media/AdvancedIO_ropensci.png")
 ```
 
-## Do it yourself: read the Docs
-
-https://docs.github.com/en/rest
-```{r, out.width="100%", echo = FALSE, purl=FALSE}
-knitr::include_graphics("media/AdvancedIO_github_rest.png")
-```
-
-## Read the docs
-https://docs.github.com/en/rest/reference/repos
+## Step 0: Did someone do this already
+`tidycensus` package: https://walker-data.com/tidycensus/articles/basic-usage.html
 
 ```{r, out.width="100%", echo = FALSE, purl=FALSE}
-knitr::include_graphics("github_repo.png")
+knitr::include_graphics("media/AdvancedIO_tidycensus.png")
 ```
 
-## Read the docs
-https://docs.github.com/en/rest/reference/rate-limit
+## Step 1: DIY
+https://github.com/ThatCopy/catAPI/wiki/Usage
 
-```{r, out.width="100%", echo = FALSE, purl=FALSE}
-knitr::include_graphics("github_ratelimit.png")
-```
-
-## Read the docs
-
-```{r, out.width="100%", echo = FALSE, purl=FALSE}
-knitr::include_graphics("github_jquery.png")
-```
-
-## A dissected example
-
-<div style="font-size:30pt">
-https://api.github.com/search/repositories?q=created:2014-08-13+language:r+-user:cran
-</div>
-
-## The base URL
-<div style="font-size:30pt">
-**https://api.github.com/**search/repositories?q=created:2014-08-13+language:r+-user:cran
-</div>
-
-## The Path: Search repositories
-<div style="font-size:30pt">
-https://api.github.com/**search/repositories**?q=created:2014-08-13+language:r+-user:cran
-</div>
-
-## Create a query - pass the `q` parameter
-<div style="font-size:30pt">
-https://api.github.com/search/repositories**?q**=created:2014-08-13+language:r+-user:cran
-</div>
-
-## Date repo was created
-<div style="font-size:30pt">
-https://api.github.com/search/repositories?q=**created:2014-08-13**+language:r+-user:cran
-</div>
-
-## Language repo is in
-<div style="font-size:30pt">
-https://api.github.com/search/repositories?q=created:2014-08-13+**language:r**+-user:cran
-</div>
-
-## Ignore repos from "cran"
-<div style="font-size:30pt">
-https://api.github.com/search/repositories?q=created:2014-08-13+language:r+**-user:cran**
-</div>
-
-----
 ```{r}
 #install.packages("httr")
 library(httr)
 
-query_url = paste0("https://api.github.com/", "search/repositories", 
-                   "?q=created:2014-08-13", "+language:r", "+-user:cran")
+# Requests a random cat fact
+query_url = "https://thatcopy.pw/catapi/rest/"
 
 req = GET(query_url)
-names(content(req))
+content(req)
 ```
 
 ## Not all APIs are "open"
 
-https://apps.twitter.com/
-
-```{r, out.width="100%", echo = FALSE, purl=FALSE}
-knitr::include_graphics("twitter.png")
-```
-
----
-
-(see also `twitteR` package)
+https://www.rdocumentation.org/packages/twitteR/versions/1.1.9
 
 ```{r, eval = FALSE}
-myapp = oauth_app("twitter",
-                   key="yourConsumerKeyHere",secret="yourConsumerSecretHere")
-sig = sign_oauth1.0(myapp,
-                     token = "yourTokenHere",
-                      token_secret = "yourTokenSecretHere")
-homeTL = GET("https://api.twitter.com/1.1/statuses/home_timeline.json", sig)
+# install.packages("twitteR")
+library(twitteR)
+# Supplied by Twitter
+setup_twitter_oauth("API key", "API secret")
 
-# But you can get cool data
-json1 = content(homeTL)
-json2 = jsonlite::fromJSON(toJSON(json1))
-json2[1,1:4]
+searchTwitter("crab cake", geocode="39.290692,-76.610221,5mi")
 ```
+
+https://developer.twitter.com/en/portal/petition/academic/is-it-right-for-you
+
+## Not all APIs are "open"
+
+https://walker-data.com/tidycensus/articles/basic-usage.html
 
 ```{r, eval = FALSE}
-                    created_at           id             id_str
-1 Mon Jan 13 05:18:04 +0000 2014 4.225984e+17 422598398940684288
-                                                                                                                                         text
-1 Now that P. Norvig's regex golf IPython notebook hit Slashdot, let's see if our traffic spike tops the previous one: http://t.co/Vc6JhZXOo8
-```
+# install.packages("tidycensus")
+library(tidycensus)
+# Supplied by census.gov
+census_api_key("YOUR API KEY GOES HERE")
 
+get_decennial(geography = "state", 
+                       variables = "P013001", # code for median age
+                       year = 2010)
+```
