@@ -2,6 +2,8 @@
 library(stringr)
 library(tibble)
 library(SummarizedExperiment)
+library(dplyr)
+library(biomaRt)
 
 
 ## ---- eval=FALSE--------------------------------------------------------------
@@ -23,12 +25,12 @@ geo_data = getGEO("GSE146760")[[1]] # find accession in paper
 
 
 ## -----------------------------------------------------------------------------
-tibble(pData(geo_data))
+tibble(Biobase::pData(geo_data))
 
 
 ## -----------------------------------------------------------------------------
-exprs(geo_data) # gene expression
-fData(geo_data) # gene/feature/row annotation
+Biobase::exprs(geo_data) # gene expression
+Biobase::fData(geo_data) # gene/feature/row annotation
 
 
 ## -----------------------------------------------------------------------------
@@ -38,19 +40,34 @@ pheno = read.delim("GSE146760/GSE146760_RNASample_Info_v2.txt.gz")
 
 
 ## -----------------------------------------------------------------------------
-colnames(counts) = sapply(str_split(colnames(counts), "Aligned"), "[[", 1)
+#colnames(counts) = sapply(str_split(colnames(counts), "Aligned"), "[[", 1)
+colnames(counts) = str_remove(string = colnames(counts), pattern = "Aligned.sortedByCoord.out.bam")
 identical(colnames(counts), pheno$Prefix)
+
+
+## -----------------------------------------------------------------------------
 rownames(pheno) = pheno$Status
 colnames(counts) = pheno$Status
 
 
-## -----------------------------------------------------------------------------
+## ---- message = FALSE---------------------------------------------------------
+library(SummarizedExperiment)
 rse = SummarizedExperiment(assays = list(counts = counts),
                             colData = DataFrame(pheno))
 
 
 ## ---- cache=TRUE--------------------------------------------------------------
 library(biomaRt)
+
+if(interactive()){
+listEnsembl()
+}
+#datasets <- listDatasets(ensembl)
+#head(datasets)
+#searchAttributes(mart = ensembl, pattern = "hgnc")
+
+
+## -----------------------------------------------------------------------------
 ensembl <- useEnsembl(biomart = "genes", dataset = "hsapiens_gene_ensembl")
 geneMap = getBM(attributes = c("ensembl_gene_id",
                 "chromosome_name","start_position",
@@ -59,8 +76,14 @@ geneMap = getBM(attributes = c("ensembl_gene_id",
 
 
 ## -----------------------------------------------------------------------------
-geneMap$chromosome_name = paste0("chr", geneMap$chromosome_name)
-geneMap$strand = ifelse(geneMap$strand == 1, "+", "-")
+head(geneMap)
+
+
+## -----------------------------------------------------------------------------
+#geneMap$chromosome_name = paste0("chr", geneMap$chromosome_name)
+geneMap <-geneMap %>% mutate(chromosome_name = paste0("chr", chromosome_name))
+#geneMap$strand = ifelse(geneMap$strand == 1, "+", "-")
+geneMap <-geneMap %>% mutate(strand = case_when(strand == 1 ~"+", TRUE ~ "-"))
 geneMap_gr = makeGRangesFromDataFrame(geneMap,
             seqnames.field = "chromosome_name",
             start.field = "start_position",
@@ -77,11 +100,12 @@ geneMap_gr = geneMap_gr[mm[!is.na(mm)]]
 counts = counts[!is.na(mm),]
 
 
-## -----------------------------------------------------------------------------
-rse = SummarizedExperiment(assays = list(counts = counts),
-                            colData = DataFrame(pheno),
-                           rowRanges = geneMap_gr)
-rse
+## ---- eval=FALSE--------------------------------------------------------------
+## 
+## rse = SummarizedExperiment(assays = list(counts = counts),
+##                            rowRanges = GRangesList(geneMap_gr),
+##                            colData = DataFrame(pheno))
+## rse
 
 
 ## -----------------------------------------------------------------------------
