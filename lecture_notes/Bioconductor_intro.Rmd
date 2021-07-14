@@ -10,6 +10,8 @@ output:
 library(stringr)
 library(tibble)
 library(SummarizedExperiment)
+library(dplyr)
+library(biomaRt)
 ```
 
 
@@ -86,22 +88,27 @@ geo_data = getGEO("GSE146760")[[1]] # find accession in paper
 
 ## Getting data from GEO
 
+We can get the phenotypic data using the `pData()` function from `Biobase`
+
 ```{r}
-tibble(pData(geo_data))
+tibble(Biobase::pData(geo_data))
 ```
 
 ## Getting data from GEO
 
 Actual gene expression data, ie RNA-seq read counts, is less commonly stored in GEO.
 
+Wh
+
 ```{r}
-exprs(geo_data) # gene expression
-fData(geo_data) # gene/feature/row annotation
+Biobase::exprs(geo_data) # gene expression
+Biobase::fData(geo_data) # gene/feature/row annotation
 ```
 
 ## Getting data from GEO
 
 Sometimes the gene expression matrices are stored as supplementary data.
+We can check it out using the `GEOquery` package.
 https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE146760
 
 ```{r}
@@ -111,10 +118,18 @@ pheno = read.delim("GSE146760/GSE146760_RNASample_Info_v2.txt.gz")
 ```
 
 ## Getting data from GEO
+OK! so now we can start working with our data... first, we want to make sure these two files have all the same corresponding sample IDs. We want the `pheno$Prefix` column to be the same as the colnames of our count data.  This is going to take some wrangling!
 
 ```{r}
-colnames(counts) = sapply(str_split(colnames(counts), "Aligned"), "[[", 1)
+#colnames(counts) = sapply(str_split(colnames(counts), "Aligned"), "[[", 1)
+colnames(counts) = str_remove(string = colnames(counts), pattern = "Aligned.sortedByCoord.out.bam")
 identical(colnames(counts), pheno$Prefix)
+```
+
+## OK could be a bit more clear
+
+Now that we know they are identical, let's replace the column names of counts with the Status column values of pheno.
+```{r}
 rownames(pheno) = pheno$Status
 colnames(counts) = pheno$Status
 ```
@@ -125,17 +140,32 @@ SummarizedExperiment objects are probably the standard data structure for gene e
 
 https://bioconductor.org/packages/release/bioc/html/SummarizedExperiment.html
 
-```{r}
+```{r, message = FALSE}
+library(SummarizedExperiment)
 rse = SummarizedExperiment(assays = list(counts = counts),
                             colData = DataFrame(pheno))
 ```
 
-## Getting data from GEO
+## biomaRt
 
-We can also add gene annotation information with the `biomaRt` package
+We can also add gene annotation information with the `biomaRt` package.
+
+Guide:https://www.bioconductor.org/packages/devel/bioc/vignettes/biomaRt/inst/doc/accessing_ensembl.html
 
 ```{r, cache=TRUE}
 library(biomaRt)
+
+if(interactive()){
+listEnsembl()
+}
+#datasets <- listDatasets(ensembl)
+#head(datasets)
+#searchAttributes(mart = ensembl, pattern = "hgnc")
+```
+
+## biomaRt
+Guide:https://www.bioconductor.org/packages/devel/bioc/vignettes/biomaRt/inst/doc/accessing_ensembl.html
+```{r}
 ensembl <- useEnsembl(biomart = "genes", dataset = "hsapiens_gene_ensembl")
 geneMap = getBM(attributes = c("ensembl_gene_id",
                 "chromosome_name","start_position",
@@ -143,13 +173,22 @@ geneMap = getBM(attributes = c("ensembl_gene_id",
 			values=rownames(counts), mart=ensembl)
 ```
 
+## Biomart
+```{r}
+head(geneMap)
+```
+Great! now we have info about the different ensemble genes!
+
+
 ## Genomic Ranges
 
 Convert the data frame to a G[enomic]Ranges object:
 
 ```{r}
-geneMap$chromosome_name = paste0("chr", geneMap$chromosome_name)
-geneMap$strand = ifelse(geneMap$strand == 1, "+", "-")
+#geneMap$chromosome_name = paste0("chr", geneMap$chromosome_name)
+geneMap <-geneMap %>% mutate(chromosome_name = paste0("chr", chromosome_name))
+#geneMap$strand = ifelse(geneMap$strand == 1, "+", "-")
+geneMap <-geneMap %>% mutate(strand = case_when(strand == 1 ~"+", TRUE ~ "-"))
 geneMap_gr = makeGRangesFromDataFrame(geneMap,
             seqnames.field = "chromosome_name",
             start.field = "start_position",
@@ -170,17 +209,18 @@ counts = counts[!is.na(mm),]
 
 ## Summarized Experiments
 
-```{r}
+```{r, eval=FALSE}
+
 rse = SummarizedExperiment(assays = list(counts = counts),
-                            colData = DataFrame(pheno),
-                           rowRanges = geneMap_gr)
+                           rowRanges = GRangesList(geneMap_gr),
+                           colData = DataFrame(pheno))
 rse
 ```
 
 
 ## Getting data from the Sequence Read Archive (SRA)
 
-GEO originated for microarray data, which has largely become replaced by data produced using next-generation sequencing technologies. Depositing raw sequencing reads into the Sequence Read Archive (SRA) is often a condition of publication in many journals. 
+[GEO](https://www.ncbi.nlm.nih.gov/geo/info/faq.html) originated for microarray data, which has largely become replaced by data produced using next-generation sequencing technologies. Depositing raw sequencing reads into the Sequence Read Archive (SRA) is often a condition of publication in many journals. 
 
 https://trace.ncbi.nlm.nih.gov/Traces/sra/?study=SRP044749	
 
