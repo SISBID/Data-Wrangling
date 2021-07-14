@@ -60,8 +60,9 @@ my_function(x = my_data)
 my_function(my_data)
 ```
 
-## Special lamda use
+## Special tilda use
 If you see `~ .x` (or sometimes just `.` is used instead of `.x`) this means function(x){x}  - in other words we are passing x to a function.
+[https://adv-r.hadley.nz/functionals.html#purrr-shortcuts](https://adv-r.hadley.nz/functionals.html#purrr-shortcuts)
 
 For example - this is not necessary but you could use it here:
 ```{r}
@@ -71,7 +72,7 @@ mtcars %>%
 
 mtcars %>% 
   mutate(across(.cols = c(disp, drat, wt, qsec), round)) %>%
-  head(2)
+  head(1)
 ```
 
 ## Using `across` with arguments 

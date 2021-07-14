@@ -31,7 +31,7 @@ mtcars %>%
 
 mtcars %>% 
   mutate(across(.cols = c(disp, drat, wt, qsec), round)) %>%
-  head(2)
+  head(1)
 
 
 ## -----------------------------------------------------------------------------
