@@ -1,37 +1,51 @@
 ## ---- include = FALSE---------------------------------------------------------
 library(tidyverse)
-library(repurrrsive)
 
 
 ## -----------------------------------------------------------------------------
-str(gh_users, max.level = 2, list.len = 3)
-
-
-## -----------------------------------------------------------------------------
-gh_users[[5]][c(1,2,6,18,21)]
-
-
-## -----------------------------------------------------------------------------
-library(listviewer)
-jsonedit(gh_users)
-
-
-## -----------------------------------------------------------------------------
-names(gh_users[[1]])
-map_chr(gh_users, "created_at")
-map_chr(gh_users, 29)
+iris_lab <- iris
 
 
 
 ## -----------------------------------------------------------------------------
-map(gh_users, `[`, c("login", "name", "id","location"))
+iris_lab %>% 
+  mutate(across(.cols = !Species, round)) %>%
+  head()
 
 
 ## -----------------------------------------------------------------------------
-length(gh_repos)
-lengths(gh_repos)
+
+iris_lab %>% 
+  mutate(across(.cols = !Species, ~ round(.x, digits = 1))) %>%
+  head()
 
 
 ## -----------------------------------------------------------------------------
-map_chr(gh_repos, c(1,4,1))
+new_function = function(x){(x+2)/6}
+iris_lab %>% 
+  mutate(across(.cols = !Species, ~ new_function(.x))) %>%
+  head()
+
+
+## -----------------------------------------------------------------------------
+div_function <- function(x, y){(x/y)+ 3}
+
+
+## -----------------------------------------------------------------------------
+map2_dbl(iris_lab$Sepal.Length, iris_lab$Sepal.Width, div_function) %>%
+  head()
+
+
+## -----------------------------------------------------------------------------
+iris_lab %>%
+filter(if_all(starts_with(c("Petal", "Sepal")), ~.x > 2 & .x < 6))  %>%
+  head()
+
+
+## -----------------------------------------------------------------------------
+iris_lab <-iris_lab %>% 
+              as_tibble() %>%
+              modify_if(is.numeric, as.character)
+
+head(iris_lab)
 
