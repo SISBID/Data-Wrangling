@@ -138,42 +138,33 @@ head(dat)
 
 
 
-
-
-
-
-
-
 ## -----------------------------------------------------------------------------
 #install.packages("httr")
 library(httr)
 
-query_url = paste0("https://api.github.com/", "search/repositories", 
-                   "?q=created:2014-08-13", "+language:r", "+-user:cran")
+# Requests a random cat fact
+query_url = "https://thatcopy.pw/catapi/rest/"
 
 req = GET(query_url)
-names(content(req))
-
-
+content(req)
 
 
 ## ---- eval = FALSE------------------------------------------------------------
-## myapp = oauth_app("twitter",
-##                    key="yourConsumerKeyHere",secret="yourConsumerSecretHere")
-## sig = sign_oauth1.0(myapp,
-##                      token = "yourTokenHere",
-##                       token_secret = "yourTokenSecretHere")
-## homeTL = GET("https://api.twitter.com/1.1/statuses/home_timeline.json", sig)
+## # install.packages("twitteR")
+## library(twitteR)
+## # Supplied by Twitter
+## setup_twitter_oauth("API key", "API secret")
 ## 
-## # But you can get cool data
-## json1 = content(homeTL)
-## json2 = jsonlite::fromJSON(toJSON(json1))
-## json2[1,1:4]
+## searchTwitter("crab cake", geocode="39.290692,-76.610221,5mi")
 
 
 ## ---- eval = FALSE------------------------------------------------------------
-##                     created_at           id             id_str
-## 1 Mon Jan 13 05:18:04 +0000 2014 4.225984e+17 422598398940684288
-##                                                                                                                                          text
-## 1 Now that P. Norvig's regex golf IPython notebook hit Slashdot, let's see if our traffic spike tops the previous one: http://t.co/Vc6JhZXOo8
+## # install.packages("tidycensus")
+## library(tidycensus)
+## # Supplied by census.gov
+## census_api_key("YOUR API KEY GOES HERE")
+## 
+## get_decennial(geography = "state",
+##                        variables = "P013001", # code for median age
+##                        year = 2010)
 
