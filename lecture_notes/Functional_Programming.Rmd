@@ -18,18 +18,22 @@ library(tidyr)
 
 "R, at its heart, is a functional programming (FP) language. This means that it provides many tools for the creation and manipulation of functions. In particular, R has what’s known as first class functions. You can do anything with functions that you can do with vectors: you can assign them to variables, store them in lists, **pass them as arguments to other functions**, create them inside functions, and even return them as the result of a function." - [Hadley Wickham](http://adv-r.had.co.nz/Functional-programming.html)
 
+Don't need to write for-loops! - check this [video](https://www.youtube.com/watch?v=GyNqlOjhPCQ).
+
 Allows you to flexibly iterate functions to multiple elements of a data object!
 
 Useful when you want to apply a function to:  
  * lots of columns in a tibble  
  * multiple tibbles  
  * multiple data files  
+ * or perform fancy functions with vectors (or tibble columns)
  
-## working **`across`** mulptiple columns
+## Working **`across`** multiple columns
 
 Say we wanted to round multiple columns of the `mtcars` data. 
 We could do so one column at a time, or we could use the `across` function from the `dplyr` package.
 Needs to be used **within other dplyr functions** such as `mutate`.
+
 ```
 mutate(across(which_columns, which function or operation))
 ```
@@ -42,45 +46,60 @@ mtcars %>%
   head(2)
 ```
 
-## Using `across` with arguments 
-
-Need to use the `~` if you wish to pass arguments to the function that you are applying to the various columns.
+## functions in R
 
 ```{r}
+my_function <- function(x){x + 1}
+my_function
+```
+
+```{r}
+my_data  <- c(2,3,4)
+
+my_function(x = my_data)
+my_function(my_data)
+```
+
+## Special lamda use
+If you see `~ .x` (or sometimes just `.` is used instead of `.x`) this means function(x){x}  - in other words we are passing x to a function.
+
+For example - this is not necessary but you could use it here:
+```{r}
+mtcars %>% 
+  mutate(across(.cols = c(disp, drat, wt, qsec), ~ round(.x))) %>%
+  head(2)
+
 mtcars %>% 
   mutate(across(.cols = c(disp, drat, wt, qsec), round)) %>%
   head(2)
-
-mtcars %>% 
-  mutate(across(.cols = c(disp, drat, wt, qsec), ~ round(digits = 1))) %>%
-  head(2)
-
 ```
 
-## tidy select helpers
+## Using `across` with arguments 
 
-https://tidyselect.r-lib.org/reference/select_helpers.html  
-
-?tidyr_tidy_select
-
-* : range of consecutive variables  
-
-* ! ignore a variable  
-
-* everything(): Matches all variables.  
-
-* starts_with(): Starts with a prefix.  
-
-* ends_with(): Ends with a suffix.  
-
-* contains(): Contains a literal string.  
-
-* matches(): Matches a regular expression.  
-
-## Using across with helpers to apply function to multiple columns
+If you wish to also  pass arguments to the function that you are applying to the various columns, then you need to use the `~`  and `.x` (or `.`) as a place holder for what you the values you will be passing into the function.
 
 ```{r}
 
+round_x <- mtcars %>% 
+  mutate(across(.cols = c(disp, drat, wt, qsec), ~ round(.x, digits = 1)))
+
+head(round_x, 2)
+
+round_per <- mtcars %>% 
+  mutate(across(.cols = c(disp, drat, wt, qsec), ~ round(., digits = 1)))
+  
+head(round_per, 2)
+
+identical(round_x, round_per)
+
+```
+
+
+## Using across with helpers to apply function to multiple columns
+
+https://tidyselect.r-lib.org/reference/select_helpers.html  
+
+```{r}
 mtcars %>% 
   mutate(across(.cols = disp:qsec, round)) %>%
   head(2)
@@ -89,8 +108,68 @@ mtcars %>%
   mutate(across(.cols = everything(), round))%>%
   head(2)
 ```
+
+<!-- ## if_any() and if_all() -->
+
+<!-- ```{r} -->
+<!-- iris %>% -->
+<!--   filter(if_any(ends_with("Width"), ~ . > 4)) -->
+
+<!-- iris %>% -->
+<!--   filter(if_all(ends_with("Length"), ~ . > 6)) -->
+
+
+<!-- mtcars %>% -->
+<!--   filter(if_any(ends_with("t"), ~. > 4)) -->
+
+<!-- mtcars %>% -->
+<!--      filter(if_all(c(qsec, mpg, cyl, gear), ~. > 4)) -->
+
+<!-- ``` -->
+
+## `if_any()` and `if_all()` are also helpful!
+
+if_any() filters for rows any columns in listed columns meet the condition
+if_all() filters for rows if all columns in listed columns meet the condition
+
+```{r}
+diamonds %>%
+   filter(if_any(c(x, y, z), ~. > 11))
+
+diamonds %>%
+   filter(if_all(c(x, y, z), ~. > 8))
+
+```
+
+## Previously we filtered by many conditionals...2 general ways
+```{r}
+library(stringr)
+diamonds %>%
+    filter(str_detect(cut, "Ideal|Premium")) %>% head(2)
+
+diamonds %>%
+    filter(cut %in% c("Ideal", "Premium"), z > 4 , color == "E")
+```
+
+
+  
+## Now we can filter multiple columns for multiple conditions simultaneously
+
+```{r}
+diamonds %>%
+   filter(if_all(c(x, y, z), ~.x > 4 & .x < 5.5))
+
+diamonds %>%
+   filter(if_all(c(x, y, z), ~. == 0 | . > 8))
+```
+
+  
 ## `purrr` is also a super helpful package!
 
+"Designed to make your functions purrr."
+
+`dplyr` is designed for data frames
+`purr` is designed for vectors
 
 The `purrr` package can be very helpful!
 
@@ -98,9 +177,69 @@ The `purrr` package can be very helpful!
 
 * https://github.com/rstudio/cheatsheets/raw/master/purrr.pdf
 
+* https://jennybc.github.io/purrr-tutorial/ 
+
+
+## `purrr` main functions
+
+`map` and `map_*` and `modify`  
+- applies function to each element of vector or list  
+  
+`map2` and `map2*`  
+- applies function to each element of two vectors or lists
+  
+`pmap` and `pmap_*` 
+- applies function to each element of 3+ vectors or lists (requires a list for input)  
+
+the _* options specify the type of data output
+
+## map (and modify)
+![](https://dcl-prog.stanford.edu/images/map-step-2.png)
+
+```{r}
+x <-c(1.2,2.3,3.5,4.6)
+map(x, round) %>% unlist()
+x <-tibble(values = c(1.2,2.3,3.5,4.6))
+map_df(x,  round)
+```
+
+## map2
+Good if you need to use multiple vectors in a function together.
+
+![](https://dcl-prog.stanford.edu/images/map2.png)
+
+```{r}
+x <-c(1.2,2.3,3.5,4.6)
+y <-c(2.4,5.3, 6.4, 1.0)
+map2(x, y, min) %>% unlist()
+```
+
+
+## map2 in practice
+```{r}
+trees$new <- trees$Volume-3
+head(trees)
+map2_dbl(trees$Girth, trees$new, min) %>% head()
+map2_dbl(trees$Girth, trees$Height, function(x,y){ pi * ((x/2)/12)^2 * y})
+```
+
+## pmap {.smaller}
+
+![](https://dcl-prog.stanford.edu/images/pmap-list.png)
+```{r}
+pmap_list <-
+  list(x = c(1.2,2.3,3.5,4.6), y = c(2.4,5.3, 6.4, 1.0), z = c(2,9, 4, 11.0))
+
+pmap(pmap_list, min) %>% unlist()
+
+```
 
 
 ## `purrr` - apply function to all columns
+
+two options `map_df` or `modify` 
+
+Lots of variations of `map` based on output
 
 ```{r}
 library(purrr)
@@ -113,43 +252,51 @@ head(mtcars, 2)
    head(2)
 ```
 
-
-## `purrr` apply function to some 
-
-Using `modify_if()`, we can specify what columns to modify
+## It's a bit easier to pass arguments than across...
 
 ```{r}
-head(iris, 3)
-
-iris %>% 
-  modify_if(is.numeric, as.character) %>%
-  head(3)
-```
-
-## rowwise
-```{r}
-iris %>% 
-  mutate(new =Sepal.Length + Petal.Width + Petal.Length + Sepal.Width) %>%
-  head(2)
-
-iris %>% 
-  rowwise() %>%
-  mutate(new =sum(Sepal.Length:Petal.Width))
-  head(2)
-```
-
-
-## `pmap` from `purrr`
-```{r}
-iris %>%
-  pmap(paste) %>%
+ mtcars %>% 
+  map_df(round, digits = 1) %>%
   head()
 ```
+
+## `purrr` apply function to some columns like accross
+
+Using `modify_if()` or `map_if()`, we can specify what columns to modify
+
+```{r}
+head(as_tibble(iris), 3)
+
+as_tibble(iris) %>% 
+  modify_if(is.numeric, as.character) %>%
+  head(3)
+
+as_tibble(iris) %>% 
+  map_if(is.numeric, as.character) %>%
+  class()
+
+```
+
+
+## great example with split()
+
+```{r}
+mtcars %>%
+  split(.$cyl) %>%
+  map(~lm(mpg ~ wt, data = .)) %>%
+  map(summary) %>%
+  map_dbl("r.squared")
+```
+
+
+More on lists soon!!
+
+
 
 
 <!-- ## Examples we will use -->
 
- * https://jennybc.github.io/purrr-tutorial/ -->
+ <!-- * https://jennybc.github.io/purrr-tutorial/ --> -->
 
 <!-- * https://cran.r-project.org/web/packages/repurrrsive/index.html -->
 
@@ -217,15 +364,19 @@ mylist[[2]][1]
 mylist[[3]][1:2,1:2]
 ```
 
+
 ## How would I encounter lists? {.smaller}
 
 This comes up a lot in data cleaning and also when reading in multiple files!
 
 ```{r, message = FALSE}
 library(here)
+library(readr)
 list.files(here::here("data", "iris"), pattern = "*.csv")
 
 file_list <- paste0(here::here(), "/data/iris/", list.files(here::here("data", "iris"), pattern = "*.csv"))
+
+file_list
 
 multifile_data <- file_list %>%
   map(read_csv)
@@ -234,42 +385,54 @@ class(multifile_data)
 
 ```
 
-
 ## Reading in multiple files{.smaller}
-
-```{r, eval = FALSE}
-head(multifile_data[[1]], 3)
-dim(multifile_data[[1]])
-head(multifile_data[[2]], 3)
-dim(multifile_data[[2]])
-head(multifile_data[[3]], 3)
-dim(multifile_data[[3]])
-
-multifile_data[[2]] <- separate(multifile_data[[2]], 
-                            col =`Sepal.Length:Sepal.Width:Petal.Length:Petal.Width:Species`, 
-                         into = c("Sepal.Length", "Sepal.Width", 
-                                  'Petal.Length', "Petal.Width", "Species"), sep = ":")
-head(multifile_data[[2]], 3)
-
-multifile_data[[2]] <-multifile_data[[2]] %>% mutate(across(!Species, as.numeric))
-
-```
-
-
-## Reading in multiple files{.smaller}
-
-ldply combines results of applying a function to each element in a list into a data frame
-```{r, eval = FALSE}
-library(plyr)
-combined<-ldply(multifile_data)
-dim(combined)
-
-```
 
 ```{r}
+multifile_data[[1]]
+multifile_data[[2]]
+```
+
+## Reading in multiple files
+```{r}
+multifile_data[[3]]
+```
+
+## Fixing the second file
+
+```{r}
+multifile_data[[2]] <- 
+  separate(multifile_data[[2]], 
+       col =`Sepal.Length:Sepal.Width:Petal.Length:Petal.Width:Species`, 
+              into = c("Sepal.Length", "Sepal.Width", 
+                      'Petal.Length', "Petal.Width", "Species"), 
+       sep = ":")
+
+head(multifile_data[[2]], 3)
+
+multifile_data[[2]] <-
+  multifile_data[[2]] %>%
+  mutate(across(!Species, as.numeric))
+
+```
+
+
+## Reading in multiple files{.smaller}
+
+<!-- ldply combines results of applying a function to each element in a list into a data frame -->
+<!-- ```{r, eval = FALSE} -->
+<!-- library(plyr) -->
+<!-- combined<-ldply(multifile_data) -->
+<!-- dim(combined) -->
+
+<!-- ``` -->
+
+The `bind_rows()` function can be great for simply combining data.
+
+```{r}
+# bind_rows(multifile_data[[1]], multifile_data[[3]], multifile_data[[2]])
 bindrows_data <- multifile_data %>%
     map_df(bind_rows, .id = "experiment") # recall that modify keeps the same data type 
-# so that will not do what we want here because we want a data frame!
+# so that will not do what we want here because we want a data frame instead of a list!
 dim(bindrows_data)
 tail(bindrows_data, 2)
 ```
