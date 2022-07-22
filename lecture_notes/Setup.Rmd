@@ -123,3 +123,11 @@ You should now see files listed in your workspace (including some datasets we'll
 ```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
 ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_57")
 ```
+
+## Pause the Environment
+
+It's very important to stop your cloud environment when you are done so you don't accumulate too many charges. Between class sessions, you can click the pause button on the top right. This frees up resources for others!
+
+```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
+ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_66")
+```
