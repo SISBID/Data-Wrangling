@@ -59,7 +59,7 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 | 12:20-12:35 | Break                                        |                       |                                      |
 | 12:35-1:25  | [GitHub Concepts][18] ([PDF][19])            | [lab][20]             |                                      |
 | 1:25-1:40   | Break                                        |                       |                                      |
-| 1:40-2:30   |                                              | [GitHub Practice][21] |                                      |
+| 1:40-2:30   | IO, Reproducibility, Github (cont.)          | [GitHub Practice][21] |                                      |
 | **Day 2**   |                                              |                       |                                      |
 | 8:00-8:50   | [Data Subsetting Part 1][22] ([PDF][23])     | [lab][24]             | [lab key][25] / [lab key output][26] |
 | 8:50-9:05   | Break                                        |                       |                                      |
@@ -84,7 +84,7 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 [x1]: lecture_notes/Setup.html
 [x2]: lecture_notes/Setup.pdf
 [01]: https://docs.google.com/presentation/d/1aNFX9d0qLLfSW7nF4uOaE39D0ESlwenDg-1Ww9bDyJs/edit?usp=sharing
-[02]: lecture_notes/sisbid_intro_2021.pdf
+[02]: lecture_notes/sisbid_intro_2022.pdf
 [03]: lecture_notes/Data_IO_Part1.html
 [04]: lecture_notes/Data_IO_Part1.pdf
 [05]: labs/data-io-lab-part1.Rmd
@@ -101,7 +101,7 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 [16]: labs/rmarkdown-lab-key.Rmd
 [17]: labs/rmarkdown-lab-key.html
 [18]: https://docs.google.com/presentation/d/1HDgwTpnfdy0f_0RFuclBcA2ipu0UihwYLIsu_RT3QRg/edit?usp=sharing
-[19]: lecture_notes/sisbid_github_2021.pdf
+[19]: lecture_notes/sisbid_github_2022.pdf
 [20]: https://lab.github.com/githubtraining/introduction-to-github
 [21]: labs/github-lab.md
 
