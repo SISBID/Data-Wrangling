@@ -61,7 +61,7 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 | 1:25-1:40   | Break                                        |                       |                                      |
 | 1:40-2:30   |                                              | [GitHub Practice][21] |                                      |
 | **Day 2**   |                                              |                       |                                      |
-|             | [Setup][x3] ([PDF][x4])                      |                       |                                      |
+|             | [Updating files with GitHub][x3] ([PDF][x4]) |                       |                                      |
 | 8:00-8:50   | [Data Subsetting Part 1][22] ([PDF][23])     | [lab][24]             | [lab key][25] / [lab key output][26] |
 | 8:50-9:05   | Break                                        |                       |                                      |
 | 9:05-9:55   | [Data Subsetting Part 2][27] ([PDF][28])     | [lab][29]             | [lab key][30] / [lab key output][31] |
