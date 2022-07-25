@@ -15,7 +15,7 @@ library(visdat)
 
 1. Read in the the Charm City Circulator Dataset from "http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv" using `read_csv`, call it `circ`
 ```{r}
-circ = read_csv("http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv")
+circ <- read_csv("http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv")
 ```
 
 2. Print the number of rows of `circ`

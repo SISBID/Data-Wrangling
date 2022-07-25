@@ -8,7 +8,7 @@ library(readr)
 library(readxl)
 ```
 
-This lab uses different versions of the `iris` dataset.  For each question, click the `iris` file in the Files pane to open it in an RStudio window.
+This lab uses different versions of the `iris` dataset.  For each question, click the `iris` file in the Files pane to open it in an RStudio window. The file is in the data -> iris folder.
 
 You can see more about this dataset by running `?iris` in the console.
 
