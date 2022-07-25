@@ -14,9 +14,8 @@ library(tidyverse)
 library(visdat)
 # suppressPackageStartupMessages(library(dplyr))
 knitr::opts_chunk$set(comment = "")
-ufo = read_csv("../data/ufo/ufo_data_complete.csv")
+ufo <-read_csv("../data/ufo/ufo_data_complete.csv")
 ```
-
 
 ## What did I just read in?
 
@@ -38,6 +37,11 @@ dim(ufo)
 colnames(ufo)
 ```
 
+## Structure using `str()`
+
+```{r, str}
+str(ufo)
+```
 
 ## Data Input
 
@@ -52,62 +56,33 @@ head(problems(ufo))
 dim(problems(ufo))
 ```
 
-## Data Input
-
-* The `spec()` functions show you the specification of how the data was read in.
-
-```{r spec}
-# Use cols_condense(spec(ufo)) for a summary
-spec(ufo)
-```
-
-## Data Input
-
-Specification can be passed to `readr` functions:
-
-```{r col_types}
-ufo_char = read_csv("../data/ufo/ufo_data_complete.csv", col_types = cols(
-  .default = col_character()
-))
-dim(problems(ufo_char))
-```
-
-## Data Input: Checking for problems
-
-* The `stop_for_problems()` function will stop if your data had an error when reading in.  If this occurs, you can use `col_types` (from `spec()`) for the problematic columns:
-
-```{r stop_problems2, eval=FALSE}
-stop_for_problems(ufo)
-```
-
-## Missing data with the `vizdat`/`naniar` packages
+## Missing data with the `vizdat`/`naniar` packages {.codesmall}
 
 The `vis_dat` function can give you an overview 
 
-```{r vis_dat}
+```{r vis_dat, warning=FALSE}
 library(visdat)
-ufo_samp = ufo %>% sample_n(size = 1000) # Subset for big data
+ufo_samp <- ufo %>% sample_n(size = 1000) # Subset for big data
 vis_dat(ufo_samp)
 ```
 
 ## Missing data with the `vizdat`/`naniar` packages
 
-
 ```{r vis_miss}
 vis_miss(ufo_samp)
 ```
 
-## Missing data with the `vizdat`/`naniar` packages
+## Missing data with the `vizdat`/`naniar` packages {.codesmall}
 
-```{r}
+```{r warning=FALSE}
 library(naniar)
 gg_miss_var(ufo)
 ```
 
-
 ## Missing data with the `vizdat`/`naniar` packages
 
 `miss_case_summary` which rows have missing data in order
+
 ```{r}
 miss_case_summary(ufo)
 ```
@@ -135,7 +110,7 @@ write_rds(ufo, file = "ufo_dataset.rds", compress = "xz")
 To read this back in to R, you need to use `read_rds`, but **need to assign it**:
 
 ```{r}
-ufo3 = read_rds(file = "ufo_dataset.rds")
+ufo3 <- read_rds(file = "ufo_dataset.rds")
 identical(ufo, ufo3) # test if they are the same 
 ```
 
@@ -146,10 +121,6 @@ The `save` command can save a set of `R` objects into an "R data file", with the
 ```{r, message = FALSE}
 x = 5
 save(ufo, x, file = "ufo_data.rda")
-```
-
-```{r, echo = FALSE, out.width="100%"}
-knitr::include_graphics("media/IO_save.png")
 ```
 
 ## More ways to save: load
@@ -166,10 +137,6 @@ While its nice to be able to read in a variety of data formats, it's equally imp
 
 `write_delim()`: Write a data frame to a delimited file
 "This is about twice as fast as write.csv(), and never writes row names."
-
-```{r}
-args(readr::write_delim)
-```
 
 ## Data Output
 
@@ -188,7 +155,6 @@ For example, we can write back out just the first 100 lines of the `ufo` dataset
 
 ```{r writecsv}
 write_delim(ufo[1:100,], file = "ufo_first100.csv", delim = ",")
-# same as write_csv(ufo[1:100,], file = "ufo_first100.csv")
 ```
 
 ```{r, include = FALSE}

@@ -52,3 +52,7 @@ strong {
 .right-half{ 
   float: right; width: 48%; 
 }
+
+.codesmall pre {
+    font-size: 16px;
+}
