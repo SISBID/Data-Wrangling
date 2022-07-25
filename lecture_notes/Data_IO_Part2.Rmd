@@ -1,0 +1,165 @@
+---
+title: "Data I/O + Structure"
+author: "Data Wrangling in R"
+output:
+  ioslides_presentation:
+    css: styles.css
+    widescreen: yes
+  beamer_presentation: default
+---
+
+```{r, include = FALSE}
+library(knitr)
+library(tidyverse)
+library(visdat)
+# suppressPackageStartupMessages(library(dplyr))
+knitr::opts_chunk$set(comment = "")
+ufo <-read_csv("../data/ufo/ufo_data_complete.csv")
+```
+
+## What did I just read in?
+
+* `nrow()` displays the number of rows of a data frame
+* `ncol()` displays the number of columns 
+* `dim()` displays a vector of length 2: # rows, # columns
+
+```{r, dims}
+nrow(ufo)
+ncol(ufo)
+dim(ufo)
+```
+
+## All Column Names
+
+* `colnames()` displays the column names 
+
+```{r, colnames}
+colnames(ufo)
+```
+
+## Structure using `str()`
+
+```{r, str}
+str(ufo)
+```
+
+## Data Input
+
+* Sometimes you get weird messages when reading in data.
+* The problems()` function shows you any issues with the data read-in.
+
+```{r stop_problems}
+head(problems(ufo))
+```
+
+```{r}
+dim(problems(ufo))
+```
+
+## Missing data with the `vizdat`/`naniar` packages {.codesmall}
+
+The `vis_dat` function can give you an overview 
+
+```{r vis_dat, warning=FALSE}
+library(visdat)
+ufo_samp <- ufo %>% sample_n(size = 1000) # Subset for big data
+vis_dat(ufo_samp)
+```
+
+## Missing data with the `vizdat`/`naniar` packages
+
+```{r vis_miss}
+vis_miss(ufo_samp)
+```
+
+## Missing data with the `vizdat`/`naniar` packages {.codesmall}
+
+```{r warning=FALSE}
+library(naniar)
+gg_miss_var(ufo)
+```
+
+## Missing data with the `vizdat`/`naniar` packages
+
+`miss_case_summary` which rows have missing data in order
+
+```{r}
+miss_case_summary(ufo)
+```
+
+## Missing data with the `vizdat`/`naniar` packages
+
+`miss_var_summary` which variables have missing data
+
+```{r}
+miss_var_summary(ufo)
+```
+
+# After hours of cleaning...
+
+## More ways to save: write_rds
+
+If you want to save **one** object, you can use `readr::write_rds` to save to a compressed `rds` file:
+
+```{r}
+write_rds(ufo, file = "ufo_dataset.rds", compress = "xz")
+```
+
+## More ways to save: `read_rds`
+
+To read this back in to R, you need to use `read_rds`, but **need to assign it**:
+
+```{r}
+ufo3 <- read_rds(file = "ufo_dataset.rds")
+identical(ufo, ufo3) # test if they are the same 
+```
+
+## More ways to save: `save`
+
+The `save` command can save a set of `R` objects into an "R data file", with the extension `.rda` or `.RData`.  
+
+```{r, message = FALSE}
+x = 5
+save(ufo, x, file = "ufo_data.rda")
+```
+
+## More ways to save: load
+
+The opposite of `save` is `load`.  The `ls()` command lists the items in the workspace/environment and `rm()` removes them
+
+```{r, eval = FALSE}
+load(file = "ufo_data.rda")
+```
+
+## Data Output
+
+While its nice to be able to read in a variety of data formats, it's equally important to be able to output data somewhere.
+
+`write_delim()`: Write a data frame to a delimited file
+"This is about twice as fast as write.csv(), and never writes row names."
+
+## Data Output
+
+`x`: A data frame to write to disk
+
+`file`: the file name where you want to R object written. It can be an absolute path, or a filename (which writes the file to your working directory)
+
+`delim`: what character separates the columns?  
+  
+  * `","` = .csv - Note there is also a `write_csv()` function
+  * `"\t"` = tab delimited
+
+## Data Output
+
+For example, we can write back out just the first 100 lines of the `ufo` dataset:
+
+```{r writecsv}
+write_delim(ufo[1:100,], file = "ufo_first100.csv", delim = ",")
+```
+
+```{r, include = FALSE}
+file.remove("ufo_dataset.rds")
+file.remove("ufo_data.RData")
+file.remove("ufo_data.rda")
+file.remove("ufo_first100.csv")
+```

@@ -1,0 +1,59 @@
+---
+title: "R markdown lab"
+output: html_document
+---
+
+1. Try compiling this document using the "Knit HTML" button. What files are produced?
+2. Edit the output to be "pdf_document" and recompile. What files are produced?
+3. Edit the output to be "word_document" and recompile. What files are produced?
+4. What does the label "chunk1" do in the following code chunk?
+
+
+```{r chunk1}
+x = rnorm(100)
+plot(x)
+```
+
+### This is a primary header. Add a secondary header with ## on the line below and recompile.
+
+
+5. Change fig.height to something larger/smaller and see what happens
+
+```{r chunk2, fig.height=5}
+x = rnorm(100)
+plot(x)
+```
+
+6. Add a chunk option of fig.align="center" to center this plot
+
+```{r chunk3, fig.align="center" }
+x = rnorm(100)
+plot(x)
+```
+
+7. Add a chunk option of echo=FALSE and see what happens
+
+```{r chunk4, echo=FALSE }
+x = rnorm(100)
+plot(x)
+```
+
+8. Uncomment this code and recompile the document. Then add a chunk command cache=TRUE and recompile. What files are created? Try compiling one more time. 
+
+```{r longtime, cache=TRUE}
+#Sys.sleep(10)
+```
+
+9. Check out the docs at: http://rmarkdown.rstudio.com/ and look under formats. See if you can create and compile an R markdown presentation. How about a parameterized report?
+
+10. Add the command devtools::session_info() to this chunk and look at the output
+
+```{r session_info}
+devtools::session_info()
+```
+
+
+
+
+
+

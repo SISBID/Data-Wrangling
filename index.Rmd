@@ -1,56 +1,160 @@
 ---
+title: "SISBID Module 1"
 output:
   html_document:
     theme: cosmo
+  pdf_document: default
 ---
 
-SISBID: Module 1 Accessing Biomedical Data
-=============
+## Data Wrangling with R
 
-Instructors: 
+**Instructors:** [Carrie Wright](https://carriewright11.github.io) and [Ava Hoffman](https://www.avahoffman.com/)
 
-* [Raphael Gottardo](http://www.rglab.org/)
-* [Jeff Leek](http://www.jtleek.com/)
+**Class Schedule:**
 
-Teaching assitants:
+* M/T: 8am-2:30pm PST, W: 8am-11am PST
 
-* [Jean Morrison](http://students.washington.edu/jeanm5/)
-* [Brian Williamson](http://students.washington.edu/brianw26/)
+* Location: Zoom (see class email for link)
 
+**Software:**
 
-Class Schedule:
-
-* [Daily schedule](http://www.biostat.washington.edu/suminst/sisbid/schedule)
-* [Location](http://www.biostat.washington.edu/suminst/sisbid/maps)
-
-
-# Resources
-
-* [Rstudio](http://www.rstudio.com/)
 * [R project](http://www.r-project.org/)
+* [RStudio](http://www.rstudio.com/)
+* [AnVIL (cloud)](https://anvil.terra.bio/)
+* [AnVIL (site)](https://anvilproject.org/)
 * [Bioconductor](http://bioconductor.org/)
+* [Tidyverse](https://www.tidyverse.org/)
+* [GitHub](https://github.com/)
 
-# Schedule
+<!--
+**Resources:**
 
-| Day  | Date  |  Session | Resources  |  Description |
-|---|---|---|---|---|
-| 0  | 2015-06-15  | Background  | [Try R](http://tryr.codeschool.com/)  | Really simple intro to R online  |
-| 0  | 2015-06-15  | Background | [swirl](http://swirlstats.com/)  | More tutorials on R, in R  |
-|1 | 2015-06-30 | 8:30AM - 10:00AM | [html slides](lecture_notes/welcome.html) [pdf slides](lecture_notes/welcome.pdf) | Lecture slides for morning session|
+* [Rstudio Cloud Class Project Homepage](https://rstudio.cloud/spaces/21228/projects)
+* [Rstudio's cheatsheets](http://www.rstudio.com/resources/cheatsheets/) 
+* [R for Data Science](http://r4ds.had.co.nz/)
+* [JHU Cloud-Based Data Science](https://leanpub.com/universities/set/jhu/cloud-based-data-science)
+* [Git for Humans](https://speakerdeck.com/alicebartlett/git-for-humans)
+* [GitHub Labs](https://lab.github.com/)
+* [swirl](http://swirlstats.com/)
+* [Datacamp](http://datacamp.com/)
+
+Please read this to setup your installation of R, git, and install required R packages
+https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
+--> 
+
+**Schedule**
+
+|             | **Lecture**                                  | **Lab**               | **Lab Key**                          |
+|-------------|----------------------------------------------|-----------------------|--------------------------------------|
+| **Day 0**   |                                              |                       |                                      |
+|             | [Setup][x1] ([PDF][x2])                      |                       |                                      |
+| **Day 1**   |                                              |                       |                                      |
+| 8:00-8:50   | [Introduction][01] ([PDF][02])               |                       |                                      |
+| 8:50-9:05   | Break                                        |                       |                                      |
+| 9:05-9:55   | [Data Input/Output Part 1][03] ([PDF][04])   | [lab][05]             | [lab key][06] / [lab key output][07] |
+| 9:55-10:10  | Break                                        |                       |                                      |
+| 10:10-11:00 | [Data Input/Output Part 2][08] ([PDF][09])   | [lab][10]             | [lab key][11] / [lab key output][12] |
+| 11:00-11:30 | Break                                        |                       |                                      |
+| 11:30-12:20 | [Reproducible Research][13] ([PDF][14])      | [lab][15]             | [lab key][16] / [lab key output][17] |
+| 12:20-12:35 | Break                                        |                       |                                      |
+| 12:35-1:25  | [GitHub Concepts][18] ([PDF][19])            | [lab][20]             |                                      |
+| 1:25-1:40   | Break                                        |                       |                                      |
+| 1:40-2:30   | IO, Reproducibility, Github (cont.)          | [GitHub Practice][21] |                                      |
+| **Day 2**   |                                              |                       |                                      |
+| 8:00-8:50   | [Data Subsetting Part 1][22] ([PDF][23])     | [lab][24]             | [lab key][25] / [lab key output][26] |
+| 8:50-9:05   | Break                                        |                       |                                      |
+| 9:05-9:55   | [Data Subsetting Part 2][27] ([PDF][28])     | [lab][29]             | [lab key][30] / [lab key output][31] |
+| 9:55-10:10  | Break                                        |                       |                                      |
+| 10:10-11:00 | [Data Summarization][32] ([PDF][33])         | [lab][34]             | [lab key][35] / [lab key output][36] |
+| 11:00-11:30 | Break                                        |                       |                                      |
+| 11:30-12:20 | [Data Cleaning][37] ([PDF][38])              | [lab][39]             | [lab key][40] / [lab key output][41] |
+| 12:20-12:35 | Break                                        |                       |                                      |
+| 12:35-1:25  | [Data Reshaping][42] ([PDF][43])             | [lab][44]             | [lab key][45] / [lab key output][46] |
+| 1:25-1:40   | Break                                        |                       |                                      |
+| 1:40-2:30   | [Data Merging and Joining][47] ([PDF][48])   | [lab][49]             | [lab key][50] / [lab key output][51] |
+| **Day 3**   |                                              |                       |                                      |
+| 8:00-8:50   | [Advanced Data Input/Output][52] ([PDF][53]) | [lab][54]             | [lab key][55] / [lab key output][56] |
+| 8:50-9:05   | Break                                        |                       |                                      |
+| 9:05-9:55   | [Functionally Programming][57] ([PDF][58])   | [lab][59]             | [lab key][60] / [lab key output][61] |
+| 9:55-10:10  | Break                                        |                       |                                      |
+| 10:10-11:00 | [Bioconductor for Genomics][62] ([PDF][63])  |                       |                                      |
+|             | [Wrap Up][64] ([PDF][65])                    |                       |                                      |
 
 
-<!-- Add links to the rest of the material as we go
+[x1]: lecture_notes/Setup.html
+[x2]: lecture_notes/Setup.pdf
+[01]: https://docs.google.com/presentation/d/1aNFX9d0qLLfSW7nF4uOaE39D0ESlwenDg-1Ww9bDyJs/edit?usp=sharing
+[02]: lecture_notes/sisbid_intro_2022.pdf
+[03]: lecture_notes/Data_IO_Part1.html
+[04]: lecture_notes/Data_IO_Part1.pdf
+[05]: labs/data-io-lab-part1.Rmd
+[06]: labs/data-io-lab-part1-key.Rmd
+[07]: labs/data-io-lab-part1-key.html
+[08]: lecture_notes/Data_IO_Part2.html
+[09]: lecture_notes/Data_IO_Part2.pdf
+[10]: labs/data-io-lab-part1.Rmd
+[11]: labs/data-io-lab-part2-key.Rmd
+[12]: labs/data-io-lab-part2-key.html
+[13]: https://docs.google.com/presentation/d/1qorxqdmHxo1jzU0OlRrtRqFPF2k5auoZ-9L2pk_thSg/edit?usp=sharing
+[14]: lecture_notes/sisbid_rep_research_2021.pdf
+[15]: labs/rmarkdown-lab.Rmd
+[16]: labs/rmarkdown-lab-key.Rmd
+[17]: labs/rmarkdown-lab-key.html
+[18]: https://docs.google.com/presentation/d/1HDgwTpnfdy0f_0RFuclBcA2ipu0UihwYLIsu_RT3QRg/edit?usp=sharing
+[19]: lecture_notes/sisbid_github_2022.pdf
+[20]: https://lab.github.com/githubtraining/introduction-to-github
+[21]: labs/github-lab.md
 
+[22]: lecture_notes/Data_Subsetting_Part1.html
+[23]: lecture_notes/Data_Subsetting_Part1.pdf
+[24]: labs/data-subsetting-lab-part1.Rmd
+[25]: labs/data-subsetting-lab-part1-key.Rmd
+[26]: labs/data-subsetting-lab-part1-key.html
+[27]: lecture_notes/Data_Subsetting_Part2.html
+[28]: lecture_notes/Data_Subsetting_Part2.pdf
+[29]: labs/data-subsetting-lab-part2.Rmd
+[30]: labs/data-subsetting-lab-part2-key.Rmd
+[31]: labs/data-subsetting-lab-part2-key.html
+[32]: lecture_notes/Data_Summarization.html
+[33]: lecture_notes/Data_Summarization.pdf
+[34]: labs/data-summarization-lab.Rmd
+[35]: labs/data-summarization-lab-key.Rmd
+[36]: labs/data-summarization-lab-key.html
+[37]: lecture_notes/Data_Cleaning.html
+[38]: lecture_notes/Data_Cleaning.pdf
+[39]: labs/data-cleaning-lab.Rmd
+[40]: labs/data-cleaning-lab-key.Rmd
+[41]: labs/data-cleaning-lab-key.html
+[42]: lecture_notes/Data_Reshaping.html
+[43]: lecture_notes/Data_Reshaping.pdf
+[44]: labs/data-reshaping-lab.Rmd
+[45]: labs/data-reshaping-lab-key.Rmd
+[46]: labs/data-reshaping-lab-key.html
+[47]: lecture_notes/Merging_Join.html
+[48]: lecture_notes/Merging_Join.pdf
+[49]: labs/merging-lab.Rmd
+[50]: labs/merging-lab-key.Rmd
+[51]: labs/merging-lab-key.html
 
+[52]: lecture_notes/Advanced_Data_IO.html
+[53]: lecture_notes/Advanced_Data_IO.pdf
+[54]: labs/advanced-io-lab.Rmd
+[55]: labs/advanced-io-lab-key.Rmd
+[56]: labs/advanced-io-lab-key.html
+[57]: lecture_notes/Functional_Programming.html
+[58]: lecture_notes/Functional_Programming.pdf
+[59]: labs/functional-program-lab.Rmd
+[60]: labs/functional-program-lab-key.Rmd
+[61]: labs/functional-program-lab-key.html
+[62]: lecture_notes/Bioconductor_intro.html
+[63]: lecture_notes/Bioconductor_intro.pdf
+[64]: https://docs.google.com/presentation/d/1GQVit8AtSVhzGShtU95wt6uFma3ibFScwCJRQQVFe4w/edit?usp=sharing
+[65]: lecture_notes/sisbid_wrap_up_2021.pdf
 
--->
-
-# Miscellaneous
+**Miscellaneous**
 
 Feel free to submit typos/errors/etc via the github repository associated with the class: 
-https://github.com/SISBID/Module1
-
-This web-page is modified from Andrew Jaffe's [Summer 2015 R course](http://www.aejaffe.com/summerR_2015/), which also has great material (some overlapping with ours).
+https://github.com/SISBID/Data-Wrangling
 
 ```{r, eval = FALSE, echo = FALSE}
 ## Render this file:

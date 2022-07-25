@@ -1,0 +1,32 @@
+---
+title: "Regex Lab"
+author: "Jeff Leek"
+date: "July 8, 2015"
+output: html_document
+---
+
+
+1. Create a regular expression that finds any sentence with SISBID regardless of capitalization. To help you test it here is a character you can use with `str_detect`: 
+
+```{r}
+x = c("SISBID","SiSBID","sisbid","sisBID")
+```
+
+2. You can use `{n}` to match the previous pattern exactly n times. Try to create an expression that finds any statement with exactly three repeated 3's in it. To help you test it here is a character you can use with `str_detect`:
+
+```{r}
+x = c(333,33,3,33333)
+```
+
+3. You can use `{n,m}` to match a pattern between n and m times or `{n,}` to match a pattern at least n times. Try to create an expression that finds between 2 and 4 repeated f's. To help you test it here is a character you can use with `str_detect`:
+
+```{r}
+x = c("jeff","jeffff","jef","je","j","jefffffff")
+```
+
+4. There are also character classes built in that you can use. For example "[:punct:]" finds all punctuation and "[:alpha:]" is an alphanumeric character. Try to create an expression that matches the pattern of a letter followed by punctuation at the end of the line. To help you test it here is a character you can use with `str_detect`:
+
+```{r}
+x = c("yes.","no","why1",",ok")
+```
+

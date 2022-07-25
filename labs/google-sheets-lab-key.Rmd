@@ -1,0 +1,38 @@
+---
+title: "Google Sheets"
+output: html_document
+---
+
+```{r, include=FALSE}
+library(tidyverse)
+library(httr)
+library(jsonlite)
+library(googlesheets4)
+```
+
+This is a lab to practice with Google Sheets and the `googlesheets` package.
+
+1. We are going to use a sheet from previous years: https://docs.google.com/spreadsheets/d/1KIRtcPVn58R3_qr97WNtcOJiY4AaytHzGDzLW_3_R1s/edit?usp=sharing
+
+```{r}
+sheet_url = "https://docs.google.com/spreadsheets/d/1KIRtcPVn58R3_qr97WNtcOJiY4AaytHzGDzLW_3_R1s/edit?usp=sharing"
+```
+
+
+2. Use the `googlesheets4::read_sheet` function to read in the data like we discussed in class, call this object `x`.
+```{r}
+x = googlesheets4::read_sheet(sheet_url)
+```
+
+3. Using `sheet_names` function to get the sheet names from the `sheet_url`.
+```{r}
+googlesheets4::sheet_names(sheet_url)
+```
+
+
+4. Try reading in just the first two columns. See the `range` argument and look at the arguments for `cell_rows`, `cell_limits` and `cell_cols`.
+```{r}
+googlesheets4::read_sheet(sheet_url, range =  cell_cols(1:2))
+googlesheets4::read_sheet(sheet_url, range =  cell_cols("A:B"))
+
+```

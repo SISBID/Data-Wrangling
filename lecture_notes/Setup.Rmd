@@ -1,0 +1,133 @@
+---
+title: "Setup on AnVIL"
+author: "Data Wrangling in R"
+output:
+  ioslides_presentation:
+    css: styles.css
+    widescreen: yes
+---
+
+```{r, echo = FALSE, include=FALSE, purl=FALSE}
+library(knitr)
+opts_chunk$set(comment = "")
+```
+
+```{r, include=FALSE}
+library(tidyverse)
+```
+
+## Setup on AnVIL 
+
+1. You need to sign into Terra with your Google account. This is the only way you can launch applications and perform computations on AnVIL. Launch AnVIL at [https://anvil.terra.bio/](https://anvil.terra.bio/), and you should be prompted to sign in with your Google account.
+
+```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
+ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.p")
+```
+
+## Setup on AnVIL 
+
+⚠️ Make sure you provide your Google login information to the instructor! ⚠️ 
+
+## Setup on AnVIL 
+
+Go to the Class Workspace at [https://anvil.terra.bio/#workspaces/data-wrangling-workshop/SISBID-data-wrangling-2022](https://anvil.terra.bio/#workspaces/data-wrangling-workshop/SISBID-data-wrangling-2022)
+
+```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
+ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_0_2")
+```
+
+## Clone the Workspace
+
+Click on the teardrop button and select "Clone".
+
+```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
+ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_0_8")
+```
+
+## Clone the Workspace
+
+Name your Workspace (use your name!) and select the "SISBID-Wrangling-2022-student" billing project.
+
+```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
+ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_0_15")
+```
+
+## Launch RStudio
+
+Once in your newly cloned Workspace, you can launch the cloud instance! Click on "Cloud Environment" on the top right.
+
+```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
+ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_0")
+```
+
+## Launch RStudio
+
+Click "CUSTOMIZE".
+
+```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
+ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_5")
+```
+
+## Launch RStudio
+
+From the "Application configuration" menu, select "RStudio 4.2.0, Bioconductor 3.15, Python 3.8.10".
+
+```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
+ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_12")
+```
+
+## Launch RStudio
+
+Click "CREATE". Your Cloud Environment will take a few minutes to spin up.
+
+```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
+ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_18")
+```
+
+## Open RStudio
+
+Click on "OPEN RSTUDIO" when the environment is ready.
+
+```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
+ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_24")
+```
+
+## Create the Project
+
+Once in RStudio, select the "New Project" button.
+
+```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
+ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_30")
+```
+
+## Create the Project
+
+Select "Version Control".
+
+```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
+ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_36")
+```
+
+## Create the Project
+
+Enter the URL : [https://github.com/SISBID/Data-Wrangling](https://github.com/SISBID/Data-Wrangling). Make sure the Project is a subdirectory of `~`. Click "Create Project".
+
+```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
+ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_48")
+```
+
+## Create the Project
+
+You should now see files listed in your workspace (including some datasets we'll be using). Feel free to change any files here - they are yours now! For the most up-to-date versions of files, please visit the website: http://sisbid.github.io/Data-Wrangling/.
+
+```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
+ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_57")
+```
+
+## Pause the Environment
+
+It's very important to stop your cloud environment when you are done so you don't accumulate too many charges. Between class sessions, you can click the pause button on the top right. This frees up resources for others!
+
+```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
+ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_66")
+```

@@ -1,0 +1,45 @@
+---
+title: "dplyr Lab"
+author: "Data Wrangling in R"
+output: html_document
+---
+
+1. Download the samples data on the 1,000 genomes project: (https://sisbid.github.io/Data-Wrangling/labs/1000genomes.xlsx).
+
+```{r}
+
+```
+
+2. Open the sheet and look at the information listed. Go to the sheet _Final Phase Sequence Data_
+
+```{r}
+
+```
+
+3. Read the _Final Phase Sequence Data_ sheet. Only read the data for the low coverage samples.  
+
+```{r}
+
+```
+4. Calculate total sequence by platform
+
+```{r}
+
+```
+5. Do the same thing by sequencing center
+
+```{r}
+
+```
+6. Find the subset of samples that passed QC. 
+```{r}
+
+```
+7. Find the subset that passed QC and came from the BCM center
+```{r}
+
+```
+8. Calculate the average aligned coverage for each population on the subset of samples that passed QC that came from the BCM. 
+```{r}
+
+```

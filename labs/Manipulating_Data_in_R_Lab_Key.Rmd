@@ -1,0 +1,76 @@
+---
+title: "Data Reshaping Lab"
+author: "Data Wrangling in R"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+1.  Read in the Circulator Data from http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv.  Name the data set `wide`.
+
+
+```{r, message = FALSE}
+wide = read_csv(
+  paste0("http://sisbid.github.io/Data-Wrangling/",
+         "data/Charm_City_Circulator_Ridership.csv"))
+head(wide, 2)
+class(wide$date)
+```
+
+
+2. Reshape `wide` using `gather.`  Call this data `long.`  Make the `key`
+`variable`, and the value `n_people`  Make sure we gather all columns **but**
+`daily`, `day`, `date`, using things like `-day`. Table `long$day`
+
+```{r}
+long = wide %>% 
+  gather(key = "variable", value = "n_people", -daily, -day, -date)
+head(long$day)
+```
+
+
+3.  Separate the `date` column into ("month", "day", "year") using a sep of "/"
+Make sure you don't remove the `date` column, call this `long2`.  Do a table of the day column.  Where did the original `day` column go?
+```{r}
+long2 = separate(long, col = "date", into = c("month", "day", "year"), 
+                sep = "/", remove = FALSE)
+table(long2$day)
+```
+
+4. Create a new variable in `long2` calling it `newdate` using the `unite` function.  Unite the year, month, day, columns using a hyphen (`-`) and then `table` `road_hyphen`
+```{r}
+long2 = unite(long2, col = "newdate", year, month, day, sep = "-")
+head(long2)
+```
+
+```{r}
+long = long %>% 
+  mutate(
+    variable = variable %>% 
+      str_replace("Board", "_Board") %>% 
+      str_replace("Alight", "_Alight") %>% 
+      str_replace("Average", "_Average") 
+  )
+```
+
+3.  Separate the `variable` column from `long` (not `long2`) into ("route", "type") using a sep of "_"
+```{r}
+long = separate(long, col = "variable", into = c("route", "type"), 
+                sep = "_")
+```
+
+5. Reshape `long` (not `long2`) using `spread.`  Spread the data where the `route` and we want the value in the new columns to be `n_people` .  Call this `wide_by_route`
+
+```{r}
+wide_by_route = spread(long, key = route, value = n_people)
+```
+
+

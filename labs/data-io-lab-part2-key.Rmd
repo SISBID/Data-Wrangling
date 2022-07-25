@@ -1,0 +1,51 @@
+---
+title: "Data I/O Lab, Part 1"
+output: html_document
+---
+
+In this lab you can use the interactive console to explore but please record your commands here.  Remember anything you type here can be "sent" to the console with Cmd-Enter (OS-X) or Cntr-Enter (Windows/Linux) (But only in side the ```{r}``` areas).
+
+```{r, message = FALSE}
+library(dplyr)
+library(tidyverse)
+library(naniar)
+library(visdat)
+```
+
+
+1. Read in the the Charm City Circulator Dataset from "http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv" using `read_csv`, call it `circ`
+```{r}
+circ <- read_csv("http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv")
+```
+
+2. Print the number of rows of `circ`
+```{r}
+nrow(circ)
+```
+
+3. Visualize the missing data patterns of `circ` with `vis_miss`:
+```{r}
+vis_miss(circ)
+```
+
+4. Determine the percent missing in each column using `miss_var_summary`
+
+```{r}
+miss_var_summary(circ)
+```
+
+5. Determine the number missing in each column using `gg_miss_var`:
+```{r}
+gg_miss_var(circ)
+```
+
+6. Write out `circ` to a file called "Circulator.csv" using `write_csv`:
+```{r}
+write_csv(circ, "Circulator.csv")
+```
+
+7. Write out `circ` to a file called "Circulator.rds" using `write_rds`:
+
+```{r}
+write_rds(circ, "Circulator.rds")
+```

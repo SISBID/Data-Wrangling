@@ -1,0 +1,67 @@
+---
+title: "Data Reshaping Lab"
+author: "Data Wrangling in R"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+1.  Read in the Circulator Data from http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv.  Name the data set `wide`.
+
+```{r, message = FALSE}
+
+
+```
+
+2. Reshape wide using `pivot_wider`. Call this data `long.`  Make the `names_to = `
+`variable`, and the value `n_people`  Make sure we gather all columns **but**
+`daily`, `day`, `date`, using the `!`.
+
+```{r}
+
+
+```
+
+3.  Separate the `date` column into ("month", "day", "year") using a sep of "/"
+Make sure you don't remove the `date` column, call this `long2`.  Do a table of the day column.  Where did the original `day` column go?
+
+```{r}
+
+
+```
+
+4. Create a new variable in `long2` calling it `newdate` using the `unite` function.  Unite the year, month, day, columns using a hyphen (`-`) and then `table` the new column `newdate`
+
+```{r}
+
+
+```
+
+5. Use `str_replace()` on `long` (not `long2`) to replace "Board" with "_Board", "Alight" with "_Alight", and "Average" with "_Average".
+
+```{r, error = TRUE}
+
+
+```
+
+6.  Separate the `variable` column from `long` into ("route", "type") using a sep of "_".
+
+```{r}
+
+
+```
+
+7. Reshape `long` (not `long2`) using `pivot_wider`.  Spread the data out so the `route` becomes the new column name and the cells are filled with the `n_people` value.  Call this `wide_by_route`.
+
+```{r}
+
+
+```

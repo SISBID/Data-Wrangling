@@ -1,0 +1,37 @@
+---
+title: "Web + API Lab"
+author: ""
+date: "July 6, 2015"
+output: html_document
+---
+
+### Web scraping
+
+In this exercise we will be scraping data from the 2019 World Cup (that was totally just won by the amazing US Women's team :)). 
+
+
+
+1. Go to the website https://www.espn.com/soccer/league/_/name/fifa.wwc
+2. View the source to see how the page is structured, can you find the standings table in the HTML code?
+3. Inspect the element and try to find the Xpath for the table for the standings. 
+4. Adapt the code we learned to scrape the standings table. 
+6. Go to https://www.bioconductor.org/packages/release/BiocViews.html#___Software
+7. Try to find the table of packages in the source code. 
+8. Can you figure out why it is or isn't there? 
+
+
+### APIs
+
+Let's play around with the Ensembl API (http://rest.ensembl.org/) for extracting informtion. This is an open API so you don't need a developer account. 
+
+1. Download information on _Oct4_ from Ensembl using this call:
+```{r,eval=FALSE}
+library(jsonlite)
+oct4_dat = fromJSON("http://rest.ensembl.org//lookup/id/ENSG00000204531?content-type=application/json;expand=1")
+```
+
+2. Explore the `oct4_dat` variable that results. Look particularly at `oct4_dat$Transcript` column by column with the commands `oct4_dat$Transcript`
+
+4. The Ensembl ID for the gene _P53_ is ENSG00000141510. How do you think you'd change the command above to look up this gene?
+
+5. Based on the Ensembl docs how would you look up the ensembl id for another gene like _BRAF_? 

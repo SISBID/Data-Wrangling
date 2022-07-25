@@ -1,0 +1,289 @@
+---
+title: "Subsetting Data in R"
+author: "Data Wrangling in R"
+output:
+  ioslides_presentation:
+    css: styles.css
+    widescreen: yes
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(comment = "")
+library(tidyverse)
+```
+
+# Dealing with Missing Data
+
+## Missing data types
+One of the most important aspects of data cleaning is missing values.  
+
+Types of "missing" data:
+
+* `NA` - general missing data
+* `NaN` - stands for "**N**ot **a** **N**umber", happens when you do 0/0.
+* `Inf` and `-Inf` - Infinity, happens when you take a positive number (or negative number) by 0.
+
+## Finding Missing data
+
+Each missing data type has a function that returns `TRUE` if the data is missing:
+
+* `NA` - `is.na()`
+* `NaN` - `is.nan()`
+* `Inf` and `-Inf` - `is.infinite()`
+* `is.finite()` returns `FALSE` for all missing data and `TRUE` for non-missing
+
+## Missing Data with Logicals
+
+One important aspect (esp with subsetting) is that logical operations return `NA` for `NA` values.  Think about it, the data could be `> 2` or not. We don't know, 
+so `R` says there is no `TRUE` or `FALSE`, and instead that is missing:
+```{r}
+x = c(0, NA, 2, 3, 4)
+x > 2
+```
+
+## Missing Data with Logicals
+
+What to do?  What if we want if `x > 2` and `x` isn't `NA`?  
+
+```{r}
+x
+!is.na(x)
+x > 2 & !is.na(x)
+```
+
+<!-- ## Missing Data with Logicals: `%in%` -->
+
+<!-- What about seeing if a value is equal to multiple values?   -->
+
+<!-- You can do `(x == 1 | x == 2) & !is.na(x)`, but that is not efficient.   -->
+
+<!-- ```{r} -->
+<!-- x -->
+<!-- (x == 0 | x == 2) & !is.na(x) # No NA -->
+<!-- x %in% c(0, 2) # NEVER has NA and returns logical -->
+<!-- ``` -->
+
+<!-- reads "return `TRUE` if `x` is in 0 or 2". (Like `inlist` in Stata). -->
+
+
+## Missing Data with Operations
+
+Similarly with logicals, operations/arithmetic with `NA` will result in `NA`s:
+
+```{r}
+x + 2
+x * 2
+```
+ 
+
+## UFO data again
+
+```{r, eval = FALSE}
+ufo = read_csv("../data/ufo/ufo_data_complete.csv", col_types = 
+                 cols(
+                   .default = col_character(),
+                   `duration (seconds)` = col_double(),
+                   longitude = col_double()
+                 ))
+head(ufo)
+```
+
+```{r, echo = FALSE, warning = FALSE}
+ufo = read_csv("../data/ufo/ufo_data_complete.csv", col_types = 
+                 cols(
+                   .default = col_character(),
+                   `duration (seconds)` = col_double(),
+                   longitude = col_double()
+                 ))
+head(ufo)
+```
+
+
+## Filtering and tibbles
+
+Missing value and filter can be powerful 
+
+```{r}
+ufo %>% 
+  filter(is.na(state) | is.na(country)) %>% 
+  head()
+```
+
+## Filtering and tibbles
+
+Group logical statements with parentheses
+
+```{r}
+ufo %>% 
+  filter( 
+    (!is.na(state) & is.na(country)) | city == "seattle") %>% 
+  head()
+```
+
+# Renaming Columns
+
+## Renaming Columns of a `data.frame`
+
+To rename columns in `dplyr`, you use the `rename` command (NEW=old)
+
+```{r}
+ufo = ufo %>% rename(City = city, duration_s = `duration (seconds)`)
+head(ufo)
+```
+
+## Renaming All Columns of a `data.frame`: dplyr
+
+To rename all columns you use the `rename_all` command (with a function)
+
+```{r}
+ufo_upper = ufo %>% rename_all(toupper)
+head(ufo_upper)
+```
+
+## Adding columns to a `data.frame`
+
+ `mutate` - allows you to add or replace columns (need to reassign for it to stick)
+ 
+```{r}
+ufo %>% select(state) %>% head(3)
+ufo2 = ufo %>% mutate(State = toupper(state)) # we renamed city
+ufo2 %>% select(State) %>% head(3)
+```
+
+
+<!-- ## Adding new columns to a `data.frame`: base R -->
+
+<!-- Can also use `$` to add columns, but only one column at a time -->
+<!-- ```{r} -->
+<!-- ufo2$State2 = tolower(ufo2$State) -->
+<!-- ufo2 %>% select(state, State, State2) %>% head -->
+<!-- ``` -->
+
+
+
+## Creating conditional variables
+
+One frequently-used tool is creating variables with conditions.
+
+A general function for creating new variables based on existing variables is the `ifelse()` function, which "returns a value with the same shape as test which is filled with elements selected from either yes or no depending on whether the element of test is `TRUE` or `FALSE`."
+
+```
+ifelse(test, yes, no)
+
+# test: an object which can be coerced
+    to logical mode.
+# yes: return values for true elements of test.
+# no: return values for false elements of test.
+```
+
+## Recoding to missing
+
+Sometimes people code missing data in weird or inconsistent ways.
+
+```{r codeNA}
+ages = data.frame(age = c(23,-999,21,44,32,57,65,54))
+range(ages$age)
+```
+
+
+## Recoding to create new column
+Say we want to make a new column about if the age was over 30?
+
+```{r}
+pull(ages, age)
+ages = ages %>% mutate(over_20 = ifelse(age > 30, "Yes", "No"))
+ages
+```
+
+
+
+## Recoding value to missing
+
+How do we change the `-999` to be treated as missing for the age column?
+
+```{r codeNA2}
+pull(ages, age)
+ages = ages %>% mutate(age = ifelse(age == -999, NA, age))
+range(ages$age)
+range(ages$age, na.rm=TRUE)
+pull(ages, age)
+```
+
+<!-- ## Recoding from missing -->
+
+<!-- What if you were the person that coded the `-999` -->
+
+<!-- ```{r codeFromNA} -->
+<!-- ages = ages %>% mutate(age = ifelse(is.na(age), -999, age)) -->
+<!-- ages -->
+<!-- ``` -->
+
+## Adding columns to a `data.frame`: dplyr
+
+```{r}
+ufo = ufo %>% mutate( 
+              region = ifelse(
+              country %in% c("us", "ca"),
+              "North America",
+              "Not North America")
+            )
+ufo %>% select(country, region) %>% head()
+```
+
+## Adding columns to a `data.frame`: dplyr
+Alternatively, `case_when` provides a more general way (multiple tests easily):
+```
+casewhen(test ~ value if test is true,
+         test2 ~ vlue if test2 is true,
+         TRUE ~ value if all above tests are not true) # defaults to NA
+```
+
+```{r}
+ufo = ufo %>% mutate( 
+            region = case_when(
+              country %in% c("us", "ca") ~ "North America",
+              country %in% c("de") ~ "Europe",
+              country %in% "gb" ~ "Great Britain"
+            ))
+
+ufo %>% select(country, region) %>% head()
+```
+
+
+## `case_when()` with value if all tests fail
+
+```{r}
+ufo = ufo %>% mutate( 
+            region = case_when(
+              country %in% c("us", "ca") ~ "North America",
+              country %in% c("de") ~ "Europe",
+              country %in% "gb" ~ "Great Britain",
+              TRUE ~ "Other"
+            ))
+ufo %>% select(country, region) %>% head()
+```
+
+
+
+## Ordering the rows of a `data.frame`: dplyr
+
+The `arrange` function can reorder rows  By default, `arrange` orders in ascending order:
+```{r}
+ufo %>% arrange(duration_s)
+```
+
+## Ordering the rows of a `data.frame`: dplyr
+Use the `desc` to arrange the rows in descending order:
+```{r}
+ufo %>% arrange(desc(duration_s))
+```
+
+## Ordering the rows of a `data.frame`: dplyr
+It is a bit more straightforward to mix increasing and decreasing orderings:
+```{r}
+ufo %>% arrange(country, desc(duration_s))
+```
+
+## Lab
+
+[Link to Lab](http://sisbid.github.io/Data-Wrangling/labs/data-subsetting-lab-part2.Rmd)

@@ -1,0 +1,373 @@
+---
+title: "Advanced Data IO"
+author: "Data Wrangling in R"
+output:
+  ioslides_presentation:
+    css: styles.css
+    widescreen: yes
+---
+
+```{r, echo = FALSE, include=FALSE, purl=FALSE}
+library(knitr)
+opts_chunk$set(comment = "")
+```
+
+```{r, include=FALSE}
+library(tidyverse)
+library(rvest)
+library(jsonlite)
+```
+
+# Google Sheets
+
+---
+
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("media/AdvancedIO_googlesheet.png")
+```
+
+https://docs.google.com/spreadsheets/d/1U6Cf_qEOhiR9AZqTqS3mbMF3zt2db48ZP5v3rkrAEJY/edit#gid=780868077
+
+## Reading data with the googlesheets4 package
+
+First, set up Google credentials
+
+```{r}
+library(googlesheets4)
+```
+```{r eval=FALSE}
+# Prompts a browser pop-up
+gs4_auth()
+```
+```{r}
+# Once set up, you can automate this process by passing your email
+gs4_auth(email = "avamariehoffman@gmail.com")
+```
+
+## Reading data with the googlesheets4 package
+
+You can also supply an authorization token directly, but make sure to add any files to your .gitignore!
+
+```{r eval = FALSE}
+library(googledrive)
+drive_auth(email= "<email>",
+           token = readRDS("google-sheets-token.rds")) # Saved in a file
+```
+
+## Reading data with the googlesheets4 package
+
+Read in using `googlesheets4::read_sheet`
+
+```{r}
+sheet_url = paste0("https://docs.google.com/spreadsheets/d/1U6Cf_qEOhiR9",
+                   "AZqTqS3mbMF3zt2db48ZP5v3rkrAEJY/edit#gid=780868077")
+sheet_dat_1 = read_sheet(sheet_url)
+head(sheet_dat_1)
+```
+
+## Reading data with the googlesheets4 package
+
+Specify the sheet name if necessary:
+
+```{r}
+sheet_url = paste0("https://docs.google.com/spreadsheets/d/1U6Cf_qEOhiR9",
+                   "AZqTqS3mbMF3zt2db48ZP5v3rkrAEJY/edit#gid=780868077")
+sheet_dat_oceania = read_sheet(sheet_url, sheet = "Oceania")
+head(sheet_dat_oceania)
+```
+
+## Reading data with the googlesheets4 package
+
+Alternatively, list out the sheet names using `sheet_names()`.
+
+```{r}
+sheet_names(sheet_url)
+```
+
+## Reading data with the googlesheets4 package
+
+Iterate through the sheet names:
+
+```{r}
+gapminder_sheets = sheet_names(sheet_url)
+
+data_list = list()
+for(g_sheet in gapminder_sheets){
+  data_list[[g_sheet]] = read_sheet(sheet_url, sheet = g_sheet)
+}
+str(data_list)
+```
+
+## Reading data with the googlesheets4 package
+
+Iterate through the sheet names:
+
+```{r}
+str(data_list)
+```
+
+## Writing data with the googlesheets4 package
+
+```{r}
+sheet_dat_oceania = sheet_dat_oceania %>%
+  mutate(lifeExp_days = lifeExp * 365)
+sheet_out = gs4_create("Oceania-days", 
+                       sheets = list(Oceania_days = sheet_dat_oceania))
+```
+```{r eval = FALSE}
+# Opens a browser window
+gs4_browse(sheet_out)
+```
+
+## Append data with the googlesheets4 package
+
+```{r}
+sheet_append(sheet_out, data = sheet_dat_oceania, sheet = "Oceania_days")
+```
+
+## JHU Tidyverse Book
+
+https://jhudatascience.org/tidyversecourse/get-data.html#google-sheets
+
+# googlesheets Lab<br> http://sisbid.github.io/Data-Wrangling/labs/advanced-io-lab.Rmd
+
+# JSON: JavaScript Object Notation<br>Lists of stuff
+
+---
+
+```{r, out.width="80%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("wiki_json.png")
+```
+
+https://en.wikipedia.org/wiki/JSON
+
+## Why JSON matters
+
+```{r, out.width="80%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("github_json.png")
+```
+
+https://docs.github.com/en/rest/reference/search
+
+---
+
+```{r}
+#install.packages("jsonlite")
+library(jsonlite)
+jsonData <- fromJSON(paste0("https://raw.githubusercontent.com/Biuni",
+                            "/PokemonGO-Pokedex/master/pokedex.json"))
+head(jsonData)
+```
+
+## Data frame structure from JSON
+
+```{r}
+dim(jsonData$pokemon)
+class(jsonData$pokemon$type) # Can be lists
+jsonData$pokemon$type
+```
+
+## Data frame structure from JSON
+
+```{r}
+class(jsonData$pokemon$next_evolution[[1]]) # Or lists of data.frames!
+jsonData$pokemon$next_evolution
+```
+
+# JSON Lab<br> http://sisbid.github.io/Data-Wrangling/labs/advanced-io-lab.Rmd
+
+# Web Scraping
+
+## This is data
+
+http://bowtie-bio.sourceforge.net/recount/ 
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("media/AdvancedIO_recount.png")
+```
+
+## View the source
+
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("media/AdvancedIO_recount_view.png")
+```
+
+## What the computer sees
+
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("media/AdvancedIO_recount_source.png")
+```
+
+## Ways to see the source
+
+<div class="left-half">
+<div style="font-size:15pt">
+Chrome:
+
+1. right click on page
+2. select "View Page Source"
+
+Firefox:
+
+1. right click on page
+2. select "View Page Source"
+
+Microsoft Edge:
+
+1. right click on page
+2. select "view source"
+</div>
+</div>
+
+<div class="right-half">
+<div style="font-size:15pt">
+Safari
+
+1. click on "Safari"
+2. select "Preferences"
+3. go to "Advanced"
+4. check "Show Develop menu in menu bar"
+5. right click on page
+6. select "View Page Source"
+</div>
+</div>
+
+https://github.com/simonmunzert/rscraping-jsm-2016/blob/c04fd91fec711df65c838e07723125155a7f2cda/02-scraping-with-rvest.r
+
+## Inspect element
+
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("media/AdvancedIO_recount_inpsect.png")
+```
+
+## Copy XPath
+
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("media/AdvancedIO_recount_xpath.png")
+```
+
+## Use SelectorGadget
+
+https://rvest.tidyverse.org/articles/selectorgadget.html
+
+## rvest package
+```{r}
+recount_url = "http://bowtie-bio.sourceforge.net/recount/"
+# install.packages("rvest")
+library(rvest)
+htmlfile = read_html(recount_url)
+
+nds = html_nodes(htmlfile, xpath = '//*[@id="recounttab"]/table')
+dat = html_table(nds)
+dat = as.data.frame(dat)
+head(dat)
+```
+
+## Little cleanup
+
+```{r}
+colnames(dat) = as.character(dat[1,])
+dat = dat[-1,]
+head(dat)
+```
+
+## Ethics and Web Scraping
+
+https://slate.com/culture/2020/04/whitney-museum-new-york-apartment-exhibit-creators-interview.html
+```{r, out.width="75%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("media/AdvancedIO_scrape_1.png")
+```
+
+## Ethics and Web Scraping
+
+https://doi.org/10.1016/j.dib.2020.106178
+```{r, out.width="50%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("media/AdvancedIO_scrape_2.png")
+```
+
+## Ethics and Web Scraping
+
+https://techcrunch.com/2017/04/28/someone-scraped-40000-tinder-selfies-to-make-a-facial-dataset-for-ai-experiments/
+```{r, out.width="50%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("media/AdvancedIO_scrape_3.png")
+```
+
+## Ethics and Web Scraping
+
+https://on.wsj.com/3hzeu9i
+```{r, out.width="75%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("media/AdvancedIO_scrape_4.png")
+```
+
+# APIs
+
+## Application Programming Interfaces
+https://developers.facebook.com/
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("media/AdvancedIO_facebook_dev.png")
+```
+
+## In biology too!
+http://www.ncbi.nlm.nih.gov/books/NBK25501/
+https://www.ncbi.nlm.nih.gov/home/develop/api/
+
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("media/AdvancedIO_nih_api.png")
+```
+
+## Step 0: Did someone do this already
+https://ropensci.org/packages/
+
+```{r, out.width="70%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("media/AdvancedIO_ropensci.png")
+```
+
+## Step 0: Did someone do this already
+`tidycensus` package: https://walker-data.com/tidycensus/articles/basic-usage.html
+
+```{r, out.width="100%", echo = FALSE, purl=FALSE}
+knitr::include_graphics("media/AdvancedIO_tidycensus.png")
+```
+
+## Step 1: DIY
+https://github.com/ThatCopy/catAPI/wiki/Usage
+
+```{r}
+#install.packages("httr")
+library(httr)
+
+# Requests a random cat fact
+query_url = "https://thatcopy.pw/catapi/rest/"
+
+req = GET(query_url)
+content(req)
+```
+
+## Not all APIs are "open"
+
+https://www.rdocumentation.org/packages/twitteR/versions/1.1.9
+
+```{r, eval = FALSE}
+# install.packages("twitteR")
+library(twitteR)
+# Supplied by Twitter
+setup_twitter_oauth("API key", "API secret")
+
+searchTwitter("crab cake", geocode="39.290692,-76.610221,5mi")
+```
+
+https://developer.twitter.com/en/portal/petition/academic/is-it-right-for-you
+
+## Not all APIs are "open"
+
+https://walker-data.com/tidycensus/articles/basic-usage.html
+
+```{r, eval = FALSE}
+# install.packages("tidycensus")
+library(tidycensus)
+# Supplied by census.gov
+census_api_key("YOUR API KEY GOES HERE")
+
+get_decennial(geography = "state", 
+                       variables = "P013001", # code for median age
+                       year = 2010)
+```

@@ -1,6 +1,7 @@
 # History files
 .Rhistory
 .Rapp.history
+.httr-oauth
 
 # Example code in package build process
 *-Ex.R
@@ -8,8 +9,14 @@
 # RStudio files
 .Rproj.user/
 
+
+
+lecture/
+
 # cache
 lecture_notes/*cache*/*
+labs/*cache*/*
+*token*.rds
 
 # data
 lecture_notes/data/geo/*.soft
@@ -19,9 +26,28 @@ lecture_notes/data/geo/*.tar
 lecture_notes/data/geo/*.txt
 lecture_notes/data/geo/GSE*
 
+# data
+data/geo/*.soft
+data/geo/*.txt.gz
+data/geo/*.gz
+data/geo/*.tar
+data/geo/*.txt
+data/geo/GSE*
+
+# data
+lecture_notes/ufo_dataset.rds
+lecture_notes/ufo*.rda
+lecture_notes/ufo*.RData
+lecture_notes/ufo*.csv
+lecture_notes/*.pptx
+lecture_notes/*.tex
+
+.git.bfg-report/
+
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
 .Rproj.user
 
 *.sqlite
+*.sqlite3

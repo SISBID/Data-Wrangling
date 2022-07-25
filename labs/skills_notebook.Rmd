@@ -1,0 +1,62 @@
+---
+title: "Skills assessment"
+output: html_notebook
+---
+
+First, if necessary, install some packages:
+
+```{r}
+is_package_installed = function(package) {
+  requireNamespace(basename(package), quietly = TRUE)
+}
+if (!is_package_installed("gplots")) install.packages("gplots")
+if (!is_package_installed("googlesheets4")) install.packages("googlesheets4")
+if (!is_package_installed("remotes")) install.packages("remotes")
+if (!is_package_installed("RSkittleBrewer")) remotes::install_github("alyssafrazee/RSkittleBrewer")
+```
+
+Then load the packages
+```{r}
+library(gplots)
+library(googlesheets)
+library(RSkittleBrewer)
+```
+
+
+Set options and link to sheet
+
+```{r}
+options(httr_oob_default=TRUE) 
+my_url = "https://docs.google.com/spreadsheets/d/1WBrH655fxqKW1QqvD5hnqvvEWIvRzDJcKEgjjFeYxeM/edit?usp=sharing"
+my_gs = gs_url(my_url)
+```
+
+Read the sheet
+
+```{r}
+dat = gs_read(my_gs)
+head(dat)
+```
+
+
+
+Set up the colors
+
+```{r}
+trop = RSkittleBrewer("tropical")
+colramp = colorRampPalette(c(trop[3],"white",trop[2]))(9)
+palette(trop)
+```
+
+Create the plot
+
+```{r}
+dat = as.matrix(dat)
+dat[is.na(dat)]= 0
+
+par(mar=c(5,5,5,5))
+heatmap.2(as.matrix(dat),col=colramp,Rowv=NA,Colv=NA,
+          dendrogram="none", scale="none",
+          trace="none",margins=c(10,2))
+```
+

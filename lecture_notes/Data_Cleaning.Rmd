@@ -1,0 +1,373 @@
+---
+title: "Data Cleaning"
+author: "Data Wrangling in R"
+output:
+  ioslides_presentation:
+    css: styles.css
+    widescreen: yes
+  beamer_presentation: default
+---
+
+
+```{r, include = FALSE}
+library(knitr)
+library(tidyverse)
+library(janitor)
+opts_chunk$set(comment = "")
+```
+
+## Data Cleaning
+
+In general, data cleaning is a process of investigating your data for inaccuracies, or recoding it in a way that makes it more manageable.
+
+MOST IMPORTANT RULE - LOOK AT YOUR DATA!
+
+## Useful checking functions
+
+- `is.na()` - is `TRUE` if the data is `FALSE` otherwise
+- `!` - negation (NOT) 
+    - if `is.na(x)` is `TRUE`, then `!is.na(x)` is `FALSE`
+
+- `all()` takes in a `logical` and will be `TRUE` if ALL are `TRUE`
+    - `all(!is.na(x))` - are all values of `x` NOT NA
+- `any()` will be `TRUE` if ANY are true
+    - `any(is.na(x))` - do we have any `NA`'s in `x`?
+- `complete.cases()` - returns `TRUE` if EVERY value of a row is NOT `NA`
+    - very stringent condition 
+    - `FALSE` missing one value (even if not important)
+ 
+
+## Read in the UFO dataset
+
+Read in data from RStudio Cloud or download from: http://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv.gz
+
+```{r, importUfo}
+ufo = read_csv("../data/ufo/ufo_data_complete.csv")
+```
+
+
+## Clean names with the `clean_names()` function from the `janitor` package
+
+```{r}
+colnames(ufo)
+ufo = clean_names(ufo)
+colnames(ufo)
+```
+
+## Data cleaning "before" R
+
+You saw warning messages when reading in this dataset. We can see these with the `problems()` function from `readr`. 
+
+```{r}
+p = problems(ufo)
+p
+```
+
+## Let's just drop those problematic rows for now.
+
+Though you would usually want to check them!
+
+```{r}
+ufo = ufo[-p$row,] # brackets can also be used for subsetting
+```
+
+## Checking for logical conditions {.smaller}
+* `any()` - checks if there are any `TRUE`s
+* `all()` - checks if ALL are true
+
+```{r isna}
+any(is.na(ufo$state)) # are there any NAs?
+all(is.na(ufo$state)) # are the values all NAs?
+```
+
+# Recoding Variables
+
+## Example of Cleaning: more complicated
+
+For example, let's say gender was coded as Male, M, m, Female, F, f.  Using Excel to find all of these would be a matter of filtering and changing all by hand or using if statements.
+
+Sometimes though, it's not so simple.  That's where functions that find patterns come to be very useful.
+
+```{r gender, echo=FALSE}
+set.seed(4) # random sample below - make sure same every time
+gender <- sample(c("Male", "mAle", "MaLe", "M", "MALE", "Ma", "FeMAle", "F", "Woman", "Man", "Fm", "FEMALE"), 1000, replace = TRUE)
+data_gen = tibble(gender)
+```
+
+```{r gentab}
+table(gender)
+```
+
+## Example of Cleaning: more complicated
+In R, you could use `case_when()`:
+
+```{r}
+#case_when way:
+data_gen <-data_gen %>% mutate(gender = 
+                      case_when(gender %in% c("Male", "M", "m", "Man")
+                                ~ "Male",
+                           TRUE ~ gender)) 
+head(data_gen)
+```
+
+Oh dear! This only fixes some values! It is difficult to notice values like `"MaLe"`.
+
+# String functions
+
+## The `stringr` package
+
+Like `dplyr`, the `stringr` package:
+
+* Makes some things more intuitive
+* Is different than base R
+* Is used on forums for answers
+* Has a standard format for most functions: `str_`
+    * the first argument is a string like first argument is a `data.frame` in `dplyr`
+
+
+## Useful String Functions
+
+Useful String functions from base R and `stringr`
+
+* `toupper()`, `tolower()` - uppercase or lowercase your data
+* `str_sentence()`  - uppercase just the first character (in the `stringr` package)
+
+* `paste()` - paste strings together with a space 
+* `paste0` - paste strings together with no space as default
+
+* `str_trim()` (in the `stringr` package) or `trimws` in base 
+    - will trim whitespace
+* `nchar` - get the number of characters in a string
+
+## recoding with `str_to_sentence()`
+
+```{r}
+#case_when way:
+data_gen <-data_gen %>%
+                mutate(gender = str_to_sentence(gender)) %>%
+                mutate(gender = 
+                      case_when(gender %in% c("Male", "M", "m", "Man")
+                                ~ "Male",
+                           TRUE ~ gender)) 
+head(data_gen)
+```
+OK, now we are getting somewhere!
+
+## Pasting strings with `paste` and `paste0`{.smaller}
+
+```{r Paste}
+paste("Visit", 1:5, sep = "_")
+paste("Visit", 1:5, sep = "_", collapse = " ")
+# and paste0 can be even simpler see ?paste0 
+paste0("Visit", 1:5)
+```
+
+## Paste
+
+```{r Paste2}
+
+paste("Visit", 1:5, sep = "_") %>% length()
+paste("Visit", 1:5, sep = "_", collapse = " ") %>% length()
+```
+
+## Fancier pastes
+
+```{r}
+paste("To", "is going be the ", "we go to the store!", sep = "day ")
+
+```
+
+## Substringing
+
+`stringr`
+
+* `str_sub(x, start, end)` - substrings from position start to position end
+* `str_split(string, pattern)` - splits strings up - returns list! [we'll revisit in "Functional Programming"]
+
+## Substringing
+
+Examples: 
+
+```{r}
+str_sub("I like friesian horses", 8,12)
+#123456789101112
+#I like fries
+str_sub(c("Site A", "Site B", "Site C"), 6,6)
+```
+
+## Splitting/Find/Replace and Regular Expressions
+
+* R can do much more than find exact matches for a whole string
+* Like Perl and other languages, it can use regular expressions.
+* What are regular expressions?
+    * Ways to search for specific strings 
+    * Can be very complicated or simple
+    * Highly Useful - think "Find" on steroids
+
+
+## A bit on Regular Expressions
+
+* http://www.regular-expressions.info/reference.html
+* They can use to match a large number of strings in one statement
+* `.` matches any single character
+* `*` means repeat as many (even if 0) more times the last character
+* `?` makes the last thing optional
+* `^` matches start of vector `^a` - starts with "a"
+* `$` matches end of vector `b$` - ends with "b"
+
+## 'Find' functions: `stringr`
+
+`str_detect`, `str_subset`, `str_replace`, and `str_replace_all` search for matches to argument pattern within each element of a character vector: they differ in the format of and amount of detail in the results. 
+
+* `str_detect` - returns `TRUE` if `pattern` is found
+* `str_subset` - returns only the strings which pattern were detected
+    * convenient wrapper around `x[str_detect(x, pattern)]`
+* `str_extract` - returns only strings which pattern were detected, but ONLY the pattern
+* `str_replace` - replaces `pattern` with `replacement` the first time
+* `str_replace_all` - replaces `pattern` with `replacement` as many times matched
+
+
+## Let's look at modifier for `stringr`
+
+`?modifiers`
+
+* `fixed` - match everything exactly
+* `regexp` - default - uses **reg**ular **exp**ressions
+* `ignore_case` is an option to not have to use `tolower`
+
+
+
+## 'Find' functions: Finding Indices
+
+These are the indices where the pattern match occurs:
+
+```{r alienMatch}
+str_detect(ufo$comments, "two aliens") %>% head()
+str_detect(ufo$comments, "two aliens") %>% table()
+which(str_detect(ufo$comments, "two aliens"))
+```
+
+## 'Find' functions: Finding Logicals {.smaller}
+
+`filter()` using `str_detect()` gives a tibble:
+
+```{r}
+filter(ufo, str_detect(comments, "two aliens"))
+filter(ufo, str_detect(comments, "two aliens")) %>% select(comments)
+
+```
+
+## 'Find' functions: `str_subset()` is easier {.smaller}
+
+`str_subset()` gives the values that match the pattern:
+
+```{r ggrep}
+str_subset(ufo$comments, "two aliens")
+
+```
+
+## Showing difference in `str_extract`
+
+`str_extract` extracts just the matched string
+
+```{r ggrep2}
+ss = str_extract(ufo$comments, "two aliens")
+head(ss)
+ss[ !is.na(ss)]
+```
+
+
+* Look for any comment that starts with "aliens"
+  
+```{r grepstar}
+str_subset(ufo$comments, "^aliens.*")
+```
+
+## Using Regular Expressions{.smaller}
+
+That contains space then ship maybe with stuff in between
+```{r grepstar2}
+str_subset(ufo$comments, "space.?ship") %>% head(4) # gets "spaceship" or "space ship" or...
+str_subset(ufo$comments, "space.ship") %>% head(4) # no "spaceship" must have character in bw
+
+```
+
+## str_replace()
+
+
+Let's say we wanted to make the time information more consistent. 
+Using `case_when()` would be very tedious and error-prone!
+
+We can use `str_replace()` to do so.
+
+```{r classSal}
+head(ufo$duration_hours_min, 8)
+
+ufo %>% mutate(duration_hours_min = 
+                 str_replace(string = duration_hours_min, 
+                             pattern = "minutes", 
+                             replacement ="mins")) %>%
+  pull(duration_hours_min) %>%
+  head(8)
+
+```
+
+<!-- ## Separating columns -->
+
+<!-- Better yet, you might notice that this data isn't tidy- there are more than two entries for each value - amount of time and unit. We could separate this using `separate()` from the `tidyr` package. -->
+<!-- ```{r, warning=FALSE } -->
+<!-- ufo %>% separate(duration_hours_min,  -->
+<!--                  into = c("duration_amount", "duration_unit"), -->
+<!--                  sep = " ") %>% -->
+<!--   select(duration_amount, duration_unit) %>% head() -->
+<!-- ``` -->
+<!-- As you can see there is still plenty of cleaning to do! -->
+
+## Dates and times{.smaller}
+
+The `[lubridate`](https://lubridate.tidyverse.org/) package is amazing, there's no reason to use anything else.
+
+```{r, message = FALSE}
+library(lubridate)#need to load this one!
+head(ufo$datetime)
+ufo$date_posted = mdy(ufo$date_posted)
+head(ufo$date_posted)
+```
+
+<!-- ## Special characters -->
+
+<!-- ```{r} -->
+<!-- money = tibble(group = letters[1:5],  -->
+<!--   amount = c("$12.32", "$43.64", "$765.43", "$93.31", "$12.13")) -->
+<!-- money %>% arrange(amount) -->
+<!-- as.numeric(money$amount) -->
+<!-- ``` -->
+
+<!-- ## Special characters -->
+
+<!-- In the past, we would recommend just replacing the `$` sign with an empty string and convert to numeric: -->
+
+<!-- ```{r}  -->
+<!-- money$amountNum = as.numeric(str_replace(money$amount, fixed("$"), "")) -->
+<!-- money %>% arrange(amountNum) -->
+<!-- ``` -->
+
+<!-- ## Special characters -->
+
+<!-- But now there are better helper functions for this: -->
+
+<!-- ```{r} -->
+<!-- money$amount = parse_number(money$amount) -->
+<!-- money %>% arrange(amount) -->
+
+<!-- ``` -->
+
+<!-- ## Special characters -->
+
+<!-- Also works for internal commas: -->
+
+<!-- ```{r} -->
+<!-- parse_number(c("12,123,123.00", "12,465.10")) -->
+<!-- ``` -->
+
+

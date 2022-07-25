@@ -1,48 +1,23 @@
-# SISBD: Introduction to Bioconductor
-Raphael Gottardo  
- `r Sys.Date()`  
+---
+title: 'Introduction to Bioconductor'
+author: "Data Wrangling in R"
+output:
+  ioslides_presentation:
+    fig_caption: yes
+    fig_retina: 1
+    keep_md: yes
+    smaller: yes
+    widescreen: yes
+---
 
-## Setting up some options
 
-Let's first turn on the cache for increased performance and improved styling
-
-```r
-# Set some global knitr options
-library("knitr")
-opts_chunk$set(cache = FALSE, messages = FALSE)
-```
-
-## R in the NY Times
-
-"Despite" being free and open-source, R is widely used by data analysts inside corporations and academia.
-
-See [NY Times](http://www.nytimes.com/2009/01/07/technology/business-computing/07program.html?pagewanted=all&_r=0) article
-
-![R in the NY Times](http://graphics8.nytimes.com/images/2009/01/07/business/07program.600.jpg)
-
-## R in Nature 
-
-<iframe src="http://www.nature.com/news/programming-tools-adventures-with-r-1.16609?WT.ec_id=NATURE-20141225"></iframe>
-
-## R is a really mature project
-
-Some of the best R functionalities **ARE NOT** in R-base but come from add-on packages: knitr, ggplot2, reshape2, Rcpp, data.table, etc.
-
-Some of these packages are available on the following repositories:
-
-- [CRAN](http://cran.r-project.org)
-- [Bioconductor](http://bioconductor.org)
-- [GitHub](http://github.com)
-- [Ropensci](https://ropensci.org)
-
-**Note:** Show how to update the list of repositories to install packages (`setRepositories`). Also talk about biocLite.
 
 
 ## The Bioconductor project
 
 - [Bioconductor](http://www.bioconductor.org) is an open source, open development software project to provide tools for the analysis and comprehension of high-throughput genomic data. It is based primarily on the R programming language.
 
-- Most Bioconductor components are distributed as R packages. The functional scope of Bioconductor packages includes the analysis of DNA microarray, sequence, flow, SNP, and other data.
+- Most Bioconductor components are distributed as R packages. The functional scope of Bioconductor packages includes the analysis of microarray, sequencing, flow sorting, genotype/SNP, and other data.
 
 ## Project Goals
 
@@ -66,20 +41,24 @@ The broad goals of the Bioconductor project are:
 
 ```r
 # Note that this is not evaluated here, so you will have to do it before using this knitr doc
-source("http://bioconductor.org/biocLite.R")
+install.packages("BiocManager")
 # Install all core packages and update all installed packages
-biocLite()
+BiocManager::install()
 ```
+
+## Getting started
 
 You can also install specific packages
 
 
 ```r
 # Note that this is not evaluated here, so you will have to do it before using this knitr doc
-biocLite(c("GEOmetadb", "GEOquery", "limma", "affy"))
+BiocManager::install(c("GEOquery", "limma", "biomaRt", "SummarizedExperiment"))
 ```
 
-# Overview of SQL and data.table (external notes)
+## Bioconductor Workflows
+
+https://bioconductor.org/packages/release/workflows/vignettes/sequencing/inst/doc/sequencing.html
 
 ## The Gene Expression Omnibus (GEO)
 
@@ -93,1211 +72,285 @@ The three main goals of GEO are to:
 
 ## Getting data from GEO
 
-Before getting data from GEO, we need to see what data we want. For that we can use the `GEOmetadb` package. 
+For individual studies/datasets, the easiest way to find publicly-available data is the GEO accession number found at the end of publications.
+
+## Getting data from GEO
+
+The `GEOquery` package can access GEO directly.
+
+https://www.bioconductor.org/packages/release/bioc/html/GEOquery.html
 
 
 ```r
-library(GEOmetadb)
+library(GEOquery)
 ```
 
 ```
-## Loading required package: GEOquery
-## Loading required package: Biobase
-## Loading required package: BiocGenerics
-## Loading required package: parallel
-## 
-## Attaching package: 'BiocGenerics'
-## 
-## The following objects are masked from 'package:parallel':
-## 
-##     clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
-##     clusterExport, clusterMap, parApply, parCapply, parLapply,
-##     parLapplyLB, parRapply, parSapply, parSapplyLB
-## 
-## The following object is masked from 'package:stats':
-## 
-##     xtabs
-## 
-## The following objects are masked from 'package:base':
-## 
-##     anyDuplicated, append, as.data.frame, as.vector, cbind,
-##     colnames, do.call, duplicated, eval, evalq, Filter, Find, get,
-##     intersect, is.unsorted, lapply, Map, mapply, match, mget,
-##     order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
-##     rbind, Reduce, rep.int, rownames, sapply, setdiff, sort,
-##     table, tapply, union, unique, unlist, unsplit
-## 
-## Welcome to Bioconductor
-## 
-##     Vignettes contain introductory material; view with
-##     'browseVignettes()'. To cite Bioconductor, see
-##     'citation("Biobase")', and for packages 'citation("pkgname")'.
-## 
 ## Setting options('download.file.method.GEOquery'='auto')
-## Loading required package: RSQLite
-## Loading required package: DBI
 ```
 
-Remember that packages in Bioconductor are well documented with a vignette that can be access as follows:
-
+```
+## Setting options('GEOquery.inmemory.gpl'=FALSE)
+```
 
 ```r
-vignette("GEOmetadb")
-```
-or if the package contains multiple vignettes or a vignette with a non-standard name
-
-
-```r
-browseVignettes(package = "GEOmetadb")
-```
-
-## Finding the right data in GEO
-
-Zhu, Y., Davis, S., Stephens, R., Meltzer, P. S., & Chen, Y. (2008). GEOmetadb: powerful alternative search engine for the Gene Expression Omnibus. Bioinformatics (Oxford, England), 24(23), 2798–2800. doi:10.1093/bioinformatics/btn520
-
-GEOmetadb uses a SQLite database to store all metadata associate with GEO.
-
-
-```r
-## This will download the entire database, so can be slow
-if (!file.exists("GEOmetadb.sqlite"))
-{
-  # Download database only if it's not done already
-  getSQLiteFile()
-}
-```
-
-## Finding the right data in GEO
-
-
-```r
-geo_con <- dbConnect(SQLite(),'GEOmetadb.sqlite')
-dbListTables(geo_con)
+# https://pubmed.ncbi.nlm.nih.gov/32619517/
+geo_data = getGEO("GSE146760")[[1]] # find accession in paper
 ```
 
 ```
-##  [1] "gds"               "gds_subset"        "geoConvert"       
-##  [4] "geodb_column_desc" "gpl"               "gse"              
-##  [7] "gse_gpl"           "gse_gsm"           "gsm"              
-## [10] "metaInfo"          "sMatrix"
-```
-
-
-```r
-dbListFields(geo_con, 'gse')
-```
-
-```
-##  [1] "ID"                   "title"                "gse"                 
-##  [4] "status"               "submission_date"      "last_update_date"    
-##  [7] "pubmed_id"            "summary"              "type"                
-## [10] "contributor"          "web_link"             "overall_design"      
-## [13] "repeats"              "repeats_sample_list"  "variable"            
-## [16] "variable_description" "contact"              "supplementary_file"
-```
-
-## Finding a study
-
-The basic record types in GEO include Platforms (GPL), Samples (GSM), Series (GSE) and DataSets (GDS)
-
-
-```r
-dbGetQuery(geo_con, "SELECT gse.ID, gse.title, gse.gse FROM gse WHERE gse.pubmed_id='21743478';")
-```
-
-```
-##      ID
-## 1 26409
-## 2 26410
-## 3 26412
-## 4 26413
-## 5 26414
-##                                                                                                          title
-## 1                  Time Course of Young Adults Vaccinated with Influenza TIV Vaccine during 2007/08 Flu Season
-## 2                 Time Course of Young Adults Vaccinated with Influenza LAIV Vaccine during 2008/09 Flu Season
-## 3                  Time Course of Young Adults Vaccinated with Influenza TIV Vaccine during 2008/09 Flu Season
-## 4 FACS-sorted cells from Young Adults Vaccinated with Influenza TIV or LAIV Vaccines during 2008/09 Flu Season
-## 5                                              Systems biology of vaccination for seasonal influenza in humans
-##        gse
-## 1 GSE29614
-## 2 GSE29615
-## 3 GSE29617
-## 4 GSE29618
-## 5 GSE29619
-```
-
-## Finding a study
-
-What samples were used?
-
-
-```r
-dbGetQuery(geo_con, "SELECT gse.gse, gsm.gsm, gsm.title FROM (gse JOIN gse_gsm ON gse.gse=gse_gsm.gse) j JOIN gsm ON j.gsm=gsm.gsm WHERE gse.pubmed_id='21743478' LIMIT 5;")
-```
-
-```
-##    gse.gse   gsm.gsm                                     gsm.title
-## 1 GSE29614 GSM733816 2007 TIV subject ID 12 at D0 post-vaccination
-## 2 GSE29614 GSM733817 2007 TIV subject ID 12 at D3 post-vaccination
-## 3 GSE29614 GSM733818 2007 TIV subject ID 12 at D7 post-vaccination
-## 4 GSE29614 GSM733819 2007 TIV subject ID 16 at D0 post-vaccination
-## 5 GSE29614 GSM733820 2007 TIV subject ID 16 at D3 post-vaccination
-```
-gse_gsm contains the gse number that is associated with the gsm number. 
-j is the name of a table that is created by joining gse and ges_gsm. Then j is joined with table gsm. 
-
-## Finding a study
-
-What about raw data?
-
-
-```r
-res <- dbGetQuery(geo_con, "SELECT gsm.gsm, gsm.supplementary_file FROM (gse JOIN gse_gsm ON gse.gse=gse_gsm.gse) j JOIN gsm ON j.gsm=gsm.gsm WHERE gse.pubmed_id='21743478' LIMIT 5;")
-head(res)
-```
-
-```
-##     gsm.gsm
-## 1 GSM733816
-## 2 GSM733817
-## 3 GSM733818
-## 4 GSM733819
-## 5 GSM733820
-##                                                                                                                                                  gsm.supplementary_file
-## 1 ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733816/suppl/GSM733816.CEL.gz;\tftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733816/suppl/GSM733816.chp.gz
-## 2 ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733817/suppl/GSM733817.CEL.gz;\tftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733817/suppl/GSM733817.chp.gz
-## 3 ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733818/suppl/GSM733818.CEL.gz;\tftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733818/suppl/GSM733818.chp.gz
-## 4 ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733819/suppl/GSM733819.CEL.gz;\tftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733819/suppl/GSM733819.chp.gz
-## 5 ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733820/suppl/GSM733820.CEL.gz;\tftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM733nnn/GSM733820/suppl/GSM733820.chp.gz
-```
-raw data is contained in the supplementary files, which are listed in the gsm file. 
-
-## Finding specific data
-
-To get list of manufacturers:
-
-```r
-library(data.table)
-manu <- data.table(dbGetQuery(geo_con, "SELECT manufacturer FROM gpl"))
-manu[, .(n = .N), by = manufacturer][order(-n)]
-```
-
-```
-##                                                                                                manufacturer
-##    1:                                                                                                    NA
-##    2:                                                                                  Agilent Technologies
-##    3:                                                                                            Affymetrix
-##    4:                                                                                             NimbleGen
-##    5:                                                                                               Agilent
-##   ---                                                                                                      
-## 2102:                                                                     Functional Genomics Center Verona
-## 2103:                                                                                             Brown Lab
-## 2104:                                                                         Luminex IMAP/Golub laboratory
-## 2105: Agriculture and Agri-Food Canada, Eastern Cereal and Oilseed Research Centre, Ottawa, Ontario, Canada
-## 2106:                                                                                     Custom microarray
-##          n
-##    1: 3398
-##    2: 1615
-##    3: 1029
-##    4:  967
-##    5:  575
-##   ---     
-## 2102:    1
-## 2103:    1
-## 2104:    1
-## 2105:    1
-## 2106:    1
-```
-
-## Finding specific data
-
-To get supplementary file names ending with cel.gz from only manufacturer Affymetrix
-
-```r
-res <- dbGetQuery(geo_con, "SELECT gpl.bioc_package, gsm.title, gsm.series_id, gsm.gpl, gsm.supplementary_file FROM gsm JOIN gpl ON gsm.gpl=gpl.gpl WHERE gpl.manufacturer='Affymetrix' AND gsm.supplementary_file like '%CEL.gz';")
-head(res)
-```
-
-```
-##   bioc_package               title series_id   gpl
-## 1       hu6800          BM_CD34-1a    GSE500 GPL80
-## 2       hu6800          BM_CD34-1b    GSE500 GPL80
-## 3       hu6800           BM_CD34-2    GSE500 GPL80
-## 4       hu6800        GPBMC_CD34-1    GSE500 GPL80
-## 5       hu6800        GPBMC_CD34-2    GSE500 GPL80
-## 6       rgu34a CNS-SC_Inj24h-3A-s2    GSE464 GPL85
-##                                                            supplementary_file
-## 1    ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSMnnn/GSM575/suppl/GSM575.cel.gz
-## 2    ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSMnnn/GSM576/suppl/GSM576.cel.gz
-## 3    ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSMnnn/GSM577/suppl/GSM577.cel.gz
-## 4    ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSMnnn/GSM578/suppl/GSM578.cel.gz
-## 5    ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSMnnn/GSM579/suppl/GSM579.cel.gz
-## 6 ftp://ftp.ncbi.nlm.nih.gov/geo/samples/GSM1nnn/GSM1136/suppl/GSM1136.CEL.gz
-```
-
-## Finding specific data
-
-From previous table:
-
-- bioc_package = bioconductor package
-- hu6800 = Affymetrix HuGeneFL Genome Array annotation data (chip hu6800) 
-- rgu34a = Affymetrix Rat Genome U34 Set annotation data (chip rgu34a)
-- title = data set title or study title
-
-For example BM_CD34-1a = bone marrow flow-sorted CD34+ cells (>95% purity) and has GSM sample number GSM575. 
-
-## Getting the data we want
-
-We will first create a directory where we will download data:
-
-```r
-dir.create("data/geo", recursive = TRUE)
-```
-
-```
-## Warning in dir.create("data/geo", recursive = TRUE): 'data/geo' already
-## exists
-```
-
-Now we can download the data we want using our GSE ID and the GEOquery command, as follows,
-
-
-```r
-# Download the mapping information and processed data
-# This returns a list of eSets
-GSE29617_set <- getGEO("GSE29617", destdir = "data/geo/")[[1]]
-```
-
-```
-## ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE29nnn/GSE29617/matrix/
 ## Found 1 file(s)
-## GSE29617_series_matrix.txt.gz
-## Using locally cached version: data/geo//GSE29617_series_matrix.txt.gz
-## Using locally cached version of GPL13158 found here:
-## data/geo//GPL13158.soft
-```
-which returns (a list of) an ExpressionSet (eSet).
-
-## The eSet class
-
-What is an `eSet`? An S4 class that tries to:
-- Coordinate high through-put (e.g., gene expression) and phenotype data.
-- Provide common data container for diverse Bioconductor packages.
-
-
-```r
-str(GSE29617_set, max.level = 2)
 ```
 
 ```
-## Formal class 'ExpressionSet' [package "Biobase"] with 7 slots
-##   ..@ experimentData   :Formal class 'MIAME' [package "Biobase"] with 13 slots
-##   ..@ assayData        :<environment: 0x7f90391cb4b0> 
-##   ..@ phenoData        :Formal class 'AnnotatedDataFrame' [package "Biobase"] with 4 slots
-##   ..@ featureData      :Formal class 'AnnotatedDataFrame' [package "Biobase"] with 4 slots
-##   ..@ annotation       : chr "GPL13158"
-##   ..@ protocolData     :Formal class 'AnnotatedDataFrame' [package "Biobase"] with 4 slots
-##   ..@ .__classVersion__:Formal class 'Versions' [package "Biobase"] with 1 slot
+## GSE146760_series_matrix.txt.gz
 ```
 
-`str()` is the command to get the internal structure of an R object. 
-An eSet contains the necessary "parts" to summarize an experiment.
+```
+## Parsed with column specification:
+## cols(
+##   ID_REF = col_character(),
+##   GSM4405470 = col_character(),
+##   GSM4405471 = col_character(),
+##   GSM4405472 = col_character(),
+##   GSM4405473 = col_character(),
+##   GSM4405474 = col_character(),
+##   GSM4405475 = col_character(),
+##   GSM4405476 = col_character(),
+##   GSM4405477 = col_character(),
+##   GSM4405478 = col_character(),
+##   GSM4405479 = col_character(),
+##   GSM4405480 = col_character()
+## )
+```
 
-## Classes and methods
+```
+## File stored at:
+```
 
-**Everything in R is an OBJECT.**
+```
+## C:\Users\Andrew\AppData\Local\Temp\RtmpOgW8TR/GPL11154.soft
+```
 
-- A class is the definition of an object.
-- A method is a function that performs specific calculations on objects of a
-specific class. Generic functions are used to determine the class of its
-arguments and select the appropriate method. A generic function is a
-function with a collection of methods.
-- See ?Classes and ?Methods for more information.
-
-## Classes and methods
+## Getting data from GEO
 
 
 ```r
-data(iris)
-class(iris)
+tibble(pData(geo_data))
 ```
 
 ```
-## [1] "data.frame"
+## # A tibble: 11 x 44
+##    title geo_accession status submission_date last_update_date type 
+##    <chr> <chr>         <chr>  <chr>           <chr>            <chr>
+##  1 OCC ~ GSM4405470    Publi~ Mar 10 2020     Jul 02 2020      SRA  
+##  2 OCC ~ GSM4405471    Publi~ Mar 10 2020     Jul 02 2020      SRA  
+##  3 OCC ~ GSM4405472    Publi~ Mar 10 2020     Jul 02 2020      SRA  
+##  4 OCC ~ GSM4405473    Publi~ Mar 10 2020     Jul 02 2020      SRA  
+##  5 PFC ~ GSM4405474    Publi~ Mar 10 2020     Jul 02 2020      SRA  
+##  6 PFC ~ GSM4405475    Publi~ Mar 10 2020     Jul 02 2020      SRA  
+##  7 PFC ~ GSM4405476    Publi~ Mar 10 2020     Jul 02 2020      SRA  
+##  8 PFC ~ GSM4405477    Publi~ Mar 10 2020     Jul 02 2020      SRA  
+##  9 NSC-~ GSM4405478    Publi~ Mar 10 2020     Jul 02 2020      SRA  
+## 10 NSC-~ GSM4405479    Publi~ Mar 10 2020     Jul 02 2020      SRA  
+## 11 NSC-~ GSM4405480    Publi~ Mar 10 2020     Jul 02 2020      SRA  
+## # ... with 38 more variables: channel_count <chr>, source_name_ch1 <chr>,
+## #   organism_ch1 <chr>, characteristics_ch1 <chr>, characteristics_ch1.1 <chr>,
+## #   growth_protocol_ch1 <chr>, molecule_ch1 <chr>, extract_protocol_ch1 <chr>,
+## #   extract_protocol_ch1.1 <chr>, taxid_ch1 <chr>, description <chr>,
+## #   description.1 <chr>, data_processing <chr>, data_processing.1 <chr>,
+## #   data_processing.2 <chr>, data_processing.3 <chr>, platform_id <chr>,
+## #   contact_name <chr>, contact_department <chr>, contact_institute <chr>,
+## #   contact_address <chr>, contact_city <chr>, contact_state <chr>,
+## #   `contact_zip/postal_code` <chr>, contact_country <chr>,
+## #   data_row_count <chr>, instrument_model <chr>, library_selection <chr>,
+## #   library_source <chr>, library_strategy <chr>, relation <chr>,
+## #   relation.1 <chr>, relation.2 <chr>, supplementary_file_1 <chr>, `cell
+## #   subtype:ch1` <chr>, `cell type source:ch1` <chr>, `growth
+## #   condition:ch1` <chr>, `psc line:ch1` <chr>
 ```
 
-```r
-summary(iris)
-```
+## Getting data from GEO
 
-```
-##   Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
-##  Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
-##  1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
-##  Median :5.800   Median :3.000   Median :4.350   Median :1.300  
-##  Mean   :5.843   Mean   :3.057   Mean   :3.758   Mean   :1.199  
-##  3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  
-##  Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  
-##        Species  
-##  setosa    :50  
-##  versicolor:50  
-##  virginica :50  
-##                 
-##                 
-## 
-```
-
-## Classes and methods
-
-There are two types of classes in R: S3 Classes (old style, informal) and S4 Classes - (new style, more rigorous and formal)
-
-
-```r
-# S3 class
-head(methods(class = "data.frame"))
-```
-
-```
-## [1] "[.data.frame"    "[[.data.frame"   "[[<-.data.frame" "[<-.data.frame" 
-## [5] "$.data.frame"    "$<-.data.frame"
-```
-
-```r
-# S4 class
-showMethods(classes  = "eSet")
-```
-
-```
-## 
-## Function ".DollarNames":
-##  <not an S4 generic function>
-## Function: [ (package base)
-## x="eSet", i="ANY", j="ANY"
-## 
-## Function: [[ (package base)
-## x="eSet"
-## 
-## Function: [[<- (package base)
-## x="eSet"
-## 
-## Function: $ (package base)
-## x="eSet"
-## 
-## Function: $<- (package base)
-## x="eSet"
-## 
-## Function: abstract (package Biobase)
-## object="eSet"
-## 
-## 
-## Function "add":
-##  <not an S4 generic function>
-## 
-## Function "addAttributes":
-##  <not an S4 generic function>
-## 
-## Function "ahead_behind":
-##  <not an S4 generic function>
-## Function: annotation (package BiocGenerics)
-## object="eSet"
-## 
-## Function: annotation<- (package BiocGenerics)
-## object="eSet", value="character"
-## 
-## Function: assayData (package Biobase)
-## object="eSet"
-## 
-## Function: assayData<- (package Biobase)
-## object="eSet", value="AssayData"
-## 
-## 
-## Function "blame":
-##  <not an S4 generic function>
-## 
-## Function "blob_create":
-##  <not an S4 generic function>
-## 
-## Function "branch_create":
-##  <not an S4 generic function>
-## 
-## Function "branch_delete":
-##  <not an S4 generic function>
-## 
-## Function "branch_get_upstream":
-##  <not an S4 generic function>
-## 
-## Function "branch_remote_name":
-##  <not an S4 generic function>
-## 
-## Function "branch_remote_url":
-##  <not an S4 generic function>
-## 
-## Function "branch_rename":
-##  <not an S4 generic function>
-## 
-## Function "branch_set_upstream":
-##  <not an S4 generic function>
-## 
-## Function "branch_target":
-##  <not an S4 generic function>
-## 
-## Function "branches":
-##  <not an S4 generic function>
-## 
-## Function "bundle_r_package":
-##  <not an S4 generic function>
-## 
-## Function "checkout":
-##  <not an S4 generic function>
-## 
-## Function "clearMemoryManagement":
-##  <not an S4 generic function>
-## Function: coerce (package methods)
-## from="eSet", to="ExpressionSet"
-## from="eSet", to="MultiSet"
-## from="ExpressionSet", to="eSet"
-## 
-## Function: combine (package BiocGenerics)
-## x="eSet", y="eSet"
-## 
-## 
-## Function "comment.SAX":
-##  <not an S4 generic function>
-## 
-## Function "commit":
-##  <not an S4 generic function>
-## 
-## Function "commits":
-##  <not an S4 generic function>
-## 
-## Function "config":
-##  <not an S4 generic function>
-## 
-## Function "contributions":
-##  <not an S4 generic function>
-## 
-## Function "cred_ssh_key":
-##  <not an S4 generic function>
-## 
-## Function "cred_user_pass":
-##  <not an S4 generic function>
-## 
-## Function "dbiDataType":
-##  <not an S4 generic function>
-## 
-## Function "default_signature":
-##  <not an S4 generic function>
-## 
-## Function "descendant_of":
-##  <not an S4 generic function>
-## Function: description (package Biobase)
-## object="eSet"
-## 
-## Function: description<- (package Biobase)
-## object="eSet", value="MIAME"
-## 
-## 
-## Function "diff":
-##  <not an S4 generic function>
-## Function: dim (package base)
-## x="eSet"
-## 
-## Function: dimnames (package base)
-## x="eSet"
-## 
-## Function: dimnames<- (package base)
-## x="eSet"
-## 
-## Function: dims (package Biobase)
-## object="eSet"
-## 
-## 
-## Function "discover_repository":
-##  <not an S4 generic function>
-## 
-## Function "docName":
-##  <not an S4 generic function>
-## 
-## Function "docName<-":
-##  <not an S4 generic function>
-## 
-## Function "endElement.SAX":
-##  <not an S4 generic function>
-## 
-## Function "entityDeclaration.SAX":
-##  <not an S4 generic function>
-## Function: experimentData (package Biobase)
-## object="eSet"
-## 
-## Function: experimentData<- (package Biobase)
-## object="eSet", value="MIAME"
-## 
-## Function: fData (package Biobase)
-## object="eSet"
-## 
-## Function: fData<- (package Biobase)
-## object="eSet", value="data.frame"
-## 
-## Function: featureData (package Biobase)
-## object="eSet"
-## 
-## Function: featureData<- (package Biobase)
-## object="eSet", value="AnnotatedDataFrame"
-## 
-## Function: featureNames (package Biobase)
-## object="eSet"
-## 
-## Function: featureNames<- (package Biobase)
-## object="eSet"
-## 
-## 
-## Function "fetch_heads":
-##  <not an S4 generic function>
-## 
-## Function "findXIncludeStartNodes":
-##  <not an S4 generic function>
-## 
-## Function "formals<-":
-##  <not an S4 generic function>
-## 
-## Function "free":
-##  <not an S4 generic function>
-## 
-## Function "functions":
-##  <not an S4 generic function>
-## Function: fvarLabels (package Biobase)
-## object="eSet"
-## 
-## Function: fvarLabels<- (package Biobase)
-## object="eSet"
-## 
-## Function: fvarMetadata (package Biobase)
-## object="eSet"
-## 
-## Function: fvarMetadata<- (package Biobase)
-## object="eSet", value="data.frame"
-## 
-## 
-## Function "getEffectiveNamespaces":
-##  <not an S4 generic function>
-## 
-## Function "getEncoding":
-##  <not an S4 generic function>
-## 
-## Function "getEncodingREnum":
-##  <not an S4 generic function>
-## 
-## Function "getTableElementType":
-##  <not an S4 generic function>
-## 
-## Function "GPL":
-##  <not an S4 generic function>
-## 
-## Function "GSM":
-##  <not an S4 generic function>
-## 
-## Function "hash":
-##  <not an S4 generic function>
-## 
-## Function "hashfile":
-##  <not an S4 generic function>
-## 
-## Function "head":
-##  <not an S4 generic function>
-## 
-## Function "in_repository":
-##  <not an S4 generic function>
-## 
-## Function "init":
-##  <not an S4 generic function>
-## Function: initialize (package methods)
-## .Object="eSet"
-## 
-## 
-## Function "is_bare":
-##  <not an S4 generic function>
-## 
-## Function "is_binary":
-##  <not an S4 generic function>
-## 
-## Function "is_detached":
-##  <not an S4 generic function>
-## 
-## Function "is_empty":
-##  <not an S4 generic function>
-## 
-## Function "is_head":
-##  <not an S4 generic function>
-## 
-## Function "is_local":
-##  <not an S4 generic function>
-## 
-## Function "is_merge":
-##  <not an S4 generic function>
-## 
-## Function "is_shallow":
-##  <not an S4 generic function>
-## 
-## Function "lookup":
-##  <not an S4 generic function>
-## 
-## Function "merge":
-##  <not an S4 generic function>
-## 
-## Function "merge_base":
-##  <not an S4 generic function>
-## 
-## Function "note_create":
-##  <not an S4 generic function>
-## 
-## Function "note_default_ref":
-##  <not an S4 generic function>
-## 
-## Function "note_remove":
-##  <not an S4 generic function>
-## Function: notes<- (package Biobase)
-## object="eSet", value="ANY"
-## 
-## 
-## Function "odb_blobs":
-##  <not an S4 generic function>
-## 
-## Function "odb_objects":
-##  <not an S4 generic function>
-## 
-## Function "parents":
-##  <not an S4 generic function>
-## Function: pData (package Biobase)
-## object="eSet"
-## 
-## Function: pData<- (package Biobase)
-## object="eSet", value="data.frame"
-## 
-## Function: phenoData (package Biobase)
-## object="eSet"
-## 
-## Function: phenoData<- (package Biobase)
-## object="eSet", value="AnnotatedDataFrame"
-## 
-## 
-## Function "plot":
-##  <not an S4 generic function>
-## 
-## Function "pop":
-##  <not an S4 generic function>
-## Function: preproc (package Biobase)
-## object="eSet"
-## 
-## Function: preproc<- (package Biobase)
-## object="eSet"
-## 
-## 
-## Function "processingInstruction.SAX":
-##  <not an S4 generic function>
-## 
-## Function "prompt":
-##  <not an S4 generic function>
-## Function: protocolData (package Biobase)
-## object="eSet"
-## 
-## Function: protocolData<- (package Biobase)
-## object="eSet", value="AnnotatedDataFrame"
-## 
-## Function: pubMedIds (package Biobase)
-## object="eSet"
-## 
-## Function: pubMedIds<- (package Biobase)
-## object="eSet", value="character"
-## 
-## 
-## Function "pull":
-##  <not an S4 generic function>
-## 
-## Function "readHTMLList":
-##  <not an S4 generic function>
-## 
-## Function "readHTMLTable":
-##  <not an S4 generic function>
-## 
-## Function "readKeyValueDB":
-##  <not an S4 generic function>
-## 
-## Function "readSolrDoc":
-##  <not an S4 generic function>
-## 
-## Function "references":
-##  <not an S4 generic function>
-## 
-## Function "reflog":
-##  <not an S4 generic function>
-## 
-## Function "remote_add":
-##  <not an S4 generic function>
-## 
-## Function "remote_remove":
-##  <not an S4 generic function>
-## 
-## Function "remote_rename":
-##  <not an S4 generic function>
-## 
-## Function "remote_url":
-##  <not an S4 generic function>
-## 
-## Function "remotes":
-##  <not an S4 generic function>
-## 
-## Function "removeAttributes":
-##  <not an S4 generic function>
-## 
-## Function "removeXMLNamespaces":
-##  <not an S4 generic function>
-## 
-## Function "repository":
-##  <not an S4 generic function>
-## 
-## Function "revparse_single":
-##  <not an S4 generic function>
-## 
-## Function "rm_file":
-##  <not an S4 generic function>
-## Function: sampleNames (package Biobase)
-## object="eSet"
-## 
-## Function: sampleNames<- (package Biobase)
-## object="eSet", value="ANY"
-## 
-## 
-## Function "saveXML":
-##  <not an S4 generic function>
-## 
-## Function "selectSomeIndex":
-##  <not an S4 generic function>
-## Function: show (package methods)
-## object="eSet"
-## 
-## 
-## Function "simplifyNamespaces":
-##  <not an S4 generic function>
-## 
-## Function "source":
-##  <not an S4 generic function>
-## 
-## Function "startElement.SAX":
-##  <not an S4 generic function>
-## 
-## Function "stash":
-##  <not an S4 generic function>
-## 
-## Function "stash_drop":
-##  <not an S4 generic function>
-## 
-## Function "stash_list":
-##  <not an S4 generic function>
-## 
-## Function "status":
-##  <not an S4 generic function>
-## Function: storageMode (package Biobase)
-## object="eSet"
-## 
-## Function: storageMode<- (package Biobase)
-## object="eSet", value="character"
-## 
-## 
-## Function "tag":
-##  <not an S4 generic function>
-## 
-## Function "tags":
-##  <not an S4 generic function>
-## 
-## Function "text.SAX":
-##  <not an S4 generic function>
-## 
-## Function "toHTML":
-##  <not an S4 generic function>
-## 
-## Function "tree":
-##  <not an S4 generic function>
-## Function: updateObject (package BiocGenerics)
-## object="eSet"
-## 
-## Function: updateObjectTo (package Biobase)
-## object="eSet", template="eSet"
-## 
-## Function: varLabels (package Biobase)
-## object="eSet"
-## 
-## Function: varLabels<- (package Biobase)
-## object="eSet"
-## 
-## Function: varMetadata (package Biobase)
-## object="eSet"
-## 
-## Function: varMetadata<- (package Biobase)
-## object="eSet", value="data.frame"
-## 
-## 
-## Function "when":
-##  <not an S4 generic function>
-## 
-## Function "workdir":
-##  <not an S4 generic function>
-## 
-## Function "xmlAttrs<-":
-##  <not an S4 generic function>
-## 
-## Function "xmlAttrsToDataFrame":
-##  <not an S4 generic function>
-## 
-## Function "xmlChildren<-":
-##  <not an S4 generic function>
-## 
-## Function "xmlClone":
-##  <not an S4 generic function>
-## 
-## Function "xmlNamespace<-":
-##  <not an S4 generic function>
-## 
-## Function "xmlNamespaces<-":
-##  <not an S4 generic function>
-## 
-## Function "xmlParent":
-##  <not an S4 generic function>
-## 
-## Function "xmlRoot<-":
-##  <not an S4 generic function>
-## 
-## Function "xmlSource":
-##  <not an S4 generic function>
-## 
-## Function "xmlSourceFunctions":
-##  <not an S4 generic function>
-## 
-## Function "xmlSourceSection":
-##  <not an S4 generic function>
-## 
-## Function "xmlSourceTask":
-##  <not an S4 generic function>
-## 
-## Function "xmlSourceThread":
-##  <not an S4 generic function>
-## 
-## Function "xmlToDataFrame":
-##  <not an S4 generic function>
-## 
-## Function "xmlToS4":
-##  <not an S4 generic function>
-## 
-## Function "xmlValue<-":
-##  <not an S4 generic function>
-```
-
-## The eSet
-
-You can get a sense of the defined methods for an `eSet` as follows:
-
-```r
-library(Biobase)
-showMethods(classes = "eSet")
-```
-in particular, the following methods are rather convenient:
-
-- assayData(obj); assayData(obj) `<-` value: access or assign assayData
-- phenoData(obj); phenoData(obj) `<-` value: access or assign phenoData
-- experimentData(obj); experimentData(obj) `<-` value: access or assign experimentData
-- annotation(obj); annotation(obj) `<-` value: access or assign annotation
-
-## The ExpressionSet subclass
-
-Similar to the `eSet` class but tailored to gene expression, with an expression matrix that can be accessed with the `exprs` method.
+Actual gene expression data, ie RNA-seq read counts, is less commonly stored in GEO.
 
 
 ```r
-class(GSE29617_set)
+exprs(geo_data) # gene expression
 ```
 
 ```
-## [1] "ExpressionSet"
-## attr(,"package")
-## [1] "Biobase"
-```
-
-```r
-exprs(GSE29617_set)[1:2,1:3]
-```
-
-```
-##              GSM733942 GSM733943 GSM733944
-## 1007_PM_s_at   4.62965   4.46083   4.54702
-## 1053_PM_at     4.41375   4.72417   4.48257
-```
-
-also provides additional methods such as `fData`.
-
-## The ExpressionSet subclass
-
-`ExpressionSet` objects are meant to facilitate the adoption of MIAME standard. MIAME = "Minimum Information about a Microarray experiment". Alvis Brazma et. al. (2001) Nature Genetics
-Unfortrunately, not all contributors will upload all the information.
-
-```r
-# Information about preprocessing
-# Nothing in here!
-preproc(GSE29617_set)
-```
-
-```
-## list()
-```
-
-## The ExpressionSet subclass
-
-
-```r
-# A data.frame with number of rows equal to the number of samples
-pData(GSE29617_set)[1:2,1:2]
-```
-
-```
-##                                                  title geo_accession
-## GSM733942 2008 TIV subject ID 2 at D0 post-vaccination     GSM733942
-## GSM733943 2008 TIV subject ID 2 at D7 post-vaccination     GSM733943
+##      GSM4405470 GSM4405471 GSM4405472 GSM4405473 GSM4405474 GSM4405475
+##      GSM4405476 GSM4405477 GSM4405478 GSM4405479 GSM4405480
 ```
 
 ```r
-# A data.frame with number of rows equal to the number of features/probes
-fData(GSE29617_set)[1:2,1:2]
+fData(geo_data) # gene/feature/row annotation
 ```
 
 ```
-##                        ID GB_ACC
-## 1007_PM_s_at 1007_PM_s_at U48705
-## 1053_PM_at     1053_PM_at M87338
+## data frame with 0 columns and 0 rows
 ```
 
-## The ExpressionSet subclass 
+## Getting data from GEO
 
-So the `ExpressionSet` objects facilitate the encapsulation of everything that's needed to summarize and analyze an experiment. Specific elements can be access with the `@` operator but many classes have convenient accessor methods.
+Sometimes the gene expression matrices are stored as supplementary data.
+https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE146760
 
 
 ```r
-fData(GSE29617_set)[1:2, 1:2]
+getGEOSuppFiles("GSE146760")
 ```
 
 ```
-##                        ID GB_ACC
-## 1007_PM_s_at 1007_PM_s_at U48705
-## 1053_PM_at     1053_PM_at M87338
+##                                                                                                                 size
+## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASample_Info_v2.txt.gz              277
+## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz 769233
+##                                                                                                               isdir
+## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASample_Info_v2.txt.gz           FALSE
+## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz FALSE
+##                                                                                                               mode
+## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASample_Info_v2.txt.gz            666
+## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz  666
+##                                                                                                                             mtime
+## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASample_Info_v2.txt.gz           2020-07-10 21:50:03
+## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz 2020-07-10 21:50:03
+##                                                                                                                             ctime
+## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASample_Info_v2.txt.gz           2020-07-10 21:24:58
+## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz 2020-07-10 21:24:58
+##                                                                                                                             atime
+## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASample_Info_v2.txt.gz           2020-07-10 21:50:03
+## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz 2020-07-10 21:50:03
+##                                                                                                               exe
+## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASample_Info_v2.txt.gz            no
+## C:/Users/Andrew/Documents/GitHub/Module1/lecture_notes/GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz  no
 ```
 
 ```r
-# Note that S4 classes can be nested!
-GSE29617_set@featureData@data[1:2, 1:2]
+counts  = read.delim("GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz")
+pheno = read.delim("GSE146760/GSE146760_RNASample_Info_v2.txt.gz")
 ```
 
-```
-##                        ID GB_ACC
-## 1007_PM_s_at 1007_PM_s_at U48705
-## 1053_PM_at     1053_PM_at M87338
-```
-
-## What if you want the raw data?
-
-GEO also provides access to raw data that can be downloaded with `GEOquery`.
-
+## Getting data from GEO
 
 
 ```r
-# Download all raw data. This should only be evaluated once
-# Then the data would be stored locally in the data directory
-# Make sure the directory exists
-if (length(dir("data/geo/", pattern = "GSE29617")) == 0) {
-  getGEOSuppFiles("GSE29617", makeDirectory = TRUE, baseDir = "./data/geo/")
-  untar("./data/geo/GSE29617/GSE29617_RAW.tar", exdir = "./data/geo/GSE29617/", 
-        tar = Sys.getenv("TAR"))
-}
-# untar downloaded data
+colnames(counts) = sapply(str_split(colnames(counts), "Aligned"), "[[", 1)
+identical(colnames(counts), pheno$Prefix)
 ```
 
-## Starting from the raw data
+```
+## [1] TRUE
+```
 
-Now that we have the Affymetrix raw data (CEL) files, we can apply some of the concepts we've discussed related to normalization and probe summary. We first need to load the appropriate package
+```r
+rownames(pheno) = pheno$Status
+colnames(counts) = pheno$Status
+```
 
+## Getting data from GEO
+
+SummarizedExperiment objects are probably the standard data structure for gene expression data.
+
+https://bioconductor.org/packages/release/bioc/html/SummarizedExperiment.html
 
 
 ```r
-## In case we haven't downloaded it before.
-biocLite("affy")
+rse = SummarizedExperiment(assays = list(counts = counts),
+                            colData = DataFrame(pheno))
 ```
+
+## Getting data from GEO
+
+We can also add gene annotation information with the `biomaRt` package
 
 
 ```r
-library(affy)
+library(biomaRt)
+ensembl <- useEnsembl(biomart = "genes", dataset = "hsapiens_gene_ensembl")
 ```
 
-then we use the following commands
+```
+## Ensembl site unresponsive, trying useast mirror
+```
+
+```
+## Ensembl site unresponsive, trying uswest mirror
+```
 
 ```r
-# Read the CEL file and creates and AffyBatch
-GSE29617_affyBatch <- ReadAffy(celfile.path = "data/geo/GSE29617/")
-# Normalize and summarize the data
-GSE29617_set2 <- rma(GSE29617_affyBatch)
+geneMap = getBM(attributes = c("ensembl_gene_id",
+                "chromosome_name","start_position",
+          "end_position", "strand", "external_gene_name"),
+			values=rownames(counts), mart=ensembl)
+```
+
+## Genomic Ranges
+
+
+```r
+geneMap$chromosome_name = paste0("chr", geneMap$chromosome_name)
+geneMap$strand = ifelse(geneMap$strand == 1, "+", "-")
+geneMap_gr = makeGRangesFromDataFrame(geneMap,
+            seqnames.field = "chromosome_name",
+            start.field = "start_position",
+            end.field = "end_position")
+names(geneMap_gr) = geneMap$ensembl_gene_id
+```
+
+## Genomic Ranges
+
+
+```r
+identical(rownames(counts), names(geneMap_gr))
+```
+
+```
+## [1] FALSE
+```
+
+```r
+table(rownames(counts) %in% names(geneMap_gr))
 ```
 
 ```
 ## 
-```
-
-```
-## Background correcting
-## Normalizing
-## Calculating Expression
-```
-
-## Starting from the raw data
-
-Let's check the results and compare to the expression matrix that was submitted to GEO
-
-```r
-exprs(GSE29617_set2)[1:2,1:2]
-```
-
-```
-##              GSM733942.CEL.gz GSM733943.CEL.gz
-## 1007_PM_s_at         4.629650         4.460843
-## 1053_PM_at           4.413773         4.724213
-```
-
-The rows are the features (i.e., probes). Columns are the samples.
-
-## What are those probes?
-
-
-```r
-# We first need to install our annotation package
-library(BiocInstaller)
-# Note that you don't have to use source anymore!
-biocLite("hthgu133a.db")
-```
-
-
-
-```r
-library(hthgu133a.db)
-```
-
-```
-## Loading required package: AnnotationDbi
-```
-
-```
-## Warning: package 'AnnotationDbi' was built under R version 3.1.3
-```
-
-```
-## Loading required package: stats4
-## Loading required package: GenomeInfoDb
-```
-
-```
-## Warning: package 'GenomeInfoDb' was built under R version 3.1.3
-```
-
-```
-## Loading required package: S4Vectors
-## Loading required package: IRanges
-## 
-## Attaching package: 'AnnotationDbi'
-## 
-## The following object is masked from 'package:GenomeInfoDb':
-## 
-##     species
-## 
-## Loading required package: org.Hs.eg.db
+## FALSE  TRUE 
+##   830 57221
 ```
 
 ```r
-probe_ids <- rownames(GSE29617_set2)
-probe_data <- select(hthgu133a.db, keys = probe_ids, columns = "SYMBOL", keytype = "PROBEID")
-probe_data[1,]
+mm = match(rownames(counts), names(geneMap_gr))
+geneMap_gr = geneMap_gr[mm[!is.na(mm)]]
+counts = counts[!is.na(mm),]
+rse = SummarizedExperiment(assays = list(counts = counts),
+                            colData = DataFrame(pheno),
+                           rowRanges = geneMap_gr)
 ```
 
-```
-##        PROBEID SYMBOL
-## 1 1007_PM_s_at   <NA>
-```
-This didn't work very well, did it?
-The problem is that the probe IDs in hthgu133a.db have a different naming scheme than those in GSE29617_set2. This is fixed on the next slide.
-
-## What are those probes?
-
-Let's fix this: Replace _PM with <empty> for the probe id names in GSE29617_set2
-
-```r
-probe_ids <- gsub("_PM","", rownames(GSE29617_set2))
-probe_data <- select(hthgu133a.db, keys = probe_ids, columns = "SYMBOL", keytype = "PROBEID")
-```
-
-```
-## Warning in .generateExtraRows(tab, keys, jointype): 'select' resulted in
-## 1:many mapping between keys and return rows
-```
-
-```r
-probe_data[1, ]
-```
-
-```
-##     PROBEID SYMBOL
-## 1 1007_s_at   DDR1
-```
-What's the warning? Some probes match up with multiple genes, therefore those probe IDs will have more than one record.
-
-## What are those probes?
-
-
-This gives us too many rows, what do we do? Concatenate the gene names so that there will be one row per probe ID.
+## Summarized Experiment
 
 
 ```r
-library(data.table)
-probe_data_dt <- data.table(probe_data)
-probe_data_dt_unique <- probe_data_dt[,list(SYMBOL = paste(SYMBOL, collapse = ";")), by = "PROBEID"]
-probe_data_dt_unique[SYMBOL %like% ";"]
+rse
 ```
 
 ```
-##           PROBEID                                  SYMBOL
-##    1:   1007_s_at                            DDR1;MIR4640
-##    2:     1294_at                            UBA7;MIR5193
-##    3:     1773_at                        FNTB;CHURC1-FNTB
-##    4: 200012_x_at         RPL21;SNORD102;SNORA27;RPL21P28
-##    5:   200018_at             RPS13;SNORD14B;LOC100508408
-##   ---                                                    
-## 1130:  65133_i_at                      INO80B;INO80B-WBP1
-## 1131:    65585_at FAM86C1;FAM86B1;FAM86FP;FAM86B2;FAM86DP
-## 1132:    66053_at                 HNRNPUL2;HNRNPUL2-BSCL2
-## 1133:    78495_at                        LOC155060;ZNF783
-## 1134:    91617_at                           DGCR8;MIR1306
+## class: RangedSummarizedExperiment 
+## dim: 57221 11 
+## metadata(0):
+## assays(1): counts
+## rownames(57221): ENSG00000000003 ENSG00000000005 ... ENSG00000283698
+##   ENSG00000283699
+## rowData names(0):
+## colnames(11): Neuron01 Neuron02 ... NSC03 NSC04
+## colData names(5): Status Replicate Prefix Code Context_Reps
 ```
 
-## Completing our ExpressionSet
 
+## Getting data from the Sequence Read Archive (SRA)
 
-```r
-annotaded_probes <- data.frame(probe_data_dt_unique)
-rownames(annotaded_probes) <- rownames(GSE29617_set2)
-fData(GSE29617_set2) <- annotaded_probes
-head(fData(GSE29617_set2))
-```
+GEO originated for microarray data, which has largely become replaced by data produced using next-generation sequencing technologies. Depositing raw sequencing reads into the Sequence Read Archive (SRA) is often a condition of publication in many journals. 
 
-```
-##                PROBEID       SYMBOL
-## 1007_PM_s_at 1007_s_at DDR1;MIR4640
-## 1053_PM_at     1053_at         RFC2
-## 117_PM_at       117_at        HSPA6
-## 121_PM_at       121_at         PAX8
-## 1255_PM_g_at 1255_g_at       GUCA1A
-## 1294_PM_at     1294_at UBA7;MIR5193
-```
-
-Now you're ready to get the data that you will have to analyze for your second homework. 
+https://trace.ncbi.nlm.nih.gov/Traces/sra/?study=SRP157978
 

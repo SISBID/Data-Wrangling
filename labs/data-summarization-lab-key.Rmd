@@ -1,0 +1,87 @@
+---
+title: "Data Summarization Lab Key"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Data used
+
+Circulator Lanes Dataset: the data is from https://data.baltimorecity.gov/Transportation/Charm-City-Circulator-Ridership/wwvu-583r
+
+You can Download as a CSV in your current working directory.  Note its also available at:  http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv
+
+```{r}
+library(tidyverse)
+
+circ = read_csv(paste0("http://sisbid.github.io/Data-Wrangling/",
+                       "data/Charm_City_Circulator_Ridership.csv"))
+```
+
+1. How many days are in the data set?  You can assume each observation/row is a different day
+
+```{r q1}
+nrow(circ)
+dim(circ)
+circ %>% 
+  nrow()
+```
+
+2. What is the total (sum) number boardings on the green bus (`greenBoardings`)?
+
+```{r q2}
+sum(circ$greenBoardings, na.rm = TRUE)
+```
+
+3. How many days are missing daily ridership?  Use `is.na()` and either `table()`, `count()`, or `n()`.
+   
+```{r q3}
+table(is.na(circ$daily), useNA = "ifany")
+
+circ %>% 
+  count(is.na(daily))
+
+circ %>% 
+  mutate(missing_daily = is.na(daily)) %>% 
+  group_by(missing_daily) %>% 
+  summarise(n())
+```
+
+4. Group the data by day of the week (`day`). Which day of the week has the most average ridership (the `daily` column)?  How many days goes are observed for those days?
+
+```{r q4}
+circ %>% 
+  group_by(day) %>% 
+  summarise(mean = mean(daily, na.rm = TRUE),
+            n = n()) %>% 
+  arrange(desc(mean)) 
+```
+
+
+5. Describe the distribution of `orangeBoardings`(use `quantile()`).
+
+```{r q6}
+quantile(circ$orangeBoardings, na.rm = TRUE)
+circ %>% 
+  summarise(quantile(orangeBoardings, na.rm = TRUE))
+```
+
+6. Describe the distribution of `orangeBoardings`(use `quantile()`), but this time stratify by day of the week.
+
+```{r q7}
+circ %>% 
+  group_by(day) %>% 
+  summarise(quantile(orangeBoardings, na.rm = TRUE))
+```
+
+7.  Bonus: Describe the results of #5 but using a boxplot visualization:
+
+```{r}
+# Hint:
+# qplot(x = ???, y = ???, data = ???, geom = "boxplot")
+qplot(x = orangeBoardings, y = day, data = circ, geom = "boxplot")
+```

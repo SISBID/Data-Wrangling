@@ -1,0 +1,22 @@
+---
+title: "data.table lab"
+author: "Jeff Leek"
+date: "July 12, 2016"
+output: html_document
+---
+
+1. Download and load the nycflights data with the command `install.packages('nycflights13')` and `library(nycflights13)`.
+
+2. Use the `pryr` package to figure out the size of the `flights` object. 
+
+3. Write a .csv out with `write_csv` with the flights data. 
+
+4. Read with `fread` and `read_csv`, how fast are they? 
+
+5. Find the average delay time for American Airlines (hint: the abbreviation is AA).
+
+6. Can you add a variable for delay time to the database? 
+
+7. How long does it take to collect the results of your computation for 5? 
+
+8. Can you figure out the average delay time for each airline? 

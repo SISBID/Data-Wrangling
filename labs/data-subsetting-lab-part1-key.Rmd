@@ -1,0 +1,80 @@
+---
+title: "Data Subsetting, Part 1 - Lab"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In this lab you can use the interactive console to explore but please record your commands here.  Remember anything you type here can be "sent" to the console with Cmd-Enter (OS-X) or Cntr-Enter (Windows/Linux) (But only in side the ```{r}``` areas).
+
+```{r, message = FALSE}
+library(tidyverse)
+```
+
+# Part 1
+
+1. Check to see if you have the `mpg` dataset [hint: it's in the `ggplot2` package].
+
+```{r}
+mpg
+```
+
+
+2. What data class is `mpg`?
+```{r}
+class(mpg)
+```
+
+3. How many observations (rows) and variables (columns) are in the `mpg` dataset?
+
+```{r}
+dim(mpg)
+nrow(mpg)
+ncol(mpg)
+glimpse(mpg)
+```
+
+4. Select the `manufacturer`, `model` and `year` columns from the `mpg` dataset.
+
+```{r}
+select(mpg, manufacturer, model,year)
+```
+
+5. Identify the subset of cars/rows where city fuel economy (`cty`) is greater than 20 and highway fuel economy (`hwy`) is greater than 30. Assign this output to an object called `eff`. How many cars/rows are present?
+
+```{r}
+eff = mpg %>% filter(cty > 20, hwy > 30)
+dim(eff)
+```
+
+6. How many fuel efficient cars (in the `eff` dataset) were manufactured in the year 1999?
+
+```{r}
+eff %>% filter(year == 1999) %>% nrow()
+
+```
+
+7. Filter cars from the overall `mpg` dataset that do not have 4 cylinder engines. How many cars/rows are there?
+
+```{r}
+mpg %>% filter(cyl != 4) %>% nrow()
+
+```
+
+8. Filter cars to only those in the "suv" or "minivan" class. How many cars/rows are there?
+
+```{r}
+# both give same result
+mpg %>% filter(class %in% c("suv", "minivan")) %>% nrow()
+mpg %>% filter(class =="suv" | class == "minivan") %>% nrow()
+```
+
+9. Filter cars with displacements (`displ`) greater than 4 and that are All/4 wheel drive. How many cars/rows are there. 
+
+```{r}
+mpg %>% filter(displ > 4, drv == "4") %>% nrow()
+```

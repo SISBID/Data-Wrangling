@@ -1,0 +1,73 @@
+---
+title: "Advanced IO lab key"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+## Google Sheets Lab
+
+```{r, include=FALSE}
+library(tidyverse)
+library(httr)
+library(jsonlite)
+library(googlesheets4)
+```
+
+This is a lab to practice with Google Sheets and the `googlesheets` package.
+
+1. We are going to use a sheet from previous years: https://docs.google.com/spreadsheets/d/1KIRtcPVn58R3_qr97WNtcOJiY4AaytHzGDzLW_3_R1s/edit?usp=sharing
+
+```{r}
+
+```
+
+
+2. Use the `googlesheets4::read_sheet` function to read in the data like we discussed in class, call this object `x`.
+
+```{r}
+
+```
+
+3. Using `sheet_names` function to get the sheet names from the `sheet_url`.
+
+```{r}
+
+```
+
+
+4. Try reading in just the first two columns. See the `range` argument and look at the arguments for `cell_rows`, `cell_limits` and `cell_cols`.
+
+```{r}
+
+```
+
+## JSON Lab
+
+<!-- See here for more fun practice! https://github.com/jdorfman/Awesome-JSON-Datasets -->
+
+The following dataset lists airports in the US and details about the number of late flights over time.
+
+1. Read in data from the following link: https://think.cs.vt.edu/corgis/datasets/json/airlines/airlines.json. Call this `jsonData`.
+
+```{r}
+
+```
+
+2. Investigate the data. What are the three main items in `jsonData`?
+
+```{r, error = TRUE}
+
+```
+
+3. Filter `jsonData` to include only NYC LaGuardia and Chicago O'Hare airports (Code : "LGA", "ORD") and Year : 2016. Call this `lga_ord`.
+
+```{r}
+
+```
+
+4. Create a new tibble out of Airport Code (`Airport$Code`), Total Flights (`Statistics$Flights$Total`), and create a new column for proportion of delayed flights using (`Statistics$Flights$Delayed`). Call this new tibble `airport_compare`.
+
+```{r}
+
+```

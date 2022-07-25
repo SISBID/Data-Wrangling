@@ -1,55 +1,25 @@
 ---
-title: 'SISBD: Introduction to Bioconductor'
-author: "Raphael Gottardo"
-date: "\ `r Sys.Date()`"
+title: 'Introduction to Bioconductor'
+author: "Data Wrangling in R"
 output:
   ioslides_presentation:
-    fig_caption: yes
-    fig_retina: 1
-    keep_md: yes
-    smaller: yes
+    widescreen: yes
 ---
 
-## Setting up some options
-
-Let's first turn on the cache for increased performance and improved styling
-```{r, cache=FALSE}
-# Set some global knitr options
-library("knitr")
-opts_chunk$set(cache = FALSE, messages = FALSE)
+```{r,include=FALSE}
+library(stringr)
+library(tibble)
+library(SummarizedExperiment)
+library(dplyr)
+library(biomaRt)
 ```
-
-## R in the NY Times
-
-"Despite" being free and open-source, R is widely used by data analysts inside corporations and academia.
-
-See [NY Times](http://www.nytimes.com/2009/01/07/technology/business-computing/07program.html?pagewanted=all&_r=0) article
-
-![R in the NY Times](http://graphics8.nytimes.com/images/2009/01/07/business/07program.600.jpg)
-
-## R in Nature 
-
-<iframe src="http://www.nature.com/news/programming-tools-adventures-with-r-1.16609?WT.ec_id=NATURE-20141225"></iframe>
-
-## R is a really mature project
-
-Some of the best R functionalities **ARE NOT** in R-base but come from add-on packages: knitr, ggplot2, reshape2, Rcpp, data.table, etc.
-
-Some of these packages are available on the following repositories:
-
-- [CRAN](http://cran.r-project.org)
-- [Bioconductor](http://bioconductor.org)
-- [GitHub](http://github.com)
-- [Ropensci](https://ropensci.org)
-
-**Note:** Show how to update the list of repositories to install packages (`setRepositories`). Also talk about biocLite.
 
 
 ## The Bioconductor project
 
 - [Bioconductor](http://www.bioconductor.org) is an open source, open development software project to provide tools for the analysis and comprehension of high-throughput genomic data. It is based primarily on the R programming language.
 
-- Most Bioconductor components are distributed as R packages. The functional scope of Bioconductor packages includes the analysis of DNA microarray, sequence, flow, SNP, and other data.
+- Most Bioconductor components are distributed as R packages. The functional scope of Bioconductor packages includes the analysis of microarray, sequencing, flow sorting, genotype/SNP, and other data.
 
 ## Project Goals
 
@@ -72,19 +42,23 @@ The broad goals of the Bioconductor project are:
 
 ```{r, eval=FALSE}
 # Note that this is not evaluated here, so you will have to do it before using this knitr doc
-source("http://bioconductor.org/biocLite.R")
+install.packages("BiocManager")
 # Install all core packages and update all installed packages
-biocLite()
+BiocManager::install()
 ```
+
+## Getting started
 
 You can also install specific packages
 
 ```{r, eval=FALSE}
 # Note that this is not evaluated here, so you will have to do it before using this knitr doc
-biocLite(c("GEOmetadb", "GEOquery", "limma", "affy"))
+BiocManager::install(c("GEOquery", "limma", "biomaRt", "SummarizedExperiment"))
 ```
 
-# Overview of SQL and data.table (external notes)
+## Bioconductor Workflows
+
+https://bioconductor.org/packages/release/workflows/vignettes/sequencing/inst/doc/sequencing.html
 
 ## The Gene Expression Omnibus (GEO)
 
@@ -98,315 +72,167 @@ The three main goals of GEO are to:
 
 ## Getting data from GEO
 
-Before getting data from GEO, we need to see what data we want. For that we can use the `GEOmetadb` package. 
+For individual studies/datasets, the easiest way to find publicly-available data is the GEO accession number found at the end of publications.
+
+## Getting data from GEO
+
+The `GEOquery` package can access GEO directly.
+
+https://www.bioconductor.org/packages/release/bioc/html/GEOquery.html
 
 ```{r}
-library(GEOmetadb)
+library(GEOquery)
+# https://pubmed.ncbi.nlm.nih.gov/32619517/
+geo_data = getGEO("GSE146760")[[1]] # find accession in paper
 ```
 
-Remember that packages in Bioconductor are well documented with a vignette that can be access as follows:
+## Getting data from GEO
 
-```{r eval=FALSE}
-vignette("GEOmetadb")
-```
-or if the package contains multiple vignettes or a vignette with a non-standard name
-
-```{r eval=FALSE}
-browseVignettes(package = "GEOmetadb")
-```
-
-## Finding the right data in GEO
-
-Zhu, Y., Davis, S., Stephens, R., Meltzer, P. S., & Chen, Y. (2008). GEOmetadb: powerful alternative search engine for the Gene Expression Omnibus. Bioinformatics (Oxford, England), 24(23), 2798–2800. doi:10.1093/bioinformatics/btn520
-
-GEOmetadb uses a SQLite database to store all metadata associate with GEO.
+We can get the phenotypic data using the `pData()` function from `Biobase`
 
 ```{r}
-## This will download the entire database, so can be slow
-if (!file.exists("GEOmetadb.sqlite"))
-{
-  # Download database only if it's not done already
-  getSQLiteFile()
+tibble(Biobase::pData(geo_data))
+```
+
+## Getting data from GEO
+
+Actual gene expression data, ie RNA-seq read counts, is less commonly stored in GEO.
+
+Wh
+
+```{r}
+Biobase::exprs(geo_data) # gene expression
+Biobase::fData(geo_data) # gene/feature/row annotation
+```
+
+## Getting data from GEO
+
+Sometimes the gene expression matrices are stored as supplementary data.
+We can check it out using the `GEOquery` package.
+https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE146760
+
+```{r}
+getGEOSuppFiles("GSE146760")
+counts  = read.delim("GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz")
+pheno = read.delim("GSE146760/GSE146760_RNASample_Info_v2.txt.gz")
+```
+
+## Getting data from GEO
+OK! so now we can start working with our data... first, we want to make sure these two files have all the same corresponding sample IDs. We want the `pheno$Prefix` column to be the same as the colnames of our count data.  This is going to take some wrangling!
+
+```{r}
+#colnames(counts) = sapply(str_split(colnames(counts), "Aligned"), "[[", 1)
+colnames(counts) = str_remove(string = colnames(counts), pattern = "Aligned.sortedByCoord.out.bam")
+identical(colnames(counts), pheno$Prefix)
+```
+
+## OK could be a bit more clear
+
+Now that we know they are identical, let's replace the column names of counts with the Status column values of pheno.
+```{r}
+rownames(pheno) = pheno$Status
+colnames(counts) = pheno$Status
+```
+
+## Getting data from GEO
+
+SummarizedExperiment objects are probably the standard data structure for gene expression data.
+
+https://bioconductor.org/packages/release/bioc/html/SummarizedExperiment.html
+
+```{r, message = FALSE}
+library(SummarizedExperiment)
+rse = SummarizedExperiment(assays = list(counts = counts),
+                            colData = DataFrame(pheno))
+```
+
+## biomaRt
+
+We can also add gene annotation information with the `biomaRt` package.
+
+Guide:https://www.bioconductor.org/packages/devel/bioc/vignettes/biomaRt/inst/doc/accessing_ensembl.html
+
+```{r, cache=TRUE}
+library(biomaRt)
+
+if(interactive()){
+listEnsembl()
 }
+#datasets <- listDatasets(ensembl)
+#head(datasets)
+#searchAttributes(mart = ensembl, pattern = "hgnc")
 ```
 
-## Finding the right data in GEO
+## biomaRt
+Guide:https://www.bioconductor.org/packages/devel/bioc/vignettes/biomaRt/inst/doc/accessing_ensembl.html
+```{r}
+ensembl <- useEnsembl(biomart = "genes", dataset = "hsapiens_gene_ensembl")
+geneMap = getBM(attributes = c("ensembl_gene_id",
+                "chromosome_name","start_position",
+          "end_position", "strand", "external_gene_name"),
+			values=rownames(counts), mart=ensembl)
+```
+
+## Biomart
+```{r}
+head(geneMap)
+```
+Great! now we have info about the different ensemble genes!
+
+
+## Genomic Ranges
+
+Convert the data frame to a G[enomic]Ranges object:
 
 ```{r}
-geo_con <- dbConnect(SQLite(),'GEOmetadb.sqlite')
-dbListTables(geo_con)
+#geneMap$chromosome_name = paste0("chr", geneMap$chromosome_name)
+geneMap <-geneMap %>% mutate(chromosome_name = paste0("chr", chromosome_name))
+#geneMap$strand = ifelse(geneMap$strand == 1, "+", "-")
+geneMap <-geneMap %>% mutate(strand = case_when(strand == 1 ~"+", TRUE ~ "-"))
+geneMap_gr = makeGRangesFromDataFrame(geneMap,
+            seqnames.field = "chromosome_name",
+            start.field = "start_position",
+            end.field = "end_position")
+names(geneMap_gr) = geneMap$ensembl_gene_id
+geneMap_gr
 ```
+
+## Genomic Ranges
 
 ```{r}
-dbListFields(geo_con, 'gse')
+identical(rownames(counts), names(geneMap_gr))
+table(rownames(counts) %in% names(geneMap_gr))
+mm = match(rownames(counts), names(geneMap_gr))
+geneMap_gr = geneMap_gr[mm[!is.na(mm)]]
+counts = counts[!is.na(mm),]
 ```
 
-## Finding a study
-
-The basic record types in GEO include Platforms (GPL), Samples (GSM), Series (GSE) and DataSets (GDS)
-
-```{r}
-dbGetQuery(geo_con, "SELECT gse.ID, gse.title, gse.gse FROM gse WHERE gse.pubmed_id='21743478';")
-```
-
-## Finding a study
-
-What samples were used?
-
-```{r}
-dbGetQuery(geo_con, "SELECT gse.gse, gsm.gsm, gsm.title FROM (gse JOIN gse_gsm ON gse.gse=gse_gsm.gse) j JOIN gsm ON j.gsm=gsm.gsm WHERE gse.pubmed_id='21743478' LIMIT 5;")
-```
-gse_gsm contains the gse number that is associated with the gsm number. 
-j is the name of a table that is created by joining gse and ges_gsm. Then j is joined with table gsm. 
-
-## Finding a study
-
-What about raw data?
-
-```{r}
-res <- dbGetQuery(geo_con, "SELECT gsm.gsm, gsm.supplementary_file FROM (gse JOIN gse_gsm ON gse.gse=gse_gsm.gse) j JOIN gsm ON j.gsm=gsm.gsm WHERE gse.pubmed_id='21743478' LIMIT 5;")
-head(res)
-```
-raw data is contained in the supplementary files, which are listed in the gsm file. 
-
-## Finding specific data
-
-To get list of manufacturers:
-```{r}
-library(data.table)
-manu <- data.table(dbGetQuery(geo_con, "SELECT manufacturer FROM gpl"))
-manu[, .(n = .N), by = manufacturer][order(-n)]
-```
-
-## Finding specific data
-
-To get supplementary file names ending with cel.gz from only manufacturer Affymetrix
-```{r}
-res <- dbGetQuery(geo_con, "SELECT gpl.bioc_package, gsm.title, gsm.series_id, gsm.gpl, gsm.supplementary_file FROM gsm JOIN gpl ON gsm.gpl=gpl.gpl WHERE gpl.manufacturer='Affymetrix' AND gsm.supplementary_file like '%CEL.gz';")
-head(res)
-```
-
-## Finding specific data
-
-From previous table:
-
-- bioc_package = bioconductor package
-- hu6800 = Affymetrix HuGeneFL Genome Array annotation data (chip hu6800) 
-- rgu34a = Affymetrix Rat Genome U34 Set annotation data (chip rgu34a)
-- title = data set title or study title
-
-For example BM_CD34-1a = bone marrow flow-sorted CD34+ cells (>95% purity) and has GSM sample number GSM575. 
-
-## Getting the data we want
-
-We will first create a directory where we will download data:
-```{r}
-dir.create("data/geo", recursive = TRUE)
-```
-
-Now we can download the data we want using our GSE ID and the GEOquery command, as follows,
-
-```{r query-GEO, cache = TRUE}
-# Download the mapping information and processed data
-# This returns a list of eSets
-GSE29617_set <- getGEO("GSE29617", destdir = "data/geo/")[[1]]
-```
-which returns (a list of) an ExpressionSet (eSet).
-
-## The eSet class
-
-What is an `eSet`? An S4 class that tries to:
-- Coordinate high through-put (e.g., gene expression) and phenotype data.
-- Provide common data container for diverse Bioconductor packages.
-
-```{r}
-str(GSE29617_set, max.level = 2)
-```
-
-`str()` is the command to get the internal structure of an R object. 
-An eSet contains the necessary "parts" to summarize an experiment.
-
-## Classes and methods
-
-**Everything in R is an OBJECT.**
-
-- A class is the definition of an object.
-- A method is a function that performs specific calculations on objects of a
-specific class. Generic functions are used to determine the class of its
-arguments and select the appropriate method. A generic function is a
-function with a collection of methods.
-- See ?Classes and ?Methods for more information.
-
-## Classes and methods
-
-```{r}
-data(iris)
-class(iris)
-summary(iris)
-```
-
-## Classes and methods
-
-There are two types of classes in R: S3 Classes (old style, informal) and S4 Classes - (new style, more rigorous and formal)
-
-```{r}
-# S3 class
-head(methods(class = "data.frame"))
-# S4 class
-showMethods(classes  = "eSet")
-```
-
-## The eSet
-
-You can get a sense of the defined methods for an `eSet` as follows:
-```{r, eval=FALSE}
-library(Biobase)
-showMethods(classes = "eSet")
-```
-in particular, the following methods are rather convenient:
-
-- assayData(obj); assayData(obj) `<-` value: access or assign assayData
-- phenoData(obj); phenoData(obj) `<-` value: access or assign phenoData
-- experimentData(obj); experimentData(obj) `<-` value: access or assign experimentData
-- annotation(obj); annotation(obj) `<-` value: access or assign annotation
-
-## The ExpressionSet subclass
-
-Similar to the `eSet` class but tailored to gene expression, with an expression matrix that can be accessed with the `exprs` method.
-
-```{r}
-class(GSE29617_set)
-exprs(GSE29617_set)[1:2,1:3]
-```
-
-also provides additional methods such as `fData`.
-
-## The ExpressionSet subclass
-
-`ExpressionSet` objects are meant to facilitate the adoption of MIAME standard. MIAME = "Minimum Information about a Microarray experiment". Alvis Brazma et. al. (2001) Nature Genetics
-Unfortrunately, not all contributors will upload all the information.
-```{r}
-# Information about preprocessing
-# Nothing in here!
-preproc(GSE29617_set)
-```
-
-## The ExpressionSet subclass
-
-```{r}
-# A data.frame with number of rows equal to the number of samples
-pData(GSE29617_set)[1:2,1:2]
-# A data.frame with number of rows equal to the number of features/probes
-fData(GSE29617_set)[1:2,1:2]
-```
-
-## The ExpressionSet subclass 
-
-So the `ExpressionSet` objects facilitate the encapsulation of everything that's needed to summarize and analyze an experiment. Specific elements can be access with the `@` operator but many classes have convenient accessor methods.
-
-```{r}
-fData(GSE29617_set)[1:2, 1:2]
-# Note that S4 classes can be nested!
-GSE29617_set@featureData@data[1:2, 1:2]
-```
-
-## What if you want the raw data?
-
-GEO also provides access to raw data that can be downloaded with `GEOquery`.
-
-
-```{r download-raw-data}
-# Download all raw data. This should only be evaluated once
-# Then the data would be stored locally in the data directory
-# Make sure the directory exists
-if (length(dir("data/geo/", pattern = "GSE29617")) == 0) {
-  getGEOSuppFiles("GSE29617", makeDirectory = TRUE, baseDir = "./data/geo/")
-  untar("./data/geo/GSE29617/GSE29617_RAW.tar", exdir = "./data/geo/GSE29617/", 
-        tar = Sys.getenv("TAR"))
-}
-# untar downloaded data
-```
-
-## Starting from the raw data
-
-Now that we have the Affymetrix raw data (CEL) files, we can apply some of the concepts we've discussed related to normalization and probe summary. We first need to load the appropriate package
-
+## Summarized Experiments
 
 ```{r, eval=FALSE}
-## In case we haven't downloaded it before.
-biocLite("affy")
+
+rse = SummarizedExperiment(assays = list(counts = counts),
+                           rowRanges = GRangesList(geneMap_gr),
+                           colData = DataFrame(pheno))
+rse
 ```
+
+
+## Getting data from the Sequence Read Archive (SRA)
+
+[GEO](https://www.ncbi.nlm.nih.gov/geo/info/faq.html) originated for microarray data, which has largely become replaced by data produced using next-generation sequencing technologies. Depositing raw sequencing reads into the Sequence Read Archive (SRA) is often a condition of publication in many journals. 
+
+https://trace.ncbi.nlm.nih.gov/Traces/sra/?study=SRP044749	
+
+## Raw data is annoying to process into gene counts
+
+So we created the `recount` project
+https://jhubiostatistics.shinyapps.io/recount/
 
 ```{r}
-library(affy)
+source("scale_counts.R") # or install recount package
+load(file.path('SRP044749', 'rse_gene.Rdata'))
+rse_gene = scale_counts(rse_gene)
+rse_gene
 ```
-
-then we use the following commands
-```{r }
-# Read the CEL file and creates and AffyBatch
-GSE29617_affyBatch <- ReadAffy(celfile.path = "data/geo/GSE29617/")
-# Normalize and summarize the data
-GSE29617_set2 <- rma(GSE29617_affyBatch)
-```
-
-## Starting from the raw data
-
-Let's check the results and compare to the expression matrix that was submitted to GEO
-```{r}
-exprs(GSE29617_set2)[1:2,1:2]
-```
-
-The rows are the features (i.e., probes). Columns are the samples.
-
-## What are those probes?
-
-```{r, eval=FALSE}
-# We first need to install our annotation package
-library(BiocInstaller)
-# Note that you don't have to use source anymore!
-biocLite("hthgu133a.db")
-```
-
-
-```{r}
-library(hthgu133a.db)
-probe_ids <- rownames(GSE29617_set2)
-probe_data <- select(hthgu133a.db, keys = probe_ids, columns = "SYMBOL", keytype = "PROBEID")
-probe_data[1,]
-```
-This didn't work very well, did it?
-The problem is that the probe IDs in hthgu133a.db have a different naming scheme than those in GSE29617_set2. This is fixed on the next slide.
-
-## What are those probes?
-
-Let's fix this: Replace _PM with <empty> for the probe id names in GSE29617_set2
-```{r, warning=TRUE}
-probe_ids <- gsub("_PM","", rownames(GSE29617_set2))
-probe_data <- select(hthgu133a.db, keys = probe_ids, columns = "SYMBOL", keytype = "PROBEID")
-probe_data[1, ]
-```
-What's the warning? Some probes match up with multiple genes, therefore those probe IDs will have more than one record.
-
-## What are those probes?
-
-
-This gives us too many rows, what do we do? Concatenate the gene names so that there will be one row per probe ID.
-
-```{r}
-library(data.table)
-probe_data_dt <- data.table(probe_data)
-probe_data_dt_unique <- probe_data_dt[,list(SYMBOL = paste(SYMBOL, collapse = ";")), by = "PROBEID"]
-probe_data_dt_unique[SYMBOL %like% ";"]
-```
-
-## Completing our ExpressionSet
-
-```{r}
-annotaded_probes <- data.frame(probe_data_dt_unique)
-rownames(annotaded_probes) <- rownames(GSE29617_set2)
-fData(GSE29617_set2) <- annotaded_probes
-head(fData(GSE29617_set2))
-```
-
-Now you're ready to get the data that you will have to analyze for your second homework. 
 

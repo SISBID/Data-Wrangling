@@ -1,0 +1,102 @@
+---
+title: "Databases lab"
+author: "Jeff Leek"
+date: "July 12, 2016"
+output: html_document
+---
+
+1. Download and load the nycflights data with the command `install.packages('nycflights13')` and `library(nycflights13)`.
+
+```{r}
+is_package_installed = function(package) {
+  requireNamespace(basename(package), quietly = TRUE)
+}
+if (!is_package_installed("nycflights13")) install.packages("nycflights13")
+library(nycflights13)
+```
+
+
+2. Use the `pryr` package to figure out the size of the `flights` object. 
+
+```{r}
+pryr::object_size(flights)
+```
+
+
+3. Create a sqlite database, then add a table "flights" with the flights data from this package.
+
+```{r}
+my_flights_db <- src_sqlite("my_flights_db.sqlite3", 
+                            create = TRUE)
+flights_sqlite <- copy_to(my_flights_db, 
+flights, temporary = FALSE,overwrite = TRUE)
+```
+
+
+4. Inspect the tables using the `src_tbls` command to make sure the copying happened correctly.
+
+```{r}
+src_tbls(my_flights_db)
+my_flights_db %>% tbl("flights")
+```
+
+
+5. Find the average delay time for American Airlines (hint: the abbreviation is AA).
+
+```{r}
+ave_delay = my_flights_db %>%
+  tbl("flights") %>%
+  filter(carrier == "AA") %>%
+  summarise(ave_delay = mean(dep_delay))
+```
+
+
+
+6. How long does it take to collect the results of your computation for 5? 
+
+```{r}
+system.time(my_flights_db %>%
+  tbl("flights") %>%
+  filter(carrier == "AA") %>%
+  summarise(ave_delay = mean(dep_delay)))
+```
+
+
+7. Can you figure out the average delay time for each airline? 
+
+```{r}
+ave_delay = my_flights_db %>%
+  tbl("flights") %>%
+  group_by(carrier) %>%
+  summarise(ave_delay = mean(dep_delay))
+```
+
+8. Can you add a variable for averge delay by carrier to the database? 
+
+```{r}
+
+### Doesn't work!! No mutate 
+#ave_delay = my_flights_db %>%
+#  tbl("flights") %>%
+#  group_by(carrier) %>%
+#  mutate(ave_delay = mean(dep_delay))
+
+ave_delay = my_flights_db %>%
+  tbl("flights") %>%
+  group_by(carrier) %>%
+  summarise(ave_delay = mean(dep_delay)) %>%
+  collect()
+
+
+### Doesn't work! Have to copy it over
+
+# my_flights_db %>%
+#  tbl("flights") %>%
+#   left_join(ave_delay)
+
+
+ my_flights_db %>%
+  tbl("flights") %>%
+   left_join(ave_delay,copy=TRUE)
+  
+```
