@@ -59,7 +59,7 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 | 12:20-12:35 | Break                                        |                       |                                      |
 | 12:35-1:25  | [GitHub Concepts][18] ([PDF][19])            | [lab][20]             |                                      |
 | 1:25-1:40   | Break                                        |                       |                                      |
-| 1:40-2:30   |                                              | [GitHub Practice][21] |                                      |
+| 1:40-2:30   | IO, Reproducibility, Github (cont.)          | [GitHub Practice][21] |                                      |
 | **Day 2**   |                                              |                       |                                      |
 |             | [Setup][x3] ([PDF][x4])                      |                       |                                      |
 | 8:00-8:50   | [Data Subsetting Part 1][22] ([PDF][23])     | [lab][24]             | [lab key][25] / [lab key output][26] |
