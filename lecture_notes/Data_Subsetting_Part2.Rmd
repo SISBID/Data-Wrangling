@@ -2,6 +2,7 @@
 title: "Subsetting Data in R"
 author: "Data Wrangling in R"
 output:
+  beamer_presentation: default
   ioslides_presentation:
     css: styles.css
     widescreen: yes
@@ -32,12 +33,23 @@ Each missing data type has a function that returns `TRUE` if the data is missing
 * `Inf` and `-Inf` - `is.infinite()`
 * `is.finite()` returns `FALSE` for all missing data and `TRUE` for non-missing
 
+## Working with `is.na()`
+
+```{r}
+t <- c(1,0,3,0)
+x <-c(0,0,3,NA)
+t / x
+```
+```{r}
+is.na(t/x)
+```
+
 ## Missing Data with Logicals
 
-One important aspect (esp with subsetting) is that logical operations return `NA` for `NA` values.  Think about it, the data could be `> 2` or not. We don't know, 
+One important aspect (esp with subsetting) is that logical operations return `NA` for `NA` values.  The data could be `> 2` or not. We don't know, 
 so `R` says there is no `TRUE` or `FALSE`, and instead that is missing:
 ```{r}
-x = c(0, NA, 2, 3, 4)
+x <- c(0, NA, 2, 3, 4)
 x > 2
 ```
 
@@ -79,7 +91,7 @@ x * 2
 ## UFO data again
 
 ```{r, eval = FALSE}
-ufo = read_csv("../data/ufo/ufo_data_complete.csv", col_types = 
+ufo <- read_csv("../data/ufo/ufo_data_complete.csv", col_types = 
                  cols(
                    .default = col_character(),
                    `duration (seconds)` = col_double(),
@@ -89,7 +101,7 @@ head(ufo)
 ```
 
 ```{r, echo = FALSE, warning = FALSE}
-ufo = read_csv("../data/ufo/ufo_data_complete.csv", col_types = 
+ufo <- read_csv("../data/ufo/ufo_data_complete.csv", col_types = 
                  cols(
                    .default = col_character(),
                    `duration (seconds)` = col_double(),
@@ -101,11 +113,20 @@ head(ufo)
 
 ## Filtering and tibbles
 
+The filter function automatically removes `NA` values.
+
+```{r}
+count(ufo, country)
+ufo %>%filter(country == "de") %>% count(country)
+```
+
+## Filtering for missing data
+
 Missing value and filter can be powerful 
 
 ```{r}
 ufo %>% 
-  filter(is.na(state) | is.na(country)) %>% 
+  filter(is.na(state) & is.na(country)) %>% 
   head()
 ```
 
@@ -127,27 +148,26 @@ ufo %>%
 To rename columns in `dplyr`, you use the `rename` command (NEW=old)
 
 ```{r}
-ufo = ufo %>% rename(City = city, duration_s = `duration (seconds)`)
-head(ufo)
+ufo <- ufo %>% rename(City = city, duration_s = `duration (seconds)`)
+glimpse(ufo)
 ```
 
 ## Renaming All Columns of a `data.frame`: dplyr
 
-To rename all columns you use the `rename_all` command (with a function)
+To rename all columns you use the `rename_with` command (with a function)
 
 ```{r}
-ufo_upper = ufo %>% rename_all(toupper)
-head(ufo_upper)
+ufo_upper <- ufo %>% rename_with(toupper)
+glimpse(ufo_upper)
 ```
 
 ## Adding columns to a `data.frame`
 
- `mutate` - allows you to add or replace columns (need to reassign for it to stick)
+ `mutate` - allows you to add or replace columns (IMPORTANT: need to reassign for it to stick!)
  
 ```{r}
-ufo %>% select(state) %>% head(3)
-ufo2 = ufo %>% mutate(State = toupper(state)) # we renamed city
-ufo2 %>% select(State) %>% head(3)
+ufo2 <- ufo %>% mutate(State = toupper(state))
+ufo2 %>% glimpse()
 ```
 
 
@@ -181,7 +201,7 @@ ifelse(test, yes, no)
 Sometimes people code missing data in weird or inconsistent ways.
 
 ```{r codeNA}
-ages = data.frame(age = c(23,-999,21,44,32,57,65,54))
+ages <-  data.frame(age = c(23,-999,21,44,32,57,65,54))
 range(ages$age)
 ```
 
@@ -191,7 +211,7 @@ Say we want to make a new column about if the age was over 30?
 
 ```{r}
 pull(ages, age)
-ages = ages %>% mutate(over_20 = ifelse(age > 30, "Yes", "No"))
+ages <- ages %>% mutate(over_20 = ifelse(age > 30, "Yes", "No"))
 ages
 ```
 
@@ -203,7 +223,7 @@ How do we change the `-999` to be treated as missing for the age column?
 
 ```{r codeNA2}
 pull(ages, age)
-ages = ages %>% mutate(age = ifelse(age == -999, NA, age))
+ages <- ages %>% mutate(age = ifelse(age == -999, NA, age))
 range(ages$age)
 range(ages$age, na.rm=TRUE)
 pull(ages, age)
@@ -221,7 +241,7 @@ pull(ages, age)
 ## Adding columns to a `data.frame`: dplyr
 
 ```{r}
-ufo = ufo %>% mutate( 
+ufo <- ufo %>% mutate( 
               region = ifelse(
               country %in% c("us", "ca"),
               "North America",
@@ -230,20 +250,31 @@ ufo = ufo %>% mutate(
 ufo %>% select(country, region) %>% head()
 ```
 
-## Adding columns to a `data.frame`: dplyr
-Alternatively, `case_when` provides a more general way (multiple tests easily):
+## `case_when` provides a more general way
+
 ```
 casewhen(test ~ value if test is true,
          test2 ~ vlue if test2 is true,
          TRUE ~ value if all above tests are not true) # defaults to NA
 ```
-
 ```{r}
-ufo = ufo %>% mutate( 
+ufo <- ufo %>% mutate( 
             region = case_when(
               country %in% c("us", "ca") ~ "North America",
               country %in% c("de") ~ "Europe",
-              country %in% "gb" ~ "Great Britain"
+              country %in% "gb" ~ "Great Britain",
+            ))
+
+ufo %>% select(country, region) %>% head()
+```
+## `case_when` defaults to NA when all tests fail
+
+```{r}
+ufo <- ufo %>% mutate( 
+            region = case_when(
+              country %in% c("us", "ca") ~ "North America",
+              country %in% c("de") ~ "Europe"
+              #country %in% "gb" ~ "Great Britain",
             ))
 
 ufo %>% select(country, region) %>% head()
@@ -253,7 +284,7 @@ ufo %>% select(country, region) %>% head()
 ## `case_when()` with value if all tests fail
 
 ```{r}
-ufo = ufo %>% mutate( 
+ufo <- ufo %>% mutate( 
             region = case_when(
               country %in% c("us", "ca") ~ "North America",
               country %in% c("de") ~ "Europe",
@@ -262,6 +293,21 @@ ufo = ufo %>% mutate(
             ))
 ufo %>% select(country, region) %>% head()
 ```
+
+
+
+
+## `case_when()` with value if all tests fail (use a variable!)
+
+```{r}
+ufo <- ufo %>% mutate( 
+            region = case_when(
+              country %in% "gb" ~ "Great Brit.",
+              TRUE ~ region
+            ))
+ufo %>% select(country, region) %>% head()
+```
+
 
 
 
