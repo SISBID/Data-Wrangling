@@ -90,6 +90,14 @@ unique(locations)
 length(unique(locations))
 ```
 
+## Counting NAs
+
+use `sum(is.na())`:
+
+```{r}
+sum(is.na(locations))
+```
+
 ## `table` and `dplyr`: `count` 
 
 `table(x)` will return a frequency table of unique elements of `x`
