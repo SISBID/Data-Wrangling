@@ -35,11 +35,12 @@ Each missing data type has a function that returns `TRUE` if the data is missing
 ## Working with `is.na()`
 
 ```{r}
-t<-c(1,0,3,0)
-t/c(0,0,3,NA)
+t <- c(1,0,3,0)
+x <-c(0,0,3,NA)
+t / x
 ```
 ```{r}
-is.na(t/c(0,0,3,NA))
+is.na(t/x)
 ```
 
 ## Missing Data with Logicals
@@ -47,7 +48,7 @@ is.na(t/c(0,0,3,NA))
 One important aspect (esp with subsetting) is that logical operations return `NA` for `NA` values.  The data could be `> 2` or not. We don't know, 
 so `R` says there is no `TRUE` or `FALSE`, and instead that is missing:
 ```{r}
-x = c(0, NA, 2, 3, 4)
+x <- c(0, NA, 2, 3, 4)
 x > 2
 ```
 
@@ -161,11 +162,11 @@ head(ufo_upper)
 
 ## Adding columns to a `data.frame`
 
- `mutate` - allows you to add or replace columns (need to reassign for it to stick)
+ `mutate` - allows you to add or replace columns (IMPORTANT: need to reassign for it to stick!)
  
 ```{r}
 ufo %>% select(state) %>% head(3)
-ufo2 = ufo %>% mutate(State = toupper(state)) # we renamed city
+ufo2 <- ufo %>% mutate(State = toupper(state)) # we renamed city
 ufo2 %>% select(State) %>% head(3)
 ```
 
@@ -200,7 +201,7 @@ ifelse(test, yes, no)
 Sometimes people code missing data in weird or inconsistent ways.
 
 ```{r codeNA}
-ages = data.frame(age = c(23,-999,21,44,32,57,65,54))
+ages <-  data.frame(age = c(23,-999,21,44,32,57,65,54))
 range(ages$age)
 ```
 
@@ -210,7 +211,7 @@ Say we want to make a new column about if the age was over 30?
 
 ```{r}
 pull(ages, age)
-ages = ages %>% mutate(over_20 = ifelse(age > 30, "Yes", "No"))
+ages <- ages %>% mutate(over_20 = ifelse(age > 30, "Yes", "No"))
 ages
 ```
 
@@ -222,7 +223,7 @@ How do we change the `-999` to be treated as missing for the age column?
 
 ```{r codeNA2}
 pull(ages, age)
-ages = ages %>% mutate(age = ifelse(age == -999, NA, age))
+ages <- ages %>% mutate(age = ifelse(age == -999, NA, age))
 range(ages$age)
 range(ages$age, na.rm=TRUE)
 pull(ages, age)
@@ -240,7 +241,7 @@ pull(ages, age)
 ## Adding columns to a `data.frame`: dplyr
 
 ```{r}
-ufo = ufo %>% mutate( 
+ufo <- ufo %>% mutate( 
               region = ifelse(
               country %in% c("us", "ca"),
               "North America",
@@ -258,7 +259,7 @@ casewhen(test ~ value if test is true,
 ```
 
 ```{r}
-ufo = ufo %>% mutate( 
+ufo <- ufo %>% mutate( 
             region = case_when(
               country %in% c("us", "ca") ~ "North America",
               country %in% c("de") ~ "Europe",
@@ -272,7 +273,7 @@ ufo %>% select(country, region) %>% head()
 ## `case_when()` with value if all tests fail
 
 ```{r}
-ufo = ufo %>% mutate( 
+ufo <- ufo %>% mutate( 
             region = case_when(
               country %in% c("us", "ca") ~ "North America",
               country %in% c("de") ~ "Europe",
