@@ -22,29 +22,59 @@ In general, data cleaning is a process of investigating your data for inaccuraci
 
 MOST IMPORTANT RULE - LOOK AT YOUR DATA!
 
-## Useful checking functions
 
-- `is.na()` - is `TRUE` if the data is `FALSE` otherwise
-- `!` - negation (NOT) 
-    - if `is.na(x)` is `TRUE`, then `!is.na(x)` is `FALSE`
-
-- `all()` takes in a `logical` and will be `TRUE` if ALL are `TRUE`
-    - `all(!is.na(x))` - are all values of `x` NOT NA
-- `any()` will be `TRUE` if ANY are true
-    - `any(is.na(x))` - do we have any `NA`'s in `x`?
-- `complete.cases()` - returns `TRUE` if EVERY value of a row is NOT `NA`
-    - very stringent condition 
-    - `FALSE` missing one value (even if not important)
- 
 
 ## Read in the UFO dataset
 
-Read in data from RStudio Cloud or download from: http://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv.gz
+Read in data or download from: http://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv.gz
 
-```{r, importUfo}
-ufo = read_csv("../data/ufo/ufo_data_complete.csv")
+```{r}
+ufo <- read_delim("../data/ufo/ufo_data_complete.txt")
+
+```
+## The "problems"
+You saw warning messages when reading in this dataset. We can see these with the `problems()` function from `readr`. 
+
+```{r}
+p <-problems(ufo)
+p
 ```
 
+## The "problems"
+These all became NA values.
+
+```{r}
+ufo[(p$row-1),] %>% glimpse()
+```
+
+## The "problems"
+
+
+```{r, echo = FALSE}
+knitr::include_graphics(here::here("lecture_notes", "media", "problems.png"))
+
+```
+
+<!-- ## Data cleaning "before" R -->
+
+<!-- You saw warning messages when reading in this dataset. We can see these with the `problems()` function from `readr`.  -->
+
+<!-- ```{r} -->
+<!-- p = problems(ufo) -->
+<!-- p -->
+<!-- ``` -->
+
+## Reading in again
+
+Now we have a chance to keep but clean these values!
+
+```{r}
+ufo <- read_delim("../data/ufo/ufo_data_complete.txt", 
+                  col_types = cols("duration (seconds)" = col_character()))
+
+ufo[(p$row-1),] %>% glimpse()
+
+```
 
 ## Clean names with the `clean_names()` function from the `janitor` package
 
@@ -54,31 +84,11 @@ ufo = clean_names(ufo)
 colnames(ufo)
 ```
 
-## Data cleaning "before" R
+<!-- ## Let's just drop those problematic rows for now. -->
 
-You saw warning messages when reading in this dataset. We can see these with the `problems()` function from `readr`. 
+<!-- Though you would usually want to check them! -->
 
-```{r}
-p = problems(ufo)
-p
-```
 
-## Let's just drop those problematic rows for now.
-
-Though you would usually want to check them!
-
-```{r}
-ufo = ufo[-p$row,] # brackets can also be used for subsetting
-```
-
-## Checking for logical conditions {.smaller}
-* `any()` - checks if there are any `TRUE`s
-* `all()` - checks if ALL are true
-
-```{r isna}
-any(is.na(ufo$state)) # are there any NAs?
-all(is.na(ufo$state)) # are the values all NAs?
-```
 
 # Recoding Variables
 
@@ -153,27 +163,30 @@ head(data_gen)
 ```
 OK, now we are getting somewhere!
 
-## Pasting strings with `paste` and `paste0`{.smaller}
 
-```{r Paste}
-paste("Visit", 1:5, sep = "_")
-paste("Visit", 1:5, sep = "_", collapse = " ")
-# and paste0 can be even simpler see ?paste0 
-paste0("Visit", 1:5)
-```
+## str_remove
 
-## Paste
-
-```{r Paste2}
-
-paste("Visit", 1:5, sep = "_") %>% length()
-paste("Visit", 1:5, sep = "_", collapse = " ") %>% length()
-```
-
-## Fancier pastes
+Now let's fix our ufo data and remove those pesky backticks in the `duration_seconds` variable.
 
 ```{r}
-paste("To", "is going be the ", "we go to the store!", sep = "day ")
+ufo <- ufo %>% mutate(duration_seconds = str_remove(string = duration_seconds,
+                                             pattern = "`"))
+ufo <- ufo %>% mutate(duration_seconds = as.numeric(duration_seconds))
+ufo[(p$row-1),]
+```
+
+## Paste can add things back to variables
+
+```{r}
+head(Orange)
+Orange %>% mutate(Tree = paste(Tree, "Tree", sep = "_"))
+
+```
+## Paste0 doesn't need a separator
+
+```{r}
+head(Orange)
+Orange %>% mutate(Tree = paste0(Tree, "Tree"))
 
 ```
 
@@ -227,13 +240,13 @@ str_sub(c("Site A", "Site B", "Site C"), 6,6)
 * `str_replace_all` - replaces `pattern` with `replacement` as many times matched
 
 
-## Let's look at modifier for `stringr`
+<!-- ## Let's look at modifier for `stringr` -->
 
-`?modifiers`
+<!-- `?modifiers` -->
 
-* `fixed` - match everything exactly
-* `regexp` - default - uses **reg**ular **exp**ressions
-* `ignore_case` is an option to not have to use `tolower`
+<!-- * `fixed` - match everything exactly -->
+<!-- * `regexp` - default - uses **reg**ular **exp**ressions -->
+<!-- * `ignore_case` is an option to not have to use `tolower` -->
 
 
 
