@@ -2,18 +2,19 @@
 title: "Subsetting Data in R"
 author: "Data Wrangling in R"
 output:
+  beamer_presentation: default
   ioslides_presentation:
     css: styles.css
     widescreen: yes
-  beamer_presentation: default
 ---
 
-```{r, echo = FALSE}
+```{r, include = FALSE}
 library(knitr)
 opts_chunk$set(comment = "")
 suppressPackageStartupMessages(library(dplyr))
 library(dplyr)
 library(ggplot2)
+library(here)
 ```
 
 ## Overview
@@ -120,10 +121,10 @@ select(diamonds, carat, depth)
 
 ## See the Select "helpers"
 
-Run the command:
+Type `tidyselect::` to see functions available.
 
-```{r, eval = FALSE}
-??tidyselect::select_helpers
+```{r, echo = FALSE, fig.align = 'center', out.width="70%"}
+include_graphics(here::here("lecture_notes", "media", "tidyselect.png"))
 ```
 
 Here are a few:
@@ -132,7 +133,8 @@ Here are a few:
 last_col()
 ends_with()
 starts_with()
-contains() # like searching
+contains() # search for a pattern
+everything()
 ```
 
 ## Tidyselect helpers
@@ -266,7 +268,7 @@ The order of these functions matters though, since you can remove columns that y
 
 ```{r,eval=FALSE}
 diamonds %>% 
-  select(starts_with("c") %>%
+  select(starts_with("c")) %>%
   filter(table > 60))
 ```
 
