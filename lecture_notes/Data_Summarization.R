@@ -1,113 +1,115 @@
-## ---- include = FALSE---------------------------------------------------------
+## ---- echo = FALSE, message=FALSE, error = FALSE-----------------------------------------------------------------------
 library(knitr)
 opts_chunk$set(comment = "", message = FALSE)
+suppressWarnings({library(dplyr)})
+library(readr)
 library(tidyverse)
 
 
-## -----------------------------------------------------------------------------
-circ = read_csv(paste0("http://sisbid.github.io/Data-Wrangling/",
-                       "data/Charm_City_Circulator_Ridership.csv"))
-# or circ = read_csv("../data/Charm_City_Circulator_Ridership.csv")
+## ----------------------------------------------------------------------------------------------------------------------
+x <- c(1, 5, 7, 4, 2, 8)
+mean(x)
+mean(x, na.rm = TRUE) # Remove NAs if needed
 
 
-## -----------------------------------------------------------------------------
-head(circ)
+## ----------------------------------------------------------------------------------------------------------------------
+mtcars %>% pull(hp) %>% mean() # alt: pull(mtcars, hp) %>% mean()
+mean(mtcars$hp)
 
 
-## -----------------------------------------------------------------------------
-tail(circ, 10)
+## ----------------------------------------------------------------------------------------------------------------------
+yts <- 
+  read_csv("http://jhudatascience.org/intro_to_r/data/Youth_Tobacco_Survey_YTS_Data.csv")
+head(yts)
 
 
-## -----------------------------------------------------------------------------
-mean(circ$daily)
-sum(circ$daily)
-mean(circ$daily, na.rm = TRUE)
-sum(circ$daily, na.rm = TRUE)
+## ---- message = FALSE--------------------------------------------------------------------------------------------------
+locations <- yts %>% pull(LocationDesc)
+locations
 
 
-## -----------------------------------------------------------------------------
-quantile(circ$daily, na.rm = TRUE)
-quantile(circ$daily, na.rm = TRUE, probs = c(0.6, 0.84))
-median(circ$daily, na.rm = TRUE)
+## ---- message = FALSE--------------------------------------------------------------------------------------------------
+unique(locations)
 
 
-## ---- message = FALSE---------------------------------------------------------
-unique(circ$day)
+## ----------------------------------------------------------------------------------------------------------------------
+length(unique(locations))
 
 
-## -----------------------------------------------------------------------------
-length(unique(circ$date))
+## ---- message = FALSE--------------------------------------------------------------------------------------------------
+table(locations)
 
 
-## ---- message = FALSE---------------------------------------------------------
-table(circ$day)
+## ---- message = FALSE--------------------------------------------------------------------------------------------------
+yts %>% count(LocationDesc)
 
 
-## ---- message = FALSE---------------------------------------------------------
-circ %>% count(day)
+## ---- message = FALSE--------------------------------------------------------------------------------------------------
+yts %>% count(LocationDesc, TopicDesc)
 
 
-## ---- message = FALSE---------------------------------------------------------
-circ %>% mutate(many_riders = daily > 1000) %>% count(many_riders, day)
+## ---- message = FALSE--------------------------------------------------------------------------------------------------
+yts %>% count(LocationDesc, TopicDesc)
 
 
-## -----------------------------------------------------------------------------
-circ %>% 
-  summarize(mean_purple = mean(purpleAverage, na.rm = TRUE),
-            mean(bannerAverage, na.rm = TRUE))
+## ----------------------------------------------------------------------------------------------------------------------
+# Regular data
+yts
 
 
-## -----------------------------------------------------------------------------
-circ %>% summarise(across(ends_with("Boardings"), mean, na.rm = TRUE))
+## ----------------------------------------------------------------------------------------------------------------------
+yts_grouped <- yts %>% group_by(Response)
+yts_grouped
 
 
-## -----------------------------------------------------------------------------
-sub_circ = circ %>% group_by(day)
-head(sub_circ)
+## ----------------------------------------------------------------------------------------------------------------------
+yts %>% 
+  summarize(mean_value = mean(Data_Value, na.rm = TRUE))
 
 
-## -----------------------------------------------------------------------------
-sub_circ %>% summarize(avg_daily = mean(daily, na.rm = TRUE))
+## ----------------------------------------------------------------------------------------------------------------------
+yts_grouped %>% 
+  summarize(mean_value = mean(Data_Value, na.rm = TRUE))
 
 
-## -----------------------------------------------------------------------------
-day_avgs = circ %>% 
-  group_by(day) %>% 
-  summarize(avg_daily = mean(daily, na.rm = TRUE))
-head(day_avgs)
+## ----------------------------------------------------------------------------------------------------------------------
+yts %>%
+  group_by(Response) %>%
+  summarize(mean_value = mean(Data_Value, na.rm = TRUE),
+            max_value = max(Data_Value, na.rm = TRUE))
 
 
-## -----------------------------------------------------------------------------
-sub_circ = ungroup(sub_circ)
-sub_circ
+## ----------------------------------------------------------------------------------------------------------------------
+yts %>%
+  group_by(YEAR) %>%
+  mutate(year_avg = mean(Data_Value, na.rm = TRUE)) %>%
+  select(LocationDesc, Data_Value, year_avg)
 
 
-## -----------------------------------------------------------------------------
-circ %>% 
-  group_by(day) %>% 
-  mutate(mean = mean(daily, na.rm = TRUE)) %>% 
-  select(day, date, mean, daily)
-
-
-## -----------------------------------------------------------------------------
-circ %>% 
-  group_by(day) %>% 
+## ----------------------------------------------------------------------------------------------------------------------
+yts %>%
+  group_by(YEAR) %>%
   summarize(n = n(),
-            mean = mean(daily, na.rm = TRUE)) %>% 
-  head
+            mean = mean(Data_Value, na.rm = TRUE))
 
 
-## -----------------------------------------------------------------------------
-t.test(circ$daily)
-broom::tidy(t.test(circ$daily))
+## ---- eval = FALSE-----------------------------------------------------------------------------------------------------
+# General format - Not the code!
+across({ columns to go across }, ~ { summarization_function(.x, na.rm = ..) }) 
 
 
-## ----colMeans-----------------------------------------------------------------
-avgs = circ %>% select(ends_with("Boardings"))
-colMeans(avgs, na.rm = TRUE)
+## ----------------------------------------------------------------------------------------------------------------------
+yts %>%
+  group_by(YEAR) %>%
+  summarize(across( c(Data_Value, Data_Value_Std_Err, Sample_Size), 
+                    ~ mean(.x, na.rm = TRUE)))
 
 
-## -----------------------------------------------------------------------------
-circ = circ %>% mutate(mean_boarding = rowMeans(avgs, na.rm = TRUE))
-head(circ %>% select(day, mean_boarding))
+## ----------------------------------------------------------------------------------------------------------------------
+yts %>% 
+  summarize(across( starts_with("Data"), ~ range(.x, na.rm = TRUE)))
+
+
+## ----------------------------------------------------------------------------------------------------------------------
+summary(yts)
 
