@@ -6,21 +6,19 @@ output: html_document
 
 ## Part 1
 
-(This exercise is motivated by https://anythingbutrbitrary.blogspot.com/2012/08/manipulating-data-frames-using-sqldf.html)
+Read in the data and use functions of your choice to preview it.
 
 ```{r, message = FALSE}
 library(tidyverse)
 
-crash = read_csv("https://sisbid.github.io/Data-Wrangling/labs/crashes.csv")
-road = read_csv("https://sisbid.github.io/Data-Wrangling/labs/roads.csv")
-head(crash)
-head(road)
+crash <- read_csv("https://sisbid.github.io/Data-Wrangling/labs/crashes.csv")
+road <- read_csv("https://sisbid.github.io/Data-Wrangling/labs/roads.csv")
+
 ```
 
 1. Join data to retain only complete data, (using an inner join) e.g. those observations with road lengths and districts.  Merge without using `by` argument, then merge using `by = "Road"`. call the output `merged.`  How many observations are there?
 
 ```{r}
-
 
 ```
 
@@ -28,13 +26,11 @@ head(road)
 
 ```{r}
 
-
 ```
 
 3. Do a left join of the `road` and `crash`.  ORDER matters here!  How many observations are there?
 
 ```{r}
-
 
 ```
 
@@ -42,21 +38,17 @@ head(road)
 
 ```{r}
 
-
 ```
 
-## Part 2
+## **Bonus Practice**
 
-5. Which highways do not have road data? Summarize by the total count of `N_Crashes`.
+5. Which highways do not have road data? Do this in a "tidy" format. Summarize by the total count of `N_Crashes` per highway. Hint: Use `anti_join()` and `group_by()`.
 
 ```{r}
 
-
 ```
 
-**Bonus**
-
-6. You have an intern who has been pouring over the raw data and found a few mistakes in the `crash` dataset. They have made a spreadsheet for you containing only the corrected entries. Modify the original tibble with the following:
+6. You have an intern who has been pouring over the raw data and found a few mistakes in the `N_Crashes` column of the `crash` dataset. They have made a spreadsheet for you containing only the corrected entries. Modify the original tibble with the following:
 - A column (`Corrected`) indicating if a particular entry has a corresponding correction in `corrections`.
 - If the row has a correction, take the corrected value
 - Keep the original columns (Year, Road, N_Crashes, Volume) plus the column indicating whether the data is corrected or not (`Corrected`).
@@ -64,6 +56,7 @@ head(road)
 *hint: take a look at the two datasets - are you sure they're joining correctly?*
 
 ```{r}
-corrections = read_csv("crashes_corrections.csv")
+corrections <- read_csv("https://sisbid.github.io/Data-Wrangling/labs/crashes_corrections.csv")
+
 
 ```
