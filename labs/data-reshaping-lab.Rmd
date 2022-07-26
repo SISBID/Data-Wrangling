@@ -17,51 +17,45 @@ library(tidyverse)
 1.  Read in the Circulator Data from http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv.  Name the data set `wide`.
 
 ```{r, message = FALSE}
-
-
+wide <- read_csv("http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv")
 ```
 
-2. Reshape wide using `pivot_wider`. Call this data `long.`  Make the `names_to = `
-`variable`, and the value `n_people`  Make sure we gather all columns **but**
+2. Reshape to long format using `pivot_longer`. Call this data `long.`  Make the `names_to = `
+`name`, and the values `n_people`  Make sure we gather all columns **but**
 `daily`, `day`, `date`, using the `!`.
 
 ```{r}
 
-
 ```
 
-3.  Separate the `date` column into ("month", "day", "year") using a sep of "/"
+3.  Separate the `date` column into ("month", "day", "year") using `separate()` and `sep = "/"`.
 Make sure you don't remove the `date` column, call this `long2`.  Do a table of the day column.  Where did the original `day` column go?
 
 ```{r}
 
-
 ```
 
-4. Create a new variable in `long2` calling it `newdate` using the `unite` function.  Unite the year, month, day, columns using a hyphen (`-`) and then `table` the new column `newdate`
-
-```{r}
-
-
-```
-
-5. Use `str_replace()` on `long` (not `long2`) to replace "Board" with "_Board", "Alight" with "_Alight", and "Average" with "_Average".
+4. Run the following to recreate what we covered in lecture:
 
 ```{r, error = TRUE}
-
+long3 <- long %>%
+  mutate(
+    name = str_replace(name, "Board", "_Board"),
+    name = str_replace(name, "Alight", "_Alight"),
+    name = str_replace(name, "Average", "_Average")
+  ) %>%
+  separate(name, into = c("route", "type"), sep = "_")
 
 ```
 
-6.  Separate the `variable` column from `long` into ("route", "type") using a sep of "_".
+5. Reshape `long3` using `pivot_wider()`.  Spread the data out so the `route` becomes the new column names and the cells are filled with the `n_people` value.  Call this `wide_by_route`.
 
 ```{r}
-
 
 ```
 
-7. Reshape `long` (not `long2`) using `pivot_wider`.  Spread the data out so the `route` becomes the new column name and the cells are filled with the `n_people` value.  Call this `wide_by_route`.
+5. Reshape `long3` using `pivot_wider()`.  Spread the data out so the `day` becomes the new column names and the cells are filled with the `n_people` value.  Call this `wide_by_day`.
 
 ```{r}
-
 
 ```
