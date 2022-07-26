@@ -446,7 +446,7 @@ the <code>ggplot2</code> package].</li>
 (<code>hwy</code>) is greater than 30. Assign this output to an object
 called <code>eff</code>. How many cars/rows are present?</li>
 </ol>
-<pre class="r"><code>eff = mpg %&gt;% filter(cty &gt; 20, hwy &gt; 30)
+<pre class="r"><code>eff &lt;- mpg %&gt;% filter(cty &gt; 20, hwy &gt; 30)
 dim(eff)</code></pre>
 <pre><code>## [1] 21 11</code></pre>
 <ol start="6" style="list-style-type: decimal">
