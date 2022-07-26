@@ -81,4 +81,4 @@ library(tidyverse)
 
 ```
 
-9. Filter cars with displacements (`displ`) greater than 4 and that are All/4 wheel drive. How many cars/rows are there. 
+9. Filter cars with displacements (`displ`) greater than 4 and that are all 4 wheel drive (`drv`) (a value of 4 for `drv`). How many cars/rows are there. 

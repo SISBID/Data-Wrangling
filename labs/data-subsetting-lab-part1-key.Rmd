@@ -41,7 +41,7 @@ glimpse(mpg)
 4. Select the `manufacturer`, `model` and `year` columns from the `mpg` dataset.
 
 ```{r}
-select(mpg, manufacturer, model,year)
+select(mpg, manufacturer, model, year)
 ```
 
 5. Identify the subset of cars/rows where city fuel economy (`cty`) is greater than 20 and highway fuel economy (`hwy`) is greater than 30. Assign this output to an object called `eff`. How many cars/rows are present?
@@ -58,7 +58,7 @@ eff %>% filter(year == 1999) %>% nrow()
 
 ```
 
-7. Filter cars from the overall `mpg` dataset that do not have 4 cylinder engines. How many cars/rows are there?
+7. Filter cars from the overall `mpg` dataset that do **not** have 4 cylinder engines. How many cars/rows are there?
 
 ```{r}
 mpg %>% filter(cyl != 4) %>% nrow()
@@ -73,7 +73,7 @@ mpg %>% filter(class %in% c("suv", "minivan")) %>% nrow()
 mpg %>% filter(class =="suv" | class == "minivan") %>% nrow()
 ```
 
-9. Filter cars with displacements (`displ`) greater than 4 and that are All/4 wheel drive. How many cars/rows are there. 
+9. Filter cars with displacements (`displ`) greater than 4 and that are all 4 wheel drive (`drv`). How many cars/rows are there. 
 
 ```{r}
 mpg %>% filter(displ > 4, drv == "4") %>% nrow()
