@@ -7,69 +7,71 @@ output:
     widescreen: yes
 ---
 
-```{r, include = FALSE}
+
+```{r, echo = FALSE, message=FALSE, error = FALSE}
 library(knitr)
 opts_chunk$set(comment = "", message = FALSE)
+suppressWarnings({library(dplyr)})
+library(readr)
 library(tidyverse)
 ```
 
-
-## Quick Data read in
-
-We can use the Charm City Circulator Dataset from "http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv".  
-```{r}
-circ = read_csv(paste0("http://sisbid.github.io/Data-Wrangling/",
-                       "data/Charm_City_Circulator_Ridership.csv"))
-# or circ = read_csv("../data/Charm_City_Circulator_Ridership.csv")
-```
-
-## Head and Tail Commands
-
-The `head`/`tail` commands displays the first/last `6` (default) rows:
-
-```{r}
-head(circ)
-```
-
-## Head and Tail Commands
-
-The `head`/`tail` commands displays the first/last `6` (default) rows:
-
-```{r}
-tail(circ, 10)
-```
+<style type="text/css">
+pre { /* Code block - slightly smaller in this lecture */
+    font-size: 20px;
+}
+</style>
 
 ## Data Summarization
 
-* Basic statistical summarization is key after cleaning data!
+* Basic statistical summarization
     * `mean(x)`: takes the mean of x
     * `sd(x)`: takes the standard deviation of x
     * `median(x)`: takes the median of x
     * `quantile(x)`: displays sample quantiles of x. Default is min, IQR, max
     * `range(x)`: displays the range. Same as `c(min(x), max(x))`
     * `sum(x)`: sum of x
-    * **all have a **`na.rm` for missing data 
-* Transformations
-    * `log`, `log2`, `log10` - log transformation
-    * `sqrt` - square root
+    * `max(x)`: maximum value in x
+    * `min(x)`: minimum value in x
+    
+* **all have the ** `na.rm =` **argument for missing data**
 
 ## Statistical summarization
 
-Remember `NA` is "missing" so it's unknown what the mean or sum of something is (by default). `na.rm` argument ("remove NAs"). 
+These functions work on **vectors**:
 
 ```{r}
-mean(circ$daily)
-sum(circ$daily)
-mean(circ$daily, na.rm = TRUE)
-sum(circ$daily, na.rm = TRUE)
+x <- c(1, 5, 7, 4, 2, 8)
+mean(x)
+mean(x, na.rm = TRUE) # Remove NAs if needed
 ```
 
 ## Statistical summarization
 
+Summarization on a `data.frame`/`tibble`:
+
 ```{r}
-quantile(circ$daily, na.rm = TRUE)
-quantile(circ$daily, na.rm = TRUE, probs = c(0.6, 0.84))
-median(circ$daily, na.rm = TRUE)
+mtcars %>% pull(hp) %>% mean() # alt: pull(mtcars, hp) %>% mean()
+mean(mtcars$hp)
+```
+
+## Youth Tobacco Survey
+
+Here we will be using the Youth Tobacco Survey data:
+
+```{r}
+yts <- 
+  read_csv("http://jhudatascience.org/intro_to_r/data/Youth_Tobacco_Survey_YTS_Data.csv")
+head(yts)
+```
+
+## Column to vector
+
+Let's work with one column as a vector using `pull()`.
+
+```{r, message = FALSE}
+locations <- yts %>% pull(LocationDesc)
+locations
 ```
 
 ## Length and unique
@@ -77,145 +79,177 @@ median(circ$daily, na.rm = TRUE)
 `unique(x)` will return the unique elements of `x`
 
 ```{r, message = FALSE}
-unique(circ$day)
+unique(locations)
 ```
+
+## Length and unique
 
 `length` will tell you the length of a vector. Combined with `unique`, tells you the number of unique elements:
 
 ```{r}
-length(unique(circ$date))
+length(unique(locations))
 ```
 
-## Table
+## `table` and `dplyr`: `count` 
 
 `table(x)` will return a frequency table of unique elements of `x`
 
 ```{r, message = FALSE}
-table(circ$day)
+table(locations)
 ```
 
-## The `tidy` way: `dplyr`: `count` 
+## `table` and `dplyr`: `count` 
+
+Use `count` directly on a data.frame and column without needing to use `pull()`.
 
 ```{r, message = FALSE}
-circ %>% count(day)
+yts %>% count(LocationDesc)
 ```
 
-## The `tidy` way: `dplyr`: `count` 
+## `table` and `dplyr`: `count` 
+
+Multiple columns listed further subdivides the count.
 
 ```{r, message = FALSE}
-circ %>% mutate(many_riders = daily > 1000) %>% count(many_riders, day)
+yts %>% count(LocationDesc, TopicDesc)
 ```
 
-## Summarize the data: `dplyr` `summarize`/`summarise` function
+## `table` and `dplyr`: `count` 
 
-`dplyr::summarise` will allow you to summarize data.  Format is `new_column = SUMMARY`. If you don't set a `new` name, it will be a messy output:
+Multiple columns listed further subdivides the count.
 
-```{r}
-circ %>% 
-  summarize(mean_purple = mean(purpleAverage, na.rm = TRUE),
-            mean(bannerAverage, na.rm = TRUE))
+```{r, message = FALSE}
+yts %>% count(LocationDesc, TopicDesc)
 ```
 
-## `across` - summarize multiple columns!
+## `table` and `dplyr`: `count` 
 
-If you would like to a bunch of columns, you can use `across` and pass in a function (with other arguments) with select helpers:
+**Note:** `count()` includes NAs but `table()` does not
+
+
+# Grouping
+
+## Perform Operations By Groups: dplyr
+
+`group_by` allows you group the data set by variables/columns you specify:
 
 ```{r}
-circ %>% summarise(across(ends_with("Boardings"), mean, na.rm = TRUE))
+# Regular data
+yts
 ```
 
 ## Perform Operations By Groups: dplyr
 
-`group_by` allows you group the data set by grouping variables:
+`group_by` allows you group the data set by variables/columns you specify:
 
 ```{r}
-sub_circ = circ %>% group_by(day)
-head(sub_circ)
+yts_grouped <- yts %>% group_by(Response)
+yts_grouped
 ```
 
-- doesn't change the data in any way, but how **functions operate on it**
+## Summarize the data: `dplyr` `summarize()` function
 
-## Summarize the data
-
-It's grouped!
+`summarize` is a helpful function to use after `group_by()`. It creates a summary table of a column you're interested in.
 
 ```{r}
-sub_circ %>% summarize(avg_daily = mean(daily, na.rm = TRUE))
+yts %>% 
+  summarize(mean_value = mean(Data_Value, na.rm = TRUE))
 ```
 
-## Using the `pipe` 
+## Summarize the grouped data
 
-Pipe `sub_circ` into `group_by`, then pipe that into `summarise`:
+It's grouped! Grouping doesn't change the data in any way, but how **functions operate on it**. Now we can summarize `Data_Value` (percent of respondents) by group:
 
 ```{r}
-day_avgs = circ %>% 
-  group_by(day) %>% 
-  summarize(avg_daily = mean(daily, na.rm = TRUE))
-head(day_avgs)
+yts_grouped %>% 
+  summarize(mean_value = mean(Data_Value, na.rm = TRUE))
 ```
 
-## Ungroup the data
+## Use the `pipe` to string these together!
 
-You usually want to perform operations on groups and may want to redefine the groups.  The `ungroup` function will allow you to clear the groups from the data: 
+Pipe `yts` into `group_by`, then pipe that into `summarize`:
 
 ```{r}
-sub_circ = ungroup(sub_circ)
-sub_circ
+yts %>%
+  group_by(Response) %>%
+  summarize(mean_value = mean(Data_Value, na.rm = TRUE),
+            max_value = max(Data_Value, na.rm = TRUE))
 ```
 
-## `group_by` with `mutate`
+## `group_by` with `mutate` - just add data
 
-We can use `mutate` instead of `summarise` to add the summary back in to the original data!
+We can also use `mutate` to calculate the mean value for each year and add it as a column:
 
 ```{r}
-circ %>% 
-  group_by(day) %>% 
-  mutate(mean = mean(daily, na.rm = TRUE)) %>% 
-  select(day, date, mean, daily)
+yts %>%
+  group_by(YEAR) %>%
+  mutate(year_avg = mean(Data_Value, na.rm = TRUE)) %>%
+  select(LocationDesc, Data_Value, year_avg)
 ```
 
-## Counting with `n()`
+## Counting
 
-Standard statistics can be calculated: `n()` counts the number of observations.
+There are other functions, such as `n()` count the number of observations.
 
 ```{r}
-circ %>% 
-  group_by(day) %>% 
+yts %>%
+  group_by(YEAR) %>%
   summarize(n = n(),
-            mean = mean(daily, na.rm = TRUE)) %>% 
-  head
+            mean = mean(Data_Value, na.rm = TRUE))
 ```
 
-## Statistical summarization
+# Iterative summaries
 
-`t.test` is good for t-tests, but also gives a mean and 95\% CI:
+## Iterative summaries: `dplyr` `summarize()` and `across()` functions
+
+Use the [`across`](https://dplyr.tidyverse.org/reference/across.html) function with `summarize()` to summarize across multiple columns of your data.
+
+```{r, eval = FALSE}
+# General format - Not the code!
+across({ columns to go across }, ~ { summarization_function(.x, na.rm = ..) }) 
+```
+</div>
 
 ```{r}
-t.test(circ$daily)
-broom::tidy(t.test(circ$daily))
+yts %>%
+  group_by(YEAR) %>%
+  summarize(across( c(Data_Value, Data_Value_Std_Err, Sample_Size), 
+                    ~ mean(.x, na.rm = TRUE)))
 ```
 
-## Data Summarization on matrices/data frames
+## Iterative summaries: `dplyr` `summarize()` and `across()` functions
 
-* Basic statistical summarization
+Another example using select helpers (`??tidyr_tidy_select`):
+
+```{r}
+yts %>% 
+  summarize(across( starts_with("Data"), ~ range(.x, na.rm = TRUE)))
+```
+
+## Data Summarization on data frames
+
+* Basic statistical summarization for numeric data
     * `rowMeans(x)`: takes the means of each row of x
     * `colMeans(x)`: takes the means of each column of x
     * `rowSums(x)`: takes the sum of each row of x
     * `colSums(x)`: takes the sum of each column of x
     * `summary(x)`: for data frames, displays the quantile information
-* The `matrixStats` package has additional `row*` and `col*` functions 
-    * Like `rowSds`, `colQuantiles`
 
-## Column and Row means
+## `summary()` Function
 
-`colMeans` and `rowMeans` must work on **all numeric data**.  We will subset the boardings
-
-```{r colMeans}
-avgs = circ %>% select(ends_with("Boardings"))
-colMeans(avgs, na.rm = TRUE)
-```
+Using `summary()` can give you rough snapshots of each numeric column (character columns are skipped):
 
 ```{r}
-circ = circ %>% mutate(mean_boarding = rowMeans(avgs, na.rm = TRUE))
-head(circ %>% select(day, mean_boarding))
+summary(yts)
 ```
+
+## Summary
+
+- summary stats (`mean()`) work with `pull()`
+- `count(x)`: what unique values do you have? 
+  - `pull()` + `table()`
+  - `unique()` combined with `length()`
+- `group_by()`: changes all subsequent functions
+  - combine with `summarize()` to get statistics per group
+  - combine with `across()` to programmatically select columns
+- `summary(x)`: quantile information
