@@ -1,0 +1,47 @@
+---
+title: "Updating files on GitHub"
+author: "Data Wrangling in R"
+output:
+  ioslides_presentation:
+    css: styles.css
+    widescreen: yes
+---
+
+```{r, echo = FALSE, include=FALSE, purl=FALSE}
+library(knitr)
+opts_chunk$set(comment = "")
+```
+
+```{r, include=FALSE}
+library(tidyverse)
+```
+
+## Saving any notes
+
+You can copy+paste any notes you have on AnVIL so far, or download files you've changed:
+
+* Select the box next to the file you want to download in the Files pane
+* Click "More"
+* Click "Export"
+
+## Saving any notes
+
+```{r, out.width="100%", echo=FALSE, fig.alt='.'}
+ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13e5ddf852a_0_0")
+```
+  
+## Updating files
+
+Remember, we want to update files on AnVIL if there are changes in the remote repository!
+
+We can run the following in the RStudio terminal to update everything.
+
+```
+git pull --force
+```
+
+## Updating files
+
+```{r, out.width="100%", echo=FALSE, fig.alt='.'}
+ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13e5bf29663_0_0")
+```
