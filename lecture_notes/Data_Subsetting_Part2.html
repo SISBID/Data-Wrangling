@@ -3348,7 +3348,7 @@ x &gt; 2</pre>
 
 </article></slide><slide class=""><hgroup><h2>UFO data again</h2></hgroup><article  id="ufo-data-again">
 
-<pre class = 'prettyprint lang-r'>ufo = read_csv(&quot;../data/ufo/ufo_data_complete.csv&quot;, col_types = 
+<pre class = 'prettyprint lang-r'>ufo &lt;- read_csv(&quot;../data/ufo/ufo_data_complete.csv&quot;, col_types = 
                  cols(
                    .default = col_character(),
                    `duration (seconds)` = col_double(),
@@ -3435,7 +3435,7 @@ head(ufo)</pre>
 
 <p>To rename columns in <code>dplyr</code>, you use the <code>rename</code> command (NEW=old)</p>
 
-<pre class = 'prettyprint lang-r'>ufo = ufo %&gt;% rename(City = city, duration_s = `duration (seconds)`)
+<pre class = 'prettyprint lang-r'>ufo &lt;- ufo %&gt;% rename(City = city, duration_s = `duration (seconds)`)
 glimpse(ufo)</pre>
 
 <pre >Rows: 88,875
@@ -3456,7 +3456,7 @@ $ longitude              &lt;dbl&gt; -97.941111, -98.581082, -2.916667, -96.6458
 
 <p>To rename all columns you use the <code>rename_with</code> command (with a function)</p>
 
-<pre class = 'prettyprint lang-r'>ufo_upper = ufo %&gt;% rename_with(toupper)
+<pre class = 'prettyprint lang-r'>ufo_upper &lt;- ufo %&gt;% rename_with(toupper)
 glimpse(ufo_upper)</pre>
 
 <pre >Rows: 88,875
