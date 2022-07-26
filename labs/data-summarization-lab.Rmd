@@ -5,17 +5,20 @@ editor_options:
   chunk_output_type: console
 ---
 
-# Data used
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data used
 
 Circulator Lanes Dataset: the data is from https://data.baltimorecity.gov/Transportation/Charm-City-Circulator-Ridership/wwvu-583r
 
-You can Download as a CSV in your current working directory.  Note its also available at:  http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv
+Available on: http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv
 
 ```{r}
 library(tidyverse)
 
-circ = read_csv(paste0("http://sisbid.github.io/Data-Wrangling/",
-                       "data/Charm_City_Circulator_Ridership.csv"))
+circ <- read_csv("http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv")
 ```
 
 1. How many days are in the data set?  You can assume each observation/row is a different day
@@ -24,43 +27,34 @@ circ = read_csv(paste0("http://sisbid.github.io/Data-Wrangling/",
 
 ```
 
-2. What is the total (sum) number boardings on the green bus (`greenBoardings`)?
+2. What is the total (sum) number of boardings on the green bus (`greenBoardings`)?
 
 ```{r q2}
 
 ```
 
-3. How many days are missing daily ridership?  Use `is.na()` and either `table()`, `count()`, or `n()`.
-
+3. How many days are missing daily ridership?  Use `is.na()` and `sum()`. 
+   
 ```{r q3}
 
 ```
 
-4. Group the data by day of the week (`day`). Which day of the week has the most average ridership (the `daily` column)?  How many days goes are observed for those days?
+4. Group the data by day of the week (`day`).
 
 ```{r q4}
 
 ```
 
-5. Describe the distribution of `orangeBoardings`(use `quantile()`).
+## **Extra practice:**
+
+5. Describe the distribution of `orangeBoardings`(use `quantile()`). The `quantile()` function works like `mean()`, `sum()`, etc.
 
 ```{r q6}
-
 
 ```
 
 6. Describe the distribution of `orangeBoardings`(use `quantile()`), but this time stratify by day of the week.
 
 ```{r q7}
-
-
-```
-
-7.  Bonus: Describe the results of #5 but using a boxplot visualization:
-
-```{r}
-# Hint:
-# qplot(x = ???, y = ???, data = ???, geom = "boxplot")
-
 
 ```

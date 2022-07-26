@@ -15,30 +15,25 @@ opts_chunk$set(comment = "")
 library(tidyverse)
 ```
 
-## Reshaping Data 
+## Reshaping: wide vs. long data
 
-```{r, echo = FALSE, message=FALSE}
-library(tidyverse)
+https://github.com/gadenbuie/tidyexplain/blob/main/images/tidyr-pivoting.gif
+
+```{r, fig.alt="A gif visualization of data going from wide to long form.", out.width = "40%", echo = FALSE, align = "center"}
+knitr::include_graphics("media/Reshape_pivot_animated.gif")
 ```
-
-In this module, we will show you how to:
-
-1. Reshape data from wide (fat) to long (tall)
-2. Reshape data from long (tall) to wide (fat)
-3. Merge Data/Joins
-4. Perform operations by a grouping variable
 
 ## What is wide/long data?
 
 Data is stored *differently* in the tibble.
 
 ```{r, echo = FALSE}
-ex_wide = tibble(State = "Alabama",
+ex_wide <- tibble(State = "Alabama",
                  June_vacc_rate = "37.2%",
                  May_vacc_rate = "36.0%",
                  April_vacc_rate = "32.4%"
                      )
-ex_long = pivot_longer(ex_wide, cols = c(June_vacc_rate, May_vacc_rate, April_vacc_rate))
+ex_long <- pivot_longer(ex_wide, cols = !State)
 ```
 
 Wide: has many columns
@@ -46,7 +41,9 @@ Wide: has many columns
 ```{r, echo = FALSE}
 ex_wide
 ```
+
 Long: column names become data
+
 ```{r, echo = FALSE}
 ex_long
 ```
@@ -54,20 +51,22 @@ ex_long
 ## What is wide/long data?
 
 ```{r, echo = FALSE}
-ex_wide = tibble(State = c("Alabama", "Alaska"),
+ex_wide <- tibble(State = c("Alabama", "Alaska"),
                  June_vacc_rate = c("37.2%", "47.5%"),
                  May_vacc_rate = c("36.0%", "46.2%"),
                  April_vacc_rate = c("32.4%", "41.7%")
                      )
-ex_long = pivot_longer(ex_wide, cols = c(June_vacc_rate, May_vacc_rate, April_vacc_rate))
+ex_long <- pivot_longer(ex_wide, cols = !State)
 ```
 
 Wide: multiple columns per individual, values spread across multiple columns 
+
 ```{r, echo = FALSE}
 ex_wide
 ```
 
 Long: multiple rows per observation, a single column contains the values
+
 ```{r, echo = FALSE}
 ex_long
 ```
@@ -82,128 +81,182 @@ Data is wide or long **with respect** to certain variables.
 knitr::include_graphics("media/Reshape_pivot.jpg")
 ```
 
-## What is wide/long data?
-
-```{r, fig.alt="Wide versus long data rearanges the position of column names and row content, animated.", out.width = "50%", echo = FALSE, fig.align='center'}
-knitr::include_graphics("media/Reshape_pivot_animated.gif")
-```
-
-<div style="font-size:10pt">
-[https://github.com/gadenbuie/tidyexplain/blob/master/images/tidyr-spread-gather.gif](https://github.com/gadenbuie/tidyexplain/blob/master/images/tidyr-spread-gather.gif)
-</div>
-
 ## Why do we need to switch between wide/long data?
 
 Wide: **Easier for humans to read**
+
 ```{r, echo = FALSE}
 ex_wide
 ```
 
 Long: **Easier for R to make plots & do analysis**
+
 ```{r, echo = FALSE}
 ex_long
 ```
 
-## Data used: Charm City Circulator
-
-http://jhudatascience.org/intro_to_r/data/Charm_City_Circulator_Ridership.csv
-
-```{r, message = FALSE}
-circ = read_csv(
-  paste0("http://jhudatascience.org/intro_to_r/",
-         "data/Charm_City_Circulator_Ridership.csv"))
-head(circ, 5)
-```
-
-## tidyr package
+## Pivoting using `tidyr` package
 
 `tidyr` allows you to "tidy" your data.  We will be talking about:
 
 - `pivot_longer` - make multiple columns into variables, (wide to long)
 - `pivot_wider` - make a variable into multiple columns, (long to wide)
 - `separate` - string into multiple columns
-- `unite` - multiple columns into one string
 
 The `reshape` command exists.  It is a **confusing** function.  Don't use it.
 
-## Reshaping data from wide (fat) to long (tall): tidyr 
+You might see old functions `gather` and `spread` when googling. These are the old names for `pivot_longer` and `pivot_wider`, respectively.
 
-`tidyr::pivot_longer` - puts column data into rows.
+# `pivot_longer`...
+
+## Reshaping data from **wide to long** {.codesmall} 
+
+`pivot_longer()` - puts column data into rows (`tidyr` package)
+
+- First describe which columns we want to "pivot_longer"
+
+```{r, eval=FALSE}
+{long_data} <- {wide_data} %>% pivot_longer(cols = {columns to pivot})
+```
+
+## Reshaping data from **wide to long**
+
+```{r, echo = FALSE}
+wide_data <- tibble(June_vacc_rate = "37.2%",
+                 May_vacc_rate = "36.0%",
+                 April_vacc_rate = "32.4%")
+```
+
+```{r}
+wide_data
+long_data <- wide_data %>% pivot_longer(cols = everything())
+long_data
+```
+
+## Reshaping data from **wide to long** {.codesmall} 
+
+`pivot_longer()` - puts column data into rows (`tidyr` package)
 
 - First describe which columns we want to "pivot_longer"
 - `names_to =` gives a new name to the pivoted columns
 - `values_to =` gives a new name to the values that used to be in those columns
 
+```{r, eval=FALSE}
+{long_data} <- {wide_data} %>% pivot_longer(cols = {columns to pivot},
+                                        names_to = {New column name: contains old column names},
+                                        values_to = {New column name: contains cell values})
+```
+
+## Reshaping data from **wide to long**
+
+```{r, echo = FALSE}
+wide_data <- tibble(June_vacc_rate = "37.2%",
+                 May_vacc_rate = "36.0%",
+                 April_vacc_rate = "32.4%")
+```
+
 ```{r}
-long = circ %>% 
-  pivot_longer(starts_with(c("orange","purple","green","banner")),
-               names_to = "var", values_to = "number")
+wide_data
+long_data <- wide_data %>% pivot_longer(cols = everything(),
+                                        names_to = "Month",
+                                        values_to = "Rate")
+long_data
+```
+
+## Data used: Charm City Circulator {.codesmall} 
+
+http://jhudatascience.org/intro_to_r/data/Charm_City_Circulator_Ridership.csv
+
+```{r, message = FALSE}
+circ <- 
+  read_csv("http://jhudatascience.org/intro_to_r/data/Charm_City_Circulator_Ridership.csv")
+head(circ, 5)
+```
+
+## Reshaping data from **wide to long**
+
+```{r}
+long <- circ %>% 
+  pivot_longer(starts_with(c("orange","purple","green","banner")))
 long
 ```
 
+## Reshaping data from **wide to long**
 
-## Reshaping data from wide (fat) to long (tall): tidyr 
-
-We have many columns here, so we could instead use the `!` to say which columns we *don't* want to pivot.  
+There are many ways to select the columns we want. Use `?tidyr_tidy_select` to look at more column selection options.
 
 ```{r}
-long = circ %>% pivot_longer(!c(day, date, daily),
-                    names_to = "var", values_to = "number")
+long <- circ %>% 
+  pivot_longer( !c(day, date, daily))
 long
 ```
 
-## Reshaping data from wide (fat) to long (tall): tidyr 
-
-```{r}
-long %>% count(var)
-```
-
-## Making a separator
+## Cleaning up long data
 
 We will use `str_replace` from the `stringr` package to put `_` in the names
 
 ```{r}
-long = long %>% mutate(
-  var = str_replace(var, "Board", "_Board"),
-  var = str_replace(var, "Alight", "_Alight"),
-  var = str_replace(var, "Average", "_Average") 
+long <- long %>% mutate(
+  name = str_replace(name, "Board", "_Board"),
+  name = str_replace(name, "Alight", "_Alight"),
+  name = str_replace(name, "Average", "_Average") 
 )
 long
 ```
 
-## Reshaping data from wide (fat) to long (tall): tidyr
+## Cleaning up long data
 
 Now each `var` is Boardings, Averages, or Alightings.  We use "`into =`" to name the new columns and "`sep =`" to show where the separation should happen.
 
 ```{r}
-long = 
-  long %>% 
-  separate(var, into = c("line", "type"), sep = "_")
+long <- long %>% 
+  separate(name, into = c("line", "type"), sep = "_")
 long
 ```
 
-## Re-uniting all the lines
+# `pivot_wider`...
 
-If we had the opposite problem, we could use the `unite` function:
+## Reshaping data from **long to wide**
 
-```{r}
-reunited = long %>% 
-  unite(var, line, type, sep = "_")  
-reunited
+`pivot_wider()` - spreads row data into columns (`tidyr` package)
+
+- `names_from =` the old column whose contents will be spread into multiple new column names.
+- `values_from =` the old column whose contents will fill in the values of those new columns.
+
+```{r, eval=FALSE}
+{wide_data} <- {long_data} %>% 
+  pivot_wider(names_from = {Old column name: contains new column names},
+              values_from = {Old column name: contains new cell values})
 ```
 
-## Reshaping data from long (tall) to wide (fat): tidyr
-
-In `tidyr`, the `pivot_wider` function spreads rows into columns.  Now we have a long data set, but we want to separate the Average, Alightings and Boardings into different columns:
+## Reshaping data from **long to wide**
 
 ```{r}
-wide = long %>% pivot_wider(names_from = "type", 
-                            values_from = "number") 
+long_data
+wide_data <- long_data %>% pivot_wider(names_from = "Month", 
+                                       values_from = "Rate") 
+wide_data
+```
+
+## Reshaping Charm City Circulator
+
+```{r}
+long
+```
+
+## Reshaping Charm City Circulator
+
+```{r}
+wide <- long %>% pivot_wider(names_from = "type", 
+                             values_from = "value") 
 wide
 ```
 
-## `pivot_longer`
+## Summary
 
-```{r, fig.alt="Long form sandwich", out.width = "50%", echo = FALSE, fig.align='center'}
-knitr::include_graphics("media/Reshape_pivot_sandwich.png")
-```
+- `tidyr` package helps us convert between wide and long data
+- `pivot_longer()` goes from wide -> long
+     - Specify columns you want to pivot
+     - Specify `names_to = ` and `values_to = ` for custom naming
+- `pivot_wider()` goes from long -> wide
+     - Specify `names_from =` and `values_from = `
