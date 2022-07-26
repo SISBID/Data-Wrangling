@@ -91,7 +91,7 @@ x * 2
 ## UFO data again
 
 ```{r, eval = FALSE}
-ufo = read_csv("../data/ufo/ufo_data_complete.csv", col_types = 
+ufo <- read_csv("../data/ufo/ufo_data_complete.csv", col_types = 
                  cols(
                    .default = col_character(),
                    `duration (seconds)` = col_double(),
@@ -101,7 +101,7 @@ head(ufo)
 ```
 
 ```{r, echo = FALSE, warning = FALSE}
-ufo = read_csv("../data/ufo/ufo_data_complete.csv", col_types = 
+ufo <- read_csv("../data/ufo/ufo_data_complete.csv", col_types = 
                  cols(
                    .default = col_character(),
                    `duration (seconds)` = col_double(),
@@ -148,7 +148,7 @@ ufo %>%
 To rename columns in `dplyr`, you use the `rename` command (NEW=old)
 
 ```{r}
-ufo = ufo %>% rename(City = city, duration_s = `duration (seconds)`)
+ufo <- ufo %>% rename(City = city, duration_s = `duration (seconds)`)
 glimpse(ufo)
 ```
 
@@ -157,7 +157,7 @@ glimpse(ufo)
 To rename all columns you use the `rename_with` command (with a function)
 
 ```{r}
-ufo_upper = ufo %>% rename_with(toupper)
+ufo_upper <- ufo %>% rename_with(toupper)
 glimpse(ufo_upper)
 ```
 
