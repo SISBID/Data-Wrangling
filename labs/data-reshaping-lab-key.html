@@ -375,11 +375,11 @@ Name the data set <code>wide</code>.</li>
 </ol>
 <pre class="r"><code>wide &lt;- read_csv(&quot;http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv&quot;)</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li>Reshape wide using <code>pivot_wider</code>. Call this data
-<code>long.</code> Make the <code>names_to =</code> <code>name</code>,
-and the values <code>n_people</code> Make sure we gather all columns
-<strong>but</strong> <code>daily</code>, <code>day</code>,
-<code>date</code>, using the <code>!</code>.</li>
+<li>Reshape to long format using <code>pivot_longer</code>. Call this
+data <code>long.</code> Make the <code>names_to =</code>
+<code>name</code>, and the values <code>n_people</code> Make sure we
+gather all columns <strong>but</strong> <code>daily</code>,
+<code>day</code>, <code>date</code>, using the <code>!</code>.</li>
 </ol>
 <pre class="r"><code>long &lt;- wide %&gt;% 
   pivot_longer( !c(daily, day, date), names_to = &quot;name&quot;, values_to = &quot;n_people&quot;)

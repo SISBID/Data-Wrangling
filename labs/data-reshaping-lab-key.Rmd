@@ -20,7 +20,7 @@ library(tidyverse)
 wide <- read_csv("http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv")
 ```
 
-2. Reshape wide using `pivot_wider`. Call this data `long.`  Make the `names_to = `
+2. Reshape to long format using `pivot_longer`. Call this data `long.`  Make the `names_to = `
 `name`, and the values `n_people`  Make sure we gather all columns **but**
 `daily`, `day`, `date`, using the `!`.
 
