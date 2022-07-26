@@ -2,6 +2,7 @@
 title: "Subsetting Data in R"
 author: "Data Wrangling in R"
 output:
+  beamer_presentation: default
   ioslides_presentation:
     css: styles.css
     widescreen: yes
@@ -148,7 +149,7 @@ To rename columns in `dplyr`, you use the `rename` command (NEW=old)
 
 ```{r}
 ufo = ufo %>% rename(City = city, duration_s = `duration (seconds)`)
-head(ufo)
+glimpse(ufo)
 ```
 
 ## Renaming All Columns of a `data.frame`: dplyr
@@ -157,7 +158,7 @@ To rename all columns you use the `rename_with` command (with a function)
 
 ```{r}
 ufo_upper = ufo %>% rename_with(toupper)
-head(ufo_upper)
+glimpse(ufo_upper)
 ```
 
 ## Adding columns to a `data.frame`
@@ -165,9 +166,8 @@ head(ufo_upper)
  `mutate` - allows you to add or replace columns (IMPORTANT: need to reassign for it to stick!)
  
 ```{r}
-ufo %>% select(state) %>% head(3)
-ufo2 <- ufo %>% mutate(State = toupper(state)) # we renamed city
-ufo2 %>% select(State) %>% head(3)
+ufo2 <- ufo %>% mutate(State = toupper(state))
+ufo2 %>% glimpse()
 ```
 
 
@@ -250,20 +250,31 @@ ufo <- ufo %>% mutate(
 ufo %>% select(country, region) %>% head()
 ```
 
-## Adding columns to a `data.frame`: dplyr
-Alternatively, `case_when` provides a more general way (multiple tests easily):
+## `case_when` provides a more general way
+
 ```
 casewhen(test ~ value if test is true,
          test2 ~ vlue if test2 is true,
          TRUE ~ value if all above tests are not true) # defaults to NA
 ```
-
 ```{r}
 ufo <- ufo %>% mutate( 
             region = case_when(
               country %in% c("us", "ca") ~ "North America",
               country %in% c("de") ~ "Europe",
-              country %in% "gb" ~ "Great Britain"
+              country %in% "gb" ~ "Great Britain",
+            ))
+
+ufo %>% select(country, region) %>% head()
+```
+## `case_when` defaults to NA when all tests fail
+
+```{r}
+ufo <- ufo %>% mutate( 
+            region = case_when(
+              country %in% c("us", "ca") ~ "North America",
+              country %in% c("de") ~ "Europe"
+              #country %in% "gb" ~ "Great Britain",
             ))
 
 ufo %>% select(country, region) %>% head()
@@ -282,6 +293,21 @@ ufo <- ufo %>% mutate(
             ))
 ufo %>% select(country, region) %>% head()
 ```
+
+
+
+
+## `case_when()` with value if all tests fail (use a variable!)
+
+```{r}
+ufo <- ufo %>% mutate( 
+            region = case_when(
+              country %in% "gb" ~ "Great Brit.",
+              TRUE ~ region
+            ))
+ufo %>% select(country, region) %>% head()
+```
+
 
 
 
