@@ -32,9 +32,19 @@ Each missing data type has a function that returns `TRUE` if the data is missing
 * `Inf` and `-Inf` - `is.infinite()`
 * `is.finite()` returns `FALSE` for all missing data and `TRUE` for non-missing
 
+## Working with `is.na()`
+
+```{r}
+t<-c(1,0,3,0)
+t/c(0,0,3,NA)
+```
+```{r}
+is.na(t/c(0,0,3,NA))
+```
+
 ## Missing Data with Logicals
 
-One important aspect (esp with subsetting) is that logical operations return `NA` for `NA` values.  Think about it, the data could be `> 2` or not. We don't know, 
+One important aspect (esp with subsetting) is that logical operations return `NA` for `NA` values.  The data could be `> 2` or not. We don't know, 
 so `R` says there is no `TRUE` or `FALSE`, and instead that is missing:
 ```{r}
 x = c(0, NA, 2, 3, 4)
@@ -101,11 +111,20 @@ head(ufo)
 
 ## Filtering and tibbles
 
+The filter function automatically removes `NA` values.
+
+```{r}
+count(ufo, country)
+ufo %>%filter(country == "de") %>% count(country)
+```
+
+## Filtering for missing data
+
 Missing value and filter can be powerful 
 
 ```{r}
 ufo %>% 
-  filter(is.na(state) | is.na(country)) %>% 
+  filter(is.na(state) & is.na(country)) %>% 
   head()
 ```
 
@@ -133,10 +152,10 @@ head(ufo)
 
 ## Renaming All Columns of a `data.frame`: dplyr
 
-To rename all columns you use the `rename_all` command (with a function)
+To rename all columns you use the `rename_with` command (with a function)
 
 ```{r}
-ufo_upper = ufo %>% rename_all(toupper)
+ufo_upper = ufo %>% rename_with(toupper)
 head(ufo_upper)
 ```
 
