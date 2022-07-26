@@ -3098,6 +3098,10 @@ if (document.readyState !== "loading" &&
       display: list-item;
     }
 
+    details > summary > p:only-child {
+      display: inline;
+    }
+
     slides > slide {
       -webkit-transition: all 0.4s ease-in-out;
       -moz-transition: all 0.4s ease-in-out;
@@ -3127,6 +3131,7 @@ slide:not(.current) .plotly.html-widget{
             pre > code.sourceCode { white-space: pre; position: relative; }
             pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
             pre > code.sourceCode > span:empty { height: 1.2em; }
+            .sourceCode { overflow: visible; }
             code.sourceCode > span { color: inherit; text-decoration: inherit; }
             div.sourceCode { margin: 1em 0; }
             pre.sourceCode { margin: 0; }
@@ -3229,7 +3234,10 @@ strong { font-weight: bold;
 color: black;
 }
 .left-half{ float: left; width: 48%; }
-.right-half{ float: right; width: 48%; }</style>
+.right-half{ float: right; width: 48%; }
+.codesmall pre {
+font-size: 16px;
+}</style>
 
 </head>
 
@@ -3246,62 +3254,16 @@ color: black;
           </hgroup>
   </slide>
 
-<slide class=""><hgroup><h2>Quick Data read in</h2></hgroup><article  id="quick-data-read-in">
+<style type="text/css">
+pre { /* Code block - slightly smaller in this lecture */
+    font-size: 20px;
+}
+</style>
 
-<p>We can use the Charm City Circulator Dataset from &ldquo;<a href='http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv' title=''>http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv</a>&rdquo;.</p>
-
-<pre class = 'prettyprint lang-r'>circ = read_csv(paste0(&quot;http://sisbid.github.io/Data-Wrangling/&quot;,
-                       &quot;data/Charm_City_Circulator_Ridership.csv&quot;))
-# or circ = read_csv(&quot;../data/Charm_City_Circulator_Ridership.csv&quot;)</pre>
-
-</article></slide><slide class=""><hgroup><h2>Head and Tail Commands</h2></hgroup><article  id="head-and-tail-commands">
-
-<p>The <code>head</code>/<code>tail</code> commands displays the first/last <code>6</code> (default) rows:</p>
-
-<pre class = 'prettyprint lang-r'>head(circ)</pre>
-
-<pre ># A tibble: 6 x 15
-  day     date    orangeBoardings orangeAlightings orangeAverage purpleBoardings
-  &lt;chr&gt;   &lt;chr&gt;             &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;           &lt;dbl&gt;
-1 Monday  01/11/…             877             1027          952               NA
-2 Tuesday 01/12/…             777              815          796               NA
-3 Wednes… 01/13/…            1203             1220         1212.              NA
-4 Thursd… 01/14/…            1194             1233         1214.              NA
-5 Friday  01/15/…            1645             1643         1644               NA
-6 Saturd… 01/16/…            1457             1524         1490.              NA
-# … with 9 more variables: purpleAlightings &lt;dbl&gt;, purpleAverage &lt;dbl&gt;,
-#   greenBoardings &lt;dbl&gt;, greenAlightings &lt;dbl&gt;, greenAverage &lt;dbl&gt;,
-#   bannerBoardings &lt;dbl&gt;, bannerAlightings &lt;dbl&gt;, bannerAverage &lt;dbl&gt;,
-#   daily &lt;dbl&gt;</pre>
-
-</article></slide><slide class=""><hgroup><h2>Head and Tail Commands</h2></hgroup><article  id="head-and-tail-commands-1">
-
-<p>The <code>head</code>/<code>tail</code> commands displays the first/last <code>6</code> (default) rows:</p>
-
-<pre class = 'prettyprint lang-r'>tail(circ, 10)</pre>
-
-<pre ># A tibble: 10 x 15
-   day     date   orangeBoardings orangeAlightings orangeAverage purpleBoardings
-   &lt;chr&gt;   &lt;chr&gt;            &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;           &lt;dbl&gt;
- 1 Wednes… 02/20…            3374             3491         3432.            4710
- 2 Thursd… 02/21…            3569             3705         3637             4744
- 3 Friday  02/22…            3910             4006         3958             4271
- 4 Saturd… 02/23…            3456             3669         3562.            2718
- 5 Sunday  02/24…            2128             2079         2104.            2388
- 6 Monday  02/25…            3962             3987         3974.            5168
- 7 Tuesday 02/26…            3423             3487         3455             4964
- 8 Wednes… 02/27…            3974             4063         4018.            4914
- 9 Thursd… 02/28…            3820             3966         3893             4820
-10 Friday  03/01…            4506             4449         4478.            5446
-# … with 9 more variables: purpleAlightings &lt;dbl&gt;, purpleAverage &lt;dbl&gt;,
-#   greenBoardings &lt;dbl&gt;, greenAlightings &lt;dbl&gt;, greenAverage &lt;dbl&gt;,
-#   bannerBoardings &lt;dbl&gt;, bannerAlightings &lt;dbl&gt;, bannerAverage &lt;dbl&gt;,
-#   daily &lt;dbl&gt;</pre>
-
-</article></slide><slide class=""><hgroup><h2>Data Summarization</h2></hgroup><article  id="data-summarization">
+<slide class=""><hgroup><h2>Data Summarization</h2></hgroup><article  id="data-summarization">
 
 <ul>
-<li>Basic statistical summarization is key after cleaning data!
+<li>Basic statistical summarization
 
 <ul>
 <li><code>mean(x)</code>: takes the mean of x</li>
@@ -3310,296 +3272,664 @@ color: black;
 <li><code>quantile(x)</code>: displays sample quantiles of x. Default is min, IQR, max</li>
 <li><code>range(x)</code>: displays the range. Same as <code>c(min(x), max(x))</code></li>
 <li><code>sum(x)</code>: sum of x</li>
-<li><strong>all have a </strong><code>na.rm</code> for missing data</li>
+<li><code>max(x)</code>: maximum value in x</li>
+<li><code>min(x)</code>: minimum value in x</li>
 </ul></li>
-<li>Transformations
-
-<ul>
-<li><code>log</code>, <code>log2</code>, <code>log10</code> - log transformation</li>
-<li><code>sqrt</code> - square root</li>
-</ul></li>
+<li><strong>all have the </strong> <code>na.rm =</code> <strong>argument for missing data</strong></li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Statistical summarization</h2></hgroup><article  id="statistical-summarization">
 
-<p>Remember <code>NA</code> is &ldquo;missing&rdquo; so it’s unknown what the mean or sum of something is (by default). <code>na.rm</code> argument (&ldquo;remove NAs&rdquo;).</p>
+<p>These functions work on <strong>vectors</strong>:</p>
 
-<pre class = 'prettyprint lang-r'>mean(circ$daily)</pre>
+<pre class = 'prettyprint lang-r'>x &lt;- c(1, 5, 7, 4, 2, 8)
+mean(x)</pre>
 
-<pre >[1] NA</pre>
+<pre >[1] 4.5</pre>
 
-<pre class = 'prettyprint lang-r'>sum(circ$daily)</pre>
+<pre class = 'prettyprint lang-r'>mean(x, na.rm = TRUE) # Remove NAs if needed</pre>
 
-<pre >[1] NA</pre>
-
-<pre class = 'prettyprint lang-r'>mean(circ$daily, na.rm = TRUE)</pre>
-
-<pre >[1] 7233.48</pre>
-
-<pre class = 'prettyprint lang-r'>sum(circ$daily, na.rm = TRUE)</pre>
-
-<pre >[1] 7392617</pre>
+<pre >[1] 4.5</pre>
 
 </article></slide><slide class=""><hgroup><h2>Statistical summarization</h2></hgroup><article  id="statistical-summarization-1">
 
-<pre class = 'prettyprint lang-r'>quantile(circ$daily, na.rm = TRUE)</pre>
+<p>Summarization on a <code>data.frame</code>/<code>tibble</code>:</p>
 
-<pre >      0%      25%      50%      75%     100% 
-    0.00  4293.25  6701.75 10500.75 22074.50 </pre>
+<pre class = 'prettyprint lang-r'>mtcars %&gt;% pull(hp) %&gt;% mean() # alt: pull(mtcars, hp) %&gt;% mean()</pre>
 
-<pre class = 'prettyprint lang-r'>quantile(circ$daily, na.rm = TRUE, probs = c(0.6, 0.84))</pre>
+<pre >[1] 146.6875</pre>
 
-<pre >     60%      84% 
- 8208.00 12045.92 </pre>
+<pre class = 'prettyprint lang-r'>mean(mtcars$hp)</pre>
 
-<pre class = 'prettyprint lang-r'>median(circ$daily, na.rm = TRUE)</pre>
+<pre >[1] 146.6875</pre>
 
-<pre >[1] 6701.75</pre>
+</article></slide><slide class=""><hgroup><h2>Youth Tobacco Survey</h2></hgroup><article  id="youth-tobacco-survey">
+
+<p>Here we will be using the Youth Tobacco Survey data:</p>
+
+<pre class = 'prettyprint lang-r'>yts &lt;- 
+  read_csv(&quot;http://jhudatascience.org/intro_to_r/data/Youth_Tobacco_Survey_YTS_Data.csv&quot;)
+head(yts)</pre>
+
+<pre ># A tibble: 6 × 31
+   YEAR LocationAbbr LocationDesc TopicType     TopicDesc MeasureDesc DataSource Response Data_Value_Unit Data_Value_Type
+  &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;        &lt;chr&gt;         &lt;chr&gt;     &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;           &lt;chr&gt;          
+1  2015 AZ           Arizona      Tobacco Use … Cessatio… Percent of… YTS        &lt;NA&gt;     %               Percentage     
+2  2015 AZ           Arizona      Tobacco Use … Cessatio… Percent of… YTS        &lt;NA&gt;     %               Percentage     
+3  2015 AZ           Arizona      Tobacco Use … Cessatio… Percent of… YTS        &lt;NA&gt;     %               Percentage     
+4  2015 AZ           Arizona      Tobacco Use … Cessatio… Quit Attem… YTS        &lt;NA&gt;     %               Percentage     
+5  2015 AZ           Arizona      Tobacco Use … Cessatio… Quit Attem… YTS        &lt;NA&gt;     %               Percentage     
+6  2015 AZ           Arizona      Tobacco Use … Cessatio… Quit Attem… YTS        &lt;NA&gt;     %               Percentage     
+# … with 21 more variables: Data_Value &lt;dbl&gt;, Data_Value_Footnote_Symbol &lt;chr&gt;, Data_Value_Footnote &lt;chr&gt;,
+#   Data_Value_Std_Err &lt;dbl&gt;, Low_Confidence_Limit &lt;dbl&gt;, High_Confidence_Limit &lt;dbl&gt;, Sample_Size &lt;dbl&gt;, Gender &lt;chr&gt;,
+#   Race &lt;chr&gt;, Age &lt;chr&gt;, Education &lt;chr&gt;, GeoLocation &lt;chr&gt;, TopicTypeId &lt;chr&gt;, TopicId &lt;chr&gt;, MeasureId &lt;chr&gt;,
+#   StratificationID1 &lt;chr&gt;, StratificationID2 &lt;chr&gt;, StratificationID3 &lt;chr&gt;, StratificationID4 &lt;chr&gt;,
+#   SubMeasureID &lt;chr&gt;, DisplayOrder &lt;dbl&gt;</pre>
+
+</article></slide><slide class=""><hgroup><h2>Column to vector</h2></hgroup><article  id="column-to-vector">
+
+<p>Let’s work with one column as a vector using <code>pull()</code>.</p>
+
+<pre class = 'prettyprint lang-r'>locations &lt;- yts %&gt;% pull(LocationDesc)
+locations</pre>
+
+<pre >   [1] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+   [5] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+   [9] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+  [13] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+  [17] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+  [21] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+  [25] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [29] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [33] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [37] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [41] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [45] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [49] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [53] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [57] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [61] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [65] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [69] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [73] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
+  [77] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
+  [81] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
+  [85] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
+  [89] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
+  [93] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
+  [97] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [101] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [105] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [109] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [113] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [117] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [121] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [125] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [129] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [133] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [137] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [141] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [145] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [149] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [153] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [157] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [161] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [165] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [169] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [173] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [177] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [181] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [185] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [189] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [193] &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;               
+ [197] &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;               
+ [201] &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;               
+ [205] &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;               
+ [209] &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;               
+ [213] &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;               
+ [217] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [221] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [225] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [229] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [233] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [237] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [241] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [245] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [249] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [253] &quot;Utah&quot;                     &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [257] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [261] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [265] &quot;Mississippi&quot;              &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;Missouri&quot;                
+ [269] &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;Missouri&quot;                
+ [273] &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;Missouri&quot;                
+ [277] &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;Missouri&quot;                
+ [281] &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;Missouri&quot;                
+ [285] &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;National (States and DC)&quot; &quot;National (States and DC)&quot;
+ [289] &quot;National (States and DC)&quot; &quot;National (States and DC)&quot; &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [293] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [297] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [301] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [305] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [309] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [313] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [317] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [321] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [325] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [329] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [333] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [337] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [341] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [345] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [349] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [353] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [357] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [361] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [365] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [369] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [373] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [377] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [381] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [385] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [389] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [393] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [397] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [401] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [405] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [409] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [413] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [417] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [421] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [425] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [429] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [433] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [437] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [441] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [445] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [449] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [453] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [457] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [461] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [465] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [469] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [473] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [477] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [481] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [485] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [489] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [493] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [497] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [501] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [505] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;South Carolina&quot;           &quot;South Carolina&quot;          
+ [509] &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;          
+ [513] &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;          
+ [517] &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;          
+ [521] &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;          
+ [525] &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;          
+ [529] &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [533] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [537] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [541] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [545] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [549] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [553] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [557] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [561] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [565] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [569] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [573] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [577] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [581] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [585] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [589] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [593] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [597] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [601] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [605] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [609] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [613] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [617] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [621] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [625] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Delaware&quot;                 &quot;Delaware&quot;                
+ [629] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
+ [633] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
+ [637] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
+ [641] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
+ [645] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
+ [649] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
+ [653] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
+ [657] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
+ [661] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
+ [665] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
+ [669] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [673] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [677] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [681] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [685] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [689] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [693] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [697] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [701] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [705] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [709] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [713] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [717] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [721] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [725] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [729] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [733] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [737] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [741] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [745] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [749] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [753] &quot;Mississippi&quot;              &quot;Guam&quot;                     &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [757] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [761] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [765] &quot;Mississippi&quot;              &quot;National (States and DC)&quot; &quot;National (States and DC)&quot; &quot;National (States and DC)&quot;
+ [769] &quot;National (States and DC)&quot; &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [773] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [777] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [781] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [785] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [789] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [793] &quot;Nebraska&quot;                 &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [797] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [801] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [805] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [809] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [813] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [817] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [821] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [825] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [829] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [833] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [837] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [841] &quot;New Jersey&quot;               &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                    
+ [845] &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                    
+ [849] &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                    
+ [853] &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                    
+ [857] &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                    
+ [861] &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                    
+ [865] &quot;Ohio&quot;                     &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [869] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [873] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [877] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [881] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [885] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [889] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [893] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [897] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [901] &quot;Guam&quot;                     &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [905] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [909] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [913] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+ [917] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+ [921] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+ [925] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+ [929] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+ [933] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+ [937] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [941] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [945] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [949] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [953] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [957] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [961] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Guam&quot;                     &quot;Connecticut&quot;             
+ [965] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [969] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [973] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [977] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [981] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [985] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Georgia&quot;                 
+ [989] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
+ [993] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
+ [997] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
+ [ reached getOption(&quot;max.print&quot;) -- omitted 8794 entries ]</pre>
 
 </article></slide><slide class=""><hgroup><h2>Length and unique</h2></hgroup><article  id="length-and-unique">
 
 <p><code>unique(x)</code> will return the unique elements of <code>x</code></p>
 
-<pre class = 'prettyprint lang-r'>unique(circ$day)</pre>
+<pre class = 'prettyprint lang-r'>unique(locations)</pre>
 
-<pre >[1] &quot;Monday&quot;    &quot;Tuesday&quot;   &quot;Wednesday&quot; &quot;Thursday&quot;  &quot;Friday&quot;    &quot;Saturday&quot; 
-[7] &quot;Sunday&quot;   </pre>
+<pre > [1] &quot;Arizona&quot;                  &quot;Connecticut&quot;              &quot;Georgia&quot;                  &quot;Hawaii&quot;                  
+ [5] &quot;Illinois&quot;                 &quot;Louisiana&quot;                &quot;Mississippi&quot;              &quot;Utah&quot;                    
+ [9] &quot;Missouri&quot;                 &quot;National (States and DC)&quot; &quot;Nebraska&quot;                 &quot;New Jersey&quot;              
+[13] &quot;North Carolina&quot;           &quot;North Dakota&quot;             &quot;Pennsylvania&quot;             &quot;South Carolina&quot;          
+[17] &quot;West Virginia&quot;            &quot;Alabama&quot;                  &quot;Delaware&quot;                 &quot;Minnesota&quot;               
+[21] &quot;Guam&quot;                     &quot;Ohio&quot;                     &quot;Indiana&quot;                  &quot;Kansas&quot;                  
+[25] &quot;Oklahoma&quot;                 &quot;Wisconsin&quot;                &quot;Michigan&quot;                 &quot;New Hampshire&quot;           
+[29] &quot;Arkansas&quot;                 &quot;Kentucky&quot;                 &quot;Iowa&quot;                     &quot;South Dakota&quot;            
+[33] &quot;Virginia&quot;                 &quot;Puerto Rico&quot;              &quot;Rhode Island&quot;             &quot;New Mexico&quot;              
+[37] &quot;Tennessee&quot;                &quot;Vermont&quot;                  &quot;Virgin Islands&quot;           &quot;California&quot;              
+[41] &quot;Idaho&quot;                    &quot;Florida&quot;                  &quot;Maryland&quot;                 &quot;Massachusetts&quot;           
+[45] &quot;New York&quot;                 &quot;Maine&quot;                    &quot;Colorado&quot;                 &quot;District of Columbia&quot;    
+[49] &quot;Texas&quot;                    &quot;Wyoming&quot;                 </pre>
+
+</article></slide><slide class=""><hgroup><h2>Length and unique</h2></hgroup><article  id="length-and-unique-1">
 
 <p><code>length</code> will tell you the length of a vector. Combined with <code>unique</code>, tells you the number of unique elements:</p>
 
-<pre class = 'prettyprint lang-r'>length(unique(circ$date))</pre>
+<pre class = 'prettyprint lang-r'>length(unique(locations))</pre>
 
-<pre >[1] 1146</pre>
+<pre >[1] 50</pre>
 
-</article></slide><slide class=""><hgroup><h2>Table</h2></hgroup><article  id="table">
+</article></slide><slide class=""><hgroup><h2>Counting NAs</h2></hgroup><article  id="counting-nas">
+
+<p>use <code>sum(is.na())</code>:</p>
+
+<pre class = 'prettyprint lang-r'>sum(is.na(locations))</pre>
+
+<pre >[1] 0</pre>
+
+</article></slide><slide class=""><hgroup><h2><code>table</code> and <code>dplyr</code>: <code>count</code></h2></hgroup><article  id="table-and-dplyr-count">
 
 <p><code>table(x)</code> will return a frequency table of unique elements of <code>x</code></p>
 
-<pre class = 'prettyprint lang-r'>table(circ$day)</pre>
+<pre class = 'prettyprint lang-r'>table(locations)</pre>
 
-<pre >
-   Friday    Monday  Saturday    Sunday  Thursday   Tuesday Wednesday 
-      164       164       163       163       164       164       164 </pre>
+<pre >locations
+                 Alabama                  Arizona                 Arkansas               California 
+                     378                      240                      210                       96 
+                Colorado              Connecticut                 Delaware     District of Columbia 
+                      48                      384                      312                       48 
+                 Florida                  Georgia                     Guam                   Hawaii 
+                      96                      282                       48                      270 
+                   Idaho                 Illinois                  Indiana                     Iowa 
+                      48                      282                      264                      276 
+                  Kansas                 Kentucky                Louisiana                    Maine 
+                     186                      255                      240                       48 
+                Maryland            Massachusetts                 Michigan                Minnesota 
+                      96                       48                      138                      141 
+             Mississippi                 Missouri National (States and DC)                 Nebraska 
+                     567                      294                       26                      234 
+           New Hampshire               New Jersey               New Mexico                 New York 
+                     180                      387                       24                       90 
+          North Carolina             North Dakota                     Ohio                 Oklahoma 
+                     366                      330                      255                      318 
+            Pennsylvania              Puerto Rico             Rhode Island           South Carolina 
+                     330                        6                      144                      300 
+            South Dakota                Tennessee                    Texas                     Utah 
+                     192                      168                       48                      144 
+                 Vermont           Virgin Islands                 Virginia            West Virginia 
+                      96                       96                       45                      336 
+               Wisconsin                  Wyoming 
+                     360                       24 </pre>
 
-</article></slide><slide class=""><hgroup><h2>The <code>tidy</code> way: <code>dplyr</code>: <code>count</code></h2></hgroup><article  id="the-tidy-way-dplyr-count">
+</article></slide><slide class=""><hgroup><h2><code>table</code> and <code>dplyr</code>: <code>count</code></h2></hgroup><article  id="table-and-dplyr-count-1">
 
-<pre class = 'prettyprint lang-r'>circ %&gt;% count(day)</pre>
+<p>Use <code>count</code> directly on a data.frame and column without needing to use <code>pull()</code>.</p>
 
-<pre ># A tibble: 7 x 2
-  day           n
-  &lt;chr&gt;     &lt;int&gt;
-1 Friday      164
-2 Monday      164
-3 Saturday    163
-4 Sunday      163
-5 Thursday    164
-6 Tuesday     164
-7 Wednesday   164</pre>
+<pre class = 'prettyprint lang-r'>yts %&gt;% count(LocationDesc)</pre>
 
-</article></slide><slide class=""><hgroup><h2>The <code>tidy</code> way: <code>dplyr</code>: <code>count</code></h2></hgroup><article  id="the-tidy-way-dplyr-count-1">
+<pre ># A tibble: 50 × 2
+   LocationDesc             n
+   &lt;chr&gt;                &lt;int&gt;
+ 1 Alabama                378
+ 2 Arizona                240
+ 3 Arkansas               210
+ 4 California              96
+ 5 Colorado                48
+ 6 Connecticut            384
+ 7 Delaware               312
+ 8 District of Columbia    48
+ 9 Florida                 96
+10 Georgia                282
+# … with 40 more rows</pre>
 
-<pre class = 'prettyprint lang-r'>circ %&gt;% mutate(many_riders = daily &gt; 1000) %&gt;% count(many_riders, day)</pre>
+</article></slide><slide class=""><hgroup><h2><code>table</code> and <code>dplyr</code>: <code>count</code></h2></hgroup><article  id="table-and-dplyr-count-2">
 
-<pre ># A tibble: 21 x 3
-   many_riders day           n
-   &lt;lgl&gt;       &lt;chr&gt;     &lt;int&gt;
- 1 FALSE       Friday        1
- 2 FALSE       Monday        5
- 3 FALSE       Saturday      6
- 4 FALSE       Sunday       13
- 5 FALSE       Thursday      2
- 6 FALSE       Tuesday       4
- 7 FALSE       Wednesday     2
- 8 TRUE        Friday      145
- 9 TRUE        Monday      141
-10 TRUE        Saturday    140
-# … with 11 more rows</pre>
+<p>Multiple columns listed further subdivides the count.</p>
 
-</article></slide><slide class=""><hgroup><h2>Summarize the data: <code>dplyr</code> <code>summarize</code>/<code>summarise</code> function</h2></hgroup><article  id="summarize-the-data-dplyr-summarizesummarise-function">
+<pre class = 'prettyprint lang-r'>yts %&gt;% count(LocationDesc, TopicDesc)</pre>
 
-<p><code>dplyr::summarise</code> will allow you to summarize data. Format is <code>new_column = SUMMARY</code>. If you don’t set a <code>new</code> name, it will be a messy output:</p>
+<pre ># A tibble: 146 × 3
+   LocationDesc TopicDesc                         n
+   &lt;chr&gt;        &lt;chr&gt;                         &lt;int&gt;
+ 1 Alabama      Cessation (Youth)                90
+ 2 Alabama      Cigarette Use (Youth)           144
+ 3 Alabama      Smokeless Tobacco Use (Youth)   144
+ 4 Arizona      Cessation (Youth)                60
+ 5 Arizona      Cigarette Use (Youth)            99
+ 6 Arizona      Smokeless Tobacco Use (Youth)    81
+ 7 Arkansas     Cessation (Youth)                42
+ 8 Arkansas     Cigarette Use (Youth)            78
+ 9 Arkansas     Smokeless Tobacco Use (Youth)    90
+10 California   Cessation (Youth)                24
+# … with 136 more rows</pre>
 
-<pre class = 'prettyprint lang-r'>circ %&gt;% 
-  summarize(mean_purple = mean(purpleAverage, na.rm = TRUE),
-            mean(bannerAverage, na.rm = TRUE))</pre>
+</article></slide><slide class=""><hgroup><h2><code>table</code> and <code>dplyr</code>: <code>count</code></h2></hgroup><article  id="table-and-dplyr-count-3">
 
-<pre ># A tibble: 1 x 2
-  mean_purple `mean(bannerAverage, na.rm = TRUE)`
-        &lt;dbl&gt;                               &lt;dbl&gt;
-1       4017.                                827.</pre>
+<p>Multiple columns listed further subdivides the count.</p>
 
-</article></slide><slide class=""><hgroup><h2><code>across</code> - summarize multiple columns!</h2></hgroup><article  id="across---summarize-multiple-columns">
+<pre class = 'prettyprint lang-r'>yts %&gt;% count(LocationDesc, TopicDesc)</pre>
 
-<p>If you would like to a bunch of columns, you can use <code>across</code> and pass in a function (with other arguments) with select helpers:</p>
+<pre ># A tibble: 146 × 3
+   LocationDesc TopicDesc                         n
+   &lt;chr&gt;        &lt;chr&gt;                         &lt;int&gt;
+ 1 Alabama      Cessation (Youth)                90
+ 2 Alabama      Cigarette Use (Youth)           144
+ 3 Alabama      Smokeless Tobacco Use (Youth)   144
+ 4 Arizona      Cessation (Youth)                60
+ 5 Arizona      Cigarette Use (Youth)            99
+ 6 Arizona      Smokeless Tobacco Use (Youth)    81
+ 7 Arkansas     Cessation (Youth)                42
+ 8 Arkansas     Cigarette Use (Youth)            78
+ 9 Arkansas     Smokeless Tobacco Use (Youth)    90
+10 California   Cessation (Youth)                24
+# … with 136 more rows</pre>
 
-<pre class = 'prettyprint lang-r'>circ %&gt;% summarise(across(ends_with(&quot;Boardings&quot;), mean, na.rm = TRUE))</pre>
+</article></slide><slide class=""><hgroup><h2><code>table</code> and <code>dplyr</code>: <code>count</code></h2></hgroup><article  id="table-and-dplyr-count-4">
 
-<pre ># A tibble: 1 x 4
-  orangeBoardings purpleBoardings greenBoardings bannerBoardings
-            &lt;dbl&gt;           &lt;dbl&gt;          &lt;dbl&gt;           &lt;dbl&gt;
-1           3031.           4127.          1929.            830.</pre>
+<p><strong>Note:</strong> <code>count()</code> includes NAs but <code>table()</code> does not</p>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Grouping</h2></hgroup><article  id="grouping">
 
 </article></slide><slide class=""><hgroup><h2>Perform Operations By Groups: dplyr</h2></hgroup><article  id="perform-operations-by-groups-dplyr">
 
-<p><code>group_by</code> allows you group the data set by grouping variables:</p>
+<p><code>group_by</code> allows you group the data set by variables/columns you specify:</p>
 
-<pre class = 'prettyprint lang-r'>sub_circ = circ %&gt;% group_by(day)
-head(sub_circ)</pre>
+<pre class = 'prettyprint lang-r'># Regular data
+yts</pre>
 
-<pre ># A tibble: 6 x 15
-# Groups:   day [6]
-  day     date    orangeBoardings orangeAlightings orangeAverage purpleBoardings
-  &lt;chr&gt;   &lt;chr&gt;             &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;           &lt;dbl&gt;
-1 Monday  01/11/…             877             1027          952               NA
-2 Tuesday 01/12/…             777              815          796               NA
-3 Wednes… 01/13/…            1203             1220         1212.              NA
-4 Thursd… 01/14/…            1194             1233         1214.              NA
-5 Friday  01/15/…            1645             1643         1644               NA
-6 Saturd… 01/16/…            1457             1524         1490.              NA
-# … with 9 more variables: purpleAlightings &lt;dbl&gt;, purpleAverage &lt;dbl&gt;,
-#   greenBoardings &lt;dbl&gt;, greenAlightings &lt;dbl&gt;, greenAverage &lt;dbl&gt;,
-#   bannerBoardings &lt;dbl&gt;, bannerAlightings &lt;dbl&gt;, bannerAverage &lt;dbl&gt;,
-#   daily &lt;dbl&gt;</pre>
+<pre ># A tibble: 9,794 × 31
+    YEAR LocationAbbr LocationDesc TopicType    TopicDesc MeasureDesc DataSource Response Data_Value_Unit Data_Value_Type
+   &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;        &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;           &lt;chr&gt;          
+ 1  2015 AZ           Arizona      Tobacco Use… Cessatio… Percent of… YTS        &lt;NA&gt;     %               Percentage     
+ 2  2015 AZ           Arizona      Tobacco Use… Cessatio… Percent of… YTS        &lt;NA&gt;     %               Percentage     
+ 3  2015 AZ           Arizona      Tobacco Use… Cessatio… Percent of… YTS        &lt;NA&gt;     %               Percentage     
+ 4  2015 AZ           Arizona      Tobacco Use… Cessatio… Quit Attem… YTS        &lt;NA&gt;     %               Percentage     
+ 5  2015 AZ           Arizona      Tobacco Use… Cessatio… Quit Attem… YTS        &lt;NA&gt;     %               Percentage     
+ 6  2015 AZ           Arizona      Tobacco Use… Cessatio… Quit Attem… YTS        &lt;NA&gt;     %               Percentage     
+ 7  2015 AZ           Arizona      Tobacco Use… Cigarett… Smoking St… YTS        Current  %               Percentage     
+ 8  2015 AZ           Arizona      Tobacco Use… Cigarett… Smoking St… YTS        Current  %               Percentage     
+ 9  2015 AZ           Arizona      Tobacco Use… Cigarett… Smoking St… YTS        Current  %               Percentage     
+10  2015 AZ           Arizona      Tobacco Use… Cigarett… Smoking St… YTS        Ever     %               Percentage     
+# … with 9,784 more rows, and 21 more variables: Data_Value &lt;dbl&gt;, Data_Value_Footnote_Symbol &lt;chr&gt;,
+#   Data_Value_Footnote &lt;chr&gt;, Data_Value_Std_Err &lt;dbl&gt;, Low_Confidence_Limit &lt;dbl&gt;, High_Confidence_Limit &lt;dbl&gt;,
+#   Sample_Size &lt;dbl&gt;, Gender &lt;chr&gt;, Race &lt;chr&gt;, Age &lt;chr&gt;, Education &lt;chr&gt;, GeoLocation &lt;chr&gt;, TopicTypeId &lt;chr&gt;,
+#   TopicId &lt;chr&gt;, MeasureId &lt;chr&gt;, StratificationID1 &lt;chr&gt;, StratificationID2 &lt;chr&gt;, StratificationID3 &lt;chr&gt;,
+#   StratificationID4 &lt;chr&gt;, SubMeasureID &lt;chr&gt;, DisplayOrder &lt;dbl&gt;</pre>
 
-<ul>
-<li>doesn’t change the data in any way, but how <strong>functions operate on it</strong></li>
-</ul>
+</article></slide><slide class=""><hgroup><h2>Perform Operations By Groups: dplyr</h2></hgroup><article  id="perform-operations-by-groups-dplyr-1">
 
-</article></slide><slide class=""><hgroup><h2>Summarize the data</h2></hgroup><article  id="summarize-the-data">
+<p><code>group_by</code> allows you group the data set by variables/columns you specify:</p>
 
-<p>It’s grouped!</p>
+<pre class = 'prettyprint lang-r'>yts_grouped &lt;- yts %&gt;% group_by(Response)
+yts_grouped</pre>
 
-<pre class = 'prettyprint lang-r'>sub_circ %&gt;% summarize(avg_daily = mean(daily, na.rm = TRUE))</pre>
+<pre ># A tibble: 9,794 × 31
+# Groups:   Response [4]
+    YEAR LocationAbbr LocationDesc TopicType    TopicDesc MeasureDesc DataSource Response Data_Value_Unit Data_Value_Type
+   &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;        &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;           &lt;chr&gt;          
+ 1  2015 AZ           Arizona      Tobacco Use… Cessatio… Percent of… YTS        &lt;NA&gt;     %               Percentage     
+ 2  2015 AZ           Arizona      Tobacco Use… Cessatio… Percent of… YTS        &lt;NA&gt;     %               Percentage     
+ 3  2015 AZ           Arizona      Tobacco Use… Cessatio… Percent of… YTS        &lt;NA&gt;     %               Percentage     
+ 4  2015 AZ           Arizona      Tobacco Use… Cessatio… Quit Attem… YTS        &lt;NA&gt;     %               Percentage     
+ 5  2015 AZ           Arizona      Tobacco Use… Cessatio… Quit Attem… YTS        &lt;NA&gt;     %               Percentage     
+ 6  2015 AZ           Arizona      Tobacco Use… Cessatio… Quit Attem… YTS        &lt;NA&gt;     %               Percentage     
+ 7  2015 AZ           Arizona      Tobacco Use… Cigarett… Smoking St… YTS        Current  %               Percentage     
+ 8  2015 AZ           Arizona      Tobacco Use… Cigarett… Smoking St… YTS        Current  %               Percentage     
+ 9  2015 AZ           Arizona      Tobacco Use… Cigarett… Smoking St… YTS        Current  %               Percentage     
+10  2015 AZ           Arizona      Tobacco Use… Cigarett… Smoking St… YTS        Ever     %               Percentage     
+# … with 9,784 more rows, and 21 more variables: Data_Value &lt;dbl&gt;, Data_Value_Footnote_Symbol &lt;chr&gt;,
+#   Data_Value_Footnote &lt;chr&gt;, Data_Value_Std_Err &lt;dbl&gt;, Low_Confidence_Limit &lt;dbl&gt;, High_Confidence_Limit &lt;dbl&gt;,
+#   Sample_Size &lt;dbl&gt;, Gender &lt;chr&gt;, Race &lt;chr&gt;, Age &lt;chr&gt;, Education &lt;chr&gt;, GeoLocation &lt;chr&gt;, TopicTypeId &lt;chr&gt;,
+#   TopicId &lt;chr&gt;, MeasureId &lt;chr&gt;, StratificationID1 &lt;chr&gt;, StratificationID2 &lt;chr&gt;, StratificationID3 &lt;chr&gt;,
+#   StratificationID4 &lt;chr&gt;, SubMeasureID &lt;chr&gt;, DisplayOrder &lt;dbl&gt;</pre>
 
-<pre ># A tibble: 7 x 2
-  day       avg_daily
+</article></slide><slide class=""><hgroup><h2>Summarize the data: <code>dplyr</code> <code>summarize()</code> function</h2></hgroup><article  id="summarize-the-data-dplyr-summarize-function">
+
+<p><code>summarize</code> is a helpful function to use after <code>group_by()</code>. It creates a summary table of a column you’re interested in.</p>
+
+<pre class = 'prettyprint lang-r'>yts %&gt;% 
+  summarize(mean_value = mean(Data_Value, na.rm = TRUE))</pre>
+
+<pre ># A tibble: 1 × 1
+  mean_value
+       &lt;dbl&gt;
+1       21.0</pre>
+
+</article></slide><slide class=""><hgroup><h2>Summarize the grouped data</h2></hgroup><article  id="summarize-the-grouped-data">
+
+<p>It’s grouped! Grouping doesn’t change the data in any way, but how <strong>functions operate on it</strong>. Now we can summarize <code>Data_Value</code> (percent of respondents) by group:</p>
+
+<pre class = 'prettyprint lang-r'>yts_grouped %&gt;% 
+  summarize(mean_value = mean(Data_Value, na.rm = TRUE))</pre>
+
+<pre ># A tibble: 4 × 2
+  Response mean_value
   &lt;chr&gt;         &lt;dbl&gt;
-1 Friday        8961.
-2 Monday        7340.
-3 Saturday      6743.
-4 Sunday        4531.
-5 Thursday      7639.
-6 Tuesday       7642.
-7 Wednesday     7779.</pre>
+1 Current        9.68
+2 Ever          26.1 
+3 Frequent       3.48
+4 &lt;NA&gt;          53.5 </pre>
 
-</article></slide><slide class=""><hgroup><h2>Using the <code>pipe</code></h2></hgroup><article  id="using-the-pipe">
+</article></slide><slide class=""><hgroup><h2>Use the <code>pipe</code> to string these together!</h2></hgroup><article  id="use-the-pipe-to-string-these-together">
 
-<p>Pipe <code>sub_circ</code> into <code>group_by</code>, then pipe that into <code>summarise</code>:</p>
+<p>Pipe <code>yts</code> into <code>group_by</code>, then pipe that into <code>summarize</code>:</p>
 
-<pre class = 'prettyprint lang-r'>day_avgs = circ %&gt;% 
-  group_by(day) %&gt;% 
-  summarize(avg_daily = mean(daily, na.rm = TRUE))
-head(day_avgs)</pre>
+<pre class = 'prettyprint lang-r'>yts %&gt;%
+  group_by(Response) %&gt;%
+  summarize(mean_value = mean(Data_Value, na.rm = TRUE),
+            max_value = max(Data_Value, na.rm = TRUE))</pre>
 
-<pre ># A tibble: 6 x 2
-  day      avg_daily
-  &lt;chr&gt;        &lt;dbl&gt;
-1 Friday       8961.
-2 Monday       7340.
-3 Saturday     6743.
-4 Sunday       4531.
-5 Thursday     7639.
-6 Tuesday      7642.</pre>
+<pre ># A tibble: 4 × 3
+  Response mean_value max_value
+  &lt;chr&gt;         &lt;dbl&gt;     &lt;dbl&gt;
+1 Current        9.68      40.6
+2 Ever          26.1       98  
+3 Frequent       3.48      23.9
+4 &lt;NA&gt;          53.5       81.9</pre>
 
-</article></slide><slide class=""><hgroup><h2>Ungroup the data</h2></hgroup><article  id="ungroup-the-data">
+</article></slide><slide class=""><hgroup><h2><code>group_by</code> with <code>mutate</code> - just add data</h2></hgroup><article  id="group_by-with-mutate---just-add-data">
 
-<p>You usually want to perform operations on groups and may want to redefine the groups. The <code>ungroup</code> function will allow you to clear the groups from the data:</p>
+<p>We can also use <code>mutate</code> to calculate the mean value for each year and add it as a column:</p>
 
-<pre class = 'prettyprint lang-r'>sub_circ = ungroup(sub_circ)
-sub_circ</pre>
+<pre class = 'prettyprint lang-r'>yts %&gt;%
+  group_by(YEAR) %&gt;%
+  mutate(year_avg = mean(Data_Value, na.rm = TRUE)) %&gt;%
+  select(LocationDesc, Data_Value, year_avg)</pre>
 
-<pre ># A tibble: 1,146 x 15
-   day     date   orangeBoardings orangeAlightings orangeAverage purpleBoardings
-   &lt;chr&gt;   &lt;chr&gt;            &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;           &lt;dbl&gt;
- 1 Monday  01/11…             877             1027          952               NA
- 2 Tuesday 01/12…             777              815          796               NA
- 3 Wednes… 01/13…            1203             1220         1212.              NA
- 4 Thursd… 01/14…            1194             1233         1214.              NA
- 5 Friday  01/15…            1645             1643         1644               NA
- 6 Saturd… 01/16…            1457             1524         1490.              NA
- 7 Sunday  01/17…             839              938          888.              NA
- 8 Monday  01/18…             999             1000         1000.              NA
- 9 Tuesday 01/19…            1023             1047         1035               NA
-10 Wednes… 01/20…            1375             1416         1396.              NA
-# … with 1,136 more rows, and 9 more variables: purpleAlightings &lt;dbl&gt;,
-#   purpleAverage &lt;dbl&gt;, greenBoardings &lt;dbl&gt;, greenAlightings &lt;dbl&gt;,
-#   greenAverage &lt;dbl&gt;, bannerBoardings &lt;dbl&gt;, bannerAlightings &lt;dbl&gt;,
-#   bannerAverage &lt;dbl&gt;, daily &lt;dbl&gt;</pre>
+<pre ># A tibble: 9,794 × 4
+# Groups:   YEAR [17]
+    YEAR LocationDesc Data_Value year_avg
+   &lt;dbl&gt; &lt;chr&gt;             &lt;dbl&gt;    &lt;dbl&gt;
+ 1  2015 Arizona            NA       15.2
+ 2  2015 Arizona            NA       15.2
+ 3  2015 Arizona            NA       15.2
+ 4  2015 Arizona            NA       15.2
+ 5  2015 Arizona            NA       15.2
+ 6  2015 Arizona            NA       15.2
+ 7  2015 Arizona             3.2     15.2
+ 8  2015 Arizona             3.2     15.2
+ 9  2015 Arizona             3.1     15.2
+10  2015 Arizona            12.5     15.2
+# … with 9,784 more rows</pre>
 
-</article></slide><slide class=""><hgroup><h2><code>group_by</code> with <code>mutate</code></h2></hgroup><article  id="group_by-with-mutate">
+</article></slide><slide class=""><hgroup><h2>Counting</h2></hgroup><article  id="counting">
 
-<p>We can use <code>mutate</code> instead of <code>summarise</code> to add the summary back in to the original data!</p>
+<p>There are other functions, such as <code>n()</code> count the number of observations.</p>
 
-<pre class = 'prettyprint lang-r'>circ %&gt;% 
-  group_by(day) %&gt;% 
-  mutate(mean = mean(daily, na.rm = TRUE)) %&gt;% 
-  select(day, date, mean, daily)</pre>
-
-<pre ># A tibble: 1,146 x 4
-# Groups:   day [7]
-   day       date        mean daily
-   &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
- 1 Monday    01/11/2010 7340.  952 
- 2 Tuesday   01/12/2010 7642.  796 
- 3 Wednesday 01/13/2010 7779. 1212.
- 4 Thursday  01/14/2010 7639. 1214.
- 5 Friday    01/15/2010 8961. 1644 
- 6 Saturday  01/16/2010 6743. 1490.
- 7 Sunday    01/17/2010 4531.  888.
- 8 Monday    01/18/2010 7340. 1000.
- 9 Tuesday   01/19/2010 7642. 1035 
-10 Wednesday 01/20/2010 7779. 1396.
-# … with 1,136 more rows</pre>
-
-</article></slide><slide class=""><hgroup><h2>Counting with <code>n()</code></h2></hgroup><article  id="counting-with-n">
-
-<p>Standard statistics can be calculated: <code>n()</code> counts the number of observations.</p>
-
-<pre class = 'prettyprint lang-r'>circ %&gt;% 
-  group_by(day) %&gt;% 
+<pre class = 'prettyprint lang-r'>yts %&gt;%
+  group_by(YEAR) %&gt;%
   summarize(n = n(),
-            mean = mean(daily, na.rm = TRUE)) %&gt;% 
-  head</pre>
+            mean = mean(Data_Value, na.rm = TRUE))</pre>
 
-<pre ># A tibble: 6 x 3
-  day          n  mean
-  &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt;
-1 Friday     164 8961.
-2 Monday     164 7340.
-3 Saturday   163 6743.
-4 Sunday     163 4531.
-5 Thursday   164 7639.
-6 Tuesday    164 7642.</pre>
+<pre ># A tibble: 17 × 3
+    YEAR     n  mean
+   &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;
+ 1  1999   372  26.1
+ 2  2000  1224  26.7
+ 3  2001   426  23.4
+ 4  2002  1016  25.2
+ 5  2003   498  21.3
+ 6  2004   611  20.7
+ 7  2005   636  21.8
+ 8  2006   518  21.8
+ 9  2007   516  20.0
+10  2008   483  18.2
+11  2009   686  18.3
+12  2010   447  17.8
+13  2011   521  17.8
+14  2012   244  15.5
+15  2013   685  16.7
+16  2014   334  15.7
+17  2015   577  15.2</pre>
 
-</article></slide><slide class=""><hgroup><h2>Statistical summarization</h2></hgroup><article  id="statistical-summarization-2">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Iterative summaries</h2></hgroup><article  id="iterative-summaries">
 
-<p><code>t.test</code> is good for t-tests, but also gives a mean and 95% CI:</p>
+</article></slide><slide class=""><hgroup><h2>Iterative summaries: <code>dplyr</code> <code>summarize()</code> and <code>across()</code> functions</h2></hgroup><article  id="iterative-summaries-dplyr-summarize-and-across-functions">
 
-<pre class = 'prettyprint lang-r'>t.test(circ$daily)</pre>
+<p>Use the <a href='https://dplyr.tidyverse.org/reference/across.html' title=''><code>across</code></a> function with <code>summarize()</code> to summarize across multiple columns of your data.</p>
 
-<pre >
-    One Sample t-test
+<pre class = 'prettyprint lang-r'># General format - Not the code!
+across({ columns to go across }, ~ { summarization_function(.x, na.rm = ..) }) </pre>
 
-data:  circ$daily
-t = 56.642, df = 1021, p-value &lt; 2.2e-16
-alternative hypothesis: true mean is not equal to 0
-95 percent confidence interval:
- 6982.884 7484.076
-sample estimates:
-mean of x 
-  7233.48 </pre>
+</div>
 
-<pre class = 'prettyprint lang-r'>broom::tidy(t.test(circ$daily))</pre>
+<pre class = 'prettyprint lang-r'>yts %&gt;%
+  group_by(YEAR) %&gt;%
+  summarize(across( c(Data_Value, Data_Value_Std_Err, Sample_Size), 
+                    ~ mean(.x, na.rm = TRUE)))</pre>
 
-<pre ># A tibble: 1 x 8
-  estimate statistic   p.value parameter conf.low conf.high method   alternative
-     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;      
-1    7233.      56.6 2.27e-317      1021    6983.     7484. One Sam… two.sided  </pre>
+<pre ># A tibble: 17 × 4
+    YEAR Data_Value Data_Value_Std_Err Sample_Size
+   &lt;dbl&gt;      &lt;dbl&gt;              &lt;dbl&gt;       &lt;dbl&gt;
+ 1  1999       26.1               1.98       1591.
+ 2  2000       26.7               2.03       1743.
+ 3  2001       23.4               1.79       2060.
+ 4  2002       25.2               1.81       2653.
+ 5  2003       21.3               1.92       2325.
+ 6  2004       20.7               1.84       1246.
+ 7  2005       21.8               2.17       1017.
+ 8  2006       21.8               2.15       1191.
+ 9  2007       20.0               1.96       1093.
+10  2008       18.2               1.73       1203.
+11  2009       18.3               1.90       1033.
+12  2010       17.8               1.71       1202.
+13  2011       17.8               1.84       1274.
+14  2012       15.5               1.58       1053.
+15  2013       16.7               1.75       1158.
+16  2014       15.7               1.61       1139.
+17  2015       15.2               1.61       1187.</pre>
 
-</article></slide><slide class=""><hgroup><h2>Data Summarization on matrices/data frames</h2></hgroup><article  id="data-summarization-on-matricesdata-frames">
+</article></slide><slide class=""><hgroup><h2>Iterative summaries: <code>dplyr</code> <code>summarize()</code> and <code>across()</code> functions</h2></hgroup><article  id="iterative-summaries-dplyr-summarize-and-across-functions-1">
+
+<p>Another example using select helpers (<code>??tidyr_tidy_select</code>):</p>
+
+<pre class = 'prettyprint lang-r'>yts %&gt;% 
+  summarize(across( starts_with(&quot;Data&quot;), ~ range(.x, na.rm = TRUE)))</pre>
+
+<pre ># A tibble: 2 × 7
+  DataSource Data_Value_Unit Data_Value_Type Data_Value Data_Value_Footnote_Symbol Data_Value_Footnote   Data_Value_Std_…
+  &lt;chr&gt;      &lt;chr&gt;           &lt;chr&gt;                &lt;dbl&gt; &lt;chr&gt;                      &lt;chr&gt;                            &lt;dbl&gt;
+1 NYTS       %               Percentage               0 *                          Data in these cells …              0  
+2 YTS        %               Percentage              98 *                          Data in these cells …             16.1</pre>
+
+</article></slide><slide class=""><hgroup><h2>Data Summarization on data frames</h2></hgroup><article  id="data-summarization-on-data-frames">
 
 <ul>
-<li>Basic statistical summarization
+<li>Basic statistical summarization for numeric data
 
 <ul>
 <li><code>rowMeans(x)</code>: takes the means of each row of x</li>
@@ -3608,35 +3938,81 @@ mean of x
 <li><code>colSums(x)</code>: takes the sum of each column of x</li>
 <li><code>summary(x)</code>: for data frames, displays the quantile information</li>
 </ul></li>
-<li>The <code>matrixStats</code> package has additional <code>row*</code> and <code>col*</code> functions
-
-<ul>
-<li>Like <code>rowSds</code>, <code>colQuantiles</code></li>
-</ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Column and Row means</h2></hgroup><article  id="column-and-row-means">
+</article></slide><slide class=""><hgroup><h2><code>summary()</code> Function</h2></hgroup><article  id="summary-function">
 
-<p><code>colMeans</code> and <code>rowMeans</code> must work on <strong>all numeric data</strong>. We will subset the boardings</p>
+<p>Using <code>summary()</code> can give you rough snapshots of each numeric column (character columns are skipped):</p>
 
-<pre class = 'prettyprint lang-r'>avgs = circ %&gt;% select(ends_with(&quot;Boardings&quot;))
-colMeans(avgs, na.rm = TRUE)</pre>
+<pre class = 'prettyprint lang-r'>summary(yts)</pre>
 
-<pre >orangeBoardings purpleBoardings  greenBoardings bannerBoardings 
-      3031.1196       4127.3964       1928.9979        829.5963 </pre>
+<pre >      YEAR      LocationAbbr       LocationDesc        TopicType          TopicDesc         MeasureDesc       
+ Min.   :1999   Length:9794        Length:9794        Length:9794        Length:9794        Length:9794       
+ 1st Qu.:2002   Class :character   Class :character   Class :character   Class :character   Class :character  
+ Median :2006   Mode  :character   Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+ Mean   :2006                                                                                                 
+ 3rd Qu.:2010                                                                                                 
+ Max.   :2015                                                                                                 
+                                                                                                              
+  DataSource          Response         Data_Value_Unit    Data_Value_Type      Data_Value    Data_Value_Footnote_Symbol
+ Length:9794        Length:9794        Length:9794        Length:9794        Min.   : 0.00   Length:9794               
+ Class :character   Class :character   Class :character   Class :character   1st Qu.: 3.20   Class :character          
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character   Median :11.30   Mode  :character          
+                                                                             Mean   :20.97                             
+                                                                             3rd Qu.:39.10                             
+                                                                             Max.   :98.00                             
+                                                                             NA&#39;s   :425                               
+ Data_Value_Footnote Data_Value_Std_Err Low_Confidence_Limit High_Confidence_Limit  Sample_Size       Gender         
+ Length:9794         Min.   : 0.000     Min.   : 0.00        Min.   : 0.00         Min.   :   50   Length:9794       
+ Class :character    1st Qu.: 0.600     1st Qu.: 1.90        1st Qu.: 4.60         1st Qu.:  668   Class :character  
+ Mode  :character    Median : 1.300     Median : 8.50        Median :14.10         Median :  994   Mode  :character  
+                     Mean   : 1.874     Mean   :17.31        Mean   :24.64         Mean   : 1505                     
+                     3rd Qu.: 2.500     3rd Qu.:31.60        3rd Qu.:45.60         3rd Qu.: 1648                     
+                     Max.   :16.100     Max.   :97.60        Max.   :98.40         Max.   :36910                     
+                     NA&#39;s   :425        NA&#39;s   :425          NA&#39;s   :425           NA&#39;s   :425                       
+     Race               Age             Education         GeoLocation        TopicTypeId          TopicId         
+ Length:9794        Length:9794        Length:9794        Length:9794        Length:9794        Length:9794       
+ Class :character   Class :character   Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                                                                  
+                                                                                                                  
+                                                                                                                  
+                                                                                                                  
+  MeasureId         StratificationID1  StratificationID2  StratificationID3  StratificationID4  SubMeasureID      
+ Length:9794        Length:9794        Length:9794        Length:9794        Length:9794        Length:9794       
+ Class :character   Class :character   Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                                                                  
+                                                                                                                  
+                                                                                                                  
+                                                                                                                  
+  DisplayOrder   
+ Min.   : 1.000  
+ 1st Qu.: 7.000  
+ Median : 9.000  
+ Mean   : 8.094  
+ 3rd Qu.:11.000  
+ Max.   :12.000  
+                 </pre>
 
-<pre class = 'prettyprint lang-r'>circ = circ %&gt;% mutate(mean_boarding = rowMeans(avgs, na.rm = TRUE))
-head(circ %&gt;% select(day, mean_boarding))</pre>
+</article></slide><slide class=""><hgroup><h2>Summary</h2></hgroup><article  id="summary">
 
-<pre ># A tibble: 6 x 2
-  day       mean_boarding
-  &lt;chr&gt;             &lt;dbl&gt;
-1 Monday              877
-2 Tuesday             777
-3 Wednesday          1203
-4 Thursday           1194
-5 Friday             1645
-6 Saturday           1457</pre></article></slide>
+<ul>
+<li>summary stats (<code>mean()</code>) work with <code>pull()</code></li>
+<li><code>count(x)</code>: what unique values do you have?
+
+<ul>
+<li><code>pull()</code> + <code>table()</code></li>
+<li><code>unique()</code> combined with <code>length()</code></li>
+</ul></li>
+<li><code>group_by()</code>: changes all subsequent functions
+
+<ul>
+<li>combine with <code>summarize()</code> to get statistics per group</li>
+<li>combine with <code>across()</code> to programmatically select columns</li>
+</ul></li>
+<li><code>summary(x)</code>: quantile information</li>
+</ul></article></slide>
 
 
   <slide class="backdrop"></slide>
