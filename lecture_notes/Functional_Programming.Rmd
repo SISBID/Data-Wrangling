@@ -81,18 +81,15 @@ If you wish to also  pass arguments to the function that you are applying to the
 
 ```{r}
 
-round_x <- mtcars %>% 
-  mutate(across(.cols = c(disp, drat, wt, qsec), ~ round(.x, digits = 1)))
+mtcars %>% 
+  mutate(across(.cols = c(disp, drat, wt, qsec), ~ round(.x, digits = 1))) %>%
+  head(n = 2)
 
-head(round_x, 2)
 
-round_per <- mtcars %>% 
-  mutate(across(.cols = c(disp, drat, wt, qsec), ~ round(., digits = 1)))
+mtcars %>% 
+  mutate(across(.cols = c(disp, drat, wt, qsec), ~ round(., digits = 1))) %>% 
+  head(n = 2)
   
-head(round_per, 2)
-
-identical(round_x, round_per)
-
 ```
 
 
@@ -177,19 +174,17 @@ diamonds %>%
     filter(str_detect(cut, "Ideal|Premium")) %>% head(2)
 
 diamonds %>%
-    filter(cut %in% c("Ideal", "Premium"), z > 4 , color == "E")
+    filter(cut %in% c("Ideal", "Premium"), z > 4 , color == "E") %>% head(2)
 ```
 
 
   
-## Now we can filter multiple columns for multiple conditions simultaneously
+## Now we can filter multiple columns for multiple conditions simultaneously!
 
 ```{r}
-diamonds %>%
-   filter(if_all(c(x, y, z), ~.x > 4 & .x < 5.5))
+mtcars %>%
+   filter(if_all(c(cyl, gear, carb), ~.x > 3 & .x < 8))
 
-diamonds %>%
-   filter(if_all(c(x, y, z), ~. == 0 | . > 8))
 ```
 
   
@@ -212,14 +207,14 @@ The `purrr` package can be very helpful!
 ## `purrr` main functions
 
 `map` and `map_*` and `modify`  
-- applies function to each element  
+- **applies function** to each element of an vector or object 
 (map returns a list, modify returns the same object type)
   
 `map2` and `map2*`  
-- applies function to each element of two vectors or lists
+- applies function to each element of **two** vectors or objects 
   
 `pmap` and `pmap_*` 
-- applies function to each element of 3+ vectors or lists (requires a list for input)  
+- applies function to each element of **3+** vector or objects (requires a list for input)  
 
 the _* options specify the type of data output
 
@@ -295,15 +290,16 @@ head(mtcars, 2)
    head(2)
 ```
 
-## It's a bit easier to pass arguments than across...
+## It's a bit simpler than across...
 
 ```{r}
 mtcars %>% 
-modify(format, digits = 1, justify = "centre", trim = TRUE) %>%
-head()
+  modify(format, digits = 1) %>%
+  head(n = 2)
 
 mtcars %>% 
-  mutate(across(.cols = everything(), format, digits = 1))
+  mutate(across(.cols = everything(), format, digits = 1)) %>%
+  head(n = 2)
 ```
 
 
@@ -338,48 +334,6 @@ system.time(iris %>%
 
 ```
 
-## great example with split()
-
-```{r}
-head(mtcars)
-str(mtcars %>% split(.$cyl))
-
-```
-
-```{r}
-
-mtcars %>%
-  split(.$cyl) %>% # creates split of data for each unique cyl value
-  map(~lm(mpg ~ wt, data = .)) %>% # apply linear model to each
-  map(summary) %>%
-  map_dbl("r.squared")
-```
-
-
-More on lists soon!!
-
-
-
-
-<!-- ## Examples we will use -->
-
- <!-- * https://jennybc.github.io/purrr-tutorial/ --> -->
-
-<!-- * https://cran.r-project.org/web/packages/repurrrsive/index.html -->
-
-<!-- * https://tidyr.tidyverse.org/articles/rectangle.html -->
-
-<!-- ## Why do this at all? -->
-
-<!-- https://jennybc.github.io/purrr-tutorial/bk01_base-functions.html -->
-
-<!-- You need a way to iterate in R in a data-structure-informed way. What does that mean? -->
-
-<!-- * Iterate over elements of a list -->
-<!-- * Iterate over rows or columns of a 2-dimensional object -->
-<!-- * Iterate over sub data frames induced by one or more factors -->
-<!-- * Iterate over tuples formed from the i-th element of several vectors of equal length -->
-
 ## What is a 'list'?
 
 * Lists are the most flexible/"generic" data class in R
@@ -413,6 +367,31 @@ mylist$letters # returns vector
 mylist[["letters"]] # returns the vector 'letters'
 ```
 
+
+
+
+<!-- ## Examples we will use -->
+
+ <!-- * https://jennybc.github.io/purrr-tutorial/ --> -->
+
+<!-- * https://cran.r-project.org/web/packages/repurrrsive/index.html -->
+
+<!-- * https://tidyr.tidyverse.org/articles/rectangle.html -->
+
+<!-- ## Why do this at all? -->
+
+<!-- https://jennybc.github.io/purrr-tutorial/bk01_base-functions.html -->
+
+<!-- You need a way to iterate in R in a data-structure-informed way. What does that mean? -->
+
+<!-- * Iterate over elements of a list -->
+<!-- * Iterate over rows or columns of a 2-dimensional object -->
+<!-- * Iterate over sub data frames induced by one or more factors -->
+<!-- * Iterate over tuples formed from the i-th element of several vectors of equal length -->
+
+
+
+
 ## List referencing
 
 You can also select multiple lists with the single brackets. 
@@ -421,18 +400,38 @@ You can also select multiple lists with the single brackets.
 mylist[1:2] # returns a list
 ```
 
-## List referencing
+<!-- ## List referencing -->
 
-You can also select down several levels of a list at once
+<!-- You can also select down several levels of a list at once -->
 
-```{r Listsref3, comment="", prompt=TRUE}
-mylist$letters[1]
-mylist[[2]][1]
-mylist[[3]][1:2,1:2]
+<!-- ```{r Listsref3, comment="", prompt=TRUE} -->
+<!-- mylist$letters[1] -->
+<!-- mylist[[2]][1] -->
+<!-- mylist[[3]][1:2,1:2] -->
+<!-- ``` -->
+
+## Why lists
+
+## great example with split()
+
+```{r}
+head(mtcars)
+str(mtcars %>% split(.$cyl))
+
 ```
 
+## great example with split()
 
-## How would I encounter lists? {.smaller}
+```{r}
+
+mtcars %>%
+  split(.$cyl) %>% # creates split of data for each unique cyl value
+  map(~lm(mpg ~ wt, data = .)) %>% # apply linear model to each
+  map(summary) %>%
+  map_dbl("r.squared")
+```
+
+## Lists from multiple files! {.smaller}
 
 This comes up a lot in data cleaning and also when reading in multiple files!
 
@@ -456,10 +455,16 @@ class(multifile_data)
 
 ```{r}
 multifile_data[[1]]
+```
+
+## Reading in multiple files{.smaller}
+
+```{r}
 multifile_data[[2]]
 ```
 
 ## Reading in multiple files
+
 ```{r}
 multifile_data[[3]]
 ```
@@ -510,7 +515,7 @@ See https://www.opencasestudies.org/ocs-bp-vaping-case-study for more informatio
 
 ## Factors
 
-First we will create some data about absences for different students. Each row is a different student. We have information about the number of days absent and the grade for the individual students. We will use the `tibble()` function to create the data. We will use the `sample()` function to create a random sequence of numbers from 0 to 7 with replacements for 32 hypothetical students. Since there are four grades and 8*4 is 32, we will repeat the grade values 8 times. We use the `set.seed()` function so that the random sample from 0 to 7 is the same each time the code is run.
+First we will create some data about absences for different students. 
 
 ```{r}
 set.seed(123)
@@ -576,18 +581,15 @@ Here we see that the mean is calculated in the order we would like only for the 
 
 
 ```{r}
-#boxplot(data = data_highschool_fct, absences ~ fct_reorder(grade, absences))
 data_highschool_fct %>%
   ggplot(mapping = aes(x = fct_reorder(grade, absences), 
                        y = absences)) +
   geom_boxplot()
-
 ```
 
 ## Descending factor order {.smaller}
 
 ```{r}
-#boxplot(data = data_highschool_fct, absences ~ fct_reorder(grade, absences, .desc = TRUE))
 data_highschool_fct %>%
   ggplot(mapping = aes(x = fct_reorder(grade, absences, .desc = TRUE),
                        y = absences)) +
