@@ -252,18 +252,16 @@ map2(x, y, min) %>% unlist()
 modify2(x, y, min)
 ```
 
-
-## map2/modify2 in practice
-```{r}
-head(trees)
-modify2(trees$Girth, trees$Height, function(x,y){ pi * ((x/2)/12)^2 * y})
-```
-
 ## Put it all together
 
 ```{r}
-trees %>% mutate(New = map2_dbl(trees$Girth, trees$Height, function(x,y){ pi * ((x/2)/12)^2 * y}))
-trees %>% mutate(New = modify2(trees$Girth, trees$Height, function(x,y){ pi * ((x/2)/12)^2 * y}))
+
+trees %>% mutate(New = map2_dbl(Girth, Height, 
+                        function(x,y){ pi * ((x/2)/12)^2 * y})) %>% head(n = 3)
+
+tree_fun <-function(x,y){ pi * ((x/2)/12)^2 * y}
+trees %>% mutate(New = modify2(.x= Girth, 
+                               .y= Height, tree_fun)) %>% head(n = 3)
 ```
 
 ## pmap {.smaller}
