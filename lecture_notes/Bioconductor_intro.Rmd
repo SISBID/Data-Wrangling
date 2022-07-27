@@ -6,6 +6,11 @@ output:
     widescreen: yes
 ---
 
+```{r, eval = FALSE}
+#AnVIL::install("SummarizedExperiment")
+#AnVIL::install("biomaRt")
+```
+
 ```{r,include=FALSE}
 library(stringr)
 library(tibble)
@@ -37,6 +42,12 @@ The broad goals of the Bioconductor project are:
 - Support site
 - Teaching material
 - Installation
+
+
+https://bioconductor.org/packages/release/bioc/html/VariantAnnotation.html
+https://bioconductor.org/packages/release/bioc/html/Rsamtools.html
+
+https://bioconductor.org/packages/release/bioc/vignettes/Rsamtools/inst/doc/Rsamtools-Overview.pdf
 
 ## Getting started
 
@@ -113,15 +124,14 @@ https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE146760
 
 ```{r}
 getGEOSuppFiles("GSE146760")
-counts  = read.delim("GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz")
-pheno = read.delim("GSE146760/GSE146760_RNASample_Info_v2.txt.gz")
+counts  <- read.delim("GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz")
+pheno <- read.delim("GSE146760/GSE146760_RNASample_Info_v2.txt.gz")
 ```
 
 ## Getting data from GEO
 OK! so now we can start working with our data... first, we want to make sure these two files have all the same corresponding sample IDs. We want the `pheno$Prefix` column to be the same as the colnames of our count data.  This is going to take some wrangling!
 
 ```{r}
-#colnames(counts) = sapply(str_split(colnames(counts), "Aligned"), "[[", 1)
 colnames(counts) = str_remove(string = colnames(counts), pattern = "Aligned.sortedByCoord.out.bam")
 identical(colnames(counts), pheno$Prefix)
 ```
@@ -185,9 +195,7 @@ Great! now we have info about the different ensemble genes!
 Convert the data frame to a G[enomic]Ranges object:
 
 ```{r}
-#geneMap$chromosome_name = paste0("chr", geneMap$chromosome_name)
 geneMap <-geneMap %>% mutate(chromosome_name = paste0("chr", chromosome_name))
-#geneMap$strand = ifelse(geneMap$strand == 1, "+", "-")
 geneMap <-geneMap %>% mutate(strand = case_when(strand == 1 ~"+", TRUE ~ "-"))
 geneMap_gr = makeGRangesFromDataFrame(geneMap,
             seqnames.field = "chromosome_name",
@@ -197,25 +205,25 @@ names(geneMap_gr) = geneMap$ensembl_gene_id
 geneMap_gr
 ```
 
-## Genomic Ranges
+<!-- ## Genomic Ranges -->
 
-```{r}
-identical(rownames(counts), names(geneMap_gr))
-table(rownames(counts) %in% names(geneMap_gr))
-mm = match(rownames(counts), names(geneMap_gr))
-geneMap_gr = geneMap_gr[mm[!is.na(mm)]]
-counts = counts[!is.na(mm),]
-```
+<!-- ```{r} -->
+<!-- identical(rownames(counts), names(geneMap_gr)) -->
+<!-- table(rownames(counts) %in% names(geneMap_gr)) -->
+<!-- mm = match(rownames(counts), names(geneMap_gr)) -->
+<!-- geneMap_gr = geneMap_gr[mm[!is.na(mm)]] -->
+<!-- counts = counts[!is.na(mm),] -->
+<!-- ``` -->
 
-## Summarized Experiments
+<!-- ## Summarized Experiments -->
 
-```{r, eval=FALSE}
+<!-- ```{r, eval=FALSE} -->
 
-rse = SummarizedExperiment(assays = list(counts = counts),
-                           rowRanges = GRangesList(geneMap_gr),
-                           colData = DataFrame(pheno))
-rse
-```
+<!-- rse = SummarizedExperiment(assays = list(counts = counts), -->
+<!--                            #rowRanges = GRangesList(geneMap_gr), -->
+<!--                            colData = DataFrame(pheno)) -->
+<!-- rse -->
+<!-- ``` -->
 
 
 ## Getting data from the Sequence Read Archive (SRA)
@@ -229,10 +237,10 @@ https://trace.ncbi.nlm.nih.gov/Traces/sra/?study=SRP044749
 So we created the `recount` project
 https://jhubiostatistics.shinyapps.io/recount/
 
-```{r}
-source("scale_counts.R") # or install recount package
-load(file.path('SRP044749', 'rse_gene.Rdata'))
-rse_gene = scale_counts(rse_gene)
-rse_gene
-```
+<!-- # ```{r} -->
+<!-- # source("scale_counts.R") # or install recount package -->
+<!-- # load(file.path('SRP044749', 'rse_gene.Rdata')) -->
+<!-- # rse_gene = scale_counts(rse_gene) -->
+<!-- # rse_gene -->
+<!-- # ``` -->
 
