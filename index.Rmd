@@ -151,8 +151,8 @@ https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 [61]: labs/functional-program-lab-key.html
 [62]: lecture_notes/Bioconductor_intro.html
 [63]: lecture_notes/Bioconductor_intro.pdf
-[64]: https://docs.google.com/presentation/d/1GQVit8AtSVhzGShtU95wt6uFma3ibFScwCJRQQVFe4w/edit?usp=sharing
-[65]: lecture_notes/sisbid_wrap_up_2021.pdf
+[64]: https://docs.google.com/presentation/d/11O06195n5LQJPqKQgf1L-zXnk7LwlK66Tc-qQFLNTjU/edit?usp=sharing
+[65]: lecture_notes/sisbid_wrap_up_2022.pdf
 
 **Miscellaneous**
 
