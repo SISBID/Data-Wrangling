@@ -237,10 +237,10 @@ https://trace.ncbi.nlm.nih.gov/Traces/sra/?study=SRP044749
 So we created the `recount` project
 https://jhubiostatistics.shinyapps.io/recount/
 
-# ```{r}
-# source("scale_counts.R") # or install recount package
-# load(file.path('SRP044749', 'rse_gene.Rdata'))
-# rse_gene = scale_counts(rse_gene)
-# rse_gene
-# ```
+<!-- # ```{r} -->
+<!-- # source("scale_counts.R") # or install recount package -->
+<!-- # load(file.path('SRP044749', 'rse_gene.Rdata')) -->
+<!-- # rse_gene = scale_counts(rse_gene) -->
+<!-- # rse_gene -->
+<!-- # ``` -->
 
