@@ -44,7 +44,7 @@ iris_lab <- iris
 ```
 
 
-5. Use `if_all()` to check if there are iris flowers with sepal and petal widths and lengths (all the iris numeric variables) greater than 2 centimeters but less than g centimeters (which is the unit, if you type in ?iris you can learn more about the data). Hint - use `filter`. If any are, how many?
+5. Use `if_all()` to check if there are iris flowers with sepal and petal widths and lengths (all the iris numeric variables) greater than 2 centimeters but less than 6 centimeters (which is the unit, if you type in ?iris you can learn more about the data). Hint - use `filter`. If any are, how many?
 ```{r}
 
 ```
