@@ -36,7 +36,7 @@ iris_lab %>%
 3. Create a function for adding 2 to a value and dividing by 6. Call the function `new_function` and use x as the input. Apply this function to the numeric columns of the `iris_lab` data. Hint, start with `function(x){}`. Fill in the curly brackets.
 
 ```{r}
-new_function = function(x){(x+2)/6}
+new_function <- function(x){(x+2)/6}
 iris_lab %>% 
   mutate(across(.cols = !Species, ~ new_function(.x))) %>%
   head()
