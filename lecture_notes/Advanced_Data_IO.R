@@ -132,7 +132,7 @@ jsonData$pokemon$next_evolution
 recount_url <- "http://bowtie-bio.sourceforge.net/recount/"
 # install.packages("rvest")
 library(rvest)
-htmlfile = read_html(recount_url)
+htmlfile <- read_html(recount_url)
 
 nds <- html_nodes(htmlfile, xpath = '//*[@id="recounttab"]/table')
 dat <- html_table(nds)

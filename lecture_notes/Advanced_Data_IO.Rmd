@@ -177,7 +177,7 @@ knitr::include_graphics("github_json.png")
 
 https://docs.github.com/en/rest/reference/search
 
-## {.small}
+## {.codesmall}
 
 ```{r}
 #install.packages("jsonlite")
@@ -290,7 +290,7 @@ https://rvest.tidyverse.org/articles/selectorgadget.html
 recount_url <- "http://bowtie-bio.sourceforge.net/recount/"
 # install.packages("rvest")
 library(rvest)
-htmlfile = read_html(recount_url)
+htmlfile <- read_html(recount_url)
 
 nds <- html_nodes(htmlfile, xpath = '//*[@id="recounttab"]/table')
 dat <- html_table(nds)
