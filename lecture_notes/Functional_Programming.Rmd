@@ -128,33 +128,33 @@ mtcars %>%
 
 <!-- ``` -->
 
-## `if_any()` and `if_all()` are also helpful!
+<!-- ## `if_any()` and `if_all()` are also helpful! -->
 
-if_any() filters for rows any columns in listed columns meet the condition
-
-
-```{r}
-#diamonds %>%
- #  filter(x > 11 | y > 11 | z > 11)
-
-diamonds %>%
-   filter(if_any(c(x, y, z), ~. > 11))
-
-```
-
-## `if_any()` and `if_all()` are also helpful!
-
-if_all() filters for rows if all columns in listed columns meet the condition
+<!-- if_any() filters for rows any columns in listed columns meet the condition -->
 
 
-```{r}
-#diamonds %>%
-     #filter(x > 8 , y > 8 , z > 8)
+<!-- ```{r} -->
+<!-- #diamonds %>% -->
+<!--  #  filter(x > 11 | y > 11 | z > 11) -->
 
-diamonds %>%
-   filter(if_all(c(x, y, z), ~. > 8))
+<!-- diamonds %>% -->
+<!--    filter(if_any(c(x, y, z), ~. > 11)) -->
 
-```
+<!-- ``` -->
+
+<!-- ## `if_any()` and `if_all()` are also helpful! -->
+
+<!-- if_all() filters for rows if all columns in listed columns meet the condition -->
+
+
+<!-- ```{r} -->
+<!-- #diamonds %>% -->
+<!--      #filter(x > 8 , y > 8 , z > 8) -->
+
+<!-- diamonds %>% -->
+<!--    filter(if_all(c(x, y, z), ~. > 8)) -->
+
+<!-- ``` -->
 
 ## `if_any()` and `if_all()` are also helpful!
 
@@ -544,7 +544,7 @@ Using `as_factor()` from the `forcats` package the levels will be in the order i
 https://forcats.tidyverse.org/ 
 
 ```{R}
-class(data_highschool$grade)
+class(pull(data_highschool, grade))
 data_highschool_fct <- data_highschool %>% 
   mutate(grade = as_factor(grade))
 head(data_highschool_fct, 3)
@@ -600,9 +600,7 @@ data_highschool_fct %>%
 ```{r}
 
 data_highschool_fct %>% group_by(grade) %>% summarise(mean = mean(absences))
-data_highschool_fct$grade <- fct_reorder(data_highschool_fct$grade, 
-                                         data_highschool_fct$absences,
-                                         .desc = TRUE)
+data_highschool_fct %>% mutate(grade = fct_reorder(grade, absences, .desc = TRUE))
 data_highschool_fct %>% group_by(grade) %>% summarise(mean = mean(absences))
 ```
 
