@@ -369,12 +369,12 @@ pre code {
 <p>Check out this purrr tutorial by Jenny Bryan: <a href="https://jennybc.github.io/purrr-tutorial/ls02_map-extraction-advanced.html" class="uri">https://jennybc.github.io/purrr-tutorial/ls02_map-extraction-advanced.html</a></p>
 <p>Additional content to read up on: <a href="https://jennybc.github.io/purrr-tutorial/ls01_map-name-position-shortcuts.html" class="uri">https://jennybc.github.io/purrr-tutorial/ls01_map-name-position-shortcuts.html</a></p>
 <ol start="0" style="list-style-type: decimal">
-<li>Create a new dataset from iris called iris_lab. Use this for the
-lab.</li>
+<li>Create a new dataset from <code>iris</code> called
+<code>iris_lab</code>. Use this for the lab.</li>
 </ol>
 <pre class="r"><code>iris_lab &lt;- iris</code></pre>
 <ol style="list-style-type: decimal">
-<li>Working with the iris (automatically in r), use <code>mutate</code>
+<li>Working with the <code>iris_lab</code> data, use <code>mutate</code>
 and <code>across</code> to change the numeric variables to be rounded
 with the <code>round</code> function. Take a look with
 <code>head()</code>- do this for the rest of the questions in which you
@@ -407,9 +407,11 @@ of digits for rounding to be 1.</li>
 <ol start="3" style="list-style-type: decimal">
 <li>Create a function for adding 2 to a value and dividing by 6. Call
 the function <code>new_function</code> and use x as the input. Apply
-this function to the numeric columns of the iris data.</li>
+this function to the numeric columns of the <code>iris_lab</code> data.
+Hint, start with <code>function(x){}</code>. Fill in the curly
+brackets.</li>
 </ol>
-<pre class="r"><code>new_function = function(x){(x+2)/6}
+<pre class="r"><code>new_function &lt;- function(x){(x+2)/6}
 iris_lab %&gt;% 
   mutate(across(.cols = !Species, ~ new_function(.x))) %&gt;%
   head()</code></pre>
@@ -424,23 +426,32 @@ iris_lab %&gt;%
 <li>Now create a function that includes x and y inputs. Call the
 function <code>div_function</code> and use it to divide x by y and then
 add 3 to the outcome. Hint start with <code>function(x, y){}</code>.
-fill in the curly brackets.</li>
+Fill in the curly brackets.</li>
 </ol>
 <pre class="r"><code>div_function &lt;- function(x, y){(x/y)+ 3}</code></pre>
 <ol start="4" style="list-style-type: decimal">
-<li>Use <code>div_function</code> and <code>map2_dbl</code> to calculate
-values with x as <code>Sepal.Length</code> and y as
-<code>Sepal.Width</code> from the <code>iris</code> data.</li>
+<li>Create a new variable in <code>iris_lab</code>called
+<code>calc_value</code> using the <code>div_function</code> and
+<code>map2_dbl</code> to calculate values with x as
+<code>Sepal.Length</code> and y as <code>Sepal.Width</code> from the
+<code>iris</code> data.</li>
 </ol>
-<pre class="r"><code>map2_dbl(iris_lab$Sepal.Length, iris_lab$Sepal.Width, div_function) %&gt;%
-  head()</code></pre>
-<pre><code>## [1] 4.457143 4.633333 4.468750 4.483871 4.388889 4.384615</code></pre>
+<pre class="r"><code>iris_lab %&gt;% mutate(calc_value = 
+                  map2_dbl(.x = Sepal.Length, .y = Sepal.Width, div_function)) %&gt;% head()</code></pre>
+<pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species calc_value
+## 1          5.1         3.5          1.4         0.2  setosa   4.457143
+## 2          4.9         3.0          1.4         0.2  setosa   4.633333
+## 3          4.7         3.2          1.3         0.2  setosa   4.468750
+## 4          4.6         3.1          1.5         0.2  setosa   4.483871
+## 5          5.0         3.6          1.4         0.2  setosa   4.388889
+## 6          5.4         3.9          1.7         0.4  setosa   4.384615</code></pre>
 <ol start="5" style="list-style-type: decimal">
 <li>Use <code>if_all()</code> to check if there are iris flowers with
-sepal and petal widths and lengths (all the iris numeric variables)
-greater than 2 centimeters but less than 6 centimeters (which is the
-unit, if you type in ?iris you can learn more about the data). Hint -
-use <code>filter</code>. If any are, how many?</li>
+sepal and petal widths and lengths (all the <code>iris_lab</code>
+numeric variables) greater than 2 centimeters but less than 6
+centimeters (which is the unit, if you type in ?iris you can learn more
+about the data). Hint - use <code>filter</code>. If any are, how
+many?</li>
 </ol>
 <pre class="r"><code>iris_lab %&gt;%
 filter(if_all(starts_with(c(&quot;Petal&quot;, &quot;Sepal&quot;)), ~.x &gt; 2 &amp; .x &lt; 6))  %&gt;%
@@ -449,7 +460,7 @@ filter(if_all(starts_with(c(&quot;Petal&quot;, &quot;Sepal&quot;)), ~.x &gt; 2 &
 ## 1          5.8         2.8          5.1         2.4 virginica</code></pre>
 <ol start="6" style="list-style-type: decimal">
 <li>Use <code>modify_if</code> to convert numeric columns of
-<code>iris</code> to be character. Convert this to be a tibble and
+<code>iris_lab</code> to be character. Convert this to be a tibble and
 reassign <code>iris_lab</code>.</li>
 </ol>
 <pre class="r"><code>iris_lab &lt;-iris_lab %&gt;% 
