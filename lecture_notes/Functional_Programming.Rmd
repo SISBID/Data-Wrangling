@@ -102,7 +102,7 @@ https://tidyselect.r-lib.org/reference/select_helpers.html
 
 ```{r}
 mtcars %>% 
-  mutate(across(.cols = disp:qsec, round)) %>%
+  mutate(across(.cols = disp:wt, round)) %>%
   head(2)
 
 mtcars %>% 
@@ -131,18 +131,46 @@ mtcars %>%
 ## `if_any()` and `if_all()` are also helpful!
 
 if_any() filters for rows any columns in listed columns meet the condition
-if_all() filters for rows if all columns in listed columns meet the condition
+
 
 ```{r}
+#diamonds %>%
+ #  filter(x > 11 | y > 11 | z > 11)
+
 diamonds %>%
    filter(if_any(c(x, y, z), ~. > 11))
+
+```
+
+## `if_any()` and `if_all()` are also helpful!
+
+if_all() filters for rows if all columns in listed columns meet the condition
+
+
+```{r}
+#diamonds %>%
+     #filter(x > 8 , y > 8 , z > 8)
 
 diamonds %>%
    filter(if_all(c(x, y, z), ~. > 8))
 
 ```
 
-## Previously we filtered by many conditionals...2 general ways
+## `if_any()` and `if_all()` are also helpful!
+
+```{r}
+
+iris %>% filter(Sepal.Length > 2.4 & Sepal.Width > 2.4 &
+                Petal.Length > 2.4 & Petal.Width > 2.4)
+
+iris %>% filter(if_all(Sepal.Length:Petal.Width, ~ . > 2.4))
+
+#iris %>% select(-Species) %>% filter(if_all(everything(), ~ . > 2.4))
+```
+
+## Previously we filtered for patterns or conditions...2 general ways
+This can be done on multiple patterns like so:
+
 ```{r}
 library(stringr)
 diamonds %>%
@@ -170,7 +198,7 @@ diamonds %>%
 "Designed to make your functions purrr."
 
 `dplyr` is designed for data frames
-`purr` is designed for vectors
+`purrr` is designed for vectors
 
 The `purrr` package can be very helpful!
 
@@ -184,7 +212,8 @@ The `purrr` package can be very helpful!
 ## `purrr` main functions
 
 `map` and `map_*` and `modify`  
-- applies function to each element of vector or list  
+- applies function to each element  
+(map returns a list, modify returns the same object type)
   
 `map2` and `map2*`  
 - applies function to each element of two vectors or lists
@@ -201,8 +230,13 @@ the _* options specify the type of data output
 ```{r}
 x <-c(1.2,2.3,3.5,4.6)
 map(x, round) %>% unlist()
+```
+
+## map (and modify)
+```{r}
 x <-tibble(values = c(1.2,2.3,3.5,4.6))
 map_df(x,  round)
+modify(x, round)
 ```
 
 ## map2
@@ -215,15 +249,21 @@ Good if you need to use multiple vectors in a function together.
 x <-c(1.2,2.3,3.5,4.6)
 y <-c(2.4,5.3, 6.4, 1.0)
 map2(x, y, min) %>% unlist()
+modify2(x, y, min)
 ```
 
 
-## map2 in practice
+## map2/modify2 in practice
 ```{r}
-trees$new <- trees$Volume-3
 head(trees)
-map2_dbl(trees$Girth, trees$new, min) %>% head()
-map2_dbl(trees$Girth, trees$Height, function(x,y){ pi * ((x/2)/12)^2 * y})
+modify2(trees$Girth, trees$Height, function(x,y){ pi * ((x/2)/12)^2 * y})
+```
+
+## Put it all together
+
+```{r}
+trees %>% mutate(New = map2_dbl(trees$Girth, trees$Height, function(x,y){ pi * ((x/2)/12)^2 * y}))
+trees %>% mutate(New = modify2(trees$Girth, trees$Height, function(x,y){ pi * ((x/2)/12)^2 * y}))
 ```
 
 ## pmap {.smaller}
@@ -233,7 +273,7 @@ map2_dbl(trees$Girth, trees$Height, function(x,y){ pi * ((x/2)/12)^2 * y})
 
 ```{r}
 pmap_list <-
-  list(x = c(1.2,2.3,3.5,4.6), y = c(2.4,5.3, 6.4, 1.0), z = c(2,9, 4, 11.0))
+  list(x = c(5,100,100,100), y = c(100,5, 200, 300), z = c(100,100, 6, 100))
 
 pmap(pmap_list, min) %>% unlist()
 
@@ -260,10 +300,15 @@ head(mtcars, 2)
 ## It's a bit easier to pass arguments than across...
 
 ```{r}
- mtcars %>% 
-  map_df(round, digits = 1) %>%
-  head()
+mtcars %>% 
+modify(format, digits = 1, justify = "centre", trim = TRUE) %>%
+head()
+
+mtcars %>% 
+  mutate(across(.cols = everything(), format, digits = 1))
 ```
+
+
 
 ## `purrr` apply function to some columns like accross
 
@@ -283,12 +328,31 @@ as_tibble(iris) %>%
 ```
 
 
+## modify_if vs mutate/across/where
+
+```{r}
+system.time(iris %>%
+              modify_if(is.factor, as.character))
+
+
+system.time(iris %>%
+               mutate(across(.cols = where(is.factor), as.character)))
+
+```
+
 ## great example with split()
 
 ```{r}
+head(mtcars)
+str(mtcars %>% split(.$cyl))
+
+```
+
+```{r}
+
 mtcars %>%
-  split(.$cyl) %>%
-  map(~lm(mpg ~ wt, data = .)) %>%
+  split(.$cyl) %>% # creates split of data for each unique cyl value
+  map(~lm(mpg ~ wt, data = .)) %>% # apply linear model to each
   map(summary) %>%
   map_dbl("r.squared")
 ```
