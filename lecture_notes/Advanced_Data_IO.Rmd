@@ -5,6 +5,8 @@ output:
   ioslides_presentation:
     css: styles.css
     widescreen: yes
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, echo = FALSE, include=FALSE, purl=FALSE}
@@ -20,7 +22,7 @@ library(jsonlite)
 
 # Google Sheets
 
----
+## {.small}
 
 ```{r, out.width="100%", echo = FALSE, purl=FALSE}
 knitr::include_graphics("media/AdvancedIO_googlesheet.png")
@@ -30,7 +32,7 @@ https://docs.google.com/spreadsheets/d/1U6Cf_qEOhiR9AZqTqS3mbMF3zt2db48ZP5v3rkrA
 
 ## Reading data with the googlesheets4 package
 
-First, set up Google credentials
+First, set up Google credentials. This doesn't currently work with AnVIL.
 
 ```{r}
 library(googlesheets4)
@@ -54,14 +56,14 @@ drive_auth(email= "<email>",
            token = readRDS("google-sheets-token.rds")) # Saved in a file
 ```
 
-## Reading data with the googlesheets4 package
+## Reading data with the googlesheets4 package {.smaller}
 
-Read in using `googlesheets4::read_sheet`
+Read in using `read_sheet()`
 
 ```{r}
-sheet_url = paste0("https://docs.google.com/spreadsheets/d/1U6Cf_qEOhiR9",
-                   "AZqTqS3mbMF3zt2db48ZP5v3rkrAEJY/edit#gid=780868077")
-sheet_dat_1 = read_sheet(sheet_url)
+sheet_url <- 
+  "https://docs.google.com/spreadsheets/d/1U6Cf_qEOhiR9AZqTqS3mbMF3zt2db48ZP5v3rkrAEJY/edit#gid=780868077"
+sheet_dat_1 <- read_sheet(sheet_url)
 head(sheet_dat_1)
 ```
 
@@ -70,15 +72,25 @@ head(sheet_dat_1)
 Specify the sheet name if necessary:
 
 ```{r}
-sheet_url = paste0("https://docs.google.com/spreadsheets/d/1U6Cf_qEOhiR9",
-                   "AZqTqS3mbMF3zt2db48ZP5v3rkrAEJY/edit#gid=780868077")
-sheet_dat_oceania = read_sheet(sheet_url, sheet = "Oceania")
+sheet_dat_oceania <- read_sheet(sheet_url, sheet = "Oceania")
 head(sheet_dat_oceania)
+```
+
+## Pull in a subset of data: rows
+
+```{r}
+read_sheet(sheet_url, sheet = "Oceania", range =  cell_rows(1:4))
+```
+
+## Pull in a subset of data: columns
+
+```{r}
+read_sheet(sheet_url, sheet = "Oceania", range =  cell_cols("A:B"))
 ```
 
 ## Reading data with the googlesheets4 package
 
-Alternatively, list out the sheet names using `sheet_names()`.
+List out the sheet names using `sheet_names()`.
 
 ```{r}
 sheet_names(sheet_url)
@@ -89,13 +101,12 @@ sheet_names(sheet_url)
 Iterate through the sheet names:
 
 ```{r}
-gapminder_sheets = sheet_names(sheet_url)
+gapminder_sheets <- sheet_names(sheet_url)
 
-data_list = list()
+data_list <- list()
 for(g_sheet in gapminder_sheets){
   data_list[[g_sheet]] = read_sheet(sheet_url, sheet = g_sheet)
 }
-str(data_list)
 ```
 
 ## Reading data with the googlesheets4 package
@@ -106,12 +117,29 @@ Iterate through the sheet names:
 str(data_list)
 ```
 
+## Reading data with the googlesheets4 package
+
+Pull out sheets as needed:
+
+```{r eval=FALSE}
+data_list[[{sheet}]]
+# OR
+data_list${sheet}
+```
+
+```{r, out.width="80%", echo=FALSE, fig.alt='.'}
+ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13f84314e00_0_0")
+```
+
 ## Writing data with the googlesheets4 package
 
 ```{r}
-sheet_dat_oceania = sheet_dat_oceania %>%
+sheet_dat_oceania <- data_list$Oceania
+
+sheet_dat_oceania <- sheet_dat_oceania %>%
   mutate(lifeExp_days = lifeExp * 365)
-sheet_out = gs4_create("Oceania-days", 
+
+sheet_out <- gs4_create("Oceania-days", 
                        sheets = list(Oceania_days = sheet_dat_oceania))
 ```
 ```{r eval = FALSE}
@@ -149,13 +177,13 @@ knitr::include_graphics("github_json.png")
 
 https://docs.github.com/en/rest/reference/search
 
----
+## {.codesmall}
 
 ```{r}
 #install.packages("jsonlite")
 library(jsonlite)
-jsonData <- fromJSON(paste0("https://raw.githubusercontent.com/Biuni",
-                            "/PokemonGO-Pokedex/master/pokedex.json"))
+jsonData <-
+  fromJSON("https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json")
 head(jsonData)
 ```
 
@@ -163,6 +191,14 @@ head(jsonData)
 
 ```{r}
 dim(jsonData$pokemon)
+class(jsonData$pokemon)
+
+jsonData$pokemon %>% filter(type == "Fire") %>% select(!(img))
+```
+
+## Going deeper..
+
+```{r}
 class(jsonData$pokemon$type) # Can be lists
 jsonData$pokemon$type
 ```
@@ -251,22 +287,22 @@ https://rvest.tidyverse.org/articles/selectorgadget.html
 
 ## rvest package
 ```{r}
-recount_url = "http://bowtie-bio.sourceforge.net/recount/"
+recount_url <- "http://bowtie-bio.sourceforge.net/recount/"
 # install.packages("rvest")
 library(rvest)
-htmlfile = read_html(recount_url)
+htmlfile <- read_html(recount_url)
 
-nds = html_nodes(htmlfile, xpath = '//*[@id="recounttab"]/table')
-dat = html_table(nds)
-dat = as.data.frame(dat)
+nds <- html_nodes(htmlfile, xpath = '//*[@id="recounttab"]/table')
+dat <- html_table(nds)
+dat <- as.data.frame(dat)
 head(dat)
 ```
 
 ## Little cleanup
 
 ```{r}
-colnames(dat) = as.character(dat[1,])
-dat = dat[-1,]
+colnames(dat) <- as.character(dat[1,])
+dat <- dat[-1,]
 head(dat)
 ```
 
@@ -336,9 +372,9 @@ https://github.com/ThatCopy/catAPI/wiki/Usage
 library(httr)
 
 # Requests a random cat fact
-query_url = "https://thatcopy.pw/catapi/rest/"
+query_url <- "https://thatcopy.pw/catapi/rest/"
 
-req = GET(query_url)
+req <- GET(query_url)
 content(req)
 ```
 

@@ -1,5 +1,5 @@
 ---
-title: "Advanced IO lab key"
+title: "Advanced IO lab"
 output: html_document
 editor_options: 
   chunk_output_type: console
@@ -16,14 +16,19 @@ library(googlesheets4)
 
 This is a lab to practice with Google Sheets and the `googlesheets` package.
 
-1. We are going to use a sheet from previous years: https://docs.google.com/spreadsheets/d/1KIRtcPVn58R3_qr97WNtcOJiY4AaytHzGDzLW_3_R1s/edit?usp=sharing
+Make sure you go through the authentication process. You'll see a popup and will need to grant permissions.
+
+```{r eval=FALSE}
+gs4_auth()
+```
+
+1. We are going to use a sheet from previous years: https://docs.google.com/spreadsheets/d/1KIRtcPVn58R3_qr97WNtcOJiY4AaytHzGDzLW_3_R1s/edit?usp=sharing. Save this link string as "sheet_url".
 
 ```{r}
 
 ```
 
-
-2. Use the `googlesheets4::read_sheet` function to read in the data like we discussed in class, call this object `x`.
+2. Use the `read_sheet()` function to read in the data like we discussed in class, call this object `x`.
 
 ```{r}
 
@@ -35,8 +40,7 @@ This is a lab to practice with Google Sheets and the `googlesheets` package.
 
 ```
 
-
-4. Try reading in just the first two columns. See the `range` argument and look at the arguments for `cell_rows`, `cell_limits` and `cell_cols`.
+4. Try reading in just the first two columns. Use the `range = cell_cols()` argument.
 
 ```{r}
 
@@ -48,7 +52,7 @@ This is a lab to practice with Google Sheets and the `googlesheets` package.
 
 The following dataset lists airports in the US and details about the number of late flights over time.
 
-1. Read in data from the following link: https://think.cs.vt.edu/corgis/datasets/json/airlines/airlines.json. Call this `jsonData`.
+1. Read in data from the following link using the `fromJSON()` function: https://think.cs.vt.edu/corgis/datasets/json/airlines/airlines.json. Call this `jsonData`.
 
 ```{r}
 
@@ -66,7 +70,9 @@ The following dataset lists airports in the US and details about the number of l
 
 ```
 
-4. Create a new tibble out of Airport Code (`Airport$Code`), Total Flights (`Statistics$Flights$Total`), and create a new column for proportion of delayed flights using (`Statistics$Flights$Delayed`). Call this new tibble `airport_compare`.
+**Bonus Practice**
+
+Create a new tibble out of Airport Code (`Airport$Code`), Total Flights (`Statistics$Flights$Total`), and create a new column for proportion of delayed flights using (`Statistics$Flights$Delayed`). Call this new tibble `airport_compare`.
 
 ```{r}
 
