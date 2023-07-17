@@ -6,11 +6,16 @@ Before we get started on Monday we have a few things for you to take note of:
 
 1. Please take a moment to familiarize yourself with the schedule for next week: http://sisbid.github.io/Data-Wrangling/ 
 
-2. Note we will be using a recurring Zoom link for all of our sessions: https://jh.zoom.us/j/94559638040?pwd=NEZmMkFHcXBwdk1EYTZBb3VtRWwrQT09.
+2. Note we will be using a recurring Zoom link for all of our sessions: 
 
 3. Please take a moment to join Slack if you haven't already. This will be a space for you to meet each other and ask questions as they arise.
 
-4. Finally, please make sure you have the most recent version of RStudio and R.
+4. Please make sure you have the most recent version of RStudio and R.
+Read these instructions for help: https://jhudatascience.org/intro_to_r/modules/Setup/R_and_RStudio_installation.html
+
+5. Install Git: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+
+6. Set up a GitHub profile (by clicking sign up) if you don't already have one: https://github.com/
 
 Thanks and see you all soon!
 
