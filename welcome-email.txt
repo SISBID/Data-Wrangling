@@ -1,6 +1,6 @@
 Hi class,
 
-We are only a few days away from our Data Wrangling course!
+Welcome to the Data Wrangling course!
 
 Before we get started on Monday we have a few things for you to take note of:
 
@@ -11,7 +11,7 @@ Before we get started on Monday we have a few things for you to take note of:
 3. The Slack channel will be a space for you to meet each other and ask questions as they arise.
 
 4. Please make sure you have the most recent version of RStudio and R.
-Read these instructions for help: https://jhudatascience.org/intro_to_r/modules/Setup/R_and_RStudio_installation.html
+Read these instructions for help: https://sisbid.github.io/Data-Wrangling/lecture_notes/Setup.html
 
 5. Install Git: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
 
