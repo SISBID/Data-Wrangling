@@ -17,6 +17,8 @@ Read these instructions for help: https://jhudatascience.org/intro_to_r/modules/
 
 6. Set up a GitHub profile (by clicking sign up) if you don't already have one: https://github.com/
 
+Please note that some of the material on the website will be updated. 
+
 Thanks and see you all soon!
 
 Ava and Carrie
