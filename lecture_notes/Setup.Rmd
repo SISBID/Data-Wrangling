@@ -1,10 +1,6 @@
 ---
 title: "Setup"
 author: "Data Wrangling in R"
-output:
-  ioslides_presentation:
-    css: styles.css
-    widescreen: yes
 ---
 
 -   [Installing `R`](#installing-r)
@@ -13,9 +9,10 @@ output:
     -   [Installing `R` packages](#installing-r-package)
     -   [Exercise: Install `R` package](#exercise-install-r-package)
     -   [Exercise: Install other `R` packages we will use in this course](#exercise-install-other-r-packages-we-will-use-in-this-course)
+-   [Install Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+-   [Set up a GitHub profile](https://github.com/)
 
 `R` is a powerful analytical language and contains a number of useful packages for analyzing data.
-
 `RStudio` is a free and open-source integrated development environment (IDE) for R. `RStudio` provides comprehensive facilities to `R` programmers and is highly recommended in this class.
 
 # Installing `R` {#installing-r}
@@ -42,19 +39,19 @@ Once on the website, scroll down and select the proper installation file for you
 
 **Note** that your operating system may be **too old** to install the current version of RStudio. If this is the case try installing progressively older versions found [here](https://www.rstudio.com/products/rstudio/older-versions/) until it works. You will know if it worked if you try to open RStudio and you see an interface without a message about things going poorly.
 
-![](images/RStudio_platforms.png)
+![](../images/RStudio_platforms.png)
 
 When you open up `RStudio`, it should look like this:
 
-![](images/RStudio_console.png)
+![](../images/RStudio_console.png)
 
 Click the top left button to create a new script:
 
-![](images/New_script_click.png)
+![](../images/New_script_click.png)
 
 `RStudio`, should now look like this:
 
-![](images/RStudio_4panes.png)
+![](../images/RStudio_4panes.png)
 
 There are four main windows.
 
