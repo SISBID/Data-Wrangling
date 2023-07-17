@@ -8,7 +8,7 @@ output:
 
 ## Data Wrangling with R
 
-**Instructors:** [Carrie Wright](https://carriewright11.github.io) and [Ava Hoffman](https://www.avahoffman.com/)
+**Instructors:** `r config::get("instructors")`
 
 **Class Schedule:**
 
