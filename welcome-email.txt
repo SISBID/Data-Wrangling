@@ -4,11 +4,11 @@ We are only a few days away from our Data Wrangling course!
 
 Before we get started on Monday we have a few things for you to take note of:
 
-1. Please take a moment to familiarize yourself with the schedule for next week: http://sisbid.github.io/Data-Wrangling/ 
+1. Please take a moment to familiarize yourself with the schedule for next week: http://sisbid.github.io/Data-Wrangling/ (Please note that some of the material on the website will be updated.) 
 
 2. Note we will be using a recurring Zoom link for all of our sessions: 
 
-3. Please take a moment to join Slack if you haven't already. This will be a space for you to meet each other and ask questions as they arise.
+3. The Slack channel will be a space for you to meet each other and ask questions as they arise.
 
 4. Please make sure you have the most recent version of RStudio and R.
 Read these instructions for help: https://jhudatascience.org/intro_to_r/modules/Setup/R_and_RStudio_installation.html
@@ -17,7 +17,6 @@ Read these instructions for help: https://jhudatascience.org/intro_to_r/modules/
 
 6. Set up a GitHub profile (by clicking sign up) if you don't already have one: https://github.com/
 
-Please note that some of the material on the website will be updated. 
 
 Thanks and see you all soon!
 
