@@ -8,7 +8,7 @@ output:
 
 ## Data Wrangling with R
 
-**Instructors:** [Carrie Wright](https://carriewright11.github.io) and [Ava Hoffman](https://www.avahoffman.com/)
+**Instructors:** `r config::get("instructors")`
 
 **Class Schedule:**
 
@@ -20,11 +20,22 @@ output:
 
 * [R project](http://www.r-project.org/)
 * [RStudio](http://www.rstudio.com/)
-* [AnVIL (cloud)](https://anvil.terra.bio/)
-* [AnVIL (site)](https://anvilproject.org/)
 * [Bioconductor](http://bioconductor.org/)
 * [Tidyverse](https://www.tidyverse.org/)
+* [Git](https://git-scm.com/)
 * [GitHub](https://github.com/)
+
+Please install the latest versions of R and RStudio:
+https://jhudatascience.org/intro_to_r/modules/Setup/R_and_RStudio_installation.html
+
+Make sure you have git installed: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+
+Make sure you have a GitHub profile: https://github.com/
+
+**Optional Software:**
+
+* [AnVIL (cloud)](https://anvil.terra.bio/)
+* [AnVIL (site)](https://anvilproject.org/)
 
 <!--
 **Resources:**
@@ -38,8 +49,6 @@ output:
 * [swirl](http://swirlstats.com/)
 * [Datacamp](http://datacamp.com/)
 
-Please read this to setup your installation of R, git, and install required R packages
-https://github.com/SISBID/Module1/blob/gh-pages/getting_started.md
 --> 
 
 **Schedule**
