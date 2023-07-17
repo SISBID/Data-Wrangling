@@ -1,5 +1,5 @@
 ---
-title: "Setup on AnVIL"
+title: "Setup"
 author: "Data Wrangling in R"
 output:
   ioslides_presentation:
@@ -7,127 +7,103 @@ output:
     widescreen: yes
 ---
 
-```{r, echo = FALSE, include=FALSE, purl=FALSE}
-library(knitr)
-opts_chunk$set(comment = "")
-```
+-   [Installing `R`](#installing-r)
+-   [Installing `RStudio`](#installing-rstudio)
+-   [`R` packages](#r-packages)
+    -   [Installing `R` packages](#installing-r-package)
+    -   [Exercise: Install `R` package](#exercise-install-r-package)
+    -   [Exercise: Install other `R` packages we will use in this course](#exercise-install-other-r-packages-we-will-use-in-this-course)
 
-```{r, include=FALSE}
-library(tidyverse)
-```
+`R` is a powerful analytical language and contains a number of useful packages for analyzing data.
 
-## Setup on AnVIL 
+`RStudio` is a free and open-source integrated development environment (IDE) for R. `RStudio` provides comprehensive facilities to `R` programmers and is highly recommended in this class.
 
-1. You need to sign into Terra with your Google account. This is the only way you can launch applications and perform computations on AnVIL. Launch AnVIL at [https://anvil.terra.bio/](https://anvil.terra.bio/), and you should be prompted to sign in with your Google account.
+# Installing `R` {#installing-r}
 
-```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.p")
-```
+We recommend installing the most recent version or `R` `r config::get("r_version")`. **If you have had installed `R` already some time ago, we recommend updating/reinstalling it to the most recent version.** Use a link below to launch download of `R` installers (if the download does not start, a fix may be to copy-paste the below link to your browser):
 
-## Setup on AnVIL 
+-   [Download For Mac users (M1 chip)](`r config::get("r_dl_mac_m1")`)
 
-⚠️ Make sure you provide your Google login information to the instructor! ⚠️ 
+-   [Download For Mac users (Intel chip)](`r config::get("r_dl_mac_intel")`)
 
-## Setup on AnVIL 
+-   [Download For Windows users](`r config::get("r_dl_windows")`)
 
-Go to the Class Workspace at [https://anvil.terra.bio/#workspaces/data-wrangling-workshop/SISBID-data-wrangling-2022](https://anvil.terra.bio/#workspaces/data-wrangling-workshop/SISBID-data-wrangling-2022)
+For other operating systems, or if you prefer to access the download link from the official website, visit <http://cran.us.r-project.org> and select `Download R for Linux`, `Download R for macOS` or `Download R for Windows` based on which device you have.
 
-```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_0_2")
-```
+Once the proper installation package has been selected, run the package and follow the on-screen directions. This installation includes the `R` language and a graphical user interface (GUI). Rather using the GUI, we recommend installing `RStudio` - an integrated development environment (IDE) that lets you interact with `R` with some added benefits.
 
-## Clone the Workspace
+# Installing `RStudio` {#installing-rstudio}
 
-Click on the teardrop button and select "Clone".
+To install `RStudio`, visit <https://posit.co/download/rstudio-desktop/>. The website should look like this:
 
-```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_0_8")
-```
+![](images/RStudio_landing.png)
 
-## Clone the Workspace
+Once on the website, scroll down and select the proper installation file for your platform (Windows, Mac, etc.). Open up the installer and follow the directions to install RStudio. 
 
-Name your Workspace (use your name!) and select the "SISBID-Wrangling-2022-student" billing project.
+**Note** that your operating system may be **too old** to install the current version of RStudio. If this is the case try installing progressively older versions found [here](https://www.rstudio.com/products/rstudio/older-versions/) until it works. You will know if it worked if you try to open RStudio and you see an interface without a message about things going poorly.
 
-```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_0_15")
-```
+![](images/RStudio_platforms.png)
 
-## Launch RStudio
+When you open up `RStudio`, it should look like this:
 
-Once in your newly cloned Workspace, you can launch the cloud instance! Click on "Cloud Environment" on the top right.
+![](images/RStudio_console.png)
 
-```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_0")
-```
+Click the top left button to create a new script:
 
-## Launch RStudio
+![](images/New_script_click.png)
 
-Click "CUSTOMIZE".
+`RStudio`, should now look like this:
 
-```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_5")
-```
+![](images/RStudio_4panes.png)
 
-## Launch RStudio
+There are four main windows.
 
-From the "Application configuration" menu, select "RStudio 4.2.0, Bioconductor 3.15, Python 3.8.10".
+-   The **console** is the lower-left window where you can run lines of code and see the output.
 
-```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_12")
-```
+-   The **script window** is the upper-left window where you can edit and write scripts or markdown documents. From the script window, you can run the current line of code in your script (or multiple lines if you highlight multiple rows) by pressing
 
-## Launch RStudio
+    -   `CMD` + `Return` on Mac
+    -   `CTRL` + `Enter` on Windows
 
-Click "CREATE". Your Cloud Environment will take a few minutes to spin up.
+-   The **workspace** is the upper-right window where you can manage your data and variables and see previous commands entered (under the history tab).
 
-```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_18")
-```
+-   The **plots** window allows you to see the output of plots. On the other tabs, you can also look at directories, install packages, and look at help files for various `R` commands.
 
-## Open RStudio
+You can customize the look of your RStudio IDE in `Tools > Global Options...`.
 
-Click on "OPEN RSTUDIO" when the environment is ready.
+## Troubleshooting the Installation Process
 
-```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_24")
-```
+If you run into trouble, check the following:
+- did you install the correct version of software for your operating system?
+   - Check that you installed the version right for your type of system, (`macOS` vs `Windows` for example)
+   - Check if maybe you need a different version for the age of your system. First check that your version of R was right - there are multiple versions for different `macOS` systems for example. You can check the apple icon (top left corner) and "About This Mac" to learn more about the age of your operating system. If your operating system is older (and you can't update it), try installing progressively older versions found [here](https://www.rstudio.com/products/rstudio/older-versions/) until it works. You will know if it worked if you try to open RStudio and you see an interface without a message about things going poorly. Here you can see an [example](https://community.rstudio.com/t/rstudio-desktop-crashes-on-startup-with-library-not-loaded/130296) of this. Unfortunately, the documentation is poor about what older versions work for which operating systems.
 
-## Create the Project
+# `R` packages {#r-packages}
 
-Once in RStudio, select the "New Project" button.
+Packages are the fundamental units of reproducible `R` code. They are collections of `R` code that typically share some common purpose. Examples:
 
-```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_30")
-```
+-   `dplyr` - package of functions for fast data set manipulation (subsetting, summarizing, rearranging, and joining together data sets);
 
-## Create the Project
+-   `ggplot2` - "R's famous package for making beautiful graphics"; allows to build multiple-layers, highly customizable plots.
 
-Select "Version Control".
+## Installing `R` package {#installing-r-package}
 
-```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_36")
-```
+-   To install an `R` package, type in the `RStudio` console
 
-## Create the Project
+        install.packages("replace_with_package_name")
 
-Enter the URL : [https://github.com/SISBID/Data-Wrangling](https://github.com/SISBID/Data-Wrangling). Make sure the Project is a subdirectory of `~`. Click "Create Project".
+    and press enter to execute the command.
 
-```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_48")
-```
+-   Once a package is installed, to use its contents in current `R` session, we run in the `RStudio` console the command
 
-## Create the Project
+        library(replace_with_package_name)
 
-You should now see files listed in your workspace (including some datasets we'll be using). Feel free to change any files here - they are yours now! For the most up-to-date versions of files, please visit the website: http://sisbid.github.io/Data-Wrangling/.
+(Note the difference in presence of the quotation mark in the two above commands.)
 
-```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_57")
-```
 
-## Pause the Environment
 
-It's very important to stop your cloud environment when you are done so you don't accumulate too many charges. Between class sessions, you can click the pause button on the top right. This frees up resources for others!
+## Exercise: Install `R` package {#exercise-install-r-package}
 
-```{r, out.width="80%", echo=FALSE, fig.alt='Screenshot of the AnVIL home page. The button to "Log in" is highlighted.'}
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_66")
-```
+Use the above to install `knitr` package. Execute the `library(...)` command to check if the package loads successfully.
+
+
