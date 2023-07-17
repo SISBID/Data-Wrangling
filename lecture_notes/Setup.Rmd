@@ -1,6 +1,9 @@
 ---
 title: "Setup"
 author: "Data Wrangling in R"
+output:
+  html_document:
+    df_print: paged
 ---
 
 -   [Installing `R`](#installing-r)
@@ -8,9 +11,8 @@ author: "Data Wrangling in R"
 -   [`R` packages](#r-packages)
     -   [Installing `R` packages](#installing-r-package)
     -   [Exercise: Install `R` package](#exercise-install-r-package)
-    -   [Exercise: Install other `R` packages we will use in this course](#exercise-install-other-r-packages-we-will-use-in-this-course)
--   [Install Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
--   [Set up a GitHub profile](https://github.com/)
+-   [Install Git](#exercise-install-r-package)
+-   [Set up a GitHub profile](#github-profile)
 
 `R` is a powerful analytical language and contains a number of useful packages for analyzing data.
 `RStudio` is a free and open-source integrated development environment (IDE) for R. `RStudio` provides comprehensive facilities to `R` programmers and is highly recommended in this class.
@@ -33,7 +35,7 @@ Once the proper installation package has been selected, run the package and foll
 
 To install `RStudio`, visit <https://posit.co/download/rstudio-desktop/>. The website should look like this:
 
-![](images/RStudio_landing.png)
+![](../images/RStudio_landing.png)
 
 Once on the website, scroll down and select the proper installation file for your platform (Windows, Mac, etc.). Open up the installer and follow the directions to install RStudio. 
 
@@ -104,3 +106,10 @@ Packages are the fundamental units of reproducible `R` code. They are collection
 Use the above to install `knitr` package. Execute the `library(...)` command to check if the package loads successfully.
 
 
+## Install Git {#install-git}
+
+Follow the directions at https://git-scm.com/book/en/v2/Getting-Started-Installing-Git to install git on your computer.
+
+## Make a GitHub profile {#github-profile}
+
+Set up a GitHub profile at https://github.com/ if you don't already have one.
