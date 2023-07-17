@@ -10,7 +10,7 @@ Before we get started on Monday we have a few things for you to take note of:
 
 3. Please take a moment to join Slack if you haven't already. This will be a space for you to meet each other and ask questions as they arise.
 
-4. Finally, it will help us hit the ground running Monday if you can take a moment and create an account on the AnVIL platform (https://anvil.terra.bio/). All you have to do is log in with a Google account. Please DM me (Ava) on Slack to let me know what your Google account is (e.g., your-name@gmail.com). If you need a google account, you can create one here: https://accounts.google.com/signup/v2/webcreateaccount?flowName=GlifWebSignIn&flowEntry=SignUp.
+4. Finally, please make sure you have the most recent version of RStudio and R.
 
 Thanks and see you all soon!
 
