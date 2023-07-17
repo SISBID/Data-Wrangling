@@ -1,0 +1,9 @@
+default:
+  instructors: "[Carrie Wright](https://carriewright11.github.io/) (cwright2 at fredhutch.org), [Ava Hoffman](https://www.avahoffman.com/) (ahoffma2 at fredhutch.org)"
+  r_version: "(4.3.0 (called 'Already Tomorrow') as of April 21, 2023)"
+  r_dl_mac_m1: "https://cloud.r-project.org/bin/macosx/big-sur-arm64/base/R-4.3.0-arm64.pkg"
+  r_dl_mac_intel: "https://cloud.r-project.org/bin/macosx/big-sur-x86_64/base/R-4.3.0-x86_64.pkg"
+  r_dl_windows: "https://cloud.r-project.org/bin/windows/base/R-4.3.0-win.exe"
+  rstudio_dl_mac: "https://download1.rstudio.org/electron/macos/RStudio-2023.03.1-446.dmg"
+  rstudio_dl_windows: "https://download1.rstudio.org/electron/windows/RStudio-2023.03.1-446.exe"
+
