@@ -122,8 +122,8 @@ Check the values for your variables, are they what you expect?
 Check if rare values make sense.
 
 ```{r, message=FALSE}
-library(jhur)
-bike <-read_bike()
+library(readr)
+bike <-read_csv("http://jhudatascience.org/intro_to_r/data/Bike_Lanes.csv")
 count(bike, subType)
 ```
 
@@ -252,8 +252,8 @@ airquality %>% select(!miss_var_which(airquality))
 Let's say we think that all 0 values should be `NA`.
 
 ```{r}
-library(jhur)
-bike <-read_bike()
+library(readr)
+bike <-read_csv("http://jhudatascience.org/intro_to_r/data/Bike_Lanes.csv")
 count(bike, dateInstalled)
 ```
 
