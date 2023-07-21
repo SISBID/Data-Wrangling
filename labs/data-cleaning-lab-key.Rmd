@@ -14,38 +14,39 @@ You can ignore the "problems" with some rows.
 
 ```{r}
 library(readr)
-ufo = read_csv("https://raw.githubusercontent.com/SISBID/Module1/gh-pages/data/ufo/ufo_data_complete.csv")
+ufo <- read_csv("https://raw.githubusercontent.com/SISBID/Module1/gh-pages/data/ufo/ufo_data_complete.csv")
 ```
 
 2. Clean up the column/variable names of the `ufo` dataset to remove spaces and non-alphanumeric characters. You can use the `dplyr::rename()` function or look into the `janitor::clean_names()` function. 
 
 ```{r}
 library(janitor)
-ufo = clean_names(ufo)
+ufo <- clean_names(ufo)
 ```
 
 3. How many UFO sightings were reported on a time scale of minutes, specifically using the `duration (hours/min)` originally-named column? (hint: explore the various entries in this column and then use a `stringr` function to match a flexible pattern. you can ignore observations like "1/2 hour" and similar ones that don't contain some version of the word "minutes")
 
 ```{r}
 library(stringr)
-str_subset(ufo$duration_hours_min, "min") %>% length()
+ufo %>% pull(duration_hours_min) %>% str_subset("min") %>% length()
+ufo %>% filter(str_detect(duration_hours_min, "min"))%>% nrow()
 ```
 
 4. How accurate is the (formerly-named) `duration (seconds)` column? I.e. how many of the above minutes-scale observations have durations less than 60 seconds or greater than 3600 seconds? 
 
 ```{r}
-sub = ufo %>% filter(str_detect(duration_hours_min, "min"))
-sum(sub$duration_seconds < 60 | sub$duration_seconds > 3600)
-(449/length(sub$duration_seconds))*100 # to get the percentage
+sub <- ufo %>% filter(str_detect(duration_hours_min, "min"),
+                      duration_seconds<60 | duration_seconds >3600)
+nrow(sub)
 ```
 
 5. How many ufo sighting cities end in (a) "field", (b) "ton" and (c) "port"?
 
 
 ```{r}
-str_subset(ufo$city, "field$") %>% length() # A
-str_subset(ufo$city, "ton$") %>% length() # B
-str_subset(ufo$city, "port$") %>% length() # C
+ufo %>% pull(city) %>% str_subset("field$") %>% length() # A
+ufo %>% pull(city) %>% str_subset("ton$") %>% length() # B
+ufo %>% pull(city) %>% str_subset("port$") %>% length() # C
 ```
 
 
