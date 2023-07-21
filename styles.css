@@ -1,0 +1,77 @@
+pre {
+  font-family: 'Source Code Pro', 'Courier New', monospace;
+  font-size: 24px;
+  line-height: 24px;
+  padding: 10px 0 10px 60px;
+  letter-spacing: -1px;
+  margin-bottom: 8px;
+  width: 106%;
+  left: -60px;
+  position: relative;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  /*overflow: hidden;*/
+}
+
+/* Whole document: */
+body{
+  font-family: Helvetica;
+  font-size: 16pt;
+}
+
+/* Headers */
+h1{
+  font-size: 28pt;
+}
+h2{
+  font-size: 24pt;
+}
+h3{
+  font-size: 20pt;
+}
+
+
+.emphasized {
+   font-size: 1.2em;
+}
+
+.small {
+   font-size: 0.8em;
+}
+
+strong { 
+    font-weight: bold;
+    color: black;
+}
+
+/*
+slides > slide {
+  padding: 10px 60px;
+}
+*/
+slides > slide > hgroup + article {
+    margin-top: 5px;
+}
+
+.left_col {
+   float:left;
+   width:48%;
+}
+.right_col {
+   float:right;
+   width:48%;
+}
+
+slides>slide.title-slide {
+    background-image: url('images/Intro_to_R.png');
+    background-size: 100% 100%;
+}
+
+.codesmall pre {
+    font-size: 16px;
+}
+
+.codeexample pre{
+  background-color: lightgreen;
+}

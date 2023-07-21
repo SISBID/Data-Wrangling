@@ -247,17 +247,17 @@ airquality %>% select(!miss_var_which(airquality))
 
 
 
-## Change a value to be `NA`{.codesmall}
+## Change a value to be `NA` {.codesmall}
 
 Let's say we think that all 0 values should be `NA`.
 
-```{r}
+```{r, message=FALSE}
 library(readr)
 bike <-read_csv("https://sisbid.github.io/Data-Wrangling/labs/Bike_Lanes.csv")
 count(bike, dateInstalled)
 ```
 
-## Change a value to be `NA`{.codesmall}
+## Change a value to be `NA` {.small}
 
 The `na_if()` function of `dplyr` can be helpful for changing all 0 values to `NA`.
 
