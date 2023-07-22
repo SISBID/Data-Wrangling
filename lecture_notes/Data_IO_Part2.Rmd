@@ -56,44 +56,6 @@ head(problems(ufo))
 dim(problems(ufo))
 ```
 
-## Missing data with the `vizdat`/`naniar` packages {.codesmall}
-
-The `vis_dat` function can give you an overview 
-
-```{r vis_dat, warning=FALSE}
-library(visdat)
-ufo_samp <- ufo %>% sample_n(size = 1000) # Subset for big data
-vis_dat(ufo_samp)
-```
-
-## Missing data with the `vizdat`/`naniar` packages
-
-```{r vis_miss}
-vis_miss(ufo_samp)
-```
-
-## Missing data with the `vizdat`/`naniar` packages {.codesmall}
-
-```{r warning=FALSE}
-library(naniar)
-gg_miss_var(ufo)
-```
-
-## Missing data with the `vizdat`/`naniar` packages
-
-`miss_case_summary` which rows have missing data in order
-
-```{r}
-miss_case_summary(ufo)
-```
-
-## Missing data with the `vizdat`/`naniar` packages
-
-`miss_var_summary` which variables have missing data
-
-```{r}
-miss_var_summary(ufo)
-```
 
 # After hours of cleaning...
 
