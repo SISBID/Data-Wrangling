@@ -1,0 +1,58 @@
+---
+title: "Missing Data Lab"
+output: html_document
+---
+
+---
+title: "Missing Data Lab Key"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Data used
+
+Bike Lanes Dataset: BikeBaltimore is the Department of Transportation's bike program. 
+The data is from http://data.baltimorecity.gov/Transportation/Bike-Lanes/xzfj-gyms
+
+You can Download as a CSV in your current working directory.  Note its also available at: 	https://sisbid.github.io/Data-Wrangling/labs/Bike_Lanes.csv 
+
+
+If you haven't installed  `naniar` yet, you will need to use: `install.packages("naniar")` first. 
+
+```{r}
+library(tidyverse)
+library(naniar)
+
+bike <-read_csv("https://sisbid.github.io/Data-Wrangling/labs/Bike_Lanes.csv")
+
+```
+
+
+1.  Use the `is.na()`  and `any()` functions to check if the bike `dateInstalled` variable has any `NA` values. 
+Hint: You first need to `pull` out the vector version of this variable to use the `is.na()` function.
+
+```{r}
+
+```
+
+
+
+2.  Filter rows of bike, so that only rows remain that do NOT have missing values for the `route` variable,  using `drop_na`. Assign this to the object `have_route.`
+
+```{r}
+
+```
+
+3.  Use `naniar` to make a visual of the amount of data missing for each variable of `bike` (use `gg_miss_var()`). Check out more about this package here: https://www.njtierney.com/post/2018/06/12/naniar-on-cran/
+
+```{r}
+
+```
+
+
+4. What percentage of the `subType` variable is complete of `bike` ? Hint: use another `naniar` function.
+ 
+```{r}
+
+```
