@@ -91,7 +91,7 @@ diamonds %>% pull(carat) %>% head()
 
 The `pull` function is equivalent to using the `$` method (in base R). 
 
-We can grab the `carat` column using the `$` operator. 
+Note that base R and tidyverse don't always play nice together. 
 
 ```{r}
 head(pull(diamonds, carat))
@@ -167,7 +167,7 @@ The easiest way to filter is by testing whether numeric observations are greater
 filter(diamonds, depth > 60)
 ```
 
-Note, no `$` or subsetting is necessary.  R "knows" `depth` refers to a column of `diamonds`.
+Note, no subsetting is necessary.  R "knows" `depth` refers to a column of `diamonds`.
 
 ## Subset rows of a `data.frame`:
 
@@ -187,7 +187,7 @@ diamonds %>% filter(depth > 60, table > 60, price > 2775)
 
 ## Subset rows of a `data.frame`:
 
-You can also filter character strings by a single value or category:
+You can also filter character strings by a single value or category. Here we need quotes around character strings. 
 
 ```{r}
 diamonds %>% filter(color == "I", 
@@ -210,6 +210,19 @@ You can mix and match filtering on numeric and categorical/character columns in 
 diamonds %>% filter(clarity %in% c("SI1", "SI2"),
                     cut == "Premium", price > 3000)
 ```
+
+## Note about quotes and numbers
+
+R will interpret quotes around numbers as the characters themselves and not their numeric meaning. Thus it's generally best to avoid quotes around numeric unless it is not being treated as a numeric value - for example levels or grades.
+
+```{r, eval = FALSE}
+diamonds %>% filter(price > 3001) #This works
+diamonds %>% filter(price > "3001") # This does not
+
+diamonds %>% filter(price == 3001) # This works
+diamonds %>% filter(price == "3001") # this works 
+```
+
 
 ## Subset rows of a `data.frame`:
 
