@@ -1,5 +1,5 @@
 ---
-title: "Data I/O, Part 1"
+title: "Data I/O"
 author: "Data Wrangling in R"
 output:
   ioslides_presentation:
@@ -252,3 +252,4 @@ Review the process: [`https://youtu.be/LEkNfJgpunQ`](https://youtu.be/LEkNfJgpun
 -  `>` paste the url / browse
 -  `>` click "Update" and "Import"
 
+https://sisbid.github.io/Data-Wrangling/labs/data-io-lab-part1.Rmd
