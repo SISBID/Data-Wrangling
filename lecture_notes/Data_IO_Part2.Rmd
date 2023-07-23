@@ -19,6 +19,16 @@ ufo <-read_csv("../data/ufo/ufo_data_complete.csv")
 
 
 
+5. Read in the `https://sisbid.github.io/Data-Wrangling/data/iris/iris_q5.csv` dataset into the `iris_q5` R object. Some entries read "-999" but are supposed to be missing (the value `NA` in the data).  
+
+```{r}
+iris_q5 <- read_csv("https://sisbid.github.io/Data-Wrangling/data/iris/iris_q5.csv", 
+    na = "-999")
+head(iris_q5)
+```
+
+## different sheets
+
 
 <!-- ## Data Input: `readr` -->
 
