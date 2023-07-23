@@ -23,29 +23,15 @@ circ <- read_csv("http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circula
 
 ```
 
-3. Visualize the missing data patterns of `circ` with `vis_miss`:
+
+3. Write out `circ` to a file called "Circulator.csv" using `write_csv`:
 ```{r}
 
 ```
 
-4. Determine the percent missing in each column using `miss_var_summary`
+4. Write out `circ` to a file called "Circulator.rds" using `write_rds`:
 
 ```{r}
 
 ```
 
-5. Determine the number missing in each column using `gg_miss_var`:
-```{r}
-
-```
-
-6. Write out `circ` to a file called "Circulator.csv" using `write_csv`:
-```{r}
-
-```
-
-7. Write out `circ` to a file called "Circulator.rds" using `write_rds`:
-
-```{r}
-
-```

@@ -168,6 +168,12 @@ To get the percent missing (and counts) for each variable as a table, use this f
 ```{r}
 miss_var_summary(airquality)
 ```
+## `miss_case_summary` which rows have missing data in order
+
+```{r}
+miss_case_summary(airquality)
+```
+
 
 ## `naniar` plots
 
@@ -332,8 +338,6 @@ bike %>% drop_na(dateInstalled) %>%
 Should you be dividing by the total count with `NA` values included?   
 It depends on your data and what `NA` might mean.   
 Pay attention to your data and your `NA` values!
-
-
 
 
 ## Summary
