@@ -14,34 +14,19 @@ library(readr)
 knitr::opts_chunk$set(comment = "")
 ```
 
+# R Basics
+
 ## Explaining output on slides
 
 In slides, a command (we'll also call them code or a code chunk) will look like this
 ```{r code}
-print("I'm code")
+head(mtcars)
 ```
 
 And then directly after it, will be the output of the code.  
-So `print("I'm code")` is the code chunk and [1] "I'm code" is the output. 
 
 These slides were made in R using `knitr` and `R Markdown` (covered later today when we discuss reproducible research)
 
-## Data Input
-
-* 'Reading in' data is the first step of any real project/analysis
-* R can read almost any file format, especially via add-on packages
-* We are going to focus on simple delimited files first
-    * tab delimited (e.g. '.txt')
-    * comma separated (e.g. '.csv')
-    * Microsoft excel (e.g. '.xlsx')
-
-## Data Input
-
-UFO Sightings via Kaggle.com: "Reports of unidentified flying object reports in the last century". 
-
-"There are two versions of this dataset: scrubbed and complete. The complete data includes entries where the location of the sighting was not found or blank (0.8146%) or have an erroneous or blank time (8.0237%). Since the reports date back to the 20th century, some older data might be obscured. Data contains city, state, time, description, and duration of each sighting."
-
-https://www.kaggle.com/NUFORC/ufo-sightings
 
 ## R variables 
 
@@ -57,6 +42,7 @@ x * 4
 x + 2
 ```
 
+
 ## Help
 
 For any function, you can write `?FUNCTION_NAME`, or `help("FUNCTION_NAME")` to look at the help file:
@@ -70,76 +56,20 @@ help("dir")
 knitr::include_graphics("media/IO_help.png")
 ```
 
+
 ## Packages
 
-Not all packages are available on AnVIL's RStudio.
+Not all packages are available by default.
 
 ```{r, eval = FALSE}
-install.packages("naniar")
-AnVIL::install("naniar") # Alternative
-library(naniar)
+install.packages("tidyverse")
+library(tidyverse)
 ```
 
 ```{r, echo = FALSE, out.width="70%"}
-knitr::include_graphics("media/IO_help.png")
+knitr::include_graphics("media/install_packages.jpg")
 ```
 
-## Data Input
-
-<!-- R Studio features some nice "drop down" support, where you can run some tasks by selecting them from the toolbar. -->
-
-The Easy way: import text datasets using the "File --> Import Dataset --> From Text (readr)" command. Selecting this will bring up a new screen that lets you specify the formatting of your text file. 
-
-Going through this process enters the corresponding R commands in the console (you can copy these for later!)
-
-## Approach #1
-* Download data onto your machine from http://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv.gz (right-click this link)
-* Upload the data to AnVIL
-* Read into RStudio's environment
-
-## Upload the data to AnVIL
-
-```{r, out.width="80%", echo=FALSE, fig.alt='.'}
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_79")
-```
-
-## Upload the data to AnVIL
-
-```{r, out.width="80%", echo=FALSE, fig.alt='.'}
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_85")
-```
-
-## Read into RStudio's environment
-
-```{r, out.width="80%", echo=FALSE, fig.alt='.'}
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_91")
-```
-
-## Read into RStudio's environment
-
-```{r, out.width="80%", echo=FALSE, fig.alt='.'}
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_97")
-```
-
-## Read into RStudio's environment
-
-```{r, out.width="80%", echo=FALSE, fig.alt='.'}
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_103")
-```
-
-## Check out the commands!
-
-```{r, out.width="80%", echo=FALSE, fig.alt='.'}
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_109")
-```
-
-## Approach #2 {.codesmall}
-* Read into RStudio's environment directly
-
-```{r}
-ufo_data_complete_csv <- 
-  read_csv("http://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv.gz")
-```
 
 ## Commenting in Scripts
 
@@ -149,116 +79,176 @@ Commenting in code is super important. You should be able to go back to your cod
 ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_115")
 ```
 
+
 ## Commenting in Scripts
 
 ```{r, echo = FALSE, out.width="70%"}
 knitr::include_graphics("media/IO_comments_to_self.png")
 ```
 
-## Data Input: `readr`
 
-`read_delim()` and `read_csv()` from the`readr` package
+# Data Input
 
-```{r eval=FALSE} 
-# example: 
-read_delim(file = "file.txt", delim = "\t") 
-read_csv("file.csv")
+## Outline 
+
+* Part 0: A little bit of set up!
+* Part 1: reading in manually (point and click)
+* Part 2: reading in directly & working directories
+* Part 3: checking data & multiple file formats
+
+
+# Part 0: Setup - R Project
+
+
+## New R Project
+
+Let's make an R Project so we can stay organized in the next steps.
+
+Click the new R Project button at the top left of RStudio:
+
+```{r, fig.alt="The New R Project button is highlighted.", out.width = "40%", echo = FALSE, align = "center"}
+knitr::include_graphics("media/Data_Input_Rproject.png")
 ```
+
+
+## New R Project
+
+In the New Project Wizard, click "New Directory":
+
+```{r, fig.alt="In the New Project Wizard, the 'New Directory' option is highlighted.", out.width = "60%", echo = FALSE, align = "center"}
+knitr::include_graphics("media/Data_Input_new_directory.png")
+```
+
+
+## New R Project
+
+Click "New Project":
+
+```{r, fig.alt="In the New Project Wizard, the 'New Project' option is highlighted.", out.width = "60%", echo = FALSE, align = "center"}
+knitr::include_graphics("media/Data_Input_new_project.png")
+```
+
+
+## New R Project
+
+Type in a name for your new folder.
+
+Store it somewhere easy to find, such as your Desktop:
+
+```{r, fig.alt="In the New Project Wizard, the new project has been given a name and is going to be stored in the Desktop directory. The 'Create Project' button is highlighted.", out.width = "60%", echo = FALSE, align = "center"}
+knitr::include_graphics("media/Data_Input_new_project_details.png")
+```
+
+
+## New R Project
+
+You now have a new R Project folder on your Desktop! 
+
+Make sure you add any scripts or data files to this folder as we go through today's lesson. This will make sure R is able to "find" your files.
+
+```{r, fig.alt="The image shows an image of an arrow pointing to the newly created R project repository.", out.width = "60%", echo = FALSE, align = "center"}
+knitr::include_graphics("media/Data_Input_new_desktop.png")
+```
+
+
+# Part 1: Getting data into R (manual/point and click)
+
 
 ## Data Input
 
-* The filename is the path to your file, in quotes
-* The function will look in your "working directory" if no absolute file path is given
-* Note that the filename can also be a path to a file on a website (e.g. 'www.someurl.com/table1.txt')
+* 'Reading in' data is the first step of any real project/analysis
+* R can read almost any file format, especially via add-on packages
+* We are going to focus on simple delimited files first
+    * comma separated (e.g. '.csv')
+    * tab delimited (e.g. '.txt')
+    * Microsoft Excel (e.g. '.xlsx')
+
 
 ## Data Input
 
-What if your file is in the "Home" directory?
+Youth Tobacco Survey (YTS) dataset:
 
-```{r, out.width="80%", echo=FALSE, fig.alt='.'}
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_121")
+"The YTS was developed to provide states with comprehensive data on both middle school and high school students regarding tobacco use, exposure to environmental tobacco smoke, smoking cessation, school curriculum, minors' ability to purchase or otherwise obtain tobacco products, knowledge and attitudes about tobacco, and familiarity with pro-tobacco and anti-tobacco media messages."
+
+* Check out the data at: https://catalog.data.gov/dataset/youth-tobacco-survey-yts-data
+
+
+## Data Input: Dataset Location
+
+Dataset is located at https://sisbid.github.io/Data-Wrangling/data/Youth_Tobacco_Survey_YTS_Data.csv
+
+* Download data by clicking the above link
+    
+    * Safari - if a file loads in your browser, choose File --> Save As, select, Format "Page Source" and save
+
+
+## Import Dataset
+
+-  `>` File
+-  `>` Import Dataset
+-  `>` From Text (`readr`)
+-  `>` paste the url (https://sisbid.github.io/Data-Wrangling/data/Youth_Tobacco_Survey_YTS_Data.csv)
+-  `>` click "Update" and "Import"
+
+
+## What Just Happened?
+
+- You see a preview of the data on the top left pane.
+- You see a new object called `Youth_Tobacco_Survey_YTS_Data` in your environment pane (top right). The table button opens the data for you to view.
+- R ran some code in the console (bottom left).
+
+
+## Import Dataset (recap)
+
+```{r, fig.alt="Gif showing the process of importing a dataset via readr.", out.width = "100%", echo = FALSE, align = "center"}
+knitr::include_graphics("media/Data_Input_import_dataset.gif")
 ```
 
-## Data Input
 
-Backtrack using the relative path with `../` like:
+## Browsing for Data on Your Machine
 
-```{r, eval = FALSE}
-ufo <- read_csv("../ufo_data_complete.csv.gz")
+```{r, fig.alt="The image shows an image of an arrow pointing to the newly created R project repository.", out.width = "80%", echo = FALSE, align = "center"}
+knitr::include_graphics("media/Data_Input_browse.png")
 ```
 
-## Data Input
 
-Or, read in from a subfolder:
+## Example 2
 
-```{r, eval=FALSE}
-ufo <- read_csv("data/ufo/ufo_data_complete.csv")
+-  `>` File
+-  `>` Import Dataset
+-  `>` From Text (`readr`)
+-  `>` paste the url (https://sisbid.github.io/Data-Wrangling/data/dropouts.txt)
+-  `>` select delimiter
+-  `>` click "Update" and "Import"
+
+
+## Example 3
+
+```{r}
+library(readxl)
 ```
 
-```{r, echo=FALSE}
-ufo <- read_csv("../data/ufo/ufo_data_complete.csv")
-```
+-  `>` File
+-  `>` Import Dataset
+-  `>` From Excel
+-  `>` paste the url (https://sisbid.github.io/Data-Wrangling/data/asthma.xlsx)
+-  `>` click "Update" and "Import"
 
-## Data Input
 
-The `read_delim()` and related functions return a "tibble" is a `data.frame` with special printing, which is the primary data format for most data cleaning and analyses. 
+## Manual Import: Pros and Cons
 
-```{r viewInput, message=FALSE}
-class(ufo)
-```
+Pros: easy!!
 
-## Data Input
+Cons: obscures some of what's happening, others will have difficulty running your code
 
-```{r, viewTibble}
-ufo
-```
 
-## Data Input
+## Summary & Lab
 
-There are also data importing functions provided in base R (rather than the `readr` package), like `read.delim` and `read.csv`. 
+Review the process: [`https://youtu.be/LEkNfJgpunQ`](https://youtu.be/LEkNfJgpunQ)
 
-These functions have slightly different syntax for reading in data, like `header` and `as.is`. 
+-  `>` File
+-  `>` Import Dataset
+-  `>` From Text (`readr`)
+-  `>` paste the url / browse
+-  `>` click "Update" and "Import"
 
-However, while many online resources use the base R tools, recent versions of RStudio switched to use these new `readr` data import tools, so we will use them in the class for slides. They are also up to two times faster for reading in large datasets, and have a progress bar which is nice. 
-
-## Data input: `readr` highlights
-
-- Modern, improved tools from `readr` R package: `read_delim()`, `read_csv()`
-  - needs a file path to be provided 
-  - parses the file into rows/columns, determines column type 
-  - returns a data frame 
-
-- Some functions to look at a data frame: 
-  - `head()` shows first few rows
-  - `tail()` shows the last few rows
-  - `View()` shows the data as a spreadsheet
-  - `spec()` gives  specification of column types
-
-## Data input: other file types
-
-* From `readr` package: 
-  - `read_delim()`: general delimited files 
-  - `read_csv()`: comma separated (CSV) files
-  - `read_tsv()`: tab separated files
-  - others 
-  
-* For reading Excel files, you can do one of: 
-  - use `read_excel()` function from `readxl` package
-  - use other packages: `xlsx`, `openxlsx`
-
-## Data input: other file types
-
-* `haven` package has functions to read SAS, SPSS, Stata formats
-
-```{r, eval = FALSE}
-library(haven)
-
-# SAS
-read_sas(file = "mtcars.sas7bdat")
-
-# SPSS
-read_sav(file = "mtcars.sav")
-
-# Stata
-read_dta(file = "mtcars.dta")
-```
