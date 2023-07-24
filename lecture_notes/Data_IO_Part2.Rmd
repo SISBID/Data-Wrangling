@@ -17,6 +17,143 @@ knitr::opts_chunk$set(comment = "")
 ufo <-read_csv("../data/ufo/ufo_data_complete.csv")
 ```
 
+# Data Input
+
+## Outline 
+
+* Part 0: A little bit of set up!
+* Part 1: reading in manually (point and click)
+* Part 2: reading in directly & working directories
+* Part 3: checking data & multiple file formats
+
+
+## Data Input: `readr`
+
+`read_delim()` and `read_csv()` from the`readr` package
+
+```{r eval=FALSE}
+# example:
+read_delim(file = "file.txt", delim = "\t")
+read_csv("file.csv")
+```
+
+
+## Data Input
+
+* The filename is the path to your file, in quotes
+* The function will look in your "working directory" if no absolute file path is given
+* Note that the filename can also be a path to a file on a website (e.g. 'www.someurl.com/table1.txt')
+
+
+## Example
+
+https://sisbid.github.io/Data-Wrangling/data/
+
+```{r eval=FALSE}
+# From URL
+ufo <- read_csv("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv")
+# From your 'data-wrangling' directory
+ufo <- read_csv("ufo_data_complete.csv")
+```
+
+
+## Data Input
+
+The `read_delim()` and related functions return a "tibble" is a `data.frame` with special printing, which is the primary data format for most data cleaning and analyses.
+
+```{r viewInput, message=FALSE}
+class(ufo)
+```
+
+Check to make sure you see the new object in the Environment pane.
+
+
+## Data Input
+
+There are also data importing functions provided in base R (rather than the `readr` package), like `read.delim` and `read.csv`.
+
+These functions have slightly different syntax for reading in data, like `header` and `as.is`.
+
+However, while many online resources use the base R tools, recent versions of RStudio switched to use these new `readr` data import tools, so we will use them here. They are also up to two times faster for reading in large datasets, and have a progress bar which is nice.
+
+
+## Data Input: `readr`
+
+`read_table()` from the`readr` package, allows any number of whitespace characters between columns, and the lines can be of different lengths.
+
+```{r eval=FALSE}
+# example:
+read_table(file = "file.txt")
+```
+
+
+## Clean the data while you read it in!
+
+Some data have different values for `NA`. Maybe we need to correct the data   
+
+```{r}
+vacc <- 
+  read_csv("https://sisbid.github.io/Data-Wrangling/data/vaccinations_1.csv")
+vacc_na <- 
+  read_csv("https://sisbid.github.io/Data-Wrangling/data/vaccinations_1.csv",
+           na = '"NaN"')
+vacc[1:3,1:4]
+vacc_na[1:3,1:4]
+```
+
+
+## Clean the data while you read it in!
+
+The argument `trim_ws` removes trailing and leading spaces around your data.
+
+```{r eval=FALSE}
+# example:
+read_csv(file = "file.txt", trim_ws = TRUE)
+```
+
+
+## Data Input - working directories
+
+What if your file is in the "Home" directory?
+
+```{r, out.width="80%", echo=FALSE, fig.alt='.'}
+ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_121")
+```
+
+## Data Input
+
+Backtrack using the relative path with `../` like:
+
+```{r, eval = FALSE}
+ufo <- read_csv("../ufo_data_complete.csv.gz")
+```
+
+## Data Input
+
+Or, read in from a subfolder:
+
+```{r, eval=FALSE}
+ufo <- read_csv("data/ufo/ufo_data_complete.csv")
+```
+
+```{r, echo=FALSE}
+ufo <- read_csv("../data/ufo/ufo_data_complete.csv")
+```
+
+
+# Check the data + other formats
+
+## Check the data out
+
+- Some functions to look at a data frame:
+  - `head()` shows first few rows
+  - `tail()` shows the last few rows
+  - `View()` shows the data as a spreadsheet
+  - `spec()` gives specification of column types
+  - `str()` gives the column types and specs
+  - `glimpse()` similar to `str` (dplyr package)
+
+
 ## What did I just read in?
 
 * `nrow()` displays the number of rows of a data frame
@@ -29,6 +166,7 @@ ncol(ufo)
 dim(ufo)
 ```
 
+
 ## All Column Names
 
 * `colnames()` displays the column names 
@@ -37,11 +175,13 @@ dim(ufo)
 colnames(ufo)
 ```
 
+
 ## Structure using `str()`
 
 ```{r, str}
 str(ufo)
 ```
+
 
 ## Data Input
 
@@ -57,24 +197,63 @@ dim(problems(ufo))
 ```
 
 
-# After hours of cleaning...
+## Data input: other file types
 
-## More ways to save: write_rds
+* For reading Excel files, you can do one of:
+  - use `read_excel()` function from `readxl` package
+  - use other packages: `xlsx`, `openxlsx`
+
+* `haven` package has functions to read SAS, SPSS, Stata formats
+
+
+## Selecting Excel sheets
+
+Use the `sheet` argument to indicate which sheet to pull from. It can refer to the sheet's index or name.
+
+```{r eval=FALSE}
+# example:
+read_excel(file = "file.xlsx", sheet = 2)
+read_excel(file = "file.xlsx", sheet = "data")
+```
+
+
+# After hours of cleaning... output!
+
+## Data Output
+
+While its nice to be able to read in a variety of data formats, it's equally important to be able to output data somewhere.
+
+`write_delim()`: Write a data frame to a delimited file
+`write_csv()`:  Write a data frame to a comma-delimited file
+
+**This is about twice as fast as `write.csv()`, and never writes row names.**
+
+
+## Data Output
+
+For example, we can write back out just the first 100 lines of the `ufo` dataset:
+
+```{r writecsv}
+first_100 <- ufo[1:100,]
+write_delim(first_100, file = "ufo_first100.csv", delim = ",")
+write_csv(first_100, file = "ufo_first100.csv")
+```
+
+
+## More ways to save: `write_rds`
 
 If you want to save **one** object, you can use `readr::write_rds` to save to a compressed `rds` file:
 
-```{r}
+```{r eval=FALSE}
 write_rds(ufo, file = "ufo_dataset.rds", compress = "xz")
 ```
 
-## More ways to save: `read_rds`
+Read it back in: 
 
-To read this back in to R, you need to use `read_rds`, but **need to assign it**:
-
-```{r}
-ufo3 <- read_rds(file = "ufo_dataset.rds")
-identical(ufo, ufo3) # test if they are the same 
+```{r eval=FALSE}
+ufo_new <- read_rds(file = "ufo_dataset.rds")
 ```
+
 
 ## More ways to save: `save`
 
@@ -85,43 +264,21 @@ x = 5
 save(ufo, x, file = "ufo_data.rda")
 ```
 
-## More ways to save: load
-
-The opposite of `save` is `load`.  The `ls()` command lists the items in the workspace/environment and `rm()` removes them
+The opposite of `save` is `load`.
 
 ```{r, eval = FALSE}
 load(file = "ufo_data.rda")
 ```
 
-## Data Output
 
-While its nice to be able to read in a variety of data formats, it's equally important to be able to output data somewhere.
+## Summary & Lab
 
-`write_delim()`: Write a data frame to a delimited file
-"This is about twice as fast as write.csv(), and never writes row names."
+- Use `read_delim()`, `read_csv()`, `read_table()` for common data types
+- These have helpful `trim_ws` and `na` arguments!
+- `read_excel()` has the `sheet` argument for reading from different sheets of the Excel file
+- Many functions like `str()`, `View()`, and `glimpse()` can help you understand your data better
+- Save your data with `write_delim()` and `write_csv()`
 
-## Data Output
+https://sisbid.github.io/Data-Wrangling/labs/data-io-lab-part2.Rmd
 
-`x`: A data frame to write to disk
 
-`file`: the file name where you want to R object written. It can be an absolute path, or a filename (which writes the file to your working directory)
-
-`delim`: what character separates the columns?  
-  
-  * `","` = .csv - Note there is also a `write_csv()` function
-  * `"\t"` = tab delimited
-
-## Data Output
-
-For example, we can write back out just the first 100 lines of the `ufo` dataset:
-
-```{r writecsv}
-write_delim(ufo[1:100,], file = "ufo_first100.csv", delim = ",")
-```
-
-```{r, include = FALSE}
-file.remove("ufo_dataset.rds")
-file.remove("ufo_data.RData")
-file.remove("ufo_data.rda")
-file.remove("ufo_first100.csv")
-```

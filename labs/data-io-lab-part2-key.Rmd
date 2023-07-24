@@ -1,35 +1,62 @@
 ---
-title: "Data I/O Lab, Part 1"
+title: "Data I/O Lab, Part 2"
 output: html_document
 ---
 
 In this lab you can use the interactive console to explore but please record your commands here.  Remember anything you type here can be "sent" to the console with Cmd-Enter (OS-X) or Cntr-Enter (Windows/Linux) (But only in side the ```{r}``` areas).
 
 ```{r, message = FALSE}
-library(dplyr)
 library(tidyverse)
-library(naniar)
-library(visdat)
+library(readxl)
 ```
 
 
-1. Read in the the Charm City Circulator Dataset from "http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv" using `read_csv`, call it `circ`
+1. Read in the the Charm City Circulator Dataset from "https://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv" using `read_csv`, call it `circ`
+
 ```{r}
-circ <- read_csv("http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv")
+circ <- read_csv("https://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv")
 ```
 
-2. Print the number of rows of `circ`
+2. Use a few functions to check out the data (e.g., `str()`, `head()`, `glimpse()` etc.).
+
 ```{r}
+str(circ)
+head(circ)
+glimpse(circ)
 nrow(circ)
 ```
 
-3. Write out `circ` to a file called "Circulator.csv" using `write_csv`:
+3. Write out `circ` to a file called "Circulator.csv" using `write_csv`.
+
 ```{r}
 write_csv(circ, "Circulator.csv")
 ```
 
-4. Write out `circ` to a file called "Circulator.rds" using `write_rds`:
+4. Write out `circ` to a file called "Circulator.rds" using `write_rds`.
 
 ```{r}
 write_rds(circ, "Circulator.rds")
+```
+
+5. Read in the `https://sisbid.github.io/Data-Wrangling/data/iris_q5.csv` dataset into the `iris_q5` R object. Some entries read "-999" but are supposed to be missing (the value `NA` in the data).
+
+```{r}
+iris_q5 <- 
+  read_csv("https://sisbid.github.io/Data-Wrangling/data/iris/iris_q5.csv",
+           na = "-999")
+```
+
+6. Read in sheet 1 of the `iris_q6.xlsx` dataset into the `iris_q6_1` R object. How many rows are in the dataset?
+
+```{r}
+curl::curl_download("https://sisbid.github.io/Data-Wrangling/data/iris/iris_q6.xlsx", "iris_q6.xlsx")
+iris_q6_1 <- read_excel("iris_q6.xlsx", sheet= 1)
+dim(iris_q6_1)
+```
+
+7. Read in sheet 2 of the `iris_q6.xlsx` dataset into the `iris_q6_2` R object. How many rows are in the dataset?
+
+```{r}
+iris_q6_2 <- read_excel("iris_q6.xlsx", sheet= 2)
+dim(iris_q6_2)
 ```

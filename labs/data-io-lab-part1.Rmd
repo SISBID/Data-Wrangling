@@ -8,41 +8,35 @@ library(readr)
 library(readxl)
 ```
 
-This lab uses different versions of the `iris` dataset.  For each question, click the `iris` file in the Files pane to open it in an RStudio window. The file is in the data -> iris folder.
+This lab uses different versions of the `iris` dataset. You can use links or download them to your machine. Copy the code produced by the dropdown menu into the code chunk.
 
 You can see more about this dataset by running `?iris` in the console.
 
-1. Read in the `iris_q1.csv` dataset into the `iris_q1` R object. What delimiter separates columns?
+1. Read in the `https://sisbid.github.io/Data-Wrangling/data/iris/iris_q1.csv` dataset into the `iris_q1` R object. What delimiter separates columns?
 
 ```{r}
 
 ```
 
-2. Read in the `iris_q2.tsv` dataset into the `iris_q2` R object. What delimiter separates columns?
+2. Read in the `https://sisbid.github.io/Data-Wrangling/data/iris/iris_q2.tsv` dataset into the `iris_q2` R object. What delimiter separates columns?
 
 ```{r}
 
 ```
 
-3. Read in the `iris_q3.txt` dataset into the `iris_q3` R object. What delimiter separates columns?
+3. Read in the `https://sisbid.github.io/Data-Wrangling/data/iris/iris_q3.txt` dataset into the `iris_q3` R object. What delimiter separates columns?
 
 ```{r}
 
 ```
 
-4. Read in the `iris_q4.csv` dataset into the `iris_q4` R object. What delimiter separates columns? [hint: file extension is ambiguous]
+4. Read in the `https://sisbid.github.io/Data-Wrangling/data/iris/iris_q4.csv` dataset into the `iris_q4` R object. What delimiter separates columns? [hint: file extension is ambiguous]
 
 ```{r}
 
 ```
 
-5. Read in the `iris_q5.csv` dataset into the `iris_q5` R object. Some entries read "-999" but are supposed to be missing (the value `NA` in the data).
-
-```{r}
-
-```
-
-6. Read in sheet 2 of the `iris_q6.xlsx` dataset into the `iris_q6` R object. How many rows are in the dataset?
+5. Read in the `https://sisbid.github.io/Data-Wrangling/data/iris/iris_xl.xlsx` dataset into the `iris_xl` R object. 
 
 ```{r}
 
