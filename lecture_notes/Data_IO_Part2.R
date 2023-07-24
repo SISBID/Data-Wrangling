@@ -8,14 +8,18 @@ ufo <-read_csv("../data/ufo/ufo_data_complete.csv")
 
 
 ## ----eval=FALSE------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-## # example:
+## # example for character delimited:
 ## read_delim(file = "file.txt", delim = "\t")
+## # comma delimited:
 ## read_csv("file.csv")
 
 
 ## ----eval=FALSE------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## # From URL
-## ufo <- read_csv("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv")
+## ufo <- read_csv(
+##   "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv"
+## )
+## 
 ## # From your 'data-wrangling' directory
 ## ufo <- read_csv("ufo_data_complete.csv")
 
@@ -25,16 +29,21 @@ class(ufo)
 
 
 ## ----eval=FALSE------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-## # example:
+## # example for whitespace delimited :
 ## read_table(file = "file.txt")
 
 
-## --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-vacc <- 
-  read_csv("https://sisbid.github.io/Data-Wrangling/data/vaccinations_1.csv")
-vacc_na <- 
-  read_csv("https://sisbid.github.io/Data-Wrangling/data/vaccinations_1.csv",
-           na = '"NaN"')
+## ----message = FALSE-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+vacc <- read_csv(
+  "https://sisbid.github.io/Data-Wrangling/data/vaccinations_1.csv"
+)
+vacc_na <- read_csv(
+  "https://sisbid.github.io/Data-Wrangling/data/vaccinations_1.csv",
+  na = '"NaN"'
+)
+
+
+## ----message = FALSE-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 vacc[1:3,1:4]
 vacc_na[1:3,1:4]
 
