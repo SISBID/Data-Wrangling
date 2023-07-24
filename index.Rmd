@@ -68,7 +68,7 @@ Make sure you have a GitHub profile: https://github.com/
 | 12:20-12:35 | Break                                        |                       |                                      |
 | 12:35-1:25  | [Data Subsetting Part 1][22] ([PDF][23])            | [lab][24]             |       [lab key][25] / [lab key output][26]                               |
 | 1:25-1:40   | Break                                        |                       |                                      |
-| 1:40-2:30   | [Missing Data][x5]([PDF][x6])         | [lab][x7] | [lab key][x8]/[lab key output][x9]                                      |
+| 1:40-2:30   | [Missing Data][x5] ([PDF][x6])         | [lab][x7] | [lab key][x8]/[lab key output][x9]                                      |
 | **Day 2**   |                                              |                       |                                      |
 | 8:00-8:50   | [Data Subsetting Part 2][27] ([PDF][28])     | [lab][29]             | [lab key][30] / [lab key output][31]  |
 | 8:50-9:05   | Break                                        |                       |                                      |
