@@ -74,9 +74,9 @@ Make sure you have a GitHub profile: https://github.com/
 | 8:50-9:05   | Break                                        |                       |                                      |
 | 9:05-9:55   | [Data Summarization][32] ([PDF][33])     | [lab][34]            | [lab key][35] / [lab key output][36] |
 | 9:55-10:10  | Break                                        |                       |                                      |
-| 10:10-11:00 | [Data Cleaning][37] ([PDF][38])         | [lab][39]            | [lab key][40] / [lab key output][41]|
+| 10:10-11:00 | [Data Cleaning Part 1][37] ([PDF][38])         | [lab][39]            | [lab key][40] / [lab key output][41]|
 | 11:00-11:30 | Break                                        |                       |                                      |
-| 11:30-12:20 | [Data Cleaning][37] ([PDF][38])              | [lab][39]             | [lab key][40] / [lab key output][41] |
+| 11:30-12:20 | [Data Cleaning Part 2][X10] ([PDF][X11])              | [lab][39]             | [lab key][40] / [lab key output][41] |
 | 12:20-12:35 | Break                                        |                       |                                      |
 | 12:35-1:25  | [Data Reshaping][42] ([PDF][43])             | [lab][44]             | [lab key][45] / [lab key output][46] |
 | 1:25-1:40   | Break                                        |                       |                                      |
@@ -93,8 +93,8 @@ Make sure you have a GitHub profile: https://github.com/
 
 [x1]: lecture_notes/Setup.html
 [x2]: lecture_notes/Setup.pdf
-[01]: https://docs.google.com/presentation/d/1aNFX9d0qLLfSW7nF4uOaE39D0ESlwenDg-1Ww9bDyJs/edit?usp=sharing
-[02]: lecture_notes/sisbid_intro_2022.pdf
+[01]: https://docs.google.com/presentation/d/1IpQGkwgbdisTnQ2zeBeKKf6ikl20GVsu49cKu4wN-5I/edit?usp=sharing
+[02]: lecture_notes/sisbid_intro_2023.pdf
 [03]: lecture_notes/Data_IO_Part1.html
 [04]: lecture_notes/Data_IO_Part1.pdf
 [05]: labs/data-io-lab-part1.Rmd
@@ -105,13 +105,13 @@ Make sure you have a GitHub profile: https://github.com/
 [10]: labs/data-io-lab-part1.Rmd
 [11]: labs/data-io-lab-part2-key.Rmd
 [12]: labs/data-io-lab-part2-key.html
-[13]: https://docs.google.com/presentation/d/1qorxqdmHxo1jzU0OlRrtRqFPF2k5auoZ-9L2pk_thSg/edit?usp=sharing
-[14]: lecture_notes/sisbid_rep_research_2022.pdf
+[13]: https://docs.google.com/presentation/d/1SqI4Pqg_-fmjA_Ecr6OoCmhw4bfDfTXF5DFnRLwbjvI/edit?usp=sharing
+[14]: lecture_notes/sisbid_rep_research_2023.pdf
 [15]: labs/rmarkdown-lab.Rmd
 [16]: labs/rmarkdown-lab-key.Rmd
 [17]: labs/rmarkdown-lab-key.html
-[18]: https://docs.google.com/presentation/d/1Adp5HpXIB73PMzd5OraMxLYi5UF6dtIAC9nnnexzWaY/edit?usp=sharing
-[19]: lecture_notes/sisbid_github_2022.pdf
+[18]: https://docs.google.com/presentation/d/1E0o-VNm_IatdpKX7pMjBTGdnMtf8iPVqEAd7PSaN0OM/edit?usp=sharing
+[19]: lecture_notes/sisbid_github_2023.pdf
 [20]: https://lab.github.com/githubtraining/introduction-to-github
 [21]: labs/github-lab.md
 [x5]: lecture_notes/Data_Missing.html
@@ -142,6 +142,8 @@ Make sure you have a GitHub profile: https://github.com/
 [39]: labs/data-cleaning-lab.Rmd
 [40]: labs/data-cleaning-lab-key.Rmd
 [41]: labs/data-cleaning-lab-key.html
+[x10]:lecture_notes/Data_Cleaning_Part2.html
+[x11]:lecture_notes/Data_Cleaning_Part2.pdf
 [42]: lecture_notes/Data_Reshaping.html
 [43]: lecture_notes/Data_Reshaping.pdf
 [44]: labs/data-reshaping-lab.Rmd
@@ -165,7 +167,7 @@ Make sure you have a GitHub profile: https://github.com/
 [61]: labs/functional-program-lab-key.html
 [62]: lecture_notes/Bioconductor_intro.html
 [63]: lecture_notes/Bioconductor_intro.pdf
-[64]: https://docs.google.com/presentation/d/11O06195n5LQJPqKQgf1L-zXnk7LwlK66Tc-qQFLNTjU/edit?usp=sharing
+[64]: https://docs.google.com/presentation/d/18UA0WLDVasiSijFyRJZ3T3GWl8eokv4GBxMzQKy8sjk/edit?usp=sharing
 [65]: lecture_notes/sisbid_wrap_up_2022.pdf
 
 **Miscellaneous**

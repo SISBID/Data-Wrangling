@@ -4,129 +4,166 @@ library(tidyverse)
 
 
 ## -----------------------------------------------------------------------------
-x = c(0, NA, 2, 3, 4)
-x > 2
-
-
-## -----------------------------------------------------------------------------
-x
-!is.na(x)
-x > 2 & !is.na(x)
-
-
-## -----------------------------------------------------------------------------
-x + 2
-x * 2
+library(tidyverse)
+glimpse(diamonds)
 
 
 ## ---- eval = FALSE------------------------------------------------------------
-## ufo = read_csv("../data/ufo/ufo_data_complete.csv", col_types =
-##                  cols(
-##                    .default = col_character(),
-##                    `duration (seconds)` = col_double(),
-##                    longitude = col_double()
-##                  ))
-## head(ufo)
-
-
-## ---- echo = FALSE, warning = FALSE-------------------------------------------
-ufo = read_csv("../data/ufo/ufo_data_complete.csv", col_types = 
-                 cols(
-                   .default = col_character(),
-                   `duration (seconds)` = col_double(),
-                   longitude = col_double()
-                 ))
-head(ufo)
+## # general format! not code!
+## {data you are creating or changing} <- rename({data you are using},
+##                                           {New Name} = {Old name})
 
 
 ## -----------------------------------------------------------------------------
-ufo %>% 
-  filter(is.na(state) | is.na(country)) %>% 
-  head()
+
+diamonds_2<- rename(diamonds, depth_percentage = depth)
+head(diamonds_2)
+
+
+## ---- eval = FALSE------------------------------------------------------------
+## rename(diamonds, depth percentage = depth)# this will cause an error
+
+
+## ---- eval = FALSE------------------------------------------------------------
+## rename(diamonds, depth_percentage = depth) # this will work
+
+
+## ---- eval = FALSE------------------------------------------------------------
+## rename(diamonds, `depth percentage` = depth) # this will work but not recommended
+
+
+## ---- fig.alt="dplyr", out.width = "14%", echo = FALSE, fig.align='center'----
+knitr::include_graphics("images/backtick_1.png")
+
+
+## ---- fig.align='center', echo = FALSE----------------------------------------
+include_graphics("https://media.giphy.com/media/6q29hxDKvJvPy/giphy.gif")
+
+
+## ---- eval = FALSE------------------------------------------------------------
+## rename(diamonds, ‘depth percentage’ = depth)# this will cause an error!
+
+
+## ---- eval = FALSE------------------------------------------------------------
+## rename(diamonds, 'depth percentage' = depth) # this will work!
+
+
+## ---- eval = FALSE------------------------------------------------------------
+## rename(diamonds, “depth percentage” = depth)# this will cause an error!
+
+
+## ---- eval = FALSE------------------------------------------------------------
+## rename(diamonds, "depth percentage" = depth) # this will work!
 
 
 ## -----------------------------------------------------------------------------
-ufo %>% 
-  filter( 
-    (!is.na(state) & is.na(country)) | city == "seattle") %>% 
-  head()
+diamonds_upper <- rename_with(diamonds, toupper)
+head(diamonds_upper, 3)
 
 
 ## -----------------------------------------------------------------------------
-ufo = ufo %>% rename(City = city, duration_s = `duration (seconds)`)
-head(ufo)
+rename_with(diamonds_upper, tolower) %>% head(n = 3)
 
 
 ## -----------------------------------------------------------------------------
-ufo_upper = ufo %>% rename_all(toupper)
-head(ufo_upper)
+head(diamonds, 2)
+diamonds %>% select(where(is.numeric)) %>% head(n = 2)
 
-
-## -----------------------------------------------------------------------------
-ufo %>% select(state) %>% head(3)
-ufo2 = ufo %>% mutate(State = toupper(state)) # we renamed city
-ufo2 %>% select(State) %>% head(3)
-
-
-## ----codeNA-------------------------------------------------------------------
-ages = data.frame(age = c(23,-999,21,44,32,57,65,54))
-range(ages$age)
 
 
 ## -----------------------------------------------------------------------------
-pull(ages, age)
-ages = ages %>% mutate(over_20 = ifelse(age > 30, "Yes", "No"))
-ages
+head(diamonds, 2)
+diamonds %>% select(where(is.ordered)) %>% head(n = 2)
 
-
-## ----codeNA2------------------------------------------------------------------
-pull(ages, age)
-ages = ages %>% mutate(age = ifelse(age == -999, NA, age))
-range(ages$age)
-range(ages$age, na.rm=TRUE)
-pull(ages, age)
 
 
 ## -----------------------------------------------------------------------------
-ufo = ufo %>% mutate( 
-              region = ifelse(
-              country %in% c("us", "ca"),
-              "North America",
-              "Not North America")
-            )
-ufo %>% select(country, region) %>% head()
+distinct(diamonds, cut)
+
+distinct(diamonds, cut, color)
+
+
+## ---- eval = FALSE------------------------------------------------------------
+## # General format - Not the code!
+## {data object to update} <- mutate({data to use},
+##                            {new variable name} = {new variable source})
 
 
 ## -----------------------------------------------------------------------------
-ufo = ufo %>% mutate( 
-            region = case_when(
-              country %in% c("us", "ca") ~ "North America",
-              country %in% c("de") ~ "Europe",
-              country %in% "gb" ~ "Great Britain"
-            ))
-
-ufo %>% select(country, region) %>% head()
+mutate(diamonds, price_can = price * 1.32) %>% glimpse()
 
 
-## -----------------------------------------------------------------------------
-ufo = ufo %>% mutate( 
-            region = case_when(
-              country %in% c("us", "ca") ~ "North America",
-              country %in% c("de") ~ "Europe",
-              country %in% "gb" ~ "Great Britain",
-              TRUE ~ "Other"
-            ))
-ufo %>% select(country, region) %>% head()
+
+## ---- eval = FALSE------------------------------------------------------------
+## # General format - Not the code!
+## {data object to update} <- mutate({data to use},
+##                            {variable name to change} = {variable modification})
 
 
 ## -----------------------------------------------------------------------------
-ufo %>% arrange(duration_s)
+mutate(diamonds, price = price * 1.32) %>% glimpse()
 
 
 ## -----------------------------------------------------------------------------
-ufo %>% arrange(desc(duration_s))
+diamonds %>% mutate(price = price * 1.32) %>% glimpse()
+
+
+## ---- eval = FALSE------------------------------------------------------------
+## diamonds <- diamonds %>% mutate(price = price * 1.32) %>% glimpse()
+
+
+## ---- eval = FALSE------------------------------------------------------------
+## select(diamonds, - price)
+
+
+## ---- echo = FALSE------------------------------------------------------------
+glimpse(select(diamonds, - price))
 
 
 ## -----------------------------------------------------------------------------
-ufo %>% arrange(country, desc(duration_s))
+select(diamonds, -c("x", "y", "z")) %>% glimpse()
+
+
+## -----------------------------------------------------------------------------
+head(diamonds, 2)
+diamonds %>% select(price, depth, carat, cut, color) %>% glimpse()
+
+
+## -----------------------------------------------------------------------------
+diamonds %>% select(price, everything()) %>% glimpse()
+
+
+## -----------------------------------------------------------------------------
+diamonds %>% select(-price, everything(), newcol) %>% glimpse()
+
+
+## -----------------------------------------------------------------------------
+
+diamonds %>% relocate( price, .before = carat) %>% glimpse()
+
+
+
+## -----------------------------------------------------------------------------
+order(colnames(diamonds))
+diamonds %>% select(order(colnames(diamonds)))
+
+
+## -----------------------------------------------------------------------------
+arrange(diamonds, cut)
+
+
+## -----------------------------------------------------------------------------
+arrange(diamonds, desc(price))
+
+
+## -----------------------------------------------------------------------------
+arrange(diamonds, desc(carat), cut)
+
+
+## -----------------------------------------------------------------------------
+diamonds$price
+
+
+## ---- eval = FALSE------------------------------------------------------------
+## diamonds$price <- diamonds$price/2.2
 

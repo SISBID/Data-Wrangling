@@ -287,6 +287,48 @@ diamonds %>%
 
 This will result in an error because the table column is now gone after the `select()` function!
 
+# Fancier filtering
+
+## Combining tidyselect helpers with regular selection
+
+```{r}
+head(diamonds, 2)
+diamonds %>% select(price, starts_with("c"))
+```
+## Multiple tidyselect functions
+
+Follows OR logic.
+
+```{r}
+diamonds %>% select(starts_with("c"), ends_with("e"))
+
+```
+
+## Multiple patterns with tidyselect
+
+Need to combine the patterns with the `c()` function.
+
+```{r}
+diamonds %>% select(starts_with(c("c", "p")))
+
+```
+
+## Common error for filter or select
+
+If you try to filter or select for a column that does not exist it will not work:
+ 
+ - misspelled column name 
+ - column that was already removed 
+ 
+## Always good to check each step!
+
+Did the filter work the way you expected? Did the dimensions change?
+
+```{r, echo = FALSE, fig.align='center'}
+knitr::include_graphics("https://media.giphy.com/media/5b5OU7aUekfdSAER5I/giphy.gif")
+```
+https://media.giphy.com/media/5b5OU7aUekfdSAER5I/giphy.gif
+
 ## Lab
 
 [Link to Lab](http://sisbid.github.io/Data-Wrangling/labs/data-subsetting-lab-part1.Rmd)
