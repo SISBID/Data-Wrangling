@@ -313,6 +313,13 @@ diamonds %>% select(starts_with(c("c", "p")))
 
 ```
 
+## Common error for filter or select
+
+If you try to filter or select for a column that does not exist it will not work:
+ 
+ - misspelled column name 
+ - column that was already removed 
+ 
 ## Always good to check each step!
 
 Did the filter work the way you expected? Did the dimensions change?
