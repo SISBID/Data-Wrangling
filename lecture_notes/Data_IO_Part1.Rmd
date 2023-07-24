@@ -212,7 +212,7 @@ knitr::include_graphics("media/Data_Input_browse.png")
 ```
 
 
-## Example 2
+## Example 2: Delimiters
 
 -  `>` File
 -  `>` Import Dataset
@@ -222,11 +222,13 @@ knitr::include_graphics("media/Data_Input_browse.png")
 -  `>` click "Update" and "Import"
 
 
-## Example 3
+## Example 3: Excel
 
 ```{r}
 library(readxl)
 ```
+
+<br>
 
 -  `>` File
 -  `>` Import Dataset
@@ -248,7 +250,7 @@ Review the process: [`https://youtu.be/LEkNfJgpunQ`](https://youtu.be/LEkNfJgpun
 
 -  `>` File
 -  `>` Import Dataset
--  `>` From Text (`readr`)
+-  `>` From Text (`readr`) / From Excel
 -  `>` paste the url / browse
 -  `>` click "Update" and "Import"
 

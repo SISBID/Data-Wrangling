@@ -29,11 +29,12 @@ ufo <-read_csv("../data/ufo/ufo_data_complete.csv")
 
 ## Data Input: `readr`
 
-`read_delim()` and `read_csv()` from the`readr` package
+`read_delim()` and `read_csv()` from the `readr` package
 
 ```{r eval=FALSE}
-# example:
+# example for character delimited:
 read_delim(file = "file.txt", delim = "\t")
+# comma delimited:
 read_csv("file.csv")
 ```
 
@@ -47,11 +48,14 @@ read_csv("file.csv")
 
 ## Example
 
-https://sisbid.github.io/Data-Wrangling/data/
+https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv
 
 ```{r eval=FALSE}
 # From URL
-ufo <- read_csv("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv")
+ufo <- read_csv(
+  "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv"
+)
+
 # From your 'data-wrangling' directory
 ufo <- read_csv("ufo_data_complete.csv")
 ```
@@ -79,24 +83,32 @@ However, while many online resources use the base R tools, recent versions of RS
 
 ## Data Input: `readr`
 
-`read_table()` from the`readr` package, allows any number of whitespace characters between columns, and the lines can be of different lengths.
+`read_table()` from the `readr` package, allows any number of whitespace characters between columns, and the lines can be of different lengths.
 
 ```{r eval=FALSE}
-# example:
+# example for whitespace delimited :
 read_table(file = "file.txt")
 ```
 
 
 ## Clean the data while you read it in!
 
-Some data have different values for `NA`. Maybe we need to correct the data   
+Some data have different values for `NA`. We can account for that from the start!   
 
-```{r}
-vacc <- 
-  read_csv("https://sisbid.github.io/Data-Wrangling/data/vaccinations_1.csv")
-vacc_na <- 
-  read_csv("https://sisbid.github.io/Data-Wrangling/data/vaccinations_1.csv",
-           na = '"NaN"')
+```{r message = FALSE}
+vacc <- read_csv(
+  "https://sisbid.github.io/Data-Wrangling/data/vaccinations_1.csv"
+)
+vacc_na <- read_csv(
+  "https://sisbid.github.io/Data-Wrangling/data/vaccinations_1.csv",
+  na = '"NaN"'
+)
+```
+
+
+## Check out the difference {.codesmall}
+
+```{r message = FALSE}
 vacc[1:3,1:4]
 vacc_na[1:3,1:4]
 ```
