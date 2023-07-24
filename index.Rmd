@@ -114,11 +114,11 @@ Make sure you have a GitHub profile: https://github.com/
 [19]: lecture_notes/sisbid_github_2022.pdf
 [20]: https://lab.github.com/githubtraining/introduction-to-github
 [21]: labs/github-lab.md
-[x5]:lecture_notes/Data_missing.html
-[x6]:lecture_notes/Data_missing.pdf
-[x7]:labs/missing-data-lab.Rmd
-[x8]:labs/missing-data-lab-key.Rmd
-[x9]:labs/missing-data-lab-key.html
+[x5]: lecture_notes/Data_Missing.html
+[x6]: lecture_notes/Data_Missing.pdf
+[x7]: labs/missing-data-lab.Rmd
+[x8]: labs/missing-data-lab-key.Rmd
+[x9]: labs/missing-data-lab-key.html
 
 [x3]: lecture_notes/Updating_files_with_github.html
 [x4]: lecture_notes/Updating_files_with_github.pdf
