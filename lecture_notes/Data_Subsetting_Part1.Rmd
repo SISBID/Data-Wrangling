@@ -313,6 +313,15 @@ diamonds %>% select(starts_with(c("c", "p")))
 
 ```
 
+## Always good to check each step!
+
+Did the filter work the way you expected? Did the dimensions change?
+
+```{r, echo = FALSE, fig.align='center'}
+knitr::include_graphics("https://media.giphy.com/media/5b5OU7aUekfdSAER5I/giphy.gif")
+```
+https://media.giphy.com/media/5b5OU7aUekfdSAER5I/giphy.gif
+
 ## Lab
 
 [Link to Lab](http://sisbid.github.io/Data-Wrangling/labs/data-subsetting-lab-part1.Rmd)
