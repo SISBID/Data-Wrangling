@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Missing Data</title>
+  <title>Data Cleaning Part 2</title>
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
@@ -19,7 +19,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'Missing Data',
+                title: 'Data Cleaning Part 2',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -3246,842 +3246,449 @@ font-size: 16px;
           </hgroup>
   </slide>
 
-<slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Dealing with Missing Data</h2></hgroup><article  id="dealing-with-missing-data">
+<slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Data Cleaning Part 2</h2></hgroup><article  id="data-cleaning-part-2">
 
-</article></slide><slide class=""><hgroup><h2>Missing data types</h2></hgroup><article  id="missing-data-types">
+</article></slide><slide class=""><hgroup><h2>Reading in again</h2></hgroup><article  id="reading-in-again">
 
-<p>One of the most important aspects of data cleaning is missing values.</p>
+<p>Now we have a chance to keep but clean these values!</p>
 
-<p>Types of &ldquo;missing&rdquo; data:</p>
+<pre class = 'prettyprint lang-r'>ufo &lt;- read_delim(&quot;../data/ufo/ufo_data_complete.txt&quot;, 
+                  col_types = cols(&quot;duration (seconds)&quot; = col_character()))</pre>
+
+<pre >New names:
+• `` -&gt; `...12`</pre>
+
+<pre class = 'prettyprint lang-r'>ufo %&gt;% glimpse()</pre>
+
+<pre >Rows: 88,875
+Columns: 12
+$ datetime               [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;10/10/1949 20:30&quot;, &quot;10/10/1949 21:00&quot;, &quot;10/10/1955 17:00&quot;, &quot;10/…
+$ city                   [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;san marcos&quot;, &quot;lackland afb&quot;, &quot;chester (uk/england)&quot;, &quot;edna&quot;, &quot;k…
+$ state                  [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;tx&quot;, &quot;tx&quot;, NA, &quot;tx&quot;, &quot;hi&quot;, &quot;tn&quot;, NA, &quot;ct&quot;, &quot;al&quot;, &quot;fl&quot;, &quot;ca&quot;, &quot;n…
+$ country                [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;us&quot;, NA, &quot;gb&quot;, &quot;us&quot;, &quot;us&quot;, &quot;us&quot;, &quot;gb&quot;, &quot;us&quot;, &quot;us&quot;, &quot;us&quot;, &quot;us&quot;, …
+$ shape                  [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;cylinder&quot;, &quot;light&quot;, &quot;circle&quot;, &quot;circle&quot;, &quot;light&quot;, &quot;sphere&quot;, &quot;cir…
+$ `duration (seconds)`   [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;2700&quot;, &quot;7200&quot;, &quot;20&quot;, &quot;20&quot;, &quot;900&quot;, &quot;300&quot;, &quot;180&quot;, &quot;1200&quot;, &quot;180&quot;, …
+$ `duration (hours/min)` [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;45 minutes&quot;, &quot;1-2 hrs&quot;, &quot;20 seconds&quot;, &quot;1/2 hour&quot;, &quot;15 minutes&quot;,…
+$ comments               [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;This event took place in early fall around 1949-50. It occurred…
+$ `date posted`          [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;4/27/2004&quot;, &quot;12/16/2005&quot;, &quot;1/21/2008&quot;, &quot;1/17/2004&quot;, &quot;1/22/2004&quot;…
+$ latitude               [3m[38;5;246m&lt;chr&gt;[39m[23m &quot;29.8830556&quot;, &quot;29.38421&quot;, &quot;53.2&quot;, &quot;28.9783333&quot;, &quot;21.4180556&quot;, &quot;3…
+$ longitude              [3m[38;5;246m&lt;dbl&gt;[39m[23m -97.941111, -98.581082, -2.916667, -96.645833, -157.803611, -82.…
+$ ...12                  [3m[38;5;246m&lt;dbl&gt;[39m[23m NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …</pre>
+
+</article></slide><slide class=""><hgroup><h2>Clean names with the <code>clean_names()</code> function from the <code>janitor</code> package</h2></hgroup><article  id="clean-names-with-the-clean_names-function-from-the-janitor-package">
+
+<pre class = 'prettyprint lang-r'>colnames(ufo)</pre>
+
+<pre > [1] &quot;datetime&quot;             &quot;city&quot;                 &quot;state&quot;                &quot;country&quot;             
+ [5] &quot;shape&quot;                &quot;duration (seconds)&quot;   &quot;duration (hours/min)&quot; &quot;comments&quot;            
+ [9] &quot;date posted&quot;          &quot;latitude&quot;             &quot;longitude&quot;            &quot;...12&quot;               </pre>
+
+<pre class = 'prettyprint lang-r'>ufo = clean_names(ufo)
+colnames(ufo)</pre>
+
+<pre > [1] &quot;datetime&quot;           &quot;city&quot;               &quot;state&quot;              &quot;country&quot;           
+ [5] &quot;shape&quot;              &quot;duration_seconds&quot;   &quot;duration_hours_min&quot; &quot;comments&quot;          
+ [9] &quot;date_posted&quot;        &quot;latitude&quot;           &quot;longitude&quot;          &quot;x12&quot;               </pre>
+
+</article></slide><slide class=""><hgroup><h2>The <code>stringr</code> package</h2></hgroup><article  id="the-stringr-package">
+
+<p>Like <code>dplyr</code>, the <code>stringr</code> package:</p>
 
 <ul>
-<li><code>NA</code> - general missing data</li>
-<li><code>NaN</code> - stands for &ldquo;<strong>N</strong>ot <strong>a</strong> <strong>N</strong>umber&rdquo;, happens when you do 0/0.</li>
-<li><code>Inf</code> and <code>-Inf</code> - Infinity, happens when you take a positive number (or negative number) by 0.</li>
+<li>Makes some things more intuitive</li>
+<li>Is different than base R</li>
+<li>Is used on forums for answers</li>
+<li>Has a standard format for most functions: <code>str_</code>
+
+<ul>
+<li>the first argument is a string like first argument is a <code>data.frame</code> in <code>dplyr</code></li>
+</ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Missing Data with Logicals</h2></hgroup><article  id="missing-data-with-logicals">
+</article></slide><slide class=""><hgroup><h2>str_remove</h2></hgroup><article  id="str_remove">
 
-<p>Logical operations return <code>NA</code> for <code>NA</code> values. Think about it, the data could be <code>&gt; 2</code> or not we don’t know, so <code>R</code> says there is no <code>TRUE</code> or <code>FALSE</code>, so that is missing:</p>
+<p>Now let’s fix our ufo data and remove those pesky backticks in the <code>duration_seconds</code> variable.</p>
 
-<pre class = 'prettyprint lang-r'>x = c(0, NA, 2, 3, 4)
-x &gt; 2</pre>
+<pre class = 'prettyprint lang-r'>ufo &lt;- ufo %&gt;% mutate(duration_seconds = str_remove(string = duration_seconds,
+                                             pattern = &quot;`&quot;))
+ufo &lt;- ufo %&gt;% mutate(duration_seconds = as.numeric(duration_seconds))
+ufo[(ufo$row-1),]</pre>
 
-<pre >[1] FALSE    NA FALSE  TRUE  TRUE</pre>
+<pre >Warning: Unknown or uninitialised column: `row`.</pre>
 
-</article></slide><slide class=""><hgroup><h2>Missing Data with Operations</h2></hgroup><article  id="missing-data-with-operations">
+<pre ># A tibble: 0 × 12
+# ℹ 12 variables: datetime &lt;chr&gt;, city &lt;chr&gt;, state &lt;chr&gt;, country &lt;chr&gt;, shape &lt;chr&gt;,
+#   duration_seconds &lt;dbl&gt;, duration_hours_min &lt;chr&gt;, comments &lt;chr&gt;, date_posted &lt;chr&gt;,
+#   latitude &lt;chr&gt;, longitude &lt;dbl&gt;, x12 &lt;dbl&gt;</pre>
 
-<p>Similarly with logicals, operations/arithmetic with <code>NA</code> will result in <code>NA</code>s:</p>
+</article></slide><slide class=""><hgroup><h2>Paste can add things back to variables</h2></hgroup><article  id="paste-can-add-things-back-to-variables">
 
-<pre class = 'prettyprint lang-r'>x + 2</pre>
+<pre class = 'prettyprint lang-r'>head(Orange)</pre>
 
-<pre >[1]  2 NA  4  5  6</pre>
+<pre >  Tree  age circumference
+1    1  118            30
+2    1  484            58
+3    1  664            87
+4    1 1004           115
+5    1 1231           120
+6    1 1372           142</pre>
 
-<pre class = 'prettyprint lang-r'>x * 2</pre>
+<pre class = 'prettyprint lang-r'>Orange %&gt;% mutate(Tree = paste(Tree, &quot;Tree&quot;, sep = &quot;_&quot;))</pre>
 
-<pre >[1]  0 NA  4  6  8</pre>
+<pre >     Tree  age circumference
+1  1_Tree  118            30
+2  1_Tree  484            58
+3  1_Tree  664            87
+4  1_Tree 1004           115
+5  1_Tree 1231           120
+6  1_Tree 1372           142
+7  1_Tree 1582           145
+8  2_Tree  118            33
+9  2_Tree  484            69
+10 2_Tree  664           111
+11 2_Tree 1004           156
+12 2_Tree 1231           172
+13 2_Tree 1372           203
+14 2_Tree 1582           203
+15 3_Tree  118            30
+16 3_Tree  484            51
+17 3_Tree  664            75
+18 3_Tree 1004           108
+19 3_Tree 1231           115
+20 3_Tree 1372           139
+21 3_Tree 1582           140
+22 4_Tree  118            32
+23 4_Tree  484            62
+24 4_Tree  664           112
+25 4_Tree 1004           167
+26 4_Tree 1231           179
+27 4_Tree 1372           209
+28 4_Tree 1582           214
+29 5_Tree  118            30
+30 5_Tree  484            49
+31 5_Tree  664            81
+32 5_Tree 1004           125
+33 5_Tree 1231           142
+34 5_Tree 1372           174
+35 5_Tree 1582           177</pre>
 
-</article></slide><slide class=""><hgroup><h2>Missing Data Issues</h2></hgroup><article  id="missing-data-issues">
+</article></slide><slide class=""><hgroup><h2>Paste0 doesn’t need a separator</h2></hgroup><article  id="paste0-doesnt-need-a-separator">
 
-<p>Recall that mathematical operations with <code>NA</code> often result in <code>NA</code>s.</p>
+<pre class = 'prettyprint lang-r'>head(Orange)</pre>
 
-<pre class = 'prettyprint lang-r'>sum(c(1,2,3,NA))</pre>
+<pre >  Tree  age circumference
+1    1  118            30
+2    1  484            58
+3    1  664            87
+4    1 1004           115
+5    1 1231           120
+6    1 1372           142</pre>
 
-<pre >[1] NA</pre>
+<pre class = 'prettyprint lang-r'>Orange %&gt;% mutate(Tree = paste0(Tree, &quot;Tree&quot;))</pre>
 
-<pre class = 'prettyprint lang-r'>mean(c(1,2,3,NA))</pre>
+<pre >    Tree  age circumference
+1  1Tree  118            30
+2  1Tree  484            58
+3  1Tree  664            87
+4  1Tree 1004           115
+5  1Tree 1231           120
+6  1Tree 1372           142
+7  1Tree 1582           145
+8  2Tree  118            33
+9  2Tree  484            69
+10 2Tree  664           111
+11 2Tree 1004           156
+12 2Tree 1231           172
+13 2Tree 1372           203
+14 2Tree 1582           203
+15 3Tree  118            30
+16 3Tree  484            51
+17 3Tree  664            75
+18 3Tree 1004           108
+19 3Tree 1231           115
+20 3Tree 1372           139
+21 3Tree 1582           140
+22 4Tree  118            32
+23 4Tree  484            62
+24 4Tree  664           112
+25 4Tree 1004           167
+26 4Tree 1231           179
+27 4Tree 1372           209
+28 4Tree 1582           214
+29 5Tree  118            30
+30 5Tree  484            49
+31 5Tree  664            81
+32 5Tree 1004           125
+33 5Tree 1231           142
+34 5Tree 1372           174
+35 5Tree 1582           177</pre>
 
-<pre >[1] NA</pre>
+</article></slide><slide class=""><hgroup><h2>Substringing</h2></hgroup><article  id="substringing">
 
-<pre class = 'prettyprint lang-r'>median(c(1,2,3,NA))</pre>
-
-<pre >[1] NA</pre>
-
-</article></slide><slide class=""><hgroup><h2>Missing Data Issues</h2></hgroup><article  id="missing-data-issues-1">
-
-<p>Also true when we combine mathematical operations and logicals. Recall that <code>TRUE</code> is evaluated as 1 and <code>FALSE</code> is evaluated as 0.</p>
-
-<pre class = 'prettyprint lang-r'>x &lt;- c(TRUE, TRUE, TRUE, TRUE, FALSE, NA)
-sum(x)</pre>
-
-<pre >[1] NA</pre>
-
-<pre class = 'prettyprint lang-r'>sum(x, na.rm = TRUE)</pre>
-
-<pre >[1] 4</pre>
-
-</article></slide><slide class=""><hgroup><h2>Finding Missing data</h2></hgroup><article  id="finding-missing-data" class="small">
+<p><code>stringr</code></p>
 
 <ul>
-<li><code>is.na</code> - looks for <code>NAN</code> and <code>NA</code></li>
-<li><code>is.nan</code>- looks for <code>NAN</code></li>
-<li><code>is.infinite</code> - looks for Inf or -Inf</li>
+<li><code>str_sub(x, start, end)</code> - substrings from position start to position end</li>
+<li><code>str_split(string, pattern)</code> - splits strings up - returns list! [we’ll revisit in &ldquo;Functional Programming&rdquo;]</li>
 </ul>
 
-<pre class = 'prettyprint lang-r'>test &lt;- c(0,NA, -1)
-test/0</pre>
+</article></slide><slide class=""><hgroup><h2>Substringing</h2></hgroup><article  id="substringing-1">
 
-<pre >[1]  NaN   NA -Inf</pre>
+<p>Examples:</p>
 
-<pre class = 'prettyprint lang-r'>test &lt;- test/0
-is.na(test)</pre>
+<pre class = 'prettyprint lang-r'>str_sub(&quot;I like friesian horses&quot;, 8,12)</pre>
 
-<pre >[1]  TRUE  TRUE FALSE</pre>
+<pre >[1] &quot;fries&quot;</pre>
 
-<pre class = 'prettyprint lang-r'>is.nan(test)</pre>
+<pre class = 'prettyprint lang-r'>#123456789101112
+#I like fries
+str_sub(c(&quot;Site A&quot;, &quot;Site B&quot;, &quot;Site C&quot;), 6,6)</pre>
 
-<pre >[1]  TRUE FALSE FALSE</pre>
+<pre >[1] &quot;A&quot; &quot;B&quot; &quot;C&quot;</pre>
 
-<pre class = 'prettyprint lang-r'>is.infinite(test)</pre>
-
-<pre >[1] FALSE FALSE  TRUE</pre>
-
-</article></slide><slide class=""><hgroup><h2>Useful checking functions</h2></hgroup><article  id="useful-checking-functions" class="small">
-
-<p>Do we have any <code>NA</code>s? (<code>any</code> can help)</p>
-
-<pre class = 'prettyprint lang-r'>A &lt;- c(1, 2, 3, NA)
-B &lt;- c(1, 2, 3, 4)
-any(is.na(A)) # are there any NAs - YES/TRUE</pre>
-
-<pre >[1] TRUE</pre>
-
-<pre class = 'prettyprint lang-r'>any(is.na(B)) # are there any NAs- NO/FALSE</pre>
-
-<pre >[1] FALSE</pre>
-
-</article></slide><slide class=""><hgroup><h2>Useful checking functions</h2></hgroup><article  id="useful-checking-functions-1" class="small">
-
-<p>Are all the values <code>NA</code>? (<code>all</code> can help)</p>
-
-<pre class = 'prettyprint lang-r'>A &lt;- c(1, 2, 3, NA)
-B &lt;- c(1, 2, 3, 4)
-all(is.na(A)) # are there any NAs - YES/TRUE</pre>
-
-<pre >[1] FALSE</pre>
-
-<pre class = 'prettyprint lang-r'>all(is.na(B)) # are there any NAs- NO/FALSE</pre>
-
-<pre >[1] FALSE</pre>
-
-</article></slide><slide class=""><hgroup><h2>Finding <code>NA</code> values with <code class="codesmall">count()</code></h2></hgroup><article  id="finding-na-values-with-count">
-
-<div style="color: red;">
-<p>Check the values for your variables, are they what you expect?</p></div>
-
-<p><code>count()</code> is a great option because it gives you:</p>
-
-<ol>
-<li>The unique values</li>
-<li>The amount of these values</li>
-</ol>
-
-<p>Check if rare values make sense.</p>
-
-<pre class = 'prettyprint lang-r'>library(readr)
-bike &lt;-read_csv(&quot;https://sisbid.github.io/Data-Wrangling/labs/Bike_Lanes.csv&quot;)
-count(bike, subType)</pre>
-
-<pre ># A tibble: 4 × 2
-  subType     n
-  &lt;chr&gt;   &lt;int&gt;
-1 STCLN       1
-2 STRALY      3
-3 STRPRD   1623
-4 &lt;NA&gt;        4</pre>
-
-</article></slide><slide class=""><hgroup><h2><code>naniar</code></h2></hgroup><article  id="naniar">
-
-<p>Sometimes you need to look at lots of data though… the <a href='https://cran.r-project.org/web/packages/naniar/vignettes/getting-started-w-naniar.html' title=''><code>naniar</code> package</a> is a good option.</p>
-
-<pre class = 'prettyprint lang-r'>#install.packages(&quot;naniar&quot;)
-library(naniar)</pre>
-
-</article></slide><slide class=""><hgroup><h2>Air quality data</h2></hgroup><article  id="air-quality-data">
-
-<p>The <code>airquality</code> dataset comes with R about air quality in New York in 1973.</p>
-
-<pre class = 'prettyprint lang-r'>?airquality # use this to find out more about the data</pre>
-
-</article></slide><slide class=""><hgroup><h2>naniar: <code class="small">pct_complete()</code></h2></hgroup><article  id="naniar-pct_complete">
-
-<p>This can tell you if there are missing values in the dataset.</p>
-
-<pre class = 'prettyprint lang-r'>pct_complete(airquality)</pre>
-
-<pre >[1] 95.20697</pre>
-
-<p>Or for a particular variable:</p>
-
-<pre class = 'prettyprint lang-r'>airquality %&gt;% select(Ozone) %&gt;%
-pct_complete()</pre>
-
-<pre >[1] 75.81699</pre>
-
-</article></slide><slide class=""><hgroup><h2>naniar:<code>miss_var_summary()</code></h2></hgroup><article  id="naniarmiss_var_summary">
-
-<p>To get the percent missing (and counts) for each variable as a table, use this function.</p>
-
-<pre class = 'prettyprint lang-r'>miss_var_summary(airquality)</pre>
-
-<pre ># A tibble: 6 × 3
-  variable n_miss pct_miss
-  &lt;chr&gt;     &lt;int&gt;    &lt;dbl&gt;
-1 Ozone        37    24.2 
-2 Solar.R       7     4.58
-3 Wind          0     0   
-4 Temp          0     0   
-5 Month         0     0   
-6 Day           0     0   </pre>
-
-</article></slide><slide class=""><hgroup><h2><code>miss_case_summary</code> which rows have missing data in order</h2></hgroup><article  id="miss_case_summary-which-rows-have-missing-data-in-order">
-
-<pre class = 'prettyprint lang-r'>miss_case_summary(airquality)</pre>
-
-<pre ># A tibble: 153 × 3
-    case n_miss pct_miss
-   &lt;int&gt;  &lt;int&gt;    &lt;dbl&gt;
- 1     5      2     33.3
- 2    27      2     33.3
- 3     6      1     16.7
- 4    10      1     16.7
- 5    11      1     16.7
- 6    25      1     16.7
- 7    26      1     16.7
- 8    32      1     16.7
- 9    33      1     16.7
-10    34      1     16.7
-# ℹ 143 more rows</pre>
-
-</article></slide><slide class=""><hgroup><h2><code>naniar</code> plots</h2></hgroup><article  id="naniar-plots">
-
-<p>The <code>gg_miss_var()</code> function creates a nice plot about the number of missing values for each variable, (need a data frame).</p>
-
-<pre class = 'prettyprint lang-r'>gg_miss_var(airquality)</pre>
-
-<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABaAAAAMACAYAAADSbMAcAAAEDmlDQ1BrQ0dDb2xvclNwYWNlR2VuZXJpY1JHQgAAOI2NVV1oHFUUPpu5syskzoPUpqaSDv41lLRsUtGE2uj+ZbNt3CyTbLRBkMns3Z1pJjPj/KRpKT4UQRDBqOCT4P9bwSchaqvtiy2itFCiBIMo+ND6R6HSFwnruTOzu5O4a73L3PnmnO9+595z7t4LkLgsW5beJQIsGq4t5dPis8fmxMQ6dMF90A190C0rjpUqlSYBG+PCv9rt7yDG3tf2t/f/Z+uuUEcBiN2F2Kw4yiLiZQD+FcWyXYAEQfvICddi+AnEO2ycIOISw7UAVxieD/Cyz5mRMohfRSwoqoz+xNuIB+cj9loEB3Pw2448NaitKSLLRck2q5pOI9O9g/t/tkXda8Tbg0+PszB9FN8DuPaXKnKW4YcQn1Xk3HSIry5ps8UQ/2W5aQnxIwBdu7yFcgrxPsRjVXu8HOh0qao30cArp9SZZxDfg3h1wTzKxu5E/LUxX5wKdX5SnAzmDx4A4OIqLbB69yMesE1pKojLjVdoNsfyiPi45hZmAn3uLWdpOtfQOaVmikEs7ovj8hFWpz7EV6mel0L9Xy23FMYlPYZenAx0yDB1/PX6dledmQjikjkXCxqMJS9WtfFCyH9XtSekEF+2dH+P4tzITduTygGfv58a5VCTH5PtXD7EFZiNyUDBhHnsFTBgE0SQIA9pfFtgo6cKGuhooeilaKH41eDs38Ip+f4At1Rq/sjr6NEwQqb/I/DQqsLvaFUjvAx+eWirddAJZnAj1DFJL0mSg/gcIpPkMBkhoyCSJ8lTZIxk0TpKDjXHliJzZPO50dR5ASNSnzeLvIvod0HG/mdkmOC0z8VKnzcQ2M/Yz2vKldduXjp9bleLu0ZWn7vWc+l0JGcaai10yNrUnXLP/8Jf59ewX+c3Wgz+B34Df+vbVrc16zTMVgp9um9bxEfzPU5kPqUtVWxhs6OiWTVW+gIfywB9uXi7CGcGW/zk98k/kmvJ95IfJn/j3uQ+4c5zn3Kfcd+AyF3gLnJfcl9xH3OfR2rUee80a+6vo7EK5mmXUdyfQlrYLTwoZIU9wsPCZEtP6BWGhAlhL3p2N6sTjRdduwbHsG9kq32sgBepc+xurLPW4T9URpYGJ3ym4+8zA05u44QjST8ZIoVtu3qE7fWmdn5LPdqvgcZz8Ww8BWJ8X3w0PhQ/wnCDGd+LvlHs8dRy6bLLDuKMaZ20tZrqisPJ5ONiCq8yKhYM5cCgKOu66Lsc0aYOtZdo5QCwezI4wm9J/v0X23mlZXOfBjj8Jzv3WrY5D+CsA9D7aMs2gGfjve8ArD6mePZSeCfEYt8CONWDw8FXTxrPqx/r9Vt4biXeANh8vV7/+/16ffMD1N8AuKD/A/8leAvFY9bLAAAAOGVYSWZNTQAqAAAACAABh2kABAAAAAEAAAAaAAAAAAACoAIABAAAAAEAAAWgoAMABAAAAAEAAAMAAAAAAJZtt2wAAEAASURBVHgB7N0JvFVVvTjwH4Igo+BAYuEEOFsqivOQOGAOaTaYZVqaDZaWA2r61Ewze9nLyn/0Gsz0mSnOOaVGzigOKM/UcABnBFFQEJDhz2/XOe9euODles/lnHO/y8/h7LOHtdf6ru259/zuOr/dYcHCEgoBAgQIECBAgAABAgQIECBAgAABAgQIEGhlgRVauT7VESBAgAABAgQIECBAgAABAgQIECBAgACBQkAA2oVAgAABAgQIECBAgAABAgQIECBAgAABAhUREICuCKtKCRAgQIAAAQIECBAgQIAAAQIECBAgQEAA2jVAgAABAgQIECBAgAABAgQIECBAgAABAhUREICuCKtKCRAgQIAAAQIECBAgQIAAAQIECBAgQEAA2jVAgAABAgQIECBAgAABAgQIECBAgAABAhUREICuCKtKCRAgQIAAAQIECBAgQIAAAQIECBAgQEAA2jVAgAABAgQIECBAgAABAgQIECBAgAABAhUREICuCKtKCRAgQIAAAQIECBAgQIAAAQIECBAgQEAA2jVAgAABAgQIECBAgAABAgQIECBAgAABAhUREICuCKtKCRAgQIAAAQIECBAgQIAAAQIECBAgQEAA2jVAgAABAgQIECBAgAABAgQIECBAgAABAhUREICuCKtKCRAgQIAAAQIECBAgQIAAAQIECBAgQKATAgIEGgvMnz8/8pFlhRVWKB6N9/CKQGUE5s6d65qrDK1alyCQ11ypdOrkV4KShefKCixYsCDmzZsXHTt2jA4dOlT2ZGonsFCgdM0lRl5zee0pBNpCIN/r8vrzM7YttJ0jBXyWdR0sL4H8XOFn7PLSr43zmgFdG+OklW0o8M4778TkyZOLx5w5c9rwzE7V3gXyups5c2Z7Z9D/NhR48803y+93+QFZIdAWAvmzNd/vMjCjEGgLgbzWSr/bTZs2rS1O6RwECoH8XDF16lQaBNpM4N133y2/3+WyQqCtBPK9bsaMGW11OuepQQEB6BocNE0mQIAAAQIECBAgQIAAAQIECBAgQIBALQgIQNfCKGkjAQIECBAgQIAAAQIECBAgQIAAAQIEalBAALoGB02TCRAgQIAAAQIECBAgQIAAAQIECBAgUAsCAtC1MEraSIAAAQIECBAgQIAAAQIECBAgQIAAgRoUEICuwUHTZAIECBAgQIAAAQIECBAgQIAAAQIECNSCgAB0LYySNhIgQIAAAQIECBAgQIAAAQIECBAgQKAGBQSga3DQNJkAAQIECBAgQIAAAQIECBAgQIAAAQK1ICAAXQujpI0ECBAgQIAAAQIECBAgQIAAAQIECBCoQQEB6BocNE0mQIAAAQIECBAgQIAAAQIECBAgQIBALQgIQNfCKGkjAQIECBAgQIAAAQIECBAgQIAAAQIEalBAALoGB02TCRAgQIAAAQIECBAgQIAAAQIECBAgUAsCAtC1MEraSIAAAQIECBAgQIAAAQIECBAgQIAAgRoUEICuwUHTZAIECBAgQIAAAQIECBAgQIAAAQIECNSCgAB0LYySNhIgQIAAAQIECBAgQIAAAQIECBAgQKAGBQSga3DQNJkAAQIECBAgQIAAAQIECBAgQIAAAQK1ICAAXQujpI0ECBAgQIAAAQIECBAgQIAAAQIECBCoQQEB6BocNE0mQIAAAQIECBAgQIAAAQIECBAgQIBALQgIQNfCKGkjAQIECBAgQIAAAQIECBAgQIAAAQIEalBAALoGB02TCRAgQIAAAQIECBAgQIAAAQIECBAgUAsCAtC1MEraSIAAAQIECBAgQIAAAQIECBAgQIAAgRoUEICuwUHTZAIECBAgQIAAAQIECBAgQIAAAQIECNSCgAB0LYySNhIgQIAAAQIECBAgQIAAAQIECBAgQKAGBQSga3DQNJkAAQIECBAgQIAAAQIECBAgQIAAAQK1ICAAXQujpI0ECBAgQIAAAQIECBAgQIAAAQIECBCoQQEB6BocNE0mQIAAAQIECBAgQIAAAQIECBAgQIBALQgIQNfCKGkjAQIECBAgQIAAAQIECBAgQIAAAQIEalBAALoGB02TCRAgQIAAAQIECBAgQIAAAQIECBAgUAsCAtC1MEraSIAAAQIECBAgQIAAAQIECBAgQIAAgRoUEICuwUHTZAIECBAgQIAAAQIECBAgQIAAAQIECNSCgAB0LYySNhIgQIAAAQIECBAgQIAAAQIECBAgQKAGBQSga3DQNJkAAQIECBAgQIAAAQIECBAgQIAAAQK1ICAAXQujpI0ECBAgQIAAAQIECBAgQIAAAQIECBCoQQEB6BocNE0mQIAAAQIECBAgQIAAAQIECBAgQIBALQgIQNfCKGkjAQIECBAgQIAAAQIECBAgQIAAAQIEalBAALoGB02TCRAgQIAAAQIECBAgQIAAAQIECBAgUAsCAtC1MEraSIAAAQIECBAgQIAAAQIECBAgQIAAgRoUEICuwUHTZAIECBAgQIAAAQIECBAgQIAAAQIECNSCgAB0LYySNhIgQIAAAQIECBAgQIAAAQIECBAgQKAGBQSga3DQNJkAAQIECBAgQIAAAQIECBAgQIAAAQK1ICAAXQujpI0ECBAgQIAAAQIECBAgQIAAAQIECBCoQQEB6BocNE0mQIAAAQIECBAgQIAAAQIECBAgQIBALQgIQNfCKGkjAQIECBAgQIAAAQIECBAgQIAAAQIEalBAALoGB02TCRAgQIAAAQIECBAgQIAAAQIECBAgUAsCAtC1MEraSIAAAQIECBAgQIAAAQIECBAgQIAAgRoUEICuwUHTZAIECBAgQIAAAQIECBAgQIAAAQIECNSCgAB0LYySNhIgQIAAAQIECBAgQIAAAQIECBAgQKAGBQSga3DQNJkAAQIECBAgQIAAAQIECBAgQIAAAQK1ICAAXQujpI0ECBAgQIAAAQIECBAgQIAAAQIECBCoQQEB6BocNE0mQIAAAQIECBAgQIAAAQIECBAgQIBALQgIQNfCKGkjAQIECBAgQIAAAQIECBAgQIAAAQIEalBAALoGB02TCRAgQIAAAQIECBAgQIAAAQIECBAgUAsCAtC1MEraSIAAAQIECBAgQIAAAQIECBAgQIAAgRoUEICuwUHTZAIECBAgQIAAAQIECBAgQIAAAQIECNSCgAB0LYySNhIgQIAAAQIECBAgQIAAAQIECBAgQKAGBQSg/z1o8+fPj5kzZ9bgEGoyAQIECBAgQIAAAQIECBAgQIAAAQIEqlOgU3U2q21a9eSTT8YNN9wQzzzzTDz33HMxe/bs6NmzZwwYMCD233//2HXXXWPFFVdsm8Y4CwECBAgQIECAAAECBAgQIECAAAECBOpMoF0GoOfOnRt//OMfi8e8efOKIe3evXusuuqqMWnSpBg7dmzxyH3OPffc+MhHPlJnw647BAgQIECAAAECBAgQIECAAAECBAgQqLxAuwxADx8+PMaMGRMrrLBCHHzwwXHggQdGv379okOHDpHB6VGjRsWIESNiwoQJcdRRR8WvfvWrWHvttSs/Gs5AgAABAgQIECBAgAABAgQIECBAgEBVCzzxxPNx+21jYsLzr8bCgGKsu26/2HPPIbHhRuKHTQ1cuwtA33bbbUXwuXPnzvHzn/88Ntlkk0YunTp1ij322CMGDRoU3/jGN+Ltt9+Oc845pwhCd+zYsdG+XhAgQIAAAQIECBAgQIAAAQIECBAg0D4EZs2aHT88549x21/HNOrw6Pv/N/502W3xiU9sF8NP/mJ06SKlb0OgdhWAzpsMXnjhhUX/v/CFLywWfG4Is84668TZZ58dxx9/fGSu6L/97W9FYDpTdrzwwgsNd21yOQPZ/fv3X2zblClTipzTr7/+enz4wx8u8k337t17sf2mTZsWU6dOjdVWW63ISz1jxoyiHZkiJHNU52Np+akzcJ65rV988cVYc801i4D6yiuvvNh5rCBAgAABAgQIECBAgAABAgQIECBAYOkCc+fOixOPvzAeeuipJe540033x1vT3on//MnRReaFJe7Yzja0qwD0XXfdFW+88UZkwDcD0O9XBg8eHNtuu23ce++9cfvttxcB6OnTp8eXvvSl9zu0CPr++c9/Lu+XAeHf/OY3cd1118X8+fPL60tpQI444ojIWdmlcvPNNxfB8hNOOCFmzZpVLC9YsKC0uQhun3XWWTFw4MDyulzIAPkll1wSf/jDH4rl0sY8T7b7sMMOiwyOKwQIECBAgAABAgQIECBAgAABAgQINE/g2mvuWmrwuVTLffeOi7/ccF/s/8kdS6va/XO7ikTmbOAsGbTt0qVLswZ//fXXLwLQmTM6A8Bdu3aNww8/vNGxmTs603Nk8DdvXJjP22yzTXmfPO60006LRx55pLjR4Wc+85kigJw5pq+88sq47LLL4h//+EeREiTraliuuuqqeP7552Po0KGx+eabx+TJk+PWW28tZjafdNJJccUVVxTnLh1z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gAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQICEC7BggQIECAAAECBAgQIECAAAECBAgQIECgIgIC0BVhVSkBAgQIECBAgAABAgQIECBAgAABAgQI1H0Aevbs2UaZAAECBAgQIECAAAECBAgQIECAAAECBJaDQKflcM6KnnLBggVx9dVXx5gxY+KZZ56JSZMmxcorrxwDBgyIQYMGxcEHHxyrrbZaq7ThyCOPLOr5+c9/Ht26dWuVOpelktdeey1OO+20JR7SsWPHol2rr756bLnllrHXXntFhw4dlri/DQQIECBAgAABAgQIECBAgAABAgQIEGhNgboKQM+YMSPOPvvsuOeeewqjFVZYIfr06RO5/pFHHiket99+e5xzzjmxySabfGDHp59+uqhj3rx5H7iullQwZ86cKLXh/Y6/+eab47777otTTz01unTp8n67206AAAECBAgQIECAAAECBAgQIECAAIEPLFBXAegf/ehHRfB5nXXWiWOOOaaY9ZuzgLNMnDgxfvvb38bf//73+Na3vhUXX3xxrLXWWh8YsFoquPLKK6Nnz56NmvPee+/F5MmT46677orLLrssRo0aFV27do1TTjml0X5eECBAYHkJ3H/fuIXvTY/Eiy+8Hiuu2CkGDvpIDNt721h//f7Lq0nOS4AAAQIECBAgQIAAAQIECLSiQN0EoDPX8+jRo4sUEz/5yU/iQx/6UCOmtddeO77//e/HscceG2PHjo0777wzDj300Eb71PKL7t27Rz4WLb179y5Sj6y66qpx/vnnF7OgM02JVByLSnlNgEBbCkydOj3+47TfxCMP/+ubJKVzjxnzZPzpstviUwftGt897rPRqVPd/JgqddEzAQIECBAgQIAAAQIECBBoVwJ1cxPCf/7znzFr1qxiFvCScjxnSo599tmnGOAHHnigyYGeO3dukdbilltuidtuuy2ef/75yHUtKVOmTImHH344rr/++mLmdeakzlnJi5a33nqrOM/bb79dbM9A+v333x+ZYqO1yi677FJUled69tlnW6ta9RAgQGCZBWbOnBXfPvqniwWfG1Z09VV/j7N/cHHDVZYJECBAgAABAgQIECBAgACBGhSom6ll6623XmS6jenTpxcpJz7+8Y83ORy777577LrrrrHSSisttj0Dv3lDwRdffLHRtkzVkbmTN95440brl/Ti9ddfj/POOy8efPDBxXZZc801ixQYm2++eXnbDTfcEP/93/8dxx9/fGSu5n/84x/Ftpy9fNVVV0Xnzp3L+7Z04aWXXiofKgd0mcICAQLLQeCi398Yzz33yvue+dZbHoihu28VO+30sffd1w4ECBAgQIAAAQIECBAgQIBAdQrUTQA6009su+22ce+99xapNjKYnEHoDPQ2DDbn17mb+kr3o48+GieeeGIxSrvttltsv/32kakqMn/y3XffHd/4xjeKFBZbbbXVUkcyZzEffvjhkc957iFDhsSHP/zh4gaIeRPAV155JU477bQisLxoIPjPf/5zZKB43XXXjUwpssEGG7RK8DlvwviHP/yhaPfqq69etGepnVjKxjTJRz2Xd96ZGW+8Ma3o4pw5C9y0sZ4Hu8r6NmXKtHj33bnxzjuzq6xlrdecuXPnxdVX3dnsCkdeOSp22GGzZu9vx2UTaPh+Pn/+fOmZlo3P3i0UyGstSz6XlltYlcMINEug4XtdLrvumsVmp1YQyOvNNdcKkKpotoD3u2ZT2bGVBbzftTJolVaX6XxbmtK3bgLQOTaZ4zkfGTC+6aabiseKK64Ym2yySWyxxRZFgLqpWcwzZ86MH/7wh8XwHn300XHwwQeXh3rYsGHx+9//Pi666KIiAJ03L1zajOQbb7yxCD7njOyf/exnxazsrCyD2lOnTo0DDjggpk2bFpkCZOeddy6fJxcy+Jw3T/zMZz5TrM8gdHPLrbfeWtxgsOH+b775ZhHwfuihh+LVV18tLpKcZZ2pSFpaMi1I9qOey6WX3BbXXH1P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n/T//M//FHeQ3WuvvYrgc3PumJ2B7E984hNFHuictXz++efHDTfcUOR/vvjii8vpMO6+++42zcec+ae/8pWvFN295557YtSoUaWueyZAgAABAgQIECBAgAABAgQIECBAgEBFBDosvCndgorUXAWVZvqMl156qZj5nAHplVZaqVmtyvQYEydOjK5du5ZvUNisAxvslCk7Xn755SIInrOwO3dePM9pg90tVpFA5vIuzZbPm04297qpoi5oSo0KZLqdTA2UN0tVCLSFQH4bJ39WZsl7BmRqFIVApQUyLdnUqVMjv73WqVPdfBmv0mzq/wAC+T5X+vZhfmOxOZNKPsDpHEqgLDBt2rQiLWTfvn3L6ywQqKRAfo7Nz7NZevXqFd27d6/k6dRNoCyQ3/jP2EledwqBpgTq+rf+/FCTeZuXtWSwOHNCf5CSQaQNN9zwg1ThWAIECBAgQIAAAQIECBAgQIAAAQIECNS0QF2l4KjpkdB4AgQIECBAgAABAgQIECBAgAABAgQI1JmAAHSdDajuECBAgAABAgQIECBAgAABAgQIECBAoFoEBKCrZSS0gwABAgQIECBAgAABAgQIECBAgAABAnUmIABdZwOqOwQIECBAgAABAgQIECBAgAABAgQIEKgWAQHoahkJ7SBAgAABAgQIECBAgAABAgQIECBAgECdCQhA19mA6g4BAgQIECBAgAABAgQIECBAgAABAgSqRUAAulpGQjsIECBAgAABAgQIECBAgAABAgQIECBQZwIC0HU2oLpDgAABAgQIECBAgAABAgQIECBAgACBahEQgK6WkdAOAgQIECBAgAABAgQIECBAgAABAgQI1JmAAHSdDajuECBAgAABAgQIECBAgAABAgQIECBAoFoEBKCrZSS0gwABAgQIECBAgAABAgQIECBAgAABAnUmIABdZwOqOwQIECBAgAABAgQIECBAgAABAgQIEKgWAQHoahkJ7SBAgAABAgQIECBAgAABAgQIECBAgECdCQhA19mA6g4BAgQIECBAgAABAgQIECBAgAABAgSqRUAAulpGQjsIECBAgAABAgQIECBAgAABAgQIECBQZwIC0HU2oLpDgAABAgQIECBAgAABAgQIECBAgACBahEQgK6WkdAOAgQIECBAgAABAgQIECBAgAABAgQI1JmAAHSdDajuECBAgAABAgQIECBAgAABAgQIECBAoFoEBKCrZSS0gwABAgQIECBAgAABAgQIECBAgAABAnUmIABdZwOqOwQIECBAgAABAgQIECBAgAABAgQIEKgWAQHoahkJ7SBAgAABAgQIECBAgAABAgQIECBAgECdCQhA19mA6g4BAgQIECBAgAABAgQIECBAgAABAgSqRUAAulpGQjsIECBAgAABAgQIECBAgAABAgQIECBQZwIC0HU2oLpDgAABAgQIECBAgAABAgQIECBAgACBahEQgK6WkdAOAgQIECBAgAABAgQIECBAgAABAgQI1JmAAHSdDajuECBAgAABAgQIECBAgAABAgQIECBAoFoEBKCrZSS0gwABAgQIECBAgAABAgQIECBAgAABAnUmIABdZwOqOwQIECBAgAABAgQIECBAgAABAgQIEKgWAQHoahkJ7SBAgAABAgQIECBAgAABAgQIECBAgECdCQhA19mA6g4BAgQIECBAgAABAgQIECBAgAABAgSqRUAAulpGQjsIECBAgAABAgQIECBAgAABAgQIECBQZwIC0HU2oLpDgAABAgQIECBAgAABAgQIECBAgACBahEQgK6WkdAOAgQIECBAgAABAgQIECBAgAABAgQI1JmAAHSdDajuECBAgAABAgQIECBAgAABAgQIECBAoFoEBKCrZSS0gwABAgQIECBAgAABAgQIECBAgAABAnUmIABdZwOqOwQIECBAgAABAgQIECBAgAABAgQIEKgWAQHoahkJ7SBAgAABAgQIECBAgAABAgQIECBAgECdCQhA19mA6g4BAgQIECBAgAABAgQIECBAgAABAgSqRUAAulpGQjsIECBAgAABAgQIECBAgAABAgQIECBQZwIC0HU2oLpDgAABAgQIECBAgAABAgQIECBAgACBahEQgK6WkdAOAgQIECBAgAABAgQIECBAgAABAgQI1JmAAHSdDajuECBAgAABAgQIECBAgAABAgQIECBAoFoEBKCrZSS0gwABAgQIECBAgAABAgQIECBAgAABAnUmIABdZwOqOwQIECBAgAABAgQIECBAgAABAgQIEKgWAQHoahkJ7SBAgAABAgQIECBAgAABAgQIECBAgECdCQhA19mA6g4BAgQIECBAgAABAgQIECBAgAABAgSqRUAAulpGQjsIECBAgAABAgQIECBAgAABAgQIECBQZwIC0HU2oLpDgAABAgQIECBAgAABAgQIECBAgACBahEQgK6WkdAOAgQIECBAgAABAgQIECBAgAABAgQI1JmAAHSdDajuECBAgAABAgQIECBAgAABAgQIECBAoFoEBKCrZSS0gwABAgQIECBAgAABAgQIECBAgAABAnUmIABdZwOqOwQIECBAgAABAgQIECBAgAABAgQIEKgWAQHoahkJ7SBAgAABAgQIECBAgAABAgQIECBAgECdCQhA19mA6g4BAgQIECBAgAABAgQIECBAgAABAgSqRUAAulpGQjsIECBAgAABAgQIECBAgAABAgQIECBQZwIC0HU2oLpDgAABAgQIECBAgAABAgQIECBAgACBahEQgK6WkdAOAgQIECBAgAABAgQIECBAgAABAgQI1JmAAHSdDajuECBAgAABAgQIECBAgAABAgQIECBAoFoEBKCrZSS0gwABAgQIECBAgAABAgQIECBAgAABAnUmIABdZwOqOwQIECBAgAABAgQIECBAgAABAgQIEKgWAQHoahkJ7SBAgAABAgQIECBAgAABAgQIECBAgECdCQhA19mA6g4BAgQIECBAgAABAgQIECBAgAABAgSqRUAAulpGQjsIECBAgAABAgQIECBAgAABAgQIECBQZwIC0HU2oLpDgAABAgQIECBAgAABAgQIECBAgACBahEQgK6WkdAOAgQIECBAgAABAgQIECBAgAABAgQI1JmAAHSdDajuECBAgAABAgQIECBAgAABAgQIECBAoFoEBKCrZSS0gwABAgQIECBAgAABAgQIECBAgAABAnUmIABdZwOqOwQIECBAgAABAgQIECBAgAABAgQIEKgWAQHoahkJ7SBAgAABAgQIECBAgAABAgQIECBAgECdCQhA19mA6g4BAgQIECBAgAABAgQIECBAgAABAgSqRUAAulpGQjsIECBAgAABAgQIECBAgAABAgQIECBQZwIC0HU2oLpDgAABAgQIECBAgAABAgQIECBAgACBahEQgK6WkdAOAgQIECBAgAABAgQIECBAgAABAgQI1JmAAHSdDajuECBAgAABAgQIECBAgAABAgQIECBAoFoEBKCrZSS0gwABAgQIECBAgAABAgQIECBAgAABAnUmIABdZwOqOwQIECBAgAABAgQIECBAgAABAgQIEKgWAQHoahkJ7SBAgAABAgQIECBAgAABAgQIECBAgECdCQhA19mA6g4BAgQIECBAgAABAgQIECBAgAABAgSqRUAAulpGQjsIECBAgAABAgQIECBAgAABAgQIECBQZwIC0HU2oLpDgAABAgQIECBAgAABAgQIECBAgACBahEQgK6WkdAOAgQIECBAgAABAgQIECBAgAABAgQI1JmAAHSdDajuECBAgAABAgQIECBAgAABAgQIECBAoFoEBKCrZSS0gwABAgQIECBAgAABAgQIECBAgAABAnUmIABdZwOqOwQIECBAgAABAgQIECBAgAABAgQIEKgWAQHoahkJ7SBAgAABAgQIECBAgAABAgQIECBAgECdCQhA19mA6g4BAgQIECBAgAABAgQIECBAgAABAgSqRUAAulpGQjsIECBAgAABAgQIECBAgAABAgQIECBQZwIC0HU2oLpDgAABAgQIECBAgAABAgQIECBAgACBahEQgK6WkdAOAgQIECBAgAABAgQIECBAgAABAgQI1JmAAHQzBvTNN9+MI488sni8+uqrSzzi9NNPL+/39ttvN7nfggUL4tvf/nax3xNPPFHsc9tttxWvL7rooiaPaa2Vv/jFL4rzjB49urWqVA8BAgQIECBAgAABAgQIECBAgAABAgSWKNBpiVtsKAv06dMnpk+fHhl8fuyxx6Jfv37lbaWFDFKPGjWq9DIeeuih+PjHP15+XVqYMGFCjB07Njp27BjrrrtusXrq1Knx9NNPx4ABA0q7VeT5pZdeKs6zpOB4RU6qUgIECBAgQIAAAQIECBAgQIAAAQIE2q3AcglAv/zyy3HrrbdGzgbeb7/9om/fvlU/AFtttVXccMMNMW7cuBg2bNhi7X3wwQeLdf37948XX3wxcpZxUwHoDD5n2XTTTaNbt27F8vrrrx8HHXRQbLzxxsVr/ywfgbwe77pzbPz1rw/Eiy9Mio6dOsYGG6y18BrdMTbZdL3l0yhnJUCAAAECBAgQIECAAAECBAgQIFDDAhUJQM+dOzf+8pe/RKaUOPbYY2O33XYrE5155pnx/e9/v/x6hRVWiC984Qtx8cUXR4cOHcrrq22hFIB+/PHHm2zaAw88UKz/8pe/HGeddVaUXi+6c86gzrL11luXN22xxRaRD2X5CUyZ8lacesqv4/HHn23UiKeefCGuu/ae2Gff7WP4SV+Izp1XbLTdCwIECBAgQIAAAQIECBAgQIAAAQIElixQ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5dUU521nAq+++mr07NmznEu/nXVfd5eDQN6DYe7cucWZ11hjjejQocNyaIVTtjeB/H1w6tSpsfrqq0enTp3aW/f1dzkI5Ptc6Z4z+ZlklVVWWQ6tcMr2KJD3Rcr3vL59+7bH7uvzchDIz7H5eTZLr169onv37suhFU7ZHgVef/31InaS151CoCmBVp8BnSf5+Mc/HqNHj45tt922fM78wZslAywNg89Dhw6Nhx56SPC5LGWBAAECBAgQIECAAAECBAgQIECAAAEC9SFQsWknW2+9ddx3330xcuTI4nn8+PGRj5xwvf7668egQYOKQPX+++9fH5J6QYAAAQIECBAgQIAAAQIECBAgQIAAAQKNBCoWgM6z5Fd5P/OZzxSPRmf1ggABAgQIECBAgAABAgQIECBAgAABAgTqXqAiKTjqXk0HCRAgQIAAAQIECBAgQIAAAQIECBAgQOB9BVo8A/r++++Pe++9931PsCw7bL/99pEPhQABAgQIECBAgAABAgQIECBAgAABAgRqX6DFAei//vWvceaZZ7aqQNYnAN2qpCojQIAAAQIECBAgQIAAAQIECBAgQIDAchOQgmO50TsxAQIECBAgQIAAAQIECBAgQIAAAQIE6lugxTOgv/Od78Thhx/eqjq9e/du1fpURoAAAQIECBAgQIAAAQIECBAgQIAAAQLLT6DFAeiVV1458qEQIECAAAECBAgQIECAAAECBAgQIECAAIGmBNo0Bcebb74Z8+bNa6od1hEgQIAAAQIECBAgQIAAAQIECBAgQIBAnQlUNAA9YcKEOProo2PIkCHRp0+fWGWVVaJr166x/vrrx9577x3/7//9v5g7d26dkeoOAQIECBAgQIAAAQIECBAgQIAAAQIECKRARQLQc+bMKQLPGWjOIPOYMWPirbfeKsTfe++9GD9+fNxyyy3FPptttlnceuutRoMAAQIECBAgQIAAAQIECBAgQIAAAQIE6kygxTmgl+Zw3HHHFYHn0j6bb755rLvuutG/f/+YNWtWTJw4MZ544ol46aWX4qmnnop99903Ro0aFTvuuGPpEM8ECBAgQIAAAQIECBAgQIAAAQIECBAgUOMCrR6Avvrqq+PCCy8sWHbdddf48Y9/HFtvvfViTJkL+tJLL43vfe978corr8TBBx8cY8eOjdVWW22xfa0gQIAAAQIECBAgQIAAAQIECBAgQIAAgdoTaPUUHJdffnmhMHjw4LjpppuaDD7nDh07dozDDjssbr755ujevXu8/PLL8ac//an2BLWYAAECBAgQIECAAAECBAgQIECAAAECBJoUaPUA9IMPPlic6PTTTy9uONjkWRus/OhHPxpf+9rXijWlYxtstkiAAAECBAgQIECAAAECBAgQIECAAAECNSrQqgHoTKuR6TSyfOxjH2s2yZAhQ4p9//nPfzb7GDsSIECAAAECBAgQIECAAAECBAgQIECAQHULtGoAOtNqlALPTz75ZLN7/vTTTxf75s0KFQIECBAgQIAAAQIECBAgQIAAAQIECBCoD4FWDUAnyW677VbI/OxnP4v58+e/r9Ls2bMjb1yYZaeddnrf/e1AgAABAgQIECBAgAABAgQIECBAgAABArUh0OoB6DPPPDPyBoS33nprHHnkkTF16tQlSsycOTP23XffeOyxx+LAAw+Mz3/+80vc1wYCBAgQIECAAAECBAgQIECAAAECBAgQqC2BTi1t7p133hl///vfmzx8yy23jIcffjguuuiiuOqqq+KQQw6J9ddfP9Zee+2YO3duTJkyJR5//PEYOXJkvPHGG9G3b9/43Oc+F88880xssMEGTdZpJQECBAgQIECAAAECBAgQIECAAAECBAjUlkCLA9AZfM7Zzu9Xpk+fHiNGjFjqbq+//nocfPDBRX1nnHHGUve1kQABAgQIECBAgAABAgQIECBAgAABAgRqQ6DVU3DURre1kgABAgQIECBAgAABAgQIECBAgAABAgQqLdDiGdAnnnhiHH300a3avm7durVqfSojQIAAAQIECBAgQIAAAQIECBAgQIAAgeUn0OIAdAaLBYyX38A5MwECBAgQIECAAAECBAgQIECAAAECBKpdQAqOah8h7SNAgAABAgQIECBAgAABAgQIECBAgECNClRVAHrBggU1yqjZBAgQIECAAAECBAgQIECAAAECBAgQILCoQItTcCxaUVOvJ0yYEK+99lrMmTMn5s+fX94lA81z586NefPmxYwZM2LSpElx4403xvbbbx+nnnpqeT8LBAgQIECAAAECBAgQIECAAAECBAgQIFC7AhUJQI8ePTpOPvnkuPPOO5dJZuutt16m/e1MgAABAgQIECBAgAABAgQIECBAgAABAtUr0OoB6DfffDMOPPDAYubzsnR7zTXXjA033HBZDrEvAQIECBAgQIAAAQIECBAgQIAAAQIECFSxQKsHoH/4wx+Wg89Dhw6N/fffP7p27RpHHXVUdOnSJX77298WaTcmTpwYV1xxRTz77LOx3nrrxVNPPRUrrrhiFVNpGgECBAgQIECAAAECBAgQIECAAAECBAgsi0CrB6Affvjh4vx77rln3HrrreW2nHfeeUWwef31148hQ4YU64cPHx7Dhg2LBx54IM4///wibUf5AAsECBAgQIAAAQIECBAgQIAAAQIECBAgUNMCK7R268ePH19Ueeyxxzaqervttitejxo1qry+d+/ecfvtt8eAAQPirLPOiueff768zQIBAgQIECBAgAABAgQIECBAgAABAgQI1LZAqwag33vvvXj55ZcLkUGDBjWS2WCDDYrXjz/+eKP1PXr0iL333jvefffduOaaaxpt84IAAQIECBAgQIAAAQIECBAgQIAAAQIEalegVQPQmcN51VVXLTQ6dWqc3WNJAejceZdddimOGTduXPHsHwIECBAgQIAAAQIECBAgQIAAAQIECBCofYFWDUAnx4YbblioLJpOY6ONNirW580G58yZUyyX/unWrVux+MQTT5RWeSZAgAABAgQIECBAgAABAgQIECBAgACBGheoWAB6xIgRjWhyBnTOip47d27cddddjbb95S9/KV737Nmz0XovCBAgQIAAAQIECBAgQIAAAQIECBAgQKB2BVo9AH3ooYdGhw4d4sorr4xPf/rT8dBDDxU6mZ5jhx12KJa/+c1vxiuvvBILFiyIG264IUaOHFmsHzhwYO1KajkBAgQIECBAgAABAgQIECBAgAABAgQINBJo9QD0zjvvHN/+9reLk1x11VWx//77l0943HHHFcvjx4+P/v37R79+/YrtkydPLtZn8FohQIAAAQIECBAgQIAAAQIECBAgQIAAgfoQaPUAdLKce+658a1vfSt69OgRAwYMKEvtt99+cfTRRxev58+fH5MmTSpv++pXvxo77rhj+bUFAgQIECBAgAABAgQIECBAgAABAgQIEKhtgU6VaH7eVPAXv/hFnHPOOTF27NjyKTI1xy9/+csYPHhwXHvttfHoo49Gpt045JBD4sgjjyzvZ4EAAQIECBAgQIAAAQIECBAgQIAAAQIEal+gIgHoEkuvXr0iU3IsWr785S9HPhQCBAgQIECAAAECBAgQIECAAAECBAgQqF+BiqTgqF8uPSNAgAABAgQIECBAgAABAgQIECBAgACB5gq0eAb03/72t7j99tuL8+y1116xyy67FMsXX3xxPP300809f6P9hg4dGvlQCBAgQIAAAQIECBAgQIAAAQIECBAgQKD2BVocgL777ruLmw0mwcorr1wOQF9xxRVx0003tUimS5cuAtAtknMQAQIECBAgQIAAAQIECBAgQIAAAQIEqk9ACo7qGxMtIkCAAAECBAgQIECAAAECBAgQIECAQF0ItHgG9CmnnBLHHXdcgZAzl0tl5MiRMXfu3NLLZXpuWM8yHWhnAgQIECBAgAABAgQIECBAgAABAgQIEKg6gRYHoDt37hz5WLR06NAhunfvHiusYHL1ojZeEyBAgAABAgQIECBAgAABAgQIECBAoD0JtHqU+Iwzzoi11147cob0zJkz25OlvhIgQIAAAQIECBAgQIAAAQIECBAgQIBAA4FWD0Bfeuml8dJLL8VvfvObkFKjgbRFAgQIECBAgAABAgQIECBAgAABAgQItDOBVg1Az5s3LyZPnlwQ7rjjjtGxY8d2xqm7BAgQIECAAAECBAgQIECAAAECBAgQIFASaNUAdAacd95556LuBx98MObPn186j2cCBAgQIECAAAECBAgQIECAAAECBAgQaGcCrRqATruzzz47evXqFa+++moceeSRMX369HZGqrsECBAgQIAAAQIECBAgQIAAAQIECBAgkAKdWpuhd+/eMWLEiBg+fHhcdNFFcc0118RGG20UgwYNinXWWSc6d+68xFPm7OmddtppidttIECAAAECBAgQIECAAAECBAgQIECAAIHaEWj1APTxxx8fN910U1ngrbfeivvvv794lFcuYeHMM88UgF6CjdUECBAgQIAAAQIECBAgQIAAAQIECBCoNYFWT8FRawDaS4AAAQIECBAgQIAAAQIECBAgQIAAAQKVEWj1GdCXXnppzJ49u0Wt7dGjR4uOcxABAgQIECBAgAABAgQIECBAgAABAgQIVJ9Aqweg+/TpU3291CICBAgQIECAAAECBAgQIECAAAECBAgQaHOBqkrBsWDBgjYHcEICBAgQIECAAAECBAgQIECAAAECBAgQqIxAq8+AbtjMCRMmxGuvvRZz5syJ+fPnlzdloHnu3Lkxb968mDFjRkyaNCluvPHG2H777ePUU08t72eBAAECBAgQIECAAAECBAgQIECAAAECBGpXoCIB6NGjR8fJJ58cd9555zLJbL311su0v50JECBAgAABAgQIECBAgAABAgQIECBAoHoFWj0A/eabb8aBBx5YzHxelm6vueaaseGGGy7LIfYlQIAAAQIECBAgQIAAAQIECBAgQIAAgSoWaPUA9A9/+MNy8Hno0KGx//77R9euXeOoo46KLl26xG9/+9si7cbEiRPjiiuuiGeffTbWW2+9eOqpp2LFFVesYipNI0CAAAECBAgQIECAAAECBAgQIECAAIFlEWj1APTDDz9cnH/PPfeMW2+9tdyW8847rwg2r7/++jFkyJBi/fDhw2PYsGHxwAMPxPnnn1+k7SgfYIEAAQIECBAgQIAAAQIECBAgQIAAAQIEalpghdZu/fjx44sqjz322EZVb7fddsXrUaNGldf37t07br/99hgwYECcddZZ8fzzz5e3WSBAgAABAgQIECBAgAABAgQIECBAgACB2hZo1QD0e++9Fy+//HIhMmjQoEYyG2ywQfH68ccfb7S+R48esffee8e7774b11xzTaNtXhAgQIAAAQIECBAgQIAAAQIECBAgQIBA7Qq0agA6czivuuqqhUanTo2zeywpAJ0777LLLsUx48aNK579Q4AAAQIECBAgQIAAAQIECBAgQIAAAQK1L9CqAejk2HDDDQuVRdNpbLTRRsX6vNngnDlziuXSP926dSsWn3jiidIqzwQIECBAgAABAgQIECBAgAABAgQIECBQ4wIVC0CPGDGiEU3OgM5Z0XPnzo277rqr0ba//OUvxeuePXs2Wu8FAQIECBAgQIAAAQIECBAgQIAAAQIECNSuQKsHoA899NDo0KFDXHnllfHpT386HnrooUIn03PssMMOxfI3v/nNeOWVV2LBggVxww03xMiRI4v1AwcOrF1JLSdAgAABAgQIECBAgAABAgQIECBAgACBRgKtHoDeeeed49vf/nZxkquuuir233//8gmPO+64Ynn8+PHRv3//6NevX7F98uTJxfoMXisECBAgQIAAAQIECBAgQIAAAQIECBAgUB8CrR6ATpZzzz03vvWtb0WPHj1iwIABZan99tsvjj766OL1/PnzY9KkSeVtX/3qV2PHHXcsv7ZAgAABAgQIECBAgAABAgQIECBAgAABArUt0KkSzc+bCv7iF7+Ic845J8aOHVs+Rabm+OUvfxmDBw+Oa6+9Nh599NHItBuHHPL/2bsPMLuqcmHAK6STQiAEktBLqDdIr1JDF+SCcJGrVAMoov4CXlEUEBT1qrkgolSxgxRBeq/SOwihBRKSQBIgIYEAafDn27oPM5OZZEpmzj573vU8k7PPbmutd03OnPOdtb/932nkyJGV/SwQIECAAAECBAgQIECAAAECBAgQIECAQO0LtEsAOmfp379/ipQcDcvhhx+e4kchQIAAAQIECBAgQIAAAQIECBAgQIAAgfIKtDoFx2uvvZZmz55dXhk9I0CAAAECBAgQIECAAAECBAgQIECAAIE2CbQ6AH3xxRenFVZYIR1//PFp9OjRbWqEgwkQIECAAAECBAgQIECAAAECBAgQIECgfAKtDkAHxVtvvZVGjRqV1ltvvbTNNtukCEq///775VPSIwIECBAgQIAAAQIECBAgQIAAAQIECBBosUCrA9CbbrppWn311SsV3n///emII45IQ4YMSV/+8pfTo48+WtlmgQABAgQIECBAgAABAgQIECBAgAABAgQ6n0Crb0L4mc98Ju25557p3nvvTb///e/T5Zdfnt599900Y8aMdN5552U/n/rUp9KRRx6ZvvCFL6QBAwYUXveWW25Jl112WYvaOWjQoPTjH/+4RcfYmQABAgQIECBAgAABAgQIECBAgAABAp1BoNUB6MDp0qVL2m677bKfs88+O1111VVZMPr2229PH330UXrqqafSsccem771rW+lz33uc2nkyJFp++23L6zr1KlT0wsvvNCi9kXQXSFAgAABAgQIECBAgAABAgQIECBAgACBBQW6fDy/LLi6bWsmTJiQ/vjHP2bB6IYB3WHDhmWB6EMPPTQtv/zybatoMR89bdq09Pbbby9w1q9//evZ7O543Gijjept7969e1pllVXqrfOkNgXiS5M7bn8s3XzzQ2nC+Mmpa9euaa21V0577b1N2njjtWuzU1pdUwJvvPFG6tevX+rbt29NtVtja1fgzTffTHPnzs06MHjw4OyL5drtjZbXisCsWbNSfOkfV5F169amuRC10mXtrLJAvM7F612Unj17pmWWWabKLVJ9ZxGYPn16ite85ZZbrrN0WT+rLDBz5szsqvRoRv/+/VOfPn2q3CLVdxaBKVOmpF69emW/d52lz/rZMoF2CUDXbcJDDz2UBaIvvfTSFAHevETgdq+99spSdOy2225piSVanY46P2W7Pe69997pnXfeyVJtfPrTn263epy4egJTJk9LJ377N2n06LGNNmKXXTdL3z3p0PkvqD0a3W4lgcUhIAC9OBSdoyUCAtAt0bLv4hIQgF5cks7TXAEB6OZK2W9xCwhAL25R51uUgAD0ooRsby8BAej2ki3Peds96rvFFlukX//61ykCK5FfOXJHx2yXOXPmZCk7Io/0qquumk455ZQ0ceLEUsjGTNpx48alSEUSeaVfffXVNG/evEb7Nnbs2PTaa69l22Iyeux7ww03pOeee26BYyZPnpxuuummdOedd6ZYbljiDU4cH3m4o8QLwB133JEdM2bMmIa7e/5vgXfffT8d+9VfNBl8jt1uveWR9P3vXZDa4YIB40CAAAECBAgQIECAAAECBAgQIECgtAIddt1jXO52wAEHZD8RPL3yyivTFVdcke655540fvz4dNppp2WX/p566qk1jR0B4B/84AepYcB3tdVWSyeffHJac8016/XvqKOOyi6LOeecc9Jxxx1XLwgfl8z85je/yVKVxLH3339/5dgePXqkSAmyzz77VNbdeOONKc4T68M0cnLXLVtttVX64Q9/mOJY5ROBiy68dr7XlE9WNLH0j3ufSrfd+kjaZdfNm9jDagIECBAgQIAAAQIECBAgQIAAAQIE6gp0WAC6bqWR+/mYY45JI0aMSOeee26KGxg2NUO47nFFXx49enR208XZs2dnN1uMGy7GjRojDUnMXI5gcwSU1167fj7huEwmPHr37p0OPvjgLPfwtddem+WjPumkk7I8da+88ko6/PDD04ABA7Kg/WOPPZbOOuustPnmm6chQ4bUo4n825HuZP/9989uEBl5rf/whz+kBx54II0aNSqdeOKJ9fZvyZOYARwzvMtS5syZm6695r5md+dvV96ddhqxSbP3tyOBlgrE/68yvB62tN/2r45A3as64vcu/mYpBNpbIH+N8zvX3tLOnwvUfe8ar3v572C+3SOB9hKI3z2/c+2l67yNCdR9vfO5ojEh69pLII8V+RvbXsLFOG+kT27tZ8YOD0C/9NJL6c9//nO6/PLLszQTOWF0oJZvzhD/2c4888wUwecjjjgiCxbnfdt5553TGmuskc1Ojn0iCF23fPDBB1mi9lgfAeYokXf6c5/7XIoUHW+99Vb605/+lAYOHJht++xnP5vdyDFmWT/++ONZWpNsw7//ieBzzIKOGed52XrrrbN2XX/99WnDDTdMu+++e76pRY/Rv7hxUFnKq69OSu+//2Gzu/Pss69kqU2afYAdCbRQIL6Qih+FQEcL5Dfo6uh61dd5Bcr0fqLzjmLt9Tzey0aaOoVARwr4netIbXXlAu+9916KH4VARwlEbCt+lPIKtOUm4u2eAzrY4w9uzHKOfNBrrbVWlqIichxHWXHFFdP3v//9LGVFzAKu1fLEE09kAfVll102HXLIIQt0I4LGkfrin//8Z3r22WcX2B7H5MHn2BjB+Hxmc9ysMQ8+x7bIob3OOuvEYpo0aVL2WPefoUOHpn333bfuqrTkkktms6tj5X33NX/Gb72TlPDJhx/MalGv5syZl+bObTyfd4tOZGcCBAgQIECAAAECBAgQIECAAAECnUCg3WZAxwy+v//979nM3VtvvXV+0G5uhbN79+4pn8W76667ppjCXeslZipHiaDx008/nS03/CfyQL/wwgvZDQrXX3/9epsjaNywRHA+bt640korNdyUpeWIlTGLo2HZdNNNsyB1w/XDhw/PVr344osNNzX7eYxVmXJIDxmybLP7HjsOGNB3fjC/d4uOsTOB5grE/+euXbtmP809xn4E2iIQNwSOK3iixN/m1l5O1ZY2OLbzCcQlwfG+0O9c5xv7avU4Xufi9S5KvM7F755CoCME4rUuXvPK9PmpI9zU0XqBSH+Qp0DwuaL1jo5suYDPsi03q8Uj2vJ5cbEGoOOFLoLNkWIjboDX8DLy9dZbL33pS1/KZuLGtO0ylbjpX5RnnnkmS3+xsL5NnDhxgc35bOe6G/KB7du3b93V2XK+LX+su8PgwYPrPq0sR+7tKK+//vr8tBPvZ7OiKxubuRBv2OvOxm7mYYXdLfqy6mpD0thX32hWG7f59Aal6n+zOm2nDhOIL5ziaoXG/s93WCNU1KkEIu1G/gVxvB429jelU4HobIcIzJo1K0vnFVd+xVVdCoH2FojXuTzNUAQCl1lmmfau0vkJZALTp09P8ZpXps9PhrbYAhGDmTFjRtbIPn36pPhRCHSEQGQ+6NWrV5ZetiPqU0ftCSyWd/2PPPJINtP5r3/9a5o8eXI9hQikHHjggVnO4i233LLetjI+2WijjdI222yz0K5FGpKGpbFvxfNZaQ33rfu8Ofvk+3/44b9yHUddPXv2zFd3+scvjdw7ff+k8xfp0K1b13TIoXsscj87ECBAgAABAgQIECBAgAABAgQIECDwL4FWB6AnTJiQfvvb32aznRtL6RA3vYvZzv/1X//VKWbz5WkyYvZiBNyrWRp+CZC3JV8/bNgwl/jnKPMfd9550/T0Uy+nyy+7o87a+osxK/C7Jx2SVl75X7PI62/1jAABAgQIECBAgAABAgQIECBAgACBxgRaHYC+6KKL0qmnnlrvnHHjvIMPPjgLPK+77rr1tpX9SeR3jvLUU0+ld955p94NBWN9zD7++te/nl3efPTRR6eNN944VrdLefjhh7NLqhte1nrXXXdl9a299trtUm8tn/S44z+fpeI4/9yr0/TpM+t1JYLOx3/roLT55uvVW+8JAQIECBAgQIAAAQIECBAgQIAAAQILF2h1ADo/bSS232233bKg8957791pb+oRqTc23HDD9OSTT6af/exn6eSTT66X5uLcc89No0ePTr17907tHQCOPLJ/+MMf0hFHHJEPU3bzwyuuuCK7Acaee+5ZWW/hE4H99ts+7bXX1um+fzyZXnl1Yuo2/3d7+PA100YbryMv6idMlggQIECAAAECBAgQIECAAAECBAg0W6DVAehIOXH66aenww8/PK2wwgrNrrDMOx533HHp2GOPTffcc0867LDDslzQMQv5vvvuS2PHjs2CmCeeeGK73wgg8jtffPHF2Q0RIygeAem4OWTclfS0005r9wB4LY9xjx7d0yabrp3WWXfFrBtLL7204HMtD6i2EyBAgAABAgQIECBAgAABAgQIVFWg1QHourNrq9qDAlUeaTj++Mc/plGjRmVB57gpY14i7/JRRx2VOuJGjDvvvHOKLwh+//vfp0cffTQLoK6//vppn332STvuuGPeJI8ECBAgQIAAAQIECBAgQIAAAQIECBBoV4EuH88v7VpDJz353LlzU9yo8b333ktDhgxJAwcObHeJSy+9NJ1zzjnz00jslb797W+nefPmpTFjxqTIzT1gwIB2r78sFcyYMSPNnPmvPNAxA7pXr15l6Zp+FFwgrlbo169fp7hxa8GHotM0780338zuGRAdHjx4sCs+Os3IV7ejs2bNSlOnTk2DBg1KDe9XUd2Wqb2sAvG+PF7vosSVgssss0xZu6pfBROYPn16ite8+DymEOgIgfgcG59no/Tv37/dr77uiD6pozYEpkyZksVO4vdOIdCYQKtnQDd2Mus+EYgPVKuuuuonK6qwFPm511prrSrUrEoCBAgQIECAAAECBAgQIECAAAECBAiktAQEAgQIECBAgAABAgQIECBAgAABAgQIECDQHgIC0O2h6pwECBAgQIAAAQIECBAgQIAAAQIECBAgYAZ0mX4H4saDcZPBddZZp0zd0hcCBAgQIECAAAECBAgQIECAAAECBGpUQA7oGh24xpq9zTbbpPhRCBAgQIAAAQIECBAgQIAAAQIECBAgUAQBKTiKMAraQIAAAQIECBAgQIAAAQIECBAgQIAAgRIKCECXcFB1iQABAgQIECBAgAABAgQIECBAgAABAkUQEIAuwihoAwECBAgQIECAAAECBAgQIECAAAECBEooIABdwkHVJQIECBAgQIAAAQIECBAgQIAAAQIECBRBQAC6CKOgDQQIECBAgAABAgQIECBAgAABAgQIECihgAB0CQdVlwgQIECAAAECBAgQIECAAAECBAgQIFAEAQHoIoyCNhAgQIAAAQIECBAgQIAAAQIECBAgQKCEAgLQJRxUXSJAgAABAgQIECBAgAABAgQIECBAgEARBASgizAK2kCAAAECBAgQIECAAAECBAgQIECAAIESCghAl3BQdYkAAQIECBAgQIAAAQIECBAgQIAAAQJFEBCALsIoaAMBAgQIECBAgAABAgQIECBAgAABAgRKKCAAXcJB1SUCBAgQIECAAAECBAgQIECAAAECBAgUQUAAugijoA0ECBAgQIAAAQIECBAgQIAAAQIECBAooYAAdAkHVZcIECBAgAABAgQIECBAgAABAgQIECBQBAEB6CKMgjYQIECAAAECBAgQIECAAAECBAgQIECghAIC0CUcVF0iQIAAAQIECBAgQIAAAQIECBAgQIBAEQQEoIswCtpAgAABAgQIECBAgAABAgQIECBAgACBEgoIQJdwUHWJAAECBAgQIECAAAECBAgQIECAAAECRRAQgC7CKGgDAQIECBAgQIAAAQIECBAgQIAAAQIESiggAF3CQdUlAgQIECBAgAABAgQIECBAgAABAgQIFEFAALoIo6ANBAgQIECAAAECBAgQIECAAAECBAgQKKGAAHQJB1WXCBAgQIAAAQIECBAgQIAAAQIECBAgUAQBAegijII2ECBAgAABAgQIECBAgAABAgQIECBAoIQCAtAlHFRdIkCAAAECBAgQIECAAAECBAgQIECAQBEEBKCLMAraQIAAAQIECBAgQIAAAQIECBAgQIAAgRIKCECXcFB1iQABAgQIECBAgAABAgQIECBAgAABAkUQEIAuwihoAwECBAgQIECAAAECBAgQIECAAAECBEooIABdwkHVJQIECBAgQIAAAQIECBAgQIAAAQIECBRBQAC6CKOgDQQIECBAgAABAgQIECBAgAABAgQIECihgAB0CQdVlwgQIECAAAECBAgQIECAAAECBAgQIFAEAQHoIoyCNhAgQIAAAQIECBAgQIAAAQIECBAgQKCEAgLQJRxUXSJAgAABAgQIECBAgAABAgQIECBAgEARBASgizAK2kCAAAECBAgQIECAAAECBAgQIECAAIESCghAl3BQdYkAAQIECBAgQIAAAQIECBAgQIAAAQJFEBCALsIoaAMBAgQIECBAgAABAgQIECBAgAABAgRKKCAAXcJB1SUCBAgQIECAAAECBAgQIECAAAECBAgUQUAAugijoA0ECBAgQIAAAQIECBAgQIAAAQIECBAooYAAdAkHVZcIECBAgAABAgQIECBAgAABAgQIECBQBAEB6CKMgjYQIECAAAECBAgQIECAAAECBAgQIECghAIC0CUcVF0iQIAAAQIECBAgQIAAAQIECBAgQIBAEQQEoIswCtpAgAABAgQIECBAgAABAgQIECBAgACBEgoIQJdwUHWJAAECBAgQIECAAAECBAgQIECAAAECRRAQgC7CKGgDAQIECBAgQIAAAQIECBAgQIAAAQIESiggAF3CQdUlAgQIECBAgAABAgQIECBAgAABAgQIFEFAALoIo6ANBAgQIECAAAECBAgQIECAAAECBAgQKKGAAHQJB1WXCBAgQIAAAQIECBAgQIAAAQIECBAgUAQBAegijII2ECBAgAABAgQIECBAgAABAgQIECBAoIQCAtAlHFRdIkCAAAECBAgQIECAAAECBAgQIECAQBEEBKCLMAraQIAAAQIECBAgQIAAAQIECBAgQIAAgRIKCECXcFB1iQABAgQIECBAgAABAgQIECBAgAABAkUQEIAuwihoAwECBAgQIECAAAECBAgQIECAAAECBEooIABdwkHVJQIECBAgQIAAAQIECBAgQIAAAQIECBRBQAC6CKOgDQQIECBAgAABAgQIECBAgAABAgQIECihgAB0CQdVlwgQIECAAAECBAgQIECAAAECBAgQIFAEAQHoIoyCNhAgQIAAAQIECBAgQIAAAQIECBAgQKCEAgLQJRxUXSJAgAABAgQIECBAgAABAgQIECBAgEARBASgizAK2kCAAAECBAgQIECAAAECBAgQIECAAIESCghAl3BQdYkAAQIECBAgQIAAAQIECBAgQIAAAQJFEBCALsIoaAMBAgQIECBAgAABAgQIECBAgAABAgRKKCAAXcJB1SUCBAgQIECAAAECBAgQIECAAAECBAgUQUAAugijoA0ECBAgQIAAAQIECBAgQIAAAQIECBAooYAAdAkHVZcIECBAgAABAgQIECBAgAABAgQIECBQBAEB6CKMgjYQIECAAAECBAgQIECAAAECBAgQIECghAIC0CUcVF0iQIAAAQIECBAgQIAAAQIECBAgQIBAEQQEoIswCtpAgAABAgQIECBAgAABAgQIECBAgACBEgoIQJdwUHWJAAECBAgQIECAAAECBAgQIECAAAECRRAQgC7CKGgDAQIECBAgQIAAAQIECBAgQIAAAQIESiggAF3CQdUlAgQIECBAgAABAgQIECBAgAABAgQIFEFAALoIo6ANBAgQIECAAAECBAgQIECAAAECBAgQKKGAAHQJB1WXCBAgQIAAAQIECBAgQIAAAQIECBAgUAQBAegijII2ECBAgAABAgQIECBAgAABAgQIECBAoIQCAtAlHFRdIkCAAAECBAgQIECAAAECBAgQIECAQBEEBKCLMAraQIAAAQIECBAgQIAAAQIECBAgQIAAgRIKCECXcFB1iQABAgQIECBAgAABAgQIECBAgAABAkUQEIAuwihoAwECBAgQIECAAAECBAgQIECAAAECBEooIABdwkHVJQIECBAgQIAAAQIECBAgQIAAAQIECBRBQAC6CKOgDQQIECBAgAABAgQIECBAgAABAgQIECihgAB0CQdVlwgQIECAAAECBAgQIECAAAECBAgQIFAEAQHoIoyCNhAgQIAAAQIECBAgQIAAAQIECBAgQKCEAgLQJRxUXSJAgAABAgQIECBAgAABAgQIECBAgEARBASgizAK2kCAAAECBAgQIECAAAECBAgQIECAAIESCghAl3BQdYkAAQIECBAgQIAAAQIECBAgQIAAAQJFEBCALsIoaAMBAgQIECBAgAABAgQIECBAgAABAgRKKCAAXcJB1SUCBAgQIECAAAECBAgQIECAAAECBAgUQUAAugijoA0ECBAgQIAAAQIECBAgQIAAAQIECBAooUC3Evap2V16/vnn089//vPK/t/5znfSGmusUXne2MKDDz6YLrzwwmxT7BvHVKPMmzcvTZ48OQ0dOrRS/c0335wuv/zytO2226ZDDz20st4CAQIECBAgQIAAAQIECBAgQIAAAQIEqiHQqWdAz5w5M73wwguVn9tvv32RY3DDDTdU9n/ttdcWuX977BCB8y996UupYXunTZuWtW3SpEntUa1zEiBAgAABAgQIECBAgAABAgQIECBAoEUCnXoGdC7VtWvXFDOK77zzznTUUUflqxd4fP/999N99923wPqOXnHjjTemMWPGpBEjRnR01aWub+7ceenmmx9Kt87/GT9+SurWvWtaa9jKaa+9t0lbbLl+qfuucwQIECBAgAABAgQIECBAgAABAgTaQ0AAer7qwIEDU69evVLMaH7ppZfSsGHDGrWO4PPs2bOz7bGfUh6BN15/K/3P//w6vfzShHqdem3clHTbbY+m7bffMJ186hFpySV71dvuCQECBAgQIECAAAECBAgQIECAAAECTQt06hQcdVny2cR33HFH3dX1lm+77bbUpUuXtNNOO9Vb3/DJ3Llzs1QYN910U7r11lvTq6++mmJdY2Xs2LFZ4Du2ffzxx2ncuHEpZjhHsPutt96qd0jM0o5zzZgxI1s/derU7Hk8NlbeeeedFDmr43xRT5xfWVBg+vSZ6divjlog+Fx3z7vvfjKd9N3zGdZFsUyAAAECBAgQIECAAAECBAgQIEBgEQJmQP8baMcdd0wXX3xxlobj6KOPXoDt3XffTQ8//HDaaKON0rLLLrvA9nxFBHx/+ctfzk/hMD5flT2uvPLK6aSTTkrrrbdevfWR8qN3797ZjQ2PP/74LKBcd4eDDz44y/ccaUIi8HzIIYdUNl9xxRUpfg488MB07LHHVtZHoPmSSy5J5513XpZaJN8QNyw866yz0uDBg/NVHucLXHjBNen1+TOgF1UefOCf6eabHkq777Hlona1nQABAgQIECBAgAABAgQIECBAgACB+QIC0P/+NVhttdVS/MQM4xdffDGttdZa9X5B7rnnnmwW884771xvfd0nTzzxRPrWt76VrYpZ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AAECBAgQIECAAAECBAgQKJpAl4/nl6I1qgztmT17dho3blzq3bt35QaFi7tfc+bMyVKEDBw4cJEpQhZ33WU+34wZM9LMmTOzLsYXEL169Spzd/WtQAJxE9N+/fqlyDuvEOgIgTfffDNFmqgogwcPTl26dOmIatXRyQXiXhlTp05N8QV9t27mQnTyX4cO6X68zsXrXZRIZbfMMst0SL0qITB9+vTs/kDLLedG5n4bOkYgPsfG59ko/fv3T3369OmYitXS6QWmTJmSxU7i904h0JiAd/2NqSyGdT169MhyQi+GUzV5iu7du2cBgyZ3sIEAAQIECBAgQIAAAQIECBAgQIAAAQJVFFiiinWrmgABAgQIECBAgAABAgQIECBAgAABAgRKLCAAXeLB1TUCBAgQIECAAAECBAgQIECAAAECBAhUU0AAupr66iZAgAABAgQIECBAgAABAgQIECBAgECJBQSgSzy4ukaAAAECBAgQIECAAAECBAgQIECAAIFqCghAV1Nf3QQIECBAgAABAgQIECBAgAABAgQIECixgAB0iQdX1wgQIECAAAECBAgQIECAAAECBAgQIFBNAQHoauqrmwABAgQIECBAgAABAgQIECBAgAABAiUWEIAu8eDqGgECBAgQIECAAAECBAgQIECAAAECBKopIABdTX11EyBAgAABAgQIECBAgAABAgQIECBAoMQCAtAlHlxdI0CAAAECBAgQIECAAAECBAgQIECAQDUFBKCrqa9uAgQIECBAgAABAgQIECBAgAABAgQIlFhAALrEg6trBAgQIECAAAECBAgQIECAAAECBAgQqKaAAHQ19dVNgAABAgQIECBAgAABrMyHYAAAN/xJREFUAgQIECBAgACBEgsIQJd4cHWNAAECBAgQIECAAAECBAgQIECAAAEC1RQQgK6mvroJECBAgAABAgQIECBAgAABAgQIECBQYgEB6BIPrq4RIECAAAECBAgQIECAAAECBAgQIECgmgIC0NXUVzcBAgQIECBAgAABAgQIECBAgAABAgRKLCAAXeLB1TUCBAgQIECAAAECBAgQIECAAAECBAhUU0AAupr66iZAgAABAgQIECBAgAABAgQIECBAgECJBQSgSzy4ukaAAAECBAgQIECAAAECBAgQIECAAIFqCghAV1Nf3QQIECBAgAABAgQIECBAgAABAgQIECixgAB0iQdX1wgQIECAAAECBAgQIECAAAECBAgQIFBNAQHoauqrmwABAgQIECBAgAABAgQIECBAgAABAiUWEIAu8eDqGgECBAgQIECAAAECBAgQIECAAAECBKopIABdTX11EyBAgAABAgQIECBAgAABAgQIECBAoMQCAtAlHlxdI0CAAAECBAgQIECAAAECBAgQIECAQDUFBKCrqa9uAgQIECBAgAABAgQIECBAgAABAgQIlFhAALrEg6trBAgQIECAAAECBAgQIECAAAECBAgQqKaAAHQ19dVNgAABAgQIECBAgAABAgQIECBAgACBEgsIQJd4cHWNAAECBAgQIECAAAECBAgQIECAAAEC1RQQgK6mvroJECBAgAABAgQIECBAgAABAgQIECBQYgEB6BIPrq4RIECAAAECBAgQIECAAAECBAgQIECgmgIC0NXUVzcBAgQIECBAgAABAgQIECBAgAABAgRKLCAAXeLB1TUCBAgQIECAAAECBAgQIECAAAECBAhUU0AAupr66iZAgAABAgQIECBAgAABAgQIECBAgECJBQSgSzy4ukaAAAECBAgQIECAAAECBAgQIECAAIFqCghAV1Nf3QQIECBAgAABAgQIECBAgAABAgQIECixgAB0iQdX1wgQIECAAAECBAgQIECAAAECBAgQIFBNAQHoauqrmwABAgQIECBAgAABAgQIECBAgAABAiUWEIAu8eDqGgECBAgQIECAAAECBAgQIECAAAECBKopIABdTX11EyBAgAABAgQIECBAgAABAgQIECBAoMQCAtAlHlxdI0CAAAECBAgQIECAAAECBAgQIECAQDUFBKCrqa9uAgQIECBAgAABAgQIECBAgAABAgQIlFhAALrEg6trBAgQIECAAAECBAgQIECAAAECBAgQqKaAAHQ19dVNgAABAgQIECBAgAABAgQIECBAgACBEgsIQJd4cHWNAAECBAgQIECAAAECBAgQIECAAAEC1RQQgK6mvroJECBAgAABAgQIECBAgAABAgQIECBQYgEB6BIPrq4RIECAAAECBAgQIECAAAECBAgQIECgmgIC0NXUVzcBAgQIECBAgAABAgQIECBAgAABAgRKLCAAXeLB1TUCBAgQIECAAAECBAgQIECAAAECBAhUU0AAupr66iZAgAABAgQIECBAgAABAgQIECBAgECJBQSgSzy4ukaAAAECBAgQIECAAAECBAgQIECAAIFqCghAV1Nf3QQIECBAgAABAgQIECBAgAABAgQIECixgAB0iQdX1wgQIECAAAECBAgQIECAAAECBAgQIFBNAQHoauqrmwABAgQIECBAgAABAgQIECBAgAABAiUWEIAu8eDqGgECBAgQIECAAAECBAgQIECAAAECBKopIABdTX11EyBAgAABAgQIECBAgAABAgQIECBAoMQCAtAlHlxdI0CAAAECBAgQIECAAAECBAgQIECAQDUFBKCrqa9uAgQIECBAgAABAgQIECBAgAABAgQIlFhAALrEg6trBAgQIECAAAECBAgQIECAAAECBAgQqKaAAHQ19dVNgAABAgQIECBAgAABAgQIECBAgACBEgsIQJd4cHWNAAECBAgQIECAAAECBAgQIECAAAEC1RQQgK6mvroJECBAgAABAgQIECBAgAABAgQIECBQYgEB6BIPrq4RIECAAAECBAgQIECAAAECBAgQIECgmgIC0NXUVzcBAgQIECBAgAABAgQIECBAgAABAgRKLCAAXeLB1TUCBAgQIECAAAECBAgQIECAAAECBAhUU0AAupr66iZAgAABAgQIECBAgAABAgQIECBAgECJBQSgSzy4ukaAAAECBAgQIECAAAECBAgQIECAAIFqCghAV1Nf3QQIECBAgAABAgQIECBAgAABAgQIECixgAB0iQdX1wgQIECAAAECBAgQIECAAAECBAgQIFBNAQHoauqrmwABAgQIECBAgAABAgQIECBAgAABAiUWEIAu8eDqGgECBAgQIECAAAECBAgQIECAAAECBKopIABdTX11EyBAgAABAgQIECBAgAABAgQIECBAoMQCAtAlHlxdI0CAAAECBAgQIECAAAECBAgQIECAQDUFBKCrqa9uAgQIECBAgAABAgQIECBAgAABAgQIlFhAALrEg6trBAgQIECAAAECBAgQIECAAAECBAgQqKaAAHQ19dVNgAABAgQIECBAgAABAgQIECBAgACBEgsIQJd4cHWNAAECBAgQIECAAAECBAgQIECAAAEC1RQQgK6mvroJECBAgAABAgQIECBAgAABAgQIECBQYgEB6BIPrq4RIECAAAECBAgQIECAAAECBAgQIECgmgIC0NXUVzcBAgQIECBAgAABAgQIECBAgAABAgRKLCAAXeLB1TUCBAgQIECAAAECBAgQIECAAAECBAhUU0AAupr66iZAgAABAgQIECBAgAABAgQIECBAgECJBQSgSzy4ukaAAAECBAgQIECAAAECBAgQIECAAIFqCghAV1Nf3QQIECBAgAABAgQIECBAgAABAgQIECixgAB0iQdX1wgQIECAAAECBAgQIECAAAECBAgQIFBNAQHoauqrmwABAgQIECBAgAABAgQIECBAgAABAiUWEIAu8eDqGgECBAgQIECAAAECBAgQIECAAAECBKopIABdTX11EyBAgAABAgQIECBAgAABAgQIECBAoMQC3Urct6p37Ve/+lV68sknF2hH165dU48ePdKgQYPSVlttlXbaaacU6xQCBAgQIECAAAECBAgQIECAAAECBAiUSUAAuh1Hc+LEiemFF15YaA233npr+u1vf5u+8pWvpO22226h+9pIgAABAgQIECBAgAABAgQIECBAgACBWhIQgO6A0dpzzz3TAQccUKlp7ty5aebMmemVV15JV111VRo/fnw69dRT04UXXphWX331yn4WOlZgzpy56bpr70u33fpwGj/hzdSt6xJp2LCV0l57b5O23W7Djm2M2ggQIECAAAECBAgQIECAAAECBAiUQEAAugMGcemll05rrrnmAjVtsskmaZ999knf//730/33359OP/30dP7556fu3bsvsK8V7Ssw/rXJ6VvfOieNGzupXkVvvDE13XPPU2mrrf9j/vgcmfr07V1vuycECBAgQIAAAQIECBAgQIAAAQIECDQt4CaETdt0yJbIBX3yySenAQMGpJdffjlddtlljdY7a9asbPudd96Zrr322vT444+nt956q96+8+bNS6+++mr2E7OsGysfffRRZZ/GtnfGde+882762rGjFgg+17V44P5/phO//ZsUfgoBAgQIECBAgAABAgQIECBAgAABAs0TMAO6eU7tulefPn3Sbrvtlv7617+mp59+On3hC1+oV991112Xzj777PT+++/XW9+lS5e07777pmOOOSb17NkzLbHEEunEE09Mr7/+epbSY8SIEfX2jyePPPJIOuGEE9L666+fzj333AW2d8YV55/79zR58rRFdv3RR59PN97wYPrMXlsvcl87ECBAgAABAgQIECBAgAABAgQIECCQkgB0QX4LNttssywAPXbs2Hotuvjii7ObFC611FLps5/9bNpggw3S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AQKLQ0AAenEotvM5YsZ0BJ7jpyVl2rRp2ezn5ZZbLm2++eYtOdS+BAgQIECAAAECBAgQIECAAAECBAgQaLOAAHSbCYt1gsgFPWPGjDRz5sx0zjnnZDcv/NznPpcit7FCgAABAgQIECBAgAABAgQIECBAgACBjhQQgO5I7Q6oa9KkSenwww+v1DR8+PB0wAEHVJ5bIECAAAECBAgQIECAAAECBAgQIECAQEcJCEB3lHQH1RM3M1xnnXXSu+++mzbZZJN05JFHpu7du3dQ7aohQIAAAQIECBAgQIAAAQIECBAgQIDAJwIC0J9YlGKpb9++6YILLihFX3SCAAECBAgQIECAAAECBAgQIECAAIHaFpAYuLbHT+sJECBAgAABAgQIECBAgAABAgQIECBQWAEB6MIOjYYRIECAAAECBAgQIECAAAECBAgQIECgtgUEoGt7/LSeAAECBAgQIECAAAECBAgQIECAAAEChRUQgC7s0GgYAQIECBAgQIAAAQIECBAgQIAAAQIEaltAALq2x0/rCRAgQIAAAQIECBAgQIAAAQIECBAgUFgBAejCDo2GESBAgAABAgQIECBAgAABAgQIECBAoLYFBKBre/y0ngABAgQIECBAgAABAgQIECBAgAABAoUVEIAu7NBoGAECBAgQIECAAAECBAgQIECAAAECBGpbQAC6tsdP6wkQIECAAAECBAgQIECAAAECBAgQIFBYAQHowg6NhhEgQIAAAQIECBAgQIAAAQIECBAgQKC2BQSga3v8tJ4AAQIECBAgQIAAAQIECBAgQIAAAQKFFRCALuzQaBgBAgQIECBAgAABAgQIECBAgAABAgRqW0AAurbHT+sJECBAgAABAgQIECBAgAABAgQIECBQWAEB6MIOjYYRIECAAAECBAgQIECAAAECBAgQIECgtgUEoGt7/LSeAAECBAgQIECAAAECBAgQIECAAAEChRUQgC7s0GgYAQIECBAgQIAAAQIECBAgQIAAAQIEaltAALq2x0/rCRAgQIAAAQIECBAgQIAAAQIECBAgUFgBAejCDo2GESBAgAABAgQIECBAgAABAgQIECBAoLYFBKBre/y0ngABAgQIECBAgAABAgQIECBAgAABAoUVEIAu7NBoGAECBAgQIECAAAECBAgQIECAAAECBGpbQAC6tsdP6wkQIECAAAECBAgQIECAAAECBAgQIFBYAQHowg6NhhEgQIAAAQIECBAgQIAAAQIECBAgQKC2BQSga3v8tJ4AAQIECBAgQIAAAQIECBAgQIAAAQKFFRCALuzQaBgBAgQIECBAgAABAgQIECBAgAABAgRqW0AAurbHT+sJECBAgAABAgQIECBAgAABAgQIECBQWAEB6MIOjYYRIECAAAECBAgQIECAAAECBAgQIECgtgUEoGt7/LSeAAECBAgQIECAAAECBAgQIECAAAEChRUQgC7s0GgYAQIECBAgQIAAAQIECBAgQIAAAQIEaltAALq2x0/rCRAgQIAAAQIECBAgQIAAAQIECBAgUFgBAejCDo2GESBAgAABAgQIECBAgAABAgQIECBAoLYFBKBre/y0ngABAgQIECBAgAABAgQIECBAgAABAoUVEIAu7NBoGAECBAgQIECAAAECBAgQIECAAAECBGpbQAC6tsdP6wkQIECAAAECBAgQIECAAAECBAgQIFBYAQHowg6NhhEgQIAAAQIECBAgQIAAAQIECBAgQKC2BQSga3v8tJ4AAQIECBAgQIAAAQIECBAgQIAAAQKFFRCALuzQaBgBAgQIECBAgAABAgQIECBAgAABAgRqW0AAurbHT+sJECBAgAABAgQIECBAgAABAgQIECBQWAEB6MIOjYYRIECAAAECBAgQIECAAAECBAgQIECgtgUEoGt7/LSeAAECBAgQIECAAAECBAgQIECAAAEChRUQgC7s0GgYAQIECBAgQIAAAQIECBAgQIAAAQIEaltAALq2x0/rCRAgQIAAAQIECBAgQIAAAQIECBAgUFgBAejCDo2GESBAgAABAgQIECBAgAABAgQIECBAoLYFBKBre/y0ngABAgQIECBAgAABAgQIECBAgAABAoUVEIAu7NBoGAECBAgQIECAAAECBAgQIECAAAECBGpbQAC6tsdP6wkQIECAAAECBAgQIECAAAECBAgQIFBYAQHowg6NhhEgQIAAAQIECBAgQIAAAQIECBAgQKC2BQSga3v8tJ4AAQIECBAgQIAAAQIECBAgQIAAAQKFFRCALuzQaBgBAgQIECBAgAABAgQIECBAgAABAgRqW0AAurbHT+sJECBAgAABAgQIECBAgAABAgQIECBQWAEB6MIOjYYRIECAAAECBAgQIECAAAECBAgQIECgtgW6fDy/1HYXtJ4AAQIECBAgQIAAAQIECBAgQIAAAQIEiihgBnQRR0WbCBAgQIAAAQIECBAgQIAAAQIECBAgUAIBAegSDKIuECBAgAABAgQIECBAgAABAgQIECBAoIgCAtBFHBVtIkCAAAECBAgQIECAAAECBAgQIECAQAkEBKBLMIi6QIAAAQIECBAgQIAAAQIECBAgQIAAgSIKCEAXcVS0iQABAgQIECBAgAABAgQIECBAgAABAiUQEIAuwSDqAgECBAgQIECAAAECBAgQIECAAAECBIooIABdxFHRJgIECBAgQIAAAQIECBAgQIAAAQIECJRAQAC6BIOoCwQIECBAgAABAgQIECBAgAABAgQIECiigAB0EUdFmwgQIECAAAECBAgQIECAAAECBAgQIFACAQHoEgyiLhAgQIAAAQIECBAgQIAAAQIECBAgQKCIAgLQRRwVbSJAgAABAgQIECBAgAABAgQIECBAgEAJBASgSzCIukCAAAECBAgQIECAAAECBAgQIECAAIEiCnQrYqO0iUA1BGbNmpWuuOKK9Oijj6Zp06alYcOGpQ033DDtvvvuqWvXrtVokjoJECCw2ASuv/769Ic//CGdeuqpad11123yvM8//3y6/PLL07hx41KfPn3S8OHD00477ZRWX331Jo+xgQABAtUUePvtt9Nll12WxowZkyZPnpyWW265tNpqq6UDDzwwDRo0qNGmed/XKIuVBAgUXOC2225Ld911V5owYUIaMmRI9j5txx13zJabarr3dk3JWE+AQEcKdPl4funICtVFoIgC77zzTjrmmGPS+PHjs+Yts8wyaerUqdnydtttl0455ZTUo0ePIjZdmwgQILBIgWeeeSZ9/etfT3Pnzk1nn3129uVaYwfFl3BnnXVWtqlv375p9uzZ2U/v3r3TT37yk7Txxhs3dph1BAgQqJpABGLOOOOM9MEHH2QTBgYOHJgiID1v3rwUr13f/va304gRI+q1z/u+ehyeECBQAwLxHu7EE09MDz30UNbafv36pffeey9FOGeppZZK//u//5vWW2+9BXrivd0CJFYQIFAlASk4qgSv2mIJnH766VnweYsttkjXXXdd+vvf/54uvfTStMYaa6R77rkn/fKXvyxWg7WGAAECzRR44okn0kknnZQFnxd2SASp47Uuvmz70Y9+lG644YZ00003ZYHrCOyccMIJadKkSQs7hW0ECBDoUIGJEydWgs+HH354uvnmm9OVV16ZPR5yyCFZUDq+PMsnGOSN874vl/BIgECtCJx33nlZ8Hno0KHZ+7Rrrrkme707+OCD0/Tp09M3vvGN7Mu3uv3x3q6uhmUCBKotIABd7RFQf9UFnnvuufTwww9ns2R++MMfZt8gR6NWWGGFNGrUqGw2zY033pjefffdqrdVAwgQINBcgffffz/9/Oc/zwLIkVZoiSUW/if/97//fTaL5otf/GKKKz+6dOmSunfvng444IC0//77pzlz5qSrr766udXbjwABAu0ucO2112ZB5p133jkdccQRqWfPnlmd8XjkkUemHXbYIX344Ycp9suL9325hEcCBGpFIK5IiwlSUeLLtnif1q1btyzF0FFHHZVWWmml7LUunx2d98t7u1zCIwECRRBY+KfRIrRQGwi0s0Bcuhll++23T7169cqW838iFcfmm2+eXYIeQWiFAAECtSIwcuTI7MPKkksumU4++eQsH2pTbY9gdXwRF2W33XZbYLd8XVwhEpeAKgQIECiCQFzhEWXbbbdttDlxZVuUl19+ubLd+74KhQUCBGpEICYSRNB5k002SfGFW8MS26KMHj26ssl7uwqFBQIECiIgAF2QgdCM6gk8++yzWeX5h5SGLYkAdJSnn3664SbPCRAgUFiByHEagePf/e53aZdddlloO+MDS+QQjBk0cWlnw7LOOuukyDUYl3i+9tprDTd7ToAAgaoIRNqgv/71r2nLLbdstP78fh4DBgyobPe+r0JhgQCBGhFYfvnl0/e+97105plnZjOfGzY7/5Jt/fXXr2zy3q5CYYEAgYIIdCtIOzSDQNUEIn9glLofTuo2Jl/fMH9g3X0sEyBAoGgCF198cYoPLM0pi3odjHPEa2GkIorXwtVXX705p7UPAQIE2lUgUm009qVZVBpXa+RXr9UNyizq9c77vnYdMicnQGAxCkyYMCFLMRSpNwYPHpy23nrrytkX9VoXO3pvV+GyQIBABwgIQHcAsiqKLTBz5sysgfkHjoat7d+/f7Yq36/hds8JECBQRIHmBp+j7fnrW1Ovg7GP18JQUAgQqBWBuGFXBGfinh6f+cxnKs1e1Oud17oKlQUCBAoq8MILL6RTTz01e42LJg4fPjy7IWv++hXrFvVaF/vk++f7xjqFAAEC7SUgBUd7yTpvTQh89NFH2Q0borFxeXljpW/fvtnqWbNmNbbZOgIECNS8QOQJjNLU62Bsy18L44ZeCgECBIoscOmll6b4iZuvfve7363c48P7viKPmrYRINBcgTFjxmQ3YI37FUUZN25cuu+++7J0avk5vLfLJTwSIFAUAQHoooyEdlRFID6Y9O7dO6u7qQBzvr5Hjx5VaaNKCRAg0N4Cffr0yaqIu6w3VfLXwrjkXSFAgEBRBc4///x0zjnnZMHnyJm6wQYbVJrqfV+FwgIBAjUssMcee6Srr746u9n0RRddlJZeeun0k5/8JJ100kmVXnlvV6GwQIBAQQQEoAsyEJpRPYFll102qzxymzZW8vX5H/HG9rGOAAECtSyQvw7OmDGjyW54LWySxgYCBAogMGfOnHT66aenP/7xjykmDZx22mmN3oA1f73LX9MaNj1f731fQxnPCRAoikCXLl0qTVlrrbXSj370o9S1a9d07733pvxGq/lrnfd2FSoLBAhUWUAAusoDoPrqC+R/nPMPHA1blP/Rjm+WFQIECJRRYFGvg9Fnr4VlHHl9IlAOgXgPd/zxx6dbbrkly2l65plnpu23377Rzi3q9c5rXaNsVhIgUGCBVVZZpXKD6BdffDFr6aJe62Inr3cFHlRNI1BCAQHoEg6qLrVMYLnllssOeOWVVxo9MF+/7rrrNrrdSgIECNS6QP46OH78+BSzCBuW6dOnp6lTp2aXtA8bNqzhZs8JECBQNYEIoHzta19LTzzxRFpxxRXTueeem92Qq6kG5a93+fu7hvvl673vayjjOQEC1RKIWc1nnXVWltu+qTZ0794929StW7fsMX+t896uKTHrCRDoaAEB6I4WV1/hBEaMGJG16bbbblugbXGzmjvuuCNbv+GGGy6w3QoCBAiUQWDo0KFpnXXWSe+991566KGHFujSnXfemebNm5fts+SSSy6w3QoCBAhUQ+Djjz9OJ554Yoobcq299tpZ8HmllVZaaFO871soj40ECBRQIG4AfcUVV6Q//elPae7cuQu0MCYKxOtglEjJEcV7u4zBPwQIFEhAALpAg6Ep1RHYcsst06qrrppeeumldOONN9ZrxJ///Of09ttvp7isaYsttqi3zRMCBAiUSeCggw7KunPxxRenuimJpkyZki655JJs2wEHHFCmLusLAQI1LnDttdemZ555JsWl5j/72c/SUksttcgeed+3SCI7ECBQMIHhw4enQYMGpQg0x1UeMUkqL3GT6J/+9KcpHmO/uleqeW+XK3kkQKAIAl3mzxz4uAgN0QYC1RS455570sknn5zN8Ntxxx2zP9zxgeaBBx5IcTlT5BKsexf1arZV3QQIEGiNwGGHHZbNjjn77LNTY1d0xAznr3zlK2n06NHZrJl4LYxZNnF1SHwRt80226QzzjgjS8PRmvodQ4AAgcUpEMGWfffdt/KFWdyAq6my5pprpgsvvLCy2fu+CoUFAgRqRCA+m0a6oXi/NnDgwLTrrrtm78nuvvvuNGHChOwLuAsuuCANGTKk0iPv7SoUFggQKICAAHQBBkETiiEQuQMjuDJp0qRKg2Jm9De/+c208cYbV9ZZIECAQC0KLCoAHX2KgM7//d//ZTfyynNBR1AngjxHH3106tWrVy12XZsJECihwPPPP5+OPPLIZvVsjTXWSL/73e/q7et9Xz0OTwgQqAGBF154IY0aNSo999xzldbG+7RILXTsscempZdeurI+X/DeLpfwSIBAtQUEoKs9AuovnEDM9IubNcSNGwYPHmy2X+FGSIMIEGhvgZj5HLkE4yKpyKfap0+f9q7S+QkQIFAVAe/7qsKuUgIE2iAwbdq09Nprr2Xvz1ZeeeXUo0ePRZ7Ne7tFEtmBAIF2FhCAbmdgpydAgAABAgQIECBAgAABAgQIECBAgEBnFXATws468vpNgAABAgQIECBAgAABAgQIECBAgACBdhYQgG5nYKcnQIAAAQIECBAgQIAAAQIECBAgQIBAZxUQgO6sI6/fBAgQIECAAAECBAgQIECAAAECBAgQaGcBAeh2BnZ6AgQIECBAgAABAgQIECBAgAABAgQIdFYBAejOOvL6TYAAAQIECBAgQIAAAQIECBAgQIAAgXYWEIBuZ2CnJ0CAAAECBAgQIECAAAECBAgQIECAQGcVEIDurCOv3wQIECBAgAABAgQIECBAgAABAgQIEGhnAQHodgZ2egIECBAgQIAAAQIECBAgQIAAAQIECHRWAQHozjry+k2AAAECBAgQIECAAAECBAgQIECAAIF2FhCAbmdgpydAgAABAgQIECBAgAABAgQIECBAgEBnFejWWTuu3wQIECBAgAABAgQWp8B9992Xxo4dmzbYYIM0fPjweqe+5JJL0kcffZT22muvtNRSS9Xb5gkBAgQIECBAgACBMguYAV3m0dU3AgQIECBAgACBDhM47rjj0he/+MX01FNP1aszgtL//d//nQ455JDUrVvL5n9EMLtLly6Vn+9+97v1zr2oJ/vss0/l2DjPww8/XO+QE044obJ99uzZ9bZV40nR2lMNA3USIECAAAECBMomIABdthHVHwIECBAgQIAAgQ4XmDNnTiXwvOmmm9ar/9FHH82er7POOqlPnz71trX0yeWXX97sQ95555100003LXT/jz/+eKHbO3pj0drT0f1XHwECBAgQIECgjAIC0GUcVX0iQIAAAQIECBDoUIF//vOfadasWalfv35prbXWqld3HoBuGJiut1Mzn7z88svpiSeeaNbef/vb39KiZjV379499erVK/tp1knbeaeitaedu+v0BAgQIECAAIFOISAA3SmGWScJECBAgAABAgTaUyAPMm+88cZpiSXqv8XOt7UlAD148OBKkPiyyy5rVlcuvfTSbL/+/fs3uf9PfvKT9MEHH2Q/PXr0aHK/jtpQtPZ0VL/VQ4AAAQIECBAos0D9d8dl7qm+ESBAgAABAgQIEGgngYUFmR977LGs1rYEoGNm9Z577pmdpzlpOKZMmZLuuOOObP999923nXrttAQIECBAgAABAgQWLdCyu6As+nz2IECAAAECBAgQIFBqgffffz9Fyo265f7778+e9u3bt96N/iZNmpQiF3OUSIcRNwFcZZVV0vLLL5+ta8k/Bx54YIq0GmPGjEmPP/54itnWTZUrrrgizZs3L33qU59K6623XlO7pfHjx6c33ngj277ZZptlNyRsuPNLL72UtTvqjXQdcb74WW211Rrdv+7xLT22qfZEX/JA/rrrrpulOpk7d256+umn0wMPPJBmzJiReWyyySZp2WWXrduERpenT5+ebrjhhvTKK69kfdpqq62y46N/EyZMSK+//nrq3bt3Gj58eKPHW0mAAAECBAgQINB8AQHo5lvZkwABAgQIECBAgEB6/vnn0xZbbNGoxA9+8IMUP42VHXbYIVv9f//3f+n//b//19guC1231157ZTcxnDlzZoo0HAsLQOfpNz7/+c8v9JxnnnlmGjVqVLZP5LCum4bj7bffTkcccUS69tprU2M3BxwxYkT63e9+l1ZcccUF6mjtsU215913362Y33nnnSlyRe+zzz4p6qlbIoB81llnpaOOOqru6nrLP/rRj9JPf/rTFOesW4YOHZquuuqqdPXVV6cf//jHWS7vF154oe4ulgkQIECAAAECBFohIAVHK9AcQoAAAQIECBAg0HkFunbtmgYOHFj5ifQYUSL3c931sdyzZ89sW8ymzbdFkLQ1Zckll0wRhI6ysDQcMYP3H//4R7bfogLQ2U6N/PPhhx+mvffeO11zzTVZ8DkC7oceemjab7/90lJLLZUdcfvtt6cNNtggjR07tt4Z2nJsvRM18eT6669Pu+yySxZ8XnPNNdPOO+9cmfUcdR999NFZELqxw2Pb9773vSz43KdPnxRB9IMOOiitvvrq2azn7bffPt1yyy2NHWodAQIECBAgQIBAKwUEoFsJ5zACBAgQIECAAIHOKRBpLd56663Kz//+7/9mEDHDue76WI7UDlF+/vOfV7Z9+ctfzta15p9IwxElUkfkKSkanidmR8eM5ah71VVXbbi5Wc///ve/Z6ktYudf//rX6cEHH8xmO1955ZVZP2IGcZRp06aliy++OFvO/2nLsfk5FvYYlpHCJGZCR4qPW2+9NUXO67rtiFnQH330Ub3TXHfdden888/P1m2++eZp9OjR6bbbbkt/+ctfsrQmv/jFL1Kk9chdG5v1Xe+EnhAgQIAAAQIECDRLQAC6WUx2IkCAAAECBAgQINC4QFM3IIwAaB7MjPzKi6PsscceWf7jOFdTs6Dz9Bsxs7e15d57780OXWaZZRZIZ9GtW7d03HHHpbXXXjstt9xy6cUXX6xXTVuOrXeihTyJYHOe0iR269KlSzrssMOyWdrx/NVXX03PPPNMLFbKaaedli3HjPWYRb3SSitVtsVC9OmEE06ot84TAgQIECBAgACBtgsIQLfd0BkIECBAgAABAgQ6sUBTAejIHxx5hiOvcsyaXhwl0ndE7uMojQWg40aBjzzySIo0If/1X//V6iqHDBmSHTt16tQUNzRsWCII/eyzz6bJkyenSy65pN7mthxb70RNPIlgft3gc93d6jq/+eablU1xA8gnn3wye/61r32tkrKjssO/F/7nf/6nEuBvuM1zAgQIECBAgACB1gkIQLfOzVEECBAgQIAAAQIE0gcffJAFYoNi0003rScSgeAokSe57s396u3UiicLS8Px17/+NTvjjjvumKWpaMXps0NipnVeIo/0Nttsk92Y7/HHH6/ckDCC3I2Vthzb2Pkarot8zU2VuilH5syZU9ktZkPnz/O0KJWNdRaWXnrpNHz48DprLBIgQIAAAQIECLRVQAC6rYKOJ0CAAAECBAgQ6LQCTz31VJY3OG4wuNpqq9VzyAPQiyv9Rn7yXXfdNQ0YMCB7Gvme65bFkX4jzrfxxhunCy64IMVM5yj3339/+u53v5s22WSTNHTo0HT44Yenm266Ket7tkOdf9pybJ3TNLm48sorN7ktbvaYl7o5oCNwnpe6Qep8Xd3HhuNYd5tlAgQIECBAgACBlgsIQLfczBEECBAgQIAAAQKdWOCf//xniiBm/Oy9996ZxIwZMyrr8m0XXXRRti1SVOTr4jFf31rCmE297777ZofXTcMRKTFipm9s32+//Vp7+spxI0eOTHfddVc64IADUqT+yMukSZOyGxLGTOdtt902vf766/mmymNbjq2cpImFum1pYpcFVo8fP76yrm6QurKyzkLfvn3rPLNIgAABAgQIECDQVoF/TWlo61kcT4AAAQIECBAgQKCTCEQ+4XHjxtXrbaR3aLgu3+Gdd95J8ZOXyAvd1hJpOOJGfHGzvchBHek/8vQbu+++e2WGdFvridQb8ROpRu6555508803ZzOfR48enZ36wQcfTDHDe+zYsal79+71qmvLsfVOtBie1J3VHMHoNdZYo8mz1g1WN7mTDQQIECBAgAABAs0WMAO62VR2JECAAAECBAgQIJDSsGHD0h133JH9rLDCChnJGWecUVkX2379619n62O27e23315v2/77799mxhEjRqRI+xElnwWdB6APOuigNp+/4QmiH7vttlsaNWpUeu6557K81+utt162W8yAjhQdTZW2HNvUOVu6PsYsL6+88kq+2OjjorY3epCVBAgQIECAAAECTQoIQDdJYwMBAgQIECBAgACBBQX69euX4iZ/m2++eXrjjTeyHb74xS9m62J9/PTs2TNbv+GGG6addtqp3rYVV1xxwZO2cE3kZv7c5z6XHXXllVemJ598Mr344oupT58+6bOf/WwLz1Z/93nz5mU5nqN/hxxySP2N/34Wweef/vSnlW0PPfRQttyWYysna4eFGIe4wWCU8847r8kaYpb3888/3+R2GwgQIECAAAECBFouIADdcjNHECBAgAABAgQIEEhPPPFEihvdLbfccmmllVaqJxJpMaJEaoz2KpGGI8qYMWPSKaecki1H8HnJJZfMllv7T9euXbOUGnETxT/96U9ZcLuxc3388ceV1VtvvXW23JZjKydrh4XI63zCCSdkZ3744YfThRdeuEAtkSbl+OOPX2C9FQQIECBAgAABAm0TEIBum5+jCRAgQIAAAQIEOqnAwoLMjz32WKbSngHo7bffPi2//PJZPddcc032uLjSbxx22GHZ+SLI/OUvfznlOZ+zlfP/+cc//pG++tWvZk8HDRqU8gB0rGjLsdkJ2+mfb3zjGymffX7kkUemuFHi9ddfnx5//PF0wQUXpI033jjLp51X36VLl3zRIwECBAgQIECAQBsEBKDbgOdQAgQIECBAgACBzisQM4SjxE346pa4IeFTTz2VrWq4re5+bV2O2cZ5Go44V6SYiDzNi6MceuihlUBypNdYf/31s+BtBGkHDx6ctt122xQ36xsyZEi69tpr0xJLfPKxoi3HLo62N3WOSE8SN03MvxS46KKL0l577ZU22WSTdNRRR2U3dDzmmGOyQHSco1evXk2dynoCBAgQIECAAIEWCHzyTrEFB9mVAAECBAgQIECAQGcXaGoG9LPPPptmzZqVIu3D2muv3a5MeRqOqCSC0T169Fhs9Z1//vnpN7/5TVp11VVTzISeOHFilnZk8uTJacCAAWnvvffOZgxvscUWC9TZlmMXONliXBE3jYw8zz/+8Y/TPvvsk+L50KFD07777pviJo7nnHNOymc+L7XUUouxZqciQIAAAQIECHRegS7z30x+kryt8zroOQECBAgQIECAAIEWCfzlL3/JArMRiO3fv3/l2Ndeey3de++9WZD2M5/5TGV9rS5EnusJEyak6FfkSY7Z0KuttlqzutOWY5tVQTvsNGzYsPTyyy9nAfY8tUk7VOOUBAgQIECAAIFOIyAA3WmGWkcJECBAgAABAgQIdE6BmHNzyCGHZIHzPfbYI2211VaNQowbNy5FADrSqHznO99JZ5xxRqP7WUmAAAECBAgQINB8AQHo5lvZkwABAgQIECBAgACBGhXYYIMN0jPPPJNWWmml9NJLL6WePXsu0JNdd9013Xrrrdn6O+64I+24444L7GMFAQIECBAgQIBAywTkgG6Zl70JECBAgAABAgQIEKhBgd133z1rddw8cf/9909/+tOfUuSznj17doq83SNHjqwEn3fYYYe0/fbb12AvNZkAAQIECBAgUDwBM6CLNyZaRIAAAQIECBAgQIDAYhaItBojRozI8nPnp85vOFj3tjibbbZZuvrqq7ObE+b7eSRAgAABAgQIEGi9gBnQrbdzJAECBAgQIECAAAECNSLQvXv3dPvtt6eLLrooRTqOeB6B5/iJQPRGG22UzjrrrPSPf/xD8LlGxlQzCRAgQIAAgdoQMAO6NsZJKwkQIECAAAECBAgQWIwCH330UZo4cWIWgB48eHDq0aPHYjy7UxEgQIAAAQIECOQCAtC5hEcCBAgQIECAAAECBAgQIECAAAECBAgQWKwCUnAsVk4nI0CAAAECBAgQIECAAAECBAgQIECAAIFcQAA6l/BIgAABAgQIECBAgAABAgQIECBAgAABAotVQAB6sXI6GQECBAgQIECAAAECBAgQIECAAAECBAjkAgLQuYRHAgQIECBAgAABAgQIECBAgAABAgQIEFisAgLQi5XTyQgQIECAAAECBAgQIECAAAECBAgQIEAgFxCAziU8EiBAgAABAgQIECBAgAABAgQIECBAgMBiFfj/7dghAQAAAMKw/q1Rb4CcwiEmL0BfOZ0RIECAAAECBAgQIECAAAECBAgQIECAQAICdBKWAAECBAgQIECAAAECBAgQIECAAAECBK4CAvSV0xkBAgQIECBAgAABAgQIECBAgAABAgQIJCBAJ2EJECBAgAABAgQIECBAgAABAgQIECBA4CogQF85nREgQIAAAQIECBAgQIAAAQIECBAgQIBAAgJ0EpYAAQIECBAgQIAAAQIECBAgQIAAAQIErgIDq9vGrKB+E6gAAAAASUVORK5CYII=" width="720" style="display: block; margin: auto;" /></p>
-
-</article></slide><slide class=""><hgroup><h2>filter() and missing data</h2></hgroup><article  id="filter-and-missing-data">
-
-<p>Be <strong>careful</strong> with missing data using subsetting!</p>
-
-<p><strong><code>filter()</code> removes missing values by default.</strong> Because R can’t tell for sure if an <code>NA</code> value meets the condition. To keep them need to add <code>is.na()</code> conditional.</p>
-
-<p>Think about if this is OK or not - it depends on your data!</p>
-
-</article></slide><slide class=""><hgroup><h2>filter() and missing data</h2></hgroup><article  id="filter-and-missing-data-1" class="codesmall">
-
-<p>What if NA values represent values that are so low it is undetectable?</p>
-
-<p>Filter will drop them from the data.</p>
-
-<pre class = 'prettyprint lang-r'>airquality %&gt;% filter(Ozone &lt; 5)</pre>
-
-<pre >  Ozone Solar.R Wind Temp Month Day
-1     1       8  9.7   59     5  21
-2     4      25  9.7   61     5  23</pre>
-
-</article></slide><slide class=""><hgroup><h2>filter() and missing data</h2></hgroup><article  id="filter-and-missing-data-2">
-
-<p><code>is.na()</code> can help us keep them.</p>
-
-<pre class = 'prettyprint lang-r'>airquality %&gt;% filter(Ozone &lt; 5 | is.na(Ozone))</pre>
-
-<pre >   Ozone Solar.R Wind Temp Month Day
-1     NA      NA 14.3   56     5   5
-2     NA     194  8.6   69     5  10
-3      1       8  9.7   59     5  21
-4      4      25  9.7   61     5  23
-5     NA      66 16.6   57     5  25
-6     NA     266 14.9   58     5  26
-7     NA      NA  8.0   57     5  27
-8     NA     286  8.6   78     6   1
-9     NA     287  9.7   74     6   2
-10    NA     242 16.1   67     6   3
-11    NA     186  9.2   84     6   4
-12    NA     220  8.6   85     6   5
-13    NA     264 14.3   79     6   6
-14    NA     273  6.9   87     6   8
-15    NA     259 10.9   93     6  11
-16    NA     250  9.2   92     6  12
-17    NA     332 13.8   80     6  14
-18    NA     322 11.5   79     6  15
-19    NA     150  6.3   77     6  21
-20    NA      59  1.7   76     6  22
-21    NA      91  4.6   76     6  23
-22    NA     250  6.3   76     6  24
-23    NA     135  8.0   75     6  25
-24    NA     127  8.0   78     6  26
-25    NA      47 10.3   73     6  27
-26    NA      98 11.5   80     6  28
-27    NA      31 14.9   77     6  29
-28    NA     138  8.0   83     6  30
-29    NA     101 10.9   84     7   4
-30    NA     139  8.6   82     7  11
-31    NA     291 14.9   91     7  14
-32    NA     258  9.7   81     7  22
-33    NA     295 11.5   82     7  23
-34    NA     222  8.6   92     8  10
-35    NA     137 11.5   86     8  11
-36    NA      64 11.5   79     8  15
-37    NA     255 12.6   75     8  23
-38    NA     153  5.7   88     8  27
-39    NA     145 13.2   77     9  27</pre>
-
-</article></slide><slide class=""><hgroup><h2>To remove <strong>rows</strong> with <code>NA</code> values for a <strong>variable</strong> use <code>drop_na()</code></h2></hgroup><article  id="to-remove-rows-with-na-values-for-a-variable-use-drop_na">
-
-<p>A function from the <code>tidyr</code> package. (Need a data frame to start!)</p>
-
-<p>Disclaimer: Don’t do this unless you have thought about if dropping <code>NA</code> values makes sense based on knowing what these values mean in your data.</p>
-
-<pre class = 'prettyprint lang-r'>dim(airquality)</pre>
-
-<pre >[1] 153   6</pre>
-
-<pre class = 'prettyprint lang-r'>airquality %&gt;% drop_na(Ozone)</pre>
-
-<pre >    Ozone Solar.R Wind Temp Month Day
-1      41     190  7.4   67     5   1
-2      36     118  8.0   72     5   2
-3      12     149 12.6   74     5   3
-4      18     313 11.5   62     5   4
-5      28      NA 14.9   66     5   6
-6      23     299  8.6   65     5   7
-7      19      99 13.8   59     5   8
-8       8      19 20.1   61     5   9
-9       7      NA  6.9   74     5  11
-10     16     256  9.7   69     5  12
-11     11     290  9.2   66     5  13
-12     14     274 10.9   68     5  14
-13     18      65 13.2   58     5  15
-14     14     334 11.5   64     5  16
-15     34     307 12.0   66     5  17
-16      6      78 18.4   57     5  18
-17     30     322 11.5   68     5  19
-18     11      44  9.7   62     5  20
-19      1       8  9.7   59     5  21
-20     11     320 16.6   73     5  22
-21      4      25  9.7   61     5  23
-22     32      92 12.0   61     5  24
-23     23      13 12.0   67     5  28
-24     45     252 14.9   81     5  29
-25    115     223  5.7   79     5  30
-26     37     279  7.4   76     5  31
-27     29     127  9.7   82     6   7
-28     71     291 13.8   90     6   9
-29     39     323 11.5   87     6  10
-30     23     148  8.0   82     6  13
-31     21     191 14.9   77     6  16
-32     37     284 20.7   72     6  17
-33     20      37  9.2   65     6  18
-34     12     120 11.5   73     6  19
-35     13     137 10.3   76     6  20
-36    135     269  4.1   84     7   1
-37     49     248  9.2   85     7   2
-38     32     236  9.2   81     7   3
-39     64     175  4.6   83     7   5
-40     40     314 10.9   83     7   6
-41     77     276  5.1   88     7   7
-42     97     267  6.3   92     7   8
-43     97     272  5.7   92     7   9
-44     85     175  7.4   89     7  10
-45     10     264 14.3   73     7  12
-46     27     175 14.9   81     7  13
-47      7      48 14.3   80     7  15
-48     48     260  6.9   81     7  16
-49     35     274 10.3   82     7  17
-50     61     285  6.3   84     7  18
-51     79     187  5.1   87     7  19
-52     63     220 11.5   85     7  20
-53     16       7  6.9   74     7  21
-54     80     294  8.6   86     7  24
-55    108     223  8.0   85     7  25
-56     20      81  8.6   82     7  26
-57     52      82 12.0   86     7  27
-58     82     213  7.4   88     7  28
-59     50     275  7.4   86     7  29
-60     64     253  7.4   83     7  30
-61     59     254  9.2   81     7  31
-62     39      83  6.9   81     8   1
-63      9      24 13.8   81     8   2
-64     16      77  7.4   82     8   3
-65     78      NA  6.9   86     8   4
-66     35      NA  7.4   85     8   5
-67     66      NA  4.6   87     8   6
-68    122     255  4.0   89     8   7
-69     89     229 10.3   90     8   8
-70    110     207  8.0   90     8   9
-71     44     192 11.5   86     8  12
-72     28     273 11.5   82     8  13
-73     65     157  9.7   80     8  14
-74     22      71 10.3   77     8  16
-75     59      51  6.3   79     8  17
-76     23     115  7.4   76     8  18
-77     31     244 10.9   78     8  19
-78     44     190 10.3   78     8  20
-79     21     259 15.5   77     8  21
-80      9      36 14.3   72     8  22
-81     45     212  9.7   79     8  24
-82    168     238  3.4   81     8  25
-83     73     215  8.0   86     8  26
-84     76     203  9.7   97     8  28
-85    118     225  2.3   94     8  29
-86     84     237  6.3   96     8  30
-87     85     188  6.3   94     8  31
-88     96     167  6.9   91     9   1
-89     78     197  5.1   92     9   2
-90     73     183  2.8   93     9   3
-91     91     189  4.6   93     9   4
-92     47      95  7.4   87     9   5
-93     32      92 15.5   84     9   6
-94     20     252 10.9   80     9   7
-95     23     220 10.3   78     9   8
-96     21     230 10.9   75     9   9
-97     24     259  9.7   73     9  10
-98     44     236 14.9   81     9  11
-99     21     259 15.5   76     9  12
-100    28     238  6.3   77     9  13
-101     9      24 10.9   71     9  14
-102    13     112 11.5   71     9  15
-103    46     237  6.9   78     9  16
-104    18     224 13.8   67     9  17
-105    13      27 10.3   76     9  18
-106    24     238 10.3   68     9  19
-107    16     201  8.0   82     9  20
-108    13     238 12.6   64     9  21
-109    23      14  9.2   71     9  22
-110    36     139 10.3   81     9  23
-111     7      49 10.3   69     9  24
-112    14      20 16.6   63     9  25
-113    30     193  6.9   70     9  26
-114    14     191 14.3   75     9  28
-115    18     131  8.0   76     9  29
-116    20     223 11.5   68     9  30</pre>
-
-</article></slide><slide class=""><hgroup><h2>To remove rows with <code>NA</code> values for a <strong>data frame</strong> use <code>drop_na()</code></h2></hgroup><article  id="to-remove-rows-with-na-values-for-a-data-frame-use-drop_na">
-
-<p>This function of the <code>tidyr</code> package drops rows with <strong>any</strong> missing data in <strong>any</strong> column when used on a df.</p>
-
-<pre class = 'prettyprint lang-r'>airquality %&gt;% drop_na()</pre>
-
-<pre >    Ozone Solar.R Wind Temp Month Day
-1      41     190  7.4   67     5   1
-2      36     118  8.0   72     5   2
-3      12     149 12.6   74     5   3
-4      18     313 11.5   62     5   4
-5      23     299  8.6   65     5   7
-6      19      99 13.8   59     5   8
-7       8      19 20.1   61     5   9
-8      16     256  9.7   69     5  12
-9      11     290  9.2   66     5  13
-10     14     274 10.9   68     5  14
-11     18      65 13.2   58     5  15
-12     14     334 11.5   64     5  16
-13     34     307 12.0   66     5  17
-14      6      78 18.4   57     5  18
-15     30     322 11.5   68     5  19
-16     11      44  9.7   62     5  20
-17      1       8  9.7   59     5  21
-18     11     320 16.6   73     5  22
-19      4      25  9.7   61     5  23
-20     32      92 12.0   61     5  24
-21     23      13 12.0   67     5  28
-22     45     252 14.9   81     5  29
-23    115     223  5.7   79     5  30
-24     37     279  7.4   76     5  31
-25     29     127  9.7   82     6   7
-26     71     291 13.8   90     6   9
-27     39     323 11.5   87     6  10
-28     23     148  8.0   82     6  13
-29     21     191 14.9   77     6  16
-30     37     284 20.7   72     6  17
-31     20      37  9.2   65     6  18
-32     12     120 11.5   73     6  19
-33     13     137 10.3   76     6  20
-34    135     269  4.1   84     7   1
-35     49     248  9.2   85     7   2
-36     32     236  9.2   81     7   3
-37     64     175  4.6   83     7   5
-38     40     314 10.9   83     7   6
-39     77     276  5.1   88     7   7
-40     97     267  6.3   92     7   8
-41     97     272  5.7   92     7   9
-42     85     175  7.4   89     7  10
-43     10     264 14.3   73     7  12
-44     27     175 14.9   81     7  13
-45      7      48 14.3   80     7  15
-46     48     260  6.9   81     7  16
-47     35     274 10.3   82     7  17
-48     61     285  6.3   84     7  18
-49     79     187  5.1   87     7  19
-50     63     220 11.5   85     7  20
-51     16       7  6.9   74     7  21
-52     80     294  8.6   86     7  24
-53    108     223  8.0   85     7  25
-54     20      81  8.6   82     7  26
-55     52      82 12.0   86     7  27
-56     82     213  7.4   88     7  28
-57     50     275  7.4   86     7  29
-58     64     253  7.4   83     7  30
-59     59     254  9.2   81     7  31
-60     39      83  6.9   81     8   1
-61      9      24 13.8   81     8   2
-62     16      77  7.4   82     8   3
-63    122     255  4.0   89     8   7
-64     89     229 10.3   90     8   8
-65    110     207  8.0   90     8   9
-66     44     192 11.5   86     8  12
-67     28     273 11.5   82     8  13
-68     65     157  9.7   80     8  14
-69     22      71 10.3   77     8  16
-70     59      51  6.3   79     8  17
-71     23     115  7.4   76     8  18
-72     31     244 10.9   78     8  19
-73     44     190 10.3   78     8  20
-74     21     259 15.5   77     8  21
-75      9      36 14.3   72     8  22
-76     45     212  9.7   79     8  24
-77    168     238  3.4   81     8  25
-78     73     215  8.0   86     8  26
-79     76     203  9.7   97     8  28
-80    118     225  2.3   94     8  29
-81     84     237  6.3   96     8  30
-82     85     188  6.3   94     8  31
-83     96     167  6.9   91     9   1
-84     78     197  5.1   92     9   2
-85     73     183  2.8   93     9   3
-86     91     189  4.6   93     9   4
-87     47      95  7.4   87     9   5
-88     32      92 15.5   84     9   6
-89     20     252 10.9   80     9   7
-90     23     220 10.3   78     9   8
-91     21     230 10.9   75     9   9
-92     24     259  9.7   73     9  10
-93     44     236 14.9   81     9  11
-94     21     259 15.5   76     9  12
-95     28     238  6.3   77     9  13
-96      9      24 10.9   71     9  14
-97     13     112 11.5   71     9  15
-98     46     237  6.9   78     9  16
-99     18     224 13.8   67     9  17
-100    13      27 10.3   76     9  18
-101    24     238 10.3   68     9  19
-102    16     201  8.0   82     9  20
-103    13     238 12.6   64     9  21
-104    23      14  9.2   71     9  22
-105    36     139 10.3   81     9  23
-106     7      49 10.3   69     9  24
-107    14      20 16.6   63     9  25
-108    30     193  6.9   70     9  26
-109    14     191 14.3   75     9  28
-110    18     131  8.0   76     9  29
-111    20     223 11.5   68     9  30</pre>
-
-</article></slide><slide class=""><hgroup><h2>Drop <strong>columns</strong> with any missing values</h2></hgroup><article  id="drop-columns-with-any-missing-values">
-
-<p>Use the <code>miss_var_which()</code> function from <code>naniar</code></p>
-
-<pre class = 'prettyprint lang-r'>miss_var_which(airquality) # which columns have missing values</pre>
-
-<pre >[1] &quot;Ozone&quot;   &quot;Solar.R&quot;</pre>
-
-</article></slide><slide class=""><hgroup><h2>Drop <strong>columns</strong> with any missing values</h2></hgroup><article  id="drop-columns-with-any-missing-values-1" class="codesmall">
-
-<p><code>miss_var_which</code> and function from <code>naniar</code> (need a data frame)</p>
-
-<pre class = 'prettyprint lang-r'>airquality %&gt;% select(!miss_var_which(airquality))</pre>
-
-<pre >    Wind Temp Month Day
-1    7.4   67     5   1
-2    8.0   72     5   2
-3   12.6   74     5   3
-4   11.5   62     5   4
-5   14.3   56     5   5
-6   14.9   66     5   6
-7    8.6   65     5   7
-8   13.8   59     5   8
-9   20.1   61     5   9
-10   8.6   69     5  10
-11   6.9   74     5  11
-12   9.7   69     5  12
-13   9.2   66     5  13
-14  10.9   68     5  14
-15  13.2   58     5  15
-16  11.5   64     5  16
-17  12.0   66     5  17
-18  18.4   57     5  18
-19  11.5   68     5  19
-20   9.7   62     5  20
-21   9.7   59     5  21
-22  16.6   73     5  22
-23   9.7   61     5  23
-24  12.0   61     5  24
-25  16.6   57     5  25
-26  14.9   58     5  26
-27   8.0   57     5  27
-28  12.0   67     5  28
-29  14.9   81     5  29
-30   5.7   79     5  30
-31   7.4   76     5  31
-32   8.6   78     6   1
-33   9.7   74     6   2
-34  16.1   67     6   3
-35   9.2   84     6   4
-36   8.6   85     6   5
-37  14.3   79     6   6
-38   9.7   82     6   7
-39   6.9   87     6   8
-40  13.8   90     6   9
-41  11.5   87     6  10
-42  10.9   93     6  11
-43   9.2   92     6  12
-44   8.0   82     6  13
-45  13.8   80     6  14
-46  11.5   79     6  15
-47  14.9   77     6  16
-48  20.7   72     6  17
-49   9.2   65     6  18
-50  11.5   73     6  19
-51  10.3   76     6  20
-52   6.3   77     6  21
-53   1.7   76     6  22
-54   4.6   76     6  23
-55   6.3   76     6  24
-56   8.0   75     6  25
-57   8.0   78     6  26
-58  10.3   73     6  27
-59  11.5   80     6  28
-60  14.9   77     6  29
-61   8.0   83     6  30
-62   4.1   84     7   1
-63   9.2   85     7   2
-64   9.2   81     7   3
-65  10.9   84     7   4
-66   4.6   83     7   5
-67  10.9   83     7   6
-68   5.1   88     7   7
-69   6.3   92     7   8
-70   5.7   92     7   9
-71   7.4   89     7  10
-72   8.6   82     7  11
-73  14.3   73     7  12
-74  14.9   81     7  13
-75  14.9   91     7  14
-76  14.3   80     7  15
-77   6.9   81     7  16
-78  10.3   82     7  17
-79   6.3   84     7  18
-80   5.1   87     7  19
-81  11.5   85     7  20
-82   6.9   74     7  21
-83   9.7   81     7  22
-84  11.5   82     7  23
-85   8.6   86     7  24
-86   8.0   85     7  25
-87   8.6   82     7  26
-88  12.0   86     7  27
-89   7.4   88     7  28
-90   7.4   86     7  29
-91   7.4   83     7  30
-92   9.2   81     7  31
-93   6.9   81     8   1
-94  13.8   81     8   2
-95   7.4   82     8   3
-96   6.9   86     8   4
-97   7.4   85     8   5
-98   4.6   87     8   6
-99   4.0   89     8   7
-100 10.3   90     8   8
-101  8.0   90     8   9
-102  8.6   92     8  10
-103 11.5   86     8  11
-104 11.5   86     8  12
-105 11.5   82     8  13
-106  9.7   80     8  14
-107 11.5   79     8  15
-108 10.3   77     8  16
-109  6.3   79     8  17
-110  7.4   76     8  18
-111 10.9   78     8  19
-112 10.3   78     8  20
-113 15.5   77     8  21
-114 14.3   72     8  22
-115 12.6   75     8  23
-116  9.7   79     8  24
-117  3.4   81     8  25
-118  8.0   86     8  26
-119  5.7   88     8  27
-120  9.7   97     8  28
-121  2.3   94     8  29
-122  6.3   96     8  30
-123  6.3   94     8  31
-124  6.9   91     9   1
-125  5.1   92     9   2
-126  2.8   93     9   3
-127  4.6   93     9   4
-128  7.4   87     9   5
-129 15.5   84     9   6
-130 10.9   80     9   7
-131 10.3   78     9   8
-132 10.9   75     9   9
-133  9.7   73     9  10
-134 14.9   81     9  11
-135 15.5   76     9  12
-136  6.3   77     9  13
-137 10.9   71     9  14
-138 11.5   71     9  15
-139  6.9   78     9  16
-140 13.8   67     9  17
-141 10.3   76     9  18
-142 10.3   68     9  19
-143  8.0   82     9  20
-144 12.6   64     9  21
-145  9.2   71     9  22
-146 10.3   81     9  23
-147 10.3   69     9  24
-148 16.6   63     9  25
-149  6.9   70     9  26
-150 13.2   77     9  27
-151 14.3   75     9  28
-152  8.0   76     9  29
-153 11.5   68     9  30</pre>
-
-</article></slide><slide class=""><hgroup><h2>Change a value to be <code>NA</code></h2></hgroup><article  id="change-a-value-to-be-na" class="codesmall">
-
-<p>Let’s say we think that all 0 values should be <code>NA</code>.</p>
-
-<pre class = 'prettyprint lang-r'>library(readr)
-bike &lt;-read_csv(&quot;https://sisbid.github.io/Data-Wrangling/labs/Bike_Lanes.csv&quot;)
-count(bike, dateInstalled)</pre>
-
-<pre ># A tibble: 9 × 2
-  dateInstalled     n
-          &lt;dbl&gt; &lt;int&gt;
-1             0   126
-2          2006     2
-3          2007   368
-4          2008   206
-5          2009    86
-6          2010   625
-7          2011   101
-8          2012   107
-9          2013    10</pre>
-
-</article></slide><slide class=""><hgroup><h2>Change a value to be <code>NA</code></h2></hgroup><article  id="change-a-value-to-be-na-1" class="small">
-
-<p>The <code>na_if()</code> function of <code>dplyr</code> can be helpful for changing all 0 values to <code>NA</code>.</p>
-
-<pre class = 'prettyprint lang-r'>bike &lt;- bike %&gt;% 
-  mutate(dateInstalled = na_if(dateInstalled, 0))
-count(bike, dateInstalled)</pre>
-
-<pre ># A tibble: 9 × 2
-  dateInstalled     n
-          &lt;dbl&gt; &lt;int&gt;
-1          2006     2
-2          2007   368
-3          2008   206
-4          2009    86
-5          2010   625
-6          2011   101
-7          2012   107
-8          2013    10
-9            NA   126</pre>
-
-</article></slide><slide class=""><hgroup><h2>Change <code>NA</code> to be a value</h2></hgroup><article  id="change-na-to-be-a-value" class="codesmall">
-
-<p>The <code>replace_na()</code> function (part of the <code>tidyr</code> package), can do the opposite of <code>na_if()</code>. (note that you must use numeric values as replacement - we will show how to replace with character strings soon)</p>
-
-<pre class = 'prettyprint lang-r'>bike %&gt;% 
-  mutate(dateInstalled = replace_na(dateInstalled, 2005)) %&gt;% 
-  count(dateInstalled)</pre>
-
-<pre ># A tibble: 9 × 2
-  dateInstalled     n
-          &lt;dbl&gt; &lt;int&gt;
-1          2005   126
-2          2006     2
-3          2007   368
-4          2008   206
-5          2009    86
-6          2010   625
-7          2011   101
-8          2012   107
-9          2013    10</pre>
-
-</article></slide><slide class=""><hgroup><h2>Think about <code>NA</code></h2></hgroup><article  id="think-about-na">
-
-<div style="color: red;">
-<p>THINK ABOUT YOUR DATA FIRST!</p></div>
-
-<p>⚠️ Sometimes removing <code>NA</code> values leads to distorted math - be careful!</p>
-
-<p>⚠️ Think about what your <code>NA</code> means for your data (are you sure ?).</p>
+</article></slide><slide class=""><hgroup><h2>Splitting/Find/Replace and Regular Expressions</h2></hgroup><article  id="splittingfindreplace-and-regular-expressions">
 
 <ul>
-<li><p>Is an <code>NA</code> for values so low they could not be reported?</p></li>
-<li><p>Or is it if it was too low and also if there was a different issue (like no one reported)?</p></li>
+<li>R can do much more than find exact matches for a whole string</li>
+<li>Like Perl and other languages, it can use regular expressions.</li>
+<li>What are regular expressions?
+
+<ul>
+<li>Ways to search for specific strings</li>
+<li>Can be very complicated or simple</li>
+<li>Highly Useful - think &ldquo;Find&rdquo; on steroids</li>
+</ul></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>Think about <code>NA</code></h2></hgroup><article  id="think-about-na-1">
-
-<p>If it is something more like a zero then you might want it included in your data like a zero instead of an <code>NA</code>.</p>
-
-<p>Example: - survey reports <code>NA</code> if student has never tried cigarettes - survey reports 0 if student has tried cigarettes but did not smoke that week</p>
-
-<p>⚠️ You might want to keep the <code>NA</code> values so that you know the original sample size.</p>
-
-</article></slide><slide class=""><hgroup><h2>Word of caution</h2></hgroup><article  id="word-of-caution" class="codesmall">
-
-<p>⚠️ Calculating percentages will give you a different result depending on your choice to include NA values.!</p>
-
-<p>This is because the denominator changes.</p>
-
-</article></slide><slide class=""><hgroup><h2>Word of caution - Percentages with <code>NA</code></h2></hgroup><article  id="word-of-caution---percentages-with-na">
-
-<pre class = 'prettyprint lang-r'>count(bike, dateInstalled) %&gt;% mutate(percent = (n/(sum(n)) *100))</pre>
-
-<pre ># A tibble: 9 × 3
-  dateInstalled     n percent
-          &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;
-1          2006     2   0.123
-2          2007   368  22.6  
-3          2008   206  12.6  
-4          2009    86   5.27 
-5          2010   625  38.3  
-6          2011   101   6.19 
-7          2012   107   6.56 
-8          2013    10   0.613
-9            NA   126   7.73 </pre>
-
-</article></slide><slide class=""><hgroup><h2>Word of caution - Percentages with <code>NA</code></h2></hgroup><article  id="word-of-caution---percentages-with-na-1">
-
-<pre class = 'prettyprint lang-r'>bike %&gt;% drop_na(dateInstalled) %&gt;% 
-  count(dateInstalled) %&gt;% mutate(percent = (n/(sum(n)) *100))</pre>
-
-<pre ># A tibble: 8 × 3
-  dateInstalled     n percent
-          &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;
-1          2006     2   0.133
-2          2007   368  24.5  
-3          2008   206  13.7  
-4          2009    86   5.71 
-5          2010   625  41.5  
-6          2011   101   6.71 
-7          2012   107   7.11 
-8          2013    10   0.664</pre>
-
-<p>Should you be dividing by the total count with <code>NA</code> values included?<br/>It depends on your data and what <code>NA</code> might mean.<br/>Pay attention to your data and your <code>NA</code> values!</p>
-
-</article></slide><slide class=""><hgroup><h2>Summary</h2></hgroup><article  id="summary">
+</article></slide><slide class=""><hgroup><h2>A bit on Regular Expressions</h2></hgroup><article  id="a-bit-on-regular-expressions">
 
 <ul>
-<li><code>is.na()</code>,<code>any(is.na())</code>, <code>count()</code>, and functions from <code>naniar</code> like <code>gg_miss_var()</code> can help determine if we have <code>NA</code> values</li>
-<li><code>filter()</code> automatically removes <code>NA</code> values - can’t confirm or deny if condition is met (need <code>| is.na()</code> to keep them)</li>
-<li><code>drop_na()</code> can help you remove <code>NA</code> values from a variable or an entire data frame</li>
-<li><code>NA</code> values can change your calculation results</li>
-<li>think about what <code>NA</code> values represent - don’t drop them if you shouldn’t</li>
-</ul></article></slide>
+<li><a href='http://www.regular-expressions.info/reference.html' title=''>http://www.regular-expressions.info/reference.html</a></li>
+<li>They can use to match a large number of strings in one statement</li>
+<li><code>.</code> matches any single character</li>
+<li><code>*</code> means repeat as many (even if 0) more times the last character</li>
+<li><code>?</code> makes the last thing optional</li>
+<li><code>^</code> matches start of vector <code>^a</code> - starts with &ldquo;a&rdquo;</li>
+<li><code>$</code> matches end of vector <code>b$</code> - ends with &ldquo;b&rdquo;</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>&lsquo;Find&rsquo; functions: <code>stringr</code></h2></hgroup><article  id="find-functions-stringr">
+
+<p><code>str_detect</code>, <code>str_subset</code>, <code>str_replace</code>, and <code>str_replace_all</code> search for matches to argument pattern within each element of a character vector: they differ in the format of and amount of detail in the results.</p>
+
+<ul>
+<li><code>str_detect</code> - returns <code>TRUE</code> if <code>pattern</code> is found</li>
+<li><code>str_subset</code> - returns only the strings which pattern were detected
+
+<ul>
+<li>convenient wrapper around <code>x[str_detect(x, pattern)]</code></li>
+</ul></li>
+<li><code>str_extract</code> - returns only strings which pattern were detected, but ONLY the pattern</li>
+<li><code>str_replace</code> - replaces <code>pattern</code> with <code>replacement</code> the first time</li>
+<li><code>str_replace_all</code> - replaces <code>pattern</code> with <code>replacement</code> as many times matched</li>
+</ul>
+
+<!-- ## Let's look at modifier for `stringr` -->
+
+<!-- `?modifiers` -->
+
+<!-- * `fixed` - match everything exactly -->
+
+<!-- * `regexp` - default - uses **reg**ular **exp**ressions -->
+
+<!-- * `ignore_case` is an option to not have to use `tolower` -->
+
+</article></slide><slide class=""><hgroup><h2>&lsquo;Find&rsquo; functions: Finding Indices</h2></hgroup><article  id="find-functions-finding-indices">
+
+<p>These are the indices where the pattern match occurs:</p>
+
+<pre class = 'prettyprint lang-r'>str_detect(ufo$comments, &quot;two aliens&quot;) %&gt;% head()</pre>
+
+<pre >[1] FALSE FALSE FALSE FALSE FALSE FALSE</pre>
+
+<pre class = 'prettyprint lang-r'>str_detect(ufo$comments, &quot;two aliens&quot;) %&gt;% table()</pre>
+
+<pre >.
+FALSE  TRUE 
+88747     2 </pre>
+
+<pre class = 'prettyprint lang-r'>which(str_detect(ufo$comments, &quot;two aliens&quot;))</pre>
+
+<pre >[1]  1730 61724</pre>
+
+</article></slide><slide class=""><hgroup><h2>&lsquo;Find&rsquo; functions: Finding Logicals</h2></hgroup><article  id="find-functions-finding-logicals" class="smaller">
+
+<p><code>filter()</code> using <code>str_detect()</code> gives a tibble:</p>
+
+<pre class = 'prettyprint lang-r'>filter(ufo, str_detect(comments, &quot;two aliens&quot;))</pre>
+
+<pre ># A tibble: 2 × 12
+  datetime     city  state country shape duration_seconds duration_hours_min comments date_posted
+  &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;              &lt;chr&gt;    &lt;chr&gt;      
+1 10/14/2006 … yuma  va    us      form…              300 5 minutes          ((HOAX?… 4/27/2007  
+2 7/1/2007 23… nort… ct    &lt;NA&gt;    unkn…               60 1 minute           Witness… 10/19/2011 
+# ℹ 3 more variables: latitude &lt;chr&gt;, longitude &lt;dbl&gt;, x12 &lt;dbl&gt;</pre>
+
+<pre class = 'prettyprint lang-r'>filter(ufo, str_detect(comments, &quot;two aliens&quot;)) %&gt;% select(comments)</pre>
+
+<pre ># A tibble: 2 × 1
+  comments                                                                                       
+  &lt;chr&gt;                                                                                          
+1 ((HOAX??))  two aliens appeared from a bright light to peacefully investigate the surroundings…
+2 Witnessed two aliens walking along baseball field fence.                                       </pre>
+
+</article></slide><slide class=""><hgroup><h2>&lsquo;Find&rsquo; functions: <code>str_subset()</code> is easier</h2></hgroup><article  id="find-functions-str_subset-is-easier" class="smaller">
+
+<p><code>str_subset()</code> gives the values that match the pattern:</p>
+
+<pre class = 'prettyprint lang-r'>str_subset(ufo$comments, &quot;two aliens&quot;)</pre>
+
+<pre >[1] &quot;((HOAX??))  two aliens appeared from a bright light to peacefully investigate the surroundings in the woods&quot;
+[2] &quot;Witnessed two aliens walking along baseball field fence.&quot;                                                   </pre>
+
+</article></slide><slide class=""><hgroup><h2>Showing difference in <code>str_extract</code></h2></hgroup><article  id="showing-difference-in-str_extract">
+
+<p><code>str_extract</code> extracts just the matched string</p>
+
+<pre class = 'prettyprint lang-r'>ss = str_extract(ufo$comments, &quot;two aliens&quot;)
+head(ss)</pre>
+
+<pre >[1] NA NA NA NA NA NA</pre>
+
+<pre class = 'prettyprint lang-r'>ss[ !is.na(ss)]</pre>
+
+<pre >[1] &quot;two aliens&quot; &quot;two aliens&quot;</pre>
+
+<ul>
+<li>Look for any comment that starts with &ldquo;aliens&rdquo;</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>str_subset(ufo$comments, &quot;^aliens.*&quot;)</pre>
+
+<pre >[1] &quot;aliens speak german???&quot; &quot;aliens exist&quot;           &quot;aliens in srilanka&quot;    </pre>
+
+</article></slide><slide class=""><hgroup><h2>Using Regular Expressions</h2></hgroup><article  id="using-regular-expressions" class="smaller">
+
+<p>That contains space then ship maybe with stuff in between</p>
+
+<pre class = 'prettyprint lang-r'>str_subset(ufo$comments, &quot;space.?ship&quot;) %&gt;% head(4) # gets &quot;spaceship&quot; or &quot;space ship&quot; or...</pre>
+
+<pre >[1] &quot;I saw the cylinder shaped looked like a spaceship hovring above the east side of the Air Force base. Saw it for about 30 seconds and ra&quot;         
+[2] &quot;description of a spaceship spotted over Birmingham Alabama in 1967.&quot;                                                                             
+[3] &quot;A space ship was descending to the ground&quot;                                                                                                       
+[4] &quot;On Monday october 3&amp;#44 2005&amp;#44 I spotted two spaceships in the sky.  The first spotted ship was what seemed to be a bright star&amp;#44 when it st&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>str_subset(ufo$comments, &quot;space.ship&quot;) %&gt;% head(4) # no &quot;spaceship&quot; must have character in bw</pre>
+
+<pre >[1] &quot;A space ship was descending to the ground&quot;                                                                                                 
+[2] &quot;I saw a Silver space ship rising into the early morning sky over Houston&amp;#44 Texas.&quot;                                                       
+[3] &quot;Saw a space ship hanging over the southern (Manzano) portion of the Sandia Mountains on evening. It was brightly lit&amp;#44 but not entirely.&quot;
+[4] &quot;saw space ship for 5 min&amp;#33 Got scared crapless&amp;#33&amp;#33&amp;#33&amp;#33&amp;#33&amp;#33&amp;#33&amp;#33&amp;#33&amp;#33&amp;#33&amp;#33&amp;#33&amp;#33&amp;#33&amp;#33 happened in arizona&quot;      </pre>
+
+</article></slide><slide class=""><hgroup><h2>str_replace()</h2></hgroup><article  id="str_replace">
+
+<p>Let’s say we wanted to make the time information more consistent. Using <code>case_when()</code> would be very tedious and error-prone!</p>
+
+<p>We can use <code>str_replace()</code> to do so.</p>
+
+<pre class = 'prettyprint lang-r'>head(ufo$duration_hours_min, 8)</pre>
+
+<pre >[1] &quot;45 minutes&quot;   &quot;1-2 hrs&quot;      &quot;20 seconds&quot;   &quot;1/2 hour&quot;     &quot;15 minutes&quot;   &quot;5 minutes&quot;   
+[7] &quot;about 3 mins&quot; &quot;20 minutes&quot;  </pre>
+
+<pre class = 'prettyprint lang-r'>ufo %&gt;% mutate(duration_hours_min = 
+                 str_replace(string = duration_hours_min, 
+                             pattern = &quot;minutes&quot;, 
+                             replacement =&quot;mins&quot;)) %&gt;%
+  pull(duration_hours_min) %&gt;%
+  head(8)</pre>
+
+<pre >[1] &quot;45 mins&quot;      &quot;1-2 hrs&quot;      &quot;20 seconds&quot;   &quot;1/2 hour&quot;     &quot;15 mins&quot;      &quot;5 mins&quot;      
+[7] &quot;about 3 mins&quot; &quot;20 mins&quot;     </pre>
+
+<!-- ## Separating columns -->
+
+<!-- Better yet, you might notice that this data isn't tidy- there are more than two entries for each value - amount of time and unit. We could separate this using `separate()` from the `tidyr` package. -->
+
+<!-- ```{r, warning=FALSE } -->
+
+<!-- ufo %>% separate(duration_hours_min,  -->
+
+<!--                  into = c("duration_amount", "duration_unit"), -->
+
+<!--                  sep = " ") %>% -->
+
+<!--   select(duration_amount, duration_unit) %>% head() -->
+
+<!-- ``` -->
+
+<!-- As you can see there is still plenty of cleaning to do! -->
+
+</article></slide><slide class=""><hgroup><h2>Dates and times</h2></hgroup><article  id="dates-and-times" class="smaller">
+
+<p>The <code>[lubridate</code>](<a href='https://lubridate.tidyverse.org/' title=''>https://lubridate.tidyverse.org/</a>) package is amazing, there’s no reason to use anything else.</p>
+
+<pre class = 'prettyprint lang-r'>library(lubridate)#need to load this one!
+head(ufo$datetime)</pre>
+
+<pre >[1] &quot;10/10/1949 20:30&quot; &quot;10/10/1949 21:00&quot; &quot;10/10/1955 17:00&quot; &quot;10/10/1956 21:00&quot;
+[5] &quot;10/10/1960 20:00&quot; &quot;10/10/1961 19:00&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>ufo$date_posted = mdy(ufo$date_posted)</pre>
+
+<pre >Warning: 194 failed to parse.</pre>
+
+<pre class = 'prettyprint lang-r'>head(ufo$date_posted)</pre>
+
+<pre >[1] &quot;2004-04-27&quot; &quot;2005-12-16&quot; &quot;2008-01-21&quot; &quot;2004-01-17&quot; &quot;2004-01-22&quot; &quot;2007-04-27&quot;</pre>
+
+<!-- ## Special characters -->
+
+<!-- ```{r} -->
+
+<!-- money = tibble(group = letters[1:5],  -->
+
+<!--   amount = c("$12.32", "$43.64", "$765.43", "$93.31", "$12.13")) -->
+
+<!-- money %>% arrange(amount) -->
+
+<!-- as.numeric(money$amount) -->
+
+<!-- ``` -->
+
+<!-- ## Special characters -->
+
+<!-- In the past, we would recommend just replacing the `$` sign with an empty string and convert to numeric: -->
+
+<!-- ```{r}  -->
+
+<!-- money$amountNum = as.numeric(str_replace(money$amount, fixed("$"), "")) -->
+
+<!-- money %>% arrange(amountNum) -->
+
+<!-- ``` -->
+
+<!-- ## Special characters -->
+
+<!-- But now there are better helper functions for this: -->
+
+<!-- ```{r} -->
+
+<!-- money$amount = parse_number(money$amount) -->
+
+<!-- money %>% arrange(amount) -->
+
+<!-- ``` -->
+
+<!-- ## Special characters -->
+
+<!-- Also works for internal commas: -->
+
+<!-- ```{r} -->
+
+<!-- parse_number(c("12,123,123.00", "12,465.10")) -->
+
+<!-- ``` --></article></slide>
 
 
   <slide class="backdrop"></slide>
