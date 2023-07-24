@@ -11,7 +11,7 @@
 
 
 
-<title>Data I/O Lab, Part 1</title>
+<title>Data I/O Lab, Part 2</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -348,38 +348,37 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Data I/O Lab, Part 1</h1>
+<h1 class="title toc-ignore">Data I/O Lab, Part 2</h1>
 
 </div>
 
 
-<pre class="r"><code>library(readr)
-library(readxl)</code></pre>
-<p>This lab uses different versions of the <code>iris</code> dataset.
-You can use links or download them to your machine. Copy the code
-produced by the dropdown menu into the code chunk.</p>
-<p>You can see more about this dataset by running <code>?iris</code> in
-the console.</p>
+<p>In this lab you can use the interactive console to explore but please
+record your commands here. Remember anything you type here can be “sent”
+to the console with Cmd-Enter (OS-X) or Cntr-Enter (Windows/Linux) (But
+only in side the <code>{r}</code> areas).</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
 <ol style="list-style-type: decimal">
+<li><p>Read in the the Charm City Circulator Dataset from “<a href="https://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv" class="uri">https://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv</a>”
+using <code>read_csv</code>, call it <code>circ</code></p></li>
+<li><p>Use a few functions to check out the data (e.g.,
+<code>str()</code>, <code>head()</code>, <code>glimpse()</code>
+etc.).</p></li>
+<li><p>Write out <code>circ</code> to a file called “Circulator.csv”
+using <code>write_csv</code>.</p></li>
+<li><p>Write out <code>circ</code> to a file called “Circulator.rds”
+using <code>write_rds</code>.</p></li>
 <li><p>Read in the
-<code>https://sisbid.github.io/Data-Wrangling/data/iris/iris_q1.csv</code>
-dataset into the <code>iris_q1</code> R object. What delimiter separates
-columns?</p></li>
-<li><p>Read in the
-<code>https://sisbid.github.io/Data-Wrangling/data/iris/iris_q2.tsv</code>
-dataset into the <code>iris_q2</code> R object. What delimiter separates
-columns?</p></li>
-<li><p>Read in the
-<code>https://sisbid.github.io/Data-Wrangling/data/iris/iris_q3.txt</code>
-dataset into the <code>iris_q3</code> R object. What delimiter separates
-columns?</p></li>
-<li><p>Read in the
-<code>https://sisbid.github.io/Data-Wrangling/data/iris/iris_q4.csv</code>
-dataset into the <code>iris_q4</code> R object. What delimiter separates
-columns? [hint: file extension is ambiguous]</p></li>
-<li><p>Read in the
-<code>https://sisbid.github.io/Data-Wrangling/data/iris/iris_xl.xlsx</code>
-dataset into the <code>iris_xl</code> R object.</p></li>
+<code>https://sisbid.github.io/Data-Wrangling/data/iris_q5.csv</code>
+dataset into the <code>iris_q5</code> R object. Some entries read “-999”
+but are supposed to be missing (the value <code>NA</code> in the
+data).</p></li>
+<li><p>Read in sheet 1 of the <code>iris_q6.xlsx</code> dataset into the
+<code>iris_q6_1</code> R object. How many rows are in the
+dataset?</p></li>
+<li><p>Read in sheet 2 of the <code>iris_q6.xlsx</code> dataset into the
+<code>iris_q6_2</code> R object. How many rows are in the
+dataset?</p></li>
 </ol>
 
 
