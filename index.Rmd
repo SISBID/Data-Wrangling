@@ -93,8 +93,8 @@ Make sure you have a GitHub profile: https://github.com/
 
 [x1]: lecture_notes/Setup.html
 [x2]: lecture_notes/Setup.pdf
-[01]: https://docs.google.com/presentation/d/1aNFX9d0qLLfSW7nF4uOaE39D0ESlwenDg-1Ww9bDyJs/edit?usp=sharing
-[02]: lecture_notes/sisbid_intro_2022.pdf
+[01]: https://docs.google.com/presentation/d/1IpQGkwgbdisTnQ2zeBeKKf6ikl20GVsu49cKu4wN-5I/edit?usp=sharing
+[02]: lecture_notes/sisbid_intro_2023.pdf
 [03]: lecture_notes/Data_IO_Part1.html
 [04]: lecture_notes/Data_IO_Part1.pdf
 [05]: labs/data-io-lab-part1.Rmd
@@ -105,20 +105,20 @@ Make sure you have a GitHub profile: https://github.com/
 [10]: labs/data-io-lab-part1.Rmd
 [11]: labs/data-io-lab-part2-key.Rmd
 [12]: labs/data-io-lab-part2-key.html
-[13]: https://docs.google.com/presentation/d/1qorxqdmHxo1jzU0OlRrtRqFPF2k5auoZ-9L2pk_thSg/edit?usp=sharing
-[14]: lecture_notes/sisbid_rep_research_2022.pdf
+[13]: https://docs.google.com/presentation/d/1SqI4Pqg_-fmjA_Ecr6OoCmhw4bfDfTXF5DFnRLwbjvI/edit?usp=sharing
+[14]: lecture_notes/sisbid_rep_research_2023.pdf
 [15]: labs/rmarkdown-lab.Rmd
 [16]: labs/rmarkdown-lab-key.Rmd
 [17]: labs/rmarkdown-lab-key.html
-[18]: https://docs.google.com/presentation/d/1Adp5HpXIB73PMzd5OraMxLYi5UF6dtIAC9nnnexzWaY/edit?usp=sharing
-[19]: lecture_notes/sisbid_github_2022.pdf
+[18]: https://docs.google.com/presentation/d/1E0o-VNm_IatdpKX7pMjBTGdnMtf8iPVqEAd7PSaN0OM/edit?usp=sharing
+[19]: lecture_notes/sisbid_github_2023.pdf
 [20]: https://lab.github.com/githubtraining/introduction-to-github
 [21]: labs/github-lab.md
-[x5]:lecture_notes/Data_missing.html
-[x6]:lecture_notes/Data_missing.pdf
-[x7]:labs/missing-data-lab.Rmd
-[x8]:labs/missing-data-lab-key.Rmd
-[x9]:labs/missing-data-lab-key.html
+[x5]: lecture_notes/Data_Missing.html
+[x6]: lecture_notes/Data_Missing.pdf
+[x7]: labs/missing-data-lab.Rmd
+[x8]: labs/missing-data-lab-key.Rmd
+[x9]: labs/missing-data-lab-key.html
 
 [x3]: lecture_notes/Updating_files_with_github.html
 [x4]: lecture_notes/Updating_files_with_github.pdf
@@ -167,7 +167,7 @@ Make sure you have a GitHub profile: https://github.com/
 [61]: labs/functional-program-lab-key.html
 [62]: lecture_notes/Bioconductor_intro.html
 [63]: lecture_notes/Bioconductor_intro.pdf
-[64]: https://docs.google.com/presentation/d/11O06195n5LQJPqKQgf1L-zXnk7LwlK66Tc-qQFLNTjU/edit?usp=sharing
+[64]: https://docs.google.com/presentation/d/18UA0WLDVasiSijFyRJZ3T3GWl8eokv4GBxMzQKy8sjk/edit?usp=sharing
 [65]: lecture_notes/sisbid_wrap_up_2022.pdf
 
 **Miscellaneous**
