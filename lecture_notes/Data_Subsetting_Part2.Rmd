@@ -14,247 +14,345 @@ library(tidyverse)
 ```
 
 
-## UFO data again
+# Subsetting part 2
+
+## Data
+
+Let's continue to work with the Diamond dataset from the `ggplot2` package of the tidyverse. 
+
+We will often use the `glimpse()` function of the `dplyr` package of the `tidyverse` to look at a rotated view of the data.
+
+```{r}
+library(tidyverse)
+glimpse(diamonds)
+```
+## Let's learn more about this data
+
+We can use `?diamonds` to get more informatin in the `Help` pane.
+
+We might decide to rename `x` to be `length`, `y` to be `width` and `z` to be depth, but first changing `depth` to be `depth_percentage`.
+
+## Renaming Columns of a data frame or tibble
+
+To rename columns in `dplyr`, you can use the `rename` function.
+
+Notice the new name is listed **first**!
+
+<div class = "codeexample">
+```{r, eval = FALSE}
+# general format! not code!
+{data you are creating or changing} <- rename({data you are using}, 
+                                          {New Name} = {Old name})
+```
+</div>
+
+```{r}
+
+diamonds_2<- rename(diamonds, depth_percentage = depth)
+head(diamonds_2)
+```
+
+
+## Take Care with Column Names
+
+When you can, avoid spaces, special punctuation, or numbers in column names, as these require special treatment to refer to them. 
+
+See https://jhudatascience.org/intro_to_r/quotes_vs_backticks.html for more guidance.
 
 ```{r, eval = FALSE}
-ufo <- read_csv("../data/ufo/ufo_data_complete.csv", col_types = 
-                 cols(
-                   .default = col_character(),
-                   `duration (seconds)` = col_double(),
-                   longitude = col_double()
-                 ))
-head(ufo)
+rename(diamonds, depth percentage = depth)# this will cause an error
 ```
 
-```{r, echo = FALSE, warning = FALSE}
-ufo <- read_csv("../data/ufo/ufo_data_complete.csv", col_types = 
-                 cols(
-                   .default = col_character(),
-                   `duration (seconds)` = col_double(),
-                   longitude = col_double()
-                 ))
-head(ufo)
+```{r, eval = FALSE}
+rename(diamonds, depth_percentage = depth) # this will work
+```
+
+```{r, eval = FALSE}
+rename(diamonds, `depth percentage` = depth) # this will work but not recommended
+```
+
+## Unusual Column Names
+
+It's best to avoid unusual column names where possible, as things get tricky later.
+
+We just showed the use of \` backticks\` . You may see people use quotes as well.
+
+```{r, fig.alt="dplyr", out.width = "14%", echo = FALSE, fig.align='center'}
+knitr::include_graphics("images/backtick_1.png")
+```
+
+Other atypical column names are those with:
+
+- spaces
+- number without characters
+- number starting the name
+- other punctuation marks (besides "_" or "." and not at the beginning)
+
+
+## A solution!
+
+Rename tricky column names so that you don't have to deal with them later!
+
+```{r, fig.align='center', echo = FALSE}
+include_graphics("https://media.giphy.com/media/6q29hxDKvJvPy/giphy.gif")
+```
+
+## Be careful about copy pasting code!
+
+Curly quotes will not work!
+
+```{r, eval = FALSE}
+rename(diamonds, ‘depth percentage’ = depth)# this will cause an error!
+```
+
+```{r, eval = FALSE}
+rename(diamonds, 'depth percentage' = depth) # this will work!
+```
+
+Also true for double quotes
+```{r, eval = FALSE}
+rename(diamonds, “depth percentage” = depth)# this will cause an error!
+```
+
+```{r, eval = FALSE}
+rename(diamonds, "depth percentage" = depth) # this will work!
 ```
 
 
-## Filtering and tibbles
 
-The filter function automatically removes `NA` values.
+## Renaming all columns of a data frame: dplyr {.codesmall}
+
+To rename all columns you use the `rename_with()`. In this case we will use `toupper()` to make all letters upper case. Could also use `tolower()` function.
 
 ```{r}
-count(ufo, country)
-ufo %>%filter(country == "de") %>% count(country)
+diamonds_upper <- rename_with(diamonds, toupper)
+head(diamonds_upper, 3)
 ```
-
-## Filtering for missing data
-
-Missing value and filter can be powerful 
 
 ```{r}
-ufo %>% 
-  filter(is.na(state) & is.na(country)) %>% 
-  head()
+rename_with(diamonds_upper, tolower) %>% head(n = 3)
 ```
 
-## Filtering and tibbles
 
-Group logical statements with parentheses
+
+# subset based on a class
+
+## The `where()` function can help select columns of a specific class{.codesmall}
+
+`is.character()` and `is.numeric()` are often the most helpful
 
 ```{r}
-ufo %>% 
-  filter( 
-    (!is.na(state) & is.na(country)) | city == "seattle") %>% 
-  head()
+head(diamonds, 2)
+diamonds %>% select(where(is.numeric)) %>% head(n = 2)
+
 ```
 
-# Renaming Columns
+## The `where()` function can help select columns of a specific class{.codesmall}
 
-## Renaming Columns of a `data.frame`
-
-To rename columns in `dplyr`, you use the `rename` command (NEW=old)
+`is.character()` and `is.numeric()` are often the most helpful
 
 ```{r}
-ufo <- ufo %>% rename(City = city, duration_s = `duration (seconds)`)
-glimpse(ufo)
+head(diamonds, 2)
+diamonds %>% select(where(is.ordered)) %>% head(n = 2)
+
 ```
 
-## Renaming All Columns of a `data.frame`: dplyr
 
-To rename all columns you use the `rename_with` command (with a function)
+
+
+## `distinct()` function
+
+To filter for distinct values from a variable, multiple variables, or an entire tibble you can use the `distinct()` function from the `dplyr` package.
 
 ```{r}
-ufo_upper <- ufo %>% rename_with(toupper)
-glimpse(ufo_upper)
+distinct(diamonds, cut)
+
+distinct(diamonds, cut, color)
 ```
 
-## Adding columns to a `data.frame`
+# Adding/Removing Columns
 
- `mutate` - allows you to add or replace columns (IMPORTANT: need to reassign for it to stick!)
- 
-```{r}
-ufo2 <- ufo %>% mutate(State = toupper(state))
-ufo2 %>% glimpse()
+
+## Adding columns to a data frame: dplyr (`tidyverse` way){.codesmall}
+
+The `mutate` function in `dplyr` allows you to add or modify columns of a data frame.
+
+<div class = "codeexample">
+```{r, eval = FALSE}
+# General format - Not the code!
+{data object to update} <- mutate({data to use}, 
+                           {new variable name} = {new variable source}) 
 ```
+</div>
 
-
-<!-- ## Adding new columns to a `data.frame`: base R -->
-
-<!-- Can also use `$` to add columns, but only one column at a time -->
-<!-- ```{r} -->
-<!-- ufo2$State2 = tolower(ufo2$State) -->
-<!-- ufo2 %>% select(state, State, State2) %>% head -->
-<!-- ``` -->
-
-
-
-## Creating conditional variables
-
-One frequently-used tool is creating variables with conditions.
-
-A general function for creating new variables based on existing variables is the `ifelse()` function, which "returns a value with the same shape as test which is filled with elements selected from either yes or no depending on whether the element of test is `TRUE` or `FALSE`."
-
-```
-ifelse(test, yes, no)
-
-# test: an object which can be coerced
-    to logical mode.
-# yes: return values for true elements of test.
-# no: return values for false elements of test.
-```
-
-## Recoding to missing
-
-Sometimes people code missing data in weird or inconsistent ways.
-
-```{r codeNA}
-ages <-  data.frame(age = c(23,-999,21,44,32,57,65,54))
-range(ages$age)
-```
-
-
-## Recoding to create new column
-Say we want to make a new column about if the age was over 30?
+1 US dollar = 1.32 Canadian dollars
 
 ```{r}
-pull(ages, age)
-ages <- ages %>% mutate(over_20 = ifelse(age > 30, "Yes", "No"))
-ages
+mutate(diamonds, price_can = price * 1.32) %>% glimpse()
+
 ```
 
 
+## Use mutate to modify existing columns {.codesmall}
 
-## Recoding value to missing
+The `mutate` function in `dplyr` allows you to add or modify columns of a data frame.
 
-How do we change the `-999` to be treated as missing for the age column?
-
-```{r codeNA2}
-pull(ages, age)
-ages <- ages %>% mutate(age = ifelse(age == -999, NA, age))
-range(ages$age)
-range(ages$age, na.rm=TRUE)
-pull(ages, age)
+<div class = "codeexample">
+```{r, eval = FALSE}
+# General format - Not the code!
+{data object to update} <- mutate({data to use}, 
+                           {variable name to change} = {variable modification}) 
 ```
-
-<!-- ## Recoding from missing -->
-
-<!-- What if you were the person that coded the `-999` -->
-
-<!-- ```{r codeFromNA} -->
-<!-- ages = ages %>% mutate(age = ifelse(is.na(age), -999, age)) -->
-<!-- ages -->
-<!-- ``` -->
-
-## Adding columns to a `data.frame`: dplyr
+</div>
 
 ```{r}
-ufo <- ufo %>% mutate( 
-              region = ifelse(
-              country %in% c("us", "ca"),
-              "North America",
-              "Not North America")
-            )
-ufo %>% select(country, region) %>% head()
+mutate(diamonds, price = price * 1.32) %>% glimpse()
 ```
 
-## `case_when` provides a more general way
 
-```
-casewhen(test ~ value if test is true,
-         test2 ~ vlue if test2 is true,
-         TRUE ~ value if all above tests are not true) # defaults to NA
-```
-```{r}
-ufo <- ufo %>% mutate( 
-            region = case_when(
-              country %in% c("us", "ca") ~ "North America",
-              country %in% c("de") ~ "Europe",
-              country %in% "gb" ~ "Great Britain",
-            ))
+## You can pipe data into mutate {.codesmall}
 
-ufo %>% select(country, region) %>% head()
-```
-## `case_when` defaults to NA when all tests fail
 
 ```{r}
-ufo <- ufo %>% mutate( 
-            region = case_when(
-              country %in% c("us", "ca") ~ "North America",
-              country %in% c("de") ~ "Europe"
-              #country %in% "gb" ~ "Great Britain",
-            ))
-
-ufo %>% select(country, region) %>% head()
+diamonds %>% mutate(price = price * 1.32) %>% glimpse()
 ```
 
 
-## `case_when()` with value if all tests fail
+## remember to save your data
+
+If you want to actually make the change you need to reassign the data object.
+
+```{r, eval = FALSE}
+diamonds <- diamonds %>% mutate(price = price * 1.32) %>% glimpse()
+```
+
+## Removing columns of a data frame: dplyr {.codesmall}
+
+The `NULL` method is still very common.
+
+The `select` function can remove a column with minus (`-`):
+```{r, eval = FALSE}
+select(diamonds, - price)
+```
+
+```{r, echo = FALSE}
+glimpse(select(diamonds, - price))
+```
+
+**Or, you can simply select the columns you want to keep, ignoring the ones you want to remove.**
+
+## Removing columns in a data frame: dplyr {.codesmall}
+
+You can use `c()` to list the columns to remove.
+
+Remove `newcol` and `drat`:
+```{r}
+select(diamonds, -c("x", "y", "z")) %>% glimpse()
+```
+
+
+# Ordering columns
+
+## Ordering the columns of a data frame: dplyr 
+
+The `select` function can reorder columns.
+```{r}
+head(diamonds, 2)
+diamonds %>% select(price, depth, carat, cut, color) %>% glimpse()
+```
+
+## Ordering the columns of a data frame: dplyr {.codesmall}
+
+The `select` function can reorder columns.  Put `price` first, then select the rest of columns:
 
 ```{r}
-ufo <- ufo %>% mutate( 
-            region = case_when(
-              country %in% c("us", "ca") ~ "North America",
-              country %in% c("de") ~ "Europe",
-              country %in% "gb" ~ "Great Britain",
-              TRUE ~ "Other"
-            ))
-ufo %>% select(country, region) %>% head()
+diamonds %>% select(price, everything()) %>% glimpse()
 ```
 
 
+## Ordering the columns of a data frame: dplyr {.codesmall}
 
-
-## `case_when()` with value if all tests fail (use a variable!)
+Put `price` at the end ("remove, everything, then add back in"):
 
 ```{r}
-ufo <- ufo %>% mutate( 
-            region = case_when(
-              country %in% "gb" ~ "Great Brit.",
-              TRUE ~ region
-            ))
-ufo %>% select(country, region) %>% head()
+diamonds %>% select(-price, everything(), newcol) %>% glimpse()
 ```
 
 
+## Ordering the columns of a data frame: dplyr {.codesmall}
 
+In addition to `select` we can also use the `relocate()` function of dplyr to rearrange the columns for more complicated moves.
 
-## Ordering the rows of a `data.frame`: dplyr
+For example, let say we just wanted `price` to be before `carat`.
 
-The `arrange` function can reorder rows  By default, `arrange` orders in ascending order:
 ```{r}
-ufo %>% arrange(duration_s)
+
+diamonds %>% relocate( price, .before = carat) %>% glimpse()
+
 ```
 
-## Ordering the rows of a `data.frame`: dplyr
+
+
+
+
+## Ordering the column names of a data frame: alphabetically {.codesmall}
+
+Using the base R `order()` function.
+
+```{r}
+order(colnames(diamonds))
+diamonds %>% select(order(colnames(diamonds)))
+```
+
+
+# Ordering rows
+
+## Ordering the rows of a data frame: dplyr
+
+The `arrange` function can reorder rows  By default, `arrange` orders in increasing order:
+```{r}
+arrange(diamonds, cut)
+```
+
+## Ordering the rows of a data frame: dplyr
+
 Use the `desc` to arrange the rows in descending order:
 ```{r}
-ufo %>% arrange(desc(duration_s))
+arrange(diamonds, desc(price))
 ```
 
-## Ordering the rows of a `data.frame`: dplyr
-It is a bit more straightforward to mix increasing and decreasing orderings:
+## Ordering the rows of a data frame: dplyr
+
+You can combine increasing and decreasing orderings:
 ```{r}
-ufo %>% arrange(country, desc(duration_s))
+arrange(diamonds, desc(carat), cut)
 ```
+
+
+
+## A note about base R: 
+
+The `$` operator is similar to `pull()`. This is the base R way to do this:
+
+```{r}
+diamonds$price
+```
+
+Although it is easier (for this one task), mixing and matching the `$` operator with tidyverse functions usually doesn't work. Therefore, we want to let you know about it in case you see it, but we suggest that you try working with the tidyverse way.
+
+## Adding new columns to a data frame: base R
+
+You can add a new column (or modify an existing one) using the `$` operator instead of `mutate`.
+
+Just want you to be aware of this as it is very common.
+
+```{r, eval = FALSE}
+diamonds$price <- diamonds$price/2.2
+```
+
+Even though `$` is easier for creating new columns, `mutate` is really powerful, so it's worth getting used to.
+
+
 
 ## Lab
 
