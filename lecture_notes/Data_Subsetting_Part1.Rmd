@@ -287,6 +287,32 @@ diamonds %>%
 
 This will result in an error because the table column is now gone after the `select()` function!
 
+# Fancier filtering
+
+## Combining tidyselect helpers with regular selection
+
+```{r}
+head(diamonds, 2)
+diamonds %>% select(price, starts_with("c"))
+```
+## Multiple tidyselect functions
+
+Follows OR logic.
+
+```{r}
+diamonds %>% select(starts_with("c"), ends_with("e"))
+
+```
+
+## Multiple patterns with tidyselect
+
+Need to combine the patterns with the `c()` function.
+
+```{r}
+diamonds %>% select(starts_with(c("c", "p")))
+
+```
+
 ## Lab
 
 [Link to Lab](http://sisbid.github.io/Data-Wrangling/labs/data-subsetting-lab-part1.Rmd)

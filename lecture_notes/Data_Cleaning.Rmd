@@ -31,6 +31,7 @@ Read in data or download from: http://sisbid.github.io/Data-Wrangling/data/ufo/u
 ufo <- read_delim("../data/ufo/ufo_data_complete.txt")
 
 ```
+
 ## The "problems"
 You saw warning messages when reading in this dataset. We can see these with the `problems()` function from `readr`. 
 
