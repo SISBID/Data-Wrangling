@@ -66,16 +66,15 @@ Make sure you have a GitHub profile: https://github.com/
 | 11:00-11:30 | Break                                        |                       |                                      |
 | 11:30-12:20 | [Reproducible Research][13] ([PDF][14])      | [lab][15]             | [lab key][16] / [lab key output][17] |
 | 12:20-12:35 | Break                                        |                       |                                      |
-| 12:35-1:25  | [GitHub Concepts][18] ([PDF][19])            | [lab][20]             |                                      |
+| 12:35-1:25  | [Data Subsetting Part 1][22] ([PDF][23])            | [lab][24]             |       [lab key][25] / [lab key output][26]                               |
 | 1:25-1:40   | Break                                        |                       |                                      |
-| 1:40-2:30   | IO, Reproducibility, Github (cont.)          | [GitHub Practice][21] |                                      |
+| 1:40-2:30   | [Missing Data][x5]([PDF][x6])         | [lab][x7] | [lab key][x8]/[lab key output][x9]                                      |
 | **Day 2**   |                                              |                       |                                      |
-|             | [Updating files with GitHub][x3] ([PDF][x4]) |                       |                                      |
-| 8:00-8:50   | [Data Subsetting Part 1][22] ([PDF][23])     | [lab][24]             | [lab key][25] / [lab key output][26] |
+| 8:00-8:50   | [Data Subsetting Part 2][27] ([PDF][28])     | [lab][29]             | [lab key][30] / [lab key output][31]  |
 | 8:50-9:05   | Break                                        |                       |                                      |
-| 9:05-9:55   | [Data Subsetting Part 2][27] ([PDF][28])     | [lab][29]             | [lab key][30] / [lab key output][31] |
+| 9:05-9:55   | [Data Summarization][32] ([PDF][33])     | [lab][34]            | [lab key][35] / [lab key output][36] |
 | 9:55-10:10  | Break                                        |                       |                                      |
-| 10:10-11:00 | [Data Summarization][32] ([PDF][33])         | [lab][34]             | [lab key][35] / [lab key output][36] |
+| 10:10-11:00 | [Data Cleaning][37] ([PDF][38])         | [lab][39]            | [lab key][40] / [lab key output][41]|
 | 11:00-11:30 | Break                                        |                       |                                      |
 | 11:30-12:20 | [Data Cleaning][37] ([PDF][38])              | [lab][39]             | [lab key][40] / [lab key output][41] |
 | 12:20-12:35 | Break                                        |                       |                                      |
@@ -87,7 +86,8 @@ Make sure you have a GitHub profile: https://github.com/
 | 8:50-9:05   | Break                                        |                       |                                      |
 | 9:05-9:55   | [Functionally Programming][57] ([PDF][58])   | [lab][59]             | [lab key][60] / [lab key output][61] |
 | 9:55-10:10  | Break                                        |                       |                                      |
-| 10:10-11:00 | [Bioconductor for Genomics][62] ([PDF][63])  |                       |                                      |
+| 10:10-11:00 | [GitHub Concepts][18] ([PDF][19])  |        [lab][21]               |                                      |
+|             | [Updating files with GitHub][x3] ([PDF][x4]) |                       |                                      |
 |             | [Wrap Up][64] ([PDF][65])                    |                       |                                      |
 
 
@@ -114,6 +114,11 @@ Make sure you have a GitHub profile: https://github.com/
 [19]: lecture_notes/sisbid_github_2022.pdf
 [20]: https://lab.github.com/githubtraining/introduction-to-github
 [21]: labs/github-lab.md
+[x5]:lecture_notes/Data_missing.html
+[x6]:lecture_notes/Data_missing.pdf
+[x7]:labs/missing-data-lab.Rmd
+[x8]:labs/missing-data-lab-key.Rmd
+[x9]:labs/missing-data-lab-key.html
 
 [x3]: lecture_notes/Updating_files_with_github.html
 [x4]: lecture_notes/Updating_files_with_github.pdf
