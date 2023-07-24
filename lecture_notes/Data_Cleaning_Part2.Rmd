@@ -57,7 +57,7 @@ Now let's fix our ufo data and remove those pesky backticks in the `duration_sec
 ufo <- ufo %>% mutate(duration_seconds = str_remove(string = duration_seconds,
                                              pattern = "`"))
 ufo <- ufo %>% mutate(duration_seconds = as.numeric(duration_seconds))
-ufo[(p$row-1),]
+ufo[(ufo$row-1),]
 ```
 
 ## Paste can add things back to variables

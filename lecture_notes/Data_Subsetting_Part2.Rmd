@@ -2,13 +2,13 @@
 title: "Subsetting Data in R"
 author: "Data Wrangling in R"
 output:
-  beamer_presentation: default
   ioslides_presentation:
     css: styles.css
     widescreen: yes
 ---
 
 ```{r, include=FALSE}
+library(knitr)
 knitr::opts_chunk$set(comment = "")
 library(tidyverse)
 ```
@@ -78,7 +78,7 @@ It's best to avoid unusual column names where possible, as things get tricky lat
 We just showed the use of \` backticks\` . You may see people use quotes as well.
 
 ```{r, fig.alt="dplyr", out.width = "14%", echo = FALSE, fig.align='center'}
-knitr::include_graphics("images/backtick_1.png")
+knitr::include_graphics("media/backtick_1.png")
 ```
 
 Other atypical column names are those with:
@@ -93,9 +93,9 @@ Other atypical column names are those with:
 
 Rename tricky column names so that you don't have to deal with them later!
 
-```{r, fig.align='center', echo = FALSE}
-include_graphics("https://media.giphy.com/media/6q29hxDKvJvPy/giphy.gif")
-```
+<!-- ```{r, fig.align='center', echo = FALSE} -->
+<!-- include_graphics("https://media.giphy.com/media/6q29hxDKvJvPy/giphy.gif") -->
+<!-- ``` -->
 
 ## Be careful about copy pasting code!
 
@@ -275,7 +275,7 @@ diamonds %>% select(price, everything()) %>% glimpse()
 Put `price` at the end ("remove, everything, then add back in"):
 
 ```{r}
-diamonds %>% select(-price, everything(), newcol) %>% glimpse()
+diamonds %>% select(-price, everything()) %>% glimpse()
 ```
 
 
