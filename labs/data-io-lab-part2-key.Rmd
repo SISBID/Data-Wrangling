@@ -41,7 +41,7 @@ write_rds(circ, "Circulator.rds")
 
 ```{r}
 iris_q5 <- 
-  read_csv("https://sisbid.github.io/Data-Wrangling/data/USA_covid19_vaccinations.csv",
+  read_csv("https://sisbid.github.io/Data-Wrangling/data/iris/iris_q5.csv",
            na = "-999")
 ```
 
