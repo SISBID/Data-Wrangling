@@ -1,116 +1,75 @@
-## ---- include = FALSE--------------------------------------------------------------------------------------------------
+## ---- include = FALSE------------------------------------------------------------------------------------------------------------------------------------------------------------------
 library(knitr)
 library(readr)
 # suppressPackageStartupMessages(library(dplyr))
 knitr::opts_chunk$set(comment = "")
 
 
-## ----code--------------------------------------------------------------------------------------------------------------
-print("I'm code")
+## ----code------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+head(mtcars)
 
 
-## ----assign------------------------------------------------------------------------------------------------------------
+## ----assign----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 x <- 2
 x
 x * 4
 x + 2
 
 
-## ---- eval = FALSE-----------------------------------------------------------------------------------------------------
+## ---- eval = FALSE---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## ?dir
 ## help("dir")
 
 
-## ---- echo = FALSE, out.width="70%"------------------------------------------------------------------------------------
+## ---- echo = FALSE, out.width="70%"----------------------------------------------------------------------------------------------------------------------------------------------------
 knitr::include_graphics("media/IO_help.png")
 
 
-## ---- eval = FALSE-----------------------------------------------------------------------------------------------------
-## install.packages("naniar")
-## AnVIL::install("naniar") # Alternative
-## library(naniar)
+## ---- eval = FALSE---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## install.packages("tidyverse")
+## library(tidyverse)
 
 
-## ---- echo = FALSE, out.width="70%"------------------------------------------------------------------------------------
-knitr::include_graphics("media/IO_help.png")
+## ---- echo = FALSE, out.width="70%"----------------------------------------------------------------------------------------------------------------------------------------------------
+knitr::include_graphics("media/install_packages.jpg")
 
 
-## ---- out.width="80%", echo=FALSE, fig.alt='.'-------------------------------------------------------------------------
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_79")
-
-
-## ---- out.width="80%", echo=FALSE, fig.alt='.'-------------------------------------------------------------------------
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_85")
-
-
-## ---- out.width="80%", echo=FALSE, fig.alt='.'-------------------------------------------------------------------------
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_91")
-
-
-## ---- out.width="80%", echo=FALSE, fig.alt='.'-------------------------------------------------------------------------
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_97")
-
-
-## ---- out.width="80%", echo=FALSE, fig.alt='.'-------------------------------------------------------------------------
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_103")
-
-
-## ---- out.width="80%", echo=FALSE, fig.alt='.'-------------------------------------------------------------------------
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_109")
-
-
-## ----------------------------------------------------------------------------------------------------------------------
-ufo_data_complete_csv <- 
-  read_csv("http://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv.gz")
-
-
-## ---- out.width="80%", echo=FALSE, fig.alt='.'-------------------------------------------------------------------------
+## ---- out.width="80%", echo=FALSE, fig.alt='.'-----------------------------------------------------------------------------------------------------------------------------------------
 ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_115")
 
 
-## ---- echo = FALSE, out.width="70%"------------------------------------------------------------------------------------
+## ---- echo = FALSE, out.width="70%"----------------------------------------------------------------------------------------------------------------------------------------------------
 knitr::include_graphics("media/IO_comments_to_self.png")
 
 
-## ----eval=FALSE--------------------------------------------------------------------------------------------------------
-## # example:
-## read_delim(file = "file.txt", delim = "\t")
-## read_csv("file.csv")
+## ---- fig.alt="The New R Project button is highlighted.", out.width = "40%", echo = FALSE, align = "center"----------------------------------------------------------------------------
+knitr::include_graphics("media/Data_Input_Rproject.png")
 
 
-## ---- out.width="80%", echo=FALSE, fig.alt='.'-------------------------------------------------------------------------
-ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_121")
+## ---- fig.alt="In the New Project Wizard, the 'New Directory' option is highlighted.", out.width = "60%", echo = FALSE, align = "center"-----------------------------------------------
+knitr::include_graphics("media/Data_Input_new_directory.png")
 
 
-## ---- eval = FALSE-----------------------------------------------------------------------------------------------------
-## ufo <- read_csv("../ufo_data_complete.csv.gz")
+## ---- fig.alt="In the New Project Wizard, the 'New Project' option is highlighted.", out.width = "60%", echo = FALSE, align = "center"-------------------------------------------------
+knitr::include_graphics("media/Data_Input_new_project.png")
 
 
-## ---- eval=FALSE-------------------------------------------------------------------------------------------------------
-## ufo <- read_csv("data/ufo/ufo_data_complete.csv")
+## ---- fig.alt="In the New Project Wizard, the new project has been given a name and is going to be stored in the Desktop directory. The 'Create Project' button is highlighted.", out.width = "60%", echo = FALSE, align = "center"----
+knitr::include_graphics("media/Data_Input_new_project_details.png")
 
 
-## ---- echo=FALSE-------------------------------------------------------------------------------------------------------
-ufo <- read_csv("../data/ufo/ufo_data_complete.csv")
+## ---- fig.alt="The image shows an image of an arrow pointing to the newly created R project repository.", out.width = "60%", echo = FALSE, align = "center"----------------------------
+knitr::include_graphics("media/Data_Input_new_desktop.png")
 
 
-## ----viewInput, message=FALSE------------------------------------------------------------------------------------------
-class(ufo)
+## ---- fig.alt="Gif showing the process of importing a dataset via readr.", out.width = "100%", echo = FALSE, align = "center"----------------------------------------------------------
+knitr::include_graphics("media/Data_Input_import_dataset.gif")
 
 
-## ---- viewTibble-------------------------------------------------------------------------------------------------------
-ufo
+## ---- fig.alt="The image shows an image of an arrow pointing to the newly created R project repository.", out.width = "80%", echo = FALSE, align = "center"----------------------------
+knitr::include_graphics("media/Data_Input_browse.png")
 
 
-## ---- eval = FALSE-----------------------------------------------------------------------------------------------------
-## library(haven)
-## 
-## # SAS
-## read_sas(file = "mtcars.sas7bdat")
-## 
-## # SPSS
-## read_sav(file = "mtcars.sav")
-## 
-## # Stata
-## read_dta(file = "mtcars.dta")
+## --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+library(readxl)
 
