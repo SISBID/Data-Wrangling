@@ -7,6 +7,7 @@ In this lab you can use the interactive console to explore but please record you
 
 ```{r, message = FALSE}
 library(tidyverse)
+library(readxl)
 ```
 
 
