@@ -280,3 +280,21 @@ nj %>% pull(data_cold)
 * Use the `tidylog` package for a detailed summary
 * `setdiff(x, y)` shows what in `x` is missing from `y`
 * `bind_rows(x, y)` appends datasets
+
+# Extra slides
+
+## "Includes duplicates" with both datasets duplicated: {.codesmall}
+
+```{r}
+data_As <- tibble(State = c("Alabama", "Alaska", "Alaska"),
+                 state_bird = c("wild turkey", "willow ptarmigan", "puffin"))
+data_cold <- tibble(State = c("Maine", "Alaska", "Alaska"),
+                    vacc_rate = c("32.4%", "41.7%", "46.2%"),
+                    month = c("April", "April", "May"))
+```
+
+## "Includes duplicates" with both datasets duplicated: {.codesmall}
+
+```{r}
+full_join(data_As, data_cold)
+```
