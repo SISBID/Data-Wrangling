@@ -5,6 +5,7 @@ output:
   ioslides_presentation:
     css: styles.css
     widescreen: yes
+  beamer_presentation: default
 ---
 
 
@@ -80,12 +81,13 @@ count(p, expected, actual)
 ```
 
 ## Drop the remaining shifted problematic rows for now
-Multiply by negative one to drop the rows. Use the Slice function to "select" those rows based on the index. 
+Multiply by negative one to drop the rows. Use the Slice function to "select" those rows based on the index. Need to offset for `-1` because `problems()` gives us the index row based on the raw data, not the read in data. We will multiple by negative one to select out those rows as well. 
 
 ```{r}
-(pull(p, row) *-1) %>% head()
-ufo_clean <- ufo %>% slice((pull(p, row))*-1)
-
+head(p, n = 2)
+(pull(p, row) -1) %>% head()
+((pull(p, row) -1) *-1) %>% head()
+ufo_clean <- ufo %>% slice((pull(p, row)-1)*-1)
 ```
 
 
