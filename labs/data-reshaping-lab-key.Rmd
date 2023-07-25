@@ -14,56 +14,32 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
-1.  Read in the Circulator Data from http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv.  Name the data set `wide`.
+0.  Read in the `ChickWeight` dataset. This data is from an experiment on the effect of diet on early growth of chicks. Call it `chicks`.
 
 ```{r, message = FALSE}
-wide <- read_csv("http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv")
+chicks <- datasets::ChickWeight
 ```
 
-2. Reshape to long format using `pivot_longer`. Call this data `long.`  Make the `names_to = `
-`name`, and the values `n_people`  Make sure we gather all columns **but**
-`daily`, `day`, `date`, using the `!`.
+1. Reshape to wide format using `pivot_wider`. Use the arguments `names_from = Time` and `values_from = weight`. Call the new data `chicks_wide`.
 
 ```{r}
-long <- wide %>% 
-  pivot_longer( !c(daily, day, date), names_to = "name", values_to = "n_people")
-head(long)
+chicks_wide <- chicks %>% pivot_wider(names_from = Time, values_from = weight)
 ```
 
-3.  Separate the `date` column into ("month", "day", "year") using `separate()` and `sep = "/"`.
-Make sure you don't remove the `date` column, call this `long2`.  Do a table of the day column.  Where did the original `day` column go?
+2. Filter the data so that time `0` is <= 40 and time `21` >= 200. Reassign to `chicks_wide`.
 
 ```{r}
-# We over-wrote the day column by assigning it new values (in this case, calendar "day")
-long2 <- long %>%
-  separate(col = "date", into = c("month", "day", "year"),
-           sep = "/", remove = FALSE)
-table(long2$day)
+chicks_wide <- chicks_wide %>% filter(`0` <= 40 & `21` >= 200)
 ```
 
-4. Run the following to recreate what we covered in lecture:
-
-```{r, error = TRUE}
-long3 <- long %>%
-  mutate(
-    name = str_replace(name, "Board", "_Board"),
-    name = str_replace(name, "Alight", "_Alight"),
-    name = str_replace(name, "Average", "_Average")
-  ) %>%
-  separate(name, into = c("route", "type"), sep = "_")
-
-```
-
-5. Reshape `long3` using `pivot_wider()`.  Spread the data out so the `route` becomes the new column names and the cells are filled with the `n_people` value.  Call this `wide_by_route`.
+3. Select columns Chick, Diet, `0`, and `21`. Reassign to `chicks_wide`.
 
 ```{r}
-wide_by_route <- long3 %>% 
-  pivot_wider(names_from = route, values_from = n_people)
+chicks_wide <- chicks_wide %>% select(Chick, Diet, `0`, `21`)
 ```
 
-5. Reshape `long3` using `pivot_wider()`.  Spread the data out so the `day` becomes the new column names and the cells are filled with the `n_people` value.  Call this `wide_by_day`.
+4. Reshape to long format using `pivot_longer`. Pivot the numeric columns. Use the arguments `names_to = ` and `values_to = `. Call the data `chicks_long`.
 
 ```{r}
-wide_by_day <- long3 %>% 
-  pivot_wider(names_from = day, values_from = n_people)
+chicks_wide %>% pivot_longer(c(`0`, `21`), names_to = "Time", values_to = "weight")
 ```

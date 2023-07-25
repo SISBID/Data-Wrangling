@@ -13,12 +13,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Circulator Lanes Dataset: the data is from https://data.baltimorecity.gov/Transportation/Charm-City-Circulator-Ridership/wwvu-583r
 
-Available on: http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv
+Available on: https://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv
 
 ```{r}
 library(tidyverse)
 
-circ <- read_csv("http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv")
+circ <- read_csv("https://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv")
 ```
 
 1. How many days are in the data set?  You can assume each observation/row is a different day (hint: get the number of rows).

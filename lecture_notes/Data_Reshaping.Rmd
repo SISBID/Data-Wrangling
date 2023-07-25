@@ -29,9 +29,9 @@ Data is stored *differently* in the tibble.
 
 ```{r, echo = FALSE}
 ex_wide <- tibble(State = "Alabama",
-                 June_vacc_rate = "37.2%",
-                 May_vacc_rate = "36.0%",
-                 April_vacc_rate = "32.4%"
+                 June_vacc_rate = 0.516,
+                 May_vacc_rate = 0.514,
+                 April_vacc_rate = 0.511
                      )
 ex_long <- pivot_longer(ex_wide, cols = !State)
 ```
@@ -52,9 +52,9 @@ ex_long
 
 ```{r, echo = FALSE}
 ex_wide <- tibble(State = c("Alabama", "Alaska"),
-                 June_vacc_rate = c("37.2%", "47.5%"),
-                 May_vacc_rate = c("36.0%", "46.2%"),
-                 April_vacc_rate = c("32.4%", "41.7%")
+                 June_vacc_rate = c(0.516, 0.627),
+                 May_vacc_rate = c(0.514, 0.626),
+                 April_vacc_rate = c(0.511, 0.623)
                      )
 ex_long <- pivot_longer(ex_wide, cols = !State)
 ```
@@ -103,9 +103,9 @@ ex_long
 - `pivot_wider` - make a variable into multiple columns, (long to wide)
 - `separate` - string into multiple columns
 
-The `reshape` command exists.  It is a **confusing** function.  Don't use it.
+The `reshape` command exists.  Its arguments are considered more confusing, so we don't recommend it.
 
-You might see old functions `gather` and `spread` when googling. These are the old names for `pivot_longer` and `pivot_wider`, respectively.
+You might see old functions `gather` and `spread` when googling. These are older iterations of `pivot_longer` and `pivot_wider`, respectively.
 
 # `pivot_longer`...
 
@@ -122,9 +122,11 @@ You might see old functions `gather` and `spread` when googling. These are the o
 ## Reshaping data from **wide to long**
 
 ```{r, echo = FALSE}
-wide_data <- tibble(June_vacc_rate = "37.2%",
-                 May_vacc_rate = "36.0%",
-                 April_vacc_rate = "32.4%")
+wide_data <- tibble(
+  June_vacc_rate = 0.516,
+  May_vacc_rate = 0.514,
+  April_vacc_rate = 0.511
+)
 ```
 
 ```{r}
@@ -150,9 +152,11 @@ long_data
 ## Reshaping data from **wide to long**
 
 ```{r, echo = FALSE}
-wide_data <- tibble(June_vacc_rate = "37.2%",
-                 May_vacc_rate = "36.0%",
-                 April_vacc_rate = "32.4%")
+wide_data <- tibble(
+  June_vacc_rate = 0.516,
+  May_vacc_rate = 0.514,
+  April_vacc_rate = 0.511
+)
 ```
 
 ```{r}
@@ -163,13 +167,15 @@ long_data <- wide_data %>% pivot_longer(cols = everything(),
 long_data
 ```
 
+Newly created column names are enclosed in quotation marks.
+
 ## Data used: Charm City Circulator {.codesmall} 
 
-http://jhudatascience.org/intro_to_r/data/Charm_City_Circulator_Ridership.csv
+https://jhudatascience.org/intro_to_r/data/Charm_City_Circulator_Ridership.csv
 
 ```{r, message = FALSE}
 circ <- 
-  read_csv("http://jhudatascience.org/intro_to_r/data/Charm_City_Circulator_Ridership.csv")
+  read_csv("https://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv")
 head(circ, 5)
 ```
 
@@ -250,6 +256,25 @@ long
 wide <- long %>% pivot_wider(names_from = "type", 
                              values_from = "value") 
 wide
+```
+
+# Adding prefixes
+
+the `datasets::airquality` data shows various air quality metrics measured in New York in 1973.
+
+```{r}
+air <- datasets::airquality %>% select(Temp, Month, Day)
+air
+```
+
+# Adding prefixes
+
+Let's pivot `Month` wider: but it might be helpful to add "Month" to the new column name so it isn't just numbers.
+
+```{r}
+air %>% pivot_wider(names_from = "Month", 
+                    values_from = "Temp",
+                    names_prefix = "Month_") 
 ```
 
 ## Summary
