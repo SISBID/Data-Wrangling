@@ -3407,23 +3407,22 @@ long_data</pre>
 
 </article></slide><slide class=""><hgroup><h2>Data used: Charm City Circulator</h2></hgroup><article  id="data-used-charm-city-circulator" class="codesmall">
 
-<p><a href='https://jhudatascience.org/intro_to_r/data/Charm_City_Circulator_Ridership.csv' title=''>https://jhudatascience.org/intro_to_r/data/Charm_City_Circulator_Ridership.csv</a></p>
+<p><a href='https://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv' title=''>https://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv</a></p>
 
 <pre class = 'prettyprint lang-r'>circ &lt;- 
   read_csv(&quot;https://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv&quot;)
 head(circ, 5)</pre>
 
 <pre ># A tibble: 5 × 15
-  day       date      orangeBoardings orangeAlightings orangeAverage purpleBoardings purpleAlightings
-  &lt;chr&gt;     &lt;chr&gt;               &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;
-1 Monday    01/11/20…             877             1027          952               NA               NA
-2 Tuesday   01/12/20…             777              815          796               NA               NA
-3 Wednesday 01/13/20…            1203             1220         1212.              NA               NA
-4 Thursday  01/14/20…            1194             1233         1214.              NA               NA
-5 Friday    01/15/20…            1645             1643         1644               NA               NA
-# ℹ 8 more variables: purpleAverage &lt;dbl&gt;, greenBoardings &lt;dbl&gt;, greenAlightings &lt;dbl&gt;,
-#   greenAverage &lt;dbl&gt;, bannerBoardings &lt;dbl&gt;, bannerAlightings &lt;dbl&gt;, bannerAverage &lt;dbl&gt;,
-#   daily &lt;dbl&gt;</pre>
+  day      date  orangeBoardings orangeAlightings orangeAverage purpleBoardings purpleAlightings purpleAverage
+  &lt;chr&gt;    &lt;chr&gt;           &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;
+1 Monday   01/1…             877             1027          952               NA               NA            NA
+2 Tuesday  01/1…             777              815          796               NA               NA            NA
+3 Wednesd… 01/1…            1203             1220         1212.              NA               NA            NA
+4 Thursday 01/1…            1194             1233         1214.              NA               NA            NA
+5 Friday   01/1…            1645             1643         1644               NA               NA            NA
+# ℹ 7 more variables: greenBoardings &lt;dbl&gt;, greenAlightings &lt;dbl&gt;, greenAverage &lt;dbl&gt;, bannerBoardings &lt;dbl&gt;,
+#   bannerAlightings &lt;dbl&gt;, bannerAverage &lt;dbl&gt;, daily &lt;dbl&gt;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Reshaping data from <strong>wide to long</strong></h2></hgroup><article  id="reshaping-data-from-wide-to-long-4">
 
@@ -3595,6 +3594,8 @@ wide</pre>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Adding prefixes</h2></hgroup><article  id="adding-prefixes">
 
+</article></slide><slide class=""><hgroup><h2>Prefixes when pivoting</h2></hgroup><article  id="prefixes-when-pivoting">
+
 <p>the <code>datasets::airquality</code> data shows various air quality metrics measured in New York in 1973.</p>
 
 <pre class = 'prettyprint lang-r'>air &lt;- datasets::airquality %&gt;% select(Temp, Month, Day)
@@ -3755,9 +3756,31 @@ air</pre>
 152   76     9  29
 153   68     9  30</pre>
 
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Adding prefixes</h2></hgroup><article  id="adding-prefixes-1">
+</article></slide><slide class=""><hgroup><h2>Prefixes when pivoting</h2></hgroup><article  id="prefixes-when-pivoting-1">
 
 <p>Let’s pivot <code>Month</code> wider: but it might be helpful to add &ldquo;Month&rdquo; to the new column name so it isn’t just numbers.</p>
+
+<pre class = 'prettyprint lang-r'>air %&gt;% pivot_wider(names_from = &quot;Month&quot;, 
+                    values_from = &quot;Temp&quot;) </pre>
+
+<pre ># A tibble: 31 × 6
+     Day   `5`   `6`   `7`   `8`   `9`
+   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+ 1     1    67    78    84    81    91
+ 2     2    72    74    85    81    92
+ 3     3    74    67    81    82    93
+ 4     4    62    84    84    86    93
+ 5     5    56    85    83    85    87
+ 6     6    66    79    83    87    84
+ 7     7    65    82    88    89    80
+ 8     8    59    87    92    90    78
+ 9     9    61    90    92    90    75
+10    10    69    87    89    92    73
+# ℹ 21 more rows</pre>
+
+</article></slide><slide class=""><hgroup><h2>Prefixes when pivoting</h2></hgroup><article  id="prefixes-when-pivoting-2">
+
+<p>Much better!</p>
 
 <pre class = 'prettyprint lang-r'>air %&gt;% pivot_wider(names_from = &quot;Month&quot;, 
                     values_from = &quot;Temp&quot;,

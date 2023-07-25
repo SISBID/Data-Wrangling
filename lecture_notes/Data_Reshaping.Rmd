@@ -171,7 +171,7 @@ Newly created column names are enclosed in quotation marks.
 
 ## Data used: Charm City Circulator {.codesmall} 
 
-https://jhudatascience.org/intro_to_r/data/Charm_City_Circulator_Ridership.csv
+https://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv
 
 ```{r, message = FALSE}
 circ <- 
@@ -260,6 +260,8 @@ wide
 
 # Adding prefixes
 
+## Prefixes when pivoting
+
 the `datasets::airquality` data shows various air quality metrics measured in New York in 1973.
 
 ```{r}
@@ -267,9 +269,18 @@ air <- datasets::airquality %>% select(Temp, Month, Day)
 air
 ```
 
-# Adding prefixes
+## Prefixes when pivoting
 
 Let's pivot `Month` wider: but it might be helpful to add "Month" to the new column name so it isn't just numbers.
+
+```{r}
+air %>% pivot_wider(names_from = "Month", 
+                    values_from = "Temp") 
+```
+
+## Prefixes when pivoting
+
+Much better!
 
 ```{r}
 air %>% pivot_wider(names_from = "Month", 
