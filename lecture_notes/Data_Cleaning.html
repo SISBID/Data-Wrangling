@@ -3429,106 +3429,6 @@ $ date_posted        &lt;chr&gt; &quot;4/27/2004&quot;, &quot;12/16/2005&quot;, 
 $ latitude           &lt;chr&gt; &quot;29.8830556&quot;, &quot;29.38421&quot;, &quot;53.2&quot;, &quot;28.9783333&quot;, &quot;21…
 $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;, &quot;-2.916667&quot;, &quot;-96.6458…</pre>
 
-</article></slide><slide class=""><hgroup><h2>Strange country values</h2></hgroup><article  id="strange-country-values">
-
-<p>Sometimes <code>country</code> is <code>NA</code> even though <code>state</code> is known. A conditional more flexible recoding would be helpful…</p>
-
-<pre class = 'prettyprint lang-r'>head(ufo_clean)</pre>
-
-<pre ># A tibble: 6 × 11
-  datetime     city  state country shape durat…¹ durat…² comme…³ date_…⁴ latit…⁵
-  &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  
-1 10/10/1949 … san … tx    us      cyli… 2700    45 min… This e… 4/27/2… 29.883…
-2 10/10/1949 … lack… tx    &lt;NA&gt;    light 7200    1-2 hrs 1949 L… 12/16/… 29.384…
-3 10/10/1955 … ches… &lt;NA&gt;  gb      circ… 20      20 sec… Green/… 1/21/2… 53.2   
-4 10/10/1956 … edna  tx    us      circ… 20      1/2 ho… My old… 1/17/2… 28.978…
-5 10/10/1960 … kane… hi    us      light 900     15 min… AS a M… 1/22/2… 21.418…
-6 10/10/1961 … bris… tn    us      sphe… 300     5 minu… My fat… 4/27/2… 36.595…
-# … with 1 more variable: longitude &lt;chr&gt;, and abbreviated variable names
-#   ¹​duration_seconds, ²​duration_hours_min, ³​comments, ⁴​date_posted, ⁵​latitude</pre>
-
-</article></slide><slide class=""><hgroup><h2>Deeper look</h2></hgroup><article  id="deeper-look">
-
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(state == &quot;tx&quot;) %&gt;% count(country, state)</pre>
-
-<pre ># A tibble: 2 × 3
-  country state     n
-  &lt;chr&gt;   &lt;chr&gt; &lt;int&gt;
-1 us      tx     3734
-2 &lt;NA&gt;    tx      307</pre>
-
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(state == &quot;tx&quot; &amp; is.na(country)) </pre>
-
-<pre ># A tibble: 307 × 11
-   datetime    city  state country shape durat…¹ durat…² comme…³ date_…⁴ latit…⁵
-   &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  
- 1 10/10/1949… lack… tx    &lt;NA&gt;    light 7200    1-2 hrs 1949 L… 12/16/… 29.384…
- 2 10/10/1994… merc… tx    &lt;NA&gt;    cigar 3600    1 hour  ufo ch… 12/12/… 26.149…
- 3 10/1/1981 … texa… tx    &lt;NA&gt;    unkn… 0       &lt;NA&gt;    UFO si… 11/28/… 29.383…
- 4 10/12/2009… hous… tx    &lt;NA&gt;    light 60      about … A whit… 12/12/… 30.099…
- 5 10/14/1964… bett… tx    &lt;NA&gt;    other 0       don&amp;#3… I was … 4/4/20… 0      
- 6 10/15/2004… dall… tx    &lt;NA&gt;    fire… 1800    20-30 … NON BE… 1/19/2… 32.755…
- 7 10/16/2002… hall… tx    &lt;NA&gt;    oval  0       &lt;NA&gt;    I walk… 10/28/… 29.443…
- 8 10/16/2007… gulf… tx    &lt;NA&gt;    oval  2       seconds Oct. 2… 10/31/… 27.716…
- 9 10/16/2009… halt… tx    &lt;NA&gt;    light 1800    30 mins There … 12/12/… 30.415…
-10 10/17/2008… &lt;NA&gt;  tx    &lt;NA&gt;    &lt;NA&gt;  0       oval    5 minu… An ova… 10/31/…
-# … with 297 more rows, 1 more variable: longitude &lt;chr&gt;, and abbreviated
-#   variable names ¹​duration_seconds, ²​duration_hours_min, ³​comments,
-#   ⁴​date_posted, ⁵​latitude</pre>
-
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(state == &quot;ut&quot;) %&gt;% count(country, state)</pre>
-
-<pre ># A tibble: 2 × 3
-  country state     n
-  &lt;chr&gt;   &lt;chr&gt; &lt;int&gt;
-1 us      ut      658
-2 &lt;NA&gt;    ut      140</pre>
-
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(state == &quot;ut&quot; &amp; is.na(country))</pre>
-
-<pre ># A tibble: 140 × 11
-   datetime    city  state country shape durat…¹ durat…² comme…³ date_…⁴ latit…⁵
-   &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  
- 1 10/11/2005… cany… ut    &lt;NA&gt;    form… 600     10 min… ((NUFO… 10/20/… 39.320…
- 2 10/13/1997… ogde… ut    &lt;NA&gt;    circ… 10800   3 hours My hus… 8/5/20… 41.184…
- 3 10/13/1997… sandy ut    &lt;NA&gt;    light 0       &lt;NA&gt;    A brig… 4/1/20… 40.5725
- 4 10/14/2013… salt… ut    &lt;NA&gt;    light 1200    20 min… Statio… 10/23/… 40.766…
- 5 10/15/1980… sandy ut    &lt;NA&gt;    sphe… 60      1min.   Uniden… 11/21/… 40.5725
- 6 10/15/1984… duch… ut    &lt;NA&gt;    disk  600     10+min  I know… 9/2/20… 40.163…
- 7 10/15/2002… west… ut    &lt;NA&gt;    sphe… 0       4       Two at… 10/28/… 41.591…
- 8 10/16/2011… salt… ut    &lt;NA&gt;    oval  0       &lt;NA&gt;    Grey o… 12/12/… 40.799…
- 9 10/17/2005… west… ut    &lt;NA&gt;    other 10      10 sec… ((NUFO… 10/20/… 41.591…
-10 10/17/2011… west… ut    &lt;NA&gt;    circ… 0       &lt;NA&gt;    Around… 10/19/… 41.591…
-# … with 130 more rows, 1 more variable: longitude &lt;chr&gt;, and abbreviated
-#   variable names ¹​duration_seconds, ²​duration_hours_min, ³​comments,
-#   ⁴​date_posted, ⁵​latitude</pre>
-
-</article></slide><slide class=""><hgroup><h2>Case_when</h2></hgroup><article  id="case_when">
-
-<pre >casewhen(test ~ value if test is true,
-         test2 ~ vlue if test2 is true,
-         TRUE ~ value if all above tests are not true) # defaults to NA</pre>
-
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% mutate(country = case_when(
-  country == &quot;gb&quot; ~ &quot;Great Britain&quot;,
-  country == &quot;us&quot; ~&quot;United States&quot;,
-  TRUE ~ country))%&gt;%
-  glimpse()</pre>
-
-<pre >Rows: 88,679
-Columns: 11
-$ datetime           &lt;chr&gt; &quot;10/10/1949 20:30&quot;, &quot;10/10/1949 21:00&quot;, &quot;10/10/1955…
-$ city               &lt;chr&gt; &quot;san marcos&quot;, &quot;lackland afb&quot;, &quot;chester (uk/england)…
-$ state              &lt;chr&gt; &quot;tx&quot;, &quot;tx&quot;, NA, &quot;tx&quot;, &quot;hi&quot;, &quot;tn&quot;, NA, &quot;ct&quot;, &quot;al&quot;, &quot;…
-$ country            &lt;chr&gt; &quot;United States&quot;, NA, &quot;Great Britain&quot;, &quot;United State…
-$ shape              &lt;chr&gt; &quot;cylinder&quot;, &quot;light&quot;, &quot;circle&quot;, &quot;circle&quot;, &quot;light&quot;, &quot;…
-$ duration_seconds   &lt;chr&gt; &quot;2700&quot;, &quot;7200&quot;, &quot;20&quot;, &quot;20&quot;, &quot;900&quot;, &quot;300&quot;, &quot;180&quot;, &quot;1…
-$ duration_hours_min &lt;chr&gt; &quot;45 minutes&quot;, &quot;1-2 hrs&quot;, &quot;20 seconds&quot;, &quot;1/2 hour&quot;, …
-$ comments           &lt;chr&gt; &quot;This event took place in early fall around 1949-50…
-$ date_posted        &lt;chr&gt; &quot;4/27/2004&quot;, &quot;12/16/2005&quot;, &quot;1/21/2008&quot;, &quot;1/17/2004&quot;…
-$ latitude           &lt;chr&gt; &quot;29.8830556&quot;, &quot;29.38421&quot;, &quot;53.2&quot;, &quot;28.9783333&quot;, &quot;21…
-$ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;, &quot;-2.916667&quot;, &quot;-96.6458…</pre>
-
 </article></slide><slide class=""><hgroup><h2>How many countries?</h2></hgroup><article  id="how-many-countries">
 
 <pre class = 'prettyprint lang-r'>ufo_clean %&gt;% count(country)</pre>
@@ -3543,16 +3443,20 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 5 us      70146
 6 &lt;NA&gt;    12528</pre>
 
-</article></slide><slide class=""><hgroup><h2><code>case_when()</code> regions</h2></hgroup><article  id="case_when-regions">
+</article></slide><slide class=""><hgroup><h2><code>case_when()</code> regions to create a new variable based on conditions of other variables</h2></hgroup><article  id="case_when-regions-to-create-a-new-variable-based-on-conditions-of-other-variables">
 
-<pre class = 'prettyprint lang-r'>ufo &lt;- ufo %&gt;% mutate( 
+<pre >case_when(test ~ value if test is true,
+         test2 ~ vlue if test2 is true,
+         TRUE ~ value if all above tests are not true) # defaults to NA</pre>
+
+<pre class = 'prettyprint lang-r'>ufo_clean &lt;- ufo_clean %&gt;% mutate( 
             region = case_when(
               country %in% c(&quot;us&quot;, &quot;ca&quot;) ~ &quot;North America&quot;,
               country %in% c(&quot;de&quot;) ~ &quot;Europe&quot;,
               country %in% &quot;gb&quot; ~ &quot;Great Britain&quot;,
               TRUE ~ &quot;Other&quot;
             ))
-ufo %&gt;% select(country, region) %&gt;% head()</pre>
+ufo_clean %&gt;% select(country, region) %&gt;% head()</pre>
 
 <pre ># A tibble: 6 × 2
   country region       
@@ -3564,51 +3468,173 @@ ufo %&gt;% select(country, region) %&gt;% head()</pre>
 5 us      North America
 6 us      North America</pre>
 
+</article></slide><slide class=""><hgroup><h2><code>case_when</code> - another example</h2></hgroup><article  id="case_when---another-example">
+
+<p>The <code>TRUE</code> value can also just be the original values.</p>
+
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% mutate(country = case_when(
+                  country == &quot;gb&quot; ~ &quot;Great Britain&quot;,
+                  country == &quot;us&quot; ~&quot;United States&quot;,
+                  country == &quot;au&quot; ~ &quot;Australia&quot;,
+                  country == &quot;DE&quot; ~ &quot;Germany&quot;,
+                             TRUE ~ country))%&gt;%
+  glimpse()</pre>
+
+<pre >Rows: 88,679
+Columns: 12
+$ datetime           &lt;chr&gt; &quot;10/10/1949 20:30&quot;, &quot;10/10/1949 21:00&quot;, &quot;10/10/1955…
+$ city               &lt;chr&gt; &quot;san marcos&quot;, &quot;lackland afb&quot;, &quot;chester (uk/england)…
+$ state              &lt;chr&gt; &quot;tx&quot;, &quot;tx&quot;, NA, &quot;tx&quot;, &quot;hi&quot;, &quot;tn&quot;, NA, &quot;ct&quot;, &quot;al&quot;, &quot;…
+$ country            &lt;chr&gt; &quot;United States&quot;, NA, &quot;Great Britain&quot;, &quot;United State…
+$ shape              &lt;chr&gt; &quot;cylinder&quot;, &quot;light&quot;, &quot;circle&quot;, &quot;circle&quot;, &quot;light&quot;, &quot;…
+$ duration_seconds   &lt;chr&gt; &quot;2700&quot;, &quot;7200&quot;, &quot;20&quot;, &quot;20&quot;, &quot;900&quot;, &quot;300&quot;, &quot;180&quot;, &quot;1…
+$ duration_hours_min &lt;chr&gt; &quot;45 minutes&quot;, &quot;1-2 hrs&quot;, &quot;20 seconds&quot;, &quot;1/2 hour&quot;, …
+$ comments           &lt;chr&gt; &quot;This event took place in early fall around 1949-50…
+$ date_posted        &lt;chr&gt; &quot;4/27/2004&quot;, &quot;12/16/2005&quot;, &quot;1/21/2008&quot;, &quot;1/17/2004&quot;…
+$ latitude           &lt;chr&gt; &quot;29.8830556&quot;, &quot;29.38421&quot;, &quot;53.2&quot;, &quot;28.9783333&quot;, &quot;21…
+$ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;, &quot;-2.916667&quot;, &quot;-96.6458…
+$ region             &lt;chr&gt; &quot;North America&quot;, &quot;Other&quot;, &quot;Great Britain&quot;, &quot;North A…</pre>
+
+</article></slide><slide class=""><hgroup><h2>Strange country values</h2></hgroup><article  id="strange-country-values">
+
+<p>Sometimes <code>country</code> is <code>NA</code> even though <code>state</code> is known. A conditional more flexible recoding would be helpful…</p>
+
+<pre class = 'prettyprint lang-r'>head(ufo_clean)</pre>
+
+<pre ># A tibble: 6 × 12
+  datetime     city  state country shape durat…¹ durat…² comme…³ date_…⁴ latit…⁵
+  &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  
+1 10/10/1949 … san … tx    us      cyli… 2700    45 min… This e… 4/27/2… 29.883…
+2 10/10/1949 … lack… tx    &lt;NA&gt;    light 7200    1-2 hrs 1949 L… 12/16/… 29.384…
+3 10/10/1955 … ches… &lt;NA&gt;  gb      circ… 20      20 sec… Green/… 1/21/2… 53.2   
+4 10/10/1956 … edna  tx    us      circ… 20      1/2 ho… My old… 1/17/2… 28.978…
+5 10/10/1960 … kane… hi    us      light 900     15 min… AS a M… 1/22/2… 21.418…
+6 10/10/1961 … bris… tn    us      sphe… 300     5 minu… My fat… 4/27/2… 36.595…
+# … with 2 more variables: longitude &lt;chr&gt;, region &lt;chr&gt;, and abbreviated
+#   variable names ¹​duration_seconds, ²​duration_hours_min, ³​comments,
+#   ⁴​date_posted, ⁵​latitude</pre>
+
+</article></slide><slide class=""><hgroup><h2>Deeper look</h2></hgroup><article  id="deeper-look">
+
+<p>Looking at city… it seems like many of these are in fact in the US.</p>
+
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(state == &quot;tx&quot;) %&gt;% count(country, state)</pre>
+
+<pre ># A tibble: 2 × 3
+  country state     n
+  &lt;chr&gt;   &lt;chr&gt; &lt;int&gt;
+1 us      tx     3734
+2 &lt;NA&gt;    tx      307</pre>
+
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(state == &quot;tx&quot; &amp; is.na(country)) %&gt;% select(city)</pre>
+
+<pre ># A tibble: 307 × 1
+   city                        
+   &lt;chr&gt;                       
+ 1 lackland afb                
+ 2 mercedies                   
+ 3 texas city/galveston        
+ 4 houston/tomball             
+ 5 bettendorf                  
+ 6 dallas/ft. worth (mansfield)
+ 7 halletsville                
+ 8 gulf of mexico              
+ 9 haltom                      
+10 &lt;NA&gt;                        
+# … with 297 more rows</pre>
+
+</article></slide><slide class=""><hgroup><h2>Checkin Utah as well</h2></hgroup><article  id="checkin-utah-as-well">
+
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(state == &quot;ut&quot;) %&gt;% count(country, state)</pre>
+
+<pre ># A tibble: 2 × 3
+  country state     n
+  &lt;chr&gt;   &lt;chr&gt; &lt;int&gt;
+1 us      ut      658
+2 &lt;NA&gt;    ut      140</pre>
+
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(state == &quot;ut&quot; &amp; is.na(country))  %&gt;% select(city)</pre>
+
+<pre ># A tibble: 140 × 1
+   city            
+   &lt;chr&gt;           
+ 1 canyonlands np  
+ 2 ogden/clinton   
+ 3 sandy           
+ 4 salt lake valley
+ 5 sandy           
+ 6 duchenne        
+ 7 west valley     
+ 8 salt flats      
+ 9 west valley     
+10 west valley     
+# … with 130 more rows</pre>
+
 </article></slide><slide class=""><hgroup><h2>Get US States</h2></hgroup><article  id="get-us-states">
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(country == &quot;us&quot;) %&gt;% count(state) %&gt;% pull(state)</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(country == &quot;us&quot;) %&gt;% 
+  count(state) %&gt;% 
+  pull(state)</pre>
 
 <pre > [1] &quot;ak&quot; &quot;al&quot; &quot;ar&quot; &quot;az&quot; &quot;ca&quot; &quot;co&quot; &quot;ct&quot; &quot;dc&quot; &quot;de&quot; &quot;fl&quot; &quot;ga&quot; &quot;hi&quot; &quot;ia&quot; &quot;id&quot; &quot;il&quot;
 [16] &quot;in&quot; &quot;ks&quot; &quot;ky&quot; &quot;la&quot; &quot;ma&quot; &quot;md&quot; &quot;me&quot; &quot;mi&quot; &quot;mn&quot; &quot;mo&quot; &quot;ms&quot; &quot;mt&quot; &quot;nc&quot; &quot;nd&quot; &quot;ne&quot;
 [31] &quot;nh&quot; &quot;nj&quot; &quot;nm&quot; &quot;nv&quot; &quot;ny&quot; &quot;oh&quot; &quot;ok&quot; &quot;or&quot; &quot;pa&quot; &quot;pr&quot; &quot;ri&quot; &quot;sc&quot; &quot;sd&quot; &quot;tn&quot; &quot;tx&quot;
 [46] &quot;ut&quot; &quot;va&quot; &quot;vt&quot; &quot;wa&quot; &quot;wi&quot; &quot;wv&quot; &quot;wy&quot;</pre>
 
-<pre class = 'prettyprint lang-r'>US_states &lt;- ufo_clean %&gt;% filter(country == &quot;us&quot;) %&gt;% count(state) %&gt;% pull(state)</pre>
+<pre class = 'prettyprint lang-r'>US_states &lt;- ufo_clean %&gt;% 
+  filter(country == &quot;us&quot;) %&gt;% 
+  count(state) %&gt;% 
+  pull(state)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Get Canada States</h2></hgroup><article  id="get-canada-states">
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(country == &quot;ca&quot;) %&gt;% count(state) %&gt;% pull(state)</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(country == &quot;ca&quot;) %&gt;% 
+  count(state) %&gt;% 
+  pull(state)</pre>
 
 <pre > [1] &quot;ab&quot; &quot;bc&quot; &quot;mb&quot; &quot;nb&quot; &quot;nf&quot; &quot;ns&quot; &quot;nt&quot; &quot;on&quot; &quot;pe&quot; &quot;pq&quot; &quot;qc&quot; &quot;sa&quot; &quot;sk&quot; &quot;yk&quot; &quot;yt&quot;
 [16] NA  </pre>
 
-<pre class = 'prettyprint lang-r'>CA_states &lt;- ufo_clean %&gt;% filter(country == &quot;ca&quot;) %&gt;% count(state) %&gt;% pull(state)</pre>
+<pre class = 'prettyprint lang-r'>CA_states &lt;- ufo_clean %&gt;% 
+  filter(country == &quot;ca&quot;) %&gt;% 
+  count(state) %&gt;% 
+  pull(state)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Get Great Britan states</h2></hgroup><article  id="get-great-britan-states">
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(country == &quot;gb&quot;) %&gt;% count(state) %&gt;% pull(state)</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(country == &quot;gb&quot;) %&gt;% 
+  count(state) %&gt;% 
+  pull(state)</pre>
 
 <pre > [1] &quot;bc&quot; &quot;la&quot; &quot;ms&quot; &quot;nc&quot; &quot;ns&quot; &quot;nt&quot; &quot;ri&quot; &quot;sk&quot; &quot;tn&quot; &quot;wv&quot; &quot;yt&quot; NA  </pre>
 
-<pre class = 'prettyprint lang-r'>GB_states &lt;- ufo_clean %&gt;% filter(country == &quot;gb&quot;) %&gt;% count(state) %&gt;% pull(state)</pre>
+<pre class = 'prettyprint lang-r'>GB_states &lt;- ufo_clean %&gt;% 
+  filter(country == &quot;gb&quot;) %&gt;% 
+  count(state) %&gt;% 
+  pull(state)</pre>
 
 <p>A small overlap with us states.</p>
 
 </article></slide><slide class=""><hgroup><h2>Get DE states</h2></hgroup><article  id="get-de-states">
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(country == &quot;de&quot;) %&gt;% count(state) %&gt;% pull(state)</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(country == &quot;de&quot;) %&gt;% 
+  count(state) %&gt;% 
+  pull(state)</pre>
 
 <pre >[1] NA</pre>
 
-<pre class = 'prettyprint lang-r'>DE_states &lt;- ufo_clean %&gt;% filter(country == &quot;de&quot;) %&gt;% count(state) %&gt;% pull(state)</pre>
-
 </article></slide><slide class=""><hgroup><h2>Get AU states</h2></hgroup><article  id="get-au-states">
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(country == &quot;au&quot;) %&gt;% count(state) %&gt;% pull(state)</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(country == &quot;au&quot;) %&gt;% 
+  count(state) %&gt;% 
+  pull(state)</pre>
 
 <pre >[1] &quot;al&quot; &quot;dc&quot; &quot;nt&quot; &quot;oh&quot; &quot;sa&quot; &quot;wa&quot; &quot;yt&quot; NA  </pre>
 
-<pre class = 'prettyprint lang-r'>AU_states &lt;- ufo_clean %&gt;% filter(country == &quot;au&quot;) %&gt;% count(state) %&gt;% pull(state)</pre>
+<pre class = 'prettyprint lang-r'>AU_states &lt;- ufo_clean %&gt;% 
+  filter(country == &quot;au&quot;) %&gt;% 
+  count(state) %&gt;% 
+  pull(state)</pre>
 
 <p>Some overlap with US states.</p>
 
@@ -3632,7 +3658,9 @@ GB_states &lt;- GB_states[!(GB_states %in% CA_states)]</pre>
 
 </article></slide><slide class=""><hgroup><h2>How often do rows have a value for country but not the US?</h2></hgroup><article  id="how-often-do-rows-have-a-value-for-country-but-not-the-us">
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(country != &quot;us&quot; &amp; !is.na(country)) %&gt;% count(country) </pre>
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% 
+  filter(country != &quot;us&quot; &amp; !is.na(country)) %&gt;% 
+  count(country) </pre>
 
 <pre ># A tibble: 4 × 2
   country     n
@@ -3642,9 +3670,61 @@ GB_states &lt;- GB_states[!(GB_states %in% CA_states)]</pre>
 3 de        111
 4 gb       2043</pre>
 
-</article></slide><slide class=""><hgroup><h2>what is de?</h2></hgroup><article  id="what-is-de">
+</article></slide><slide class=""><hgroup><h2>more complicated case_when</h2></hgroup><article  id="more-complicated-case_when">
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(country == &quot;de&quot;) %&gt;% pull(city)</pre>
+<p>Let’s make an assumption that if the state value is within the data as a state for a specific country that it comes from that country for the sake of illustration.</p>
+
+<pre class = 'prettyprint lang-r'>ufo_clean &lt;- ufo_clean %&gt;% mutate(prob_country = 
+      case_when((is.na(country) &amp; state %in% c(US_states)) ~ &quot;United States&quot;,
+                (is.na(country) &amp; state %in% c(CA_states)) ~ &quot;Canada&quot;,
+                (is.na(country) &amp; state %in% c(AU_states)) ~ &quot;Australia&quot;,
+                (is.na(country) &amp; state %in% c(GB_states)) ~ &quot;Great Britain&quot;,
+                   TRUE ~ country))</pre>
+
+</article></slide><slide class=""><hgroup><h2>results</h2></hgroup><article  id="results">
+
+<pre class = 'prettyprint lang-r'>count(ufo_clean, prob_country)</pre>
+
+<pre ># A tibble: 9 × 2
+  prob_country      n
+  &lt;chr&gt;         &lt;int&gt;
+1 au              592
+2 Australia       699
+3 ca             3259
+4 de              111
+5 gb             2043
+6 Great Britain  5395
+7 United States  5897
+8 us            70146
+9 &lt;NA&gt;            537</pre>
+
+</article></slide><slide class=""><hgroup><h2>results</h2></hgroup><article  id="results-1">
+
+<p>Take a look at those NAs.</p>
+
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(is.na(prob_country))</pre>
+
+<pre ># A tibble: 537 × 13
+   datetime    city  state country shape durat…¹ durat…² comme…³ date_…⁴ latit…⁵
+   &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  
+ 1 10/10/1979… sadd… ab    &lt;NA&gt;    tria… 270     4.5 or… Lights… 1/19/2… 53.970…
+ 2 10/10/1987… mani… on    &lt;NA&gt;    disk  600     10/mins We cou… 8/5/20… 0      
+ 3 10/10/1990… pens… sa    &lt;NA&gt;    unkn… 180     1/2 hr. i saw … 10/12/… 0      
+ 4 10/10/1999… st. … pq    &lt;NA&gt;    egg   5400    90 min. early … 12/2/2… 0      
+ 5 10/10/2012… moun… on    &lt;NA&gt;    tria… 30      30 sec… On Wed… 10/30/… 44.136…
+ 6 10/1/2005 … mont… qc    &lt;NA&gt;    chan… 0       don&amp;#3… I just… 10/11/… 45.508…
+ 7 10/1/2005 … port… mb    &lt;NA&gt;    other 30      30 sec… Six li… 10/30/… 49.972…
+ 8 10/12/2007… mont… nb    &lt;NA&gt;    oval  0       an goi… 8 circ… 11/28/… 46.087…
+ 9 10/12/2010… port… nf    &lt;NA&gt;    light 900     10 -15… moving… 11/21/… 48.539…
+10 10/13/2006… simc… on    &lt;NA&gt;    circ… 30      30 sec… Hoveri… 10/30/… 42.837…
+# … with 527 more rows, 3 more variables: longitude &lt;chr&gt;, region &lt;chr&gt;,
+#   prob_country &lt;chr&gt;, and abbreviated variable names ¹​duration_seconds,
+#   ²​duration_hours_min, ³​comments, ⁴​date_posted, ⁵​latitude</pre>
+
+</article></slide><slide class=""><hgroup><h2>We could confirm with city info and latitude and longitude</h2></hgroup><article  id="we-could-confirm-with-city-info-and-latitude-and-longitude">
+
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(country == &quot;de&quot;) %&gt;% 
+  pull(city)</pre>
 
 <pre >  [1] &quot;berlin (germany)&quot;                                 
   [2] &quot;berlin (germany)&quot;                                 
@@ -3758,51 +3838,6 @@ GB_states &lt;- GB_states[!(GB_states %in% CA_states)]</pre>
 [110] &quot;mannheim (germany)&quot;                               
 [111] &quot;kaiserlautern (germany)&quot;                          </pre>
 
-</article></slide><slide class=""><hgroup><h2>more complicated case_when</h2></hgroup><article  id="more-complicated-case_when">
-
-<p>Let’s make some assumptions for the sake of illustration.</p>
-
-<pre class = 'prettyprint lang-r'>ufo_clean &lt;- ufo_clean %&gt;% mutate(prob_country = 
-      case_when((is.na(country) &amp; state %in% c(US_states)) ~ &quot;United States&quot;,
-                (is.na(country) &amp; state %in% c(CA_states)) ~ &quot;Canada&quot;,
-                (is.na(country) &amp; state %in% c(AU_states)) ~ &quot;Australia&quot;,
-                (is.na(country) &amp; state %in% c(GB_states)) ~ &quot;Great Britain&quot;,
-                   TRUE ~ country))</pre>
-
-<pre class = 'prettyprint lang-r'>count(ufo_clean, prob_country)</pre>
-
-<pre ># A tibble: 9 × 2
-  prob_country      n
-  &lt;chr&gt;         &lt;int&gt;
-1 au              592
-2 Australia       699
-3 ca             3259
-4 de              111
-5 gb             2043
-6 Great Britain  5395
-7 United States  5897
-8 us            70146
-9 &lt;NA&gt;            537</pre>
-
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(is.na(prob_country))</pre>
-
-<pre ># A tibble: 537 × 12
-   datetime    city  state country shape durat…¹ durat…² comme…³ date_…⁴ latit…⁵
-   &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  
- 1 10/10/1979… sadd… ab    &lt;NA&gt;    tria… 270     4.5 or… Lights… 1/19/2… 53.970…
- 2 10/10/1987… mani… on    &lt;NA&gt;    disk  600     10/mins We cou… 8/5/20… 0      
- 3 10/10/1990… pens… sa    &lt;NA&gt;    unkn… 180     1/2 hr. i saw … 10/12/… 0      
- 4 10/10/1999… st. … pq    &lt;NA&gt;    egg   5400    90 min. early … 12/2/2… 0      
- 5 10/10/2012… moun… on    &lt;NA&gt;    tria… 30      30 sec… On Wed… 10/30/… 44.136…
- 6 10/1/2005 … mont… qc    &lt;NA&gt;    chan… 0       don&amp;#3… I just… 10/11/… 45.508…
- 7 10/1/2005 … port… mb    &lt;NA&gt;    other 30      30 sec… Six li… 10/30/… 49.972…
- 8 10/12/2007… mont… nb    &lt;NA&gt;    oval  0       an goi… 8 circ… 11/28/… 46.087…
- 9 10/12/2010… port… nf    &lt;NA&gt;    light 900     10 -15… moving… 11/21/… 48.539…
-10 10/13/2006… simc… on    &lt;NA&gt;    circ… 30      30 sec… Hoveri… 10/30/… 42.837…
-# … with 527 more rows, 2 more variables: longitude &lt;chr&gt;, prob_country &lt;chr&gt;,
-#   and abbreviated variable names ¹​duration_seconds, ²​duration_hours_min,
-#   ³​comments, ⁴​date_posted, ⁵​latitude</pre>
-
 </article></slide><slide class=""><hgroup><h2>Even more specific</h2></hgroup><article  id="even-more-specific">
 
 <pre class = 'prettyprint lang-r'>ufo_clean &lt;- ufo_clean %&gt;% mutate(prob_country = 
@@ -3822,7 +3857,8 @@ GB_states &lt;- GB_states[!(GB_states %in% CA_states)]</pre>
 
 </article></slide><slide class=""><hgroup><h2>Check counts</h2></hgroup><article  id="check-counts">
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% count(country, prob_country)</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% 
+  count(country, prob_country)</pre>
 
 <pre ># A tibble: 9 × 3
   country prob_country      n
@@ -3837,23 +3873,11 @@ GB_states &lt;- GB_states[!(GB_states %in% CA_states)]</pre>
 8 &lt;NA&gt;    United States  5897
 9 &lt;NA&gt;    &lt;NA&gt;            537</pre>
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% count(prob_country)</pre>
-
-<pre ># A tibble: 6 × 2
-  prob_country      n
-  &lt;chr&gt;         &lt;int&gt;
-1 Australia      1291
-2 Canada         3259
-3 Germany         111
-4 Great Britain  7438
-5 United States 76043
-6 &lt;NA&gt;            537</pre>
-
 </article></slide><slide class=""><hgroup><h2>Summary</h2></hgroup><article  id="summary">
 
 <ul>
 <li><code>recode</code> makes exact swaps</li>
-<li><code>case_when</code> can use conditionals, need to specify what value for if no conditions are met (can be the original value of a variable)</li>
+<li><code>case_when</code> can use conditionals, need to specify what value for if no conditions are met (can be the original value of a variable if we use the variable name).</li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Lab</h2></hgroup><article  id="lab">

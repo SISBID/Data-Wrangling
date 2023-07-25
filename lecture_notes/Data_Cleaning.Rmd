@@ -141,6 +141,53 @@ ufo_clean %>% mutate(country =
 
 ```
 
+
+
+## How many countries?
+
+```{r}
+ufo_clean %>% count(country)
+```
+
+## `case_when()` regions to create a new variable based on conditions of other variables
+
+```
+case_when(test ~ value if test is true,
+         test2 ~ vlue if test2 is true,
+         TRUE ~ value if all above tests are not true) # defaults to NA
+```
+
+```{r}
+ufo_clean <- ufo_clean %>% mutate( 
+            region = case_when(
+              country %in% c("us", "ca") ~ "North America",
+              country %in% c("de") ~ "Europe",
+              country %in% "gb" ~ "Great Britain",
+              TRUE ~ "Other"
+            ))
+ufo_clean %>% select(country, region) %>% head()
+```
+
+
+
+## `case_when` - another example
+
+The `TRUE` value can also just be the original values.
+
+```{r}
+ufo_clean %>% mutate(country = case_when(
+                  country == "gb" ~ "Great Britain",
+                  country == "us" ~"United States",
+                  country == "au" ~ "Australia",
+                  country == "DE" ~ "Germany",
+                             TRUE ~ country))%>%
+  glimpse()
+
+```
+
+
+
+
 ## Strange country values
 
 
@@ -155,51 +202,19 @@ head(ufo_clean)
 
 ## Deeper look
 
+Looking at city... it seems like many of these are in fact in the US.
+
 ```{r}
 ufo_clean %>% filter(state == "tx") %>% count(country, state)
-ufo_clean %>% filter(state == "tx" & is.na(country)) 
+ufo_clean %>% filter(state == "tx" & is.na(country)) %>% select(city)
+```
 
+
+## Checkin Utah as well
+
+```{r}
 ufo_clean %>% filter(state == "ut") %>% count(country, state)
-ufo_clean %>% filter(state == "ut" & is.na(country))
-```
-
-
-## Case_when
-
-```
-casewhen(test ~ value if test is true,
-         test2 ~ vlue if test2 is true,
-         TRUE ~ value if all above tests are not true) # defaults to NA
-```
-
-```{r}
-ufo_clean %>% mutate(country = case_when(
-  country == "gb" ~ "Great Britain",
-  country == "us" ~"United States",
-  TRUE ~ country))%>%
-  glimpse()
-
-
-```
-
-## How many countries?
-
-```{r}
-
-ufo_clean %>% count(country)
-```
-
-## `case_when()` regions
-
-```{r}
-ufo <- ufo %>% mutate( 
-            region = case_when(
-              country %in% c("us", "ca") ~ "North America",
-              country %in% c("de") ~ "Europe",
-              country %in% "gb" ~ "Great Britain",
-              TRUE ~ "Other"
-            ))
-ufo %>% select(country, region) %>% head()
+ufo_clean %>% filter(state == "ut" & is.na(country))  %>% select(city)
 ```
 
 
@@ -207,23 +222,38 @@ ufo %>% select(country, region) %>% head()
 ## Get US States
 
 ```{r}
-ufo_clean %>% filter(country == "us") %>% count(state) %>% pull(state)
-US_states <- ufo_clean %>% filter(country == "us") %>% count(state) %>% pull(state)
+ufo_clean %>% filter(country == "us") %>% 
+  count(state) %>% 
+  pull(state)
+US_states <- ufo_clean %>% 
+  filter(country == "us") %>% 
+  count(state) %>% 
+  pull(state)
 
 ```
 
 ## Get Canada States
 ```{r}
-ufo_clean %>% filter(country == "ca") %>% count(state) %>% pull(state)
-CA_states <- ufo_clean %>% filter(country == "ca") %>% count(state) %>% pull(state)
+ufo_clean %>% filter(country == "ca") %>% 
+  count(state) %>% 
+  pull(state)
+CA_states <- ufo_clean %>% 
+  filter(country == "ca") %>% 
+  count(state) %>% 
+  pull(state)
 
 ```
 
 ## Get Great Britan states
 
 ```{r}
-ufo_clean %>% filter(country == "gb") %>% count(state) %>% pull(state)
-GB_states <- ufo_clean %>% filter(country == "gb") %>% count(state) %>% pull(state)
+ufo_clean %>% filter(country == "gb") %>% 
+  count(state) %>% 
+  pull(state)
+GB_states <- ufo_clean %>% 
+  filter(country == "gb") %>% 
+  count(state) %>% 
+  pull(state)
 
 ```
 A small overlap with us states.
@@ -231,17 +261,24 @@ A small overlap with us states.
 
 
 ## Get DE states
+
 ```{r}
-ufo_clean %>% filter(country == "de") %>% count(state) %>% pull(state)
-DE_states <- ufo_clean %>% filter(country == "de") %>% count(state) %>% pull(state)
+ufo_clean %>% filter(country == "de") %>% 
+  count(state) %>% 
+  pull(state)
 
 ```
 
 ## Get AU states
 
 ```{r}
-ufo_clean %>% filter(country == "au") %>% count(state) %>% pull(state)
-AU_states <- ufo_clean %>% filter(country == "au") %>% count(state) %>% pull(state)
+ufo_clean %>% filter(country == "au") %>% 
+  count(state) %>% 
+  pull(state)
+AU_states <- ufo_clean %>% 
+  filter(country == "au") %>% 
+  count(state) %>% 
+  pull(state)
 
 ```
 
@@ -267,23 +304,22 @@ GB_states <- GB_states[!(GB_states %in% US_states)]
 GB_states <- GB_states[!(GB_states%in% AU_states)]
 GB_states <- GB_states[!(GB_states %in% CA_states)]
 ```
+
 ## How often do rows have a value for country but not the US?
 
 ```{r}
-ufo_clean %>% filter(country != "us" & !is.na(country)) %>% count(country) 
+ufo_clean %>% 
+  filter(country != "us" & !is.na(country)) %>% 
+  count(country) 
 
 ```
 
 
-## what is de?
 
-```{r}
-ufo_clean %>% filter(country == "de") %>% pull(city)
-```
 
 ## more complicated case_when
 
-Let's make some assumptions for the sake of illustration. 
+Let's make an assumption that if the state value is within the data as a state for a specific country that it comes from that country for the sake of illustration. 
 
 ```{r}
 ufo_clean <- ufo_clean %>% mutate(prob_country = 
@@ -294,10 +330,27 @@ ufo_clean <- ufo_clean %>% mutate(prob_country =
                    TRUE ~ country))
 ```
 
+## results
 
 ```{r}
 count(ufo_clean, prob_country)
+```
+
+
+## results
+
+Take a look at those NAs.
+
+```{r}
 ufo_clean %>% filter(is.na(prob_country))
+```
+
+
+## We could confirm with city info and latitude and longitude
+
+```{r}
+ufo_clean %>% filter(country == "de") %>% 
+  pull(city)
 ```
 
 
@@ -324,14 +377,14 @@ We would want to confirm what we recoded with the cities and latitude and longit
 ## Check counts
 
 ```{r}
-ufo_clean %>% count(country, prob_country)
-ufo_clean %>% count(prob_country)
+ufo_clean %>% 
+  count(country, prob_country)
 ```
 
 ## Summary
 
 - `recode` makes exact swaps
-- `case_when` can use conditionals, need to specify what value for if no conditions are met (can be the original value of a variable)
+- `case_when` can use conditionals, need to specify what value for if no conditions are met (can be the original value of a variable if we use the variable name).
 
 ## Lab
 
