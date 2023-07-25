@@ -3317,16 +3317,15 @@ $ file     &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &
 
 <p>Now we have a chance to keep but clean these values!</p>
 
-<pre class = 'prettyprint lang-r'>ufo &lt;-read_csv(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv&quot;, col_types = cols(`duration (seconds)` = &quot;c&quot;))</pre>
+<pre class = 'prettyprint lang-r'>url &lt;- &quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv&quot;
+ufo &lt;-read_csv(url, col_types = cols(`duration (seconds)` = &quot;c&quot;))</pre>
 
 <pre >Warning: One or more parsing issues, call `problems()` on your data frame for details,
 e.g.:
   dat &lt;- vroom(...)
   problems(dat)</pre>
 
-<pre class = 'prettyprint lang-r'>dim(ufo)</pre>
-
-<pre >[1] 88875    11</pre>
+</article></slide><slide class=""><hgroup><h2>Look at the problems again</h2></hgroup><article  id="look-at-the-problems-again">
 
 <pre class = 'prettyprint lang-r'>p &lt;- problems(ufo)
 
@@ -3341,13 +3340,24 @@ count(p, expected, actual)</pre>
 
 <p>Multiply by negative one to drop the rows. Use the Slice function to &ldquo;select&rdquo; those rows based on the index.</p>
 
+<pre class = 'prettyprint lang-r'>(pull(p, row) *-1) %&gt;% head()</pre>
+
+<pre >[1]  -878 -1713 -1815 -2858 -3734 -4756</pre>
+
 <pre class = 'prettyprint lang-r'>ufo_clean &lt;- ufo %&gt;% slice((pull(p, row))*-1)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Checking</h2></hgroup><article  id="checking">
 
-<pre class = 'prettyprint lang-r'>nrow(ufo)-nrow(ufo_clean)</pre>
+<pre class = 'prettyprint lang-r'>nrow(ufo) - nrow(ufo_clean)</pre>
 
 <pre >[1] 196</pre>
+
+<pre class = 'prettyprint lang-r'>count(p, expected, actual)</pre>
+
+<pre ># A tibble: 1 × 3
+  expected   actual         n
+  &lt;chr&gt;      &lt;chr&gt;      &lt;int&gt;
+1 11 columns 12 columns   196</pre>
 
 </article></slide><slide class=""><hgroup><h2>Clean names with the <code>clean_names()</code> function from the <code>janitor</code> package</h2></hgroup><article  id="clean-names-with-the-clean_names-function-from-the-janitor-package">
 
@@ -3374,7 +3384,14 @@ colnames(ufo_clean)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Exact Swaps - recode function</h2></hgroup><article  id="exact-swaps---recode-function">
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% mutate(country = recode(country, gb = &quot;Great Britain&quot;)) %&gt;% glimpse()</pre>
+<pre >within mutate...
+recode(variable, value_old = value_new,
+           other_value_old = other_value_new)</pre>
+
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% 
+  mutate(country = 
+           recode(country, gb = &quot;Great Britain&quot;)) %&gt;% 
+  glimpse()</pre>
 
 <pre >Rows: 88,679
 Columns: 11
@@ -3392,8 +3409,11 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 
 </article></slide><slide class=""><hgroup><h2>Exact Swaps - recode function</h2></hgroup><article  id="exact-swaps---recode-function-1">
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% mutate(country = recode(country, gb = &quot;Great Britain&quot;,
-                                               &quot;us&quot; = &quot;United States&quot;)) %&gt;% glimpse()</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% mutate(country = 
+          recode(country, 
+                 gb = &quot;Great Britain&quot;,
+                 us = &quot;United States&quot;)) %&gt;% 
+  glimpse()</pre>
 
 <pre >Rows: 88,679
 Columns: 11
