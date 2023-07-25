@@ -3295,28 +3295,29 @@ mean(x)</pre>
 
 <pre >[1] 146.6875</pre>
 
-</article></slide><slide class=""><hgroup><h2>Youth Tobacco Survey</h2></hgroup><article  id="youth-tobacco-survey">
+</article></slide><slide class=""><hgroup><h2>Youth Tobacco Survey</h2></hgroup><article  id="youth-tobacco-survey" class="codesmall">
 
-<p>Here we will be using the Youth Tobacco Survey data:</p>
+<p>Let’s use the Youth Tobacco Survey data again:</p>
 
 <pre class = 'prettyprint lang-r'>yts &lt;- 
-  read_csv(&quot;http://sisbid.github.io/Data-Wrangling/data/Youth_Tobacco_Survey_YTS_Data.csv&quot;)
+  read_csv(&quot;https://sisbid.github.io/Data-Wrangling/data/Youth_Tobacco_Survey_YTS_Data.csv&quot;)
 head(yts)</pre>
 
 <pre ># A tibble: 6 × 31
-   YEAR LocationAbbr LocationDesc TopicType                TopicDesc MeasureDesc DataSource Response Data_Value_Unit
-  &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;        &lt;chr&gt;                    &lt;chr&gt;     &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;          
-1  2015 AZ           Arizona      Tobacco Use – Survey Da… Cessatio… Percent of… YTS        &lt;NA&gt;     %              
-2  2015 AZ           Arizona      Tobacco Use – Survey Da… Cessatio… Percent of… YTS        &lt;NA&gt;     %              
-3  2015 AZ           Arizona      Tobacco Use – Survey Da… Cessatio… Percent of… YTS        &lt;NA&gt;     %              
-4  2015 AZ           Arizona      Tobacco Use – Survey Da… Cessatio… Quit Attem… YTS        &lt;NA&gt;     %              
-5  2015 AZ           Arizona      Tobacco Use – Survey Da… Cessatio… Quit Attem… YTS        &lt;NA&gt;     %              
-6  2015 AZ           Arizona      Tobacco Use – Survey Da… Cessatio… Quit Attem… YTS        &lt;NA&gt;     %              
+   YEAR LocationAbbr LocationDesc TopicType          TopicDesc MeasureDesc DataSource Response Data_Value_Unit
+  &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;        &lt;chr&gt;              &lt;chr&gt;     &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;          
+1  2015 AZ           Arizona      Tobacco Use – Sur… Cessatio… Percent of… YTS        &lt;NA&gt;     %              
+2  2015 AZ           Arizona      Tobacco Use – Sur… Cessatio… Percent of… YTS        &lt;NA&gt;     %              
+3  2015 AZ           Arizona      Tobacco Use – Sur… Cessatio… Percent of… YTS        &lt;NA&gt;     %              
+4  2015 AZ           Arizona      Tobacco Use – Sur… Cessatio… Quit Attem… YTS        &lt;NA&gt;     %              
+5  2015 AZ           Arizona      Tobacco Use – Sur… Cessatio… Quit Attem… YTS        &lt;NA&gt;     %              
+6  2015 AZ           Arizona      Tobacco Use – Sur… Cessatio… Quit Attem… YTS        &lt;NA&gt;     %              
 # ℹ 22 more variables: Data_Value_Type &lt;chr&gt;, Data_Value &lt;dbl&gt;, Data_Value_Footnote_Symbol &lt;chr&gt;,
-#   Data_Value_Footnote &lt;chr&gt;, Data_Value_Std_Err &lt;dbl&gt;, Low_Confidence_Limit &lt;dbl&gt;, High_Confidence_Limit &lt;dbl&gt;,
-#   Sample_Size &lt;dbl&gt;, Gender &lt;chr&gt;, Race &lt;chr&gt;, Age &lt;chr&gt;, Education &lt;chr&gt;, GeoLocation &lt;chr&gt;, TopicTypeId &lt;chr&gt;,
-#   TopicId &lt;chr&gt;, MeasureId &lt;chr&gt;, StratificationID1 &lt;chr&gt;, StratificationID2 &lt;chr&gt;, StratificationID3 &lt;chr&gt;,
-#   StratificationID4 &lt;chr&gt;, SubMeasureID &lt;chr&gt;, DisplayOrder &lt;dbl&gt;</pre>
+#   Data_Value_Footnote &lt;chr&gt;, Data_Value_Std_Err &lt;dbl&gt;, Low_Confidence_Limit &lt;dbl&gt;,
+#   High_Confidence_Limit &lt;dbl&gt;, Sample_Size &lt;dbl&gt;, Gender &lt;chr&gt;, Race &lt;chr&gt;, Age &lt;chr&gt;, Education &lt;chr&gt;,
+#   GeoLocation &lt;chr&gt;, TopicTypeId &lt;chr&gt;, TopicId &lt;chr&gt;, MeasureId &lt;chr&gt;, StratificationID1 &lt;chr&gt;,
+#   StratificationID2 &lt;chr&gt;, StratificationID3 &lt;chr&gt;, StratificationID4 &lt;chr&gt;, SubMeasureID &lt;chr&gt;,
+#   DisplayOrder &lt;dbl&gt;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Column to vector</h2></hgroup><article  id="column-to-vector">
 
@@ -3325,256 +3326,340 @@ head(yts)</pre>
 <pre class = 'prettyprint lang-r'>locations &lt;- yts %&gt;% pull(LocationDesc)
 locations</pre>
 
-<pre >   [1] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
-   [5] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
-   [9] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
-  [13] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
-  [17] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
-  [21] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
-  [25] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
-  [29] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
-  [33] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
-  [37] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
-  [41] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
-  [45] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
-  [49] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
-  [53] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
-  [57] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
-  [61] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
-  [65] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
-  [69] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
-  [73] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
-  [77] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
-  [81] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
-  [85] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
-  [89] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
-  [93] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
-  [97] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
- [101] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
- [105] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
- [109] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
- [113] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
- [117] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
- [121] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
- [125] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
- [129] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
- [133] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
- [137] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
- [141] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
- [145] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
- [149] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
- [153] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
- [157] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
- [161] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
- [165] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
- [169] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
- [173] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
- [177] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
- [181] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
- [185] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
- [189] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
- [193] &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;               
- [197] &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;               
- [201] &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;               
- [205] &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;               
- [209] &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;               
- [213] &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;               
- [217] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
- [221] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
- [225] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
- [229] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
- [233] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
- [237] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
- [241] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
- [245] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
- [249] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
- [253] &quot;Utah&quot;                     &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
- [257] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
- [261] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
- [265] &quot;Mississippi&quot;              &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;Missouri&quot;                
- [269] &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;Missouri&quot;                
- [273] &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;Missouri&quot;                
- [277] &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;Missouri&quot;                
- [281] &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;Missouri&quot;                
- [285] &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;National (States and DC)&quot; &quot;National (States and DC)&quot;
- [289] &quot;National (States and DC)&quot; &quot;National (States and DC)&quot; &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
- [293] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
- [297] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
- [301] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
- [305] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
- [309] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
- [313] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;New Jersey&quot;               &quot;New Jersey&quot;              
- [317] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
- [321] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
- [325] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
- [329] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
- [333] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
- [337] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
- [341] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
- [345] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
- [349] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
- [353] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
- [357] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
- [361] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;North Carolina&quot;           &quot;North Carolina&quot;          
- [365] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
- [369] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
- [373] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
- [377] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
- [381] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
- [385] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
- [389] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
- [393] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
- [397] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
- [401] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
- [405] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
- [409] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Dakota&quot;             &quot;North Dakota&quot;            
- [413] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
- [417] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
- [421] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
- [425] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
- [429] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
- [433] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
- [437] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
- [441] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
- [445] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
- [449] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
- [453] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
- [457] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
- [461] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
- [465] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
- [469] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
- [473] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
- [477] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
- [481] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
- [485] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
- [489] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
- [493] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
- [497] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
- [501] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
- [505] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;South Carolina&quot;           &quot;South Carolina&quot;          
- [509] &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;          
- [513] &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;          
- [517] &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;          
- [521] &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;          
- [525] &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;          
- [529] &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;West Virginia&quot;            &quot;West Virginia&quot;           
- [533] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
- [537] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
- [541] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
- [545] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
- [549] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
- [553] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
- [557] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
- [561] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
- [565] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
- [569] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
- [573] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
- [577] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;Alabama&quot;                  &quot;Alabama&quot;                 
- [581] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
- [585] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
- [589] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
- [593] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
- [597] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
- [601] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
- [605] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
- [609] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
- [613] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
- [617] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
- [621] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
- [625] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Delaware&quot;                 &quot;Delaware&quot;                
- [629] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
- [633] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
- [637] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
- [641] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
- [645] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
- [649] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
- [653] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
- [657] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
- [661] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
- [665] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
- [669] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
- [673] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
- [677] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
- [681] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
- [685] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
- [689] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
- [693] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
- [697] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
- [701] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
- [705] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
- [709] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
- [713] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
- [717] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
- [721] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
- [725] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
- [729] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
- [733] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
- [737] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
- [741] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
- [745] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
- [749] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
- [753] &quot;Mississippi&quot;              &quot;Guam&quot;                     &quot;Mississippi&quot;              &quot;Mississippi&quot;             
- [757] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
- [761] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
- [765] &quot;Mississippi&quot;              &quot;National (States and DC)&quot; &quot;National (States and DC)&quot; &quot;National (States and DC)&quot;
- [769] &quot;National (States and DC)&quot; &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
- [773] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
- [777] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
- [781] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
- [785] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
- [789] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
- [793] &quot;Nebraska&quot;                 &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
- [797] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
- [801] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
- [805] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
- [809] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
- [813] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
- [817] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
- [821] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
- [825] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
- [829] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
- [833] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
- [837] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
- [841] &quot;New Jersey&quot;               &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                    
- [845] &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                    
- [849] &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                    
- [853] &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                    
- [857] &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                    
- [861] &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                    
- [865] &quot;Ohio&quot;                     &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
- [869] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
- [873] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
- [877] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
- [881] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
- [885] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
- [889] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
- [893] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
- [897] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
- [901] &quot;Guam&quot;                     &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
- [905] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
- [909] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
- [913] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Arizona&quot;                  &quot;Arizona&quot;                 
- [917] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
- [921] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
- [925] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
- [929] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
- [933] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
- [937] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Connecticut&quot;              &quot;Connecticut&quot;             
- [941] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
- [945] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
- [949] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
- [953] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
- [957] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
- [961] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Guam&quot;                     &quot;Connecticut&quot;             
- [965] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
- [969] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
- [973] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
- [977] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
- [981] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
- [985] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Georgia&quot;                 
- [989] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
- [993] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
- [997] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
+<pre >   [1] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+   [4] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+   [7] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+  [10] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+  [13] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+  [16] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+  [19] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+  [22] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+  [25] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [28] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [31] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [34] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [37] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [40] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [43] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [46] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [49] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [52] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [55] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [58] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [61] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [64] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [67] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [70] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+  [73] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
+  [76] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
+  [79] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
+  [82] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
+  [85] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
+  [88] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
+  [91] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
+  [94] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
+  [97] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [100] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [103] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [106] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [109] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [112] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [115] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [118] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [121] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [124] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [127] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [130] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [133] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [136] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [139] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [142] &quot;Hawaii&quot;                   &quot;Hawaii&quot;                   &quot;Hawaii&quot;                  
+ [145] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [148] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [151] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [154] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [157] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [160] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [163] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [166] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [169] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [172] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [175] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [178] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [181] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [184] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [187] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [190] &quot;Illinois&quot;                 &quot;Illinois&quot;                 &quot;Illinois&quot;                
+ [193] &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;               
+ [196] &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;               
+ [199] &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;               
+ [202] &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;               
+ [205] &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;               
+ [208] &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;               
+ [211] &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;               
+ [214] &quot;Louisiana&quot;                &quot;Louisiana&quot;                &quot;Louisiana&quot;               
+ [217] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [220] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [223] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [226] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [229] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [232] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [235] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [238] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [241] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [244] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [247] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [250] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [253] &quot;Utah&quot;                     &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [256] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [259] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [262] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [265] &quot;Mississippi&quot;              &quot;Missouri&quot;                 &quot;Missouri&quot;                
+ [268] &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;Missouri&quot;                
+ [271] &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;Missouri&quot;                
+ [274] &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;Missouri&quot;                
+ [277] &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;Missouri&quot;                
+ [280] &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;Missouri&quot;                
+ [283] &quot;Missouri&quot;                 &quot;Missouri&quot;                 &quot;Missouri&quot;                
+ [286] &quot;Missouri&quot;                 &quot;National (States and DC)&quot; &quot;National (States and DC)&quot;
+ [289] &quot;National (States and DC)&quot; &quot;National (States and DC)&quot; &quot;Nebraska&quot;                
+ [292] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [295] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [298] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [301] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [304] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [307] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [310] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [313] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;New Jersey&quot;              
+ [316] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [319] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [322] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [325] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [328] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [331] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [334] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [337] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [340] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [343] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [346] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [349] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [352] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [355] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [358] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [361] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;North Carolina&quot;          
+ [364] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [367] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [370] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [373] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [376] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [379] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [382] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [385] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [388] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [391] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [394] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [397] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [400] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [403] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [406] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Carolina&quot;          
+ [409] &quot;North Carolina&quot;           &quot;North Carolina&quot;           &quot;North Dakota&quot;            
+ [412] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [415] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [418] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [421] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [424] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [427] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [430] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [433] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [436] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [439] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [442] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [445] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [448] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [451] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [454] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;North Dakota&quot;            
+ [457] &quot;North Dakota&quot;             &quot;North Dakota&quot;             &quot;Pennsylvania&quot;            
+ [460] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [463] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [466] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [469] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [472] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [475] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [478] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [481] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [484] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [487] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [490] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [493] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [496] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [499] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [502] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [505] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;South Carolina&quot;          
+ [508] &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;          
+ [511] &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;          
+ [514] &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;          
+ [517] &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;          
+ [520] &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;          
+ [523] &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;          
+ [526] &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;South Carolina&quot;          
+ [529] &quot;South Carolina&quot;           &quot;South Carolina&quot;           &quot;West Virginia&quot;           
+ [532] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [535] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [538] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [541] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [544] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [547] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [550] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [553] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [556] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [559] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [562] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [565] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [568] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [571] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [574] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;West Virginia&quot;           
+ [577] &quot;West Virginia&quot;            &quot;West Virginia&quot;            &quot;Alabama&quot;                 
+ [580] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [583] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [586] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [589] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [592] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [595] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [598] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [601] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [604] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [607] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [610] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [613] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [616] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [619] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [622] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Alabama&quot;                 
+ [625] &quot;Alabama&quot;                  &quot;Alabama&quot;                  &quot;Delaware&quot;                
+ [628] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
+ [631] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
+ [634] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
+ [637] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
+ [640] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
+ [643] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
+ [646] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
+ [649] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
+ [652] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
+ [655] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
+ [658] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
+ [661] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
+ [664] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Delaware&quot;                
+ [667] &quot;Delaware&quot;                 &quot;Delaware&quot;                 &quot;Minnesota&quot;               
+ [670] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [673] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [676] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [679] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [682] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [685] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [688] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [691] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [694] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [697] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [700] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [703] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [706] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [709] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [712] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Minnesota&quot;               
+ [715] &quot;Minnesota&quot;                &quot;Minnesota&quot;                &quot;Mississippi&quot;             
+ [718] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [721] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [724] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [727] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [730] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [733] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [736] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [739] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [742] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [745] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [748] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [751] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [754] &quot;Guam&quot;                     &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [757] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [760] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [763] &quot;Mississippi&quot;              &quot;Mississippi&quot;              &quot;Mississippi&quot;             
+ [766] &quot;National (States and DC)&quot; &quot;National (States and DC)&quot; &quot;National (States and DC)&quot;
+ [769] &quot;National (States and DC)&quot; &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [772] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [775] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [778] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [781] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [784] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [787] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [790] &quot;Nebraska&quot;                 &quot;Nebraska&quot;                 &quot;Nebraska&quot;                
+ [793] &quot;Nebraska&quot;                 &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [796] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [799] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [802] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [805] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [808] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [811] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [814] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [817] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [820] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [823] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [826] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [829] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [832] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [835] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [838] &quot;New Jersey&quot;               &quot;New Jersey&quot;               &quot;New Jersey&quot;              
+ [841] &quot;New Jersey&quot;               &quot;Ohio&quot;                     &quot;Ohio&quot;                    
+ [844] &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                    
+ [847] &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                    
+ [850] &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                    
+ [853] &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                    
+ [856] &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                    
+ [859] &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                    
+ [862] &quot;Ohio&quot;                     &quot;Ohio&quot;                     &quot;Ohio&quot;                    
+ [865] &quot;Ohio&quot;                     &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [868] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [871] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [874] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [877] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [880] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [883] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [886] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [889] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [892] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [895] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [898] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [901] &quot;Guam&quot;                     &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [904] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [907] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [910] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;            
+ [913] &quot;Pennsylvania&quot;             &quot;Pennsylvania&quot;             &quot;Arizona&quot;                 
+ [916] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+ [919] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+ [922] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+ [925] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+ [928] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+ [931] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+ [934] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Arizona&quot;                 
+ [937] &quot;Arizona&quot;                  &quot;Arizona&quot;                  &quot;Connecticut&quot;             
+ [940] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [943] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [946] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [949] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [952] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [955] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [958] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [961] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Guam&quot;                    
+ [964] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [967] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [970] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [973] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [976] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [979] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [982] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [985] &quot;Connecticut&quot;              &quot;Connecticut&quot;              &quot;Connecticut&quot;             
+ [988] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
+ [991] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
+ [994] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
+ [997] &quot;Georgia&quot;                  &quot;Georgia&quot;                  &quot;Georgia&quot;                 
+[1000] &quot;Georgia&quot;                 
  [ reached getOption(&quot;max.print&quot;) -- omitted 8794 entries ]</pre>
 
 </article></slide><slide class=""><hgroup><h2>Length and unique</h2></hgroup><article  id="length-and-unique">
@@ -3583,18 +3668,22 @@ locations</pre>
 
 <pre class = 'prettyprint lang-r'>unique(locations)</pre>
 
-<pre > [1] &quot;Arizona&quot;                  &quot;Connecticut&quot;              &quot;Georgia&quot;                  &quot;Hawaii&quot;                  
- [5] &quot;Illinois&quot;                 &quot;Louisiana&quot;                &quot;Mississippi&quot;              &quot;Utah&quot;                    
- [9] &quot;Missouri&quot;                 &quot;National (States and DC)&quot; &quot;Nebraska&quot;                 &quot;New Jersey&quot;              
-[13] &quot;North Carolina&quot;           &quot;North Dakota&quot;             &quot;Pennsylvania&quot;             &quot;South Carolina&quot;          
-[17] &quot;West Virginia&quot;            &quot;Alabama&quot;                  &quot;Delaware&quot;                 &quot;Minnesota&quot;               
-[21] &quot;Guam&quot;                     &quot;Ohio&quot;                     &quot;Indiana&quot;                  &quot;Kansas&quot;                  
-[25] &quot;Oklahoma&quot;                 &quot;Wisconsin&quot;                &quot;Michigan&quot;                 &quot;New Hampshire&quot;           
-[29] &quot;Arkansas&quot;                 &quot;Kentucky&quot;                 &quot;Iowa&quot;                     &quot;South Dakota&quot;            
-[33] &quot;Virginia&quot;                 &quot;Puerto Rico&quot;              &quot;Rhode Island&quot;             &quot;New Mexico&quot;              
-[37] &quot;Tennessee&quot;                &quot;Vermont&quot;                  &quot;Virgin Islands&quot;           &quot;California&quot;              
-[41] &quot;Idaho&quot;                    &quot;Florida&quot;                  &quot;Maryland&quot;                 &quot;Massachusetts&quot;           
-[45] &quot;New York&quot;                 &quot;Maine&quot;                    &quot;Colorado&quot;                 &quot;District of Columbia&quot;    
+<pre > [1] &quot;Arizona&quot;                  &quot;Connecticut&quot;              &quot;Georgia&quot;                 
+ [4] &quot;Hawaii&quot;                   &quot;Illinois&quot;                 &quot;Louisiana&quot;               
+ [7] &quot;Mississippi&quot;              &quot;Utah&quot;                     &quot;Missouri&quot;                
+[10] &quot;National (States and DC)&quot; &quot;Nebraska&quot;                 &quot;New Jersey&quot;              
+[13] &quot;North Carolina&quot;           &quot;North Dakota&quot;             &quot;Pennsylvania&quot;            
+[16] &quot;South Carolina&quot;           &quot;West Virginia&quot;            &quot;Alabama&quot;                 
+[19] &quot;Delaware&quot;                 &quot;Minnesota&quot;                &quot;Guam&quot;                    
+[22] &quot;Ohio&quot;                     &quot;Indiana&quot;                  &quot;Kansas&quot;                  
+[25] &quot;Oklahoma&quot;                 &quot;Wisconsin&quot;                &quot;Michigan&quot;                
+[28] &quot;New Hampshire&quot;            &quot;Arkansas&quot;                 &quot;Kentucky&quot;                
+[31] &quot;Iowa&quot;                     &quot;South Dakota&quot;             &quot;Virginia&quot;                
+[34] &quot;Puerto Rico&quot;              &quot;Rhode Island&quot;             &quot;New Mexico&quot;              
+[37] &quot;Tennessee&quot;                &quot;Vermont&quot;                  &quot;Virgin Islands&quot;          
+[40] &quot;California&quot;               &quot;Idaho&quot;                    &quot;Florida&quot;                 
+[43] &quot;Maryland&quot;                 &quot;Massachusetts&quot;            &quot;New York&quot;                
+[46] &quot;Maine&quot;                    &quot;Colorado&quot;                 &quot;District of Columbia&quot;    
 [49] &quot;Texas&quot;                    &quot;Wyoming&quot;                 </pre>
 
 </article></slide><slide class=""><hgroup><h2>Length and unique</h2></hgroup><article  id="length-and-unique-1">
@@ -3708,24 +3797,25 @@ yts %&gt;% count(LocationDesc, wt = Data_Value)</pre>
 yts</pre>
 
 <pre ># A tibble: 9,794 × 31
-    YEAR LocationAbbr LocationDesc TopicType               TopicDesc MeasureDesc DataSource Response Data_Value_Unit
-   &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;        &lt;chr&gt;                   &lt;chr&gt;     &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;          
- 1  2015 AZ           Arizona      Tobacco Use – Survey D… Cessatio… Percent of… YTS        &lt;NA&gt;     %              
- 2  2015 AZ           Arizona      Tobacco Use – Survey D… Cessatio… Percent of… YTS        &lt;NA&gt;     %              
- 3  2015 AZ           Arizona      Tobacco Use – Survey D… Cessatio… Percent of… YTS        &lt;NA&gt;     %              
- 4  2015 AZ           Arizona      Tobacco Use – Survey D… Cessatio… Quit Attem… YTS        &lt;NA&gt;     %              
- 5  2015 AZ           Arizona      Tobacco Use – Survey D… Cessatio… Quit Attem… YTS        &lt;NA&gt;     %              
- 6  2015 AZ           Arizona      Tobacco Use – Survey D… Cessatio… Quit Attem… YTS        &lt;NA&gt;     %              
- 7  2015 AZ           Arizona      Tobacco Use – Survey D… Cigarett… Smoking St… YTS        Current  %              
- 8  2015 AZ           Arizona      Tobacco Use – Survey D… Cigarett… Smoking St… YTS        Current  %              
- 9  2015 AZ           Arizona      Tobacco Use – Survey D… Cigarett… Smoking St… YTS        Current  %              
-10  2015 AZ           Arizona      Tobacco Use – Survey D… Cigarett… Smoking St… YTS        Ever     %              
+    YEAR LocationAbbr LocationDesc TopicType         TopicDesc MeasureDesc DataSource Response Data_Value_Unit
+   &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;        &lt;chr&gt;             &lt;chr&gt;     &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;          
+ 1  2015 AZ           Arizona      Tobacco Use – Su… Cessatio… Percent of… YTS        &lt;NA&gt;     %              
+ 2  2015 AZ           Arizona      Tobacco Use – Su… Cessatio… Percent of… YTS        &lt;NA&gt;     %              
+ 3  2015 AZ           Arizona      Tobacco Use – Su… Cessatio… Percent of… YTS        &lt;NA&gt;     %              
+ 4  2015 AZ           Arizona      Tobacco Use – Su… Cessatio… Quit Attem… YTS        &lt;NA&gt;     %              
+ 5  2015 AZ           Arizona      Tobacco Use – Su… Cessatio… Quit Attem… YTS        &lt;NA&gt;     %              
+ 6  2015 AZ           Arizona      Tobacco Use – Su… Cessatio… Quit Attem… YTS        &lt;NA&gt;     %              
+ 7  2015 AZ           Arizona      Tobacco Use – Su… Cigarett… Smoking St… YTS        Current  %              
+ 8  2015 AZ           Arizona      Tobacco Use – Su… Cigarett… Smoking St… YTS        Current  %              
+ 9  2015 AZ           Arizona      Tobacco Use – Su… Cigarett… Smoking St… YTS        Current  %              
+10  2015 AZ           Arizona      Tobacco Use – Su… Cigarett… Smoking St… YTS        Ever     %              
 # ℹ 9,784 more rows
 # ℹ 22 more variables: Data_Value_Type &lt;chr&gt;, Data_Value &lt;dbl&gt;, Data_Value_Footnote_Symbol &lt;chr&gt;,
-#   Data_Value_Footnote &lt;chr&gt;, Data_Value_Std_Err &lt;dbl&gt;, Low_Confidence_Limit &lt;dbl&gt;, High_Confidence_Limit &lt;dbl&gt;,
-#   Sample_Size &lt;dbl&gt;, Gender &lt;chr&gt;, Race &lt;chr&gt;, Age &lt;chr&gt;, Education &lt;chr&gt;, GeoLocation &lt;chr&gt;, TopicTypeId &lt;chr&gt;,
-#   TopicId &lt;chr&gt;, MeasureId &lt;chr&gt;, StratificationID1 &lt;chr&gt;, StratificationID2 &lt;chr&gt;, StratificationID3 &lt;chr&gt;,
-#   StratificationID4 &lt;chr&gt;, SubMeasureID &lt;chr&gt;, DisplayOrder &lt;dbl&gt;</pre>
+#   Data_Value_Footnote &lt;chr&gt;, Data_Value_Std_Err &lt;dbl&gt;, Low_Confidence_Limit &lt;dbl&gt;,
+#   High_Confidence_Limit &lt;dbl&gt;, Sample_Size &lt;dbl&gt;, Gender &lt;chr&gt;, Race &lt;chr&gt;, Age &lt;chr&gt;, Education &lt;chr&gt;,
+#   GeoLocation &lt;chr&gt;, TopicTypeId &lt;chr&gt;, TopicId &lt;chr&gt;, MeasureId &lt;chr&gt;, StratificationID1 &lt;chr&gt;,
+#   StratificationID2 &lt;chr&gt;, StratificationID3 &lt;chr&gt;, StratificationID4 &lt;chr&gt;, SubMeasureID &lt;chr&gt;,
+#   DisplayOrder &lt;dbl&gt;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Perform Operations By Groups: dplyr</h2></hgroup><article  id="perform-operations-by-groups-dplyr-1">
 
@@ -3736,24 +3826,25 @@ yts_grouped</pre>
 
 <pre ># A tibble: 9,794 × 31
 # Groups:   Response [4]
-    YEAR LocationAbbr LocationDesc TopicType               TopicDesc MeasureDesc DataSource Response Data_Value_Unit
-   &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;        &lt;chr&gt;                   &lt;chr&gt;     &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;          
- 1  2015 AZ           Arizona      Tobacco Use – Survey D… Cessatio… Percent of… YTS        &lt;NA&gt;     %              
- 2  2015 AZ           Arizona      Tobacco Use – Survey D… Cessatio… Percent of… YTS        &lt;NA&gt;     %              
- 3  2015 AZ           Arizona      Tobacco Use – Survey D… Cessatio… Percent of… YTS        &lt;NA&gt;     %              
- 4  2015 AZ           Arizona      Tobacco Use – Survey D… Cessatio… Quit Attem… YTS        &lt;NA&gt;     %              
- 5  2015 AZ           Arizona      Tobacco Use – Survey D… Cessatio… Quit Attem… YTS        &lt;NA&gt;     %              
- 6  2015 AZ           Arizona      Tobacco Use – Survey D… Cessatio… Quit Attem… YTS        &lt;NA&gt;     %              
- 7  2015 AZ           Arizona      Tobacco Use – Survey D… Cigarett… Smoking St… YTS        Current  %              
- 8  2015 AZ           Arizona      Tobacco Use – Survey D… Cigarett… Smoking St… YTS        Current  %              
- 9  2015 AZ           Arizona      Tobacco Use – Survey D… Cigarett… Smoking St… YTS        Current  %              
-10  2015 AZ           Arizona      Tobacco Use – Survey D… Cigarett… Smoking St… YTS        Ever     %              
+    YEAR LocationAbbr LocationDesc TopicType         TopicDesc MeasureDesc DataSource Response Data_Value_Unit
+   &lt;dbl&gt; &lt;chr&gt;        &lt;chr&gt;        &lt;chr&gt;             &lt;chr&gt;     &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;          
+ 1  2015 AZ           Arizona      Tobacco Use – Su… Cessatio… Percent of… YTS        &lt;NA&gt;     %              
+ 2  2015 AZ           Arizona      Tobacco Use – Su… Cessatio… Percent of… YTS        &lt;NA&gt;     %              
+ 3  2015 AZ           Arizona      Tobacco Use – Su… Cessatio… Percent of… YTS        &lt;NA&gt;     %              
+ 4  2015 AZ           Arizona      Tobacco Use – Su… Cessatio… Quit Attem… YTS        &lt;NA&gt;     %              
+ 5  2015 AZ           Arizona      Tobacco Use – Su… Cessatio… Quit Attem… YTS        &lt;NA&gt;     %              
+ 6  2015 AZ           Arizona      Tobacco Use – Su… Cessatio… Quit Attem… YTS        &lt;NA&gt;     %              
+ 7  2015 AZ           Arizona      Tobacco Use – Su… Cigarett… Smoking St… YTS        Current  %              
+ 8  2015 AZ           Arizona      Tobacco Use – Su… Cigarett… Smoking St… YTS        Current  %              
+ 9  2015 AZ           Arizona      Tobacco Use – Su… Cigarett… Smoking St… YTS        Current  %              
+10  2015 AZ           Arizona      Tobacco Use – Su… Cigarett… Smoking St… YTS        Ever     %              
 # ℹ 9,784 more rows
 # ℹ 22 more variables: Data_Value_Type &lt;chr&gt;, Data_Value &lt;dbl&gt;, Data_Value_Footnote_Symbol &lt;chr&gt;,
-#   Data_Value_Footnote &lt;chr&gt;, Data_Value_Std_Err &lt;dbl&gt;, Low_Confidence_Limit &lt;dbl&gt;, High_Confidence_Limit &lt;dbl&gt;,
-#   Sample_Size &lt;dbl&gt;, Gender &lt;chr&gt;, Race &lt;chr&gt;, Age &lt;chr&gt;, Education &lt;chr&gt;, GeoLocation &lt;chr&gt;, TopicTypeId &lt;chr&gt;,
-#   TopicId &lt;chr&gt;, MeasureId &lt;chr&gt;, StratificationID1 &lt;chr&gt;, StratificationID2 &lt;chr&gt;, StratificationID3 &lt;chr&gt;,
-#   StratificationID4 &lt;chr&gt;, SubMeasureID &lt;chr&gt;, DisplayOrder &lt;dbl&gt;</pre>
+#   Data_Value_Footnote &lt;chr&gt;, Data_Value_Std_Err &lt;dbl&gt;, Low_Confidence_Limit &lt;dbl&gt;,
+#   High_Confidence_Limit &lt;dbl&gt;, Sample_Size &lt;dbl&gt;, Gender &lt;chr&gt;, Race &lt;chr&gt;, Age &lt;chr&gt;, Education &lt;chr&gt;,
+#   GeoLocation &lt;chr&gt;, TopicTypeId &lt;chr&gt;, TopicId &lt;chr&gt;, MeasureId &lt;chr&gt;, StratificationID1 &lt;chr&gt;,
+#   StratificationID2 &lt;chr&gt;, StratificationID3 &lt;chr&gt;, StratificationID4 &lt;chr&gt;, SubMeasureID &lt;chr&gt;,
+#   DisplayOrder &lt;dbl&gt;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Summarize the data: <code>dplyr</code> <code>summarize()</code> function</h2></hgroup><article  id="summarize-the-data-dplyr-summarize-function">
 
@@ -3799,29 +3890,35 @@ yts_grouped</pre>
 3 Frequent       3.48      23.9
 4 &lt;NA&gt;          53.5       81.9</pre>
 
-</article></slide><slide class=""><hgroup><h2><code>group_by</code> with <code>mutate</code> - just add data</h2></hgroup><article  id="group_by-with-mutate---just-add-data">
+</article></slide><slide class=""><hgroup><h2><code>group_by</code> with <code>mutate</code> - Useful for comparisons</h2></hgroup><article  id="group_by-with-mutate---useful-for-comparisons" class="codesmall">
 
-<p>We can also use <code>mutate</code> to calculate the mean value for each year and add it as a column:</p>
+<p>Use <code>group_by</code> to calculate the mean value for each year. We can use <code>mutate</code> to add it as a column.</p>
 
-<pre class = 'prettyprint lang-r'>yts %&gt;%
+<pre class = 'prettyprint lang-r'>yts_year &lt;- yts %&gt;%
   group_by(YEAR) %&gt;%
   mutate(year_avg = mean(Data_Value, na.rm = TRUE)) %&gt;%
   select(LocationDesc, Data_Value, year_avg)</pre>
 
-<pre ># A tibble: 9,794 × 4
+</article></slide><slide class=""><hgroup><h2><code>group_by</code> with <code>mutate</code> - Useful for comparisons</h2></hgroup><article  id="group_by-with-mutate---useful-for-comparisons-1" class="codesmall">
+
+<p>Create a &ldquo;difference&rdquo; variable:</p>
+
+<pre class = 'prettyprint lang-r'>yts_year %&gt;% mutate(Diff = Data_Value - year_avg)</pre>
+
+<pre ># A tibble: 9,794 × 5
 # Groups:   YEAR [17]
-    YEAR LocationDesc Data_Value year_avg
-   &lt;dbl&gt; &lt;chr&gt;             &lt;dbl&gt;    &lt;dbl&gt;
- 1  2015 Arizona            NA       15.2
- 2  2015 Arizona            NA       15.2
- 3  2015 Arizona            NA       15.2
- 4  2015 Arizona            NA       15.2
- 5  2015 Arizona            NA       15.2
- 6  2015 Arizona            NA       15.2
- 7  2015 Arizona             3.2     15.2
- 8  2015 Arizona             3.2     15.2
- 9  2015 Arizona             3.1     15.2
-10  2015 Arizona            12.5     15.2
+    YEAR LocationDesc Data_Value year_avg   Diff
+   &lt;dbl&gt; &lt;chr&gt;             &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;
+ 1  2015 Arizona            NA       15.2  NA   
+ 2  2015 Arizona            NA       15.2  NA   
+ 3  2015 Arizona            NA       15.2  NA   
+ 4  2015 Arizona            NA       15.2  NA   
+ 5  2015 Arizona            NA       15.2  NA   
+ 6  2015 Arizona            NA       15.2  NA   
+ 7  2015 Arizona             3.2     15.2 -12.0 
+ 8  2015 Arizona             3.2     15.2 -12.0 
+ 9  2015 Arizona             3.1     15.2 -12.1 
+10  2015 Arizona            12.5     15.2  -2.66
 # ℹ 9,784 more rows</pre>
 
 </article></slide><slide class=""><hgroup><h2>Use <code>n()</code> for sample size by group</h2></hgroup><article  id="use-n-for-sample-size-by-group">
@@ -3863,6 +3960,13 @@ yts_grouped</pre>
 <pre class = 'prettyprint lang-r'># General format - Not the code!
 across({ columns to go across }, ~ { summarization_function(.x, na.rm = ..) }) </pre>
 
+</article></slide><slide class=""><hgroup><h2>Iterative summaries: <code>dplyr</code> <code>summarize()</code> and <code>across()</code> functions</h2></hgroup><article  id="iterative-summaries-dplyr-summarize-and-across-functions-1">
+
+<p>Use the <a href='https://dplyr.tidyverse.org/reference/across.html' title=''><code>across</code></a> function with <code>summarize()</code> to summarize across multiple columns of your data.</p>
+
+<pre class = 'prettyprint lang-r'># General format - Not the code!
+across({ columns to go across }, ~ { summarization_function(.x, na.rm = ..) }) </pre>
+
 </div>
 
 <pre class = 'prettyprint lang-r'>yts %&gt;%
@@ -3891,7 +3995,7 @@ across({ columns to go across }, ~ { summarization_function(.x, na.rm = ..) }) <
 16  2014       15.7               1.61       1139.
 17  2015       15.2               1.61       1187.</pre>
 
-</article></slide><slide class=""><hgroup><h2>Iterative summaries: <code>dplyr</code> <code>summarize()</code> and <code>across()</code> functions</h2></hgroup><article  id="iterative-summaries-dplyr-summarize-and-across-functions-1">
+</article></slide><slide class=""><hgroup><h2>Iterative summaries: <code>dplyr</code> <code>summarize()</code> and <code>across()</code> functions</h2></hgroup><article  id="iterative-summaries-dplyr-summarize-and-across-functions-2">
 
 <p>Another example using select helpers (<code>??tidyr_tidy_select</code>):</p>
 
@@ -3923,54 +4027,62 @@ across({ columns to go across }, ~ { summarization_function(.x, na.rm = ..) }) <
 
 <pre class = 'prettyprint lang-r'>summary(yts)</pre>
 
-<pre >      YEAR      LocationAbbr       LocationDesc        TopicType          TopicDesc         MeasureDesc       
- Min.   :1999   Length:9794        Length:9794        Length:9794        Length:9794        Length:9794       
- 1st Qu.:2002   Class :character   Class :character   Class :character   Class :character   Class :character  
- Median :2006   Mode  :character   Mode  :character   Mode  :character   Mode  :character   Mode  :character  
- Mean   :2006                                                                                                 
- 3rd Qu.:2010                                                                                                 
- Max.   :2015                                                                                                 
-                                                                                                              
-  DataSource          Response         Data_Value_Unit    Data_Value_Type      Data_Value   
- Length:9794        Length:9794        Length:9794        Length:9794        Min.   : 0.00  
- Class :character   Class :character   Class :character   Class :character   1st Qu.: 3.20  
- Mode  :character   Mode  :character   Mode  :character   Mode  :character   Median :11.30  
-                                                                             Mean   :20.97  
-                                                                             3rd Qu.:39.10  
-                                                                             Max.   :98.00  
-                                                                             NA&#39;s   :425    
- Data_Value_Footnote_Symbol Data_Value_Footnote Data_Value_Std_Err Low_Confidence_Limit High_Confidence_Limit
- Length:9794                Length:9794         Min.   : 0.000     Min.   : 0.00        Min.   : 0.00        
- Class :character           Class :character    1st Qu.: 0.600     1st Qu.: 1.90        1st Qu.: 4.60        
- Mode  :character           Mode  :character    Median : 1.300     Median : 8.50        Median :14.10        
-                                                Mean   : 1.874     Mean   :17.31        Mean   :24.64        
-                                                3rd Qu.: 2.500     3rd Qu.:31.60        3rd Qu.:45.60        
-                                                Max.   :16.100     Max.   :97.60        Max.   :98.40        
-                                                NA&#39;s   :425        NA&#39;s   :425          NA&#39;s   :425          
-  Sample_Size       Gender              Race               Age             Education         GeoLocation       
- Min.   :   50   Length:9794        Length:9794        Length:9794        Length:9794        Length:9794       
- 1st Qu.:  668   Class :character   Class :character   Class :character   Class :character   Class :character  
- Median :  994   Mode  :character   Mode  :character   Mode  :character   Mode  :character   Mode  :character  
- Mean   : 1505                                                                                                 
- 3rd Qu.: 1648                                                                                                 
- Max.   :36910                                                                                                 
- NA&#39;s   :425                                                                                                   
- TopicTypeId          TopicId           MeasureId         StratificationID1  StratificationID2  StratificationID3 
- Length:9794        Length:9794        Length:9794        Length:9794        Length:9794        Length:9794       
- Class :character   Class :character   Class :character   Class :character   Class :character   Class :character  
- Mode  :character   Mode  :character   Mode  :character   Mode  :character   Mode  :character   Mode  :character  
-                                                                                                                  
-                                                                                                                  
-                                                                                                                  
-                                                                                                                  
- StratificationID4  SubMeasureID        DisplayOrder   
- Length:9794        Length:9794        Min.   : 1.000  
- Class :character   Class :character   1st Qu.: 7.000  
- Mode  :character   Mode  :character   Median : 9.000  
-                                       Mean   : 8.094  
-                                       3rd Qu.:11.000  
-                                       Max.   :12.000  
-                                                       </pre>
+<pre >      YEAR      LocationAbbr       LocationDesc        TopicType          TopicDesc        
+ Min.   :1999   Length:9794        Length:9794        Length:9794        Length:9794       
+ 1st Qu.:2002   Class :character   Class :character   Class :character   Class :character  
+ Median :2006   Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+ Mean   :2006                                                                              
+ 3rd Qu.:2010                                                                              
+ Max.   :2015                                                                              
+                                                                                           
+ MeasureDesc         DataSource          Response         Data_Value_Unit    Data_Value_Type   
+ Length:9794        Length:9794        Length:9794        Length:9794        Length:9794       
+ Class :character   Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                                               
+                                                                                               
+                                                                                               
+                                                                                               
+   Data_Value    Data_Value_Footnote_Symbol Data_Value_Footnote Data_Value_Std_Err Low_Confidence_Limit
+ Min.   : 0.00   Length:9794                Length:9794         Min.   : 0.000     Min.   : 0.00       
+ 1st Qu.: 3.20   Class :character           Class :character    1st Qu.: 0.600     1st Qu.: 1.90       
+ Median :11.30   Mode  :character           Mode  :character    Median : 1.300     Median : 8.50       
+ Mean   :20.97                                                  Mean   : 1.874     Mean   :17.31       
+ 3rd Qu.:39.10                                                  3rd Qu.: 2.500     3rd Qu.:31.60       
+ Max.   :98.00                                                  Max.   :16.100     Max.   :97.60       
+ NA&#39;s   :425                                                    NA&#39;s   :425        NA&#39;s   :425         
+ High_Confidence_Limit  Sample_Size       Gender              Race               Age           
+ Min.   : 0.00         Min.   :   50   Length:9794        Length:9794        Length:9794       
+ 1st Qu.: 4.60         1st Qu.:  668   Class :character   Class :character   Class :character  
+ Median :14.10         Median :  994   Mode  :character   Mode  :character   Mode  :character  
+ Mean   :24.64         Mean   : 1505                                                           
+ 3rd Qu.:45.60         3rd Qu.: 1648                                                           
+ Max.   :98.40         Max.   :36910                                                           
+ NA&#39;s   :425           NA&#39;s   :425                                                             
+  Education         GeoLocation        TopicTypeId          TopicId           MeasureId        
+ Length:9794        Length:9794        Length:9794        Length:9794        Length:9794       
+ Class :character   Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                                               
+                                                                                               
+                                                                                               
+                                                                                               
+ StratificationID1  StratificationID2  StratificationID3  StratificationID4  SubMeasureID      
+ Length:9794        Length:9794        Length:9794        Length:9794        Length:9794       
+ Class :character   Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                                               
+                                                                                               
+                                                                                               
+                                                                                               
+  DisplayOrder   
+ Min.   : 1.000  
+ 1st Qu.: 7.000  
+ Median : 9.000  
+ Mean   : 8.094  
+ 3rd Qu.:11.000  
+ Max.   :12.000  
+                 </pre>
 
 </article></slide><slide class=""><hgroup><h2>Summary</h2></hgroup><article  id="summary">
 
