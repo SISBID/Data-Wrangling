@@ -1,5 +1,5 @@
 ---
-title: "Merging Lab"
+title: "Merging and Joining Lab"
 author: "Data Wrangling in R"
 output: html_document
 ---
@@ -13,7 +13,8 @@ library(tidyverse)
 
 crash <- read_csv("https://sisbid.github.io/Data-Wrangling/labs/crashes.csv")
 road <- read_csv("https://sisbid.github.io/Data-Wrangling/labs/roads.csv")
-
+head(crash)
+head(road)
 ```
 
 1. Join data to retain only complete data, (using an inner join) e.g. those observations with road lengths and districts.  Merge without using `by` argument, then merge using `by = "Road"`. call the output `merged.`  How many observations are there?
@@ -40,23 +41,14 @@ road <- read_csv("https://sisbid.github.io/Data-Wrangling/labs/roads.csv")
 
 ```
 
-## **Bonus Practice**
-
-5. Which highways do not have road data? Do this in a "tidy" format. Summarize by the total count of `N_Crashes` per highway. Hint: Use `anti_join()` and `group_by()`.
+5. What `road` data is missing from `crash`?
 
 ```{r}
 
 ```
 
-6. You have an intern who has been pouring over the raw data and found a few mistakes in the `N_Crashes` column of the `crash` dataset. They have made a spreadsheet for you containing only the corrected entries. Modify the original tibble with the following:
-- A column (`Corrected`) indicating if a particular entry has a corresponding correction in `corrections`.
-- If the row has a correction, take the corrected value
-- Keep the original columns (Year, Road, N_Crashes, Volume) plus the column indicating whether the data is corrected or not (`Corrected`).
-
-*hint: take a look at the two datasets - are you sure they're joining correctly?*
+5. What `crash` data is missing from `road``?
 
 ```{r}
-corrections <- read_csv("https://sisbid.github.io/Data-Wrangling/labs/crashes_corrections.csv")
-
 
 ```

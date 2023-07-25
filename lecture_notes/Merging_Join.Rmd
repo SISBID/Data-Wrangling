@@ -1,5 +1,5 @@
 ---
-title: "Merging Data Sets"
+title: "Merging and Joining Data Sets"
 author: "Data Wrangling in R"
 output:
   ioslides_presentation:
