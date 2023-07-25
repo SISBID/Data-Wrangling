@@ -1,169 +1,173 @@
-## ---- include=FALSE-----------------------------------------------------------
+## ---- include=FALSE-----------------------------------------------------------------------------------------
+library(knitr)
 knitr::opts_chunk$set(comment = "")
 library(tidyverse)
 
 
-## -----------------------------------------------------------------------------
+## -----------------------------------------------------------------------------------------------------------
 library(tidyverse)
-glimpse(diamonds)
+head(diamonds)
 
 
-## ---- eval = FALSE------------------------------------------------------------
-## # general format! not code!
-## {data you are creating or changing} <- rename({data you are using},
-##                                           {New Name} = {Old name})
+## ---- eval = FALSE------------------------------------------------------------------------------------------
+# general format! not code!
+{data you are creating or changing} <- {data you are using} %>%
+                                    rename({New Name} = {Old name})
+                                          
 
 
-## -----------------------------------------------------------------------------
+## -----------------------------------------------------------------------------------------------------------
 
-diamonds_2<- rename(diamonds, depth_percentage = depth)
-head(diamonds_2)
-
-
-## ---- eval = FALSE------------------------------------------------------------
-## rename(diamonds, depth percentage = depth)# this will cause an error
+diamonds_2<- diamonds %>%
+  rename(depth_percentage = depth)
+head(diamonds_2, n = 3)
 
 
-## ---- eval = FALSE------------------------------------------------------------
-## rename(diamonds, depth_percentage = depth) # this will work
+## -----------------------------------------------------------------------------------------------------------
+diamonds_2<- diamonds %>%
+  rename(depth_percentage = depth,
+                   length = x,
+                    width = y,
+                    depth = z)
+glimpse(diamonds_2)
 
 
-## ---- eval = FALSE------------------------------------------------------------
-## rename(diamonds, `depth percentage` = depth) # this will work but not recommended
+## ---- eval = FALSE------------------------------------------------------------------------------------------
+diamonds %>% rename(depth percentage = depth)# this will cause an error
 
 
-## ---- fig.alt="dplyr", out.width = "14%", echo = FALSE, fig.align='center'----
-knitr::include_graphics("images/backtick_1.png")
+## ---- eval = FALSE------------------------------------------------------------------------------------------
+diamonds %>% rename(depth_percentage = depth) # this will work
 
 
-## ---- fig.align='center', echo = FALSE----------------------------------------
+## ---- eval = FALSE------------------------------------------------------------------------------------------
+diamonds %>% rename(`depth percentage` = depth) # not recommended
+
+
+## ---- fig.alt="dplyr", out.width = "14%", echo = FALSE, fig.align='center'----------------------------------
+knitr::include_graphics("media/backtick_1.png")
+
+
+## ---- fig.align='center', echo = FALSE----------------------------------------------------------------------
 include_graphics("https://media.giphy.com/media/6q29hxDKvJvPy/giphy.gif")
 
 
-## ---- eval = FALSE------------------------------------------------------------
-## rename(diamonds, ‘depth percentage’ = depth)# this will cause an error!
+## ---- echo = FALSE------------------------------------------------------------------------------------------
+diamonds_bad_names <- rename(diamonds, `Price(in US dollars)` = price,
+                                        `Length (in mm)` = x,
+                                        `Width in mm` = y,
+                                        `Depth percentage` = z)
 
 
-## ---- eval = FALSE------------------------------------------------------------
-## rename(diamonds, 'depth percentage' = depth) # this will work!
+## -----------------------------------------------------------------------------------------------------------
+glimpse(diamonds_bad_names)
+diamonds_bad_names %>%
+        rename(price = `Price(in US dollars)`)
 
 
-## ---- eval = FALSE------------------------------------------------------------
-## rename(diamonds, “depth percentage” = depth)# this will cause an error!
+## -----------------------------------------------------------------------------------------------------------
+diamonds_upper <- diamonds %>% rename_with(toupper)
+head(diamonds_upper, 2)
 
 
-## ---- eval = FALSE------------------------------------------------------------
-## rename(diamonds, "depth percentage" = depth) # this will work!
+## -----------------------------------------------------------------------------------------------------------
+diamonds_upper %>% rename_with(tolower) %>% head(n = 2)
 
 
-## -----------------------------------------------------------------------------
-diamonds_upper <- rename_with(diamonds, toupper)
-head(diamonds_upper, 3)
+## ---- message=FALSE-----------------------------------------------------------------------------------------
+#install.packages("janitor")
+library(janitor)
+clean_names(diamonds_bad_names) %>% glimpse()
 
 
-## -----------------------------------------------------------------------------
-rename_with(diamonds_upper, tolower) %>% head(n = 3)
-
-
-## -----------------------------------------------------------------------------
+## -----------------------------------------------------------------------------------------------------------
 head(diamonds, 2)
 diamonds %>% select(where(is.numeric)) %>% head(n = 2)
 
 
 
-## -----------------------------------------------------------------------------
+## -----------------------------------------------------------------------------------------------------------
 head(diamonds, 2)
 diamonds %>% select(where(is.ordered)) %>% head(n = 2)
 
 
 
-## -----------------------------------------------------------------------------
+## -----------------------------------------------------------------------------------------------------------
 distinct(diamonds, cut)
 
-distinct(diamonds, cut, color)
+
+## ---- eval = FALSE------------------------------------------------------------------------------------------
+# General format - Not the code!
+{data object to update} <- {data to use} %>% 
+                    mutate({new variable name} = {new variable source}) 
 
 
-## ---- eval = FALSE------------------------------------------------------------
-## # General format - Not the code!
-## {data object to update} <- mutate({data to use},
-##                            {new variable name} = {new variable source})
-
-
-## -----------------------------------------------------------------------------
-mutate(diamonds, price_can = price * 1.32) %>% glimpse()
+## -----------------------------------------------------------------------------------------------------------
+diamonds %>% 
+  mutate(price_canadian = price * 1.32) %>% glimpse()
 
 
 
-## ---- eval = FALSE------------------------------------------------------------
-## # General format - Not the code!
-## {data object to update} <- mutate({data to use},
-##                            {variable name to change} = {variable modification})
+## ---- eval = FALSE------------------------------------------------------------------------------------------
+# General format - Not the code!
+{data object to update} <- {data to use} %>%
+            mutate({variable name to change} = {variable modification}) 
 
 
-## -----------------------------------------------------------------------------
+## -----------------------------------------------------------------------------------------------------------
 mutate(diamonds, price = price * 1.32) %>% glimpse()
 
 
-## -----------------------------------------------------------------------------
-diamonds %>% mutate(price = price * 1.32) %>% glimpse()
+## ---- eval = FALSE------------------------------------------------------------------------------------------
+diamonds <- diamonds %>% mutate(price = price * 1.32) %>% glimpse()
 
 
-## ---- eval = FALSE------------------------------------------------------------
-## diamonds <- diamonds %>% mutate(price = price * 1.32) %>% glimpse()
+## -----------------------------------------------------------------------------------------------------------
+select(diamonds, - price) %>% glimpse()
 
 
-## ---- eval = FALSE------------------------------------------------------------
-## select(diamonds, - price)
-
-
-## ---- echo = FALSE------------------------------------------------------------
-glimpse(select(diamonds, - price))
-
-
-## -----------------------------------------------------------------------------
+## -----------------------------------------------------------------------------------------------------------
 select(diamonds, -c("x", "y", "z")) %>% glimpse()
 
 
-## -----------------------------------------------------------------------------
-head(diamonds, 2)
-diamonds %>% select(price, depth, carat, cut, color) %>% glimpse()
+## -----------------------------------------------------------------------------------------------------------
+head(diamonds, n = 2)
+diamonds %>% select(price, depth, carat, cut, color) %>% head(n = 2)
 
 
-## -----------------------------------------------------------------------------
-diamonds %>% select(price, everything()) %>% glimpse()
+## -----------------------------------------------------------------------------------------------------------
+head(diamonds, n = 2)
+diamonds %>% select(price, everything()) %>% head(n = 2)
 
 
-## -----------------------------------------------------------------------------
-diamonds %>% select(-price, everything(), newcol) %>% glimpse()
+## -----------------------------------------------------------------------------------------------------------
+head(diamonds, n = 2)
+diamonds %>% select(-price, everything(), price) %>% head(n = 2)
 
 
-## -----------------------------------------------------------------------------
+## -----------------------------------------------------------------------------------------------------------
+head(diamonds, n = 2)
+diamonds %>% relocate( price, .before = cut) %>% head(n = 2)
 
-diamonds %>% relocate( price, .before = carat) %>% glimpse()
 
 
-
-## -----------------------------------------------------------------------------
+## -----------------------------------------------------------------------------------------------------------
 order(colnames(diamonds))
 diamonds %>% select(order(colnames(diamonds)))
 
 
-## -----------------------------------------------------------------------------
-arrange(diamonds, cut)
+## -----------------------------------------------------------------------------------------------------------
+diamonds %>% arrange(cut)
 
 
-## -----------------------------------------------------------------------------
-arrange(diamonds, desc(price))
+## -----------------------------------------------------------------------------------------------------------
+diamonds %>% arrange(depth)
 
 
-## -----------------------------------------------------------------------------
-arrange(diamonds, desc(carat), cut)
+## -----------------------------------------------------------------------------------------------------------
+diamonds %>% arrange(desc(price))
 
 
-## -----------------------------------------------------------------------------
-diamonds$price
-
-
-## ---- eval = FALSE------------------------------------------------------------
-## diamonds$price <- diamonds$price/2.2
+## -----------------------------------------------------------------------------------------------------------
+arrange(diamonds, desc(carat), table)
 
