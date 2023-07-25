@@ -231,7 +231,7 @@ rbind(data_As, data_cold)
 bind_rows(data_As, data_cold)
 ```
 
-## Other stuff: `anti_join` (`dplyr`)
+## Other stuff: `anti_join` (`dplyr`) {.codesmall}
 
 ```{r}
 anti_join(data_As, data_cold)
@@ -239,13 +239,13 @@ anti_join(data_As, data_cold)
 
 https://raw.githubusercontent.com/gadenbuie/tidyexplain/main/images/anti-join.gif
 
-```{r, fig.alt="A gif showing the full joining of two simple datasets.", out.width = "40%", echo = FALSE, align = "center"}
+```{r, fig.alt="A gif showing the full joining of two simple datasets.", out.width = "30%", echo = FALSE, align = "center"}
 knitr::include_graphics("media/Join_anti-join.gif")
 ```
 
 ## Other stuff: `cross_join` (`dplyr`)
 
-Cross joins match each row in x to every row in y, resulting in a data frame with nrow(x) * nrow(y) rows.
+Cross joins match each row in x to every row in y, resulting in a data frame with `nrow(x)` * `nrow(y)` rows.
 
 ```{r}
 cross_join(data_As, data_cold)
@@ -298,3 +298,6 @@ data_cold <- tibble(State = c("Maine", "Alaska", "Alaska"),
 ```{r}
 full_join(data_As, data_cold)
 ```
+
+
+
