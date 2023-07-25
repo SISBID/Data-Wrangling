@@ -2,6 +2,7 @@
 title: "Subsetting Data in R"
 author: "Data Wrangling in R"
 output:
+  beamer_presentation: default
   ioslides_presentation:
     css: styles.css
     widescreen: yes
@@ -338,7 +339,16 @@ You can combine increasing and decreasing orderings:
 arrange(diamonds, desc(carat), table)
 ```
 
+## Summary
 
+- `select()` and `relocate()` can be used to reorder columns
+- `arrange()` can be used to reorder rows
+- can arrange in descending order with `desc()`
+- can remove rows with `filter()`
+- can remove a column in a few ways:
+    - using `select()` with negative sign in front of column name(s)
+    - jut not selecting it
+- `mutate()` can be used to modify an exisiting variable or make a new variable
 
 
 ## Lab
