@@ -45,9 +45,3 @@ library(tidyverse)
 ```
 
 
-5. Create a new variable in `mpg` called `group_class`, which in the `CLASS` variable keeps "pickup" and "suv" as they are, but map "compact", "midsize", "minivan", "subcompact", and "2seater" to "car" using
-`case_when` or `ifelse`, `%in%`, and `mutate`:
-
-```{r}
-
-```
