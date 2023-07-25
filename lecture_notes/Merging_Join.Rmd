@@ -14,6 +14,14 @@ opts_chunk$set(comment = "")
 library(tidyverse)
 ```
 
+## Joining
+
+"Combining datasets"
+
+```{r, fig.alt="Inner, outer, left, and right joins represented with venn diagrams", out.width = "50%", echo = FALSE, align = "center"}
+knitr::include_graphics("media/joins.png")
+```
+
 ## Joining in `dplyr`
 
 * Merging/joining data sets together - usually on key variables, usually "id"
@@ -27,11 +35,15 @@ library(tidyverse)
 ## Merging: Simple Data
 
 ```{r echo=FALSE}
-data_As <- tibble(State = c("Alabama", "Alaska"),
-                 June_vacc_rate = c("37.2%", "47.5%"),
-                 May_vacc_rate = c("36.0%", "46.2%"))
-data_cold <- tibble(State = c("Maine", "Alaska"),
-                    April_vacc_rate = c("32.4%", "41.7%"))
+data_As <- tibble(
+  State = c("Alabama", "Alaska"),
+  June_vacc_rate = c(0.516, 0.627),
+  May_vacc_rate = c(0.514, 0.626)
+)
+data_cold <- tibble(
+  State = c("Maine", "Alaska"),
+  April_vacc_rate = c(0.795, 0.623)
+)
 ```
 
 ```{r}
@@ -50,7 +62,7 @@ knitr::include_graphics("media/Join_inner-join.gif")
 ## Inner Join
 
 ```{r inner_join}
-ij = inner_join(data_As, data_cold)
+ij <- inner_join(data_As, data_cold)
 ij
 ```
 
@@ -65,7 +77,7 @@ knitr::include_graphics("media/Join_left-join.gif")
 ## Left Join
 
 ```{r left_join}
-lj = left_join(data_As, data_cold)
+lj <- left_join(data_As, data_cold)
 lj
 ```
 
@@ -125,7 +137,7 @@ fj
 data_As <- tibble(State = c("Alabama", "Alaska"),
                  state_bird = c("wild turkey", "willow ptarmigan"))
 data_cold <- tibble(State = c("Maine", "Alaska", "Alaska"),
-                    vacc_rate = c("32.4%", "41.7%", "46.2%"),
+                    vacc_rate = c(0.795, 0.623, 0.626),
                     month = c("April", "April", "May"))
 ```
 
@@ -184,7 +196,7 @@ If the datasets have two different names for the same data, use:
 full_join(x, y, by = c("a" = "b"))
 ```
 
-## Using "`setdiff`"
+## Using "`setdiff`" (base)
 
 We might want to determine what indexes ARE in the first dataset that AREN'T in the second:
 
@@ -193,7 +205,7 @@ data_As
 data_cold
 ```
 
-## Using "`setdiff`"
+## Using "`setdiff`" (base)
 
 Use `setdiff` to determine what indexes ARE in the first dataset that AREN'T in the second:
 
@@ -207,13 +219,54 @@ setdiff(A_states, cold_states)
 setdiff(cold_states, A_states)
 ```
 
-## Using `bind_rows()` (`dplyr`)
+## Using `bind_rows()` (`dplyr`) {.codesmall}
+
+Rows are stacked on top of each other. Works like `rbind()` from base R, but is "smarter" and looks for matching column names. 
+
+```{r error = TRUE}
+rbind(data_As, data_cold)
+```
 
 ```{r}
-one <- starwars[1:4, ]
-two <- starwars[9:12, ]
+bind_rows(data_As, data_cold)
+```
 
-bind_rows(one, two)
+## Other stuff: `anti_join` (`dplyr`)
+
+```{r}
+anti_join(data_As, data_cold)
+```
+
+https://raw.githubusercontent.com/gadenbuie/tidyexplain/main/images/anti-join.gif
+
+```{r, fig.alt="A gif showing the full joining of two simple datasets.", out.width = "40%", echo = FALSE, align = "center"}
+knitr::include_graphics("media/Join_anti-join.gif")
+```
+
+## Other stuff: `cross_join` (`dplyr`)
+
+Cross joins match each row in x to every row in y, resulting in a data frame with nrow(x) * nrow(y) rows.
+
+```{r}
+cross_join(data_As, data_cold)
+```
+
+## Other stuff: `nest_join` (`dplyr`)
+
+A nest join leaves x almost unchanged, except that it adds a new column for the y dataset. Matched values are stored inside the "cell" as a tibble.
+
+```{r}
+nj <- nest_join(data_As, data_cold)
+```
+
+```{r}
+nj
+```
+
+## Other stuff: `nest_join` (`dplyr`)
+
+```{r}
+nj %>% pull(data_cold)
 ```
 
 ## Summary
