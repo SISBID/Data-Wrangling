@@ -3338,13 +3338,25 @@ count(p, expected, actual)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Drop the remaining shifted problematic rows for now</h2></hgroup><article  id="drop-the-remaining-shifted-problematic-rows-for-now">
 
-<p>Multiply by negative one to drop the rows. Use the Slice function to &ldquo;select&rdquo; those rows based on the index.</p>
+<p>Multiply by negative one to drop the rows. Use the Slice function to &ldquo;select&rdquo; those rows based on the index. Need to offset for <code>-1</code> because <code>problems()</code> gives us the index row based on the raw data, not the read in data. We will multiple by negative one to select out those rows as well.</p>
 
-<pre class = 'prettyprint lang-r'>(pull(p, row) *-1) %&gt;% head()</pre>
+<pre class = 'prettyprint lang-r'>head(p, n = 2)</pre>
 
-<pre >[1]  -878 -1713 -1815 -2858 -3734 -4756</pre>
+<pre ># A tibble: 2 × 5
+    row   col expected   actual     file 
+  &lt;int&gt; &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;
+1   878    12 11 columns 12 columns &quot;&quot;   
+2  1713    12 11 columns 12 columns &quot;&quot;   </pre>
 
-<pre class = 'prettyprint lang-r'>ufo_clean &lt;- ufo %&gt;% slice((pull(p, row))*-1)</pre>
+<pre class = 'prettyprint lang-r'>(pull(p, row) -1) %&gt;% head()</pre>
+
+<pre >[1]  877 1712 1814 2857 3733 4755</pre>
+
+<pre class = 'prettyprint lang-r'>((pull(p, row) -1) *-1) %&gt;% head()</pre>
+
+<pre >[1]  -877 -1712 -1814 -2857 -3733 -4755</pre>
+
+<pre class = 'prettyprint lang-r'>ufo_clean &lt;- ufo %&gt;% slice((pull(p, row)-1)*-1)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Checking</h2></hgroup><article  id="checking">
 
@@ -3436,12 +3448,12 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 <pre ># A tibble: 6 × 2
   country     n
   &lt;chr&gt;   &lt;int&gt;
-1 au        592
-2 ca       3259
-3 de        111
-4 gb       2043
-5 us      70146
-6 &lt;NA&gt;    12528</pre>
+1 au        593
+2 ca       3266
+3 de        112
+4 gb       2050
+5 us      70293
+6 &lt;NA&gt;    12365</pre>
 
 </article></slide><slide class=""><hgroup><h2><code>case_when()</code> regions to create a new variable based on conditions of other variables</h2></hgroup><article  id="case_when-regions-to-create-a-new-variable-based-on-conditions-of-other-variables">
 
@@ -3523,12 +3535,12 @@ $ region             &lt;chr&gt; &quot;North America&quot;, &quot;Other&quot;, &
 <pre ># A tibble: 2 × 3
   country state     n
   &lt;chr&gt;   &lt;chr&gt; &lt;int&gt;
-1 us      tx     3734
-2 &lt;NA&gt;    tx      307</pre>
+1 us      tx     3742
+2 &lt;NA&gt;    tx      299</pre>
 
 <pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(state == &quot;tx&quot; &amp; is.na(country)) %&gt;% select(city)</pre>
 
-<pre ># A tibble: 307 × 1
+<pre ># A tibble: 299 × 1
    city                        
    &lt;chr&gt;                       
  1 lackland afb                
@@ -3540,8 +3552,8 @@ $ region             &lt;chr&gt; &quot;North America&quot;, &quot;Other&quot;, &
  7 halletsville                
  8 gulf of mexico              
  9 haltom                      
-10 &lt;NA&gt;                        
-# … with 297 more rows</pre>
+10 aubrey/frisco               
+# … with 289 more rows</pre>
 
 </article></slide><slide class=""><hgroup><h2>Checkin Utah as well</h2></hgroup><article  id="checkin-utah-as-well">
 
@@ -3550,12 +3562,12 @@ $ region             &lt;chr&gt; &quot;North America&quot;, &quot;Other&quot;, &
 <pre ># A tibble: 2 × 3
   country state     n
   &lt;chr&gt;   &lt;chr&gt; &lt;int&gt;
-1 us      ut      658
-2 &lt;NA&gt;    ut      140</pre>
+1 us      ut      659
+2 &lt;NA&gt;    ut      138</pre>
 
 <pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(state == &quot;ut&quot; &amp; is.na(country))  %&gt;% select(city)</pre>
 
-<pre ># A tibble: 140 × 1
+<pre ># A tibble: 138 × 1
    city            
    &lt;chr&gt;           
  1 canyonlands np  
@@ -3568,7 +3580,7 @@ $ region             &lt;chr&gt; &quot;North America&quot;, &quot;Other&quot;, &
  8 salt flats      
  9 west valley     
 10 west valley     
-# … with 130 more rows</pre>
+# … with 128 more rows</pre>
 
 </article></slide><slide class=""><hgroup><h2>Get US States</h2></hgroup><article  id="get-us-states">
 
@@ -3665,10 +3677,10 @@ GB_states &lt;- GB_states[!(GB_states %in% CA_states)]</pre>
 <pre ># A tibble: 4 × 2
   country     n
   &lt;chr&gt;   &lt;int&gt;
-1 au        592
-2 ca       3259
-3 de        111
-4 gb       2043</pre>
+1 au        593
+2 ca       3266
+3 de        112
+4 gb       2050</pre>
 
 </article></slide><slide class=""><hgroup><h2>more complicated case_when</h2></hgroup><article  id="more-complicated-case_when">
 
@@ -3688,14 +3700,14 @@ GB_states &lt;- GB_states[!(GB_states %in% CA_states)]</pre>
 <pre ># A tibble: 9 × 2
   prob_country      n
   &lt;chr&gt;         &lt;int&gt;
-1 au              592
-2 Australia       699
-3 ca             3259
-4 de              111
-5 gb             2043
-6 Great Britain  5395
-7 United States  5897
-8 us            70146
+1 au              593
+2 Australia       694
+3 ca             3266
+4 de              112
+5 gb             2050
+6 Great Britain  5296
+7 United States  5838
+8 us            70293
 9 &lt;NA&gt;            537</pre>
 
 </article></slide><slide class=""><hgroup><h2>results</h2></hgroup><article  id="results-1">
@@ -3814,29 +3826,30 @@ GB_states &lt;- GB_states[!(GB_states %in% CA_states)]</pre>
  [86] &quot;berlin (germany)&quot;                                 
  [87] &quot;ramstein (germany)&quot;                               
  [88] &quot;bochum (germany)&quot;                                 
- [89] &quot;berlin (germany)&quot;                                 
- [90] &quot;neumarkt (germany)&quot;                               
- [91] &quot;munich (germany)&quot;                                 
- [92] &quot;biesenthal (germany)&quot;                             
- [93] &quot;haus (germany)&quot;                                   
- [94] &quot;freiburg (germany)&quot;                               
- [95] &quot;obernheim (germany)&quot;                              
- [96] &quot;weissenburg (germany)&quot;                            
- [97] &quot;bitburg (germany)&quot;                                
- [98] &quot;berlin (germany)&quot;                                 
- [99] &quot;heidelberg (germany)&quot;                             
-[100] &quot;hannover (germany)&quot;                               
-[101] &quot;schwetzingen (germany)&quot;                           
-[102] &quot;buchholz (germany)&quot;                               
-[103] &quot;cologne (germany)&quot;                                
-[104] &quot;weiden (ne bavaria) (germany)&quot;                    
-[105] &quot;grafenhausen (germany)&quot;                           
-[106] &quot;heilbronn (germany)&quot;                              
-[107] &quot;gelsenkirchen (germany)&quot;                          
-[108] &quot;neckarsulm (germany)&quot;                             
-[109] &quot;kelsterbach (germany)&quot;                            
-[110] &quot;mannheim (germany)&quot;                               
-[111] &quot;kaiserlautern (germany)&quot;                          </pre>
+ [89] &quot;mainz (germany)&quot;                                  
+ [90] &quot;berlin (germany)&quot;                                 
+ [91] &quot;neumarkt (germany)&quot;                               
+ [92] &quot;munich (germany)&quot;                                 
+ [93] &quot;biesenthal (germany)&quot;                             
+ [94] &quot;haus (germany)&quot;                                   
+ [95] &quot;freiburg (germany)&quot;                               
+ [96] &quot;obernheim (germany)&quot;                              
+ [97] &quot;weissenburg (germany)&quot;                            
+ [98] &quot;bitburg (germany)&quot;                                
+ [99] &quot;berlin (germany)&quot;                                 
+[100] &quot;heidelberg (germany)&quot;                             
+[101] &quot;hannover (germany)&quot;                               
+[102] &quot;schwetzingen (germany)&quot;                           
+[103] &quot;buchholz (germany)&quot;                               
+[104] &quot;cologne (germany)&quot;                                
+[105] &quot;weiden (ne bavaria) (germany)&quot;                    
+[106] &quot;grafenhausen (germany)&quot;                           
+[107] &quot;heilbronn (germany)&quot;                              
+[108] &quot;gelsenkirchen (germany)&quot;                          
+[109] &quot;neckarsulm (germany)&quot;                             
+[110] &quot;kelsterbach (germany)&quot;                            
+[111] &quot;mannheim (germany)&quot;                               
+[112] &quot;kaiserlautern (germany)&quot;                          </pre>
 
 </article></slide><slide class=""><hgroup><h2>Even more specific</h2></hgroup><article  id="even-more-specific">
 
@@ -3863,14 +3876,14 @@ GB_states &lt;- GB_states[!(GB_states %in% CA_states)]</pre>
 <pre ># A tibble: 9 × 3
   country prob_country      n
   &lt;chr&gt;   &lt;chr&gt;         &lt;int&gt;
-1 au      Australia       592
-2 ca      Canada         3259
-3 de      Germany         111
-4 gb      Great Britain  2043
-5 us      United States 70146
-6 &lt;NA&gt;    Australia       699
-7 &lt;NA&gt;    Great Britain  5395
-8 &lt;NA&gt;    United States  5897
+1 au      Australia       593
+2 ca      Canada         3266
+3 de      Germany         112
+4 gb      Great Britain  2050
+5 us      United States 70293
+6 &lt;NA&gt;    Australia       694
+7 &lt;NA&gt;    Great Britain  5296
+8 &lt;NA&gt;    United States  5838
 9 &lt;NA&gt;    &lt;NA&gt;            537</pre>
 
 </article></slide><slide class=""><hgroup><h2>Summary</h2></hgroup><article  id="summary">
