@@ -61,7 +61,7 @@ Here we will be using the Youth Tobacco Survey data:
 
 ```{r}
 yts <- 
-  read_csv("http://jhudatascience.org/intro_to_r/data/Youth_Tobacco_Survey_YTS_Data.csv")
+  read_csv("http://sisbid.github.io/Data-Wrangling/data/Youth_Tobacco_Survey_YTS_Data.csv")
 head(yts)
 ```
 
@@ -98,23 +98,15 @@ use `sum(is.na())`:
 sum(is.na(locations))
 ```
 
-## `table` and `dplyr`: `count` 
+## `dplyr`: `count` 
 
-`table(x)` will return a frequency table of unique elements of `x`
-
-```{r, message = FALSE}
-table(locations)
-```
-
-## `table` and `dplyr`: `count` 
-
-Use `count` directly on a data.frame and column without needing to use `pull()`.
+Use `count` directly on a data.frame and column: count the number of rows in each group.
 
 ```{r, message = FALSE}
 yts %>% count(LocationDesc)
 ```
 
-## `table` and `dplyr`: `count` 
+## `dplyr`: `count` 
 
 Multiple columns listed further subdivides the count.
 
@@ -122,18 +114,22 @@ Multiple columns listed further subdivides the count.
 yts %>% count(LocationDesc, TopicDesc)
 ```
 
-## `table` and `dplyr`: `count` 
+## `dplyr`: `count` 
 
-Multiple columns listed further subdivides the count.
+Option to sort the results with `sort = TRUE`
 
 ```{r, message = FALSE}
-yts %>% count(LocationDesc, TopicDesc)
+yts %>% count(LocationDesc, sort = TRUE)
 ```
 
-## `table` and `dplyr`: `count` 
+## `dplyr`: `count` 
 
-**Note:** `count()` includes NAs but `table()` does not
+Instead of counting the number of rows in each group, `wt` computes sum(wt) for each group.
 
+```{r, message = FALSE}
+# Add up "Data_Value" for each LocationDesc category
+yts %>% count(LocationDesc, wt = Data_Value)
+```
 
 # Grouping
 
@@ -195,7 +191,7 @@ yts %>%
   select(LocationDesc, Data_Value, year_avg)
 ```
 
-## Counting
+## Use `n()` for sample size by group
 
 There are other functions, such as `n()` count the number of observations.
 
@@ -231,7 +227,7 @@ Another example using select helpers (`??tidyr_tidy_select`):
 
 ```{r}
 yts %>% 
-  summarize(across( starts_with("Data"), ~ range(.x, na.rm = TRUE)))
+  summarize(across( where(is.numeric), ~ mean(.x, na.rm = TRUE)))
 ```
 
 ## Data Summarization on data frames
@@ -255,7 +251,7 @@ summary(yts)
 
 - summary stats (`mean()`) work with `pull()`
 - `count(x)`: what unique values do you have? 
-  - `pull()` + `table()`
+  - `pull()` to get vectors
   - `unique()` combined with `length()`
 - `group_by()`: changes all subsequent functions
   - combine with `summarize()` to get statistics per group

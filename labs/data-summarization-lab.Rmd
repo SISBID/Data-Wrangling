@@ -21,25 +21,25 @@ library(tidyverse)
 circ <- read_csv("http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv")
 ```
 
-1. How many days are in the data set?  You can assume each observation/row is a different day
+1. How many days are in the data set?  You can assume each observation/row is a different day (hint: get the number of rows).
 
 ```{r q1}
 
 ```
 
-2. What is the total (sum) number of boardings on the green bus (`greenBoardings`)?
+2. What is the total (sum) number of boardings on the green bus (`greenBoardings` column)?
 
 ```{r q2}
 
 ```
 
-3. How many days are missing daily ridership?  Use `is.na()` and `sum()`. 
+3. How many days are missing daily ridership (`daily` column)?  Use `is.na()` and `sum()`. 
    
 ```{r q3}
 
 ```
 
-4. Group the data by day of the week (`day`).
+4. Group the data by day of the week (`day`). Next, find the mean daily ridership (`daily` column) and the sample size. (hint: use `group_by` and `summarize` functions)
 
 ```{r q4}
 
@@ -47,13 +47,13 @@ circ <- read_csv("http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circula
 
 ## **Extra practice:**
 
-5. Describe the distribution of `orangeBoardings`(use `quantile()`). The `quantile()` function works like `mean()`, `sum()`, etc.
+5. What is the median of `orangeBoardings`(use `median()`).
 
 ```{r q6}
 
 ```
 
-6. Describe the distribution of `orangeBoardings`(use `quantile()`), but this time stratify by day of the week.
+6. Take the median of `orangeBoardings`(use `median()`), but this time stratify by day of the week.
 
 ```{r q7}
 
