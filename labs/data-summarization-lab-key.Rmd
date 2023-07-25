@@ -13,15 +13,15 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Circulator Lanes Dataset: the data is from https://data.baltimorecity.gov/Transportation/Charm-City-Circulator-Ridership/wwvu-583r
 
-Available on: http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv
+Available on: https://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv
 
 ```{r}
 library(tidyverse)
 
-circ <- read_csv("http://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv")
+circ <- read_csv("https://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv")
 ```
 
-1. How many days are in the data set?  You can assume each observation/row is a different day
+1. How many days are in the data set?  You can assume each observation/row is a different day (hint: get the number of rows).
 
 ```{r q1}
 nrow(circ)
@@ -30,15 +30,17 @@ circ %>%
   nrow()
 ```
 
-2. What is the total (sum) number of boardings on the green bus (`greenBoardings`)?
+2. What is the total (sum) number of boardings on the green bus (`greenBoardings` column)?
 
 ```{r q2}
 sum(circ$greenBoardings, na.rm = TRUE)
 
 circ %>% pull(greenBoardings) %>% sum(na.rm = TRUE)
+
+count(circ, wt = greenBoardings)
 ```
 
-3. How many days are missing daily ridership?  Use `is.na()` and `sum()`. 
+3. How many days are missing daily ridership (`daily` column)?  Use `is.na()` and `sum()`. 
    
 ```{r q3}
 daily <- circ %>% pull(daily)
@@ -49,7 +51,7 @@ circ %>%
   count(is.na(daily))
 ```
 
-4. Group the data by day of the week (`day`).
+4. Group the data by day of the week (`day`). Next, find the mean daily ridership (`daily` column) and the sample size. (hint: use `group_by` and `summarize` functions)
 
 ```{r q4}
 circ %>% 
@@ -60,17 +62,19 @@ circ %>%
 
 ## **Extra practice:**
 
-5. Describe the distribution of `orangeBoardings`(use `quantile()`). The `quantile()` function works like `mean()`, `sum()`, etc.
+5. What is the median of `orangeBoardings`(use `median()`).
 
 ```{r q6}
 circ %>% 
-  summarise(quantile(orangeBoardings, na.rm = TRUE))
+  summarise(median = median(orangeBoardings, na.rm = TRUE))
+# OR 
+circ %>% pull(orangeBoardings) %>% median(na.rm = TRUE)
 ```
 
-6. Describe the distribution of `orangeBoardings`(use `quantile()`), but this time stratify by day of the week.
+6. Take the median of `orangeBoardings`(use `median()`), but this time stratify by day of the week.
 
 ```{r q7}
 circ %>% 
   group_by(day) %>% 
-  summarise(quantile(orangeBoardings, na.rm = TRUE))
+  summarise(median = median(orangeBoardings, na.rm = TRUE))
 ```

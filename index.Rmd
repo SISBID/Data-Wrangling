@@ -102,7 +102,7 @@ Make sure you have a GitHub profile: https://github.com/
 [07]: labs/data-io-lab-part1-key.html
 [08]: lecture_notes/Data_IO_Part2.html
 [09]: lecture_notes/Data_IO_Part2.pdf
-[10]: labs/data-io-lab-part1.Rmd
+[10]: labs/data-io-lab-part2.Rmd
 [11]: labs/data-io-lab-part2-key.Rmd
 [12]: labs/data-io-lab-part2-key.html
 [13]: https://docs.google.com/presentation/d/1SqI4Pqg_-fmjA_Ecr6OoCmhw4bfDfTXF5DFnRLwbjvI/edit?usp=sharing
