@@ -23,7 +23,7 @@ library(tidyverse)
 
 ```
 
-2. Convert the column names of `mpg` to all upper case. Use `rename_with`, and the `toupper` command (or `colnames`).
+2. Convert the column names of `mpg` to all upper case. Use `rename_with`, and the `toupper` command (or `colnames`). Save the output to `Upper_mpg`.
 
 ```{r}
 
@@ -31,23 +31,24 @@ library(tidyverse)
 
 
 
-3. Re-order the rows of `mpg` by `CYL` in increasing order. Use `arrange()`. Don't forget to reassign the `mpg` data!
+3. Re-order the rows of `mpg` by `cyl` in increasing order. Use `arrange()`. Reassign the `mpg` data!
 
 ```{r}
 
 ```
 
 
-4. Create a new variable in `mpg` called `CTY2`, which  is equal to `CTY^2`, using `mutate()`.  Use piping `%>%`:
+4. Create a new variable in `mpg` called `cty2`, which  is equal to `cty^2`, using `mutate()`.  
 
 ```{r}
 
 ```
 
 
-5. Create a new variable in `mpg` called `group_class`, which in the `CLASS` variable keeps "pickup" and "suv" as they are, but map "compact", "midsize", "minivan", "subcompact", and "2seater" to "car" using
-`case_when` or `ifelse`, `%in%`, and `mutate`:
+5. Update the variable  in `mpg` called `displ` to be 10 times the current value using `mutate()`.  
 
 ```{r}
 
 ```
+
+

@@ -28,60 +28,75 @@ MOST IMPORTANT RULE - LOOK AT YOUR DATA!
 Read in data or download from: http://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv.gz
 
 ```{r}
-ufo <- read_delim("../data/ufo/ufo_data_complete.txt")
+ufo <- read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv", delim = ",")
 
 ```
 
 ## The "problems"
+
 You saw warning messages when reading in this dataset. We can see these with the `problems()` function from `readr`. 
+
+If we scroll through we can see some interesting notes.
 
 ```{r}
 p <-problems(ufo)
-p
+p %>% glimpse()
 ```
 
-## The "problems"
-These all became NA values.
+## Any unique problems?
 
 ```{r}
-ufo[(p$row-1),] %>% glimpse()
+count(p, expected, actual)
 ```
+
 
 ## The "problems"
 
-
+Go look at the raw data around these rows.
 ```{r, echo = FALSE}
 knitr::include_graphics(here::here("lecture_notes", "media", "problems.png"))
 
 ```
 
-<!-- ## Data cleaning "before" R -->
-
-<!-- You saw warning messages when reading in this dataset. We can see these with the `problems()` function from `readr`.  -->
-
-<!-- ```{r} -->
-<!-- p = problems(ufo) -->
-<!-- p -->
-<!-- ``` -->
+```{r}
+colnames(ufo)
+```
 
 ## Reading in again
 
 Now we have a chance to keep but clean these values!
 
 ```{r}
-ufo <- read_delim("../data/ufo/ufo_data_complete.txt", 
-                  col_types = cols("duration (seconds)" = col_character()))
+ufo <-read_csv("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv", col_types = cols(`duration (seconds)` = "c"))
+dim(ufo)
 
-ufo %>% glimpse()
+p <- problems(ufo)
 
+count(p, expected, actual)
+```
+
+## Drop the remaining shifted problematic rows for now
+Multiply by negative one to drop the rows. Use the Slice function to "select" those rows based on the index. 
+
+```{r}
+
+ufo_clean <- ufo %>% slice((pull(p, row))*-1)
+
+```
+
+
+## Checking
+
+```{r}
+nrow(ufo)-nrow(ufo_clean)
 ```
 
 ## Clean names with the `clean_names()` function from the `janitor` package
 
 ```{r}
-colnames(ufo)
-ufo = clean_names(ufo)
-colnames(ufo)
+colnames(ufo_clean)
+ufo_clean <- clean_names(ufo_clean)
+colnames(ufo_clean)
 ```
 
 <!-- ## Let's just drop those problematic rows for now. -->
@@ -92,107 +107,71 @@ colnames(ufo)
 
 # Recoding Variables
 
-## Creating conditional variables
+## Exact Swaps - recode function
 
-One frequently-used tool is creating variables with conditions.
-
-A general function for creating new variables based on existing variables is the `ifelse()` function, which "returns a value with the same shape as test which is filled with elements selected from either yes or no depending on whether the element of test is `TRUE` or `FALSE`."
-
-```
-ifelse(test, yes, no)
-
-# test: an object which can be coerced
-    to logical mode.
-# yes: return values for true elements of test.
-# no: return values for false elements of test.
-```
-
-## Recoding to missing
-
-Sometimes people code missing data in weird or inconsistent ways.
-
-```{r codeNA}
-ages <-  data.frame(age = c(23,-999,21,44,32,57,65,54))
-range(ages$age)
-```
-
-
-## Recoding to create new column
-Say we want to make a new column about if the age was over 30?
 
 ```{r}
-pull(ages, age)
-ages <- ages %>% mutate(over_20 = ifelse(age > 30, "Yes", "No"))
-ages
+ufo_clean %>% mutate(country = recode(country, gb = "Great Britain")) %>% glimpse()
+
 ```
+## Exact Swaps - recode function
 
-
-
-## Recoding value to missing
-
-How do we change the `-999` to be treated as missing for the age column?
-
-```{r codeNA2}
-pull(ages, age)
-ages <- ages %>% mutate(age = ifelse(age == -999, NA, age))
-range(ages$age)
-range(ages$age, na.rm=TRUE)
-pull(ages, age)
-```
-
-<!-- ## Recoding from missing -->
-
-<!-- What if you were the person that coded the `-999` -->
-
-<!-- ```{r codeFromNA} -->
-<!-- ages = ages %>% mutate(age = ifelse(is.na(age), -999, age)) -->
-<!-- ages -->
-<!-- ``` -->
-
-## Adding columns to a `data.frame`: dplyr
 
 ```{r}
-ufo <- ufo %>% mutate( 
-              region = ifelse(
-              country %in% c("us", "ca"),
-              "North America",
-              "Not North America")
-            )
-ufo %>% select(country, region) %>% head()
+ufo_clean %>% mutate(country = recode(country, gb = "Great Britain",
+                                               "us" = "United States")) %>% glimpse()
+
 ```
 
-## `case_when` provides a more general way
+## Strange country values
+
+
+Sometimes `country` is `NA` even though `state` is known.
+A conditional more flexible recoding would be helpful...
+
+
+```{r}
+head(ufo_clean)
+
+```
+
+## Deeper look
+
+```{r}
+ufo_clean %>% filter(state == "tx") %>% count(country, state)
+ufo_clean %>% filter(state == "tx" & is.na(country)) 
+
+ufo_clean %>% filter(state == "ut") %>% count(country, state)
+ufo_clean %>% filter(state == "ut" & is.na(country))
+```
+
+
+## Case_when
 
 ```
 casewhen(test ~ value if test is true,
          test2 ~ vlue if test2 is true,
          TRUE ~ value if all above tests are not true) # defaults to NA
 ```
-```{r}
-ufo <- ufo %>% mutate( 
-            region = case_when(
-              country %in% c("us", "ca") ~ "North America",
-              country %in% c("de") ~ "Europe",
-              country %in% "gb" ~ "Great Britain",
-            ))
-
-ufo %>% select(country, region) %>% head()
-```
-## `case_when` defaults to NA when all tests fail
 
 ```{r}
-ufo <- ufo %>% mutate( 
-            region = case_when(
-              country %in% c("us", "ca") ~ "North America",
-              country %in% c("de") ~ "Europe"
-              #country %in% "gb" ~ "Great Britain",
-            ))
+ufo_clean %>% mutate(country = case_when(
+  country == "gb" ~ "Great Britain",
+  country == "us" ~"United States",
+  TRUE ~ country))%>%
+  glimpse()
 
-ufo %>% select(country, region) %>% head()
+
 ```
 
+## How many countries?
 
-## `case_when()` with value if all tests fail
+```{r}
+
+ufo_clean %>% count(country)
+```
+
+## `case_when()` regions
 
 ```{r}
 ufo <- ufo %>% mutate( 
@@ -207,89 +186,138 @@ ufo %>% select(country, region) %>% head()
 
 
 
-
-## `case_when()` with value if all tests fail (use a variable!)
-
-```{r}
-ufo <- ufo %>% mutate( 
-            region = case_when(
-              country %in% "gb" ~ "Great Brit.",
-              TRUE ~ region
-            ))
-ufo %>% select(country, region) %>% head()
-```
-
-
-
-## Example of Cleaning: more complicated
-
-For example, let's say gender was coded as Male, M, m, Female, F, f.  Using Excel to find all of these would be a matter of filtering and changing all by hand or using if statements.
-
-Sometimes though, it's not so simple.  That's where functions that find patterns come to be very useful.
-
-```{r gender, echo=FALSE}
-set.seed(4) # random sample below - make sure same every time
-gender <- sample(c("Male", "mAle", "MaLe", "M", "MALE", "Ma", "FeMAle", "F", "Woman", "Man", "Fm", "FEMALE"), 1000, replace = TRUE)
-data_gen = tibble(gender)
-```
-
-```{r gentab}
-table(gender)
-```
-
-## Example of Cleaning: more complicated
-In R, you could use `case_when()`:
+## Get US States
 
 ```{r}
-#case_when way:
-data_gen <-data_gen %>% mutate(gender = 
-                      case_when(gender %in% c("Male", "M", "m", "Man")
-                                ~ "Male",
-                           TRUE ~ gender)) 
-head(data_gen)
+ufo_clean %>% filter(country == "us") %>% count(state) %>% pull(state)
+US_states <- ufo_clean %>% filter(country == "us") %>% count(state) %>% pull(state)
+
 ```
 
-Oh dear! This only fixes some values! It is difficult to notice values like `"MaLe"`.
+## Get Canada States
+```{r}
+ufo_clean %>% filter(country == "ca") %>% count(state) %>% pull(state)
+CA_states <- ufo_clean %>% filter(country == "ca") %>% count(state) %>% pull(state)
 
-# String functions
+```
 
-## The `stringr` package
-
-Like `dplyr`, the `stringr` package:
-
-* Makes some things more intuitive
-* Is different than base R
-* Is used on forums for answers
-* Has a standard format for most functions: `str_`
-    * the first argument is a string like first argument is a `data.frame` in `dplyr`
-
-
-## Useful String Functions
-
-Useful String functions from base R and `stringr`
-
-* `toupper()`, `tolower()` - uppercase or lowercase your data
-* `str_sentence()`  - uppercase just the first character (in the `stringr` package)
-
-* `paste()` - paste strings together with a space 
-* `paste0` - paste strings together with no space as default
-
-* `str_trim()` (in the `stringr` package) or `trimws` in base 
-    - will trim whitespace
-* `nchar` - get the number of characters in a string
-
-## recoding with `str_to_sentence()`
+## Get Great Britan states
 
 ```{r}
-#case_when way:
-data_gen <-data_gen %>%
-                mutate(gender = str_to_sentence(gender)) %>%
-                mutate(gender = 
-                      case_when(gender %in% c("Male", "M", "m", "Man")
-                                ~ "Male",
-                           TRUE ~ gender)) 
-head(data_gen)
+ufo_clean %>% filter(country == "gb") %>% count(state) %>% pull(state)
+GB_states <- ufo_clean %>% filter(country == "gb") %>% count(state) %>% pull(state)
+
 ```
-OK, now we are getting somewhere!
+A small overlap with us states.
+
+
+
+## Get DE states
+```{r}
+ufo_clean %>% filter(country == "de") %>% count(state) %>% pull(state)
+DE_states <- ufo_clean %>% filter(country == "de") %>% count(state) %>% pull(state)
+
+```
+
+## Get AU states
+
+```{r}
+ufo_clean %>% filter(country == "au") %>% count(state) %>% pull(state)
+AU_states <- ufo_clean %>% filter(country == "au") %>% count(state) %>% pull(state)
+
+```
+
+Some overlap with US states.
+
+
+## Get just unique
+
+```{r}
+US_states <- US_states[!(US_states %in% AU_states)]
+US_states <- US_states[!(US_states %in% GB_states)]
+US_states <- US_states[!(US_states %in% CA_states)]
+
+AU_states <- AU_states[!(AU_states %in% US_states)]
+AU_states <- AU_states[!(AU_states %in% GB_states)]
+AU_states <- AU_states[!(AU_states %in% CA_states)]
+
+CA_states <- CA_states[!(CA_states %in% US_states)]
+CA_states <- CA_states[!(CA_states %in% GB_states)]
+CA_states <- CA_states[!(CA_states %in% CA_states)]
+
+GB_states <- GB_states[!(GB_states %in% US_states)]
+GB_states <- GB_states[!(GB_states%in% AU_states)]
+GB_states <- GB_states[!(GB_states %in% CA_states)]
+```
+## How often do rows have a value for country but not the US?
+
+```{r}
+ufo_clean %>% filter(country != "us" & !is.na(country)) %>% count(country) 
+
+```
+
+
+## what is de?
+
+```{r}
+ufo_clean %>% filter(country == "de") %>% pull(city)
+```
+
+## more complicated case_when
+
+Let's make some assumptions for the sake of illustration. 
+
+```{r}
+ufo_clean <- ufo_clean %>% mutate(prob_country = 
+      case_when((is.na(country) & state %in% c(US_states)) ~ "United States",
+                (is.na(country) & state %in% c(CA_states)) ~ "Canada",
+                (is.na(country) & state %in% c(AU_states)) ~ "Australia",
+                (is.na(country) & state %in% c(GB_states)) ~ "Great Britain",
+                   TRUE ~ country))
+```
+
+
+```{r}
+count(ufo_clean, prob_country)
+ufo_clean %>% filter(is.na(prob_country))
+```
+
+
+## Even more specific
+
+```{r}
+ufo_clean <- ufo_clean %>% mutate(prob_country = 
+      case_when(
+      (is.na(country) & state %in% c(US_states))  | 
+  country == "us" ~ "United States",
+      (is.na(country) & state %in% c(CA_states))  | 
+  country == "ca" ~ "Canada",
+      (is.na(country) & state %in% c(AU_states))  | 
+  country == "au" ~ "Australia",
+      (is.na(country) & state %in% c(GB_states))  | 
+  country == "gb" ~ "Great Britain",
+       country == "de" ~ "Germany",
+                   TRUE ~ country))
+
+```
+
+We would want to confirm what we recoded with the cities and latitude and longitude, especially to deal with the overlaps in the state lists. 
+
+## Check counts
+
+```{r}
+ufo_clean %>% count(country, prob_country)
+ufo_clean %>% count(prob_country)
+```
+
+## Summary
+
+- `recode` makes exact swaps
+- `case_when` can use conditionals, need to specify what value for if no conditions are met (can be the original value of a variable)
+
+## Lab
+
+https://sisbid.github.io/Data-Wrangling/labs/data-cleaning-lab.Rmd
+
 
 

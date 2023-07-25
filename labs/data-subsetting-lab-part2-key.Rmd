@@ -23,74 +23,32 @@ library(tidyverse)
 mpg <- mpg %>% rename(YEAR = year)
 ```
 
-2. Convert the column names of `mpg` to all upper case. Use `rename_with`, and the `toupper` command (or `colnames`).
+2. Convert the column names of `mpg` to all upper case. Use `rename_with`, and the `toupper` command (or `colnames`). Save the output to `Upper_mpg`.
 
 ```{r}
-mpg <- rename_with(mpg, toupper)
+Upper_mpg <- rename_with(mpg, toupper)
+head(Upper_mpg)
+```
+
+
+
+3. Re-order the rows of `mpg` by `cyl` in increasing order. Use `arrange()`. Reassign the `mpg` data!
+
+```{r}
+mpg <- mpg %>% arrange(cyl)
+```
+
+
+4. Create a new variable in `mpg` called `cty2`, which  is equal to `cty^2`, using `mutate()`.
+
+```{r}
+mpg <- mpg %>% mutate(cty2 = cty^2)
 head(mpg)
 ```
 
-
-
-3. Re-order the rows of `mpg` by `CYL` in increasing order. Use `arrange()`. Don't forget to reassign the `mpg` data!
+5. Update the variable  in `mpg` called `displ` to be 10 times the current value using `mutate()`.  
 
 ```{r}
-mpg <- mpg %>% arrange(CYL)
-```
-
-
-4. Create a new variable in `mpg` called `CTY2`, which  is equal to `CTY^2`, using `mutate()`.  Use piping `%>%`:
-
-```{r}
-mpg <- mpg %>% mutate(CTY2 = CTY^2)
-mpg
-```
-
-
-5. Create a new variable in `mpg` called `group_class`, which in the `CLASS` variable keeps "pickup" and "suv" as they are, but map "compact", "midsize", "minivan", "subcompact", and "2seater" to "car" using
-`case_when` or `ifelse`, `%in%`, and `mutate`:
-
-```{r}
-# any of the following work because all cars are in either of the two groups of car `CLASS` options listed
-
-mpg1 <- mpg %>% 
-  mutate(
-    group_class = case_when(
-      CLASS %in% c("compact", "midsize", "minivan",
-                   "subcompact", "2seater") ~ "car",
-      TRUE ~ CLASS)
-  )
-
-mpg2 <- mpg %>% 
-  mutate(
-    group_class = case_when(
-      CLASS %in% c("compact", "midsize", "minivan",
-                   "subcompact", "2seater") ~ "car",
-      CLASS %in% c("pickup", "suv") ~ CLASS)
-  )
-
-mpg3 <- mpg %>% 
-  mutate(
-    group_class = case_when(
-      CLASS %in% c("pickup", "suv") ~ CLASS,
-      TRUE ~ "car")
-  )
-
-mpg4 <- mpg %>% 
-  mutate(
-    group_class = if_else(
-      CLASS %in% c("pickup", "suv"), CLASS, "car")
-  )
-
-mpg5 <- mpg %>% 
-  mutate(
-    group_class = if_else(
-      CLASS %in% c("compact", "midsize", "minivan",
-                   "subcompact", "2seater"), "car", CLASS)
-  )
-
-identical(mpg1, mpg2)
-identical(mpg1, mpg3)
-identical(mpg1, mpg4)
-identical(mpg1, mpg5)
+mpg <- mpg %>% mutate(displ = displ*10)
+head(mpg)
 ```

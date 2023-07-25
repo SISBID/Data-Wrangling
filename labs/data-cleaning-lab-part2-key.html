@@ -11,7 +11,7 @@
 
 
 
-<title>Data Subsetting, Part 2 - Lab Key</title>
+<title>Data Cleaning Part 2 Lab Key</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -348,74 +348,82 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Data Subsetting, Part 2 - Lab Key</h1>
+<h1 class="title toc-ignore">Data Cleaning Part 2 Lab Key</h1>
 
 </div>
 
 
-<p>In this lab you can use the interactive console to explore but please
-record your commands here. Remember anything you type here can be “sent”
-to the console with Cmd-Enter (OS-X) or Cntr-Enter (Windows/Linux) (But
-only in side the <code>{r}</code> areas).</p>
-<pre class="r"><code>library(dplyr)
-library(tidyverse)</code></pre>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.4.0      ✔ purrr   1.0.1 
+## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
+## ✔ tidyr   1.3.0      ✔ stringr 1.5.0 
+## ✔ readr   2.1.3      ✔ forcats 0.5.2 
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <ol style="list-style-type: decimal">
-<li>In the data set <code>mpg</code>, rename the column
-<code>year</code> to <code>YEAR</code> using <code>rename</code>.</li>
+<li>Read in the UFO dataset (used in the Data IO lectures) as an R
+object called <code>ufo</code>. You can read directly from the web here:
+<a href="https://raw.githubusercontent.com/SISBID/Module1/gh-pages/data/ufo/ufo_data_complete.csv" class="uri">https://raw.githubusercontent.com/SISBID/Module1/gh-pages/data/ufo/ufo_data_complete.csv</a>
+. You can ignore the “problems” with some rows.</li>
 </ol>
-<pre class="r"><code>mpg &lt;- mpg %&gt;% rename(YEAR = year)</code></pre>
+<pre class="r"><code>library(readr)
+ufo &lt;- read_csv(&quot;https://raw.githubusercontent.com/SISBID/Module1/gh-pages/data/ufo/ufo_data_complete.csv&quot;)</code></pre>
+<pre><code>## Warning: One or more parsing issues, call `problems()` on your data frame for details,
+## e.g.:
+##   dat &lt;- vroom(...)
+##   problems(dat)</code></pre>
+<pre><code>## Rows: 88875 Columns: 11
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (10): datetime, city, state, country, shape, duration (hours/min), comme...
+## dbl  (1): duration (seconds)
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p>Clean up the column/variable names of the <code>ufo</code> dataset to
+remove spaces and non-alphanumeric characters. You can use the
+<code>dplyr::rename()</code> function or look into the
+<code>janitor::clean_names()</code> function.</p>
+<pre class="r"><code>library(janitor)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;janitor&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     chisq.test, fisher.test</code></pre>
+<pre class="r"><code>ufo &lt;- clean_names(ufo)</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li>Convert the column names of <code>mpg</code> to all upper case. Use
-<code>rename_with</code>, and the <code>toupper</code> command (or
-<code>colnames</code>). Save the output to <code>Upper_mpg</code>.</li>
+<li>How many UFO sightings were reported on a time scale of minutes,
+specifically using the <code>duration (hours/min)</code>
+originally-named column? (hint: explore the various entries in this
+column and then use a <code>stringr</code> function to match a flexible
+pattern. you can ignore observations like “1/2 hour” and similar ones
+that don’t contain some version of the word “minutes”)</li>
 </ol>
-<pre class="r"><code>Upper_mpg &lt;- rename_with(mpg, toupper)
-head(Upper_mpg)</code></pre>
-<pre><code>## # A tibble: 6 × 11
-##   MANUFACTURER MODEL DISPL  YEAR   CYL TRANS      DRV     CTY   HWY FL    CLASS 
-##   &lt;chr&gt;        &lt;chr&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;      &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; 
-## 1 audi         a4      1.8  1999     4 auto(l5)   f        18    29 p     compa…
-## 2 audi         a4      1.8  1999     4 manual(m5) f        21    29 p     compa…
-## 3 audi         a4      2    2008     4 manual(m6) f        20    31 p     compa…
-## 4 audi         a4      2    2008     4 auto(av)   f        21    30 p     compa…
-## 5 audi         a4      2.8  1999     6 auto(l5)   f        16    26 p     compa…
-## 6 audi         a4      2.8  1999     6 manual(m5) f        18    26 p     compa…</code></pre>
+<pre class="r"><code>ufo %&gt;% pull(duration_hours_min) %&gt;% str_subset(&quot;min&quot;) %&gt;% length()</code></pre>
+<pre><code>## [1] 50112</code></pre>
+<pre class="r"><code>ufo %&gt;% filter(str_detect(duration_hours_min, &quot;min&quot;))%&gt;% nrow()</code></pre>
+<pre><code>## [1] 50112</code></pre>
 <ol start="3" style="list-style-type: decimal">
-<li>Re-order the rows of <code>mpg</code> by <code>cyl</code> in
-increasing order. Use <code>arrange()</code>. Reassign the
-<code>mpg</code> data!</li>
+<li>How accurate is the (formerly-named) <code>duration (seconds)</code>
+column? I.e. how many of the above minutes-scale observations have
+durations less than 60 seconds or greater than 3600 seconds?</li>
 </ol>
-<pre class="r"><code>mpg &lt;- mpg %&gt;% arrange(cyl)</code></pre>
+<pre class="r"><code>sub &lt;- ufo %&gt;% filter(str_detect(duration_hours_min, &quot;min&quot;),
+                      duration_seconds&lt;60 | duration_seconds &gt;3600)
+nrow(sub)</code></pre>
+<pre><code>## [1] 449</code></pre>
 <ol start="4" style="list-style-type: decimal">
-<li>Create a new variable in <code>mpg</code> called <code>cty2</code>,
-which is equal to <code>cty^2</code>, using <code>mutate()</code>.</li>
+<li>How many ufo sighting cities end in (a) “field”, (b) “ton” and (c)
+“port”?</li>
 </ol>
-<pre class="r"><code>mpg &lt;- mpg %&gt;% mutate(cty2 = cty^2)
-head(mpg)</code></pre>
-<pre><code>## # A tibble: 6 × 12
-##   manufacturer model displ  YEAR   cyl trans drv     cty   hwy fl    class  cty2
-##   &lt;chr&gt;        &lt;chr&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
-## 1 audi         a4      1.8  1999     4 auto… f        18    29 p     comp…   324
-## 2 audi         a4      1.8  1999     4 manu… f        21    29 p     comp…   441
-## 3 audi         a4      2    2008     4 manu… f        20    31 p     comp…   400
-## 4 audi         a4      2    2008     4 auto… f        21    30 p     comp…   441
-## 5 audi         a4 q…   1.8  1999     4 manu… 4        18    26 p     comp…   324
-## 6 audi         a4 q…   1.8  1999     4 auto… 4        16    25 p     comp…   256</code></pre>
-<ol start="5" style="list-style-type: decimal">
-<li>Update the variable in <code>mpg</code> called <code>displ</code> to
-be 10 times the current value using <code>mutate()</code>.</li>
-</ol>
-<pre class="r"><code>mpg &lt;- mpg %&gt;% mutate(displ = displ*10)
-head(mpg)</code></pre>
-<pre><code>## # A tibble: 6 × 12
-##   manufacturer model displ  YEAR   cyl trans drv     cty   hwy fl    class  cty2
-##   &lt;chr&gt;        &lt;chr&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
-## 1 audi         a4       18  1999     4 auto… f        18    29 p     comp…   324
-## 2 audi         a4       18  1999     4 manu… f        21    29 p     comp…   441
-## 3 audi         a4       20  2008     4 manu… f        20    31 p     comp…   400
-## 4 audi         a4       20  2008     4 auto… f        21    30 p     comp…   441
-## 5 audi         a4 q…    18  1999     4 manu… 4        18    26 p     comp…   324
-## 6 audi         a4 q…    18  1999     4 auto… 4        16    25 p     comp…   256</code></pre>
+<pre class="r"><code>ufo %&gt;% pull(city) %&gt;% str_subset(&quot;field$&quot;) %&gt;% length() # A</code></pre>
+<pre><code>## [1] 979</code></pre>
+<pre class="r"><code>ufo %&gt;% pull(city) %&gt;% str_subset(&quot;ton$&quot;) %&gt;% length() # B</code></pre>
+<pre><code>## [1] 4245</code></pre>
+<pre class="r"><code>ufo %&gt;% pull(city) %&gt;% str_subset(&quot;port$&quot;) %&gt;% length() # C</code></pre>
+<pre><code>## [1] 497</code></pre>
 
 
 

@@ -76,7 +76,7 @@ Make sure you have a GitHub profile: https://github.com/
 | 9:55-10:10  | Break                                        |                       |                                      |
 | 10:10-11:00 | [Data Cleaning Part 1][37] ([PDF][38])         | [lab][39]            | [lab key][40] / [lab key output][41]|
 | 11:00-11:30 | Break                                        |                       |                                      |
-| 11:30-12:20 | [Data Cleaning Part 2][X10] ([PDF][X11])              | [lab][39]             | [lab key][40] / [lab key output][41] |
+| 11:30-12:20 | [Data Cleaning Part 2][x10] ([PDF][x11])              | [lab][x12]             | [lab key][x13] / [lab key output][x14] |
 | 12:20-12:35 | Break                                        |                       |                                      |
 | 12:35-1:25  | [Data Reshaping][42] ([PDF][43])             | [lab][44]             | [lab key][45] / [lab key output][46] |
 | 1:25-1:40   | Break                                        |                       |                                      |
@@ -144,6 +144,9 @@ Make sure you have a GitHub profile: https://github.com/
 [41]: labs/data-cleaning-lab-key.html
 [x10]:lecture_notes/Data_Cleaning_Part2.html
 [x11]:lecture_notes/Data_Cleaning_Part2.pdf
+[x12]:labs/data-cleaning-lab-part2.Rmd
+[x13]:labs/data-cleaning-lab-part2-key.Rmd
+[x14]:labs/data-cleaning-lab-part2-key.html
 [42]: lecture_notes/Data_Reshaping.html
 [43]: lecture_notes/Data_Reshaping.pdf
 [44]: labs/data-reshaping-lab.Rmd

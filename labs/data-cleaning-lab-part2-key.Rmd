@@ -1,0 +1,51 @@
+---
+title: "Data Cleaning Part 2 Lab Key"
+output: html_document
+---
+
+
+```{r}
+library(tidyverse)
+```
+
+1. Read in the UFO dataset (used in the Data IO lectures) as an R object called `ufo`.
+You can read directly from the web here: https://raw.githubusercontent.com/SISBID/Module1/gh-pages/data/ufo/ufo_data_complete.csv . 
+You can ignore the "problems" with some rows. 
+
+```{r}
+library(readr)
+ufo <- read_csv("https://raw.githubusercontent.com/SISBID/Module1/gh-pages/data/ufo/ufo_data_complete.csv")
+```
+
+ Clean up the column/variable names of the `ufo` dataset to remove spaces and non-alphanumeric characters. You can use the `dplyr::rename()` function or look into the `janitor::clean_names()` function. 
+
+```{r}
+library(janitor)
+ufo <- clean_names(ufo)
+```
+
+2. How many UFO sightings were reported on a time scale of minutes, specifically using the `duration (hours/min)` originally-named column? (hint: explore the various entries in this column and then use a `stringr` function to match a flexible pattern. you can ignore observations like "1/2 hour" and similar ones that don't contain some version of the word "minutes")
+
+```{r}
+ufo %>% pull(duration_hours_min) %>% str_subset("min") %>% length()
+ufo %>% filter(str_detect(duration_hours_min, "min"))%>% nrow()
+```
+
+3. How accurate is the (formerly-named) `duration (seconds)` column? I.e. how many of the above minutes-scale observations have durations less than 60 seconds or greater than 3600 seconds? 
+
+```{r}
+sub <- ufo %>% filter(str_detect(duration_hours_min, "min"),
+                      duration_seconds<60 | duration_seconds >3600)
+nrow(sub)
+```
+
+4. How many ufo sighting cities end in (a) "field", (b) "ton" and (c) "port"?
+
+
+```{r}
+ufo %>% pull(city) %>% str_subset("field$") %>% length() # A
+ufo %>% pull(city) %>% str_subset("ton$") %>% length() # B
+ufo %>% pull(city) %>% str_subset("port$") %>% length() # C
+```
+
+
