@@ -9,21 +9,21 @@ ufo <- read_csv("https://raw.githubusercontent.com/SISBID/Module1/gh-pages/data/
 
 ## -----------------------------------------------------------------------------------------------------------
 library(janitor)
-ufo_clean <- clean_names(ufo)
+ufo <- clean_names(ufo)
 
 
 ## -----------------------------------------------------------------------------------------------------------
-South_West <- ufo_clean %>% filter(state %in% c("tx", "nm", "ut")) %>%
-  mutate(recode(state, "Texas" = "tx",
-                        "New_Mexico" = "nm",
-                        "Utah" = "ut"))
-South_West
-
+ufo %>% filter(str_detect(duration_hours_min, "min"))%>% nrow()
 
 
 ## -----------------------------------------------------------------------------------------------------------
-ufo_clean %>%
-  mutate(continent = case_when(country %in% c("ca", "us") ~ "North America",
-                               country %in% c("gb", "de") ~ "Europe",
-                               country == "au" ~ "Australia"))
+sub <- ufo %>% filter(str_detect(duration_hours_min, "min"),
+                      duration_seconds<60 | duration_seconds >3600)
+nrow(sub)
+
+
+## -----------------------------------------------------------------------------------------------------------
+ufo %>% pull(city) %>% str_subset("field$") %>% length() # A
+ufo %>% pull(city) %>% str_subset("ton$") %>% length() # B
+ufo %>% pull(city) %>% str_subset("port$") %>% length() # C
 
