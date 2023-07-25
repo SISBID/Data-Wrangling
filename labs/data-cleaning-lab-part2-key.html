@@ -396,13 +396,11 @@ remove spaces and non-alphanumeric characters. You can use the
 <ol start="2" style="list-style-type: decimal">
 <li>How many UFO sightings were reported on a time scale of minutes,
 specifically using the <code>duration (hours/min)</code>
-originally-named column? (hint: explore the various entries in this
-column and then use a <code>stringr</code> function to match a flexible
-pattern. you can ignore observations like “1/2 hour” and similar ones
-that don’t contain some version of the word “minutes”)</li>
+originally-named column? (hint: use <code>str_detect</code> and
+<code>filter</code>, you can ignore observations like “1/2 hour” and
+similar ones that don’t contain some version of the word
+“minutes”).</li>
 </ol>
-<pre class="r"><code>ufo %&gt;% pull(duration_hours_min) %&gt;% str_subset(&quot;min&quot;) %&gt;% length()</code></pre>
-<pre><code>## [1] 50112</code></pre>
 <pre class="r"><code>ufo %&gt;% filter(str_detect(duration_hours_min, &quot;min&quot;))%&gt;% nrow()</code></pre>
 <pre><code>## [1] 50112</code></pre>
 <ol start="3" style="list-style-type: decimal">
@@ -416,7 +414,8 @@ nrow(sub)</code></pre>
 <pre><code>## [1] 449</code></pre>
 <ol start="4" style="list-style-type: decimal">
 <li>How many ufo sighting cities end in (a) “field”, (b) “ton” and (c)
-“port”?</li>
+“port”? (hint - remember <code>stringr</code> uses vectors or
+variables)</li>
 </ol>
 <pre class="r"><code>ufo %&gt;% pull(city) %&gt;% str_subset(&quot;field$&quot;) %&gt;% length() # A</code></pre>
 <pre><code>## [1] 979</code></pre>

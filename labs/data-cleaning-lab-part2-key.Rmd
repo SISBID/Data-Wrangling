@@ -24,10 +24,9 @@ library(janitor)
 ufo <- clean_names(ufo)
 ```
 
-2. How many UFO sightings were reported on a time scale of minutes, specifically using the `duration (hours/min)` originally-named column? (hint: explore the various entries in this column and then use a `stringr` function to match a flexible pattern. you can ignore observations like "1/2 hour" and similar ones that don't contain some version of the word "minutes")
+2. How many UFO sightings were reported on a time scale of minutes, specifically using the `duration (hours/min)` originally-named column? (hint: use `str_detect` and `filter`, you can ignore observations like "1/2 hour" and similar ones that don't contain some version of the word "minutes").
 
 ```{r}
-ufo %>% pull(duration_hours_min) %>% str_subset("min") %>% length()
 ufo %>% filter(str_detect(duration_hours_min, "min"))%>% nrow()
 ```
 
@@ -39,7 +38,7 @@ sub <- ufo %>% filter(str_detect(duration_hours_min, "min"),
 nrow(sub)
 ```
 
-4. How many ufo sighting cities end in (a) "field", (b) "ton" and (c) "port"?
+4. How many ufo sighting cities end in (a) "field", (b) "ton" and (c) "port"? (hint - remember `stringr` uses vectors or variables)
 
 
 ```{r}
