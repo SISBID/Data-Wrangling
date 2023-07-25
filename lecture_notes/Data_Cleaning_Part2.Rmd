@@ -2,6 +2,7 @@
 title: "Data Cleaning Part 2"
 author: "Data Wrangling in R"
 output:
+  beamer_presentation: default
   ioslides_presentation:
     css: styles.css
     widescreen: yes
@@ -115,25 +116,40 @@ colnames(ufo_clean)
 
 Now let's fix our ufo data and remove those pesky backticks in the `duration_seconds` variable. First let's find them with `str_detect`.
 ```{r}
-ufo_clean %>% filter(str_detect( string = duration_seconds, pattern = "`"))
+ufo_clean %>% 
+  filter(str_detect( 
+    string = duration_seconds, 
+    pattern = "`"))
 
 ```
 
 ## str_remove
 
 ```{r}
-ufo_clean  <- ufo_clean %>% mutate(duration_seconds = str_remove(string = duration_seconds,pattern = "`"))
+ufo_clean  <- ufo_clean %>% 
+  mutate(duration_seconds = 
+           str_remove(string = duration_seconds,
+                     pattern = "`"))
+```
 
-ufo_clean  <- ufo_clean %>% mutate(duration_seconds = as.numeric(duration_seconds))
-ufo_clean %>% filter(str_detect( string = duration_seconds, pattern = "`"))
+## Lets also mutate to be as.numeric again
 
+
+```{r}
+ufo_clean  <- ufo_clean %>% 
+  mutate(duration_seconds = as.numeric(duration_seconds))
+
+glimpse(ufo_clean)
 ```
 
 
 ## Paste can add things back to variables
 
 ```{r}
-ufo_clean %>% mutate(duration_seconds = paste(duration_seconds, "sec", sep = " ")) %>% glimpse()
+ufo_clean %>% 
+  mutate(duration_seconds = 
+           paste(duration_seconds, "sec", sep = " ")) %>% 
+  glimpse()
 
 ```
 
@@ -143,7 +159,6 @@ ufo_clean %>% mutate(duration_seconds = paste(duration_seconds, "sec", sep = " "
 `stringr`
 
 * `str_sub(x, start, end)` - substrings from position start to position end
-* `str_split(string, pattern)` - splits strings up - returns list! [we'll revisit in "Functional Programming"]
 
 ## Substringing
 
@@ -182,8 +197,7 @@ str_sub(c("Site A", "Site B", "Site C"), 6,6)
 
 * `str_detect` - returns `TRUE` if `pattern` is found
 * `str_subset` - returns only the strings which pattern were detected
-    * convenient wrapper around `x[str_detect(x, pattern)]`
-* `str_extract` - returns only strings which pattern were detected, but ONLY the pattern
+* `str_extract` - returns only the pattern which were detected
 * `str_replace` - replaces `pattern` with `replacement` the first time
 * `str_replace_all` - replaces `pattern` with `replacement` as many times matched
 
@@ -203,26 +217,28 @@ str_sub(c("Site A", "Site B", "Site C"), 6,6)
 These are the indices where the pattern match occurs:
 
 ```{r alienMatch}
-ufo_clean %>% filter(str_detect(comments, "two aliens")) %>% head()
-ufo_clean %>%filter(str_detect(comments, "two aliens")) %>% count()
+ufo_clean %>% 
+  filter(str_detect(comments, "two aliens")) %>% 
+  head()
 ```
 
-## 'Find' functions: Finding Logicals {.smaller}
-
-`filter()` using `str_detect()` gives a tibble:
+## To Take a look at comments... need to select it first
 
 ```{r}
-filter(ufo_clean, str_detect(comments, "two aliens"))
-filter(ufo_clean, str_detect(comments, "two aliens")) %>% select(comments)
-
+ufo_clean %>%
+  filter(str_detect(comments, "two aliens")) %>% 
+  select(comments)
 ```
+
+
 
 ## 'Find' functions: `str_subset()` is easier {.smaller}
 
 `str_subset()` gives the values that match the pattern:
 
 ```{r ggrep}
-ufo_clean %>% pull(comments) %>% str_subset( "two aliens")
+ufo_clean %>% pull(comments) %>%
+  str_subset( "two aliens")
 
 ```
 
@@ -231,23 +247,27 @@ ufo_clean %>% pull(comments) %>% str_subset( "two aliens")
 `str_extract` extracts just the matched string
 
 ```{r ggrep2}
-ufo_clean %>% mutate(two  = str_extract(comments, "two")) %>% count(two)
+ufo_clean %>% 
+  mutate(aliens  = str_extract(comments, "aliens")) %>%
+  count(aliens)
 
 ```
 
 
-* Look for any comment that starts with "aliens"
+* Look for any comment that starts with "aliens" 
   
 ```{r grepstar}
-ufo_clean %>% pull(comments) %>%str_subset( "^aliens.*")
+ufo_clean %>% pull(comments) %>%str_subset( "^aliens")
 ```
 
 ## Using Regular Expressions{.smaller}
 
 That contains space then ship maybe with stuff in between
 ```{r grepstar2}
-ufo_clean %>% pull(comments) %>%str_subset("space.?ship") %>% head(4) # gets "spaceship" or "space ship" or...
-ufo_clean %>% pull(comments) %>% str_subset("space.ship") %>% head(4) # no "spaceship" must have character in bw
+ufo_clean %>% pull(comments) %>%
+  str_subset("space.?ship") %>% head(4) # gets "spaceship" or "space ship" or...
+ufo_clean %>% pull(comments) %>% 
+  str_subset("space.ship") %>% head(4) # no "spaceship" must have character in bw
 
 ```
 
@@ -260,8 +280,6 @@ Using `case_when()` would be very tedious and error-prone!
 We can use `str_replace()` to do so.
 
 ```{r classSal}
-head(pull(ufo_clean, duration_hours_min))
-
 ufo_clean %>% mutate(duration_hours_min = 
                  str_replace(string = duration_hours_min, 
                              pattern = "minutes", 
