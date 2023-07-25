@@ -55,13 +55,13 @@ mtcars %>% pull(hp) %>% mean() # alt: pull(mtcars, hp) %>% mean()
 mean(mtcars$hp)
 ```
 
-## Youth Tobacco Survey
+## Youth Tobacco Survey {.codesmall}
 
-Here we will be using the Youth Tobacco Survey data:
+Let's use the Youth Tobacco Survey data again:
 
 ```{r}
 yts <- 
-  read_csv("http://sisbid.github.io/Data-Wrangling/data/Youth_Tobacco_Survey_YTS_Data.csv")
+  read_csv("https://sisbid.github.io/Data-Wrangling/data/Youth_Tobacco_Survey_YTS_Data.csv")
 head(yts)
 ```
 
@@ -180,15 +180,23 @@ yts %>%
             max_value = max(Data_Value, na.rm = TRUE))
 ```
 
-## `group_by` with `mutate` - just add data
+## `group_by` with `mutate` - Useful for comparisons {.codesmall}
 
-We can also use `mutate` to calculate the mean value for each year and add it as a column:
+Use `group_by` to calculate the mean value for each year. We can use `mutate` to add it as a column.
 
 ```{r}
-yts %>%
+yts_year <- yts %>%
   group_by(YEAR) %>%
   mutate(year_avg = mean(Data_Value, na.rm = TRUE)) %>%
   select(LocationDesc, Data_Value, year_avg)
+```
+
+## `group_by` with `mutate` - Useful for comparisons {.codesmall}
+
+Create a "difference" variable:
+
+```{r}
+yts_year %>% mutate(Diff = Data_Value - year_avg)
 ```
 
 ## Use `n()` for sample size by group
@@ -203,6 +211,15 @@ yts %>%
 ```
 
 # Iterative summaries
+
+## Iterative summaries: `dplyr` `summarize()` and `across()` functions
+
+Use the [`across`](https://dplyr.tidyverse.org/reference/across.html) function with `summarize()` to summarize across multiple columns of your data.
+
+```{r, eval = FALSE}
+# General format - Not the code!
+across({ columns to go across }, ~ { summarization_function(.x, na.rm = ..) }) 
+```
 
 ## Iterative summaries: `dplyr` `summarize()` and `across()` functions
 

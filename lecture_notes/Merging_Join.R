@@ -111,7 +111,7 @@ full_join(data_As, data_cold, by = "State")
 
 
 ## ----eval=FALSE---------------------------------------------------------------------------------------------
-full_join(x, y, by = c("a" = "b"))
+## full_join(x, y, by = c("a" = "b"))
 
 
 ## -----------------------------------------------------------------------------------------------------------
@@ -141,7 +141,7 @@ bind_rows(data_As, data_cold)
 anti_join(data_As, data_cold)
 
 
-## ---- fig.alt="A gif showing the full joining of two simple datasets.", out.width = "40%", echo = FALSE, align = "center"----
+## ---- fig.alt="A gif showing the full joining of two simple datasets.", out.width = "30%", echo = FALSE, align = "center"----
 knitr::include_graphics("media/Join_anti-join.gif")
 
 
