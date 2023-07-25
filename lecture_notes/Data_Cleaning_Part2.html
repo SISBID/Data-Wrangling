@@ -3377,7 +3377,10 @@ colnames(ufo_clean)</pre>
 
 <p>Now let’s fix our ufo data and remove those pesky backticks in the <code>duration_seconds</code> variable. First let’s find them with <code>str_detect</code>.</p>
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(str_detect( string = duration_seconds, pattern = &quot;`&quot;))</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% 
+  filter(str_detect( 
+    string = duration_seconds, 
+    pattern = &quot;`&quot;))</pre>
 
 <pre ># A tibble: 3 × 11
   datetime     city  state country shape durat…¹ durat…² comme…³ date_…⁴ latit…⁵
@@ -3390,19 +3393,38 @@ colnames(ufo_clean)</pre>
 
 </article></slide><slide class=""><hgroup><h2>str_remove</h2></hgroup><article  id="str_remove">
 
-<pre class = 'prettyprint lang-r'>ufo_clean  &lt;- ufo_clean %&gt;% mutate(duration_seconds = str_remove(string = duration_seconds,pattern = &quot;`&quot;))
+<pre class = 'prettyprint lang-r'>ufo_clean  &lt;- ufo_clean %&gt;% 
+  mutate(duration_seconds = 
+           str_remove(string = duration_seconds,
+                     pattern = &quot;`&quot;))</pre>
 
-ufo_clean  &lt;- ufo_clean %&gt;% mutate(duration_seconds = as.numeric(duration_seconds))
-ufo_clean %&gt;% filter(str_detect( string = duration_seconds, pattern = &quot;`&quot;))</pre>
+</article></slide><slide class=""><hgroup><h2>Lets also mutate to be as.numeric again</h2></hgroup><article  id="lets-also-mutate-to-be-as.numeric-again">
 
-<pre ># A tibble: 0 × 11
-# … with 11 variables: datetime &lt;chr&gt;, city &lt;chr&gt;, state &lt;chr&gt;, country &lt;chr&gt;,
-#   shape &lt;chr&gt;, duration_seconds &lt;dbl&gt;, duration_hours_min &lt;chr&gt;,
-#   comments &lt;chr&gt;, date_posted &lt;chr&gt;, latitude &lt;chr&gt;, longitude &lt;chr&gt;</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean  &lt;- ufo_clean %&gt;% 
+  mutate(duration_seconds = as.numeric(duration_seconds))
+
+glimpse(ufo_clean)</pre>
+
+<pre >Rows: 88,679
+Columns: 11
+$ datetime           &lt;chr&gt; &quot;10/10/1949 20:30&quot;, &quot;10/10/1949 21:00&quot;, &quot;10/10/1955…
+$ city               &lt;chr&gt; &quot;san marcos&quot;, &quot;lackland afb&quot;, &quot;chester (uk/england)…
+$ state              &lt;chr&gt; &quot;tx&quot;, &quot;tx&quot;, NA, &quot;tx&quot;, &quot;hi&quot;, &quot;tn&quot;, NA, &quot;ct&quot;, &quot;al&quot;, &quot;…
+$ country            &lt;chr&gt; &quot;us&quot;, NA, &quot;gb&quot;, &quot;us&quot;, &quot;us&quot;, &quot;us&quot;, &quot;gb&quot;, &quot;us&quot;, &quot;us&quot;,…
+$ shape              &lt;chr&gt; &quot;cylinder&quot;, &quot;light&quot;, &quot;circle&quot;, &quot;circle&quot;, &quot;light&quot;, &quot;…
+$ duration_seconds   &lt;dbl&gt; 2700, 7200, 20, 20, 900, 300, 180, 1200, 180, 120, …
+$ duration_hours_min &lt;chr&gt; &quot;45 minutes&quot;, &quot;1-2 hrs&quot;, &quot;20 seconds&quot;, &quot;1/2 hour&quot;, …
+$ comments           &lt;chr&gt; &quot;This event took place in early fall around 1949-50…
+$ date_posted        &lt;chr&gt; &quot;4/27/2004&quot;, &quot;12/16/2005&quot;, &quot;1/21/2008&quot;, &quot;1/17/2004&quot;…
+$ latitude           &lt;chr&gt; &quot;29.8830556&quot;, &quot;29.38421&quot;, &quot;53.2&quot;, &quot;28.9783333&quot;, &quot;21…
+$ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;, &quot;-2.916667&quot;, &quot;-96.6458…</pre>
 
 </article></slide><slide class=""><hgroup><h2>Paste can add things back to variables</h2></hgroup><article  id="paste-can-add-things-back-to-variables">
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% mutate(duration_seconds = paste(duration_seconds, &quot;sec&quot;, sep = &quot; &quot;)) %&gt;% glimpse()</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% 
+  mutate(duration_seconds = 
+           paste(duration_seconds, &quot;sec&quot;, sep = &quot; &quot;)) %&gt;% 
+  glimpse()</pre>
 
 <pre >Rows: 88,679
 Columns: 11
@@ -3424,7 +3446,6 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 
 <ul>
 <li><code>str_sub(x, start, end)</code> - substrings from position start to position end</li>
-<li><code>str_split(string, pattern)</code> - splits strings up - returns list! [we’ll revisit in &ldquo;Functional Programming&rdquo;]</li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Substringing</h2></hgroup><article  id="substringing-1">
@@ -3473,12 +3494,8 @@ str_sub(c(&quot;Site A&quot;, &quot;Site B&quot;, &quot;Site C&quot;), 6,6)</pre
 
 <ul>
 <li><code>str_detect</code> - returns <code>TRUE</code> if <code>pattern</code> is found</li>
-<li><code>str_subset</code> - returns only the strings which pattern were detected
-
-<ul>
-<li>convenient wrapper around <code>x[str_detect(x, pattern)]</code></li>
-</ul></li>
-<li><code>str_extract</code> - returns only strings which pattern were detected, but ONLY the pattern</li>
+<li><code>str_subset</code> - returns only the strings which pattern were detected</li>
+<li><code>str_extract</code> - returns only the pattern which were detected</li>
 <li><code>str_replace</code> - replaces <code>pattern</code> with <code>replacement</code> the first time</li>
 <li><code>str_replace_all</code> - replaces <code>pattern</code> with <code>replacement</code> as many times matched</li>
 </ul>
@@ -3497,7 +3514,9 @@ str_sub(c(&quot;Site A&quot;, &quot;Site B&quot;, &quot;Site C&quot;), 6,6)</pre
 
 <p>These are the indices where the pattern match occurs:</p>
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(str_detect(comments, &quot;two aliens&quot;)) %&gt;% head()</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% 
+  filter(str_detect(comments, &quot;two aliens&quot;)) %&gt;% 
+  head()</pre>
 
 <pre ># A tibble: 2 × 11
   datetime     city  state country shape durat…¹ durat…² comme…³ date_…⁴ latit…⁵
@@ -3507,28 +3526,11 @@ str_sub(c(&quot;Site A&quot;, &quot;Site B&quot;, &quot;Site C&quot;), 6,6)</pre
 # … with 1 more variable: longitude &lt;chr&gt;, and abbreviated variable names
 #   ¹​duration_seconds, ²​duration_hours_min, ³​comments, ⁴​date_posted, ⁵​latitude</pre>
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;%filter(str_detect(comments, &quot;two aliens&quot;)) %&gt;% count()</pre>
+</article></slide><slide class=""><hgroup><h2>To Take a look at comments… need to select it first</h2></hgroup><article  id="to-take-a-look-at-comments-need-to-select-it-first">
 
-<pre ># A tibble: 1 × 1
-      n
-  &lt;int&gt;
-1     2</pre>
-
-</article></slide><slide class=""><hgroup><h2>&lsquo;Find&rsquo; functions: Finding Logicals</h2></hgroup><article  id="find-functions-finding-logicals" class="smaller">
-
-<p><code>filter()</code> using <code>str_detect()</code> gives a tibble:</p>
-
-<pre class = 'prettyprint lang-r'>filter(ufo_clean, str_detect(comments, &quot;two aliens&quot;))</pre>
-
-<pre ># A tibble: 2 × 11
-  datetime     city  state country shape durat…¹ durat…² comme…³ date_…⁴ latit…⁵
-  &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  
-1 10/14/2006 … yuma  va    us      form…     300 5 minu… ((HOAX… 4/27/2… 36.615…
-2 7/1/2007 23… nort… ct    &lt;NA&gt;    unkn…      60 1 minu… Witnes… 10/19/… 41.985…
-# … with 1 more variable: longitude &lt;chr&gt;, and abbreviated variable names
-#   ¹​duration_seconds, ²​duration_hours_min, ³​comments, ⁴​date_posted, ⁵​latitude</pre>
-
-<pre class = 'prettyprint lang-r'>filter(ufo_clean, str_detect(comments, &quot;two aliens&quot;)) %&gt;% select(comments)</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;%
+  filter(str_detect(comments, &quot;two aliens&quot;)) %&gt;% 
+  select(comments)</pre>
 
 <pre ># A tibble: 2 × 1
   comments                                                                      
@@ -3540,7 +3542,8 @@ str_sub(c(&quot;Site A&quot;, &quot;Site B&quot;, &quot;Site C&quot;), 6,6)</pre
 
 <p><code>str_subset()</code> gives the values that match the pattern:</p>
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% pull(comments) %&gt;% str_subset( &quot;two aliens&quot;)</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% pull(comments) %&gt;%
+  str_subset( &quot;two aliens&quot;)</pre>
 
 <pre >[1] &quot;((HOAX??))  two aliens appeared from a bright light to peacefully investigate the surroundings in the woods&quot;
 [2] &quot;Witnessed two aliens walking along baseball field fence.&quot;                                                   </pre>
@@ -3549,19 +3552,21 @@ str_sub(c(&quot;Site A&quot;, &quot;Site B&quot;, &quot;Site C&quot;), 6,6)</pre
 
 <p><code>str_extract</code> extracts just the matched string</p>
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% mutate(two  = str_extract(comments, &quot;two&quot;)) %&gt;% count(two)</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% 
+  mutate(aliens  = str_extract(comments, &quot;aliens&quot;)) %&gt;%
+  count(aliens)</pre>
 
 <pre ># A tibble: 2 × 2
-  two       n
-  &lt;chr&gt; &lt;int&gt;
-1 two    2497
-2 &lt;NA&gt;  86182</pre>
+  aliens     n
+  &lt;chr&gt;  &lt;int&gt;
+1 aliens    53
+2 &lt;NA&gt;   88626</pre>
 
 <ul>
 <li>Look for any comment that starts with &ldquo;aliens&rdquo;</li>
 </ul>
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% pull(comments) %&gt;%str_subset( &quot;^aliens.*&quot;)</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% pull(comments) %&gt;%str_subset( &quot;^aliens&quot;)</pre>
 
 <pre >[1] &quot;aliens speak german???&quot; &quot;aliens exist&quot;           &quot;aliens in srilanka&quot;    </pre>
 
@@ -3569,14 +3574,16 @@ str_sub(c(&quot;Site A&quot;, &quot;Site B&quot;, &quot;Site C&quot;), 6,6)</pre
 
 <p>That contains space then ship maybe with stuff in between</p>
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% pull(comments) %&gt;%str_subset(&quot;space.?ship&quot;) %&gt;% head(4) # gets &quot;spaceship&quot; or &quot;space ship&quot; or...</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% pull(comments) %&gt;%
+  str_subset(&quot;space.?ship&quot;) %&gt;% head(4) # gets &quot;spaceship&quot; or &quot;space ship&quot; or...</pre>
 
 <pre >[1] &quot;I saw the cylinder shaped looked like a spaceship hovring above the east side of the Air Force base. Saw it for about 30 seconds and ra&quot;         
 [2] &quot;description of a spaceship spotted over Birmingham Alabama in 1967.&quot;                                                                             
 [3] &quot;A space ship was descending to the ground&quot;                                                                                                       
 [4] &quot;On Monday october 3&amp;#44 2005&amp;#44 I spotted two spaceships in the sky.  The first spotted ship was what seemed to be a bright star&amp;#44 when it st&quot;</pre>
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% pull(comments) %&gt;% str_subset(&quot;space.ship&quot;) %&gt;% head(4) # no &quot;spaceship&quot; must have character in bw</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% pull(comments) %&gt;% 
+  str_subset(&quot;space.ship&quot;) %&gt;% head(4) # no &quot;spaceship&quot; must have character in bw</pre>
 
 <pre >[1] &quot;A space ship was descending to the ground&quot;                                                                                                 
 [2] &quot;I saw a Silver space ship rising into the early morning sky over Houston&amp;#44 Texas.&quot;                                                       
@@ -3588,11 +3595,6 @@ str_sub(c(&quot;Site A&quot;, &quot;Site B&quot;, &quot;Site C&quot;), 6,6)</pre
 <p>Let’s say we wanted to make the time information more consistent. Using <code>case_when()</code> would be very tedious and error-prone!</p>
 
 <p>We can use <code>str_replace()</code> to do so.</p>
-
-<pre class = 'prettyprint lang-r'>head(pull(ufo_clean, duration_hours_min))</pre>
-
-<pre >[1] &quot;45 minutes&quot; &quot;1-2 hrs&quot;    &quot;20 seconds&quot; &quot;1/2 hour&quot;   &quot;15 minutes&quot;
-[6] &quot;5 minutes&quot; </pre>
 
 <pre class = 'prettyprint lang-r'>ufo_clean %&gt;% mutate(duration_hours_min = 
                  str_replace(string = duration_hours_min, 
