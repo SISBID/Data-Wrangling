@@ -2,7 +2,6 @@
 title: "Data Cleaning Part 2"
 author: "Data Wrangling in R"
 output:
-  slidy_presentation: default
   ioslides_presentation:
     css: styles.css
     widescreen: yes
@@ -360,3 +359,6 @@ str_sub(string = c("abcdd", "two"), start = 1, end = 3)
 - `$` indicates the end of a string
 - the `lubridate` package is useful for dates and times
 
+## Lab
+
+https://sisbid.github.io/Data-Wrangling/labs/data-cleaning-lab-part2.Rmd
