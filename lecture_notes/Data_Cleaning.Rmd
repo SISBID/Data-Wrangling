@@ -67,9 +67,13 @@ colnames(ufo)
 Now we have a chance to keep but clean these values!
 
 ```{r}
-ufo <-read_csv("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv", col_types = cols(`duration (seconds)` = "c"))
-dim(ufo)
+url <- "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv"
+ufo <-read_csv(url, col_types = cols(`duration (seconds)` = "c"))
+```
 
+## Look at the problems again
+
+```{r}
 p <- problems(ufo)
 
 count(p, expected, actual)
@@ -79,7 +83,7 @@ count(p, expected, actual)
 Multiply by negative one to drop the rows. Use the Slice function to "select" those rows based on the index. 
 
 ```{r}
-
+(pull(p, row) *-1) %>% head()
 ufo_clean <- ufo %>% slice((pull(p, row))*-1)
 
 ```
@@ -88,7 +92,8 @@ ufo_clean <- ufo %>% slice((pull(p, row))*-1)
 ## Checking
 
 ```{r}
-nrow(ufo)-nrow(ufo_clean)
+nrow(ufo) - nrow(ufo_clean)
+count(p, expected, actual)
 ```
 
 ## Clean names with the `clean_names()` function from the `janitor` package
@@ -109,17 +114,30 @@ colnames(ufo_clean)
 
 ## Exact Swaps - recode function
 
+```
+within mutate...
+recode(variable, value_old = value_new,
+           other_value_old = other_value_new)
+```
 
 ```{r}
-ufo_clean %>% mutate(country = recode(country, gb = "Great Britain")) %>% glimpse()
+ufo_clean %>% 
+  mutate(country = 
+           recode(country, gb = "Great Britain")) %>% 
+  glimpse()
 
 ```
+
+
 ## Exact Swaps - recode function
 
 
 ```{r}
-ufo_clean %>% mutate(country = recode(country, gb = "Great Britain",
-                                               "us" = "United States")) %>% glimpse()
+ufo_clean %>% mutate(country = 
+          recode(country, 
+                 gb = "Great Britain",
+                 us = "United States")) %>% 
+  glimpse()
 
 ```
 
