@@ -153,7 +153,28 @@ mtcars %>%
 
 <!-- ``` -->
 
-## `if_any()` and `if_all()` are also helpful!
+## Previously we filtered for patterns or conditions..
+
+Dilemma: Seems a bit repetitive!
+
+```{r}
+mtcars %>%
+  filter(cyl > 3 & cyl < 8,
+         gear > 3 & gear < 8,
+         carb > 3 & carb < 8)
+```
+
+## Now we can filter multiple columns!
+
+`if_all()`: helps us filter on multiple similar conditions simultaneously!
+
+```{r}
+mtcars %>%
+   filter(if_all(c(cyl, gear, carb), ~.x > 3 & .x < 8))
+
+```
+
+## `if_any()` and `if_all()` are helpful!
 
 Work inside other tidyverse functions, like `across()`
 
@@ -169,30 +190,6 @@ iris %>% filter(if_all(where(is.numeric), ~ . > 2.4))
 
 <!-- iris %>% select(-Species) %>% filter(if_all(everything(), ~ . > 2.4)) -->
 
-## Previously we filtered for patterns or conditions..
-
-Seems a bit repetitive!
-
-```{r}
-mtcars %>%
-  filter(cyl > 3 & cyl < 8,
-         gear > 3 & gear < 8,
-         carb > 3 & carb < 8)
-```
-
-
-  
-## Now we can filter multiple columns!
-
-Multiple conditions simultaneously!
-
-```{r}
-mtcars %>%
-   filter(if_all(c(cyl, gear, carb), ~.x > 3 & .x < 8))
-
-```
-
-  
 ## `purrr` is also a super helpful package!
 
 "Designed to make your functions purrr."
@@ -223,21 +220,30 @@ The `purrr` package can be very helpful!
 
 the _* options specify the type of data output
 
-## map (and modify)
+## Using `map()`
+
 ![](https://dcl-prog.stanford.edu/images/map-step-2.png)
 [[source](https://dcl-prog.stanford.edu/purrr-parallel.html)]
 
 ```{r}
-x <-c(1.2, 2.3, 3.5, 4.6)
-map(x, round) %>% unlist()
+vect <- c(1.2, 2.3, 3.5, 4.6)
+map(vect, round) %>% unlist()
 ```
 
-## map (and modify)
+## Using `map_df()`
 
 ```{r}
-x <-tibble(values = c(1.2, 2.3, 3.5, 4.6))
-map_df(x,  round)
-modify(x, round)
+my_tibble <- tibble(
+  values = c(1.2, 2.3, 3.5, 4.6)
+)
+map_df(my_tibble, round)
+```
+
+## Using `modify()`
+
+```{r}
+modify(vect, round)
+modify(my_tibble, round)
 ```
 
 <!-- ## map2 -->
@@ -346,7 +352,7 @@ system.time(iris %>%
 * Can hold vectors, strings, matrices, models, list of other lists, lists upon lists!
 * Can reference data using $ (if the elements are named), or using [], or [[]]
 
-```{r makeList, comment="", prompt=TRUE}
+```{r makeList}
 mylist <- list(
   letters = c("A", "b", "c"),
   numbers = 1:3,
@@ -357,20 +363,20 @@ mylist <- list(
 
 ## List Structure
 
-```{r Lists, comment="", prompt=TRUE}
+```{r Lists}
 head(mylist)
 ```
 
 ## List referencing
 
-```{r Listsref1, comment="", prompt=TRUE}
+```{r Listsref1}
 mylist[1] # returns a list
 mylist["letters"] # returns a list
 ```
 
 ## List referencing
   
-```{r Listsrefvec, comment="", prompt=TRUE}  
+```{r Listsrefvec}  
 mylist[[1]] # returns the vector 'letters'
 mylist$letters # returns vector
 mylist[["letters"]] # returns the vector 'letters'
@@ -403,7 +409,7 @@ mylist[["letters"]] # returns the vector 'letters'
 
 You can also select multiple lists with the single brackets. 
 
-```{r Listsref2, comment="", prompt=TRUE}
+```{r Listsref2}
 mylist[1:2] # returns a list
 ```
 
@@ -427,7 +433,7 @@ str(mtcars %>% split(.$cyl))
 
 ```
 
-## great example with split()
+## great example with `split()`
 
 ```{r}
 
