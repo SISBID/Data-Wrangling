@@ -60,9 +60,9 @@ my_function(x = my_data)
 my_function(my_data)
 ```
 
-## Special tilda use
-If you see `~ .x` (or sometimes just `.` is used instead of `.x`) this means function(x){x}  - in other words we are passing x to a function.
-[https://adv-r.hadley.nz/functionals.html#purrr-shortcuts](https://adv-r.hadley.nz/functionals.html#purrr-shortcuts)
+## Special tilda use {.codesmall}
+
+If you see `~ .x` or `.` ... this means `function(x){x}`. In other words, we are passing `x` to a function. See [purrr-shortcuts](https://adv-r.hadley.nz/functionals.html#purrr-shortcuts)
 
 For example - this is not necessary but you could use it here:
 ```{r}
@@ -72,10 +72,10 @@ mtcars %>%
 
 mtcars %>% 
   mutate(across(.cols = c(disp, drat, wt, qsec), round)) %>%
-  head(1)
+  head(2)
 ```
 
-## Using `across` with arguments 
+## Using `across` with arguments {.codesmall}
 
 If you wish to also  pass arguments to the function that you are applying to the various columns, then you need to use the `~`  and `.x` (or `.`) as a place holder for what you the values you will be passing into the function.
 
@@ -95,7 +95,7 @@ mtcars %>%
 
 ## Using across with helpers to apply function to multiple columns
 
-https://tidyselect.r-lib.org/reference/select_helpers.html  
+`?tidyr_tidy_select`
 
 ```{r}
 mtcars %>% 
@@ -155,6 +155,8 @@ mtcars %>%
 
 ## `if_any()` and `if_all()` are also helpful!
 
+Work inside other tidyverse functions, like `across()`
+
 ```{r}
 
 iris %>% filter(Sepal.Length > 2.4 & Sepal.Width > 2.4 &
@@ -162,8 +164,10 @@ iris %>% filter(Sepal.Length > 2.4 & Sepal.Width > 2.4 &
 
 iris %>% filter(if_all(Sepal.Length:Petal.Width, ~ . > 2.4))
 
-#iris %>% select(-Species) %>% filter(if_all(everything(), ~ . > 2.4))
+iris %>% filter(if_all(where(is.numeric), ~ . > 2.4))
 ```
+
+<!-- iris %>% select(-Species) %>% filter(if_all(everything(), ~ . > 2.4)) -->
 
 ## Previously we filtered for patterns or conditions...2 general ways
 This can be done on multiple patterns like so:
@@ -223,54 +227,56 @@ the _* options specify the type of data output
 [[source](https://dcl-prog.stanford.edu/purrr-parallel.html)]
 
 ```{r}
-x <-c(1.2,2.3,3.5,4.6)
+x <-c(1.2, 2.3, 3.5, 4.6)
 map(x, round) %>% unlist()
 ```
 
 ## map (and modify)
+
 ```{r}
-x <-tibble(values = c(1.2,2.3,3.5,4.6))
+x <-tibble(values = c(1.2, 2.3, 3.5, 4.6))
 map_df(x,  round)
 modify(x, round)
 ```
 
-## map2
-Good if you need to use multiple vectors in a function together.
+<!-- ## map2 -->
 
-![](https://dcl-prog.stanford.edu/images/map2.png)
-[[source](https://dcl-prog.stanford.edu/purrr-parallel.html)]
+<!-- Good if you need to use multiple vectors in a function together. -->
 
-```{r}
-x <-c(1.2,2.3,3.5,4.6)
-y <-c(2.4,5.3, 6.4, 1.0)
-map2(x, y, min) %>% unlist()
-modify2(x, y, min)
-```
+<!-- ![](https://dcl-prog.stanford.edu/images/map2.png) -->
+<!-- [[source](https://dcl-prog.stanford.edu/purrr-parallel.html)] -->
 
-## Put it all together
+<!-- ```{r} -->
+<!-- x <-c(1.2, 2.3, 3.5, 4.6) -->
+<!-- y <-c(2.4, 5.3, 6.4, 1.0) -->
+<!-- map2(x, y, min) %>% unlist() -->
+<!-- modify2(x, y, min) -->
+<!-- ``` -->
 
-```{r}
+<!-- ## Put it all together -->
 
-trees %>% mutate(New = map2_dbl(Girth, Height, 
-                        function(x,y){ pi * ((x/2)/12)^2 * y})) %>% head(n = 3)
+<!-- ```{r} -->
 
-tree_fun <-function(x,y){ pi * ((x/2)/12)^2 * y}
-trees %>% mutate(New = modify2(.x= Girth, 
-                               .y= Height, tree_fun)) %>% head(n = 3)
-```
+<!-- trees %>% mutate(New = map2_dbl(Girth, Height,  -->
+<!--                         function(x,y){ pi * ((x/2)/12)^2 * y})) %>% head(n = 3) -->
 
-## pmap {.smaller}
+<!-- tree_fun <-function(x,y){ pi * ((x/2)/12)^2 * y} -->
+<!-- trees %>% mutate(New = modify2(.x= Girth,  -->
+<!--                                .y= Height, tree_fun)) %>% head(n = 3) -->
+<!-- ``` -->
 
-![](https://dcl-prog.stanford.edu/images/pmap-list.png)
-[[source](https://dcl-prog.stanford.edu/purrr-parallel.html)]
+<!-- ## pmap {.smaller} -->
 
-```{r}
-pmap_list <-
-  list(x = c(5,100,100,100), y = c(100,5, 200, 300), z = c(100,100, 6, 100))
+<!-- ![](https://dcl-prog.stanford.edu/images/pmap-list.png) -->
+<!-- [[source](https://dcl-prog.stanford.edu/purrr-parallel.html)] -->
 
-pmap(pmap_list, min) %>% unlist()
+<!-- ```{r} -->
+<!-- pmap_list <- -->
+<!--   list(x = c(5,100,100,100), y = c(100,5, 200, 300), z = c(100,100, 6, 100)) -->
 
-```
+<!-- pmap(pmap_list, min) %>% unlist() -->
+
+<!-- ``` -->
 
 
 ## `purrr` - apply function to all columns
@@ -301,8 +307,6 @@ mtcars %>%
   mutate(across(.cols = everything(), format, digits = 1)) %>%
   head(n = 2)
 ```
-
-
 
 ## `purrr` apply function to some columns like accross
 
@@ -338,12 +342,16 @@ system.time(iris %>%
 
 * Lists are the most flexible/"generic" data class in R
 * Can be created using list()
-* Can hold vectors, strings, matrices, models, list of other list, lists upon lists!
+* Can hold vectors, strings, matrices, models, list of other lists, lists upon lists!
 * Can reference data using $ (if the elements are named), or using [], or [[]]
 
 ```{r makeList, comment="", prompt=TRUE}
-mylist <- list(letters=c("A", "b", "c"), 
-        numbers=1:3, matrix(1:25, ncol=5), matrix(1:25, ncol=5))
+mylist <- list(
+  letters = c("A", "b", "c"),
+  numbers = 1:3,
+  matrix(1:25, ncol = 5),
+  matrix(1:25, ncol = 5)
+)
 ```
 
 ## List Structure
@@ -366,8 +374,6 @@ mylist[[1]] # returns the vector 'letters'
 mylist$letters # returns vector
 mylist[["letters"]] # returns the vector 'letters'
 ```
-
-
 
 
 <!-- ## Examples we will use -->
@@ -410,9 +416,9 @@ mylist[1:2] # returns a list
 <!-- mylist[[3]][1:2,1:2] -->
 <!-- ``` -->
 
-## Why lists
+## ... Why lists?
 
-## great example with split()
+## great example with `split()`
 
 ```{r}
 head(mtcars)
@@ -451,42 +457,57 @@ class(multifile_data)
 
 ```
 
-## Reading in multiple files{.smaller}
+## Reading in multiple files {.smaller}
 
 ```{r}
 multifile_data[[1]]
 ```
 
-## Reading in multiple files{.smaller}
+## Reading in multiple files {.smaller}
 
 ```{r}
 multifile_data[[2]]
 ```
 
-## Reading in multiple files
+## Reading in multiple files {.smaller}
 
 ```{r}
 multifile_data[[3]]
 ```
 
-## Fixing the second file
+## Fixing the second file {.smaller}
+
+First, separating by the `:`.
 
 ```{r}
-multifile_data[[2]] <- 
-  separate(multifile_data[[2]], 
-       col =`Sepal.Length:Sepal.Width:Petal.Length:Petal.Width:Species`, 
-              into = c("Sepal.Length", "Sepal.Width", 
-                      'Petal.Length', "Petal.Width", "Species"), 
-       sep = ":")
+multifile_data[[2]] <-
+  separate(
+    multifile_data[[2]],
+    col = `Sepal.Length:Sepal.Width:Petal.Length:Petal.Width:Species`,
+    into = c(
+      "Sepal.Length",
+      "Sepal.Width",
+      'Petal.Length',
+      "Petal.Width",
+      "Species"
+    ),
+    sep = ":"
+  )
 
 head(multifile_data[[2]], 3)
+```
 
+## Fixing the second file
+
+Second, making sure values are numeric.
+
+```{r}
 multifile_data[[2]] <-
   multifile_data[[2]] %>%
   mutate(across(!Species, as.numeric))
 
+head(multifile_data[[2]], 3)
 ```
-
 
 ## Reading in multiple files{.smaller}
 
@@ -511,100 +532,102 @@ tail(bindrows_data, 2)
 
 See https://www.opencasestudies.org/ocs-bp-vaping-case-study for more information!
 
+## Lab
+
+https://sisbid.github.io/Data-Wrangling/labs/functional-program-lab.Rmd
+
+<!-- ## Factors -->
+
+<!-- First we will create some data about absences for different students.  -->
+
+<!-- ```{r} -->
+<!-- set.seed(123) -->
+<!-- data_highschool <- tibble(absences = sample(0:7, size = 32, replace = TRUE),  -->
+<!--                           grade = rep(c("Freshman","Sophmore",  -->
+<!--                                         "Junior", "Senior"), 8)) -->
+<!-- head(data_highschool, 3) -->
+<!-- ``` -->
+
+<!-- Notice that `grade` is a `chr` variable. This indicates that the values are character strings. R does not realize that there is any order related to the `grade` values. However, we know that the order is: freshman, sophomore, junior, senior. -->
+
+<!-- ## Let's make a plot first: -->
+
+<!-- ```{r} -->
+<!-- #boxplot(data = data_highschool, absences ~ grade) -->
+<!-- data_highschool %>% -->
+<!--   ggplot(mapping = aes(x = grade, y = absences)) + -->
+<!--   geom_boxplot() -->
+
+<!-- ``` -->
 
 
-## Factors
+<!-- ## Not quite what we want -->
 
-First we will create some data about absences for different students. 
+<!-- OK this is very useful, but it is a bit difficult to read, because we expect the values to be plotted by the order that we know, not by alphabetical order. Currently `grade` is class `character` but let's change that to class `factor` which allows us to specify the levels or order of the values. -->
 
-```{r}
-set.seed(123)
-data_highschool <- tibble(absences = sample(0:7, size = 32, replace = TRUE), 
-                          grade = rep(c("Freshman","Sophmore", 
-                                        "Junior", "Senior"), 8))
-head(data_highschool, 3)
-```
+<!-- ## As factor now -->
 
-Notice that `grade` is a `chr` variable. This indicates that the values are character strings. R does not realize that there is any order related to the `grade` values. However, we know that the order is: freshman, sophomore, junior, senior.
+<!-- Using `as_factor()` from the `forcats` package the levels will be in the order in which they occur in the data! -->
 
-## Let's make a plot first:
+<!-- https://forcats.tidyverse.org/  -->
 
-```{r}
-#boxplot(data = data_highschool, absences ~ grade)
-data_highschool %>%
-  ggplot(mapping = aes(x = grade, y = absences)) +
-  geom_boxplot()
+<!-- ```{R} -->
+<!-- class(pull(data_highschool, grade)) -->
+<!-- data_highschool_fct <- data_highschool %>%  -->
+<!--   mutate(grade = as_factor(grade)) -->
+<!-- head(data_highschool_fct, 3) -->
+<!-- ``` -->
 
-```
+<!-- ## Now let's make our plot again: -->
 
+<!-- ```{r} -->
+<!-- #boxplot(data = data_highschool_fct, absences ~ grade) -->
+<!-- data_highschool_fct %>% -->
+<!--   ggplot(mapping = aes(x = grade, y = absences)) + -->
+<!--   geom_boxplot() -->
 
-## Not quite what we want
+<!-- ``` -->
 
-OK this is very useful, but it is a bit difficult to read, because we expect the values to be plotted by the order that we know, not by alphabetical order. Currently `grade` is class `character` but let's change that to class `factor` which allows us to specify the levels or order of the values.
+<!-- ## Calculatons with factors? -->
 
-## As factor now
+<!-- Now what about results from some calculations. -->
 
-Using `as_factor()` from the `forcats` package the levels will be in the order in which they occur in the data!
+<!-- ```{r} -->
+<!-- data_highschool %>% group_by(grade) %>% summarise(mean = mean(absences)) -->
 
-https://forcats.tidyverse.org/ 
+<!-- data_highschool_fct %>% group_by(grade) %>% summarise(mean = mean(absences)) -->
+<!-- ``` -->
 
-```{R}
-class(pull(data_highschool, grade))
-data_highschool_fct <- data_highschool %>% 
-  mutate(grade = as_factor(grade))
-head(data_highschool_fct, 3)
-```
+<!-- Here we see that the mean is calculated in the order we would like only for the version of the data that has absences coded as a factor! -->
 
-## Now let's make our plot again:
-
-```{r}
-#boxplot(data = data_highschool_fct, absences ~ grade)
-data_highschool_fct %>%
-  ggplot(mapping = aes(x = grade, y = absences)) +
-  geom_boxplot()
-
-```
-
-## Calculatons with factors?
-
-Now what about results from some calculations.
-
-```{r}
-data_highschool %>% group_by(grade) %>% summarise(mean = mean(absences))
-
-data_highschool_fct %>% group_by(grade) %>% summarise(mean = mean(absences))
-```
-
-Here we see that the mean is calculated in the order we would like only for the version of the data that has absences coded as a factor!
-
-## What if we want to change the factor level order? {.smaller}
+<!-- ## What if we want to change the factor level order? {.smaller} -->
 
 
-```{r}
-data_highschool_fct %>%
-  ggplot(mapping = aes(x = fct_reorder(grade, absences), 
-                       y = absences)) +
-  geom_boxplot()
-```
+<!-- ```{r} -->
+<!-- data_highschool_fct %>% -->
+<!--   ggplot(mapping = aes(x = fct_reorder(grade, absences),  -->
+<!--                        y = absences)) + -->
+<!--   geom_boxplot() -->
+<!-- ``` -->
 
-## Descending factor order {.smaller}
+<!-- ## Descending factor order {.smaller} -->
 
-```{r}
-data_highschool_fct %>%
-  ggplot(mapping = aes(x = fct_reorder(grade, absences, .desc = TRUE),
-                       y = absences)) +
-  geom_boxplot()
+<!-- ```{r} -->
+<!-- data_highschool_fct %>% -->
+<!--   ggplot(mapping = aes(x = fct_reorder(grade, absences, .desc = TRUE), -->
+<!--                        y = absences)) + -->
+<!--   geom_boxplot() -->
 
-```
+<!-- ``` -->
 
-## Claculations with reoder
+<!-- ## Claculations with reoder -->
 
-```{r}
+<!-- ```{r} -->
 
-data_highschool_fct %>% group_by(grade) %>% summarise(mean = mean(absences))
-data_highschool_fct %>% mutate(grade = fct_reorder(grade, absences, .desc = TRUE))
-data_highschool_fct %>% group_by(grade) %>% summarise(mean = mean(absences))
-```
+<!-- data_highschool_fct %>% group_by(grade) %>% summarise(mean = mean(absences)) -->
+<!-- data_highschool_fct %>% mutate(grade = fct_reorder(grade, absences, .desc = TRUE)) -->
+<!-- data_highschool_fct %>% group_by(grade) %>% summarise(mean = mean(absences)) -->
+<!-- ``` -->
 
 <!-- ## `purrr` map2 -->
 
@@ -719,3 +742,4 @@ data_highschool_fct %>% group_by(grade) %>% summarise(mean = mean(absences))
 <!--   select(name, title = titles) %>% -->
 <!--   unnest_longer(title) -->
 <!-- ``` -->
+

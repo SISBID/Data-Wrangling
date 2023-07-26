@@ -13,11 +13,13 @@ Additional content to read up on:
 https://jennybc.github.io/purrr-tutorial/ls01_map-name-position-shortcuts.html
 
 0. Create a new dataset from `iris` called `iris_lab`. Use this for the lab.
+
 ```{r}
 iris_lab <- iris
 ```
 
-1. Working with the `iris_lab` data, use `mutate` and `across` to change the numeric variables to be rounded with the `round` function.  Take a look with `head()`- do this for the rest of the questions in which you create an output of data.
+1. Working with the `iris_lab` data, use `mutate` and `across` to change the numeric variables to be rounded with the `round` function. Take a look with `head()`- do this for the rest of the questions in which you create an output of data.
+
 ```{r}
 
 ```
@@ -28,37 +30,32 @@ iris_lab <- iris
 
 ```
 
-3. Create a function for adding 2 to a value and dividing by 6. Call the function `new_function` and use x as the input. Apply this function to the numeric columns of the `iris_lab` data. Hint, start with `function(x){}`. Fill in the curly brackets.
+3. Create a function for adding 2 to a value and dividing by 6. Call the function `new_function` and use x as the input. Apply this function to the numeric columns of the `iris_lab` data. Hint: start with `function(x){}`. Fill in the curly brackets.
 
 ```{r}
 
 ```
 
-4. Now create a function that includes x and y inputs. Call the function `div_function` and use it to divide x by y and then add 3 to the outcome. Hint, start with `function(x, y){}`. Fill in the curly brackets.
-```{r}
-
-```
-
-5. Create a new variable in `iris_lab`called `calc_value` using the `div_function` and `map2_dbl` to calculate values with x as `Sepal.Length` and y as `Sepal.Width`. Hint, use `.x` and `.y` to indicate which one should be which.
+4. Now create a function that includes x and y inputs. Call the function `div_function` and use it to divide x by y and then add 3 to the outcome. Hint: start with `function(x, y){}`. Fill in the curly brackets.
 
 ```{r}
 
 ```
 
+5. Use `if_all()` to check if there are iris flowers with sepal and petal widths and lengths (all the `iris_lab` numeric variables) greater than 2 centimeters but less than 6 centimeters (which is the unit, if you type in ?iris you can learn more about the data). Hint - use `filter`. If any are, how many?
 
-6. Use `if_all()` to check if there are iris flowers with sepal and petal widths and lengths (all the `iris_lab` numeric variables) greater than 2 centimeters but less than 6 centimeters (which is the unit, if you type in ?iris you can learn more about the data). Hint - use `filter`. If any are, how many?
 ```{r}
 
 ```
 
+6.  the function `format()` with the argument `scientific = TRUE` can be used to format numbers in scientific notation. For example:
 
-7.  Use `modify_if` to convert numeric columns of `iris_lab` to be character. Convert this to be a tibble and reassign `iris_lab`.
+```{r}
+format(10000, scientific = TRUE)
+```
+
+Use `modify_if` to convert *numeric* columns of `iris_lab` to be in scientific notation. 
+
 ```{r}
 
 ```
-
-
-
-
-
-
