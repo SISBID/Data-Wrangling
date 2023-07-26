@@ -32,7 +32,7 @@ https://docs.google.com/spreadsheets/d/1U6Cf_qEOhiR9AZqTqS3mbMF3zt2db48ZP5v3rkrA
 
 ## Reading data with the googlesheets4 package
 
-First, set up Google credentials. This doesn't currently work with AnVIL.
+First, set up Google credentials.
 
 ```{r}
 library(googlesheets4)
@@ -111,7 +111,7 @@ for(g_sheet in gapminder_sheets){
 
 ## Reading data with the googlesheets4 package
 
-Iterate through the sheet names:
+Check out the list:
 
 ```{r}
 str(data_list)
@@ -125,6 +125,8 @@ Pull out sheets as needed:
 data_list[[{sheet}]]
 # OR
 data_list${sheet}
+# OR
+data_list %>% pluck({sheet})
 ```
 
 ```{r, out.width="80%", echo=FALSE, fig.alt='.'}
@@ -157,7 +159,9 @@ sheet_append(sheet_out, data = sheet_dat_oceania, sheet = "Oceania_days")
 
 https://jhudatascience.org/tidyversecourse/get-data.html#google-sheets
 
-# googlesheets Lab<br> http://sisbid.github.io/Data-Wrangling/labs/advanced-io-lab.Rmd
+## Lab
+
+http://sisbid.github.io/Data-Wrangling/labs/advanced-io-lab.Rmd
 
 # JSON: JavaScript Object Notation<br>Lists of stuff
 
@@ -210,9 +214,11 @@ class(jsonData$pokemon$next_evolution[[1]]) # Or lists of data.frames!
 jsonData$pokemon$next_evolution
 ```
 
-# JSON Lab<br> http://sisbid.github.io/Data-Wrangling/labs/advanced-io-lab.Rmd
+# Lab
 
-# Web Scraping
+http://sisbid.github.io/Data-Wrangling/labs/advanced-io-lab.Rmd
+
+# Extra Slides: Web Scraping and APIs
 
 ## This is data
 
