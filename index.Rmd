@@ -66,28 +66,27 @@ Make sure you have a GitHub profile: https://github.com/
 | 11:00-11:30 | Break                                        |                       |                                      |
 | 11:30-12:20 | [Reproducible Research][13] ([PDF][14])      | [lab][15]             | [lab key][16] / [lab key output][17] |
 | 12:20-12:35 | Break                                        |                       |                                      |
-| 12:35-1:25  | [Data Subsetting Part 1][22] ([PDF][23])            | [lab][24]             |       [lab key][25] / [lab key output][26]                               |
+| 12:35-1:25  | [Data Subsetting Part 1][22] ([PDF][23])     | [lab][24]             |       [lab key][25] / [lab key output][26]                               |
 | 1:25-1:40   | Break                                        |                       |                                      |
-| 1:40-2:30   | [Missing Data][x5] ([PDF][x6])         | [lab][x7] | [lab key][x8]/[lab key output][x9]                                      |
+| 1:40-2:30   | [Missing Data][x5] ([PDF][x6])               | [lab][x7]             | [lab key][x8]/[lab key output][x9]                                      |
 | **Day 2**   |                                              |                       |                                      |
 | 8:00-8:50   | [Data Subsetting Part 2][27] ([PDF][28])     | [lab][29]             | [lab key][30] / [lab key output][31]  |
 | 8:50-9:05   | Break                                        |                       |                                      |
-| 9:05-9:55   | [Data Summarization][32] ([PDF][33])     | [lab][34]            | [lab key][35] / [lab key output][36] |
+| 9:05-9:55   | [Data Summarization][32] ([PDF][33])         | [lab][34]             | [lab key][35] / [lab key output][36] |
 | 9:55-10:10  | Break                                        |                       |                                      |
-| 10:10-11:00 | [Data Cleaning Part 1][37] ([PDF][38])         | [lab][39]            | [lab key][40] / [lab key output][41]|
+| 10:10-11:00 | [Data Cleaning Part 1][37] ([PDF][38])       | [lab][39]             | [lab key][40] / [lab key output][41]|
 | 11:00-11:30 | Break                                        |                       |                                      |
-| 11:30-12:20 | [Data Cleaning Part 2][x10] ([PDF][x11])              | [lab][x12]             | [lab key][x13] / [lab key output][x14] |
+| 11:30-12:20 | [Data Cleaning Part 2][x10] ([PDF][x11])     | [lab][x12]            | [lab key][x13] / [lab key output][x14] |
 | 12:20-12:35 | Break                                        |                       |                                      |
 | 12:35-1:25  | [Data Reshaping][42] ([PDF][43])             | [lab][44]             | [lab key][45] / [lab key output][46] |
 | 1:25-1:40   | Break                                        |                       |                                      |
 | 1:40-2:30   | [Data Merging and Joining][47] ([PDF][48])   | [lab][49]             | [lab key][50] / [lab key output][51] |
 | **Day 3**   |                                              |                       |                                      |
-| 8:00-8:50   | [Advanced Data Input/Output][52] ([PDF][53]) | [lab][54]             | [lab key][55] / [lab key output][56] |
+| 8:00-8:50   | [Functionally Programming][57] ([PDF][58])   | [lab][59]             | [lab key][60] / [lab key output][61] |
 | 8:50-9:05   | Break                                        |                       |                                      |
-| 9:05-9:55   | [Functionally Programming][57] ([PDF][58])   | [lab][59]             | [lab key][60] / [lab key output][61] |
+| 9:05-9:55   | [Advanced Data Input/Output][52] ([PDF][53]) | [lab][54]             | [lab key][55] / [lab key output][56] |
 | 9:55-10:10  | Break                                        |                       |                                      |
-| 10:10-11:00 | [GitHub Concepts][18] ([PDF][19])  |        [lab][21]               |                                      |
-|             | [Updating files with GitHub][x3] ([PDF][x4]) |                       |                                      |
+| 10:10-11:00 | [GitHub Concepts][18] ([PDF][19])            |        [lab][21]      |                                      |
 |             | [Wrap Up][64] ([PDF][65])                    |                       |                                      |
 
 

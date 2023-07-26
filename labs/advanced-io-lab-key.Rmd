@@ -9,7 +9,6 @@ editor_options:
 
 ```{r, include=FALSE}
 library(tidyverse)
-library(httr)
 library(jsonlite)
 library(googlesheets4)
 ```
@@ -46,6 +45,13 @@ sheet_names(sheet_url)
 read_sheet(sheet_url, range =  cell_cols("A:B"))
 ```
 
+5. How often do you see the word "learn" in the dataset `x`? Hint: use a `stringr` function.
+
+```{r}
+x %>%
+  filter(str_detect(`Why are you taking this module (free text)`, pattern = "learn"))
+```
+
 ## JSON Lab
 
 <!-- See here for more fun practice! https://github.com/jdorfman/Awesome-JSON-Datasets -->
@@ -62,13 +68,34 @@ jsonData <- fromJSON("https://think.cs.vt.edu/corgis/datasets/json/airlines/airl
 
 ```{r, error = TRUE}
 str(jsonData)
+# Airport, Time and Statistics
+dim(jsonData$Airport)
+dim(jsonData$Time)
+dim(jsonData$Statistics)
+
+colnames(jsonData$Statistics)
 ```
 
-3. Filter `jsonData` to include only NYC LaGuardia and Chicago O'Hare airports (Code : "LGA", "ORD") and Year : 2016. Call this `lga_ord`.
+3. Filter `jsonData` to include only Year : 2016. Call this `air_2016`.
+
+```{r}
+air_2016 <- jsonData %>% 
+  filter(Time$Year == 2016)
+```
+
+4. How many unique Airports are there?
+
+```{r}
+air_2016$Airport %>% count()
+# OR
+length(unique(air_2016$Airport$Code))
+```
+
+5. Filter `air_2016` to include only NYC LaGuardia and Chicago O'Hare airports (Code : "LGA", "ORD"). Call this `lga_ord`.
 
 ```{r}
 lga_ord <- jsonData %>% 
-  filter(Airport$Code %in% c("LGA", "ORD") & Time$Year == 2016)
+  filter(Airport$Code %in% c("LGA", "ORD"))
 ```
 
 **Bonus Practice**

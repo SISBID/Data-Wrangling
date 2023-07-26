@@ -32,7 +32,7 @@ https://docs.google.com/spreadsheets/d/1U6Cf_qEOhiR9AZqTqS3mbMF3zt2db48ZP5v3rkrA
 
 ## Reading data with the googlesheets4 package
 
-First, set up Google credentials. This doesn't currently work with AnVIL.
+First, set up Google credentials.
 
 ```{r}
 library(googlesheets4)
@@ -98,20 +98,21 @@ sheet_names(sheet_url)
 
 ## Reading data with the googlesheets4 package
 
-Iterate through the sheet names:
+Iterate through the sheet names with `purrr`:
 
 ```{r}
 gapminder_sheets <- sheet_names(sheet_url)
 
-data_list <- list()
-for(g_sheet in gapminder_sheets){
-  data_list[[g_sheet]] = read_sheet(sheet_url, sheet = g_sheet)
-}
+data_list <- map(gapminder_sheets, ~ read_sheet(sheet_url, sheet = .x))
 ```
+
+<!-- for(g_sheet in gapminder_sheets){ -->
+<!--   data_list[[g_sheet]] = read_sheet(sheet_url, sheet = g_sheet) -->
+<!-- } -->
 
 ## Reading data with the googlesheets4 package
 
-Iterate through the sheet names:
+Check out the list:
 
 ```{r}
 str(data_list)
@@ -124,6 +125,8 @@ Pull out sheets as needed:
 ```{r eval=FALSE}
 data_list[[{sheet}]]
 # OR
+data_list %>% pluck({sheet})
+# OR (if named)
 data_list${sheet}
 ```
 
@@ -134,7 +137,7 @@ ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4
 ## Writing data with the googlesheets4 package
 
 ```{r}
-sheet_dat_oceania <- data_list$Oceania
+sheet_dat_oceania <- data_list[[5]]
 
 sheet_dat_oceania <- sheet_dat_oceania %>%
   mutate(lifeExp_days = lifeExp * 365)
@@ -157,7 +160,9 @@ sheet_append(sheet_out, data = sheet_dat_oceania, sheet = "Oceania_days")
 
 https://jhudatascience.org/tidyversecourse/get-data.html#google-sheets
 
-# googlesheets Lab<br> http://sisbid.github.io/Data-Wrangling/labs/advanced-io-lab.Rmd
+## Lab
+
+http://sisbid.github.io/Data-Wrangling/labs/advanced-io-lab.Rmd
 
 # JSON: JavaScript Object Notation<br>Lists of stuff
 
@@ -210,9 +215,11 @@ class(jsonData$pokemon$next_evolution[[1]]) # Or lists of data.frames!
 jsonData$pokemon$next_evolution
 ```
 
-# JSON Lab<br> http://sisbid.github.io/Data-Wrangling/labs/advanced-io-lab.Rmd
+# Lab
 
-# Web Scraping
+http://sisbid.github.io/Data-Wrangling/labs/advanced-io-lab.Rmd
+
+# Extra Slides: Web Scraping and APIs
 
 ## This is data
 
@@ -407,3 +414,6 @@ get_decennial(geography = "state",
                        variables = "P013001", # code for median age
                        year = 2010)
 ```
+
+
+
