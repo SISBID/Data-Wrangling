@@ -3282,7 +3282,7 @@ font-size: 16px;
 my_function</pre>
 
 <pre >## function(x){x + 1}
-## &lt;environment: 0x10b670f90&gt;</pre>
+## &lt;environment: 0x286fcd630&gt;</pre>
 
 <pre class = 'prettyprint lang-r'>my_data  &lt;- c(2,3,4)
 
@@ -3410,7 +3410,37 @@ my_function(x = my_data)</pre>
 
 <!-- ``` -->
 
-</article></slide><slide class=""><hgroup><h2><code>if_any()</code> and <code>if_all()</code> are also helpful!</h2></hgroup><article  id="if_any-and-if_all-are-also-helpful">
+</article></slide><slide class=""><hgroup><h2>Previously we filtered for patterns or conditions..</h2></hgroup><article  id="previously-we-filtered-for-patterns-or-conditions..">
+
+<p>Dilemma: Seems a bit repetitive!</p>
+
+<pre class = 'prettyprint lang-r'>mtcars %&gt;%
+  filter(cyl &gt; 3 &amp; cyl &lt; 8,
+         gear &gt; 3 &amp; gear &lt; 8,
+         carb &gt; 3 &amp; carb &lt; 8)</pre>
+
+<pre >##                mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4     21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
+## Merc 280      19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
+## Merc 280C     17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
+## Ferrari Dino  19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</pre>
+
+</article></slide><slide class=""><hgroup><h2>Now we can filter multiple columns!</h2></hgroup><article  id="now-we-can-filter-multiple-columns">
+
+<p><code>if_all()</code>: helps us filter on multiple similar conditions simultaneously!</p>
+
+<pre class = 'prettyprint lang-r'>mtcars %&gt;%
+   filter(if_all(c(cyl, gear, carb), ~.x &gt; 3 &amp; .x &lt; 8))</pre>
+
+<pre >##                mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4     21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
+## Merc 280      19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
+## Merc 280C     17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
+## Ferrari Dino  19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</pre>
+
+</article></slide><slide class=""><hgroup><h2><code>if_any()</code> and <code>if_all()</code> are helpful!</h2></hgroup><article  id="if_any-and-if_all-are-helpful">
 
 <p>Work inside other tidyverse functions, like <code>across()</code></p>
 
@@ -3438,36 +3468,6 @@ my_function(x = my_data)</pre>
 
 <!-- iris %>% select(-Species) %>% filter(if_all(everything(), ~ . > 2.4)) -->
 
-</article></slide><slide class=""><hgroup><h2>Previously we filtered for patterns or conditions..</h2></hgroup><article  id="previously-we-filtered-for-patterns-or-conditions..">
-
-<p>Seems a bit repetitive!</p>
-
-<pre class = 'prettyprint lang-r'>mtcars %&gt;%
-  filter(cyl &gt; 3 &amp; cyl &lt; 8,
-         gear &gt; 3 &amp; gear &lt; 8,
-         carb &gt; 3 &amp; carb &lt; 8)</pre>
-
-<pre >##                mpg cyl  disp  hp drat    wt  qsec vs am gear carb
-## Mazda RX4     21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-## Mazda RX4 Wag 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-## Merc 280      19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
-## Merc 280C     17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-## Ferrari Dino  19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</pre>
-
-</article></slide><slide class=""><hgroup><h2>Now we can filter multiple columns!</h2></hgroup><article  id="now-we-can-filter-multiple-columns">
-
-<p>Multiple conditions simultaneously!</p>
-
-<pre class = 'prettyprint lang-r'>mtcars %&gt;%
-   filter(if_all(c(cyl, gear, carb), ~.x &gt; 3 &amp; .x &lt; 8))</pre>
-
-<pre >##                mpg cyl  disp  hp drat    wt  qsec vs am gear carb
-## Mazda RX4     21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-## Mazda RX4 Wag 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-## Merc 280      19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
-## Merc 280C     17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-## Ferrari Dino  19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</pre>
-
 </article></slide><slide class=""><hgroup><h2><code>purrr</code> is also a super helpful package!</h2></hgroup><article  id="purrr-is-also-a-super-helpful-package">
 
 <p>&ldquo;Designed to make your functions purrr.&rdquo;</p>
@@ -3492,19 +3492,21 @@ my_function(x = my_data)</pre>
 
 <p>the _* options specify the type of data output</p>
 
-</article></slide><slide class=""><hgroup><h2>map (and modify)</h2></hgroup><article  id="map-and-modify">
+</article></slide><slide class=""><hgroup><h2>Using <code>map()</code></h2></hgroup><article  id="using-map">
 
 <p><img src='https://dcl-prog.stanford.edu/images/map-step-2.png' title=''/> [<a href='https://dcl-prog.stanford.edu/purrr-parallel.html' title=''>source</a>]</p>
 
-<pre class = 'prettyprint lang-r'>x &lt;-c(1.2, 2.3, 3.5, 4.6)
-map(x, round) %&gt;% unlist()</pre>
+<pre class = 'prettyprint lang-r'>vect &lt;- c(1.2, 2.3, 3.5, 4.6)
+map(vect, round) %&gt;% unlist()</pre>
 
 <pre >## [1] 1 2 4 5</pre>
 
-</article></slide><slide class=""><hgroup><h2>map (and modify)</h2></hgroup><article  id="map-and-modify-1">
+</article></slide><slide class=""><hgroup><h2>Using <code>map_df()</code></h2></hgroup><article  id="using-map_df">
 
-<pre class = 'prettyprint lang-r'>x &lt;-tibble(values = c(1.2, 2.3, 3.5, 4.6))
-map_df(x,  round)</pre>
+<pre class = 'prettyprint lang-r'>my_tibble &lt;- tibble(
+  values = c(1.2, 2.3, 3.5, 4.6)
+)
+map_df(my_tibble, round)</pre>
 
 <pre >## # A tibble: 4 × 1
 ##   values
@@ -3514,7 +3516,13 @@ map_df(x,  round)</pre>
 ## 3      4
 ## 4      5</pre>
 
-<pre class = 'prettyprint lang-r'>modify(x, round)</pre>
+</article></slide><slide class=""><hgroup><h2>Using <code>modify()</code></h2></hgroup><article  id="using-modify">
+
+<pre class = 'prettyprint lang-r'>modify(vect, round)</pre>
+
+<pre >## [1] 1 2 4 5</pre>
+
+<pre class = 'prettyprint lang-r'>modify(my_tibble, round)</pre>
 
 <pre >## # A tibble: 4 × 1
 ##   values
@@ -3661,13 +3669,13 @@ head(mtcars, 2)</pre>
               modify_if(is.factor, as.character))</pre>
 
 <pre >##    user  system elapsed 
-##   0.006   0.010   0.018</pre>
+##   0.000   0.000   0.001</pre>
 
 <pre class = 'prettyprint lang-r'>system.time(iris %&gt;%
                mutate(across(.cols = where(is.factor), as.character)))</pre>
 
 <pre >##    user  system elapsed 
-##   0.002   0.000   0.001</pre>
+##   0.001   0.000   0.001</pre>
 
 </article></slide><slide class=""><hgroup><h2>What is a &lsquo;list&rsquo;?</h2></hgroup><article  id="what-is-a-list">
 
@@ -3678,64 +3686,64 @@ head(mtcars, 2)</pre>
 <li>Can reference data using $ (if the elements are named), or using [], or [[]]</li>
 </ul>
 
-<pre class = 'prettyprint lang-r'>&gt; mylist &lt;- list(
-+   letters = c(&quot;A&quot;, &quot;b&quot;, &quot;c&quot;),
-+   numbers = 1:3,
-+   matrix(1:25, ncol = 5),
-+   matrix(1:25, ncol = 5)
-+ )</pre>
+<pre class = 'prettyprint lang-r'>mylist &lt;- list(
+  letters = c(&quot;A&quot;, &quot;b&quot;, &quot;c&quot;),
+  numbers = 1:3,
+  matrix(1:25, ncol = 5),
+  matrix(1:25, ncol = 5)
+)</pre>
 
 </article></slide><slide class=""><hgroup><h2>List Structure</h2></hgroup><article  id="list-structure">
 
-<pre class = 'prettyprint lang-r'>&gt; head(mylist)</pre>
+<pre class = 'prettyprint lang-r'>head(mylist)</pre>
 
-<pre >$letters
-[1] &quot;A&quot; &quot;b&quot; &quot;c&quot;
-
-$numbers
-[1] 1 2 3
-
-[[3]]
-     [,1] [,2] [,3] [,4] [,5]
-[1,]    1    6   11   16   21
-[2,]    2    7   12   17   22
-[3,]    3    8   13   18   23
-[4,]    4    9   14   19   24
-[5,]    5   10   15   20   25
-
-[[4]]
-     [,1] [,2] [,3] [,4] [,5]
-[1,]    1    6   11   16   21
-[2,]    2    7   12   17   22
-[3,]    3    8   13   18   23
-[4,]    4    9   14   19   24
-[5,]    5   10   15   20   25</pre>
+<pre >## $letters
+## [1] &quot;A&quot; &quot;b&quot; &quot;c&quot;
+## 
+## $numbers
+## [1] 1 2 3
+## 
+## [[3]]
+##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    1    6   11   16   21
+## [2,]    2    7   12   17   22
+## [3,]    3    8   13   18   23
+## [4,]    4    9   14   19   24
+## [5,]    5   10   15   20   25
+## 
+## [[4]]
+##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    1    6   11   16   21
+## [2,]    2    7   12   17   22
+## [3,]    3    8   13   18   23
+## [4,]    4    9   14   19   24
+## [5,]    5   10   15   20   25</pre>
 
 </article></slide><slide class=""><hgroup><h2>List referencing</h2></hgroup><article  id="list-referencing">
 
-<pre class = 'prettyprint lang-r'>&gt; mylist[1] # returns a list</pre>
+<pre class = 'prettyprint lang-r'>mylist[1] # returns a list</pre>
 
-<pre >$letters
-[1] &quot;A&quot; &quot;b&quot; &quot;c&quot;</pre>
+<pre >## $letters
+## [1] &quot;A&quot; &quot;b&quot; &quot;c&quot;</pre>
 
-<pre class = 'prettyprint lang-r'>&gt; mylist[&quot;letters&quot;] # returns a list</pre>
+<pre class = 'prettyprint lang-r'>mylist[&quot;letters&quot;] # returns a list</pre>
 
-<pre >$letters
-[1] &quot;A&quot; &quot;b&quot; &quot;c&quot;</pre>
+<pre >## $letters
+## [1] &quot;A&quot; &quot;b&quot; &quot;c&quot;</pre>
 
 </article></slide><slide class=""><hgroup><h2>List referencing</h2></hgroup><article  id="list-referencing-1">
 
-<pre class = 'prettyprint lang-r'>&gt; mylist[[1]] # returns the vector &#39;letters&#39;</pre>
+<pre class = 'prettyprint lang-r'>mylist[[1]] # returns the vector &#39;letters&#39;</pre>
 
-<pre >[1] &quot;A&quot; &quot;b&quot; &quot;c&quot;</pre>
+<pre >## [1] &quot;A&quot; &quot;b&quot; &quot;c&quot;</pre>
 
-<pre class = 'prettyprint lang-r'>&gt; mylist$letters # returns vector</pre>
+<pre class = 'prettyprint lang-r'>mylist$letters # returns vector</pre>
 
-<pre >[1] &quot;A&quot; &quot;b&quot; &quot;c&quot;</pre>
+<pre >## [1] &quot;A&quot; &quot;b&quot; &quot;c&quot;</pre>
 
-<pre class = 'prettyprint lang-r'>&gt; mylist[[&quot;letters&quot;]] # returns the vector &#39;letters&#39;</pre>
+<pre class = 'prettyprint lang-r'>mylist[[&quot;letters&quot;]] # returns the vector &#39;letters&#39;</pre>
 
-<pre >[1] &quot;A&quot; &quot;b&quot; &quot;c&quot;</pre>
+<pre >## [1] &quot;A&quot; &quot;b&quot; &quot;c&quot;</pre>
 
 <!-- ## Examples we will use -->
 
@@ -3763,13 +3771,13 @@ $numbers
 
 <p>You can also select multiple lists with the single brackets.</p>
 
-<pre class = 'prettyprint lang-r'>&gt; mylist[1:2] # returns a list</pre>
+<pre class = 'prettyprint lang-r'>mylist[1:2] # returns a list</pre>
 
-<pre >$letters
-[1] &quot;A&quot; &quot;b&quot; &quot;c&quot;
-
-$numbers
-[1] 1 2 3</pre>
+<pre >## $letters
+## [1] &quot;A&quot; &quot;b&quot; &quot;c&quot;
+## 
+## $numbers
+## [1] 1 2 3</pre>
 
 <!-- ## List referencing -->
 
