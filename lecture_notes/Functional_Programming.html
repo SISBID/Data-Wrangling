@@ -3282,7 +3282,7 @@ font-size: 16px;
 my_function</pre>
 
 <pre >## function(x){x + 1}
-## &lt;environment: 0x10bcc5518&gt;</pre>
+## &lt;environment: 0x10b670f90&gt;</pre>
 
 <pre class = 'prettyprint lang-r'>my_data  &lt;- c(2,3,4)
 
@@ -3438,30 +3438,25 @@ my_function(x = my_data)</pre>
 
 <!-- iris %>% select(-Species) %>% filter(if_all(everything(), ~ . > 2.4)) -->
 
-</article></slide><slide class=""><hgroup><h2>Previously we filtered for patterns or conditions…2 general ways</h2></hgroup><article  id="previously-we-filtered-for-patterns-or-conditions2-general-ways">
+</article></slide><slide class=""><hgroup><h2>Previously we filtered for patterns or conditions..</h2></hgroup><article  id="previously-we-filtered-for-patterns-or-conditions..">
 
-<p>This can be done on multiple patterns like so:</p>
+<p>Seems a bit repetitive!</p>
 
-<pre class = 'prettyprint lang-r'>library(stringr)
-diamonds %&gt;%
-    filter(str_detect(cut, &quot;Ideal|Premium&quot;)) %&gt;% head(2)</pre>
+<pre class = 'prettyprint lang-r'>mtcars %&gt;%
+  filter(cyl &gt; 3 &amp; cyl &lt; 8,
+         gear &gt; 3 &amp; gear &lt; 8,
+         carb &gt; 3 &amp; carb &lt; 8)</pre>
 
-<pre >## # A tibble: 2 × 10
-##   carat cut     color clarity depth table price     x     y     z
-##   &lt;dbl&gt; &lt;ord&gt;   &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1  0.23 Ideal   E     SI2      61.5    55   326  3.95  3.98  2.43
-## 2  0.21 Premium E     SI1      59.8    61   326  3.89  3.84  2.31</pre>
+<pre >##                mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4     21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
+## Merc 280      19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
+## Merc 280C     17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
+## Ferrari Dino  19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</pre>
 
-<pre class = 'prettyprint lang-r'>diamonds %&gt;%
-    filter(cut %in% c(&quot;Ideal&quot;, &quot;Premium&quot;), z &gt; 4 , color == &quot;E&quot;) %&gt;% head(2)</pre>
+</article></slide><slide class=""><hgroup><h2>Now we can filter multiple columns!</h2></hgroup><article  id="now-we-can-filter-multiple-columns">
 
-<pre >## # A tibble: 2 × 10
-##   carat cut     color clarity depth table price     x     y     z
-##   &lt;dbl&gt; &lt;ord&gt;   &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1  1.22 Premium E     I1       60.9    57  2862  6.93  6.88  4.21
-## 2  1.25 Ideal   E     I1       60.9    56  3276  6.95  6.91  4.22</pre>
-
-</article></slide><slide class=""><hgroup><h2>Now we can filter multiple columns for multiple conditions simultaneously!</h2></hgroup><article  id="now-we-can-filter-multiple-columns-for-multiple-conditions-simultaneously">
+<p>Multiple conditions simultaneously!</p>
 
 <pre class = 'prettyprint lang-r'>mtcars %&gt;%
    filter(if_all(c(cyl, gear, carb), ~.x &gt; 3 &amp; .x &lt; 8))</pre>
@@ -3626,18 +3621,6 @@ head(mtcars, 2)</pre>
   mutate(across(.cols = everything(), format, digits = 1)) %&gt;%
   head(n = 2)</pre>
 
-<pre >## Warning: There was 1 warning in `mutate()`.
-## ℹ In argument: `across(.cols = everything(), format, digits = 1)`.
-## Caused by warning:
-## ! The `...` argument of `across()` is deprecated as of dplyr 1.1.0.
-## Supply arguments directly to `.fns` through an anonymous function instead.
-## 
-##   # Previously
-##   across(a:b, mean, na.rm = TRUE)
-## 
-##   # Now
-##   across(a:b, \(x) mean(x, na.rm = TRUE))</pre>
-
 <pre >##               mpg cyl disp  hp drat wt qsec vs am gear carb
 ## Mazda RX4      21   6  160 110    4  3   16  0  1    4    4
 ## Mazda RX4 Wag  21   6  160 110    4  3   17  0  1    4    4</pre>
@@ -3678,13 +3661,13 @@ head(mtcars, 2)</pre>
               modify_if(is.factor, as.character))</pre>
 
 <pre >##    user  system elapsed 
-##   0.001   0.000   0.001</pre>
+##   0.006   0.010   0.018</pre>
 
 <pre class = 'prettyprint lang-r'>system.time(iris %&gt;%
                mutate(across(.cols = where(is.factor), as.character)))</pre>
 
 <pre >##    user  system elapsed 
-##   0.002   0.000   0.002</pre>
+##   0.002   0.000   0.001</pre>
 
 </article></slide><slide class=""><hgroup><h2>What is a &lsquo;list&rsquo;?</h2></hgroup><article  id="what-is-a-list">
 

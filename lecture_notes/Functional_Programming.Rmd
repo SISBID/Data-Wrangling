@@ -169,21 +169,22 @@ iris %>% filter(if_all(where(is.numeric), ~ . > 2.4))
 
 <!-- iris %>% select(-Species) %>% filter(if_all(everything(), ~ . > 2.4)) -->
 
-## Previously we filtered for patterns or conditions...2 general ways
-This can be done on multiple patterns like so:
+## Previously we filtered for patterns or conditions..
+
+Seems a bit repetitive!
 
 ```{r}
-library(stringr)
-diamonds %>%
-    filter(str_detect(cut, "Ideal|Premium")) %>% head(2)
-
-diamonds %>%
-    filter(cut %in% c("Ideal", "Premium"), z > 4 , color == "E") %>% head(2)
+mtcars %>%
+  filter(cyl > 3 & cyl < 8,
+         gear > 3 & gear < 8,
+         carb > 3 & carb < 8)
 ```
 
 
   
-## Now we can filter multiple columns for multiple conditions simultaneously!
+## Now we can filter multiple columns!
+
+Multiple conditions simultaneously!
 
 ```{r}
 mtcars %>%

@@ -68,12 +68,10 @@ iris %>% filter(if_all(where(is.numeric), ~ . > 2.4))
 
 
 ## -------------------------------------------------------------------------------------------------------------
-library(stringr)
-diamonds %>%
-    filter(str_detect(cut, "Ideal|Premium")) %>% head(2)
-
-diamonds %>%
-    filter(cut %in% c("Ideal", "Premium"), z > 4 , color == "E") %>% head(2)
+mtcars %>%
+  filter(cyl > 3 & cyl < 8,
+         gear > 3 & gear < 8,
+         carb > 3 & carb < 8)
 
 
 ## -------------------------------------------------------------------------------------------------------------
