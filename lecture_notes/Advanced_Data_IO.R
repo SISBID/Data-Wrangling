@@ -51,10 +51,7 @@ sheet_names(sheet_url)
 ## -------------------------------------------------------------------------------------------------------------
 gapminder_sheets <- sheet_names(sheet_url)
 
-data_list <- list()
-for(g_sheet in gapminder_sheets){
-  data_list[[g_sheet]] = read_sheet(sheet_url, sheet = g_sheet)
-}
+data_list <- map(gapminder_sheets, ~ read_sheet(sheet_url, sheet = .x))
 
 
 ## -------------------------------------------------------------------------------------------------------------
@@ -64,9 +61,9 @@ str(data_list)
 ## ----eval=FALSE-----------------------------------------------------------------------------------------------
 ## data_list[[{sheet}]]
 ## # OR
-## data_list${sheet}
-## # OR
 ## data_list %>% pluck({sheet})
+## # OR (if named)
+## data_list${sheet}
 
 
 ## ---- out.width="80%", echo=FALSE, fig.alt='.'----------------------------------------------------------------
@@ -74,7 +71,7 @@ ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4
 
 
 ## -------------------------------------------------------------------------------------------------------------
-sheet_dat_oceania <- data_list$Oceania
+sheet_dat_oceania <- data_list[[5]]
 
 sheet_dat_oceania <- sheet_dat_oceania %>%
   mutate(lifeExp_days = lifeExp * 365)
