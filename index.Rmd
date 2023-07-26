@@ -87,7 +87,6 @@ Make sure you have a GitHub profile: https://github.com/
 | 9:05-9:55   | [Advanced Data Input/Output][52] ([PDF][53]) | [lab][54]             | [lab key][55] / [lab key output][56] |
 | 9:55-10:10  | Break                                        |                       |                                      |
 | 10:10-11:00 | [GitHub Concepts][18] ([PDF][19])            |        [lab][21]      |                                      |
-|             | [Updating files with GitHub][x3] ([PDF][x4]) |                       |                                      |
 |             | [Wrap Up][64] ([PDF][65])                    |                       |                                      |
 
 
