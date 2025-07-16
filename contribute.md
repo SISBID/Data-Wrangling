@@ -1,4 +1,4 @@
-Contributing
+## Contributing
 
 For future instructors, the following may be helpful.
 
