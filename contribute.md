@@ -7,7 +7,7 @@ A sheet with a checklist for setting up the course and dividing lectures can be 
 
 Currently all rendering is done manually, we found this easier for this repo as we often make changes right before lecture and rendering the site can take very long, although we usually use GitHub Actions (see https://github.com/jhudsl/intro_to_r). 
 
-There are also lectures that are on our Google Drive. These are added to the index file to update the schedule. Be sure to download the PDF version and upload it to GitHub with the current filename to populate the schedule with the newest version.
+There are also several Google Slide lectures that are on our [Google Drive](https://drive.google.com/drive/folders/1GHfONWXJ_b7LPAFlQhrFSzFi0Dcp-f96). These are added to the index file to update the schedule. Be sure to download the PDF version and upload it to GitHub with the current filename to populate the schedule with the newest version.
 There is an older scripts for downloading PDFs in a more automated way. 
 
 
