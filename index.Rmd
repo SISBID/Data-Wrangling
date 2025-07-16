@@ -21,7 +21,7 @@ output:
 Please install the latest versions of R and RStudio:
 https://sisbid.github.io/Data-Wrangling/lecture_notes/Setup.html
 
-Make sure you have git installed: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+Make sure you have git installed: `r config::get("git_downloads_link")`
 
 Make sure you have a GitHub profile: https://github.com/
 
@@ -81,7 +81,7 @@ Make sure you have a GitHub profile: https://github.com/
 
 [x1]: lecture_notes/Setup.html
 [x2]: lecture_notes/Setup.pdf
-[01]: https://docs.google.com/presentation/d/1gy9KJt2FZv8p85rhFKFOlFXRr9v7rz0nMnrws8g5mdc/edit?usp=sharing
+[01]: https://docs.google.com/presentation/d/1-jw_njYpdg46WClUVtLwLTb9TyD25cudvzNhKEJuXkA/edit?usp=sharing
 [02]: lecture_notes/sisbid_intro_2024.pdf
 [03]: lecture_notes/Data_IO_Part1.html
 [04]: lecture_notes/Data_IO_Part1.pdf
@@ -93,14 +93,13 @@ Make sure you have a GitHub profile: https://github.com/
 [10]: labs/data-io-lab-part2.Rmd
 [11]: labs/data-io-lab-part2-key.Rmd
 [12]: labs/data-io-lab-part2-key.html
-[13]: https://docs.google.com/presentation/d/19HPlH3jLCzdjZYWS1jpYB7IIlj-YCSGCq1E-FpGJzAw/edit?usp=sharing
+[13]: https://docs.google.com/presentation/d/1zFT-rvoN_T88CrDBCaPNDKVME52wUn5AIvLS7VVDqu4/edit?usp=sharing
 [14]: lecture_notes/sisbid_rep_research_2024.pdf
 [15]: labs/rmarkdown-lab.Rmd
 [16]: labs/rmarkdown-lab-key.Rmd
 [17]: labs/rmarkdown-lab-key.html
-[18]: https://docs.google.com/presentation/d/1-mSv1WMFmlu_93-cMKKHqD1zi8Q6meLVUV7S_G0ZBTo/edit?usp=sharing
+[18]: https://docs.google.com/presentation/d/1BmnR41zIDZaRcBaQcmczO_I84NTb07WPN-0fKYWwuoQ/edit?usp=sharing
 [19]: lecture_notes/sisbid_github_2024.pdf
-[20]: https://lab.github.com/githubtraining/introduction-to-github
 [21]: labs/github-lab.md
 [x5]: lecture_notes/Data_Missing.html
 [x6]: lecture_notes/Data_Missing.pdf
@@ -158,7 +157,7 @@ Make sure you have a GitHub profile: https://github.com/
 [61]: labs/functional-program-lab-key.html
 [62]: lecture_notes/Bioconductor_intro.html
 [63]: lecture_notes/Bioconductor_intro.pdf
-[64]: https://docs.google.com/presentation/d/1Q8CnyHd3YJMUxoRNk5611GmPN-cBks5TfWoDMWZT6Eg/edit?usp=sharing
+[64]: https://docs.google.com/presentation/d/1ZGf90Ho1UeT0k1V9NwSxQYUk4ZtU9L-UY0RfoOa96OU/edit?usp=sharing
 [65]: lecture_notes/sisbid_wrap_up_2024.pdf
 
 **Miscellaneous**

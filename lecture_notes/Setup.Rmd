@@ -114,7 +114,7 @@ Use the above to install `knitr` package. Execute the `library(...)` command to 
 
 ## Install Git {#install-git}
 
-Follow the directions at https://git-scm.com/book/en/v2/Getting-Started-Installing-Git to install git on your computer.
+Follow the directions at `r config::get("git_downloads_link")` to install git on your computer.
 
 ## Make a GitHub profile {#github-profile}
 
