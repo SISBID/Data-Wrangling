@@ -6,4 +6,5 @@ default:
   r_dl_windows: "https://cloud.r-project.org/bin/windows/base/R-4.5.1-win.exe"
   rstudio_dl_mac: "https://download1.rstudio.org/electron/macos/RStudio-2025.05.1-513.dmg"
   rstudio_dl_windows: "https://download1.rstudio.org/electron/windows/RStudio-2025.05.1-513.exe"
+  git_downloads_link: "https://git-scm.com/downloads"
 

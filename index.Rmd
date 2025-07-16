@@ -21,7 +21,7 @@ output:
 Please install the latest versions of R and RStudio:
 https://sisbid.github.io/Data-Wrangling/lecture_notes/Setup.html
 
-Make sure you have git installed: https://git-scm.com/downloads
+Make sure you have git installed: `r config::get("git_downloads_link")`
 
 Make sure you have a GitHub profile: https://github.com/
 
