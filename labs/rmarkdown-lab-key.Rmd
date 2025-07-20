@@ -5,7 +5,7 @@ output: html_document
 
 1. Try compiling this document using the "Knit HTML" button. What files are produced?
 2. Edit the output to be "word_document" and recompile. What files are produced?
-3. Try running the chunk below by pressing the green play button on the far right
+3. Try running the chunk below by pressing the green play button on the far right. What happens?
 
 ```{r chunk1}
 x = rnorm(100)
