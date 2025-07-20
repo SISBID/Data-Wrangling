@@ -5,8 +5,7 @@ output: html_document
 
 1. Try compiling this document using the "Knit HTML" button. What files are produced?
 2. Edit the output to be "word_document" and recompile. What files are produced?
-3. What does the label "chunk1" do in the following code chunk?
-
+3. Try running the chunk below by pressing the green play button on the far right. What happens?
 
 ```{r chunk1}
 x = rnorm(100)
@@ -16,21 +15,21 @@ plot(x)
 ### This is a primary header. Add a secondary header with ## on the line below and recompile.
 
 
-4. Change fig.height to something larger/smaller and see what happens
+4. Try pressing the run previous chunk button - the button that is to the left of the play button. What happens?
 
-```{r chunk2, fig.height=5}
+```{r chunk2}
 x = rnorm(100)
 plot(x)
 ```
 
-5. Add a chunk option of fig.align="center" to center this plot
+5. Add a chunk option of fig.width = 10 to this plot.
 
-```{r chunk3, fig.align="center" }
+```{r chunk3, fig.width = 10}
 x = rnorm(100)
 plot(x)
 ```
 
-6. Add a chunk option of echo=FALSE and see what happens
+6. Add a chunk option of echo=FALSE and see what happens.
 
 ```{r chunk4, echo=FALSE }
 x = rnorm(100)
@@ -38,12 +37,14 @@ plot(x)
 ```
 
 
-7. Check out the docs at: http://rmarkdown.rstudio.com/ and look under formats. See if you can create and compile an R markdown presentation. 
+7. Check out the docs at: http://rmarkdown.rstudio.com/ and look under formats. 
 
-8. Add the command devtools::session_info() to this chunk and look at the output
+8. Install the `devtools package` by copy pasting install.packages("devtools") into your console. Then load the package using `libray(devtools)` and the command `session_info()` in this chunk and look at the output.
 
 ```{r session_info}
-devtools::session_info()
+#install.packages("devtools")
+library(devtools)
+session_info()
 ```
 
 
