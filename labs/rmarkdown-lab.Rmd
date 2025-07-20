@@ -41,12 +41,13 @@ plot(x)
 
 7. Check out the docs at: http://rmarkdown.rstudio.com/ and look under formats. See if you can create and compile an R markdown presentation.
 
-8. Add the command devtools::session_info() to this chunk and look at the output
+8. Install the `devtools package` by copy pasting install.packages("devtools") into your console. Then load the package using `libray(devtools)` and the command `session_info()` in this chunk and look at the output.
 
 ```{r session_info}
-
+#install.packages("devtools")
+library(devtools)
+session_info()
 ```
-
 
 
 
