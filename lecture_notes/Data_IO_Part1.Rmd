@@ -2,9 +2,10 @@
 title: "Data I/O"
 author: "Data Wrangling in R"
 output:
+  beamer_presentation: default
   ioslides_presentation:
     css: styles.css
-    widescreen: yes
+    widescreen: true
 ---
 
 ```{r, include = FALSE}
@@ -32,15 +33,17 @@ These slides were made in R using `knitr` and `R Markdown` (covered later today 
 ## R variables 
 
 A few reminders:
+
 * You can create variables from within the R environment and from files on your computer
+
 * Use "<-" to assign values to a variable name
+
 * Variable names are case-sensitive, i.e. X and x are different
 
 ```{r assign}
 x <- 2
 x
 x * 4
-x + 2
 ```
 
 
