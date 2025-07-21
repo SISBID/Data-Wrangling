@@ -3489,15 +3489,41 @@ colnames(ufo_clean)</pre>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Recoding Variables</h2></hgroup><article  id="recoding-variables">
 
-</article></slide><slide class=""><hgroup><h2>Exact Swaps - recode function</h2></hgroup><article  id="exact-swaps---recode-function">
+</article></slide><slide class=""><hgroup><h2>Exact Swaps - case_when function</h2></hgroup><article  id="exact-swaps---case_when-function">
 
-<pre >within mutate...
-recode(variable, value_old = value_new,
-           other_value_old = other_value_new)</pre>
+<pre >case_when(test ~ value if test is true,
+         test2 ~ vlue if test2 is true,
+      .default ~ value if all above tests are not true) # defaults to NA</pre>
 
 <pre class = 'prettyprint lang-r'>ufo_clean %&gt;% 
   mutate(country = 
-           recode(country, gb = &quot;Great Britain&quot;)) %&gt;% 
+           case_when(country == &quot;gb&quot; ~ &quot;Great Britain&quot;),
+         .default = country) %&gt;% 
+  glimpse()</pre>
+
+<pre >Rows: 88,679
+Columns: 12
+$ datetime           &lt;chr&gt; &quot;10/10/1949 20:30&quot;, &quot;10/10/1949 21:00&quot;, &quot;10/10/1955…
+$ city               &lt;chr&gt; &quot;san marcos&quot;, &quot;lackland afb&quot;, &quot;chester (uk/england)…
+$ state              &lt;chr&gt; &quot;tx&quot;, &quot;tx&quot;, NA, &quot;tx&quot;, &quot;hi&quot;, &quot;tn&quot;, NA, &quot;ct&quot;, &quot;al&quot;, &quot;…
+$ country            &lt;chr&gt; NA, NA, &quot;Great Britain&quot;, NA, NA, NA, &quot;Great Britain…
+$ shape              &lt;chr&gt; &quot;cylinder&quot;, &quot;light&quot;, &quot;circle&quot;, &quot;circle&quot;, &quot;light&quot;, &quot;…
+$ duration_seconds   &lt;chr&gt; &quot;2700&quot;, &quot;7200&quot;, &quot;20&quot;, &quot;20&quot;, &quot;900&quot;, &quot;300&quot;, &quot;180&quot;, &quot;1…
+$ duration_hours_min &lt;chr&gt; &quot;45 minutes&quot;, &quot;1-2 hrs&quot;, &quot;20 seconds&quot;, &quot;1/2 hour&quot;, …
+$ comments           &lt;chr&gt; &quot;This event took place in early fall around 1949-50…
+$ date_posted        &lt;chr&gt; &quot;4/27/2004&quot;, &quot;12/16/2005&quot;, &quot;1/21/2008&quot;, &quot;1/17/2004&quot;…
+$ latitude           &lt;chr&gt; &quot;29.8830556&quot;, &quot;29.38421&quot;, &quot;53.2&quot;, &quot;28.9783333&quot;, &quot;21…
+$ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;, &quot;-2.916667&quot;, &quot;-96.6458…
+$ .default           &lt;chr&gt; NA, NA, &quot;Great Britain&quot;, NA, NA, NA, &quot;Great Britain…</pre>
+
+</article></slide><slide class=""><hgroup><h2>case_when caviets</h2></hgroup><article  id="case_when-caviets">
+
+<p>.default may look like TRUE ~</p>
+
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% 
+  mutate(country = 
+           case_when(country == &quot;gb&quot; ~ &quot;Great Britain&quot;,
+         TRUE ~ country)) %&gt;% 
   glimpse()</pre>
 
 <pre >Rows: 88,679
@@ -3506,28 +3532,6 @@ $ datetime           &lt;chr&gt; &quot;10/10/1949 20:30&quot;, &quot;10/10/1949 
 $ city               &lt;chr&gt; &quot;san marcos&quot;, &quot;lackland afb&quot;, &quot;chester (uk/england)…
 $ state              &lt;chr&gt; &quot;tx&quot;, &quot;tx&quot;, NA, &quot;tx&quot;, &quot;hi&quot;, &quot;tn&quot;, NA, &quot;ct&quot;, &quot;al&quot;, &quot;…
 $ country            &lt;chr&gt; &quot;us&quot;, NA, &quot;Great Britain&quot;, &quot;us&quot;, &quot;us&quot;, &quot;us&quot;, &quot;Great…
-$ shape              &lt;chr&gt; &quot;cylinder&quot;, &quot;light&quot;, &quot;circle&quot;, &quot;circle&quot;, &quot;light&quot;, &quot;…
-$ duration_seconds   &lt;chr&gt; &quot;2700&quot;, &quot;7200&quot;, &quot;20&quot;, &quot;20&quot;, &quot;900&quot;, &quot;300&quot;, &quot;180&quot;, &quot;1…
-$ duration_hours_min &lt;chr&gt; &quot;45 minutes&quot;, &quot;1-2 hrs&quot;, &quot;20 seconds&quot;, &quot;1/2 hour&quot;, …
-$ comments           &lt;chr&gt; &quot;This event took place in early fall around 1949-50…
-$ date_posted        &lt;chr&gt; &quot;4/27/2004&quot;, &quot;12/16/2005&quot;, &quot;1/21/2008&quot;, &quot;1/17/2004&quot;…
-$ latitude           &lt;chr&gt; &quot;29.8830556&quot;, &quot;29.38421&quot;, &quot;53.2&quot;, &quot;28.9783333&quot;, &quot;21…
-$ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;, &quot;-2.916667&quot;, &quot;-96.6458…</pre>
-
-</article></slide><slide class=""><hgroup><h2>Exact Swaps - recode function</h2></hgroup><article  id="exact-swaps---recode-function-1">
-
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% mutate(country = 
-          recode(country, 
-                 gb = &quot;Great Britain&quot;,
-                 us = &quot;United States&quot;)) %&gt;% 
-  glimpse()</pre>
-
-<pre >Rows: 88,679
-Columns: 11
-$ datetime           &lt;chr&gt; &quot;10/10/1949 20:30&quot;, &quot;10/10/1949 21:00&quot;, &quot;10/10/1955…
-$ city               &lt;chr&gt; &quot;san marcos&quot;, &quot;lackland afb&quot;, &quot;chester (uk/england)…
-$ state              &lt;chr&gt; &quot;tx&quot;, &quot;tx&quot;, NA, &quot;tx&quot;, &quot;hi&quot;, &quot;tn&quot;, NA, &quot;ct&quot;, &quot;al&quot;, &quot;…
-$ country            &lt;chr&gt; &quot;United States&quot;, NA, &quot;Great Britain&quot;, &quot;United State…
 $ shape              &lt;chr&gt; &quot;cylinder&quot;, &quot;light&quot;, &quot;circle&quot;, &quot;circle&quot;, &quot;light&quot;, &quot;…
 $ duration_seconds   &lt;chr&gt; &quot;2700&quot;, &quot;7200&quot;, &quot;20&quot;, &quot;20&quot;, &quot;900&quot;, &quot;300&quot;, &quot;180&quot;, &quot;1…
 $ duration_hours_min &lt;chr&gt; &quot;45 minutes&quot;, &quot;1-2 hrs&quot;, &quot;20 seconds&quot;, &quot;1/2 hour&quot;, …
@@ -3554,14 +3558,14 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 
 <pre >case_when(test ~ value if test is true,
          test2 ~ vlue if test2 is true,
-         TRUE ~ value if all above tests are not true) # defaults to NA</pre>
+        .default ~ value if all above tests are not true) # defaults to NA</pre>
 
 <pre class = 'prettyprint lang-r'>ufo_clean &lt;- ufo_clean %&gt;% mutate( 
             region = case_when(
               country %in% c(&quot;us&quot;, &quot;ca&quot;) ~ &quot;North America&quot;,
               country %in% c(&quot;de&quot;) ~ &quot;Europe&quot;,
               country %in% &quot;gb&quot; ~ &quot;Great Britain&quot;,
-              TRUE ~ &quot;Other&quot;
+              .default = &quot;Other&quot;
             ))
 ufo_clean %&gt;% select(country, region) %&gt;% head()</pre>
 
@@ -3577,14 +3581,14 @@ ufo_clean %&gt;% select(country, region) %&gt;% head()</pre>
 
 </article></slide><slide class=""><hgroup><h2><code>case_when</code> - another example</h2></hgroup><article  id="case_when---another-example">
 
-<p>The <code>TRUE</code> value can also just be the original values.</p>
+<p>The <code>.default</code> value can also just be the original values.</p>
 
 <pre class = 'prettyprint lang-r'>ufo_clean %&gt;% mutate(country = case_when(
                   country == &quot;gb&quot; ~ &quot;Great Britain&quot;,
                   country == &quot;us&quot; ~&quot;United States&quot;,
                   country == &quot;au&quot; ~ &quot;Australia&quot;,
                   country == &quot;DE&quot; ~ &quot;Germany&quot;,
-                             TRUE ~ country))%&gt;%
+                             .default = country))%&gt;%
   glimpse()</pre>
 
 <pre >Rows: 88,679
@@ -3605,7 +3609,7 @@ $ region             &lt;chr&gt; &quot;North America&quot;, &quot;Other&quot;, &
 </article></slide><slide class=""><hgroup><h2>Summary</h2></hgroup><article  id="summary">
 
 <ul>
-<li><code>recode</code> makes exact swaps</li>
+<li><code>recode</code> is a function like case_when that only makes exact swaps that you might see</li>
 <li><code>case_when</code> can use conditionals, need to specify what value for if no conditions are met (can be the original value of a variable if we use the variable name).</li>
 </ul>
 
