@@ -4,7 +4,7 @@ author: "Data Wrangling in R"
 output:
   ioslides_presentation:
     css: styles.css
-    widescreen: yes
+    widescreen: true
   beamer_presentation: default
 ---
 
@@ -16,6 +16,28 @@ library(tidyverse)
 
 
 # Subsetting part 2
+
+## Recap
+
+We talked about many things yesterday!
+
+- using the GUI or `read_csv` & `read_delim` from the `readr` package to import data (and that `readxl` another package is needed for excel files)
+- saving data using `write_csv` & `write_rds`
+- that there are many practices that help reproducibility
+  - testing your rmarkdown knit regularly
+  - cleaning your environment 
+  - using rproj files
+  - using RMarkdown and describing your code and data sources
+  
+## Recap cont.
+
+- `filter` helps us filter rows based on conditions of columns
+- `pull` pulls out the values of a column into a vector
+- `select` grabs columns to make a smaller table
+- the `naniar` package is really helpful for missing data
+- the decision to remove `NA` values or recode them, depends on your data and what the values mean
+
+# Back to Subsetting!
 
 ## Data
 
