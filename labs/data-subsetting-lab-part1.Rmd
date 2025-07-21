@@ -25,14 +25,7 @@ library(tidyverse)
 ```
 
 
-2. What data class is `mpg`?
-```{r}
-
-
-
-```
-
-3. How many observations (rows) and variables (columns) are in the `mpg` dataset?
+2. How many observations (rows) and variables (columns) are in the `mpg` dataset?
 
 ```{r}
 
@@ -40,7 +33,7 @@ library(tidyverse)
 
 ```
 
-4. Select the `manufacturer`, `model` and `year` columns from the `mpg` dataset.
+3. Select the `manufacturer`, `model` and `year` columns from the `mpg` dataset.
 
 ```{r}
 
@@ -48,7 +41,7 @@ library(tidyverse)
 
 ```
 
-5. Identify the subset of cars/rows where city fuel economy (`cty`) is greater than 20 and highway fuel economy (`hwy`) is greater than 30. Assign this output to an object called `eff`. How many cars/rows are present?
+4. Identify the subset of cars/rows where city fuel economy (`cty`) is greater than 20 and highway fuel economy (`hwy`) is greater than 30. Assign this output to an object called `eff`. How many cars/rows are present?
 
 ```{r}
 
@@ -56,7 +49,7 @@ library(tidyverse)
 
 ```
 
-6. How many fuel efficient cars (in the `eff` dataset) were manufactured in the year 1999?
+5. How many fuel efficient cars (in the `eff` dataset) were manufactured in the year 1999?
 
 ```{r}
 
@@ -64,7 +57,8 @@ library(tidyverse)
 
 ```
 
-7. Filter cars from the overall `mpg` dataset that do not have 4 cylinder engines. How many cars/rows are there?
+
+6. Filter cars to only those in the "suv" or "minivan" class. How many cars/rows are there?
 
 ```{r}
 
@@ -72,7 +66,8 @@ library(tidyverse)
 
 ```
 
-8. Filter cars to only those in the "suv" or "minivan" class. How many cars/rows are there?
+
+7. Filter cars with displacements (`displ`) greater than 4 and that are all 4 wheel drive (`drv`) (a value of 4 for `drv`). How many cars/rows are there. 
 
 ```{r}
 
@@ -80,4 +75,13 @@ library(tidyverse)
 
 ```
 
-9. Filter cars with displacements (`displ`) greater than 4 and that are all 4 wheel drive (`drv`) (a value of 4 for `drv`). How many cars/rows are there. 
+## Practice on your own
+
+8. Filter cars from the overall mpg dataset that do not have 4 cylinder engines. How many cars/rows are there?
+
+```{r}
+
+
+
+```
+
