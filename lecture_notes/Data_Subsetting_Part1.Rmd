@@ -76,7 +76,7 @@ head(pull(diamonds,carat))
 
 ## Using the `pipe` (comes with `dplyr`):
 
-That was a lot of typing and nested functions, which can be confusing. Recently, the pipe `%>%` makes things such as this much more readable.  It reads left side "pipes" into right side.  RStudio `CMD/Ctrl + Shift + M` shortcut. 
+That was a lot of typing and nested functions, which can be confusing.  The pipe `%>%` or (you might see also this pipe `|>`) makes things such as this much more readable.  It reads left side "pipes" into right side.  RStudio `CMD/Ctrl + Shift + M` shortcut. 
 
 ## Using the `pipe` (comes with `dplyr`):
 
@@ -179,10 +179,10 @@ diamonds %>% filter(depth > 60)
 
 ## Subset rows of a `data.frame`:
 
-You can combine filtering on multiple columns by separating the filter arguments with commas:
+You can combine filtering on multiple columns by separating the filter arguments with `&` (or commas - but `&` is more clear)
 
 ```{r}
-diamonds %>% filter(depth > 60, table > 60, price > 2775)
+diamonds %>% filter(depth > 60 & table > 60 & price > 2775)
 ```
 
 ## Subset rows of a `data.frame`:
@@ -190,8 +190,8 @@ diamonds %>% filter(depth > 60, table > 60, price > 2775)
 You can also filter character strings by a single value or category. Here we need quotes around character strings. 
 
 ```{r}
-diamonds %>% filter(color == "I", 
-            clarity == "SI2", cut == "Premium")
+diamonds %>% filter(color == "I" & 
+            clarity == "SI2" & cut == "Premium")
 ```
 
 ## Subset rows of a `data.frame`:
@@ -207,8 +207,8 @@ diamonds %>% filter(clarity %in% c("SI1", "SI2"))
 You can mix and match filtering on numeric and categorical/character columns in the same `filter()` command:
 
 ```{r}
-diamonds %>% filter(clarity %in% c("SI1", "SI2"),
-                    cut == "Premium", price > 3000)
+diamonds %>% filter(clarity %in% c("SI1", "SI2") &
+                    cut == "Premium" & price > 3000)
 ```
 
 ## Note about quotes and numbers
@@ -238,15 +238,6 @@ Other useful logical tests:
 
 `!=` : not equals
 
-## Subset rows of a `data.frame`:
-
-The AND operator (`&`) is the what is being performed "behind the scenes" when chaining together filter statements with commas: 
-
-```{r}
-diamonds %>% filter(depth > 60 & table > 60 & price > 2775)
-```
-
-You can use either syntax.
 
 ## Subset rows of a `data.frame`:
 
