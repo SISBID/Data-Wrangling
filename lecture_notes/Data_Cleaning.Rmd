@@ -2,11 +2,10 @@
 title: "Data Cleaning Part 1"
 author: "Data Wrangling in R"
 output:
-  beamer_presentation: default
-  slidy_presentation: default
   ioslides_presentation:
     css: styles.css
-    widescreen: true
+    widescreen: yes
+  beamer_presentation: default
 ---
 
 
@@ -78,10 +77,16 @@ p %>% filter(col != 12)
 ## Taking a deeper look 
 
  The slice function can show us particular row numbers 
+ 
+```{r}
+ slice(ufo, 30894 -1) %>% glimpse()
+```
 
-```{r, include=TRUE}
-slice(ufo, 30894 -1) %>% glimpse()
-knitr::include_graphics(here::here("images", "raw_ufo_col6.png"))
+## Check the actual data
+
+```{r, include=TRUE, echo =FALSE, out.width="100%"}
+
+knitr::include_graphics("https://github.com/SISBID/Data-Wrangling/raw/gh-pages/images/raw_ufo_col6.png")
 ```
 
 ## Reading in again
@@ -154,35 +159,36 @@ colnames(ufo_clean)
 
 # Recoding Variables
 
-## Exact Swaps - recode function
+## Exact Swaps - case_when function
 
 ```
-within mutate...
-recode(variable, value_old = value_new,
-           other_value_old = other_value_new)
+case_when(test ~ value if test is true,
+         test2 ~ vlue if test2 is true,
+      .default ~ value if all above tests are not true) # defaults to NA
 ```
 
 ```{r}
 ufo_clean %>% 
   mutate(country = 
-           recode(country, gb = "Great Britain")) %>% 
+           case_when(country == "gb" ~ "Great Britain"),
+         .default = country) %>% 
   glimpse()
 
 ```
 
 
-## Exact Swaps - recode function
+## case_when caviets
 
+.default may look like TRUE ~
 
 ```{r}
-ufo_clean %>% mutate(country = 
-          recode(country, 
-                 gb = "Great Britain",
-                 us = "United States")) %>% 
+ufo_clean %>% 
+  mutate(country = 
+           case_when(country == "gb" ~ "Great Britain",
+         TRUE ~ country)) %>% 
   glimpse()
 
 ```
-
 
 
 ## How many countries?
@@ -196,7 +202,7 @@ ufo_clean %>% count(country)
 ```
 case_when(test ~ value if test is true,
          test2 ~ vlue if test2 is true,
-         TRUE ~ value if all above tests are not true) # defaults to NA
+        .default ~ value if all above tests are not true) # defaults to NA
 ```
 
 ```{r}
@@ -205,7 +211,7 @@ ufo_clean <- ufo_clean %>% mutate(
               country %in% c("us", "ca") ~ "North America",
               country %in% c("de") ~ "Europe",
               country %in% "gb" ~ "Great Britain",
-              TRUE ~ "Other"
+              .default = "Other"
             ))
 ufo_clean %>% select(country, region) %>% head()
 ```
@@ -214,7 +220,7 @@ ufo_clean %>% select(country, region) %>% head()
 
 ## `case_when` - another example
 
-The `TRUE` value can also just be the original values.
+The `.default` value can also just be the original values.
 
 ```{r}
 ufo_clean %>% mutate(country = case_when(
@@ -222,7 +228,7 @@ ufo_clean %>% mutate(country = case_when(
                   country == "us" ~"United States",
                   country == "au" ~ "Australia",
                   country == "DE" ~ "Germany",
-                             TRUE ~ country))%>%
+                             .default = country))%>%
   glimpse()
 
 ```
@@ -231,7 +237,7 @@ ufo_clean %>% mutate(country = case_when(
 
 ## Summary
 
-- `recode` makes exact swaps
+- `recode` is a function like case_when that only makes exact swaps that you might see
 - `case_when` can use conditionals, need to specify what value for if no conditions are met (can be the original value of a variable if we use the variable name).
 
 ## Lab
