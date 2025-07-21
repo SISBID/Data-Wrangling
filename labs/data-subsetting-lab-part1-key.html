@@ -380,11 +380,6 @@ the <code>ggplot2</code> package].</li>
 ## 10 audi         a4 quattro   2    2008     4 manu… 4        20    28 p     comp…
 ## # ℹ 224 more rows</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li>What data class is <code>mpg</code>?</li>
-</ol>
-<pre class="r"><code>class(mpg)</code></pre>
-<pre><code>## [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</code></pre>
-<ol start="3" style="list-style-type: decimal">
 <li>How many observations (rows) and variables (columns) are in the
 <code>mpg</code> dataset?</li>
 </ol>
@@ -408,7 +403,7 @@ the <code>ggplot2</code> package].</li>
 ## $ hwy          &lt;int&gt; 29, 29, 31, 30, 26, 26, 27, 26, 25, 28, 27, 25, 25, 25, 2…
 ## $ fl           &lt;chr&gt; &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p&quot;, &quot;p…
 ## $ class        &lt;chr&gt; &quot;compact&quot;, &quot;compact&quot;, &quot;compact&quot;, &quot;compact&quot;, &quot;compact&quot;, &quot;c…</code></pre>
-<ol start="4" style="list-style-type: decimal">
+<ol start="3" style="list-style-type: decimal">
 <li>Select the <code>manufacturer</code>, <code>model</code> and
 <code>year</code> columns from the <code>mpg</code> dataset.</li>
 </ol>
@@ -427,7 +422,7 @@ the <code>ggplot2</code> package].</li>
 ##  9 audi         a4 quattro  1999
 ## 10 audi         a4 quattro  2008
 ## # ℹ 224 more rows</code></pre>
-<ol start="5" style="list-style-type: decimal">
+<ol start="4" style="list-style-type: decimal">
 <li>Identify the subset of cars/rows where city fuel economy
 (<code>cty</code>) is greater than 20 and highway fuel economy
 (<code>hwy</code>) is greater than 30. Assign this output to an object
@@ -436,20 +431,13 @@ called <code>eff</code>. How many cars/rows are present?</li>
 <pre class="r"><code>eff &lt;- mpg %&gt;% filter(cty &gt; 20, hwy &gt; 30)
 dim(eff)</code></pre>
 <pre><code>## [1] 21 11</code></pre>
-<ol start="6" style="list-style-type: decimal">
+<ol start="5" style="list-style-type: decimal">
 <li>How many fuel efficient cars (in the <code>eff</code> dataset) were
 manufactured in the year 1999?</li>
 </ol>
 <pre class="r"><code>eff %&gt;% filter(year == 1999) %&gt;% nrow()</code></pre>
 <pre><code>## [1] 9</code></pre>
-<ol start="7" style="list-style-type: decimal">
-<li>Filter cars from the overall <code>mpg</code> dataset that do
-<strong>not</strong> have 4 cylinder engines. How many cars/rows are
-there?</li>
-</ol>
-<pre class="r"><code>mpg %&gt;% filter(cyl != 4) %&gt;% nrow()</code></pre>
-<pre><code>## [1] 153</code></pre>
-<ol start="8" style="list-style-type: decimal">
+<ol start="6" style="list-style-type: decimal">
 <li>Filter cars to only those in the “suv” or “minivan” class. How many
 cars/rows are there?</li>
 </ol>
@@ -458,13 +446,22 @@ mpg %&gt;% filter(class %in% c(&quot;suv&quot;, &quot;minivan&quot;)) %&gt;% nro
 <pre><code>## [1] 73</code></pre>
 <pre class="r"><code>mpg %&gt;% filter(class ==&quot;suv&quot; | class == &quot;minivan&quot;) %&gt;% nrow()</code></pre>
 <pre><code>## [1] 73</code></pre>
-<ol start="9" style="list-style-type: decimal">
+<ol start="7" style="list-style-type: decimal">
 <li>Filter cars with displacements (<code>displ</code>) greater than 4
 and that are all 4 wheel drive (<code>drv</code>). How many cars/rows
 are there.</li>
 </ol>
 <pre class="r"><code>mpg %&gt;% filter(displ &gt; 4 &amp; drv == &quot;4&quot;) %&gt;% nrow()</code></pre>
 <pre><code>## [1] 49</code></pre>
+<div id="practice-on-your-own" class="section level2">
+<h2>Practice on your own</h2>
+<ol start="8" style="list-style-type: decimal">
+<li>Filter cars from the overall mpg dataset that do not have 4 cylinder
+engines. How many cars/rows are there?</li>
+</ol>
+<pre class="r"><code>mpg %&gt;% filter(cyl != 4) %&gt;% nrow()</code></pre>
+<pre><code>## [1] 153</code></pre>
+</div>
 </div>
 
 
