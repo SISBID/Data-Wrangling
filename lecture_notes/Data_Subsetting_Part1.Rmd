@@ -315,6 +315,8 @@ If you try to filter or select for a column that does not exist it will not work
 
 Did the filter work the way you expected? Did the dimensions change?
 
+Don't use quotes on column names - nothing will get filtered!
+
 ```{r, echo = FALSE, fig.align='center'}
 url = "https://media.giphy.com/media/5b5OU7aUekfdSAER5I/giphy.gif"
 knitr::include_graphics(url)
