@@ -1,43 +1,43 @@
-## ----include = FALSE----------------------------------------------------------
+## ----include = FALSE-----------------------------------------------------------------
 library(knitr)
 library(readr)
 # suppressPackageStartupMessages(library(dplyr))
 knitr::opts_chunk$set(comment = "")
 
 
-## ----code---------------------------------------------------------------------
+## ----code----------------------------------------------------------------------------
 head(mtcars)
 
 
-## ----assign-------------------------------------------------------------------
+## ----assign--------------------------------------------------------------------------
 x <- 2
 x
 x * 4
 
 
-## ----eval = FALSE-------------------------------------------------------------
+## ----eval = FALSE--------------------------------------------------------------------
 ## ?dir
 ## help("dir")
 
 
-## ----echo = FALSE, out.width="70%"--------------------------------------------
+## ----echo = FALSE, out.width="70%"---------------------------------------------------
 knitr::include_graphics("media/IO_help.png")
 
 
-## ----eval = FALSE-------------------------------------------------------------
+## ----eval = FALSE--------------------------------------------------------------------
 ## install.packages("tidyverse")
 ## library(tidyverse)
 
 
-## ----echo = FALSE, out.width="70%"--------------------------------------------
+## ----echo = FALSE, out.width="70%"---------------------------------------------------
 knitr::include_graphics("media/install_packages.jpg")
 
 
-## ----out.width="80%", echo=FALSE, fig.alt='.'---------------------------------
+## ----out.width="80%", echo=FALSE, fig.alt='.'----------------------------------------
 ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4HHj4mK7IjCTH55X6BkrAb3aDd6E/edit#slide=id.g13ea04b780d_1_115")
 
 
-## ----echo = FALSE, out.width="70%"--------------------------------------------
+## ----echo = FALSE, out.width="70%"---------------------------------------------------
 knitr::include_graphics("media/IO_comments_to_self.png")
 
 
@@ -69,6 +69,6 @@ knitr::include_graphics("media/Data_Input_import_dataset.gif")
 knitr::include_graphics("media/Data_Input_browse.png")
 
 
-## -----------------------------------------------------------------------------
+## ------------------------------------------------------------------------------------
 library(readxl)
 
