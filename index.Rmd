@@ -82,7 +82,7 @@ Make sure you have a GitHub profile: https://github.com/
 [x1]: lecture_notes/Setup.html
 [x2]: lecture_notes/Setup.pdf
 [01]: https://docs.google.com/presentation/d/1-jw_njYpdg46WClUVtLwLTb9TyD25cudvzNhKEJuXkA/edit?usp=sharing
-[02]: lecture_notes/sisbid_intro_2024.pdf
+[02]: lecture_notes/sisbid_intro_2025.pdf
 [03]: lecture_notes/Data_IO_Part1.html
 [04]: lecture_notes/Data_IO_Part1.pdf
 [05]: labs/data-io-lab-part1.Rmd
@@ -94,7 +94,7 @@ Make sure you have a GitHub profile: https://github.com/
 [11]: labs/data-io-lab-part2-key.Rmd
 [12]: labs/data-io-lab-part2-key.html
 [13]: https://docs.google.com/presentation/d/1zFT-rvoN_T88CrDBCaPNDKVME52wUn5AIvLS7VVDqu4/edit?usp=sharing
-[14]: lecture_notes/sisbid_rep_research_2024.pdf
+[14]: lecture_notes/sisbid_rep_research_2025.pdf
 [15]: labs/rmarkdown-lab.Rmd
 [16]: labs/rmarkdown-lab-key.Rmd
 [17]: labs/rmarkdown-lab-key.html
