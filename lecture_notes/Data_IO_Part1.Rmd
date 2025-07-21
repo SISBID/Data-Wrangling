@@ -155,6 +155,17 @@ knitr::include_graphics("media/Data_Input_new_desktop.png")
 ```
 
 
+## Why Projects?
+
+R Projects are a super helpful feature of RStudio. They help you:
+
+- **Stay organized.** R Projects help in organizing your work into self-contained directories (folders), where all related scripts, data, and outputs are stored together. This organization simplifies file management and makes it easier to locate and manage files associated with your analysis or project.
+
+- **Find the right files.** When you open an R Project, RStudio automatically sets the working directory to the project's directory. This is where RStudio "looks" for files. Because it's always the Project folder, it can help avoid common issues with file paths.
+
+- **Be more reproducible.** You can share the entire project directory with others, and they can replicate your environment and analysis without much hassle.
+
+
 # Part 1: Getting data into R (manual/point and click)
 
 
