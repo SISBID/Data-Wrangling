@@ -77,10 +77,16 @@ p %>% filter(col != 12)
 ## Taking a deeper look 
 
  The slice function can show us particular row numbers 
+ 
+```{r}
+ slice(ufo, 30894 -1) %>% glimpse()
+```
 
-```{r, include=TRUE}
-slice(ufo, 30894 -1) %>% glimpse()
-knitr::include_graphics(here::here("images", "raw_ufo_col6.png"))
+## Check the actual data
+
+```{r, include=TRUE, echo =FALSE, out.width="100%"}
+
+knitr::include_graphics("https://github.com/SISBID/Data-Wrangling/raw/gh-pages/images/raw_ufo_col6.png")
 ```
 
 ## Reading in again
