@@ -29,12 +29,6 @@ library(readxl)
 
 ```
 
-4. Write out `circ` to a file called "Circulator.rds" using `write_rds`.
-
-```{r}
-
-```
-
 ***
 Download the Excel data for the next two questions. Make sure it's in your project folder.
 ```{r}
@@ -42,13 +36,13 @@ curl::curl_download("https://sisbid.github.io/Data-Wrangling/data/iris/iris_q6.x
 ```
 ***
 
-5. Read in sheet 1 of the `iris_q6.xlsx` dataset into the `iris_q6_1` R object. How many rows are in the dataset?
+4. Read in sheet 1 of the `iris_q6.xlsx` dataset into the `iris_q4` R object. How many rows are in the dataset?
 
 ```{r}
 
 ```
 
-6. Read in sheet 2 of the `iris_q6.xlsx` dataset into the `iris_q6_2` R object. How many rows are in the dataset?
+5. Read in sheet 2 of the `iris_q6.xlsx` dataset into the `iris_q6_2` R object. How many rows are in the dataset?
 
 ```{r}
 
