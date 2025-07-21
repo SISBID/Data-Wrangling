@@ -219,7 +219,7 @@ The `mutate` function in `dplyr` allows you to add or modify columns of a data f
 </div>
 
 ```{r}
-mutate(diamonds, price = price * 1.32) %>% glimpse()
+mutate(diamonds, price = price * 1.37) %>% glimpse()
 ```
 
 
@@ -228,7 +228,7 @@ mutate(diamonds, price = price * 1.32) %>% glimpse()
 If you want to actually make the change you need to reassign the data object.
 
 ```{r, eval = FALSE}
-diamonds <- diamonds %>% mutate(price = price * 1.32) %>% glimpse()
+diamonds <- diamonds %>% mutate(price = price * 1.37) %>% glimpse()
 ```
 
 ## Removing columns of a data frame: dplyr {.codesmall}
