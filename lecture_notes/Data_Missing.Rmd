@@ -149,19 +149,23 @@ To get the percent missing (and counts) for each variable as a table, use this f
 miss_var_summary(airquality)
 ```
 
-## `miss_case_summary` which rows (IDs) have missing data
 
-```{r}
-miss_case_summary(airquality)
-```
-
-## `naniar` plots
+## `naniar` plots of number missing
 
 The `gg_miss_var()` function creates a nice plot about the number of
 missing values for each variable, (need a data frame).
 
 ```{r, fig.height=4, warning=FALSE, fig.align='center'}
 gg_miss_var(airquality)
+```
+
+## `naniar` plots of percent missing
+
+The `gg_miss_var()` function creates a nice plot about the number of
+missing values for each variable, (need a data frame).
+
+```{r, fig.height=4, warning=FALSE, fig.align='center'}
+gg_miss_var(airquality, show_pct = TRUE)
 ```
 
 ## filter() and missing data
@@ -241,29 +245,27 @@ Let's say we think that all 0 values should be `NA`.
 library(readr)
 bike <-read_csv("https://sisbid.github.io/Data-Wrangling/labs/Bike_Lanes.csv")
 bike <-bike %>% select(type, dateInstalled)
-bike
+count(bike, dateInstalled)
 ```
 
 ## Change a value to be `NA` {.small}
 
-The `na_if()` function of `dplyr` can be helpful for changing all 0 values to `NA`.
-
-More on `mutate()` soon!
+The `na_if()` function of `dplyr` can be helpful for changing all 0 values to `NA`. More on `mutate()` soon! (Here we save the change)
 
 ```{r}
-bike %>% 
+bike <- bike %>% 
   mutate(dateInstalled = na_if(dateInstalled, 0))
+count(bike, dateInstalled)
 ```
 
 ## Change `NA` to be a value {.codesmall}
 
-The `replace_na()` function (part of the `tidyr` package), can do the opposite of `na_if()`.
-
-Replacement much match the class of the other values in the column (e.g., character, numeric).
+The `replace_na()` function (part of the `tidyr` package), can do the opposite of `na_if()`. (Here we just print the change)
 
 ```{r}
 bike %>% 
-  mutate(dateInstalled = replace_na(dateInstalled, 2005))
+  mutate(dateInstalled = replace_na(dateInstalled, 2005)) %>%
+  count(dateInstalled)
 ```
 
 
@@ -274,9 +276,9 @@ bike %>%
 ::: 
 
 
-`r emo::ji("warning")` Sometimes removing `NA` values leads to distorted math - be careful!
+⚠️ Sometimes removing `NA` values leads to distorted math - be careful!
 
-`r emo::ji("warning")` Think about what your `NA` means for your data (are you sure ?).
+⚠️ Think about what your `NA` means for your data (are you sure ?).
 
 - Is an `NA` for values so low they could not be reported? 
 
@@ -292,13 +294,13 @@ survey reports 0 if student has tried cigarettes but did not smoke that
 week
 
 
-`r emo::ji("warning")` You might want to keep the `NA` values so that you know the original sample size. 
+⚠️ You might want to keep the `NA` values so that you know the original sample size. 
 
 
 ## Word of caution {.codesmall}
 
 
-`r emo::ji("warning")` Calculating percentages will give you a different result depending on your choice to include NA values.!
+⚠️ Calculating percentages will give you a different result depending on your choice to include NA values.!
 
 This is because the denominator changes.
 
