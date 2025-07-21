@@ -26,20 +26,21 @@ library(janitor)
 ufo <- clean_names(ufo)
 ```
 
-3. Filter for rows where state is "tx" or  "nm", "ut". Then use `recode` to make an exact swap of "Texas" for "tx" and "New_Mexico" for "nm" and "Utah" for "ut" of the `state` variable. Save the output as `South_West`. hint- you will need `mutate`.
+3. Filter for rows where state is "tx" or  "nm", "ut". Then use `case_when` to make a swap of "Texas" for "tx" and "New_Mexico" for "nm" and "Utah" for "ut" of the `state` variable. Save the output as `South_West`. hint- you will need `mutate`.
 
 
 ```{r}
 South_West <- ufo %>% filter(state %in% c("tx", "nm", "ut")) %>%
-  mutate(state = recode(state,  
-                        "tx" = "Texas",
-                        "nm" = "New_Mexico" ,
-                        "ut" = "Utah"))
+  mutate(state = case_when(
+    state  == "tx" ~ "Texas",
+    state  == "nm" ~ "New_Mexico" ,
+    state  ==  "ut" ~ "Utah"), 
+    .defualt = state)
 South_West
 
 ```
 
-4. Use `case_when()` to create a new variable called "continent". If the country is "ca" or "us" make the value be "North America", if it is "gb" or "de" make the value "Europe", and if it is "au" make it "Australia". No need to worry about the `TRUE` statement as we want to keep our other `NA` values.
+4. Use `case_when()` to create a new variable called "continent". If the country is "ca" or "us" make the value be "North America", if it is "gb" or "de" make the value "Europe", and if it is "au" make it "Australia". No need to worry about the `.default` statement as we want to keep our other `NA` values.
 
 ```{r}
 ufo %>%

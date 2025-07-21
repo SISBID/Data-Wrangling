@@ -400,18 +400,19 @@ version of the data to replacec the old!</li>
 <pre class="r"><code>ufo &lt;- clean_names(ufo)</code></pre>
 <ol start="3" style="list-style-type: decimal">
 <li>Filter for rows where state is “tx” or “nm”, “ut”. Then use
-<code>recode</code> to make an exact swap of “Texas” for “tx” and
+<code>case_when</code> to make a swap of “Texas” for “tx” and
 “New_Mexico” for “nm” and “Utah” for “ut” of the <code>state</code>
 variable. Save the output as <code>South_West</code>. hint- you will
 need <code>mutate</code>.</li>
 </ol>
 <pre class="r"><code>South_West &lt;- ufo %&gt;% filter(state %in% c(&quot;tx&quot;, &quot;nm&quot;, &quot;ut&quot;)) %&gt;%
-  mutate(state = recode(state,  
-                        &quot;tx&quot; = &quot;Texas&quot;,
-                        &quot;nm&quot; = &quot;New_Mexico&quot; ,
-                        &quot;ut&quot; = &quot;Utah&quot;))
+  mutate(state = case_when(
+    state  == &quot;tx&quot; ~ &quot;Texas&quot;,
+    state  == &quot;nm&quot; ~ &quot;New_Mexico&quot; ,
+    state  ==  &quot;ut&quot; ~ &quot;Utah&quot;), 
+    .defualt = state)
 South_West</code></pre>
-<pre><code>## # A tibble: 5,763 × 11
+<pre><code>## # A tibble: 5,763 × 12
 ##    datetime        city  state country shape duration_seconds duration_hours_min
 ##    &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;             
 ##  1 10/10/1949 20:… san … Texas us      cyli…             2700 45 minutes        
@@ -425,14 +426,15 @@ South_West</code></pre>
 ##  9 10/10/1992 22:… weat… Texas us      unkn…               30 30 seconds        
 ## 10 10/10/1994 15:… merc… Texas &lt;NA&gt;    cigar             3600 1 hour            
 ## # ℹ 5,753 more rows
-## # ℹ 4 more variables: comments &lt;chr&gt;, date_posted &lt;chr&gt;, latitude &lt;chr&gt;,
-## #   longitude &lt;chr&gt;</code></pre>
+## # ℹ 5 more variables: comments &lt;chr&gt;, date_posted &lt;chr&gt;, latitude &lt;chr&gt;,
+## #   longitude &lt;chr&gt;, .defualt &lt;chr&gt;</code></pre>
 <ol start="4" style="list-style-type: decimal">
 <li>Use <code>case_when()</code> to create a new variable called
 “continent”. If the country is “ca” or “us” make the value be “North
 America”, if it is “gb” or “de” make the value “Europe”, and if it is
-“au” make it “Australia”. No need to worry about the <code>TRUE</code>
-statement as we want to keep our other <code>NA</code> values.</li>
+“au” make it “Australia”. No need to worry about the
+<code>.default</code> statement as we want to keep our other
+<code>NA</code> values.</li>
 </ol>
 <pre class="r"><code>ufo %&gt;%
   mutate(continent = case_when(country %in% c(&quot;ca&quot;, &quot;us&quot;) ~ &quot;North America&quot;,
