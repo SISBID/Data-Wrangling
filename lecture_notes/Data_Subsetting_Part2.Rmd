@@ -248,7 +248,7 @@ You can use `c()` to list the columns to remove.
 
 Remove `newcol` and `drat`:
 ```{r}
-select(diamonds, -c("x", "y", "z")) %>% glimpse()
+select(diamonds, -c(x, y, z)) %>% glimpse()
 ```
 
 
