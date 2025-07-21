@@ -330,6 +330,10 @@ Source: https://media.giphy.com/media/5b5OU7aUekfdSAER5I/giphy.gif
 - `filter` can remove rows based on conditions
 - `==` is needed to filter for rows that are "exactly equal" to a value
 - `!=` does the opposite
+
+
+## Summary Continued
+
 - `%in%` enables us to do multiple `==` conditions such as `%in% c(1,2,3)`
 - `|` is for or logic and `&` is for and logic when combining filter conditions together
 - Always check that you filtered for what you think you did!
