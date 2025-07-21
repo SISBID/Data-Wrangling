@@ -169,7 +169,7 @@ filter(diamonds, depth > 60)
 
 Note, no subsetting is necessary.  R "knows" `depth` refers to a column of `diamonds`.
 
-## Subset rows of a `data.frame`:
+## Subset using pipes:
 
 You can also using piping here:
 
@@ -177,7 +177,7 @@ You can also using piping here:
 diamonds %>% filter(depth > 60)
 ```
 
-## Subset rows of a `data.frame`:
+## Subset rows with multiple required conditions:
 
 You can combine filtering on multiple columns by separating the filter arguments with `&` (or commas - but `&` is more clear)
 
@@ -185,7 +185,7 @@ You can combine filtering on multiple columns by separating the filter arguments
 diamonds %>% filter(depth > 60 & table > 60 & price > 2775)
 ```
 
-## Subset rows of a `data.frame`:
+## Subset rows for a character condition:
 
 You can also filter character strings by a single value or category. Here we need quotes around character strings. 
 
@@ -194,7 +194,7 @@ diamonds %>% filter(color == "I" &
             clarity == "SI2" & cut == "Premium")
 ```
 
-## Subset rows of a `data.frame`:
+## Subset to match a vector of possibilities:
 
 Sometimes you want to be able to filter on matching several values or categories. The `%in%` operator is useful here:
 
@@ -202,7 +202,7 @@ Sometimes you want to be able to filter on matching several values or categories
 diamonds %>% filter(clarity %in% c("SI1", "SI2"))
 ```
 
-## Subset rows of a `data.frame`:
+## Subset rows using conditions for numeric and character variables:
 
 You can mix and match filtering on numeric and categorical/character columns in the same `filter()` command:
 
@@ -224,7 +224,7 @@ diamonds %>% filter(price == "3001") # this works
 ```
 
 
-## Subset rows of a `data.frame`:
+## Logic for subsetting rows of a `data.frame`:
 
 Other useful logical tests:
 
@@ -239,7 +239,7 @@ Other useful logical tests:
 `!=` : not equals
 
 
-## Subset rows of a `data.frame`:
+## Subset rows with or logic:
 
 The OR operator (`|`) is more permissive than the AND operator:
 
@@ -247,7 +247,7 @@ The OR operator (`|`) is more permissive than the AND operator:
 diamonds %>% filter(depth > 60 | table > 60 | price > 2775)
 ```
 
-## Subset rows of a `data.frame`:
+## OR is like `%in%`:
 
 The OR operator (`|`) can be a substitute for `%in%` (although it might take more typing):
 
@@ -266,7 +266,7 @@ diamonds %>%
   select(starts_with("c"))
 ```
 
-## Combining `filter` and `select`:
+## Combining `filter` and `select`- Order matters!:
 
 The order of these functions matters though, since you can remove columns that you might want to filter on. 
 
