@@ -3068,18 +3068,21 @@ var loadDeck = function(event) {
   });
 };
 
-if (document.readyState !== "loading" &&
-    document.querySelector('slides') === null) { 
-  // if the document is done loading but our element hasn't yet appeared, defer
-  // loading of the deck
-  window.setTimeout(function() {
-    loadDeck(null);
-  }, 0);
-} else {
-  // still loading the DOM, so wait until it's finished
-  document.addEventListener("DOMContentLoaded", loadDeck);
-}
+if (!window.Shiny) {
+  // If Shiny is loaded, the slide deck is initialized in ioslides template
 
+  if (document.readyState !== "loading" &&
+      document.querySelector('slides') === null) {
+    // if the document is done loading but our element hasn't yet appeared, defer
+    // loading of the deck
+    window.setTimeout(function() {
+      loadDeck(null);
+    }, 0);
+  } else {
+    // still loading the DOM, so wait until it's finished
+    document.addEventListener("DOMContentLoaded", loadDeck);
+  }
+}
 
 
 </script>
@@ -3122,7 +3125,7 @@ div.column{display: inline-block; vertical-align: top; width: 50%;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -3133,7 +3136,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
 { counter-reset: source-line 0; }
@@ -3414,15 +3417,17 @@ long_data</pre>
 head(circ, 5)</pre>
 
 <pre ># A tibble: 5 × 15
-  day      date  orangeBoardings orangeAlightings orangeAverage purpleBoardings purpleAlightings purpleAverage
-  &lt;chr&gt;    &lt;chr&gt;           &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;
-1 Monday   01/1…             877             1027          952               NA               NA            NA
-2 Tuesday  01/1…             777              815          796               NA               NA            NA
-3 Wednesd… 01/1…            1203             1220         1212.              NA               NA            NA
-4 Thursday 01/1…            1194             1233         1214.              NA               NA            NA
-5 Friday   01/1…            1645             1643         1644               NA               NA            NA
-# ℹ 7 more variables: greenBoardings &lt;dbl&gt;, greenAlightings &lt;dbl&gt;, greenAverage &lt;dbl&gt;, bannerBoardings &lt;dbl&gt;,
-#   bannerAlightings &lt;dbl&gt;, bannerAverage &lt;dbl&gt;, daily &lt;dbl&gt;</pre>
+  day       date  orangeBoardings orangeAlightings orangeAverage purpleBoardings
+  &lt;chr&gt;     &lt;chr&gt;           &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;           &lt;dbl&gt;
+1 Monday    01/1…             877             1027          952               NA
+2 Tuesday   01/1…             777              815          796               NA
+3 Wednesday 01/1…            1203             1220         1212.              NA
+4 Thursday  01/1…            1194             1233         1214.              NA
+5 Friday    01/1…            1645             1643         1644               NA
+# ℹ 9 more variables: purpleAlightings &lt;dbl&gt;, purpleAverage &lt;dbl&gt;,
+#   greenBoardings &lt;dbl&gt;, greenAlightings &lt;dbl&gt;, greenAverage &lt;dbl&gt;,
+#   bannerBoardings &lt;dbl&gt;, bannerAlightings &lt;dbl&gt;, bannerAverage &lt;dbl&gt;,
+#   daily &lt;dbl&gt;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Reshaping data from <strong>wide to long</strong></h2></hgroup><article  id="reshaping-data-from-wide-to-long-4">
 
@@ -3516,6 +3521,16 @@ long</pre>
  9 Monday 01/11/2010   952 green  Average       NA
 10 Monday 01/11/2010   952 banner Boardings     NA
 # ℹ 13,742 more rows</pre>
+
+</article></slide><slide class=""><hgroup><h2>GUT CHECK!</h2></hgroup><article  id="gut-check">
+
+<p>What does <code>pivot_longer()</code> do?</p>
+
+<p>A. Summarize data</p>
+
+<p>B. Subsets data</p>
+
+<p>C. Reshape data</p>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2><code>pivot_wider</code>…</h2></hgroup><article  id="pivot_wider">
 
@@ -3816,7 +3831,9 @@ air</pre>
 <ul>
 <li>Specify <code>names_from =</code> and <code>values_from =</code></li>
 </ul></li>
-</ul></article></slide>
+</ul>
+
+<p><a href='https://sisbid.github.io/Data-Wrangling/labs/data-reshaping-lab.Rmd' title=''>https://sisbid.github.io/Data-Wrangling/labs/data-reshaping-lab.Rmd</a></p></article></slide>
 
 
   <slide class="backdrop"></slide>
@@ -3843,6 +3860,11 @@ air</pre>
        window.jQuery(document).on('slideenter', function(e) {
          window.jQuery(e.target).trigger('shown');
       });
+    }
+    if (window.Shiny) {
+      // Initialize slides when this script appears on the page, since it
+      // indicates that the <slides> markup has been fully loaded.
+      window.loadDeck();
     }
   })();
 </script>

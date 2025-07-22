@@ -47,7 +47,7 @@ head(road)
 
 ```
 
-6. What `crash` data is missing from `road``?
+6. What `crash` data is missing from `road`?
 
 ```{r}
 
