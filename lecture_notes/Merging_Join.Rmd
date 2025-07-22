@@ -167,51 +167,10 @@ fj
 
 ## Watch out for "`includes duplicates`"
 
-```{r echo=FALSE}
-data_As <- tibble(State = c("Alabama", "Alaska"),
-                 state_bird = c("wild turkey", "willow ptarmigan"))
-data_cold <- tibble(State = c("Maine", "Alaska", "Alaska"),
-                    vacc_rate = c(0.795, 0.623, 0.626),
-                    month = c("April", "April", "May"))
-```
-
-```{r}
-data_As
-data_cold
-```
-
-## Watch out for "`includes duplicates`"
-
-```{r}
-lj <- left_join(data_As, data_cold)
-```
-
-## Watch out for "`includes duplicates`"
-
-Data including the joining column ("State") has been duplicated.
-
-```{r}
-lj
-```
-
-<br>
-
-Note that "Alaska willow ptarmigan" appears twice.
-
-## Watch out for "`includes duplicates`"
-
 https://github.com/gadenbuie/tidyexplain/blob/main/images/left-join-extra.gif
 
 ```{r, fig.alt="A gif showing how data can be duplicated from one dataset when joining two simple datasets.", out.width = "40%", echo = FALSE, align = "center"}
 knitr::include_graphics("media/Join_left_join_extra.gif")
-```
-
-## Regular left join
-
-https://raw.githubusercontent.com/gadenbuie/tidyexplain/main/images/left-join.gif
-
-```{r, fig.alt="A gif showing the left joining of two simple datasets.", out.width = "40%", echo = FALSE, align = "center"}
-knitr::include_graphics("media/Join_left-join.gif")
 ```
 
 ## Stop `tidylog`
@@ -219,6 +178,16 @@ knitr::include_graphics("media/Join_left-join.gif")
 ```{r}
 unloadNamespace("tidylog")
 ```
+
+## GUT CHECK!
+
+Why use `join` functions?
+
+A. Combine different data sources
+
+B. Connect Rmd to other files
+
+C. Using one data source is too easy and we want our analysis ~ fancy ~
 
 ## Using the `by` argument
 
@@ -272,12 +241,12 @@ rbind(data_As, data_cold)
 ```{r}
 bind_rows(data_As, data_cold)
 ```
+
 ## bind_rows vs full join
 
 ```{r}
 full_join(data_As, data_cold)
 ```
-
 
 ## Other stuff: `anti_join` (`dplyr`)
 
@@ -302,15 +271,11 @@ knitr::include_graphics("media/Join_anti-join.gif")
 anti_join(data_As, data_cold)
 ```
 
-
 ## Other stuff: `anti_join` (`dplyr`)
-
 
 ```{r}
 anti_join(data_cold, data_As)
 ```
-
-
 
 ## Summary
 
@@ -323,6 +288,8 @@ anti_join(data_cold, data_As)
 * Use the `tidylog` package for a detailed summary
 * `setdiff(x, y)` shows what in `x` is missing from `y`
 * `bind_rows(x, y)` appends datasets
+
+https://sisbid.github.io/Data-Wrangling/labs/merging-lab.Rmd
 
 # Extra slides
 
@@ -367,6 +334,3 @@ data_cold <- tibble(State = c("Maine", "Alaska", "Alaska"),
 ```{r}
 full_join(data_As, data_cold)
 ```
-
-
-

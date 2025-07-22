@@ -59,7 +59,7 @@ full %>% filter(is.na(N_Crashes))
 anti_join(road, crash)
 ```
 
-6. What `crash` data is missing from `road``?
+6. What `crash` data is missing from `road`?
 
 ```{r}
 roads1 <- road %>% pull(Road)
