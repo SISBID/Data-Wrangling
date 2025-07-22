@@ -252,7 +252,8 @@ ufo_clean %>%
 
 ## 'Find' functions: `str_subset()` is easier {.smaller}
 
-`str_subset()` gives the values that match the pattern:
+`str_subset()` gives the values that match the pattern: 
+(or if we used negate = TRUE it would find the opposite)
 
 ```{r ggrep}
 ufo_clean %>% pull(comments) %>%

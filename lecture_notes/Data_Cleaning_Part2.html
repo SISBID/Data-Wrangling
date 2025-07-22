@@ -3378,8 +3378,7 @@ count(data_gen, status)</pre>
   &quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv&quot;, 
   col_types = cols(`duration (seconds)` = &quot;c&quot;))</pre>
 
-<pre >Warning: One or more parsing issues, call `problems()` on your data frame for details,
-e.g.:
+<pre >Warning: One or more parsing issues, call `problems()` on your data frame for details, e.g.:
   dat &lt;- vroom(...)
   problems(dat)</pre>
 
@@ -3387,18 +3386,16 @@ e.g.:
 
 <pre class = 'prettyprint lang-r'>colnames(ufo)</pre>
 
-<pre > [1] &quot;datetime&quot;             &quot;city&quot;                 &quot;state&quot;               
- [4] &quot;country&quot;              &quot;shape&quot;                &quot;duration (seconds)&quot;  
- [7] &quot;duration (hours/min)&quot; &quot;comments&quot;             &quot;date posted&quot;         
-[10] &quot;latitude&quot;             &quot;longitude&quot;           </pre>
+<pre > [1] &quot;datetime&quot;             &quot;city&quot;                 &quot;state&quot;                &quot;country&quot;             
+ [5] &quot;shape&quot;                &quot;duration (seconds)&quot;   &quot;duration (hours/min)&quot; &quot;comments&quot;            
+ [9] &quot;date posted&quot;          &quot;latitude&quot;             &quot;longitude&quot;           </pre>
 
 <pre class = 'prettyprint lang-r'>ufo_clean &lt;- clean_names(ufo)
 colnames(ufo_clean)</pre>
 
-<pre > [1] &quot;datetime&quot;           &quot;city&quot;               &quot;state&quot;             
- [4] &quot;country&quot;            &quot;shape&quot;              &quot;duration_seconds&quot;  
- [7] &quot;duration_hours_min&quot; &quot;comments&quot;           &quot;date_posted&quot;       
-[10] &quot;latitude&quot;           &quot;longitude&quot;         </pre>
+<pre > [1] &quot;datetime&quot;           &quot;city&quot;               &quot;state&quot;              &quot;country&quot;           
+ [5] &quot;shape&quot;              &quot;duration_seconds&quot;   &quot;duration_hours_min&quot; &quot;comments&quot;          
+ [9] &quot;date_posted&quot;        &quot;latitude&quot;           &quot;longitude&quot;         </pre>
 
 </article></slide><slide class=""><hgroup><h2>str_detect and filter</h2></hgroup><article  id="str_detect-and-filter">
 
@@ -3410,13 +3407,12 @@ colnames(ufo_clean)</pre>
     pattern = &quot;`&quot;))</pre>
 
 <pre ># A tibble: 3 × 11
-  datetime        city   state country shape duration_seconds duration_hours_min
-  &lt;chr&gt;           &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;            &lt;chr&gt;             
-1 2/2/2000 19:33  bouse  az    us      &lt;NA&gt;  2`               each a few seconds
-2 4/10/2005 22:52 santa… ca    us      &lt;NA&gt;  8`               eight seconds     
-3 7/21/2006 13:00 ibagu… &lt;NA&gt;  &lt;NA&gt;    circ… 0.5`             1/2 segundo       
-# ℹ 4 more variables: comments &lt;chr&gt;, date_posted &lt;chr&gt;, latitude &lt;chr&gt;,
-#   longitude &lt;chr&gt;</pre>
+  datetime        city  state country shape duration_seconds duration_hours_min comments date_posted
+  &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;            &lt;chr&gt;              &lt;chr&gt;    &lt;chr&gt;      
+1 2/2/2000 19:33  bouse az    us      &lt;NA&gt;  2`               each a few seconds Driving… 2/16/2000  
+2 4/10/2005 22:52 sant… ca    us      &lt;NA&gt;  8`               eight seconds      2 red l… 4/16/2005  
+3 7/21/2006 13:00 ibag… &lt;NA&gt;  &lt;NA&gt;    circ… 0.5`             1/2 segundo        Viajaba… 10/30/2006 
+# ℹ 2 more variables: latitude &lt;chr&gt;, longitude &lt;chr&gt;</pre>
 
 </article></slide><slide class=""><hgroup><h2>str_remove</h2></hgroup><article  id="str_remove">
 
@@ -3434,17 +3430,17 @@ glimpse(ufo_clean)</pre>
 
 <pre >Rows: 88,875
 Columns: 11
-$ datetime           &lt;chr&gt; &quot;10/10/1949 20:30&quot;, &quot;10/10/1949 21:00&quot;, &quot;10/10/1955…
-$ city               &lt;chr&gt; &quot;san marcos&quot;, &quot;lackland afb&quot;, &quot;chester (uk/england)…
-$ state              &lt;chr&gt; &quot;tx&quot;, &quot;tx&quot;, NA, &quot;tx&quot;, &quot;hi&quot;, &quot;tn&quot;, NA, &quot;ct&quot;, &quot;al&quot;, &quot;…
-$ country            &lt;chr&gt; &quot;us&quot;, NA, &quot;gb&quot;, &quot;us&quot;, &quot;us&quot;, &quot;us&quot;, &quot;gb&quot;, &quot;us&quot;, &quot;us&quot;,…
-$ shape              &lt;chr&gt; &quot;cylinder&quot;, &quot;light&quot;, &quot;circle&quot;, &quot;circle&quot;, &quot;light&quot;, &quot;…
-$ duration_seconds   &lt;dbl&gt; 2700, 7200, 20, 20, 900, 300, 180, 1200, 180, 120, …
-$ duration_hours_min &lt;chr&gt; &quot;45 minutes&quot;, &quot;1-2 hrs&quot;, &quot;20 seconds&quot;, &quot;1/2 hour&quot;, …
-$ comments           &lt;chr&gt; &quot;This event took place in early fall around 1949-50…
-$ date_posted        &lt;chr&gt; &quot;4/27/2004&quot;, &quot;12/16/2005&quot;, &quot;1/21/2008&quot;, &quot;1/17/2004&quot;…
-$ latitude           &lt;chr&gt; &quot;29.8830556&quot;, &quot;29.38421&quot;, &quot;53.2&quot;, &quot;28.9783333&quot;, &quot;21…
-$ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;, &quot;-2.916667&quot;, &quot;-96.6458…</pre>
+$ datetime           &lt;chr&gt; &quot;10/10/1949 20:30&quot;, &quot;10/10/1949 21:00&quot;, &quot;10/10/1955 17:00&quot;, &quot;10/10/1956…
+$ city               &lt;chr&gt; &quot;san marcos&quot;, &quot;lackland afb&quot;, &quot;chester (uk/england)&quot;, &quot;edna&quot;, &quot;kaneohe&quot;…
+$ state              &lt;chr&gt; &quot;tx&quot;, &quot;tx&quot;, NA, &quot;tx&quot;, &quot;hi&quot;, &quot;tn&quot;, NA, &quot;ct&quot;, &quot;al&quot;, &quot;fl&quot;, &quot;ca&quot;, &quot;nc&quot;, &quot;ny…
+$ country            &lt;chr&gt; &quot;us&quot;, NA, &quot;gb&quot;, &quot;us&quot;, &quot;us&quot;, &quot;us&quot;, &quot;gb&quot;, &quot;us&quot;, &quot;us&quot;, &quot;us&quot;, &quot;us&quot;, &quot;us&quot;, &quot;…
+$ shape              &lt;chr&gt; &quot;cylinder&quot;, &quot;light&quot;, &quot;circle&quot;, &quot;circle&quot;, &quot;light&quot;, &quot;sphere&quot;, &quot;circle&quot;, &quot;…
+$ duration_seconds   &lt;dbl&gt; 2700, 7200, 20, 20, 900, 300, 180, 1200, 180, 120, 300, 180, 1800, 180,…
+$ duration_hours_min &lt;chr&gt; &quot;45 minutes&quot;, &quot;1-2 hrs&quot;, &quot;20 seconds&quot;, &quot;1/2 hour&quot;, &quot;15 minutes&quot;, &quot;5 min…
+$ comments           &lt;chr&gt; &quot;This event took place in early fall around 1949-50. It occurred after …
+$ date_posted        &lt;chr&gt; &quot;4/27/2004&quot;, &quot;12/16/2005&quot;, &quot;1/21/2008&quot;, &quot;1/17/2004&quot;, &quot;1/22/2004&quot;, &quot;4/27…
+$ latitude           &lt;chr&gt; &quot;29.8830556&quot;, &quot;29.38421&quot;, &quot;53.2&quot;, &quot;28.9783333&quot;, &quot;21.4180556&quot;, &quot;36.59500…
+$ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;, &quot;-2.916667&quot;, &quot;-96.6458333&quot;, &quot;-157.8036111&quot;…</pre>
 
 <!-- ## Paste can add things back to variables -->
 
@@ -3539,12 +3535,11 @@ str_sub(c(&quot;Site A&quot;, &quot;Site B&quot;, &quot;Site C&quot;), 6,6)</pre
   head()</pre>
 
 <pre ># A tibble: 2 × 11
-  datetime         city  state country shape duration_seconds duration_hours_min
-  &lt;chr&gt;            &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;             
-1 10/14/2006 02:00 yuma  va    us      form…              300 5 minutes         
-2 7/1/2007 23:00   nort… ct    &lt;NA&gt;    unkn…               60 1 minute          
-# ℹ 4 more variables: comments &lt;chr&gt;, date_posted &lt;chr&gt;, latitude &lt;chr&gt;,
-#   longitude &lt;chr&gt;</pre>
+  datetime        city  state country shape duration_seconds duration_hours_min comments date_posted
+  &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;              &lt;chr&gt;    &lt;chr&gt;      
+1 10/14/2006 02:… yuma  va    us      form…              300 5 minutes          ((HOAX?… 4/27/2007  
+2 7/1/2007 23:00  nort… ct    &lt;NA&gt;    unkn…               60 1 minute           Witness… 10/19/2011 
+# ℹ 2 more variables: latitude &lt;chr&gt;, longitude &lt;chr&gt;</pre>
 
 </article></slide><slide class=""><hgroup><h2>To Take a look at comments… need to select it first</h2></hgroup><article  id="to-take-a-look-at-comments-need-to-select-it-first">
 
@@ -3553,14 +3548,14 @@ str_sub(c(&quot;Site A&quot;, &quot;Site B&quot;, &quot;Site C&quot;), 6,6)</pre
   select(comments)</pre>
 
 <pre ># A tibble: 2 × 1
-  comments                                                                      
-  &lt;chr&gt;                                                                         
-1 ((HOAX??))  two aliens appeared from a bright light to peacefully investigate…
-2 Witnessed two aliens walking along baseball field fence.                      </pre>
+  comments                                                                                          
+  &lt;chr&gt;                                                                                             
+1 ((HOAX??))  two aliens appeared from a bright light to peacefully investigate the surroundings in…
+2 Witnessed two aliens walking along baseball field fence.                                          </pre>
 
 </article></slide><slide class=""><hgroup><h2>&lsquo;Find&rsquo; functions: <code>str_subset()</code> is easier</h2></hgroup><article  id="find-functions-str_subset-is-easier" class="smaller">
 
-<p><code>str_subset()</code> gives the values that match the pattern:</p>
+<p><code>str_subset()</code> gives the values that match the pattern: (or if we used negate = TRUE it would find the opposite)</p>
 
 <pre class = 'prettyprint lang-r'>ufo_clean %&gt;% pull(comments) %&gt;%
   str_subset( &quot;two aliens&quot;)</pre>
@@ -3614,11 +3609,10 @@ str_sub(c(&quot;Site A&quot;, &quot;Site B&quot;, &quot;Site C&quot;), 6,6)</pre
 
 <pre class = 'prettyprint lang-r'>pull(ufo_clean, duration_hours_min) %&gt;% head(n = 20)</pre>
 
-<pre > [1] &quot;45 minutes&quot;      &quot;1-2 hrs&quot;         &quot;20 seconds&quot;      &quot;1/2 hour&quot;       
- [5] &quot;15 minutes&quot;      &quot;5 minutes&quot;       &quot;about 3 mins&quot;    &quot;20 minutes&quot;     
- [9] &quot;3  minutes&quot;      &quot;several minutes&quot; &quot;5 min.&quot;          &quot;3 minutes&quot;      
-[13] &quot;30 min.&quot;         &quot;3 minutes&quot;       &quot;30 seconds&quot;      &quot;20minutes&quot;      
-[17] &quot;2 minutes&quot;       &quot;20-30 min&quot;       &quot;20 sec.&quot;         &quot;2 min&quot;          </pre>
+<pre > [1] &quot;45 minutes&quot;      &quot;1-2 hrs&quot;         &quot;20 seconds&quot;      &quot;1/2 hour&quot;        &quot;15 minutes&quot;     
+ [6] &quot;5 minutes&quot;       &quot;about 3 mins&quot;    &quot;20 minutes&quot;      &quot;3  minutes&quot;      &quot;several minutes&quot;
+[11] &quot;5 min.&quot;          &quot;3 minutes&quot;       &quot;30 min.&quot;         &quot;3 minutes&quot;       &quot;30 seconds&quot;     
+[16] &quot;20minutes&quot;       &quot;2 minutes&quot;       &quot;20-30 min&quot;       &quot;20 sec.&quot;         &quot;2 min&quot;          </pre>
 
 </article></slide><slide class=""><hgroup><h2>str_replace()</h2></hgroup><article  id="str_replace">
 
@@ -3633,8 +3627,8 @@ str_sub(c(&quot;Site A&quot;, &quot;Site B&quot;, &quot;Site C&quot;), 6,6)</pre
   pull(duration_hours_min) %&gt;%
   head(8)</pre>
 
-<pre >[1] &quot;45 mins&quot;      &quot;1-2 hrs&quot;      &quot;20 seconds&quot;   &quot;1/2 hour&quot;     &quot;15 mins&quot;     
-[6] &quot;5 mins&quot;       &quot;about 3 mins&quot; &quot;20 mins&quot;     </pre>
+<pre >[1] &quot;45 mins&quot;      &quot;1-2 hrs&quot;      &quot;20 seconds&quot;   &quot;1/2 hour&quot;     &quot;15 mins&quot;      &quot;5 mins&quot;      
+[7] &quot;about 3 mins&quot; &quot;20 mins&quot;     </pre>
 
 </article></slide><slide class=""><hgroup><h2>Separating columns</h2></hgroup><article  id="separating-columns">
 
@@ -3684,16 +3678,15 @@ ufo_clean &lt;- ufo_clean %&gt;% mutate(date = mdy(date))
 head(ufo_clean)</pre>
 
 <pre ># A tibble: 6 × 12
-  date       time  city  state country shape duration_seconds duration_hours_min
-  &lt;date&gt;     &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;             
-1 1949-10-10 20:30 san … tx    us      cyli…             2700 45 minutes        
-2 1949-10-10 21:00 lack… tx    &lt;NA&gt;    light             7200 1-2 hrs           
-3 1955-10-10 17:00 ches… &lt;NA&gt;  gb      circ…               20 20 seconds        
-4 1956-10-10 21:00 edna  tx    us      circ…               20 1/2 hour          
-5 1960-10-10 20:00 kane… hi    us      light              900 15 minutes        
-6 1961-10-10 19:00 bris… tn    us      sphe…              300 5 minutes         
-# ℹ 4 more variables: comments &lt;chr&gt;, date_posted &lt;chr&gt;, latitude &lt;chr&gt;,
-#   longitude &lt;chr&gt;</pre>
+  date       time  city             state country shape duration_seconds duration_hours_min comments
+  &lt;date&gt;     &lt;chr&gt; &lt;chr&gt;            &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;              &lt;chr&gt;   
+1 1949-10-10 20:30 san marcos       tx    us      cyli…             2700 45 minutes         This ev…
+2 1949-10-10 21:00 lackland afb     tx    &lt;NA&gt;    light             7200 1-2 hrs            1949 La…
+3 1955-10-10 17:00 chester (uk/eng… &lt;NA&gt;  gb      circ…               20 20 seconds         Green/O…
+4 1956-10-10 21:00 edna             tx    us      circ…               20 1/2 hour           My olde…
+5 1960-10-10 20:00 kaneohe          hi    us      light              900 15 minutes         AS a Ma…
+6 1961-10-10 19:00 bristol          tn    us      sphe…              300 5 minutes          My fath…
+# ℹ 3 more variables: date_posted &lt;chr&gt;, latitude &lt;chr&gt;, longitude &lt;chr&gt;</pre>
 
 <!-- ## Special characters -->
 
