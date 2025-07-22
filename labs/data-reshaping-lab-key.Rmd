@@ -41,7 +41,7 @@ chicks_wide <- chicks_wide %>% select(Chick, Diet, Time_0, Time_21)
 chicks_wide
 ```
 
-4. Reshape to long format using `pivot_longer`. Pivot the numeric columns. Use the arguments `names_to = ` and `values_to = `. Call the data `chicks_long`.
+4. Reshape to long format using `pivot_longer`. Pivot the time related columns. Use the arguments `names_to = ` and `values_to = `. Call the data `chicks_long`.
 
 ```{r}
 chicks_wide %>% pivot_longer(c(Time_0, Time_21), names_to = "Time", values_to = "weight")
