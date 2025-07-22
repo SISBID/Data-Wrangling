@@ -51,14 +51,24 @@ Summarization on a `data.frame`/`tibble`:
 mtcars %>% pull(hp) %>% mean()
 ```
 
-## Youth Tobacco Survey {.codesmall}
+## GUT CHECK!
 
-Let's use the Youth Tobacco Survey data again:
+What kind of object do we need to run summary operators like `mean()` ?
 
-```{r}
-yts <- 
-  read_csv("https://sisbid.github.io/Data-Wrangling/data/Youth_Tobacco_Survey_YTS_Data.csv")
-head(yts)
+A. A vector of numbers
+
+B. A vector of characters
+
+C. A dataset
+
+## UFO Data
+
+Let's use the UFO data again:
+
+```{r warning=FALSE}
+ufo <- read_csv("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv")
+ufo <- ufo %>% rename(duration_s = `duration (seconds)`)
+head(ufo)
 ```
 
 ## Column to vector
@@ -66,8 +76,8 @@ head(yts)
 Let's work with one column as a vector using `pull()`.
 
 ```{r, message = FALSE}
-locations <- yts %>% pull(LocationDesc)
-locations
+ufo_shapes <- ufo %>% pull(shape)
+ufo_shapes
 ```
 
 ## Check for NAs
@@ -75,15 +85,15 @@ locations
 use `sum(is.na())`:
 
 ```{r}
-sum(is.na(locations))
+sum(is.na(ufo_shapes))
 ```
 
 ## `dplyr`: `count` 
 
-Use `count` directly on a data.frame and column: count the number of rows in each group. The `nrow` of the dataset tells you the number of unique groups.
+Use `count` directly on a data.frame and column: count the number of rows in each group.
 
 ```{r, message = FALSE}
-yts %>% count(LocationDesc)
+ufo %>% count(shape)
 ```
 
 ## `dplyr`: `count` 
@@ -91,7 +101,7 @@ yts %>% count(LocationDesc)
 Multiple columns listed further subdivides the count.
 
 ```{r, message = FALSE}
-yts %>% count(LocationDesc, TopicDesc)
+ufo %>% count(shape, country)
 ```
 
 ## `dplyr`: `count` 
@@ -99,27 +109,37 @@ yts %>% count(LocationDesc, TopicDesc)
 Option to sort the results with `sort = TRUE`
 
 ```{r, message = FALSE}
-yts %>% count(LocationDesc, sort = TRUE)
+ufo %>% count(shape, sort = TRUE)
 ```
+
+## GUT CHECK!
+
+The `count()` function can help us tally:
+
+A. Sample size
+
+B. Rows per each category
+
+C. How many categories
 
 ## `dplyr`: `count` 
 
-Instead of counting the number of rows in each group, `wt` computes sum(wt) for each group.
+Instead of counting the **number of rows** in each group, `wt` computes sum() of a column for each group.
 
 ```{r, message = FALSE}
-# Add up "Data_Value" for each LocationDesc category
-yts %>% count(LocationDesc, wt = Data_Value)
+# Add up "duration_s" for each "shape" category
+ufo %>% count(shape, wt = duration_s)
 ```
 
 # Grouping
 
 ## Perform Operations By Groups: dplyr
 
-`group_by` allows you group the data set by variables/columns you specify:
+Regular data...
 
 ```{r}
-# Regular data
-yts
+# No group_by()
+ufo
 ```
 
 ## Perform Operations By Groups: dplyr
@@ -127,48 +147,40 @@ yts
 `group_by` allows you group the data set by variables/columns you specify:
 
 ```{r}
-yts_grouped <- yts %>% group_by(Response)
-yts_grouped
-```
-
-## Summarize the data: `dplyr` `summarize()` function
-
-`summarize` is a helpful function to use after `group_by()`. It creates a summary table of a column you're interested in.
-
-```{r}
-yts %>% 
-  summarize(mean_value = mean(Data_Value, na.rm = TRUE))
+ufo_grouped <- ufo %>% group_by(shape)
+ufo_grouped
 ```
 
 ## Summarize the grouped data
 
-It's grouped! Grouping doesn't change the data in any way, but how **functions operate on it**. Now we can summarize `Data_Value` (percent of respondents) by group:
+We can summarize grouped data using `summarize()`:
 
 ```{r}
-yts_grouped %>% 
-  summarize(mean_value = mean(Data_Value, na.rm = TRUE))
+ufo_grouped %>% 
+  summarize(mean_value = mean(duration_s, na.rm = TRUE))
 ```
 
 ## Use the `pipe` to string these together!
 
-Pipe `yts` into `group_by`, then pipe that into `summarize`:
+Pipe `ufo` into `group_by`, then pipe that into `summarize`:
 
 ```{r}
-yts %>%
-  group_by(Response) %>%
-  summarize(mean_value = mean(Data_Value, na.rm = TRUE),
-            max_value = max(Data_Value, na.rm = TRUE))
+ufo %>%
+  group_by(shape) %>%
+  summarize(mean_value = mean(duration_s, na.rm = TRUE),
+            max_value = max(duration_s, na.rm = TRUE))
 ```
 
 ## `group_by` with `mutate` - Useful for comparisons {.codesmall}
 
-Use `group_by` to calculate the mean value for each year. We can use `mutate` to add it as a column.
+Use `group_by` to calculate the mean value for each shape. We can use `mutate` to add it as a column.
 
 ```{r}
-yts_year <- yts %>%
-  group_by(YEAR) %>%
-  mutate(year_avg = mean(Data_Value, na.rm = TRUE)) %>%
-  select(LocationDesc, Data_Value, year_avg)
+ufo_compare <- ufo %>%
+  group_by(shape) %>%
+  mutate(duration_shape_avg = mean(duration_s, na.rm = TRUE)) %>%
+  select(shape, duration_s, duration_shape_avg)
+ufo_compare
 ```
 
 ## `group_by` with `mutate` - Useful for comparisons {.codesmall}
@@ -176,7 +188,7 @@ yts_year <- yts %>%
 Create a "difference" variable:
 
 ```{r}
-yts_year %>% mutate(Diff = Data_Value - year_avg)
+ufo_compare %>% mutate(diff = duration_s - duration_shape_avg)
 ```
 
 ## Use `n()` for sample size by group
@@ -184,63 +196,35 @@ yts_year %>% mutate(Diff = Data_Value - year_avg)
 There are other functions, such as `n()` count the number of observations.
 
 ```{r}
-yts %>%
-  group_by(YEAR) %>%
+ufo %>%
+  group_by(shape) %>%
   summarize(n = n(),
-            mean = mean(Data_Value, na.rm = TRUE))
+            mean = mean(duration_s, na.rm = TRUE))
 ```
 
 # Iterative summaries
 
-## Iterative summaries: `dplyr` `summarize()` and `across()` functions
+## Iterative summaries: `dplyr` `summarize()` and `across()` functions {.codesmall}
 
 Use the [`across`](https://dplyr.tidyverse.org/reference/across.html) function with `summarize()` to summarize across multiple columns of your data.
 
 ```{r}
-yts %>%
-  group_by(YEAR) %>%
+dropouts <- read_delim("https://sisbid.github.io/Data-Wrangling/data/dropouts.txt", delim = "/")
+dropouts %>%
+  group_by(ETHNIC) %>%
   summarize(across( 
-    c(Data_Value, Data_Value_Std_Err, Sample_Size), 
-    ~ mean(.x, na.rm = TRUE)
+    c(D9, D10, D11, D12), 
+    ~ sum(.x)
   ))
 ```
 
 ## Select different columns based on the data class
 
-select helpers (`??tidyr_tidy_select`) are great. We could also use:
-
-- is.numeric
-- is.character
-- is.factor
-
-to look for data.
-
-## Iterative summaries: `dplyr` `summarize()` and `across()` functions
-
-Select only numeric columns.
+Use `?tidyr_tidy_select` functions: `where(is.numeric)`
 
 ```{r}
-is.numeric(1)
-```
-
-```{r}
-yts %>% 
-  summarize(across( where(is.numeric), ~ mean(.x, na.rm = TRUE)))
-```
-
-## Changing the order of character data - factors
-
-```{r}
-yts %>% count(Education)
-```
-
-```{r}
-yts %>%
-  mutate(Education = factor(
-    Education, 
-    levels = c("Middle School", "High School")
-  )) %>% 
-  count(Education)
+dropouts %>% 
+  summarize(across( where(is.numeric), ~ sum(.x, na.rm = TRUE)))
 ```
 
 ## `summary()` Function
@@ -248,7 +232,7 @@ yts %>%
 Using `summary()` can give you rough snapshots of each numeric column (character columns are skipped):
 
 ```{r}
-summary(yts)
+summary(dropouts)
 ```
 
 ## Summary
