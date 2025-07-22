@@ -48,7 +48,7 @@ data_gen <-data_gen %>% mutate(status =
             case_when(status 
           %in% c("C", "cont", "cOnt", "Cont", "control", "Control")
                                 ~ "Control",
-                           TRUE ~ status)) 
+                           .default =  status)) 
 count(data_gen, status)
 ```
 
@@ -101,7 +101,7 @@ data_gen <-data_gen %>%
                       case_when(status %in% 
                     c("Treatment", "T", "Treat", "Traet", "Treat")
                                 ~ "Treatment",
-                           TRUE ~ status)) 
+                           .default = status)) 
 count(data_gen, status)
 ```
 
@@ -252,7 +252,8 @@ ufo_clean %>%
 
 ## 'Find' functions: `str_subset()` is easier {.smaller}
 
-`str_subset()` gives the values that match the pattern:
+`str_subset()` gives the values that match the pattern: 
+(or if we used negate = TRUE it would find the opposite)
 
 ```{r ggrep}
 ufo_clean %>% pull(comments) %>%
