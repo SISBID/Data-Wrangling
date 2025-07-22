@@ -220,6 +220,16 @@ long <- long %>%
 long
 ```
 
+## GUT CHECK!
+
+What does `pivot_longer()` do?
+
+A. Summarize data
+
+B. Subsets data
+
+C. Reshape data
+
 # `pivot_wider`...
 
 ## Reshaping data from **long to wide**
@@ -296,3 +306,5 @@ air %>% pivot_wider(names_from = "Month",
      - Specify `names_to = ` and `values_to = ` for custom naming
 - `pivot_wider()` goes from long -> wide
      - Specify `names_from =` and `values_from = `
+
+https://sisbid.github.io/Data-Wrangling/labs/data-reshaping-lab.Rmd
