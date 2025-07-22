@@ -3259,6 +3259,8 @@ font-size: 16px;
 
 <p>Read in data or download from: <a href='http://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv.gz' title=''>http://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv.gz</a></p>
 
+<p>This data is originally from kaggle: <a href='https://www.kaggle.com/datasets/NUFORC/ufo-sightings' title=''>https://www.kaggle.com/datasets/NUFORC/ufo-sightings</a></p>
+
 <pre class = 'prettyprint lang-r'>ufo &lt;- read_delim(
   &quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv&quot;, 
   delim = &quot;,&quot;)</pre>
@@ -3296,7 +3298,7 @@ $ file     &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &
 
 </article></slide><slide class=""><hgroup><h2>Any unique problems?</h2></hgroup><article  id="any-unique-problems">
 
-<pre class = 'prettyprint lang-r'>count(p, expected, actual, col)</pre>
+<pre class = 'prettyprint lang-r'>p %&gt;% count(expected, actual, col)</pre>
 
 <pre ># A tibble: 5 × 4
   expected   actual         col     n
@@ -3344,7 +3346,7 @@ $ longitude              &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&q
 
 <p>The slice function can show us particular row numbers</p>
 
-<pre class = 'prettyprint lang-r'>p %&gt;% filter(col != 12)</pre>
+<pre class = 'prettyprint lang-r'>p %&gt;% filter(col == 6)</pre>
 
 <pre ># A tibble: 4 × 5
     row   col expected actual      file 
@@ -3403,7 +3405,7 @@ count(p, expected, actual, col)</pre>
   &lt;chr&gt;      &lt;chr&gt;      &lt;int&gt; &lt;int&gt;
 1 11 columns 12 columns    12   196</pre>
 
-<p>Our previous problematic rows have values instead of NAs</p>
+</article></slide><slide class=""><hgroup><h2>Check one of our previous problematic rows:</h2></hgroup><article  id="check-one-of-our-previous-problematic-rows">
 
 <pre class = 'prettyprint lang-r'>slice(ufo, 30894 -1) %&gt;% glimpse()</pre>
 
@@ -3433,7 +3435,7 @@ $ longitude              &lt;chr&gt; &quot;-114.0050000&quot;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Drop the remaining shifted problematic rows <strong>for now</strong></h2></hgroup><article  id="drop-the-remaining-shifted-problematic-rows-for-now">
 
-<p>Multiply by negative one to drop the rows. Use the <code>slice</code> function to &ldquo;select&rdquo; those rows based on the index. Need to offset for <code>-1</code> because <code>problems()</code> gives us the index row based on the raw data, not the read in data (which has a header). We will multiple by negative one to select out those rows as well.</p>
+<p>Multiply by negative one to drop the rows. Use the <code>slice</code> function to &ldquo;select&rdquo; those rows based on the index. Need to offset for <code>-1</code> because <code>problems()</code> gives us the index row based on the raw data, not the read in data (which has a header).</p>
 
 <pre class = 'prettyprint lang-r'>head(p, n = 2)</pre>
 
@@ -3447,11 +3449,7 @@ $ longitude              &lt;chr&gt; &quot;-114.0050000&quot;</pre>
 
 <pre >[1]  877 1712 1814 2857 3733 4755</pre>
 
-<pre class = 'prettyprint lang-r'>((pull(p, row) -1) *-1) %&gt;% head()</pre>
-
-<pre >[1]  -877 -1712 -1814 -2857 -3733 -4755</pre>
-
-<pre class = 'prettyprint lang-r'>ufo_clean &lt;- ufo %&gt;% slice((pull(p, row)-1)*-1)</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean &lt;- ufo %&gt;% slice(-(pull(p, row)-1))</pre>
 
 </article></slide><slide class=""><hgroup><h2>Checking</h2></hgroup><article  id="checking">
 
@@ -3465,6 +3463,24 @@ $ longitude              &lt;chr&gt; &quot;-114.0050000&quot;</pre>
   expected   actual         n
   &lt;chr&gt;      &lt;chr&gt;      &lt;int&gt;
 1 11 columns 12 columns   196</pre>
+
+</article></slide><slide class=""><hgroup><h2>read in for the shifted rows</h2></hgroup><article  id="read-in-for-the-shifted-rows" class="codesmall">
+
+<p>To keep these rows we would need to import again with different specifications. We could just get the shifted rows, rename the columns to be correct and the join this with the existing data if we wanted to try to keep all rows. We will learn about merging data later. But for now let’s not worry about these rows.</p>
+
+<pre class = 'prettyprint lang-r'>ufo_colnames &lt;-colnames(ufo)
+ufo_colnames&lt;-c(ufo_colnames, &quot;empty&quot;) # add a new column name for 12th column
+
+ufo2 &lt;-
+read.table(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv&quot;,
+                  header = TRUE, sep = &quot;,&quot;, col.names = ufo_colnames, fill = TRUE, na = &quot;&quot;, 
+           colClasses = c(rep(&quot;character&quot;,10), &quot;numeric&quot;)) # based on what the values seem to be currently</pre>
+
+<pre >Warning in
+read.table(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv&quot;,
+: header and &#39;col.names&#39; are of different lengths</pre>
+
+<pre class = 'prettyprint lang-r'>ufo2 &lt;-ufo2 %&gt;% filter(empty == 0)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Clean names with the <code>clean_names()</code> function from the <code>janitor</code> package</h2></hgroup><article  id="clean-names-with-the-clean_names-function-from-the-janitor-package">
 
@@ -3483,16 +3499,48 @@ colnames(ufo_clean)</pre>
  [7] &quot;duration_hours_min&quot; &quot;comments&quot;           &quot;date_posted&quot;       
 [10] &quot;latitude&quot;           &quot;longitude&quot;         </pre>
 
-<!-- ## Let's just drop those problematic rows for now. -->
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Duplicates</h2></hgroup><article  id="duplicates">
 
-<!-- Though you would usually want to check them! -->
+</article></slide><slide class=""><hgroup><h2>Distinct values</h2></hgroup><article  id="distinct-values">
+
+<p>The <code>distinct()</code> function can help us remove duplicated rows.</p>
+
+<pre class = 'prettyprint lang-r'>dup_df</pre>
+
+<pre >  ID   Name value
+1  1      R    25
+2  3      R    60
+3  2 Python    30
+4  2 Python    30</pre>
+
+<pre class = 'prettyprint lang-r'>distinct(dup_df) # to get just distinct rows</pre>
+
+<pre >  ID   Name value
+1  1      R    25
+2  3      R    60
+3  2 Python    30</pre>
+
+</article></slide><slide class=""><hgroup><h2>Aggregate values</h2></hgroup><article  id="aggregate-values">
+
+<p><code>aggregate</code> helps us aggregate the data using mean or sum</p>
+
+<pre class = 'prettyprint lang-r'>dup_df %&gt;% aggregate(value ~ Name, mean)</pre>
+
+<pre >    Name value
+1 Python  30.0
+2      R  42.5</pre>
+
+<pre class = 'prettyprint lang-r'>dup_df %&gt;% aggregate(value ~ Name, sum)</pre>
+
+<pre >    Name value
+1 Python    60
+2      R    85</pre>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Recoding Variables</h2></hgroup><article  id="recoding-variables">
 
-</article></slide><slide class=""><hgroup><h2>Exact Swaps - case_when function</h2></hgroup><article  id="exact-swaps---case_when-function">
+</article></slide><slide class=""><hgroup><h2>Exact Swaps - <code>case_when</code> function</h2></hgroup><article  id="exact-swaps---case_when-function">
 
 <pre >case_when(test ~ value if test is true,
-         test2 ~ vlue if test2 is true,
       .default ~ value if all above tests are not true) # defaults to NA</pre>
 
 <pre class = 'prettyprint lang-r'>ufo_clean %&gt;% 
@@ -3516,7 +3564,7 @@ $ latitude           &lt;chr&gt; &quot;29.8830556&quot;, &quot;29.38421&quot;, &
 $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;, &quot;-2.916667&quot;, &quot;-96.6458…
 $ .default           &lt;chr&gt; NA, NA, &quot;Great Britain&quot;, NA, NA, NA, &quot;Great Britain…</pre>
 
-</article></slide><slide class=""><hgroup><h2>case_when caviets</h2></hgroup><article  id="case_when-caviets">
+</article></slide><slide class=""><hgroup><h2><code>case_when</code> note</h2></hgroup><article  id="case_when-note">
 
 <p>.default may look like TRUE ~</p>
 
@@ -3560,6 +3608,34 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
          test2 ~ vlue if test2 is true,
         .default ~ value if all above tests are not true) # defaults to NA</pre>
 
+<p>The <code>.default</code> value can also just be the original values.</p>
+
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% mutate(country = case_when(
+                  country == &quot;gb&quot; ~ &quot;Great Britain&quot;,
+                  country == &quot;us&quot; ~&quot;United States&quot;,
+                  country == &quot;au&quot; ~ &quot;Australia&quot;,
+                  country == &quot;DE&quot; ~ &quot;Germany&quot;,
+                             .default = country))%&gt;%
+  glimpse()</pre>
+
+<pre >Rows: 88,679
+Columns: 11
+$ datetime           &lt;chr&gt; &quot;10/10/1949 20:30&quot;, &quot;10/10/1949 21:00&quot;, &quot;10/10/1955…
+$ city               &lt;chr&gt; &quot;san marcos&quot;, &quot;lackland afb&quot;, &quot;chester (uk/england)…
+$ state              &lt;chr&gt; &quot;tx&quot;, &quot;tx&quot;, NA, &quot;tx&quot;, &quot;hi&quot;, &quot;tn&quot;, NA, &quot;ct&quot;, &quot;al&quot;, &quot;…
+$ country            &lt;chr&gt; &quot;United States&quot;, NA, &quot;Great Britain&quot;, &quot;United State…
+$ shape              &lt;chr&gt; &quot;cylinder&quot;, &quot;light&quot;, &quot;circle&quot;, &quot;circle&quot;, &quot;light&quot;, &quot;…
+$ duration_seconds   &lt;chr&gt; &quot;2700&quot;, &quot;7200&quot;, &quot;20&quot;, &quot;20&quot;, &quot;900&quot;, &quot;300&quot;, &quot;180&quot;, &quot;1…
+$ duration_hours_min &lt;chr&gt; &quot;45 minutes&quot;, &quot;1-2 hrs&quot;, &quot;20 seconds&quot;, &quot;1/2 hour&quot;, …
+$ comments           &lt;chr&gt; &quot;This event took place in early fall around 1949-50…
+$ date_posted        &lt;chr&gt; &quot;4/27/2004&quot;, &quot;12/16/2005&quot;, &quot;1/21/2008&quot;, &quot;1/17/2004&quot;…
+$ latitude           &lt;chr&gt; &quot;29.8830556&quot;, &quot;29.38421&quot;, &quot;53.2&quot;, &quot;28.9783333&quot;, &quot;21…
+$ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;, &quot;-2.916667&quot;, &quot;-96.6458…</pre>
+
+</article></slide><slide class=""><hgroup><h2><code>case_when</code> - another example</h2></hgroup><article  id="case_when---another-example">
+
+<p>The <code>.default</code> value can also be a single different value.</p>
+
 <pre class = 'prettyprint lang-r'>ufo_clean &lt;- ufo_clean %&gt;% mutate( 
             region = case_when(
               country %in% c(&quot;us&quot;, &quot;ca&quot;) ~ &quot;North America&quot;,
@@ -3579,38 +3655,15 @@ ufo_clean %&gt;% select(country, region) %&gt;% head()</pre>
 5 us      North America
 6 us      North America</pre>
 
-</article></slide><slide class=""><hgroup><h2><code>case_when</code> - another example</h2></hgroup><article  id="case_when---another-example">
-
-<p>The <code>.default</code> value can also just be the original values.</p>
-
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% mutate(country = case_when(
-                  country == &quot;gb&quot; ~ &quot;Great Britain&quot;,
-                  country == &quot;us&quot; ~&quot;United States&quot;,
-                  country == &quot;au&quot; ~ &quot;Australia&quot;,
-                  country == &quot;DE&quot; ~ &quot;Germany&quot;,
-                             .default = country))%&gt;%
-  glimpse()</pre>
-
-<pre >Rows: 88,679
-Columns: 12
-$ datetime           &lt;chr&gt; &quot;10/10/1949 20:30&quot;, &quot;10/10/1949 21:00&quot;, &quot;10/10/1955…
-$ city               &lt;chr&gt; &quot;san marcos&quot;, &quot;lackland afb&quot;, &quot;chester (uk/england)…
-$ state              &lt;chr&gt; &quot;tx&quot;, &quot;tx&quot;, NA, &quot;tx&quot;, &quot;hi&quot;, &quot;tn&quot;, NA, &quot;ct&quot;, &quot;al&quot;, &quot;…
-$ country            &lt;chr&gt; &quot;United States&quot;, NA, &quot;Great Britain&quot;, &quot;United State…
-$ shape              &lt;chr&gt; &quot;cylinder&quot;, &quot;light&quot;, &quot;circle&quot;, &quot;circle&quot;, &quot;light&quot;, &quot;…
-$ duration_seconds   &lt;chr&gt; &quot;2700&quot;, &quot;7200&quot;, &quot;20&quot;, &quot;20&quot;, &quot;900&quot;, &quot;300&quot;, &quot;180&quot;, &quot;1…
-$ duration_hours_min &lt;chr&gt; &quot;45 minutes&quot;, &quot;1-2 hrs&quot;, &quot;20 seconds&quot;, &quot;1/2 hour&quot;, …
-$ comments           &lt;chr&gt; &quot;This event took place in early fall around 1949-50…
-$ date_posted        &lt;chr&gt; &quot;4/27/2004&quot;, &quot;12/16/2005&quot;, &quot;1/21/2008&quot;, &quot;1/17/2004&quot;…
-$ latitude           &lt;chr&gt; &quot;29.8830556&quot;, &quot;29.38421&quot;, &quot;53.2&quot;, &quot;28.9783333&quot;, &quot;21…
-$ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;, &quot;-2.916667&quot;, &quot;-96.6458…
-$ region             &lt;chr&gt; &quot;North America&quot;, &quot;Other&quot;, &quot;Great Britain&quot;, &quot;North A…</pre>
-
 </article></slide><slide class=""><hgroup><h2>Summary</h2></hgroup><article  id="summary">
 
 <ul>
-<li><code>recode</code> is a function like case_when that only makes exact swaps that you might see</li>
-<li><code>case_when</code> can use conditionals, need to specify what value for if no conditions are met (can be the original value of a variable if we use the variable name).</li>
+<li>Sometimes need to read the data in iteratively and check for problems with <code>problems</code></li>
+<li>Duplicated values can be reduced down to distinct rows using <code>distinct()</code></li>
+<li>Duplicated values can ablso be reduced down by aggregating using mathematical functions like <code>mean</code> or <code>sum</code> using <code>aggregate</code></li>
+<li><code>case_when</code> can use conditionals, need to specify what value for if no conditions are met using <code>.defualt</code>(can be the original value of a variable if we use the variable name).</li>
+<li><code>case_when</code> needs to be used inside <code>mutate</code> to modify or create new columns</li>
+<li>Note: you might see the <code>recode</code> is a function, which is like <code>case_when</code> but only makes exact swaps, (while <code>case_when</code> can do this and more!)</li>
 </ul>
 
 </article></slide><slide class=""><hgroup><h2>Lab</h2></hgroup><article  id="lab">
