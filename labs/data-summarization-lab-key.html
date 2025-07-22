@@ -401,21 +401,6 @@ display: none;
 ##    &lt;dbl&gt;
 ## 1 935564</code></pre>
 <ol start="3" style="list-style-type: decimal">
-<li>How many days are missing daily ridership (<code>daily</code>
-column)? Use <code>is.na()</code> and <code>sum()</code>.</li>
-</ol>
-<pre class="r"><code>daily &lt;- circ %&gt;% pull(daily)
-sum(is.na(daily))</code></pre>
-<pre><code>## [1] 124</code></pre>
-<pre class="r"><code># Can also
-circ %&gt;% 
-  count(is.na(daily))</code></pre>
-<pre><code>## # A tibble: 2 × 2
-##   `is.na(daily)`     n
-##   &lt;lgl&gt;          &lt;int&gt;
-## 1 FALSE           1022
-## 2 TRUE             124</code></pre>
-<ol start="4" style="list-style-type: decimal">
 <li>Group the data by day of the week (<code>day</code>). Find the mean
 daily ridership (<code>daily</code> column). (hint: use
 <code>group_by</code> and <code>summarize</code> functions)</li>
@@ -433,25 +418,9 @@ daily ridership (<code>daily</code> column). (hint: use
 ## 5 Thursday  7639.
 ## 6 Tuesday   7642.
 ## 7 Wednesday 7779.</code></pre>
-</div>
-<div id="practice-on-your-own" class="section level2">
-<h2><strong>Practice on your own</strong></h2>
-<ol start="5" style="list-style-type: decimal">
-<li>What is the median of <code>orangeBoardings</code>(use
-<code>median()</code>).</li>
-</ol>
-<pre class="r"><code>circ %&gt;% 
-  summarize(median = median(orangeBoardings, na.rm = TRUE))</code></pre>
-<pre><code>## # A tibble: 1 × 1
-##   median
-##    &lt;dbl&gt;
-## 1   3074</code></pre>
-<pre class="r"><code># OR 
-circ %&gt;% pull(orangeBoardings) %&gt;% median(na.rm = TRUE)</code></pre>
-<pre><code>## [1] 3074</code></pre>
-<ol start="6" style="list-style-type: decimal">
+<ol start="4" style="list-style-type: decimal">
 <li>Take the median of <code>orangeBoardings</code>(use
-<code>median()</code>), but this time group by day of the week.</li>
+<code>median()</code>), grouping by day of the week.</li>
 </ol>
 <pre class="r"><code>circ %&gt;% 
   group_by(day) %&gt;% 
@@ -466,6 +435,31 @@ circ %&gt;% pull(orangeBoardings) %&gt;% median(na.rm = TRUE)</code></pre>
 ## 5 Thursday   3485 
 ## 6 Tuesday    3484 
 ## 7 Wednesday  3576</code></pre>
+</div>
+<div id="practice-on-your-own" class="section level2">
+<h2><strong>Practice on your own</strong></h2>
+<ol start="5" style="list-style-type: decimal">
+<li>Group by day of the week, and then find the mean ridership
+<code>summarize(across())</code> all numeric columns using
+<code>where(is.numeric)</code>.</li>
+</ol>
+<pre class="r"><code>circ %&gt;% 
+  group_by(day) %&gt;% 
+  summarize(across(where(is.numeric), ~mean(.x, na.rm=T)))</code></pre>
+<pre><code>## # A tibble: 7 × 14
+##   day       orangeBoardings orangeAlightings orangeAverage purpleBoardings
+##   &lt;chr&gt;               &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;           &lt;dbl&gt;
+## 1 Friday              3744.            3840.         3745.           5172.
+## 2 Monday              3076.            3160.         3088.           4158.
+## 3 Saturday            2861.            2937.         2873.           3774.
+## 4 Sunday              1878.            1916.         1887.           2545.
+## 5 Thursday            3215.            3281.         3204.           4404.
+## 6 Tuesday             3153.            3235.         3158.           4300.
+## 7 Wednesday           3256.            3338.         3244.           4493.
+## # ℹ 9 more variables: purpleAlightings &lt;dbl&gt;, purpleAverage &lt;dbl&gt;,
+## #   greenBoardings &lt;dbl&gt;, greenAlightings &lt;dbl&gt;, greenAverage &lt;dbl&gt;,
+## #   bannerBoardings &lt;dbl&gt;, bannerAlightings &lt;dbl&gt;, bannerAverage &lt;dbl&gt;,
+## #   daily &lt;dbl&gt;</code></pre>
 </div>
 
 
