@@ -181,16 +181,17 @@ R Projects are a super helpful feature of RStudio. They help you:
 
 ## Data Input
 
-Youth Tobacco Survey (YTS) dataset:
+UFO dataset:
 
-"The YTS was developed to provide states with comprehensive data on both middle school and high school students regarding tobacco use, exposure to environmental tobacco smoke, smoking cessation, school curriculum, minors' ability to purchase or otherwise obtain tobacco products, knowledge and attitudes about tobacco, and familiarity with pro-tobacco and anti-tobacco media messages."
+"This dataset contains over 80,000 reports of UFO sightings over the last century. Inspiration includes What areas of the country are most likely to have UFO sightings? Are there any trends in UFO sightings over time? Do they tend to be clustered or seasonal?
+Do clusters of UFO sightings correlate with landmarks, such as airports or government research centers? What are the most common UFO descriptions?"
 
-* Check out the data at: https://catalog.data.gov/dataset/youth-tobacco-survey-yts-data
+* Check out the data at: https://www.kaggle.com/datasets/NUFORC/ufo-sightings
 
 
 ## Data Input: Dataset Location
 
-Dataset is located at https://sisbid.github.io/Data-Wrangling/data/Youth_Tobacco_Survey_YTS_Data.csv
+Dataset is located at https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv
 
 * Download data by clicking the above link
     
@@ -202,28 +203,28 @@ Dataset is located at https://sisbid.github.io/Data-Wrangling/data/Youth_Tobacco
 -  `>` File
 -  `>` Import Dataset
 -  `>` From Text (`readr`)
--  `>` paste the url (https://sisbid.github.io/Data-Wrangling/data/Youth_Tobacco_Survey_YTS_Data.csv)
+-  `>` paste the url (https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv)
 -  `>` click "Update" and "Import"
 
 
 ## What Just Happened?
 
 - You see a preview of the data on the top left pane.
-- You see a new object called `Youth_Tobacco_Survey_YTS_Data` in your environment pane (top right). The table button opens the data for you to view.
+- You see a new object called `ufo_data_complete` in your environment pane (top right). The table button opens the data for you to view.
 - R ran some code in the console (bottom left).
 
 
-## Import Dataset (recap)
-
-```{r, fig.alt="Gif showing the process of importing a dataset via readr.", out.width = "100%", echo = FALSE, align = "center"}
-knitr::include_graphics("media/Data_Input_import_dataset.gif")
-```
-
-
-## Browsing for Data on Your Machine
+## Browsing for Data on Your Machine (not URL)
 
 ```{r, fig.alt="The image shows an image of an arrow pointing to the newly created R project repository.", out.width = "80%", echo = FALSE, align = "center"}
 knitr::include_graphics("media/Data_Input_browse.png")
+```
+
+
+## Watch the process (recap)
+
+```{r, fig.alt="Gif showing the process of importing a dataset via readr.", out.width = "100%", echo = FALSE, align = "center"}
+knitr::include_graphics("media/Data_Input_import_dataset.gif")
 ```
 
 
