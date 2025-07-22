@@ -438,7 +438,7 @@ chicks_wide</code></pre>
 ## 9 49    4         40     237</code></pre>
 <ol start="4" style="list-style-type: decimal">
 <li>Reshape to long format using <code>pivot_longer</code>. Pivot the
-numeric columns. Use the arguments <code>names_to =</code> and
+time related columns. Use the arguments <code>names_to =</code> and
 <code>values_to =</code>. Call the data <code>chicks_long</code>.</li>
 </ol>
 <pre class="r"><code>chicks_wide %&gt;% pivot_longer(c(Time_0, Time_21), names_to = &quot;Time&quot;, values_to = &quot;weight&quot;)</code></pre>
