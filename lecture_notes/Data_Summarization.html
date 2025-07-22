@@ -18417,10 +18417,7 @@ ufo_compare</pre>
 <pre class = 'prettyprint lang-r'>dropouts &lt;- read_delim(&quot;https://sisbid.github.io/Data-Wrangling/data/dropouts.txt&quot;, delim = &quot;/&quot;)
 dropouts %&gt;%
   group_by(ETHNIC) %&gt;%
-  summarize(across( 
-    c(D9, D10, D11, D12), 
-    ~ sum(.x)
-  ))</pre>
+  summarize(across(c(D9, D10, D11, D12), ~sum(.x)))</pre>
 
 <pre ># A tibble: 9 × 5
   ETHNIC    D9   D10   D11   D12
@@ -18437,15 +18434,24 @@ dropouts %&gt;%
 
 </article></slide><slide class=""><hgroup><h2>Select different columns based on the data class</h2></hgroup><article  id="select-different-columns-based-on-the-data-class">
 
-<p>Use <code>?tidyr_tidy_select</code> functions: <code>where(is.numeric)</code></p>
+<p>Use <code>?tidyr_tidy_select</code> functions like <code>where(is.numeric)</code>!</p>
 
 <pre class = 'prettyprint lang-r'>dropouts %&gt;% 
+  group_by(ETHNIC) %&gt;% 
   summarize(across( where(is.numeric), ~ sum(.x, na.rm = TRUE)))</pre>
 
-<pre ># A tibble: 1 × 18
+<pre ># A tibble: 9 × 18
   ETHNIC     E7     E8     E9    E10    E11    E12   EUS    ETOT    D7    D8
    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 282304 473574 472340 487547 486085 481521 484169  6079 1945401  1453  1138
+1      0   2922   2709   3140   3291   2776   2345    43   11595    66    52
+2      1   2523   2589   2808   2886   2889   3020    33   11636    16    15
+3      2  44199  43898  43343  43757  45840  43001   596  176537    69    37
+4      3   2390   2284   2436   2352   2471   2571    42    9872     9     7
+5      4  12210  12883  13429  14037  14273  14469   233   56441    12     8
+6      5 254745 252583 264302 260201 252458 253193  2680 1032834   682   550
+7      6  26383  26786  28497  28731  28696  30799   485  117208   217   164
+8      7 113498 115139 115593 117592 119308 121771  1829  476093   323   267
+9      9  14704  13469  13999  13238  12810  13000   138   53185    59    38
 # ℹ 7 more variables: D9 &lt;dbl&gt;, D10 &lt;dbl&gt;, D11 &lt;dbl&gt;, D12 &lt;dbl&gt;, DUS &lt;dbl&gt;,
 #   DTOT &lt;dbl&gt;, YEAR &lt;dbl&gt;</pre>
 
@@ -18500,7 +18506,7 @@ dropouts %&gt;%
 
 <ul>
 <li>combine with <code>summarize()</code> to get statistics per group</li>
-<li>combine with <code>across()</code> to programmatically select columns</li>
+<li>combine with <code>across()</code> to select several columns</li>
 </ul></li>
 <li><code>summary(x)</code>: quantile information</li>
 </ul>
