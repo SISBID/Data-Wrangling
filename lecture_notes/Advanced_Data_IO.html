@@ -3136,7 +3136,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
 { counter-reset: source-line 0; }
@@ -3266,10 +3266,21 @@ font-size: 16px;
 <pre class = 'prettyprint lang-r'># Prompts a browser pop-up
 gs4_auth()</pre>
 
+<p><br></p>
+
+<p>When prompted:</p>
+
+<ul>
+<li><p>&ldquo;OK to cache OAuth access credentials in the folder between R sessions?&rdquo;, select YES</p></li>
+<li><p>Make sure you select &ldquo;allow&rdquo; on your Google Account for the Tidyverse API.</p></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Reading data with the googlesheets4 package</h2></hgroup><article  id="reading-data-with-the-googlesheets4-package-1">
+
 <pre class = 'prettyprint lang-r'># Once set up, you can automate this process by passing your email
 gs4_auth(email = &quot;avamariehoffman@gmail.com&quot;)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Reading data with the googlesheets4 package</h2></hgroup><article  id="reading-data-with-the-googlesheets4-package-1">
+</article></slide><slide class=""><hgroup><h2>Reading data with the googlesheets4 package</h2></hgroup><article  id="reading-data-with-the-googlesheets4-package-2">
 
 <p>You can also supply an authorization token directly, but make sure never to make these visible online!</p>
 
@@ -3277,7 +3288,7 @@ gs4_auth(email = &quot;avamariehoffman@gmail.com&quot;)</pre>
 drive_auth(email= &quot;&lt;email&gt;&quot;,
            token = readRDS(&quot;google-sheets-token.rds&quot;)) # Saved in a file</pre>
 
-</article></slide><slide class=""><hgroup><h2>Reading data with the googlesheets4 package</h2></hgroup><article  id="reading-data-with-the-googlesheets4-package-2" class="smaller">
+</article></slide><slide class=""><hgroup><h2>Reading data with the googlesheets4 package</h2></hgroup><article  id="reading-data-with-the-googlesheets4-package-3" class="smaller">
 
 <p>Read in using <code>read_sheet()</code></p>
 
@@ -3301,7 +3312,7 @@ sheet_dat_1 &lt;- read_sheet(sheet_url)</pre>
 5 Algeria Africa     1972    54.5 14760787     4183.
 6 Algeria Africa     1977    58.0 17152804     4910.</pre>
 
-</article></slide><slide class=""><hgroup><h2>Reading data with the googlesheets4 package</h2></hgroup><article  id="reading-data-with-the-googlesheets4-package-3">
+</article></slide><slide class=""><hgroup><h2>Reading data with the googlesheets4 package</h2></hgroup><article  id="reading-data-with-the-googlesheets4-package-4">
 
 <p>Specify the sheet name if necessary:</p>
 
@@ -3361,7 +3372,7 @@ sheet_dat_1 &lt;- read_sheet(sheet_url)</pre>
 10 Australia Oceania  
 # ℹ 14 more rows</pre>
 
-</article></slide><slide class=""><hgroup><h2>Reading data with the googlesheets4 package</h2></hgroup><article  id="reading-data-with-the-googlesheets4-package-4">
+</article></slide><slide class=""><hgroup><h2>Reading data with the googlesheets4 package</h2></hgroup><article  id="reading-data-with-the-googlesheets4-package-5">
 
 <p>List out the sheet names using <code>sheet_names()</code>.</p>
 
@@ -3369,7 +3380,7 @@ sheet_dat_1 &lt;- read_sheet(sheet_url)</pre>
 
 <pre >[1] &quot;Africa&quot;   &quot;Americas&quot; &quot;Asia&quot;     &quot;Europe&quot;   &quot;Oceania&quot; </pre>
 
-</article></slide><slide class=""><hgroup><h2>Reading data with the googlesheets4 package</h2></hgroup><article  id="reading-data-with-the-googlesheets4-package-5">
+</article></slide><slide class=""><hgroup><h2>Reading data with the googlesheets4 package</h2></hgroup><article  id="reading-data-with-the-googlesheets4-package-6">
 
 <p>Iterate through the sheet names with <code>purrr</code>:</p>
 
@@ -3403,7 +3414,7 @@ data_list &lt;- map(gapminder_sheets, ~ read_sheet(sheet_url, sheet = .x))</pre>
 
 <!-- } -->
 
-</article></slide><slide class=""><hgroup><h2>Reading data with the googlesheets4 package</h2></hgroup><article  id="reading-data-with-the-googlesheets4-package-6">
+</article></slide><slide class=""><hgroup><h2>Reading data with the googlesheets4 package</h2></hgroup><article  id="reading-data-with-the-googlesheets4-package-7">
 
 <p>Check out the list:</p>
 
@@ -3446,7 +3457,7 @@ data_list &lt;- map(gapminder_sheets, ~ read_sheet(sheet_url, sheet = .x))</pre>
   ..$ pop      : num [1:24] 8691212 9712569 10794968 11872264 13177000 ...
   ..$ gdpPercap: num [1:24] 10040 10950 12217 14526 16789 ...</pre>
 
-</article></slide><slide class=""><hgroup><h2>Reading data with the googlesheets4 package</h2></hgroup><article  id="reading-data-with-the-googlesheets4-package-7">
+</article></slide><slide class=""><hgroup><h2>Reading data with the googlesheets4 package</h2></hgroup><article  id="reading-data-with-the-googlesheets4-package-8">
 
 <p>Pull out sheets as needed:</p>
 
@@ -5681,10 +5692,10 @@ req &lt;- GET(query_url)
 content(req)</pre>
 
 <pre >$fact
-[1] &quot;Phoenician cargo ships are thought to have brought the first domesticated cats to Europe in about 900 BC.&quot;
+[1] &quot;The earliest ancestor of the modern cat lived about 30 million years ago. Scientists called it the Proailurus, which means “first cat” in Greek. The group of animals that pet cats belong to emerged around 12 million years ago.&quot;
 
 $length
-[1] 105</pre>
+[1] 226</pre>
 
 </article></slide><slide class=""><hgroup><h2>Not all APIs are &ldquo;open&rdquo;</h2></hgroup><article  id="not-all-apis-are-open">
 
