@@ -3136,7 +3136,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
 { counter-reset: source-line 0; }
@@ -3285,7 +3285,7 @@ data_gen &lt;-data_gen %&gt;% mutate(status =
             case_when(status 
           %in% c(&quot;C&quot;, &quot;cont&quot;, &quot;cOnt&quot;, &quot;Cont&quot;, &quot;control&quot;, &quot;Control&quot;)
                                 ~ &quot;Control&quot;,
-                           TRUE ~ status)) 
+                           .default =  status)) 
 count(data_gen, status)</pre>
 
 <pre ># A tibble: 6 × 2
@@ -3359,7 +3359,7 @@ data_gen &lt;-data_gen %&gt;%
                       case_when(status %in% 
                     c(&quot;Treatment&quot;, &quot;T&quot;, &quot;Treat&quot;, &quot;Traet&quot;, &quot;Treat&quot;)
                                 ~ &quot;Treatment&quot;,
-                           TRUE ~ status)) 
+                           .default = status)) 
 count(data_gen, status)</pre>
 
 <pre ># A tibble: 2 × 2
