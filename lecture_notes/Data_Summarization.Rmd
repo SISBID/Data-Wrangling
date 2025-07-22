@@ -212,18 +212,16 @@ Use the [`across`](https://dplyr.tidyverse.org/reference/across.html) function w
 dropouts <- read_delim("https://sisbid.github.io/Data-Wrangling/data/dropouts.txt", delim = "/")
 dropouts %>%
   group_by(ETHNIC) %>%
-  summarize(across( 
-    c(D9, D10, D11, D12), 
-    ~ sum(.x)
-  ))
+  summarize(across(c(D9, D10, D11, D12), ~sum(.x)))
 ```
 
 ## Select different columns based on the data class
 
-Use `?tidyr_tidy_select` functions: `where(is.numeric)`
+Use `?tidyr_tidy_select` functions like `where(is.numeric)`!
 
 ```{r}
 dropouts %>% 
+  group_by(ETHNIC) %>% 
   summarize(across( where(is.numeric), ~ sum(.x, na.rm = TRUE)))
 ```
 
@@ -241,7 +239,7 @@ summary(dropouts)
 - `count(x)`: what unique values do you have?
 - `group_by()`: changes all subsequent functions
   - combine with `summarize()` to get statistics per group
-  - combine with `across()` to programmatically select columns
+  - combine with `across()` to select several columns
 - `summary(x)`: quantile information
 
 https://sisbid.github.io/Data-Wrangling/labs/data-summarization-lab.Rmd
