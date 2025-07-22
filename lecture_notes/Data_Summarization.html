@@ -18384,30 +18384,6 @@ ufo_compare</pre>
 10 disk            120              2018.  -1898.
 # ℹ 88,865 more rows</pre>
 
-</article></slide><slide class=""><hgroup><h2>Use <code>n()</code> for sample size by group</h2></hgroup><article  id="use-n-for-sample-size-by-group">
-
-<p>There are other functions, such as <code>n()</code> count the number of observations.</p>
-
-<pre class = 'prettyprint lang-r'>ufo %&gt;%
-  group_by(shape) %&gt;%
-  summarize(n = n(),
-            mean = mean(duration_s, na.rm = TRUE))</pre>
-
-<pre ># A tibble: 30 × 3
-   shape        n   mean
-   &lt;chr&gt;    &lt;int&gt;  &lt;dbl&gt;
- 1 changed      1  3600 
- 2 changing  2140  1934.
- 3 chevron   1007   489.
- 4 cigar     2241  1805.
- 5 circle    8453  4308.
- 6 cone       367 71343.
- 7 crescent     2 18905 
- 8 cross      265   658.
- 9 cylinder  1382  3184.
-10 delta        8  2019.
-# ℹ 20 more rows</pre>
-
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Iterative summaries</h2></hgroup><article  id="iterative-summaries">
 
 </article></slide><slide class=""><hgroup><h2>Iterative summaries: <code>dplyr</code> <code>summarize()</code> and <code>across()</code> functions</h2></hgroup><article  id="iterative-summaries-dplyr-summarize-and-across-functions" class="codesmall">

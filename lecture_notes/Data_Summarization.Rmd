@@ -191,17 +191,6 @@ Create a "difference" variable:
 ufo_compare %>% mutate(diff = duration_s - duration_shape_avg)
 ```
 
-## Use `n()` for sample size by group
-
-There are other functions, such as `n()` count the number of observations.
-
-```{r}
-ufo %>%
-  group_by(shape) %>%
-  summarize(n = n(),
-            mean = mean(duration_s, na.rm = TRUE))
-```
-
 # Iterative summaries
 
 ## Iterative summaries: `dplyr` `summarize()` and `across()` functions {.codesmall}
