@@ -235,11 +235,11 @@ The can do the same thing, `map_df` is simpler, but `across` keeps rownames.
 
 ```{r}
 mtcars %>% 
-  map_df(format, digits = 1) %>%
+  map_df(round, digits = 1) %>%
   head(n = 2)
 
 mtcars %>% 
-  mutate(across(.cols = everything(), ~ format(.x, digits = 1))) %>%
+  mutate(across(.cols = everything(), ~ round(.x, digits = 1))) %>%
   head(n = 2)
 ```
 
