@@ -30,7 +30,7 @@ iris_lab <- iris
 
 ```
 
-3. Use `if_all()` to check if there are iris flowers with all measurements greater than 2 centimeters but less than 6 centimeters (which is the unit, if you type in ?iris you can learn more about the data). Hint - use `filter`. If any are, how many?
+3. Use `if_all()` to check if there are iris flowers with all measurements greater than 2 centimeters (which is the unit, if you type in ?iris you can learn more about the data). Hint - use `filter`. If any are, how many?
 
 ```{r}
 

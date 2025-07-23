@@ -38,15 +38,15 @@ iris_lab %>%
   head()
 ```
 
-3. Use `if_all()` to check if there are iris flowers with all measurements greater than 2 centimeters but less than 6 centimeters (which is the unit, if you type in ?iris you can learn more about the data). Hint - use `filter`. If any are, how many?
+3. Use `if_all()` to check if there are iris flowers with all measurements greater than 2 centimeters (which is the unit, if you type in ?iris you can learn more about the data). Hint - use `filter`. If any are, how many?
 
 ```{r}
 iris_lab %>%
-filter(if_all(starts_with(c("Petal", "Sepal")), ~.x > 2 & .x < 6))  %>%
+filter(if_all(starts_with(c("Petal", "Sepal")), ~.x > 2))  %>%
   head()
 ```
 
-4.  the function `format()` with the argument `scientific = TRUE` can be used to format numbers in scientific notation. For example:
+4.  The function `format()` with the argument `scientific = TRUE` can be used to format numbers in scientific notation. For example:
 
 ```{r}
 format(10000, scientific = TRUE)
