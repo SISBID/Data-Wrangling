@@ -471,9 +471,9 @@ This comes up a lot in data cleaning and also when reading in multiple files!
 ```{r, message = FALSE}
 library(here)
 library(readr)
-file_list <- list.files(path = "./data/iris", pattern = "*.csv")
+file_list <- list.files(here::here("data/iris/"), pattern = "*.csv")
 
-file_list <- paste0("./data/iris/", file_list)
+file_list <- paste0(here::here("data/iris/"), file_list)
 file_list
 
 multifile_data <- file_list %>%
@@ -501,9 +501,9 @@ multifile_data[[3]]
 ## Import with different delimiters
 
 ```{r, message=FALSE}
-delimiters <- c(",", ":", ",")  #  delimiters for each file
+delimiters <- c(",", ":", ",")  # delimiters for each file
 
-#Write our own function to read files with specific delimiters:
+# Write our own function to read files with specific delimiters:
 
 read_with_delimiter <- function(file, delimiter) {
   read_delim(file, delim = delimiter)
@@ -512,6 +512,10 @@ read_with_delimiter <- function(file, delimiter) {
 # Map over file_list and delimiters
 multifile_data <- map2(file_list, delimiters, read_with_delimiter)
 ```
+
+![](https://dcl-prog.stanford.edu/images/map2.png)
+
+[[source](https://dcl-prog.stanford.edu/purrr-parallel.html)]
 
 ## Reading in multiple files - 1st item {.smaller}
 
