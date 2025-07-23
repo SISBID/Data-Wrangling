@@ -30,13 +30,7 @@ iris_lab <- iris
 
 ```
 
-3. Use `if_all()` to check if there are iris flowers with all measurements greater than 2 centimeters (which is the unit, if you type in ?iris you can learn more about the data). Hint - use `filter`. If any are, how many?
-
-```{r}
-
-```
-
-4.  the function `format()` with the argument `scientific = TRUE` can be used to format numbers in scientific notation. For example:
+3.  the function `format()` with the argument `scientific = TRUE` can be used to format numbers in scientific notation. For example:
 
 ```{r}
 format(10000, scientific = TRUE)
