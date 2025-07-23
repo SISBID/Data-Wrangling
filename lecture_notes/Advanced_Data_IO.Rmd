@@ -227,7 +227,13 @@ class(jsonData$pokemon$next_evolution[[1]]) # Or lists of data.frames!
 jsonData$pokemon$next_evolution
 ```
 
-# Lab
+## Summary
+
+- `googlesheets4`: interface with Google Sheets
+  - use `gs4_auth()` to stash and set up credentials
+  - use `read_sheet()` and other functions to bring data in
+- `jsonlite`: make sense of .json data
+  - use `$` notation to explore structure
 
 http://sisbid.github.io/Data-Wrangling/labs/advanced-io-lab.Rmd
 
