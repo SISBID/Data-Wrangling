@@ -50,7 +50,6 @@ bind_cols(rounded_mtcars, select(mtcars, -c(disp, drat, wt, qsec)))
 
 ## Working **`across`** multiple columns
 
-Say we wanted to round multiple columns of the `mtcars` data. 
 `across` allows us to perform functions on specific columns more easily.
 
 ```
