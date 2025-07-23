@@ -153,18 +153,18 @@ The `purrr` package can be very helpful!
 
 the _* options specify the type of data output
 
-## Using `map()`
+<!-- ## Using `map()` -->
 
-![](https://dcl-prog.stanford.edu/images/map-step-2.png)
-[[source](https://dcl-prog.stanford.edu/purrr-parallel.html)]
+<!-- ![](https://dcl-prog.stanford.edu/images/map-step-2.png) -->
+<!-- [[source](https://dcl-prog.stanford.edu/purrr-parallel.html)] -->
 
 
-## Using `map_df()`
+<!-- ## Using `map_df()` -->
 
-```{r}
-my_tibble <- tibble(values = c(1.2, 2.3, 3.5, 4.6))
-map_df(my_tibble, round)
-```
+<!-- ```{r} -->
+<!-- my_tibble <- tibble(values = c(1.2, 2.3, 3.5, 4.6)) -->
+<!-- map_df(my_tibble, round) -->
+<!-- ``` -->
 
 <!-- ## map2 -->
 
@@ -230,7 +230,7 @@ map_df(my_tibble, round)
 
 ## map_df and across
 
-The can do the same thing, `map_df` is simpler, but `across` keeps rownames.
+Both `map_df` and `across` can do the same thing, `map_df` is simpler, but `across` keeps rownames.
 
 ```{r}
 mtcars %>% 

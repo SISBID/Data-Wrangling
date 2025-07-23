@@ -3378,7 +3378,7 @@ bind_cols(rounded_mtcars, select(mtcars, -c(disp, drat, wt, qsec)))</pre>
 
 </article></slide><slide class=""><hgroup><h2>Working <strong><code>across</code></strong> multiple columns</h2></hgroup><article  id="working-across-multiple-columns">
 
-<p>Say we wanted to round multiple columns of the <code>mtcars</code> data. <code>across</code> allows us to perform functions on specific columns more easily.</p>
+<p><code>across</code> allows us to perform functions on specific columns more easily.</p>
 
 <pre >mutate(across(which_columns, which function or operation))</pre>
 
@@ -3485,22 +3485,21 @@ my_function(x = my_data)</pre>
 
 <p>the _* options specify the type of data output</p>
 
-</article></slide><slide class=""><hgroup><h2>Using <code>map()</code></h2></hgroup><article  id="using-map">
+<!-- ## Using `map()` -->
 
-<p><img src='https://dcl-prog.stanford.edu/images/map-step-2.png' title=''/> [<a href='https://dcl-prog.stanford.edu/purrr-parallel.html' title=''>source</a>]</p>
+<!-- ![](https://dcl-prog.stanford.edu/images/map-step-2.png) -->
 
-</article></slide><slide class=""><hgroup><h2>Using <code>map_df()</code></h2></hgroup><article  id="using-map_df">
+<!-- [[source](https://dcl-prog.stanford.edu/purrr-parallel.html)] -->
 
-<pre class = 'prettyprint lang-r'>my_tibble &lt;- tibble(values = c(1.2, 2.3, 3.5, 4.6))
-map_df(my_tibble, round)</pre>
+<!-- ## Using `map_df()` -->
 
-<pre >## # A tibble: 4 × 1
-##   values
-##    &lt;dbl&gt;
-## 1      1
-## 2      2
-## 3      4
-## 4      5</pre>
+<!-- ```{r} -->
+
+<!-- my_tibble <- tibble(values = c(1.2, 2.3, 3.5, 4.6)) -->
+
+<!-- map_df(my_tibble, round) -->
+
+<!-- ``` -->
 
 <!-- ## map2 -->
 
@@ -3588,26 +3587,29 @@ map_df(my_tibble, round)</pre>
 
 </article></slide><slide class=""><hgroup><h2>map_df and across</h2></hgroup><article  id="map_df-and-across">
 
-<p>The can do the same thing, <code>map_df</code> is simpler, but <code>across</code> keeps rownames.</p>
+<p>Both <code>map_df</code> and <code>across</code> can do the same thing, <code>map_df</code> is simpler, but <code>across</code> keeps rownames.</p>
 
 <pre class = 'prettyprint lang-r'>mtcars %&gt;% 
-  map_df(format, digits = 1) %&gt;%
+  map_df(round, digits = 1) %&gt;%
   head(n = 2)</pre>
 
 <pre >## # A tibble: 2 × 11
-##   mpg   cyl   disp  hp    drat  wt    qsec  vs    am   
-##   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;
-## 1 21    6     160   110   4     3     16    0     1    
-## 2 21    6     160   110   4     3     17    0     1    
-## # ℹ 2 more variables: gear &lt;chr&gt;, carb &lt;chr&gt;</pre>
+##     mpg   cyl  disp    hp  drat    wt  qsec    vs    am
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1    21     6   160   110   3.9   2.6  16.5     0     1
+## 2    21     6   160   110   3.9   2.9  17       0     1
+## # ℹ 2 more variables: gear &lt;dbl&gt;, carb &lt;dbl&gt;</pre>
 
 <pre class = 'prettyprint lang-r'>mtcars %&gt;% 
-  mutate(across(.cols = everything(), ~ format(.x, digits = 1))) %&gt;%
+  mutate(across(.cols = everything(), ~ round(.x, digits = 1))) %&gt;%
   head(n = 2)</pre>
 
-<pre >##               mpg cyl disp  hp drat wt qsec vs am gear carb
-## Mazda RX4      21   6  160 110    4  3   16  0  1    4    4
-## Mazda RX4 Wag  21   6  160 110    4  3   17  0  1    4    4</pre>
+<pre >##               mpg cyl disp  hp drat  wt qsec vs am gear
+## Mazda RX4      21   6  160 110  3.9 2.6 16.5  0  1    4
+## Mazda RX4 Wag  21   6  160 110  3.9 2.9 17.0  0  1    4
+##               carb
+## Mazda RX4        4
+## Mazda RX4 Wag    4</pre>
 
 </article></slide><slide class=""><hgroup><h2><code>purrr</code> apply function to some columns like across</h2></hgroup><article  id="purrr-apply-function-to-some-columns-like-across" class="codesmall">
 
@@ -4435,13 +4437,13 @@ my_function</pre>
               modify_if(is.factor, as.character))</pre>
 
 <pre >##    user  system elapsed 
-##       0       0       0</pre>
+##   0.001   0.000   0.000</pre>
 
 <pre class = 'prettyprint lang-r'>system.time(iris %&gt;%
                mutate(across(.cols = where(is.factor), as.character)))</pre>
 
 <pre >##    user  system elapsed 
-##   0.003   0.000   0.002</pre>
+##   0.003   0.000   0.004</pre>
 
 </article></slide><slide class=""><hgroup><h2>List referencing</h2></hgroup><article  id="list-referencing-2">
 
