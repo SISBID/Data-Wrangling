@@ -146,7 +146,8 @@ The `purrr` package can be very helpful!
 **Fancier Options**
 
 `map2` and `map2*`  
-- applies function to each element of **two** vectors or objects 
+- applies function to each element of **two** vectors or objects  
+- an example would be improting multiple files with a vector of different delimiters
   
 `pmap` and `pmap_*` 
 - applies function to each element of **3+** vector or objects (requires a list for input)  
@@ -426,15 +427,18 @@ multifile_data[[2]]
 ```{r}
 multifile_data[[3]]
 ```
+## Summary
+
+- `function(x){ }` or `\(x){ }` denotes a function. You also commonly see `~.x` inside `across`
+- `map_df` and `modify` **apply functions** to each element of an object. `map` returns a list, `modify` returns the same object type.
+- The purrr package has other useful functional programming features
+- lists can be great for storing iterative work.
+
+https://sisbid.github.io/Data-Wrangling/labs/functional-program-lab.Rmd
+
+# Extra Slides
+
 ## Reading in multiple files{.smaller}
-
-<!-- ldply combines results of applying a function to each element in a list into a data frame -->
-<!-- ```{r, eval = FALSE} -->
-<!-- library(plyr) -->
-<!-- combined<-ldply(multifile_data) -->
-<!-- dim(combined) -->
-
-<!-- ``` -->
 
 The `bind_rows()` function can be great for combining data.
 
@@ -450,16 +454,7 @@ all_files_data <-
 glimpse(all_files_data)
 ```
 
-## Summary
 
-- `function(x){ }` or `\(x){ }` denotes a function. You also commonly see `~.x` inside `across`
-- `map_df` and `modify` **apply functions** to each element of an object. `map` returns a list, `modify` returns the same object type.
-- The purrr package has other useful functional programming features
-- lists can be great for storing iterative work.
-
-https://sisbid.github.io/Data-Wrangling/labs/functional-program-lab.Rmd
-
-# Extra Slides
 
 ## Shortcut for functions
 
