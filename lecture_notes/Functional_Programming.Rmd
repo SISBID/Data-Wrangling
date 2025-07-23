@@ -46,7 +46,35 @@ mtcars %>%
   head(2)
 ```
 
+
+## base R `apply` functions
+
+Works really simply for all columns.
+```{r}
+sapply(mtcars, FUN =  round)
+
+```
+
+## Base R `apply` functions specific columns
+
+```{r}
+rounded_mtcars <- mtcars %>% select(disp, drat, wt, qsec) %>%
+sapply(FUN = round)
+bind_cols(rounded_mtcars, select(mtcars, -c(disp, drat, wt, qsec)))
+```
+
+
+# Writing functions
+
+## Why write your won functions?
+
+- Cut down on repetitive code (easier to fix things!)
+- Organize code into manageable chunks
+- Avoid running code unintentionally
+
 ## functions in R
+
+To create a function we can use the `function` function and specify what input the function will take and what it will do to it.  Alternatively we can use `\(x)`. See this [link about function shortcuts](https://medium.com/analytics-vidhya/how-to-use-the-new-function-symbol-in-r-programming-4-1-r-4-1-c7cd2ac27b98).
 
 ```{r}
 my_function <- function(x){x + 1} # alt: \(x){x + 1}
@@ -62,7 +90,7 @@ my_function(my_data)
 
 ## Special tilda use {.codesmall}
 
-If you see `~ .x` or `.` ... this means `function(x){x}`. In other words, we are passing `x` to a function. See [purrr-shortcuts](https://adv-r.hadley.nz/functionals.html#purrr-shortcuts)
+If you see `~ .x` or `.` ... this means `function(x){x}`. In other words, we are passing `x` to a function. See [purrr-shortcuts](https://adv-r.hadley.nz/functionals.html#purrr-shortcuts) See here for info about the [difference between them](https://forum.posit.co/t/function-argument-naming-conventions-x-vs-x/7764/10).
 
 For example - this is not necessary but you could use it here:
 ```{r}
@@ -71,7 +99,7 @@ mtcars %>%
   head(2)
 
 mtcars %>% 
-  mutate(across(.cols = c(disp, drat, wt, qsec), round)) %>%
+  mutate(across(.cols = c(disp, drat, wt, qsec), ~ round(.))) %>%
   head(2)
 ```
 
@@ -533,7 +561,7 @@ glimpse(all_files_data)
 
 ## Summary
 
-- function(x){ } or \(x){ } denotes a function. You also commonly see `~.x` inside `across`
+- `function(x){ }` or `\(x){ }` denotes a function. You also commonly see `~.x` inside `across`
 - `map_df` and `modify` **apply functions** to each element of an object. `map` returns a list, `modify` returns the same object type.
 - The purrr package has other useful functional programming features
 - lists can be great for storing iterative work.
