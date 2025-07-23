@@ -32,15 +32,27 @@ https://docs.google.com/spreadsheets/d/1U6Cf_qEOhiR9AZqTqS3mbMF3zt2db48ZP5v3rkrA
 
 ## Reading data with the googlesheets4 package
 
-First, set up Google credentials.
+First, set up Google credentials. 
 
 ```{r}
 library(googlesheets4)
 ```
+
 ```{r eval=FALSE}
 # Prompts a browser pop-up
 gs4_auth()
 ```
+
+<br>
+
+When prompted:
+
+*  "OK to cache OAuth access credentials in the folder between R sessions?", select YES
+
+* Make sure you select "allow" on your Google Account for the Tidyverse API.
+
+## Reading data with the googlesheets4 package
+
 ```{r}
 # Once set up, you can automate this process by passing your email
 gs4_auth(email = "avamariehoffman@gmail.com")
@@ -215,7 +227,13 @@ class(jsonData$pokemon$next_evolution[[1]]) # Or lists of data.frames!
 jsonData$pokemon$next_evolution
 ```
 
-# Lab
+## Summary
+
+- `googlesheets4`: interface with Google Sheets
+  - use `gs4_auth()` to stash and set up credentials
+  - use `read_sheet()` and other functions to bring data in
+- `jsonlite`: make sense of .json data
+  - use `$` notation to explore structure
 
 http://sisbid.github.io/Data-Wrangling/labs/advanced-io-lab.Rmd
 
