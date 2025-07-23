@@ -438,12 +438,19 @@ mylist[1:2] # returns a list
 
 ## ... Why lists?
 
-## List: `split()` the dataset by `cyl` 
+## List: `split()` a dataset 
+
+We can create a list by splitting up a dataframe. We will use `mtcars`.
 
 ```{r}
 head(mtcars)
-str(mtcars %>% split(.$cyl))
+```
 
+## List: `split()` the dataset by `cyl` {.codesmall}
+
+```{r}
+mtcars_split <-mtcars %>% split(.$cyl)
+str(mtcars_split)
 ```
 
 ## List: model on each
@@ -464,62 +471,65 @@ This comes up a lot in data cleaning and also when reading in multiple files!
 ```{r, message = FALSE}
 library(here)
 library(readr)
-list.files(here::here("data", "iris"), pattern = "*.csv")
+file_list <- list.files(path = "./data/iris", pattern = "*.csv")
 
-file_list <- paste0(here::here(), "/data/iris/", list.files(here::here("data", "iris"), pattern = "*.csv"))
-
+file_list <- paste0("./data/iris/", file_list)
 file_list
 
 multifile_data <- file_list %>%
   map(read_csv)
 ```
 
-## Reading in multiple files {.smaller}
+## Reading in multiple files -First item {.smaller}
 
 ```{r}
 multifile_data[[1]]
 ```
 
-## Reading in multiple files {.smaller}
+## Reading in multiple files - 2nd item {.smaller}
 
 ```{r}
 multifile_data[[2]]
 ```
 
-## Reading in multiple files {.smaller}
+## Reading in multiple files - 3rd item {.smaller}
 
 ```{r}
 multifile_data[[3]]
 ```
 
-## Fixing the second file {.smaller}
+## Import with different delimiters
 
-First, separating by the `:`.
+```{r, message=FALSE}
+delimiters <- c(",", ":", ",")  #  delimiters for each file
 
-```{r}
-multifile_data[[2]] <-
-  separate(
-    multifile_data[[2]],
-    col = 1,
-    into = colnames(multifile_data[[1]]),
-    sep = ":"
-  )
+#Write our own function to read files with specific delimiters:
 
-head(multifile_data[[2]], 3)
+read_with_delimiter <- function(file, delimiter) {
+  read_delim(file, delim = delimiter)
+}
+
+# Map over file_list and delimiters
+multifile_data <- map2(file_list, delimiters, read_with_delimiter)
 ```
 
-## Fixing the second file
-
-Second, making sure values are numeric.
+## Reading in multiple files - 1st item {.smaller}
 
 ```{r}
-multifile_data[[2]] <-
-  multifile_data[[2]] %>%
-  mutate(across(!Species, as.numeric))
-
-head(multifile_data[[2]], 3)
+multifile_data[[1]]
 ```
 
+## Reading in multiple files - 2nd item {.smaller}
+
+```{r}
+multifile_data[[2]]
+```
+
+## Reading in multiple files - 3rd item {.smaller}
+
+```{r}
+multifile_data[[3]]
+```
 ## Reading in multiple files{.smaller}
 
 <!-- ldply combines results of applying a function to each element in a list into a data frame -->
@@ -582,6 +592,38 @@ system.time(iris %>%
 
 ```
 
+
+## Alternatively we could have fixed the second file {.smaller}
+Looks like it had a different delimiter
+First, separating by the `:`.
+
+```{r}
+multifile_data[[2]] <-
+  separate(
+    multifile_data[[2]],
+    col = 1,
+    into = colnames(multifile_data[[1]]),
+    sep = ":"
+  )
+
+head(multifile_data[[2]], 3)
+```
+
+## Fixing the second file
+
+Second, making sure values are numeric.
+
+```{r}
+multifile_data[[2]] <-
+  multifile_data[[2]] %>%
+  mutate(across(!Species, as.numeric))
+
+head(multifile_data[[2]], 3)
+```
+
+
+
+```
 <!-- ## Factors -->
 
 <!-- First we will create some data about absences for different students.  -->
