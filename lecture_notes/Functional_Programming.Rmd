@@ -16,9 +16,11 @@ library(tidyr)
 
 ## Functional Programming
 
-"R, at its heart, is a functional programming (FP) language. This means that it provides many tools for the creation and manipulation of functions. In particular, R has what’s known as first class functions. You can do anything with functions that you can do with vectors: you can assign them to variables, store them in lists, **pass them as arguments to other functions**, create them inside functions, and even return them as the result of a function." - [Hadley Wickham](http://adv-r.had.co.nz/Functional-programming.html)
+"R, at its heart, is a functional programming (FP) language. This means that it provides many tools for the creation and manipulation of functions." - [Hadley Wickham](http://adv-r.had.co.nz/Functional-programming.html)
 
 Don't need to write for-loops! - check this [video](https://www.youtube.com/watch?v=GyNqlOjhPCQ).
+
+## Iterative work
 
 Allows you to flexibly iterate functions to multiple elements of a data object!
 
@@ -28,6 +30,25 @@ Useful when you want to apply a function to:
  * multiple data files  
  * or perform fancy functions with vectors (or tibble columns)
  
+## base R `apply` functions
+
+Works really simply for all columns.
+
+```{r}
+sapply(mtcars, FUN =  round)
+
+```
+
+## Base R `apply` functions specific columns
+
+Harder to use for specific columns.
+
+```{r}
+rounded_mtcars <- mtcars %>% select(disp, drat, wt, qsec) %>%
+sapply(FUN = round)
+bind_cols(rounded_mtcars, select(mtcars, -c(disp, drat, wt, qsec)))
+```
+
 ## Working **`across`** multiple columns
 
 Say we wanted to round multiple columns of the `mtcars` data. 
@@ -47,50 +68,12 @@ mtcars %>%
 ```
 
 
-## base R `apply` functions
-
-Works really simply for all columns.
-```{r}
-sapply(mtcars, FUN =  round)
-
-```
-
-## Base R `apply` functions specific columns
-
-```{r}
-rounded_mtcars <- mtcars %>% select(disp, drat, wt, qsec) %>%
-sapply(FUN = round)
-bind_cols(rounded_mtcars, select(mtcars, -c(disp, drat, wt, qsec)))
-```
-
-
-# Writing functions
-
-## Why write your won functions?
-
-- Cut down on repetitive code (easier to fix things!)
-- Organize code into manageable chunks
-- Avoid running code unintentionally
-
-## functions in R
-
-To create a function we can use the `function` function and specify what input the function will take and what it will do to it.  Alternatively we can use `\(x)`. See this [link about function shortcuts](https://medium.com/analytics-vidhya/how-to-use-the-new-function-symbol-in-r-programming-4-1-r-4-1-c7cd2ac27b98).
-
-```{r}
-my_function <- function(x){x + 1} # alt: \(x){x + 1}
-my_function
-```
-
-```{r}
-my_data  <- c(2,3,4)
-
-my_function(x = my_data)
-my_function(my_data)
-```
 
 ## Special tilda use {.codesmall}
 
-If you see `~ .x` or `.` ... this means `function(x){x}`. In other words, we are passing `x` to a function. See [purrr-shortcuts](https://adv-r.hadley.nz/functionals.html#purrr-shortcuts) See here for info about the [difference between them](https://forum.posit.co/t/function-argument-naming-conventions-x-vs-x/7764/10).
+If you see `~ .x` or `.` this means we are passing `x` to a function. 
+
+See [purrr-shortcuts](https://adv-r.hadley.nz/functionals.html#purrr-shortcuts) See here for info about the [difference between them](https://forum.posit.co/t/function-argument-naming-conventions-x-vs-x/7764/10).
 
 For example - this is not necessary but you could use it here:
 ```{r}
@@ -105,7 +88,7 @@ mtcars %>%
 
 ## Using `across` with arguments {.codesmall}
 
-If you wish to also  pass arguments to the function that you are applying to the various columns, then you need to use the `~`  and `.x` (or `.`) as a place holder for what you the values you will be passing into the function.
+If you wish to also pass arguments to the function that you are applying to the various columns, then you need to use the `~`  and `.x` (or `.`) as a place holder for what you the values you will be passing into the function.
 
 ```{r}
 
@@ -121,19 +104,6 @@ mtcars %>%
 ```
 
 
-## Using across with helpers to apply function to multiple columns
-
-`?tidyr_tidy_select`
-
-```{r}
-mtcars %>% 
-  mutate(across(.cols = disp:wt, round)) %>%
-  head(2)
-
-mtcars %>% 
-  mutate(across(.cols = everything(), round))%>%
-  head(2)
-```
 
 <!-- ## if_any() and if_all() -->
 
@@ -202,21 +172,51 @@ mtcars %>%
 
 ```
 
-## `if_any()` and `if_all()` are helpful!
 
-Work inside other tidyverse functions, like `across()`
-
-```{r}
-
-iris %>% filter(Sepal.Length > 2.4 & Sepal.Width > 2.4 &
-                Petal.Length > 2.4 & Petal.Width > 2.4)
-
-iris %>% filter(if_all(Sepal.Length:Petal.Width, ~ . > 2.4))
-```
 
 <!-- iris %>% select(-Species) %>% filter(if_all(everything(), ~ . > 2.4)) -->
 
 <!-- iris %>% filter(if_all(where(is.numeric), ~ . > 2.4)) -->
+
+
+# Writing functions
+
+## Why write your own functions?
+
+- Cut down on repetitive code (easier to fix things!)
+- Organize code into manageable chunks
+- Avoid running code unintentionally
+
+## Functions in R
+
+To create a function we can use the `function` function and specify what input the function will take and what it will do to it.  
+
+```{r}
+my_function <- function(x){x + 1}
+my_function
+```
+
+```{r}
+my_data  <- c(2,3,4)
+
+my_function(x = my_data)
+my_function(my_data)
+```
+
+## shortcut for functions
+
+Alternatively we can use `\(x)`. See this [link about function shortcuts](https://medium.com/analytics-vidhya/how-to-use-the-new-function-symbol-in-r-programming-4-1-r-4-1-c7cd2ac27b98).
+
+```{r}
+my_function <- \(x){x + 1}
+my_function
+
+my_function(x = my_data)
+```
+
+
+
+
 
 ## `purrr` is also a super helpful package!
 
@@ -239,6 +239,7 @@ The `purrr` package can be very helpful!
 `map` and `map_*` and `modify`  
 - **applies function** to each element of an vector or object 
 (map returns a list, modify returns the same object type)
+- `map_df` will output a dataframe
   
 `map2` and `map2*`  
 - applies function to each element of **two** vectors or objects 
@@ -253,22 +254,15 @@ the _* options specify the type of data output
 ![](https://dcl-prog.stanford.edu/images/map-step-2.png)
 [[source](https://dcl-prog.stanford.edu/purrr-parallel.html)]
 
-```{r}
-vect <- c(1.2, 2.3, 3.5, 4.6)
-map(vect, round) %>% unlist()
-```
 
-## Using `map_df()`
+## Using `map_df()` amd `modify()`
 
 ```{r}
 my_tibble <- tibble(values = c(1.2, 2.3, 3.5, 4.6))
 map_df(my_tibble, round)
 ```
 
-## Using `modify()`
-
 ```{r}
-modify(vect, round)
 modify(my_tibble, round)
 ```
 
@@ -312,31 +306,31 @@ modify(my_tibble, round)
 <!-- ``` -->
 
 
-## `purrr` : `map_df` or `modify`
+<!-- ## `purrr` : `map_df` or `modify` -->
 
-`map_df` 
+<!-- `map_df`  -->
 
-```{r}
-library(purrr)
-head(mtcars, 2)
- mtcars %>% 
-   map_df(round) %>%
-   head(2)
-```
+<!-- ```{r} -->
+<!-- library(purrr) -->
+<!-- head(mtcars, 2) -->
+<!--  mtcars %>%  -->
+<!--    map_df(round) %>% -->
+<!--    head(2) -->
+<!-- ``` -->
 
-## `purrr` : `map_df` or `modify`
+<!-- ## `purrr` : `map_df` or `modify` -->
 
-`modify` 
+<!-- `modify`  -->
 
-```{r}
- mtcars %>% 
-   modify(round) %>%
-   head(2)
-```
+<!-- ```{r} -->
+<!--  mtcars %>%  -->
+<!--    modify(round) %>% -->
+<!--    head(2) -->
+<!-- ``` -->
 
 ## It's a bit simpler than across...
 
-But `across` keeps rownames..
+But `across` keeps rownames.
 
 ```{r}
 mtcars %>% 
@@ -361,17 +355,8 @@ as_tibble(iris) %>%
 ```
 
 
-## Speed test! modify_if vs mutate/across/where
 
-```{r}
-system.time(iris %>%
-              modify_if(is.factor, as.character))
-
-
-system.time(iris %>%
-               mutate(across(.cols = where(is.factor), as.character)))
-
-```
+# Lists
 
 ## What is a 'list'?
 
@@ -567,6 +552,35 @@ glimpse(all_files_data)
 - lists can be great for storing iterative work.
 
 https://sisbid.github.io/Data-Wrangling/labs/functional-program-lab.Rmd
+
+# Extra Slides
+
+
+## Using across with helpers to apply function to multiple columns
+
+`?tidyr_tidy_select`
+
+```{r}
+mtcars %>% 
+  mutate(across(.cols = disp:wt, round)) %>%
+  head(2)
+
+mtcars %>% 
+  mutate(across(.cols = everything(), round))%>%
+  head(2)
+```
+
+## Speed test! modify_if vs across
+
+```{r}
+system.time(iris %>%
+              modify_if(is.factor, as.character))
+
+
+system.time(iris %>%
+               mutate(across(.cols = where(is.factor), as.character)))
+
+```
 
 <!-- ## Factors -->
 
