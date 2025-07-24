@@ -169,7 +169,7 @@ http://sisbid.github.io/Data-Wrangling/labs/advanced-io-lab.Rmd
 ---
 
 ```{r, out.width="80%", echo = FALSE, purl=FALSE}
-knitr::include_graphics("wiki_json.png")
+knitr::include_graphics("media/wiki_json.png")
 ```
 
 https://en.wikipedia.org/wiki/JSON
