@@ -241,12 +241,17 @@ If you want to save **one** object, you can use `readr::write_rds` to save to a 
 write_rds(ufo, file = "ufo_dataset.rds", compress = "xz")
 ```
 
+<br> 
+
 Read it back in: 
 
 ```{r eval=FALSE}
 ufo_new <- read_rds(file = "ufo_dataset.rds")
 ```
 
+<br>
+
+Tip: the `compress = "xz"` argument saves on file size!
 
 ## More ways to save: `save`
 
@@ -256,6 +261,8 @@ The `save` command can save a set of `R` objects into an "R data file", with the
 x = 5
 save(ufo, x, file = "ufo_data.rda")
 ```
+
+<br>
 
 The opposite of `save` is `load`.
 

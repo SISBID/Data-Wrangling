@@ -4,7 +4,7 @@ author: "Data Wrangling in R"
 output:
   ioslides_presentation:
     css: styles.css
-    widescreen: yes
+    widescreen: true
   beamer_presentation: default
 ---
 
@@ -16,6 +16,28 @@ library(tidyverse)
 
 
 # Subsetting part 2
+
+## Recap
+
+We talked about many things yesterday!
+
+- using the GUI or `read_csv` & `read_delim` from the `readr` package to import data (and that `readxl` another package is needed for excel files)
+- saving data using `write_csv` & `write_rds`
+- that there are many practices that help reproducibility
+  - testing your rmarkdown knit regularly
+  - cleaning your environment 
+  - using rproj files
+  - using RMarkdown and describing your code and data sources
+  
+## Recap cont.
+
+- `filter` helps us filter rows based on conditions of columns
+- `pull` pulls out the values of a column into a vector
+- `select` grabs columns to make a smaller table
+- the `naniar` package is really helpful for missing data
+- the decision to remove `NA` values or recode them, depends on your data and what the values mean
+
+# Back to Subsetting!
 
 ## Data
 
@@ -96,7 +118,7 @@ It's best to avoid unusual column names where possible, as things get tricky lat
 We just showed the use of \` backticks\` . You may see people use quotes as well.
 
 ```{r, fig.alt="dplyr", out.width = "14%", echo = FALSE, fig.align='center'}
-knitr::include_graphics("media/backtick_1.png")
+knitr::include_graphics("https://github.com/SISBID/Data-Wrangling/blob/gh-pages/lecture_notes/media/backtick_1.png?raw=true")
 ```
 
 Other atypical column names are those with:
@@ -219,7 +241,7 @@ The `mutate` function in `dplyr` allows you to add or modify columns of a data f
 </div>
 
 ```{r}
-mutate(diamonds, price = price * 1.32) %>% glimpse()
+mutate(diamonds, price = price * 1.37) %>% glimpse()
 ```
 
 
@@ -228,7 +250,7 @@ mutate(diamonds, price = price * 1.32) %>% glimpse()
 If you want to actually make the change you need to reassign the data object.
 
 ```{r, eval = FALSE}
-diamonds <- diamonds %>% mutate(price = price * 1.32) %>% glimpse()
+diamonds <- diamonds %>% mutate(price = price * 1.37) %>% glimpse()
 ```
 
 ## Removing columns of a data frame: dplyr {.codesmall}
@@ -248,7 +270,7 @@ You can use `c()` to list the columns to remove.
 
 Remove `newcol` and `drat`:
 ```{r}
-select(diamonds, -c("x", "y", "z")) %>% glimpse()
+select(diamonds, -c(x, y, z)) %>% glimpse()
 ```
 
 
@@ -262,23 +284,15 @@ head(diamonds, n = 2)
 diamonds %>% select(price, depth, carat, cut, color) %>% head(n = 2)
 ```
 
-## Ordering the columns of a data frame: dplyr {.codesmall}
-
-The `select` function can reorder columns.  Put `price` first, then select the rest of columns:
-
-```{r}
-head(diamonds, n = 2)
-diamonds %>% select(price, everything()) %>% head(n = 2)
-```
-
 
 ## Ordering the columns of a data frame: dplyr {.codesmall}
 
-Put `price` at the end ("remove, everything, then add back in"):
+In addition to `select` we can also use the `relocate()` function of dplyr to rearrange the columns for more complicated moves.
 
+For example, let say we just wanted `price` to be after column `z`.
 ```{r}
 head(diamonds, n = 2)
-diamonds %>% select(-price, everything(), price) %>% head(n = 2)
+diamonds %>% relocate(price, .after = z) %>% head(n = 2)
 ```
 
 
@@ -296,18 +310,6 @@ diamonds %>% relocate( price, .before = cut) %>% head(n = 2)
 
 
 
-
-
-## Ordering the column names of a data frame: alphabetically {.codesmall}
-
-Using the base R `order()` function.
-
-```{r}
-order(colnames(diamonds))
-diamonds %>% select(order(colnames(diamonds)))
-```
-
-
 # Ordering rows
 
 ## Ordering the rows of a data frame: dplyr
@@ -321,13 +323,7 @@ diamonds %>% arrange(cut)
 
 Use the `desc` to arrange the rows in descending order:
 ```{r}
-diamonds %>% arrange(depth)
-```
-## Ordering the rows of a data frame: dplyr
-
-Use the `desc` to arrange the rows in descending order:
-```{r}
-diamonds %>% arrange(desc(price))
+diamonds %>% arrange(desc(cut))
 ```
 
 ## Ordering the rows of a data frame: dplyr

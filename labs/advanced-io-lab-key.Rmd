@@ -54,14 +54,14 @@ x %>%
 
 ## JSON Lab
 
-<!-- See here for more fun practice! https://github.com/jdorfman/Awesome-JSON-Datasets -->
+<!-- See here for more fun practice! https://github.com/jdorfman/Awesome-JSON-Datasets and https://corgis-edu.github.io/corgis/json/ -->
 
 The following dataset lists airports in the US and details about the number of late flights over time.
 
-1. Read in data from the following link: https://think.cs.vt.edu/corgis/datasets/json/airlines/airlines.json. Call this `jsonData`.
+1. Read in data from the following link: https://sisbid.github.io/Data-Wrangling/data/airlines.json. Call this `jsonData`.
 
 ```{r}
-jsonData <- fromJSON("https://think.cs.vt.edu/corgis/datasets/json/airlines/airlines.json")
+jsonData <- fromJSON("https://sisbid.github.io/Data-Wrangling/data/airlines.json")
 ```
 
 2. Investigate the data. What are the three main items in `jsonData`?
@@ -96,16 +96,23 @@ lga_ord <- jsonData %>%
   filter(Airport$Code %in% c("LGA", "ORD"))
 ```
 
-**Bonus Practice**
+## **Practice on your own**
 
-Create a new tibble out of Airport Code (`Airport$Code`), Total Flights (`Statistics$Flights$Total`), and create a new column for proportion of delayed flights using (`Statistics$Flights$Delayed`). Call this new tibble `airport_compare`.
+Create a new tibble (`tibble` function) out of :
+
+* Time label (`Time$Label`),  
+* Airport Code (`Airport$Code`),   
+* Total Flights (`Statistics$Flights$Total`), and   
+* create a new column for proportion of delayed flights using (`Statistics$Flights$Delayed`).  
+
+Call this new tibble `airport_compare`.
 
 ```{r}
-airport_list <- list(
+airport_compare <- tibble(
+  timepoint = lga_ord$Time$Label,
   airport_code = lga_ord$Airport$Code,
   total_flights = lga_ord$Statistics$Flights$Total,
   delayed_proportion = lga_ord$Statistics$Flights$Delayed / lga_ord$Statistics$Flights$Total
-  )
-airport_compare <- as_tibble(airport_list)
+)
 airport_compare
 ```

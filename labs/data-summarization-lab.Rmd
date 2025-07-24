@@ -33,13 +33,13 @@ circ <- read_csv("https://sisbid.github.io/Data-Wrangling/data/Charm_City_Circul
 
 ```
 
-3. How many days are missing daily ridership (`daily` column)?  Use `is.na()` and `sum()`. 
-   
+3. Group the data by day of the week (`day`). Find the mean daily ridership (`daily` column). (hint: use `group_by` and `summarize` functions)
+
 ```{r q3}
 
 ```
 
-4. Group the data by day of the week (`day`). Find the mean daily ridership (`daily` column). (hint: use `group_by` and `summarize` functions)
+4. Take the median of `orangeBoardings`(use `median()`), grouping by day of the week.
 
 ```{r q4}
 
@@ -47,14 +47,8 @@ circ <- read_csv("https://sisbid.github.io/Data-Wrangling/data/Charm_City_Circul
 
 ## **Practice on your own**
 
-5. What is the median of `orangeBoardings`(use `median()`).
+5. Group by day of the week, and then find the mean ridership `summarize(across())` all numeric columns using `where(is.numeric)`.
 
-```{r q6}
-
-```
-
-6. Take the median of `orangeBoardings`(use `median()`), but this time group by day of the week.
-
-```{r q7}
+```{r q5}
 
 ```

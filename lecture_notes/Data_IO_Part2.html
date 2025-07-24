@@ -3136,7 +3136,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
 { counter-reset: source-line 0; }
@@ -3491,9 +3491,15 @@ write_csv(first_100, file = &quot;ufo_first100.csv&quot;)</pre>
 
 <pre class = 'prettyprint lang-r'>write_rds(ufo, file = &quot;ufo_dataset.rds&quot;, compress = &quot;xz&quot;)</pre>
 
+<p><br></p>
+
 <p>Read it back in:</p>
 
 <pre class = 'prettyprint lang-r'>ufo_new &lt;- read_rds(file = &quot;ufo_dataset.rds&quot;)</pre>
+
+<p><br></p>
+
+<p>Tip: the <code>compress = &quot;xz&quot;</code> argument saves on file size!</p>
 
 </article></slide><slide class=""><hgroup><h2>More ways to save: <code>save</code></h2></hgroup><article  id="more-ways-to-save-save">
 
@@ -3501,6 +3507,8 @@ write_csv(first_100, file = &quot;ufo_first100.csv&quot;)</pre>
 
 <pre class = 'prettyprint lang-r'>x = 5
 save(ufo, x, file = &quot;ufo_data.rda&quot;)</pre>
+
+<p><br></p>
 
 <p>The opposite of <code>save</code> is <code>load</code>.</p>
 

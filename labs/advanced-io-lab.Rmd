@@ -53,11 +53,11 @@ sheet_url <- "https://docs.google.com/spreadsheets/d/1KIRtcPVn58R3_qr97WNtcOJiY4
 
 ## JSON Lab
 
-<!-- See here for more fun practice! https://github.com/jdorfman/Awesome-JSON-Datasets -->
+<!-- See here for more fun practice! https://github.com/jdorfman/Awesome-JSON-Datasets and https://corgis-edu.github.io/corgis/json/ -->
 
 The following dataset lists airports in the US and details about the number of late flights over time.
 
-1. Read in data from the following link: https://think.cs.vt.edu/corgis/datasets/json/airlines/airlines.json. Call this `jsonData`.
+1. Read in data from the following link: https://sisbid.github.io/Data-Wrangling/data/airlines.json. Call this `jsonData`.
 
 ```{r}
 
@@ -87,9 +87,16 @@ The following dataset lists airports in the US and details about the number of l
 
 ```
 
-**Bonus Practice**
+## **Practice on your own**
 
-Create a new tibble out of Airport Code (`Airport$Code`), Total Flights (`Statistics$Flights$Total`), and create a new column for proportion of delayed flights using (`Statistics$Flights$Delayed`). Call this new tibble `airport_compare`.
+Create a new tibble (`tibble` function) out of :
+
+* Time label (`Time$Label`),  
+* Airport Code (`Airport$Code`),   
+* Total Flights (`Statistics$Flights$Total`), and   
+* create a new column for proportion of delayed flights using (`Statistics$Flights$Delayed`).  
+
+Call this new tibble `airport_compare`.
 
 ```{r}
 

@@ -432,14 +432,14 @@ Hint: use a <code>stringr</code> function.</li>
 </div>
 <div id="json-lab" class="section level2">
 <h2>JSON Lab</h2>
-<!-- See here for more fun practice! https://github.com/jdorfman/Awesome-JSON-Datasets -->
+<!-- See here for more fun practice! https://github.com/jdorfman/Awesome-JSON-Datasets and https://corgis-edu.github.io/corgis/json/ -->
 <p>The following dataset lists airports in the US and details about the
 number of late flights over time.</p>
 <ol style="list-style-type: decimal">
-<li>Read in data from the following link: <a href="https://think.cs.vt.edu/corgis/datasets/json/airlines/airlines.json" class="uri">https://think.cs.vt.edu/corgis/datasets/json/airlines/airlines.json</a>.
+<li>Read in data from the following link: <a href="https://sisbid.github.io/Data-Wrangling/data/airlines.json" class="uri">https://sisbid.github.io/Data-Wrangling/data/airlines.json</a>.
 Call this <code>jsonData</code>.</li>
 </ol>
-<pre class="r"><code>jsonData &lt;- fromJSON(&quot;https://think.cs.vt.edu/corgis/datasets/json/airlines/airlines.json&quot;)</code></pre>
+<pre class="r"><code>jsonData &lt;- fromJSON(&quot;https://sisbid.github.io/Data-Wrangling/data/airlines.json&quot;)</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Investigate the data. What are the three main items in
 <code>jsonData</code>?</li>
@@ -505,32 +505,41 @@ Chicago O’Hare airports (Code : “LGA”, “ORD”). Call this
 </ol>
 <pre class="r"><code>lga_ord &lt;- jsonData %&gt;% 
   filter(Airport$Code %in% c(&quot;LGA&quot;, &quot;ORD&quot;))</code></pre>
-<p><strong>Bonus Practice</strong></p>
-<p>Create a new tibble out of Airport Code (<code>Airport$Code</code>),
-Total Flights (<code>Statistics$Flights$Total</code>), and create a new
-column for proportion of delayed flights using
-(<code>Statistics$Flights$Delayed</code>). Call this new tibble
-<code>airport_compare</code>.</p>
-<pre class="r"><code>airport_list &lt;- list(
+</div>
+<div id="practice-on-your-own" class="section level2">
+<h2><strong>Practice on your own</strong></h2>
+<p>Create a new tibble (<code>tibble</code> function) out of :</p>
+<ul>
+<li>Time label (<code>Time$Label</code>),<br />
+</li>
+<li>Airport Code (<code>Airport$Code</code>),<br />
+</li>
+<li>Total Flights (<code>Statistics$Flights$Total</code>), and<br />
+</li>
+<li>create a new column for proportion of delayed flights using
+(<code>Statistics$Flights$Delayed</code>).</li>
+</ul>
+<p>Call this new tibble <code>airport_compare</code>.</p>
+<pre class="r"><code>airport_compare &lt;- tibble(
+  timepoint = lga_ord$Time$Label,
   airport_code = lga_ord$Airport$Code,
   total_flights = lga_ord$Statistics$Flights$Total,
   delayed_proportion = lga_ord$Statistics$Flights$Delayed / lga_ord$Statistics$Flights$Total
-  )
-airport_compare &lt;- as_tibble(airport_list)
+)
 airport_compare</code></pre>
-<pre><code>## # A tibble: 304 × 3
-##    airport_code total_flights delayed_proportion
-##    &lt;chr&gt;                &lt;int&gt;              &lt;dbl&gt;
-##  1 LGA                   8908              0.180
-##  2 ORD                  30195              0.162
-##  3 LGA                   9294              0.208
-##  4 ORD                  31345              0.232
-##  5 LGA                   9302              0.265
-##  6 ORD                  31121              0.200
-##  7 LGA                   8771              0.192
-##  8 ORD                  29638              0.165
-##  9 LGA                   9319              0.148
-## 10 ORD                  30990              0.147
+<pre><code>## # A tibble: 304 × 4
+##    timepoint airport_code total_flights delayed_proportion
+##    &lt;chr&gt;     &lt;chr&gt;                &lt;int&gt;              &lt;dbl&gt;
+##  1 2003/06   LGA                   8908              0.180
+##  2 2003/06   ORD                  30195              0.162
+##  3 2003/07   LGA                   9294              0.208
+##  4 2003/07   ORD                  31345              0.232
+##  5 2003/08   LGA                   9302              0.265
+##  6 2003/08   ORD                  31121              0.200
+##  7 2003/09   LGA                   8771              0.192
+##  8 2003/09   ORD                  29638              0.165
+##  9 2003/10   LGA                   9319              0.148
+## 10 2003/10   ORD                  30990              0.147
 ## # ℹ 294 more rows</code></pre>
 </div>
 

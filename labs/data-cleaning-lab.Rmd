@@ -16,19 +16,19 @@ You can ignore the "problems" with some rows.
 
 ```
 
-2. Clean up the column/variable names of the `ufo` dataset to remove spaces and non-alphanumeric characters. You can use the `dplyr::rename()` function or look into the `janitor::clean_names()` function. Save the data as `uf_clean`.
+2. Clean up the column/variable names of the `ufo` dataset to remove spaces and non-alphanumeric characters. You can use the `dplyr::rename()` function or look into the `janitor::clean_names()` function. Be sure to save the new version of the data to replacec the old!
 
 ```{r}
 
 ```
 
-3. Filter for rows where state is "tx" or  "nm", "ut". Then use `recode` to make an exact swap of "Texas" for "tx" and "New_Mexico" for "nm" and "Utah" for "ut" of the `state` variable. Save the output as `South_West`. hint- you will need `mutate`.
+3. Filter for rows where state is "tx" or  "nm", "ut". Then use `case_when` to make a swap of "Texas" for "tx" and "New_Mexico" for "nm" and "Utah" for "ut" of the `state` variable. Save the output as `South_West`. hint- you will need `mutate`.
 
 ```{r}
 
 ```
 
-4. Use `case_when()` on the ufo data to create a new variable about continent. If the country is "ca" or "us" make the value be "North America", if it is "gb" or "de" make the value "Europe", and if it is "au" make it "Australia". No need to worry about the `TRUE` statement as we want to keep our other `NA` values.
+4. Use `case_when()` to create a new variable called "continent". If the country is "ca" or "us" make the value be "North America", if it is "gb" or "de" make the value "Europe", and if it is "au" make it "Australia". No need to worry about the `.default` statement as we want to keep our other `NA` values.
 
 ```{r}
 
