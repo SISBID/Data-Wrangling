@@ -1,0 +1,130 @@
+## ----include = FALSE----------------------------------------------------------
+library(knitr)
+library(tidyverse)
+opts_chunk$set(comment = "")
+
+
+## -----------------------------------------------------------------------------
+x <- c(0, NA, 2, 3, 4)
+x > 2
+
+
+## -----------------------------------------------------------------------------
+y <- c(1,2,3,NA)
+sum(y)
+mean(y)
+
+
+## -----------------------------------------------------------------------------
+x <- c(TRUE, TRUE, TRUE, TRUE, FALSE, NA)
+sum(x)
+sum(x, na.rm = TRUE)
+
+
+## -----------------------------------------------------------------------------
+test <- c(0,NA, -1, NaN)
+is.na(test)
+is.nan(test)
+
+
+## -----------------------------------------------------------------------------
+A <- c(1, 2, 3, NA)
+B <- c(1, 2, 3, 4)
+
+
+## -----------------------------------------------------------------------------
+any(is.na(A)) # are there any NAs - YES/TRUE
+any(is.na(B)) # are there any NAs- NO/FALSE
+
+
+## ----message=FALSE------------------------------------------------------------
+library(readr)
+bike <-read_csv("https://sisbid.github.io/Data-Wrangling/data/Bike_Lanes.csv")
+count(bike, subType)
+
+
+## ----error=FALSE--------------------------------------------------------------
+#install.packages("naniar")
+library(naniar)
+
+
+## ----message=FALSE------------------------------------------------------------
+?airquality # use this to find out more about the data
+
+
+## -----------------------------------------------------------------------------
+pct_complete(airquality)
+
+
+## -----------------------------------------------------------------------------
+airquality %>% select(Ozone) %>%
+pct_complete()
+
+
+## -----------------------------------------------------------------------------
+miss_var_summary(airquality)
+
+
+## ----fig.height=4, warning=FALSE, fig.align='center'--------------------------
+gg_miss_var(airquality)
+
+
+## ----fig.height=4, warning=FALSE, fig.align='center'--------------------------
+gg_miss_var(airquality, show_pct = TRUE)
+
+
+## -----------------------------------------------------------------------------
+airquality %>% filter(Ozone < 5)
+
+
+## -----------------------------------------------------------------------------
+airquality %>% filter(Ozone < 5 | is.na(Ozone))
+
+
+## -----------------------------------------------------------------------------
+airquality
+
+
+## -----------------------------------------------------------------------------
+airquality %>% drop_na(Ozone)
+
+
+## -----------------------------------------------------------------------------
+airquality %>% drop_na()
+
+
+## -----------------------------------------------------------------------------
+miss_var_which(airquality) # which columns have missing values
+
+
+## -----------------------------------------------------------------------------
+airquality %>% select(!miss_var_which(airquality))
+
+
+## ----message=FALSE------------------------------------------------------------
+library(readr)
+bike <-read_csv("https://sisbid.github.io/Data-Wrangling/data/Bike_Lanes.csv")
+bike <-bike %>% select(type, dateInstalled)
+count(bike, dateInstalled)
+
+
+## -----------------------------------------------------------------------------
+bike <- bike %>% 
+  mutate(dateInstalled = na_if(dateInstalled, 0))
+count(bike, dateInstalled)
+
+
+## -----------------------------------------------------------------------------
+bike %>% 
+  mutate(dateInstalled = replace_na(dateInstalled, 2005)) %>%
+  count(dateInstalled)
+
+
+## -----------------------------------------------------------------------------
+count(bike, dateInstalled) %>% mutate(percent = (n/(sum(n)) *100))
+
+
+## -----------------------------------------------------------------------------
+bike %>% drop_na(dateInstalled) %>% 
+  count(dateInstalled) %>% mutate(percent = (n/(sum(n)) *100))
+
