@@ -289,7 +289,7 @@ anti_join(data_cold, data_As)
 * `setdiff(x, y)` shows what in `x` is missing from `y`
 * `bind_rows(x, y)` appends datasets
 
-https://sisbid.github.io/Data-Wrangling/labs/merging-lab.Rmd
+https://sisbid.github.io/Data-Wrangling/12_Data_Merging/lab/merging-lab.Rmd
 
 # Extra slides
 

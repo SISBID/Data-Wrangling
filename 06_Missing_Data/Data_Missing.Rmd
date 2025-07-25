@@ -335,4 +335,4 @@ Pay attention to your data and your `NA` values!
 -   `NA` values can change your calculation results
 -   think about what `NA` values represent - don't drop them if you shouldn't
 
-[Link to Lab](https://sisbid.github.io/Data-Wrangling/labs/missing-data-lab.Rmd)
+[Link to Lab](https://sisbid.github.io/Data-Wrangling/06_Missing_Data/lab/missing-data-lab.Rmd)

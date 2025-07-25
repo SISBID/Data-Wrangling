@@ -409,4 +409,4 @@ str_sub(string = c("abcdd", "two"), start = 1, end = 3)
 
 ## Lab
 
-https://sisbid.github.io/Data-Wrangling/labs/data-cleaning-lab-part2.Rmd
+https://sisbid.github.io/Data-Wrangling/09_Data_Cleaning/lab/data-cleaning-lab-part2.Rmd

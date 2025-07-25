@@ -279,5 +279,5 @@ load(file = "ufo_data.rda")
 - Many functions like `str()`, `View()`, and `glimpse()` can help you understand your data better
 - Save your data with `write_delim()` and `write_csv()`
 
-https://sisbid.github.io/Data-Wrangling/labs/data-io-lab-part2.Rmd
+https://sisbid.github.io/Data-Wrangling/02_Data_IO/lab/data-io-lab-part2.Rmd
 

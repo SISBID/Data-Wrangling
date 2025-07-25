@@ -231,4 +231,4 @@ summary(dropouts)
   - combine with `across()` to select several columns
 - `summary(x)`: quantile information
 
-https://sisbid.github.io/Data-Wrangling/labs/data-summarization-lab.Rmd
+https://sisbid.github.io/Data-Wrangling/08_Data_Summarization/lab/data-summarization-lab.Rmd

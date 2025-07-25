@@ -288,7 +288,7 @@ ufo_clean %>% select(country, region) %>% head()
 
 ## Lab
 
-https://sisbid.github.io/Data-Wrangling/labs/data-cleaning-lab.Rmd
+https://sisbid.github.io/Data-Wrangling/09_Data_Cleaning/lab/data-cleaning-lab.Rmd
 
 
 ## Extra slides

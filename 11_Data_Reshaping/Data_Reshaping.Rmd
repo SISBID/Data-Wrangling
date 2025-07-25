@@ -307,4 +307,4 @@ air %>% pivot_wider(names_from = "Month",
 - `pivot_wider()` goes from long -> wide
      - Specify `names_from =` and `values_from = `
 
-https://sisbid.github.io/Data-Wrangling/labs/data-reshaping-lab.Rmd
+https://sisbid.github.io/Data-Wrangling/11_Data_Reshaping/lab/data-reshaping-lab.Rmd

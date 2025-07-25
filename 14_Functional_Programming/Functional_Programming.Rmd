@@ -565,7 +565,7 @@ glimpse(all_files_data)
 - The purrr package has other useful functional programming features
 - lists can be great for storing iterative work.
 
-https://sisbid.github.io/Data-Wrangling/labs/functional-program-lab.Rmd
+https://sisbid.github.io/Data-Wrangling/14_Functional_Programming/lab/functional-program-lab.Rmd
 
 # Extra Slides
 
