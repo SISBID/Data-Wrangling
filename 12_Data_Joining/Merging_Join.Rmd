@@ -293,6 +293,12 @@ https://sisbid.github.io/Data-Wrangling/labs/merging-lab.Rmd
 
 # Extra slides
 
+## Learn more
+
+There are lots of options for more complicated merges. Check out the documentation if you have a special use case:
+
+https://dplyr.tidyverse.org/reference/mutate-joins.html
+
 ## Other stuff: `cross_join` (`dplyr`)
 
 Cross joins match each row in x to every row in y, resulting in a data frame with `nrow(x)` * `nrow(y)` rows.
