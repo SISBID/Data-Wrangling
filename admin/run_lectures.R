@@ -1,37 +1,46 @@
 library(pagedown)
-x = list.files(pattern = ".Rmd$",
-               path = here::here("lecture_notes"), 
-               full.names = TRUE,
-               recursive = TRUE)
-# x = x[!grepl("Advanced|Bioconductor_intro.Rmd", x)]
-sapply(x, function(x) {
-  out = sub(".Rmd$", ".R", x)
-  knitr::purl(input = x, output = out)
-})
 
-sapply(x, function(xx) {
-  out_html = sub("Rmd$", "html", xx)
-  if (!file.exists(out_html) ||
-      file.info(out_html)$mtime < 
-      file.info(xx)$mtime) {
-    rmarkdown::render(xx, envir = new.env())
+x <- list.files(
+  pattern = ".Rmd$",
+  path = here::here(),
+  full.names = TRUE,
+  recursive = TRUE
+)
+
+# Keep only lecture files
+x <- x[!grepl("lab|index|archive|admin", x)]
+
+# Make .R file if .Rmd file has been changed
+invisible(sapply(x, function(x) {
+  x_r <- sub(".Rmd$", ".R", x)
+  if (!file.exists(x_r) ||
+      file.info(x_r)$mtime <
+      file.info(x)$mtime) {
+    knitr::purl(input = x, output = x_r)
   }
-  out_pdf = sub("Rmd$", "pdf", xx)
-  
-  if (!file.exists(out_pdf) ||
-      file.info(out_pdf)$mtime < 
-      file.info(xx)$mtime ||
-      file.info(out_pdf)$mtime < 
-      file.info(out_html)$mtime) {
-    pagedown::chrome_print(out_html)
+}))
+
+# Make .html file if .Rmd file has been changed
+cli::cli_alert(cli::col_cyan("Making HTMLs..."))
+invisible(sapply(x, function(x) {
+  x_html <- sub(".Rmd$", ".html", x)
+  if (!file.exists(x_html) ||
+      file.info(x_html)$mtime <
+      file.info(x)$mtime) {
+    rmarkdown::render(x, envir = new.env())
   }
-  xx
-})
+}))
+cli::cli_alert(cli::col_cyan("HTMLs complete!"))
 
-# xx = sub("Rmd$", "html", x)
-# sapply(xx, function(r) {
-#   xaringan::decktape(r, output = sub("html$", "pdf", r), 
-#                      docker = FALSE)
-# })
-
-# sapply(xx, pagedown::chrome_print)
+# Make .pdf file if .html file has been changed
+cli::cli_alert(cli::col_cyan("Making PDFs..."))
+invisible(sapply(x, function(x) {
+  x_html <- sub(".Rmd$", ".html", x)
+  x_pdf <- sub(".Rmd$", ".pdf", x)
+  if (!file.exists(x_pdf) ||
+      file.info(x_pdf)$mtime <
+      file.info(x_html)$mtime) {
+    pagedown::chrome_print(x_html)
+  }
+}))
+cli::cli_alert(cli::col_cyan("PDFs complete!"))
