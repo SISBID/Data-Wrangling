@@ -2,10 +2,10 @@
 title: "Data I/O"
 author: "Data Wrangling in R"
 output:
-  beamer_presentation: default
   ioslides_presentation:
-    css: styles.css
+    css: ../styles/styles.css
     widescreen: true
+  beamer_presentation: default
 ---
 
 ```{r, include = FALSE}
@@ -57,7 +57,7 @@ help("dir")
 ```
 
 ```{r, echo = FALSE, out.width="70%"}
-knitr::include_graphics("media/IO_help.png")
+knitr::include_graphics("../images/IO_help.png")
 ```
 
 
@@ -71,7 +71,7 @@ library(tidyverse)
 ```
 
 ```{r, echo = FALSE, out.width="70%"}
-knitr::include_graphics("media/install_packages.jpg")
+knitr::include_graphics("../images/install_packages.jpg")
 ```
 
 
@@ -87,7 +87,7 @@ ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4
 ## Commenting in Scripts
 
 ```{r, echo = FALSE, out.width="70%"}
-knitr::include_graphics("media/IO_comments_to_self.png")
+knitr::include_graphics("../images/IO_comments_to_self.png")
 ```
 
 
@@ -111,7 +111,7 @@ Let's make an R Project so we can stay organized in the next steps.
 Click the new R Project button at the top left of RStudio:
 
 ```{r, fig.alt="The New R Project button is highlighted.", out.width = "40%", echo = FALSE, align = "center"}
-knitr::include_graphics("media/Data_Input_Rproject.png")
+knitr::include_graphics("../images/Data_Input_Rproject.png")
 ```
 
 
@@ -120,7 +120,7 @@ knitr::include_graphics("media/Data_Input_Rproject.png")
 In the New Project Wizard, click "New Directory":
 
 ```{r, fig.alt="In the New Project Wizard, the 'New Directory' option is highlighted.", out.width = "60%", echo = FALSE, align = "center"}
-knitr::include_graphics("media/Data_Input_new_directory.png")
+knitr::include_graphics("../images/Data_Input_new_directory.png")
 ```
 
 
@@ -129,7 +129,7 @@ knitr::include_graphics("media/Data_Input_new_directory.png")
 Click "New Project":
 
 ```{r, fig.alt="In the New Project Wizard, the 'New Project' option is highlighted.", out.width = "60%", echo = FALSE, align = "center"}
-knitr::include_graphics("media/Data_Input_new_project.png")
+knitr::include_graphics("../images/Data_Input_new_project.png")
 ```
 
 
@@ -140,7 +140,7 @@ Type in a name for your new folder.
 Store it somewhere easy to find, such as your Desktop:
 
 ```{r, fig.alt="In the New Project Wizard, the new project has been given a name and is going to be stored in the Desktop directory. The 'Create Project' button is highlighted.", out.width = "60%", echo = FALSE, align = "center"}
-knitr::include_graphics("media/Data_Input_new_project_details.png")
+knitr::include_graphics("../images/Data_Input_new_project_details.png")
 ```
 
 
@@ -151,7 +151,7 @@ You now have a new R Project folder on your Desktop!
 Make sure you add any scripts or data files to this folder as we go through today's lesson. This will make sure R is able to "find" your files.
 
 ```{r, fig.alt="The image shows an image of an arrow pointing to the newly created R project repository.", out.width = "60%", echo = FALSE, align = "center"}
-knitr::include_graphics("media/Data_Input_new_desktop.png")
+knitr::include_graphics("../images/Data_Input_new_desktop.png")
 ```
 
 
@@ -217,14 +217,14 @@ Dataset is located at https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_
 ## Browsing for Data on Your Machine (not URL)
 
 ```{r, fig.alt="The image shows an image of an arrow pointing to the newly created R project repository.", out.width = "80%", echo = FALSE, align = "center"}
-knitr::include_graphics("media/Data_Input_browse.png")
+knitr::include_graphics("../images/Data_Input_browse.png")
 ```
 
 
 ## Watch the process (recap)
 
 ```{r, fig.alt="Gif showing the process of importing a dataset via readr.", out.width = "100%", echo = FALSE, align = "center"}
-knitr::include_graphics("media/Data_Input_import_dataset.gif")
+knitr::include_graphics("../images/Data_Input_import_dataset.gif")
 ```
 
 
