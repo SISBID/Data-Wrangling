@@ -45,33 +45,14 @@ strong {
     color: black;
 }
 
-/*
-slides > slide {
-  padding: 10px 60px;
-}
-*/
-slides > slide > hgroup + article {
-    margin-top: 5px;
-}
 
-.left_col {
-   float:left;
-   width:48%;
+.left-half{ 
+  float: left; width: 48%; 
 }
-.right_col {
-   float:right;
-   width:48%;
-}
-
-slides>slide.title-slide {
-    background-image: url('images/Intro_to_R.png');
-    background-size: 100% 100%;
+.right-half{ 
+  float: right; width: 48%; 
 }
 
 .codesmall pre {
     font-size: 16px;
-}
-
-.codeexample pre{
-  background-color: lightgreen;
 }
