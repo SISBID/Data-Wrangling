@@ -1,0 +1,246 @@
+---
+title: 'Introduction to Bioconductor'
+author: "Data Wrangling in R"
+output:
+  ioslides_presentation:
+    widescreen: yes
+---
+
+```{r, eval = FALSE}
+#AnVIL::install("SummarizedExperiment")
+#AnVIL::install("biomaRt")
+```
+
+```{r,include=FALSE}
+library(stringr)
+library(tibble)
+library(SummarizedExperiment)
+library(dplyr)
+library(biomaRt)
+```
+
+
+## The Bioconductor project
+
+- [Bioconductor](http://www.bioconductor.org) is an open source, open development software project to provide tools for the analysis and comprehension of high-throughput genomic data. It is based primarily on the R programming language.
+
+- Most Bioconductor components are distributed as R packages. The functional scope of Bioconductor packages includes the analysis of microarray, sequencing, flow sorting, genotype/SNP, and other data.
+
+## Project Goals
+
+The broad goals of the Bioconductor project are:
+
+- To provide widespread access to a broad range of powerful statistical and graphical methods for the analysis of genomic data.
+- To facilitate the inclusion of biological metadata in the analysis of genomic data, e.g. literature data from PubMed, annotation data from Entrez genes.
+- To provide a common software platform that enables the rapid development and deployment of extensible, scalable, and interoperable software.
+- To further scientific understanding by producing high-quality documentation and reproducible research.
+- To train researchers on computational and statistical methods for the analysis of genomic data.
+
+## Quick overview of the website
+
+- biocViews
+- Support site
+- Teaching material
+- Installation
+
+
+https://bioconductor.org/packages/release/bioc/html/VariantAnnotation.html
+https://bioconductor.org/packages/release/bioc/html/Rsamtools.html
+
+https://bioconductor.org/packages/release/bioc/vignettes/Rsamtools/inst/doc/Rsamtools-Overview.pdf
+
+## Getting started
+
+```{r, eval=FALSE}
+# Note that this is not evaluated here, so you will have to do it before using this knitr doc
+install.packages("BiocManager")
+# Install all core packages and update all installed packages
+BiocManager::install()
+```
+
+## Getting started
+
+You can also install specific packages
+
+```{r, eval=FALSE}
+# Note that this is not evaluated here, so you will have to do it before using this knitr doc
+BiocManager::install(c("GEOquery", "limma", "biomaRt", "SummarizedExperiment"))
+```
+
+## Bioconductor Workflows
+
+https://bioconductor.org/packages/release/workflows/vignettes/sequencing/inst/doc/sequencing.html
+
+## The Gene Expression Omnibus (GEO)
+
+The [Gene Expression Omnibus](http://www.ncbi.nlm.nih.gov/geo/) is an international public repository that archives and freely distributes microarray, next-generation sequencing, and other forms of high-throughput functional genomics data submitted by the research community.
+
+The three main goals of GEO are to:
+
+- Provide a robust, versatile database in which to efficiently store high-throughput functional genomic data
+- Offer simple submission procedures and formats that support complete and well-annotated data deposits from the research community
+- Provide user-friendly mechanisms that allow users to query, locate, review and download studies and gene expression profiles of interest
+
+## Getting data from GEO
+
+For individual studies/datasets, the easiest way to find publicly-available data is the GEO accession number found at the end of publications.
+
+## Getting data from GEO
+
+The `GEOquery` package can access GEO directly.
+
+https://www.bioconductor.org/packages/release/bioc/html/GEOquery.html
+
+```{r}
+library(GEOquery)
+# https://pubmed.ncbi.nlm.nih.gov/32619517/
+geo_data = getGEO("GSE146760")[[1]] # find accession in paper
+```
+
+## Getting data from GEO
+
+We can get the phenotypic data using the `pData()` function from `Biobase`
+
+```{r}
+tibble(Biobase::pData(geo_data))
+```
+
+## Getting data from GEO
+
+Actual gene expression data, ie RNA-seq read counts, is less commonly stored in GEO.
+
+Wh
+
+```{r}
+Biobase::exprs(geo_data) # gene expression
+Biobase::fData(geo_data) # gene/feature/row annotation
+```
+
+## Getting data from GEO
+
+Sometimes the gene expression matrices are stored as supplementary data.
+We can check it out using the `GEOquery` package.
+https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE146760
+
+```{r}
+getGEOSuppFiles("GSE146760")
+counts  <- read.delim("GSE146760/GSE146760_RNASeq_analysis_CountsTable.txt.gz")
+pheno <- read.delim("GSE146760/GSE146760_RNASample_Info_v2.txt.gz")
+```
+
+## Getting data from GEO
+OK! so now we can start working with our data... first, we want to make sure these two files have all the same corresponding sample IDs. We want the `pheno$Prefix` column to be the same as the colnames of our count data.  This is going to take some wrangling!
+
+```{r}
+colnames(counts) = str_remove(string = colnames(counts), pattern = "Aligned.sortedByCoord.out.bam")
+identical(colnames(counts), pheno$Prefix)
+```
+
+## OK could be a bit more clear
+
+Now that we know they are identical, let's replace the column names of counts with the Status column values of pheno.
+```{r}
+rownames(pheno) = pheno$Status
+colnames(counts) = pheno$Status
+```
+
+## Getting data from GEO
+
+SummarizedExperiment objects are probably the standard data structure for gene expression data.
+
+https://bioconductor.org/packages/release/bioc/html/SummarizedExperiment.html
+
+```{r, message = FALSE}
+library(SummarizedExperiment)
+rse = SummarizedExperiment(assays = list(counts = counts),
+                            colData = DataFrame(pheno))
+```
+
+## biomaRt
+
+We can also add gene annotation information with the `biomaRt` package.
+
+Guide:https://www.bioconductor.org/packages/devel/bioc/vignettes/biomaRt/inst/doc/accessing_ensembl.html
+
+```{r, cache=TRUE}
+library(biomaRt)
+
+if(interactive()){
+listEnsembl()
+}
+#datasets <- listDatasets(ensembl)
+#head(datasets)
+#searchAttributes(mart = ensembl, pattern = "hgnc")
+```
+
+## biomaRt
+Guide:https://www.bioconductor.org/packages/devel/bioc/vignettes/biomaRt/inst/doc/accessing_ensembl.html
+```{r}
+ensembl <- useEnsembl(biomart = "genes", dataset = "hsapiens_gene_ensembl")
+geneMap = getBM(attributes = c("ensembl_gene_id",
+                "chromosome_name","start_position",
+          "end_position", "strand", "external_gene_name"),
+			values=rownames(counts), mart=ensembl)
+```
+
+## Biomart
+```{r}
+head(geneMap)
+```
+Great! now we have info about the different ensemble genes!
+
+
+## Genomic Ranges
+
+Convert the data frame to a G[enomic]Ranges object:
+
+```{r}
+geneMap <-geneMap %>% mutate(chromosome_name = paste0("chr", chromosome_name))
+geneMap <-geneMap %>% mutate(strand = case_when(strand == 1 ~"+", TRUE ~ "-"))
+geneMap_gr = makeGRangesFromDataFrame(geneMap,
+            seqnames.field = "chromosome_name",
+            start.field = "start_position",
+            end.field = "end_position")
+names(geneMap_gr) = geneMap$ensembl_gene_id
+geneMap_gr
+```
+
+<!-- ## Genomic Ranges -->
+
+<!-- ```{r} -->
+<!-- identical(rownames(counts), names(geneMap_gr)) -->
+<!-- table(rownames(counts) %in% names(geneMap_gr)) -->
+<!-- mm = match(rownames(counts), names(geneMap_gr)) -->
+<!-- geneMap_gr = geneMap_gr[mm[!is.na(mm)]] -->
+<!-- counts = counts[!is.na(mm),] -->
+<!-- ``` -->
+
+<!-- ## Summarized Experiments -->
+
+<!-- ```{r, eval=FALSE} -->
+
+<!-- rse = SummarizedExperiment(assays = list(counts = counts), -->
+<!--                            #rowRanges = GRangesList(geneMap_gr), -->
+<!--                            colData = DataFrame(pheno)) -->
+<!-- rse -->
+<!-- ``` -->
+
+
+## Getting data from the Sequence Read Archive (SRA)
+
+[GEO](https://www.ncbi.nlm.nih.gov/geo/info/faq.html) originated for microarray data, which has largely become replaced by data produced using next-generation sequencing technologies. Depositing raw sequencing reads into the Sequence Read Archive (SRA) is often a condition of publication in many journals. 
+
+https://trace.ncbi.nlm.nih.gov/Traces/sra/?study=SRP044749	
+
+## Raw data is annoying to process into gene counts
+
+So we created the `recount` project
+https://jhubiostatistics.shinyapps.io/recount/
+
+<!-- # ```{r} -->
+<!-- # source("scale_counts.R") # or install recount package -->
+<!-- # load(file.path('SRP044749', 'rse_gene.Rdata')) -->
+<!-- # rse_gene = scale_counts(rse_gene) -->
+<!-- # rse_gene -->
+<!-- # ``` -->
+
