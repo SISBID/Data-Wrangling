@@ -1,23 +1,35 @@
-x = list.files(pattern = ".Rmd$",
-               path = here::here("labs"), 
-               full.names = TRUE,
-               recursive = TRUE)
-x = x[!grepl("rmarkdown|googlesheets", x)]
-x = x[grepl("key", x)]
+x <- list.files(
+  pattern = ".Rmd$",
+  path = here::here(),
+  full.names = TRUE,
+  recursive = TRUE
+)
 
+# Keep only lab files
+x <- x[!grepl("index|archive|admin", x)]
+x <- x[grepl("lab", x)]
+x <- x[grepl("key", x)] # Only render keys
 
-sapply(x, function(xx) {
-  out = sub(".Rmd$", ".R", xx)
-  out_html = sub(".Rmd$", ".html", xx)
-  
-  knitr::purl(input = xx, output = out)
-  if (!file.exists(out_html) ||
-      file.info(out_html)$mtime < 
-      file.info(xx)$mtime) {
-    rmarkdown::render(xx, envir = new.env())
+# Make .R file if .Rmd file has been changed
+cli::cli_alert(cli::col_cyan("Making .R files..."))
+invisible(sapply(x, function(x) {
+  x_r <- sub(".Rmd$", ".R", x)
+  if (!file.exists(x_r) ||
+      file.info(x_r)$mtime <
+      file.info(x)$mtime) {
+    knitr::purl(input = x, output = x_r)
   }
-})
+}))
+cli::cli_alert(cli::col_cyan(".R files made!"))
 
-if (file.exists("labs/my_flights_db.sqlite3")) {
-  file.remove("labs/my_flights_db.sqlite3")
-}
+# Make .html file if .Rmd file has been changed
+cli::cli_alert(cli::col_cyan("Making HTMLs..."))
+invisible(sapply(x, function(x) {
+  x_html <- sub(".Rmd$", ".html", x)
+  if (!file.exists(x_html) ||
+      file.info(x_html)$mtime <
+      file.info(x)$mtime) {
+    rmarkdown::render(x, envir = new.env())
+  }
+}))
+cli::cli_alert(cli::col_cyan("HTMLs complete!"))

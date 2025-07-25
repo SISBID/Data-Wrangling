@@ -1,5 +1,3 @@
-library(pagedown)
-
 x <- list.files(
   pattern = ".Rmd$",
   path = here::here(),
@@ -7,8 +5,10 @@ x <- list.files(
   recursive = TRUE
 )
 
-# Keep only lecture files
-x <- x[!grepl("lab|index|archive|admin", x)]
+# Keep only lab files
+x <- x[!grepl("index|archive|admin", x)]
+x <- x[grepl("lab", x)]
+x <- x[grepl("key", x)] # Only render keys
 
 # Remove .R files
 cli::cli_alert(cli::col_magenta("Removing .R files..."))
@@ -29,13 +29,3 @@ invisible(sapply(x, function(x) {
   }
 }))
 cli::cli_alert(cli::col_magenta("HTMLs removed!"))
-
-# Remove .pdf files
-cli::cli_alert(cli::col_magenta("Removing PDFs..."))
-invisible(sapply(x, function(x) {
-  x_pdf <- sub(".Rmd$", ".pdf", x)
-  if (file.exists(x_pdf)) {
-    file.remove(x_pdf)
-  }
-}))
-cli::cli_alert(cli::col_magenta("PDFs removed!"))

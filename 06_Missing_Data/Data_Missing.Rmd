@@ -103,7 +103,7 @@ Check if rare values make sense.
 
 ```{r, message=FALSE}
 library(readr)
-bike <-read_csv("https://sisbid.github.io/Data-Wrangling/labs/Bike_Lanes.csv")
+bike <-read_csv("https://sisbid.github.io/Data-Wrangling/data/Bike_Lanes.csv")
 count(bike, subType)
 ``` 
 
@@ -243,7 +243,7 @@ Let's say we think that all 0 values should be `NA`.
 
 ```{r, message=FALSE}
 library(readr)
-bike <-read_csv("https://sisbid.github.io/Data-Wrangling/labs/Bike_Lanes.csv")
+bike <-read_csv("https://sisbid.github.io/Data-Wrangling/data/Bike_Lanes.csv")
 bike <-bike %>% select(type, dateInstalled)
 count(bike, dateInstalled)
 ```

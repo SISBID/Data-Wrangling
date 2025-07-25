@@ -11,6 +11,7 @@ x <- list.files(
 x <- x[!grepl("lab|index|archive|admin", x)]
 
 # Make .R file if .Rmd file has been changed
+cli::cli_alert(cli::col_cyan("Making .R files..."))
 invisible(sapply(x, function(x) {
   x_r <- sub(".Rmd$", ".R", x)
   if (!file.exists(x_r) ||
@@ -19,6 +20,7 @@ invisible(sapply(x, function(x) {
     knitr::purl(input = x, output = x_r)
   }
 }))
+cli::cli_alert(cli::col_cyan(".R files made!"))
 
 # Make .html file if .Rmd file has been changed
 cli::cli_alert(cli::col_cyan("Making HTMLs..."))
