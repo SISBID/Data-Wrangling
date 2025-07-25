@@ -3524,7 +3524,7 @@ cold_states &lt;- data_cold %&gt;% pull(State)</pre>
 
 <pre >[1] &quot;Maine&quot;   &quot;Vermont&quot;</pre>
 
-</article></slide><slide class=""><hgroup><h2>Using <code>bind_rows()</code> (<code>dplyr</code>)</h2></hgroup><article  id="using-bind_rows-dplyr" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Using <code>bind_rows()</code> (<code>dplyr</code>)</h2></hgroup><article  class="codesmall" id="using-bind_rows-dplyr">
 
 <p>Rows are stacked on top of each other. Works like <code>rbind()</code> from base R, but is &ldquo;smarter&rdquo; and looks for matching column names.</p>
 
@@ -3609,7 +3609,7 @@ cold_states &lt;- data_cold %&gt;% pull(State)</pre>
 <li><code>bind_rows(x, y)</code> appends datasets</li>
 </ul>
 
-<p><a href='https://sisbid.github.io/Data-Wrangling/labs/merging-lab.Rmd' title=''>https://sisbid.github.io/Data-Wrangling/labs/merging-lab.Rmd</a></p>
+<p><a href='https://sisbid.github.io/Data-Wrangling/12_Data_Merging/lab/merging-lab.Rmd' title=''>https://sisbid.github.io/Data-Wrangling/12_Data_Merging/lab/merging-lab.Rmd</a></p>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Extra slides</h2></hgroup><article  id="extra-slides">
 
@@ -3665,7 +3665,7 @@ cold_states &lt;- data_cold %&gt;% pull(State)</pre>
             &lt;dbl&gt;
 1           0.623</pre>
 
-</article></slide><slide class=""><hgroup><h2>&ldquo;Includes duplicates&rdquo; with both datasets duplicated:</h2></hgroup><article  id="includes-duplicates-with-both-datasets-duplicated" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>&ldquo;Includes duplicates&rdquo; with both datasets duplicated:</h2></hgroup><article  class="codesmall" id="includes-duplicates-with-both-datasets-duplicated">
 
 <pre class = 'prettyprint lang-r'>data_As &lt;- tibble(State = c(&quot;Alabama&quot;, &quot;Alaska&quot;, &quot;Alaska&quot;),
                  state_bird = c(&quot;wild turkey&quot;, &quot;willow ptarmigan&quot;, &quot;puffin&quot;))
@@ -3673,7 +3673,7 @@ data_cold &lt;- tibble(State = c(&quot;Maine&quot;, &quot;Alaska&quot;, &quot;Al
                     vacc_rate = c(&quot;32.4%&quot;, &quot;41.7%&quot;, &quot;46.2%&quot;),
                     month = c(&quot;April&quot;, &quot;April&quot;, &quot;May&quot;))</pre>
 
-</article></slide><slide class=""><hgroup><h2>&ldquo;Includes duplicates&rdquo; with both datasets duplicated:</h2></hgroup><article  id="includes-duplicates-with-both-datasets-duplicated-1" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>&ldquo;Includes duplicates&rdquo; with both datasets duplicated:</h2></hgroup><article  class="codesmall" id="includes-duplicates-with-both-datasets-duplicated-1">
 
 <pre class = 'prettyprint lang-r'>full_join(data_As, data_cold)</pre>
 

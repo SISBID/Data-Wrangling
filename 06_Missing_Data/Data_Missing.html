@@ -3305,7 +3305,7 @@ sum(x)</pre>
 
 <pre >[1] 4</pre>
 
-</article></slide><slide class=""><hgroup><h2>Finding Missing data</h2></hgroup><article  id="finding-missing-data" class="small">
+</article></slide><slide class=""><hgroup><h2>Finding Missing data</h2></hgroup><article  class="small" id="finding-missing-data">
 
 <ul>
 <li><code>is.na</code> - looks for <code>NAN</code> and <code>NA</code></li>
@@ -3321,7 +3321,7 @@ is.na(test)</pre>
 
 <pre >[1] FALSE FALSE FALSE  TRUE</pre>
 
-</article></slide><slide class=""><hgroup><h2>Useful checking functions</h2></hgroup><article  id="useful-checking-functions" class="small">
+</article></slide><slide class=""><hgroup><h2>Useful checking functions</h2></hgroup><article  class="small" id="useful-checking-functions">
 
 <p>Do we have any <code>NA</code>s? (<code>any</code> can help)</p>
 
@@ -3434,7 +3434,7 @@ pct_complete()</pre>
 
 <p>Think about if this is OK or not - it depends on your data!</p>
 
-</article></slide><slide class=""><hgroup><h2>filter() and missing data</h2></hgroup><article  id="filter-and-missing-data-1" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>filter() and missing data</h2></hgroup><article  class="codesmall" id="filter-and-missing-data-1">
 
 <p>What if NA values represent values that are so low it is undetectable?</p>
 
@@ -3905,7 +3905,7 @@ pct_complete()</pre>
 
 <pre >[1] &quot;Ozone&quot;   &quot;Solar.R&quot;</pre>
 
-</article></slide><slide class=""><hgroup><h2>Drop <strong>columns</strong> with any missing values</h2></hgroup><article  id="drop-columns-with-any-missing-values-1" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Drop <strong>columns</strong> with any missing values</h2></hgroup><article  class="codesmall" id="drop-columns-with-any-missing-values-1">
 
 <p><code>miss_var_which</code> and function from <code>naniar</code> (need a data frame)</p>
 
@@ -4066,7 +4066,7 @@ pct_complete()</pre>
 152  8.0   76     9  29
 153 11.5   68     9  30</pre>
 
-</article></slide><slide class=""><hgroup><h2>Change a value to be <code>NA</code></h2></hgroup><article  id="change-a-value-to-be-na" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Change a value to be <code>NA</code></h2></hgroup><article  class="codesmall" id="change-a-value-to-be-na">
 
 <p>Let’s say we think that all 0 values should be <code>NA</code>.</p>
 
@@ -4088,7 +4088,7 @@ count(bike, dateInstalled)</pre>
 8          2012   107
 9          2013    10</pre>
 
-</article></slide><slide class=""><hgroup><h2>Change a value to be <code>NA</code></h2></hgroup><article  id="change-a-value-to-be-na-1" class="small">
+</article></slide><slide class=""><hgroup><h2>Change a value to be <code>NA</code></h2></hgroup><article  class="small" id="change-a-value-to-be-na-1">
 
 <p>The <code>na_if()</code> function of <code>dplyr</code> can be helpful for changing all 0 values to <code>NA</code>. More on <code>mutate()</code> soon! (Here we save the change)</p>
 
@@ -4109,7 +4109,7 @@ count(bike, dateInstalled)</pre>
 8          2013    10
 9            NA   126</pre>
 
-</article></slide><slide class=""><hgroup><h2>Change <code>NA</code> to be a value</h2></hgroup><article  id="change-na-to-be-a-value" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Change <code>NA</code> to be a value</h2></hgroup><article  class="codesmall" id="change-na-to-be-a-value">
 
 <p>The <code>replace_na()</code> function (part of the <code>tidyr</code> package), can do the opposite of <code>na_if()</code>. (Here we just print the change)</p>
 
@@ -4152,7 +4152,7 @@ count(bike, dateInstalled)</pre>
 
 <p>⚠️ You might want to keep the <code>NA</code> values so that you know the original sample size.</p>
 
-</article></slide><slide class=""><hgroup><h2>Word of caution</h2></hgroup><article  id="word-of-caution" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Word of caution</h2></hgroup><article  class="codesmall" id="word-of-caution">
 
 <p>⚠️ Calculating percentages will give you a different result depending on your choice to include NA values.!</p>
 
@@ -4204,7 +4204,7 @@ count(bike, dateInstalled)</pre>
 <li>think about what <code>NA</code> values represent - don’t drop them if you shouldn’t</li>
 </ul>
 
-<p><a href='https://sisbid.github.io/Data-Wrangling/labs/missing-data-lab.Rmd' title=''>Link to Lab</a></p></article></slide>
+<p><a href='https://sisbid.github.io/Data-Wrangling/06_Missing_Data/lab/missing-data-lab.Rmd' title=''>Link to Lab</a></p></article></slide>
 
 
   <slide class="backdrop"></slide>

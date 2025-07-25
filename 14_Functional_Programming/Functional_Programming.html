@@ -3520,7 +3520,7 @@ bind_cols(rounded_mtcars, select(mtcars, -c(disp, drat, wt, qsec)))</pre>
 my_function</pre>
 
 <pre >## function(x){x + 1}
-## &lt;environment: 0x1400f2560&gt;</pre>
+## &lt;environment: 0x1040561c8&gt;</pre>
 
 <pre class = 'prettyprint lang-r'>my_data  &lt;- c(2,3,4)
 
@@ -3540,7 +3540,7 @@ my_function(x = my_data)</pre>
 my_function</pre>
 
 <pre >## \(x){x + 1}
-## &lt;environment: 0x1400f2560&gt;</pre>
+## &lt;environment: 0x1040561c8&gt;</pre>
 
 <pre class = 'prettyprint lang-r'>my_function(x = my_data)</pre>
 
@@ -4106,7 +4106,7 @@ glimpse(all_files_data)</pre>
 <li>lists can be great for storing iterative work.</li>
 </ul>
 
-<p><a href='https://sisbid.github.io/Data-Wrangling/labs/functional-program-lab.Rmd' title=''>https://sisbid.github.io/Data-Wrangling/labs/functional-program-lab.Rmd</a></p>
+<p><a href='https://sisbid.github.io/Data-Wrangling/14_Functional_Programming/lab/functional-program-lab.Rmd' title=''>https://sisbid.github.io/Data-Wrangling/14_Functional_Programming/lab/functional-program-lab.Rmd</a></p>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Extra Slides</h2></hgroup><article  id="extra-slides">
 
@@ -4136,7 +4136,7 @@ glimpse(all_files_data)</pre>
               modify_if(is.factor, as.character))</pre>
 
 <pre >##    user  system elapsed 
-##   0.001   0.000   0.000</pre>
+##   0.000   0.000   0.001</pre>
 
 <pre class = 'prettyprint lang-r'>system.time(iris %&gt;%
                mutate(across(.cols = where(is.factor), as.character)))</pre>
