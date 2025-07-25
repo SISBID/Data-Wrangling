@@ -1,0 +1,294 @@
+---
+title: "Factors"
+output:
+ ioslides_presentation:
+  css: ../../docs/styles.css
+  widescreen: yes
+---
+
+## Factors
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+A `factor` is a special `character` vector where the elements have pre-defined groups or 'levels'. You can think of these as qualitative or categorical variables:
+
+```{r factor1}
+x <- c("yellow", "red", "red", "blue", "yellow", "blue")
+class(x)
+
+x_fact <- factor(x) # factor() is a function
+class(x_fact)
+```
+
+## Factors
+
+Factors have **levels** (character types do not).
+
+```{r}
+x
+x_fact
+```
+
+<br>
+
+Note that levels are, by default, in **alphanumerical** order.
+
+## Factors - get the levels
+
+Extract the levels of a `factor` vector using `levels()`:
+
+```{r}
+levels(x_fact)
+```
+
+## A Factor Example{.smaller}
+
+We will use data on student dropouts from the State of California during the 2016-2017 school year. More on this data can be found here: https://www.cde.ca.gov/ds/ad/filesdropouts.asp
+
+To preserve school anonymity, "CDS_CODE" is used in place of the individual school's name.
+
+You can download the data from the JHU website here: http://jhudatascience.org/intro_to_r/data/dropouts.txt
+
+```{r}
+dropouts <- read_delim("http://jhudatascience.org/intro_to_r/data/dropouts.txt", delim = "\t")
+dropouts
+```
+
+## Preparing the data
+
+Group by each school and aggregate (sum):
+
+```{r}
+dropouts <-
+  dropouts %>%
+  group_by(CDS_CODE) %>%
+  summarize(
+    Freshman = sum(D9),
+    Sophomore = sum(D10),
+    Junior = sum(D11),
+    Senior = sum(D12)
+  )
+dropouts
+```
+
+## Preparing the data
+
+Pivot to long format:
+
+```{r}
+dropouts <-
+  dropouts %>%
+  pivot_longer(
+    !CDS_CODE,
+    names_to = "grade",
+    values_to = "n_dropouts"
+  )
+dropouts
+```
+
+## The data
+
+```{r}
+head(dropouts)
+```
+
+Notice that `grade` is a `chr` variable. This indicates that the values are **character** strings. 
+
+R does not realize that there is any order related to the `grade` values. It will assume that it is **alphabetical**. 
+
+However, we know that the order is: **freshman**, **sophomore**, **junior**, **senior**.
+
+## For the next steps, let's take a subset of data.
+
+```{r}
+set.seed(123) # same random sample each time
+dropouts_subset <- slice_sample(dropouts, n = 32)
+dropouts_subset
+```
+
+## Plot the data
+
+Let's make a plot first. We might not like the ordering on the x-axis, though.
+
+```{r, fig.height= 3}
+dropouts_subset %>%
+  ggplot(aes(x = grade, y = n_dropouts)) +
+  geom_boxplot() +
+  theme_bw(base_size = 16) # make all labels size 16
+```
+
+## Change to factor
+
+Currently `grade` is class `character` but let's change that to class `factor` which allows us to specify the levels or order of the values.
+
+```{r}
+dropouts_fct <-
+  dropouts_subset %>%
+  mutate(grade = factor(grade,
+    levels = c("Freshman", "Sophomore", "Junior", "Senior")
+  ))
+
+dropouts_fct %>%
+  pull(grade) %>%
+  levels()
+```
+
+## Change to a factor
+
+```{r}
+head(dropouts_fct)
+```
+
+## Plot again
+
+Now let's make our plot again:
+
+```{r, fig.height= 3}
+dropouts_fct %>%
+  ggplot(aes(x = grade, y = n_dropouts)) +
+  geom_boxplot() +
+  theme_bw(base_size = 16)
+```
+
+The factor data is automatically plotted in the order we would like.
+
+## What about if we `arrange()` the data by grade ?{.smaller}
+
+Character data is arranged alphabetically.
+
+```{r}
+dropouts_subset %>%
+  arrange(grade)
+```
+
+Notice that the order is not what we would hope for!
+
+## Arranging Factors{.smaller}
+
+Factor data is arranged by level.
+
+```{r}
+dropouts_fct %>%
+  arrange(grade)
+```
+
+Nice! Now this is what we would want!
+
+## Making tables with characters
+
+Tables grouped by a character are arranged alphabetically.
+
+```{r}
+dropouts_subset %>%
+  group_by(grade) %>%
+  summarize(total_dropouts = sum(n_dropouts))
+```
+
+## Making tables with factors
+
+Tables grouped by a factor are arranged by level.
+
+```{r}
+dropouts_fct %>%
+  group_by(grade) %>%
+  summarize(total_dropouts = sum(n_dropouts))
+```
+
+## GUT CHECK: Why use factors?
+
+A. Meaningful ordering of text data
+
+B. Automatic ordering or numeric data
+
+C. More precise values
+
+## `forcats` package
+
+A package called `forcats` is really helpful for working with factors.
+
+```{r, fig.alt="Forcats hex sticker", out.width = "30%", echo = FALSE, fig.align='center'}
+knitr::include_graphics("https://github.com/tidyverse/forcats/raw/main/man/figures/logo.png")
+```
+
+## `forcats` for ordering{.smaller}
+
+What if we wanted to order `grade` by increasing `n_dropouts`? 
+
+```{r, fig.height= 3}
+library(forcats)
+
+dropouts_fct %>%
+  ggplot(aes(x = grade, y = n_dropouts)) +
+  geom_boxplot() +
+  theme_bw(base_size = 16)
+```
+
+This would be useful for identifying easily which grade to focus on.
+
+## forcats for ordering{.smaller}
+
+We can order a factor by another variable by using the `fct_reorder()` function of the `forcats` package.
+
+<div class = "codeexample">
+```{r, eval=FALSE}
+fct_reorder({column getting changed}, {guiding column}, {summarizing function})
+```
+</div>
+
+## forcats for ordering{.smaller}
+
+We can order a factor by another variable by using the `fct_reorder()` function of the `forcats` package.
+
+```{r, fig.height= 3}
+library(forcats)
+
+dropouts_fct %>%
+  ggplot(aes(x = fct_reorder(grade, n_dropouts, mean), y = n_dropouts)) +
+  geom_boxplot() +
+  labs(x = "Student Grade") +
+  theme_bw(base_size = 16)
+```
+
+## forcats for ordering.. with `.desc = ` argument{.smaller}
+
+```{r, fig.height= 3}
+library(forcats)
+
+dropouts_fct %>%
+  ggplot(aes(x = fct_reorder(grade, n_dropouts, mean, .desc = TRUE), y = n_dropouts)) +
+  geom_boxplot() +
+  labs(x = "Student Grade") +
+  theme_bw(base_size = 16)
+```
+
+## Checking Proportions with `fct_count()`
+
+The `fct_count()` function of the `forcats` package is helpful for checking that the proportions of each level for a factor are similar. Need the `prop = TRUE` argument otherwise just counts are reported.
+
+```{r}
+dropouts_fct %>%
+  pull(grade) %>%
+  fct_count(prop = TRUE)
+```
+
+## Summary
+- the factor class allows us to have a different order from alphanumeric for categorical data
+- we can change data to be a factor variable using `mutate` and a factor creating function like `factor()` (alphabetical order by default)
+- with `factor()` we can specify the levels with the `levels` argument if we want a specific order
+- the `fct_reorder({variable_to_reorder}, {variable_to_order_by}, {summary function})` helps us reorder a variable by the values of another variable
+- arranging, tabulating, and plotting the data will reflect the new order
+
+## Lab
+
+🏠 [Class Website](https://jhudatascience.org/intro_to_r/)    
+💻 [Lab](https://jhudatascience.org/intro_to_r/modules//Factors/lab/Factors_Lab.Rmd)
+
+```{r, fig.alt="The End", out.width = "50%", echo = FALSE, fig.align='center'}
+knitr::include_graphics(here::here("images/the-end-g23b994289_1280.jpg"))
+```
+
+Image by <a href="https://pixabay.com/users/geralt-9301/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=812226">Gerd Altmann</a> from <a href="https://pixabay.com//?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=812226">Pixabay</a>
+
