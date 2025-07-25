@@ -124,7 +124,7 @@ select(diamonds, carat, depth)
 Type `tidyselect::` to see functions available.
 
 ```{r, echo = FALSE, fig.align = 'center', out.width="70%"}
-knitr::include_graphics("https://github.com/SISBID/Data-Wrangling/blob/gh-pages/lecture_notes/media/tidyselect.png?raw=true")
+knitr::include_graphics("https://github.com/SISBID/Data-Wrangling/blob/gh-pages/images/tidyselect.png?raw=true")
 ```
 
 Here are a few:

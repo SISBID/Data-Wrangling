@@ -118,7 +118,7 @@ It's best to avoid unusual column names where possible, as things get tricky lat
 We just showed the use of \` backticks\` . You may see people use quotes as well.
 
 ```{r, fig.alt="dplyr", out.width = "14%", echo = FALSE, fig.align='center'}
-knitr::include_graphics("https://github.com/SISBID/Data-Wrangling/blob/gh-pages/lecture_notes/media/backtick_1.png?raw=true")
+knitr::include_graphics("https://github.com/SISBID/Data-Wrangling/blob/gh-pages/images/backtick_1.png?raw=true")
 ```
 
 Other atypical column names are those with:

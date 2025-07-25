@@ -19,7 +19,7 @@ library(tidyverse)
 "Combining datasets"
 
 ```{r, fig.alt="Inner, outer, left, and right joins represented with venn diagrams", out.width = "50%", echo = FALSE, align = "center"}
-knitr::include_graphics("media/joins.png")
+knitr::include_graphics("../images/joins.png")
 ```
 
 ## Joining in `dplyr`
@@ -56,7 +56,7 @@ data_cold
 https://github.com/gadenbuie/tidyexplain/blob/main/images/inner-join.gif
 
 ```{r, fig.alt="A gif showing the inner joining of two simple datasets.", out.width = "40%", echo = FALSE}
-knitr::include_graphics("media/Join_inner-join.gif")
+knitr::include_graphics("../images/Join_inner-join.gif")
 ```
 
 
@@ -81,7 +81,7 @@ lj
 https://raw.githubusercontent.com/gadenbuie/tidyexplain/main/images/left-join.gif
 
 ```{r, fig.alt="A gif showing the left joining of two simple datasets.", out.width = "40%", echo = FALSE, align = "center"}
-knitr::include_graphics("media/Join_left-join.gif")
+knitr::include_graphics("../images/Join_left-join.gif")
 ```
 
 
@@ -119,7 +119,7 @@ left_join(data_As, data_cold)
 https://raw.githubusercontent.com/gadenbuie/tidyexplain/main/images/right-join.gif
 
 ```{r, fig.alt="A gif showing the right joining of two simple datasets.", out.width = "40%", echo = FALSE, align = "center"}
-knitr::include_graphics("media/Join_right-join.gif")
+knitr::include_graphics("../images/Join_right-join.gif")
 ```
 
 ## Right Join
@@ -148,7 +148,7 @@ lj2
 https://raw.githubusercontent.com/gadenbuie/tidyexplain/main/images/full-join.gif
 
 ```{r, fig.alt="A gif showing the full joining of two simple datasets.", out.width = "40%", echo = FALSE, align = "center"}
-knitr::include_graphics("media/Join_full-join.gif")
+knitr::include_graphics("../images/Join_full-join.gif")
 ```
 
 ## Full Join
@@ -170,7 +170,7 @@ fj
 https://github.com/gadenbuie/tidyexplain/blob/main/images/left-join-extra.gif
 
 ```{r, fig.alt="A gif showing how data can be duplicated from one dataset when joining two simple datasets.", out.width = "40%", echo = FALSE, align = "center"}
-knitr::include_graphics("media/Join_left_join_extra.gif")
+knitr::include_graphics("../images/Join_left_join_extra.gif")
 ```
 
 ## Stop `tidylog`
@@ -261,7 +261,7 @@ include_graphics("../images/Antijoin-in-R.png")
 https://raw.githubusercontent.com/gadenbuie/tidyexplain/main/images/anti-join.gif
 
 ```{r, fig.alt="A gif showing the full joining of two simple datasets.", out.width = "50%", echo = FALSE, align = "center"}
-knitr::include_graphics("media/Join_anti-join.gif")
+knitr::include_graphics("../images/Join_anti-join.gif")
 ```
 
 ## Other stuff: `anti_join` (`dplyr`)

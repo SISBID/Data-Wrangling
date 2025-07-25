@@ -20,7 +20,7 @@ library(tidyverse)
 https://github.com/gadenbuie/tidyexplain/blob/main/images/tidyr-pivoting.gif
 
 ```{r, fig.alt="A gif visualization of data going from wide to long form.", out.width = "40%", echo = FALSE, align = "center"}
-knitr::include_graphics("media/Reshape_pivot_animated.gif")
+knitr::include_graphics("../images/Reshape_pivot_animated.gif")
 ```
 
 ## What is wide/long data?
@@ -78,7 +78,7 @@ Data is wide or long **with respect** to certain variables.
 </div>
 
 ```{r, fig.alt="Wide versus long data rearanges the position of column names and row content.", out.width = "60%", echo = FALSE, fig.align='center'}
-knitr::include_graphics("media/Reshape_pivot.jpg")
+knitr::include_graphics("../images/Reshape_pivot.jpg")
 ```
 
 ## Why do we need to switch between wide/long data?
