@@ -3,7 +3,7 @@ title: "Subsetting Data in R"
 author: "Data Wrangling in R"
 output:
   ioslides_presentation:
-    css: styles.css
+    css: ../styles/styles.css
     widescreen: yes
   beamer_presentation: default
 ---
