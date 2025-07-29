@@ -1,0 +1,125 @@
+---
+title: "Factors Lab - Key"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+Load all the libraries we will use in this lab. 
+
+```{r message=FALSE}
+library(tidyverse)
+```
+
+### 1.0
+
+Load the Youth Tobacco Survey data from http://jhudatascience.org/intro_to_r/data/Youth_Tobacco_Survey_YTS_Data.csv. `select` "Sample_Size",  "Education", and "LocationAbbr". Name this data "yts". 
+
+```{r 1.0response}
+yts <- read_csv("http://jhudatascience.org/intro_to_r/data/Youth_Tobacco_Survey_YTS_Data.csv")
+yts <- yts %>% select(Sample_Size, Education, LocationAbbr)
+```
+
+### 1.1
+
+Create a boxplot showing the difference in "Sample_Size" between Middle School and High School "Education". **Hint**: Use `aes(x = Education, y = Sample_Size)` and `geom_boxplot()`.
+
+```{r 1.1response}
+yts %>%
+  ggplot(aes(x = Education, y = Sample_Size)) +
+  geom_boxplot()
+```
+
+### 1.2
+
+Use `count` to count up the number of observations of data for each "Education" group.
+
+```{r 1.2response}
+yts %>%
+  count(Education)
+```
+
+### 1.3
+
+Make "Education" a factor using the `mutate` and `factor` functions. Use the `levels` argument inside `factor` to reorder "Education". Reorder this variable so that "Middle School" comes before "High School". Assign the output the name "yts_fct".
+
+```{r 1.3response}
+yts_fct <-
+  yts %>% mutate(Education = factor(Education,
+    levels = c("Middle School", "High School")
+  ))
+```
+
+### 1.4
+
+Repeat question 1.1 and 1.2 using the "yts_fct" data. You should see different ordering in the plot and `count` table.
+
+```{r 1.4response}
+yts_fct %>%
+  ggplot(aes(x = Education, y = Sample_Size)) +
+  geom_boxplot()
+
+yts_fct %>%
+  count(Education)
+```
+
+
+# Practice on Your Own!
+
+### P.1
+
+Convert "LocationAbbr" (state) in "yts_fct" into a factor using the `mutate` and `factor` functions. Do not add a `levels =` argument.
+
+```{r P.1response}
+yts_fct <- yts_fct %>% mutate(LocationAbbr = factor(LocationAbbr))
+```
+
+### P.2
+
+We want to create a new column that contains the group-level median sample size. 
+
+- Using the "yts_fct" data, `group_by` "LocationAbbr". 
+- Then, use `mutate` to create a new column "med_sample_size" that is the median "Sample_Size". 
+- **Hint**: Since you have already done `group_by`, a median "Sample_Size" will automatically be created for each unique level in "LocationAbbr". Use the `median` function with `na.rm = TRUE`.
+
+```{r P.2response}
+yts_fct <- yts_fct %>%
+  group_by(LocationAbbr) %>%
+  mutate(med_sample_size = median(Sample_Size, na.rm = TRUE))
+```
+
+### P.3
+
+We want to plot the "LocationAbbr" (state) by the "med_sample_size" column we created above. Using the `forcats` package, create a plot that:
+
+- Has "LocationAbbr" on the x-axis
+- Uses the `mapping` argument and the `fct_reorder` function to order the x-axis by "med_sample_size"
+- Has "Sample_Size" on the y-axis
+- Is a boxplot (`geom_boxplot`)
+- Has the x axis label of `State`
+(Don't worry if you get a warning about not being able to plot `NA` values.)
+
+Save your plot using `ggsave()` with a width of 10 and height of 3.
+
+Which state has the largest median sample size?
+
+```{r P.3response}
+library(forcats)
+
+yts_fct_plot <- yts_fct %>%
+  drop_na() %>%
+  ggplot(aes(
+    x = fct_reorder(
+      LocationAbbr, med_sample_size
+    ),
+    y = Sample_Size
+  )) +
+  geom_boxplot() +
+  labs(x = "State")
+
+ggsave(
+  filename = "yts_fct.png", # will save in working directory
+  plot = yts_fct_plot,
+  width = 10, height = 3
+)
+```

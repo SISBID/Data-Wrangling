@@ -1,0 +1,46 @@
+---
+title: "Data Reshaping Lab"
+author: "Data Wrangling in R"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+
+0.  Read in the `ChickWeight` dataset. This data is from an experiment on the effect of diet on early growth of chicks. Call it `chicks`.
+
+```{r, message = FALSE}
+chicks <- datasets::ChickWeight
+```
+
+1. Reshape to wide format using `pivot_wider`. Use the arguments `names_from = Time` and `values_from = weight`. Include the following in the `pivot_wider` function: `names_prefix = "Time_"`to update all the new column names. Call the new data `chicks_wide`.
+
+```{r}
+
+```
+
+2. Filter the data so that `Time_0` is <= 40 and `Time_21` >= 200. Reassign to `chicks_wide`.
+
+```{r}
+
+```
+
+3. Select columns Chick, Diet, `Time_0`, and `Time_21`. Reassign to `chicks_wide`.
+
+```{r}
+
+```
+
+4. Reshape to long format using `pivot_longer`. Pivot the time related columns. Use the arguments `names_to = ` and `values_to = `. Call the data `chicks_long`.
+
+```{r}
+
+```
