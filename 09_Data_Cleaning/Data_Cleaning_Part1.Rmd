@@ -1,0 +1,507 @@
+---
+title: "Data Cleaning Part 1"
+author: "Data Wrangling in R"
+output:
+  ioslides_presentation:
+    css: ../styles/styles.css
+    widescreen: yes
+  beamer_presentation: default
+---
+
+
+```{r, include = FALSE}
+library(knitr)
+library(tidyverse)
+library(janitor)
+opts_chunk$set(comment = "")
+```
+
+## Data Cleaning
+
+In general, data cleaning is a process of investigating your data for inaccuracies, or recoding it in a way that makes it more manageable.
+
+MOST IMPORTANT RULE - LOOK AT YOUR DATA!
+
+
+## Read in the UFO dataset
+
+Read in data or download from: http://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv.gz
+
+This data is originally from kaggle: https://www.kaggle.com/datasets/NUFORC/ufo-sightings
+
+```{r}
+ufo <- read_delim(
+  "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv", 
+  delim = ",")
+
+```
+
+## The "problems"
+
+You saw warning messages when reading in this dataset. We can see these with the `problems()` function from `readr`. 
+
+If we scroll through we can see some interesting notes.
+
+```{r}
+p <-problems(ufo)
+p %>% glimpse()
+```
+
+## Any unique problems?
+
+```{r}
+p %>% count(expected, actual, col)
+```
+
+
+
+## The "problems"
+
+<!-- Go look at the raw data around these rows. -->
+<!-- ```{r, echo = FALSE} -->
+<!-- knitr::include_graphics(here::here("lecture_notes", "media", "problems.png")) -->
+
+<!-- ``` -->
+
+```{r}
+colnames(ufo)
+glimpse(ufo)
+```
+
+## Taking a deeper look
+
+The slice function can show us particular row numbers
+
+```{r}
+p %>% filter(col == 6)
+```
+
+## Taking a deeper look 
+
+ The slice function can show us particular row numbers 
+ 
+```{r}
+ slice(ufo, 30894 -1) %>% glimpse()
+```
+
+## Check the actual data
+
+```{r, include=TRUE, echo =FALSE, out.width="100%"}
+
+knitr::include_graphics("https://github.com/SISBID/Data-Wrangling/raw/gh-pages/images/raw_ufo_col6.png")
+```
+
+## Reading in again
+
+Now we have a chance to keep but clean these values!
+We will read in `duration (seconds)` now as a character type. 
+Use `?read_csv` to see documentation about special ways of reading in data.
+
+```{r}
+url <- 
+  "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv"
+ufo <-read_csv(url, col_types = cols(`duration (seconds)` = "c"))
+```
+
+## Look at the problems again
+
+Looks like an extra column for these rows.
+
+```{r}
+p <- problems(ufo)
+count(p, expected, actual, col)
+```
+
+## Check one of our previous problematic rows:
+
+```{r}
+slice(ufo, 30894 -1) %>% glimpse()
+
+```
+<!-- ## Check some problematic and normal rows{.codesmall} -->
+<!-- using awk 'FNR>=1713 && FNR<=1714' ufo_data_complete.csv in terminal -->
+
+<!-- ```{r, echo = FALSE} -->
+<!-- knitr::include_graphics(here::here("images", "raw_ufo.png")) -->
+<!-- ``` -->
+
+
+## Drop the remaining shifted problematic rows **for now**
+
+Multiply by negative one to drop the rows. Use the `slice` function to "select" those rows based on the index. Need to offset for `-1` because `problems()` gives us the index row based on the raw data, not the read in data (which has a header).
+
+```{r}
+head(p, n = 2)
+(pull(p, row) -1) %>% head()
+ufo_clean <- ufo %>% slice(-(pull(p, row)-1))
+```
+
+
+
+## Checking
+
+```{r}
+nrow(ufo) - nrow(ufo_clean)
+count(p, expected, actual)
+```
+
+
+## read in for the shifted rows {.codesmall}
+
+To keep these rows we would need to import again with different specifications.
+We could just get the shifted rows, rename the columns to be correct and the join this with the existing data if we wanted to try to keep all rows. We will learn about merging data later. 
+But for now let's not worry about these rows.
+```{r}
+ufo_colnames <-colnames(ufo)
+ufo_colnames<-c(ufo_colnames, "empty") # add a new column name for 12th column
+
+ufo2 <-
+read.table("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv",
+                  header = TRUE, sep = ",", col.names = ufo_colnames, fill = TRUE, na = "", 
+           colClasses = c(rep("character",10), "numeric")) # based on what the values seem to be currently
+ufo2 <-ufo2 %>% filter(empty == 0)
+
+```
+
+## Clean names with the `clean_names()` function from the `janitor` package
+
+```{r}
+colnames(ufo_clean)
+ufo_clean <- clean_names(ufo_clean)
+colnames(ufo_clean)
+```
+
+
+
+# Duplicates
+
+## Distinct values
+
+The `distinct()` function can help us remove duplicated rows.
+
+```{r, echo=FALSE}
+dup_df <- data.frame(
+  ID = c(1, 3, 2, 2),
+  Name = c("R", "R", "Python", "Python"),
+  value = c(25, 60, 30, 30)
+)
+```
+
+```{r}
+dup_df
+distinct(dup_df) # to get just distinct rows
+```
+
+## Aggregate values
+
+`aggregate` helps us aggregate the data using mean or sum
+```{r}
+dup_df %>% aggregate(value ~ Name, mean)
+dup_df %>% aggregate(value ~ Name, sum)
+```
+
+
+# Recoding Variables
+
+## Exact Swaps - `case_when` function
+
+```
+case_when(test ~ value if test is true,
+      .default ~ value if all above tests are not true) # defaults to NA
+```
+
+```{r}
+ufo_clean %>% 
+  mutate(country = 
+           case_when(country == "gb" ~ "Great Britain"),
+         .default = country) %>% 
+  glimpse()
+
+```
+
+
+## `case_when` note
+
+.default may look like TRUE ~
+
+```{r}
+ufo_clean %>% 
+  mutate(country = 
+           case_when(country == "gb" ~ "Great Britain",
+         TRUE ~ country)) %>% 
+  glimpse()
+
+```
+
+
+## How many countries?
+
+```{r}
+ufo_clean %>% count(country)
+```
+
+## `case_when()` regions to create a new variable based on conditions of other variables
+
+```
+case_when(test ~ value if test is true,
+         test2 ~ vlue if test2 is true,
+        .default ~ value if all above tests are not true) # defaults to NA
+```
+The `.default` value can also just be the original values.
+
+```{r}
+ufo_clean %>% mutate(country = case_when(
+                  country == "gb" ~ "Great Britain",
+                  country == "us" ~"United States",
+                  country == "au" ~ "Australia",
+                  country == "DE" ~ "Germany",
+                             .default = country))%>%
+  glimpse()
+
+```
+
+
+## `case_when` - another example
+
+The `.default` value can also be a single different value.
+
+```{r}
+ufo_clean <- ufo_clean %>% mutate( 
+            region = case_when(
+              country %in% c("us", "ca") ~ "North America",
+              country %in% c("de") ~ "Europe",
+              country %in% "gb" ~ "Great Britain",
+              .default = "Other"
+            ))
+ufo_clean %>% select(country, region) %>% head()
+```
+
+## Summary
+
+- Sometimes need to read the data in iteratively and check for problems with `problems`
+- Duplicated values can be reduced down to distinct rows using `distinct()`
+- Duplicated values can ablso be reduced down by aggregating using mathematical functions like `mean` or `sum` using `aggregate`
+- `case_when` can use conditionals, need to specify what value for if no conditions are met using `.defualt`(can be the original value of a variable if we use the variable name).
+- `case_when` needs to be used inside `mutate` to modify or create new columns
+-  Note: you might see  the `recode` is a function, which is like `case_when` but only makes exact swaps, (while `case_when` can do this and more!)
+
+
+## Lab
+
+https://sisbid.github.io/Data-Wrangling/09_Data_Cleaning/lab/data-cleaning-lab.Rmd
+
+
+## Extra slides
+
+## Strange country values
+
+
+Sometimes `country` is `NA` even though `state` is known.
+A conditional more flexible recoding would be helpful...
+
+
+```{r}
+head(ufo_clean)
+
+```
+
+## Deeper look
+
+Looking at city... it seems like many of these are in fact in the US.
+
+```{r}
+ufo_clean %>% filter(state == "tx") %>% count(country, state)
+ufo_clean %>% filter(state == "tx" & is.na(country)) %>% select(city)
+```
+
+
+## Checkin Utah as well
+
+```{r}
+ufo_clean %>% filter(state == "ut") %>% count(country, state)
+ufo_clean %>% filter(state == "ut" & is.na(country))  %>% select(city)
+```
+
+
+
+## Get US States
+
+```{r}
+ufo_clean %>% filter(country == "us") %>%
+  count(state) %>%
+  pull(state)
+US_states <- ufo_clean %>%
+  filter(country == "us") %>%
+  count(state) %>%
+  pull(state)
+
+```
+
+## Get Canada States
+```{r}
+ufo_clean %>% filter(country == "ca") %>%
+  count(state) %>%
+  pull(state)
+CA_states <- ufo_clean %>%
+  filter(country == "ca") %>%
+  count(state) %>%
+  pull(state)
+
+```
+
+## Get Great Britan states
+
+```{r}
+ufo_clean %>% filter(country == "gb") %>%
+  count(state) %>%
+  pull(state)
+GB_states <- ufo_clean %>%
+  filter(country == "gb") %>%
+  count(state) %>%
+  pull(state)
+
+```
+
+A small overlap with US states.
+
+
+## Get DE states
+
+```{r}
+ufo_clean %>% filter(country == "de") %>%
+  count(state) %>%
+  pull(state)
+
+```
+
+## Get AU states
+
+```{r}
+ufo_clean %>% filter(country == "au") %>%
+  count(state) %>%
+  pull(state)
+AU_states <- ufo_clean %>%
+  filter(country == "au") %>%
+  count(state) %>%
+  pull(state)
+
+```
+
+Some overlap with US states.
+
+
+## Get just unique
+
+The `setdiff()` function can show us what is unique or different for the first of 2 listed sets.
+
+```{r}
+numbers <-c(1,2,3)
+letters <-c("a", "b", 3)
+
+setdiff(numbers, letters)
+setdiff(letters, numbers)
+```
+
+## Get just unique
+
+<!-- AU_states <- AU_states[!(AU_states %in% US_states)] -->
+<!-- AU_states <- AU_states[!(AU_states %in% GB_states)] -->
+<!-- AU_states <- AU_states[!(AU_states %in% CA_states)] -->
+
+<!-- US_states <- setdiff(US_states, AU_states) -->
+<!-- US_states <- setdiff(US_states, GB_states) -->
+<!-- US_states <- setdiff(US_states, CA_states) -->
+
+```{r}
+US_states
+c(AU_states, GB_states, CA_states)
+US_states <- setdiff(US_states, c(AU_states, GB_states, CA_states))
+US_states
+```
+
+
+## Continued
+
+```{r}
+AU_states <- setdiff(AU_states, c(US_states, GB_states, CA_states))
+
+CA_states <- setdiff(CA_states, c(US_states, GB_states, AU_states))
+
+GB_states <- setdiff(GB_states, c(US_states, AU_states, CA_states))
+```
+
+## How often do rows have a value for country but not a value of "us"?
+
+```{r}
+ufo_clean %>%
+  filter(country != "us" & !is.na(country)) %>%
+  count(country)
+
+```
+
+
+
+
+## more complicated case_when
+
+Let's make an assumption that if the state value is within the data as a state for a specific country, than it comes from that country for the sake of illustration.
+
+```{r}
+ufo_clean <- ufo_clean %>% mutate(prob_country =
+      case_when((is.na(country) & state %in% c(US_states)) ~ "United States",
+                (is.na(country) & state %in% c(CA_states)) ~ "Canada",
+                (is.na(country) & state %in% c(AU_states)) ~ "Australia",
+                (is.na(country) & state %in% c(GB_states)) ~ "Great Britain",
+                   TRUE ~ country))
+```
+
+## results
+
+```{r}
+count(ufo_clean, prob_country)
+```
+
+
+## results
+
+Take a look at those NAs.
+
+```{r}
+ufo_clean %>% filter(is.na(prob_country))
+```
+
+
+## We could confirm with city info and latitude and longitude
+
+```{r}
+ufo_clean %>% filter(country == "de") %>%
+  pull(city)
+```
+
+
+## Even more specific
+
+```{r}
+ufo_clean <- ufo_clean %>% mutate(prob_country =
+      case_when(
+      (is.na(country) & state %in% c(US_states))  |
+  country == "us" ~ "United States",
+      (is.na(country) & state %in% c(CA_states))  |
+  country == "ca" ~ "Canada",
+      (is.na(country) & state %in% c(AU_states))  |
+  country == "au" ~ "Australia",
+      (is.na(country) & state %in% c(GB_states))  |
+  country == "gb" ~ "Great Britain",
+       country == "de" ~ "Germany",
+                   TRUE ~ country))
+
+```
+
+We would want to confirm what we recoded with the cities and latitude and longitude, especially to deal with the overlaps in the state lists.
+
+## Check counts
+
+```{r}
+ufo_clean %>%
+  count(country, prob_country)
+```
