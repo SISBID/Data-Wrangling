@@ -127,9 +127,9 @@ https://sisbid.github.io/Data-Wrangling/00_Setup/Setup.html
 [44]: 08_Data_Summarization/lab/data-summarization-lab-key.Rmd  
 [45]: 08_Data_Summarization/lab/data-summarization-lab-key.html  
 
-[46]: 09_Data_Cleaning/Data_Cleaning.html  
-[47]: 09_Data_Cleaning/Data_Cleaning.pdf  
-[48]: 09_Data_Cleaning/Data_Cleaning.Rmd  
+[46]: 09_Data_Cleaning/Data_Cleaning_Part1.html  
+[47]: 09_Data_Cleaning/Data_Cleaning_Part1.pdf  
+[48]: 09_Data_Cleaning/Data_Cleaning_Part1.Rmd  
 [49]: 09_Data_Cleaning/lab/data-cleaning-lab.Rmd  
 [50]: 09_Data_Cleaning/lab/data-cleaning-lab-key.Rmd  
 [51]: 09_Data_Cleaning/lab/data-cleaning-lab-key.html  
