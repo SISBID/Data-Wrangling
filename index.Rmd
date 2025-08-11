@@ -106,51 +106,51 @@ https://sisbid.github.io/Data-Wrangling/00_Setup/Setup.html
 [26]: 05_Data_Subsetting/lab/data-subsetting-lab-part1-key.Rmd  
 [27]: 05_Data_Subsetting/lab/data-subsetting-lab-part1-key.html  
 
-[28]: 06_Missing_Data/lecture_notes/Data_Missing.html  
-[29]: 06_Missing_Data/lecture_notes/Data_Missing.pdf  
-[30]: 06_Missing_Data/lecture_notes/Data_Missing.Rmd  
+[28]: 06_Missing_Data/Data_Missing.html  
+[29]: 06_Missing_Data/Data_Missing.pdf  
+[30]: 06_Missing_Data/Data_Missing.Rmd  
 [31]: 06_Missing_Data/lab/missing-data-lab.Rmd  
 [32]: 06_Missing_Data/lab/missing-data-lab-key.Rmd  
 [33]: 06_Missing_Data/lab/missing-data-lab-key.html  
 
-[34]: 05_Data_Subsetting/lecture_notes/Data_Subsetting_Part2.html  
-[35]: 05_Data_Subsetting/lecture_notes/Data_Subsetting_Part2.pdf  
-[36]: 05_Data_Subsetting/lecture_notes/Data_Subsetting_Part2.Rmd  
+[34]: 05_Data_Subsetting/Data_Subsetting_Part2.html  
+[35]: 05_Data_Subsetting/Data_Subsetting_Part2.pdf  
+[36]: 05_Data_Subsetting/Data_Subsetting_Part2.Rmd  
 [37]: 05_Data_Subsetting/lab/data-subsetting-lab-part2.Rmd  
 [38]: 05_Data_Subsetting/lab/data-subsetting-lab-part2-key.Rmd  
 [39]: 05_Data_Subsetting/lab/data-subsetting-lab-part2-key.html  
 
-[40]: 08_Data_Summarization/lecture_notes/Data_Summarization.html  
-[41]: 08_Data_Summarization/lecture_notes/Data_Summarization.pdf  
-[42]: 08_Data_Summarization/lecture_notes/Data_Summarization.Rmd  
+[40]: 08_Data_Summarization/Data_Summarization.html  
+[41]: 08_Data_Summarization/Data_Summarization.pdf  
+[42]: 08_Data_Summarization/Data_Summarization.Rmd  
 [43]: 08_Data_Summarization/lab/data-summarization-lab.Rmd  
 [44]: 08_Data_Summarization/lab/data-summarization-lab-key.Rmd  
 [45]: 08_Data_Summarization/lab/data-summarization-lab-key.html  
 
-[46]: 09_Data_Cleaning/lecture_notes/Data_Cleaning.html  
-[47]: 09_Data_Cleaning/lecture_notes/Data_Cleaning.pdf  
-[48]: 09_Data_Cleaning/lecture_notes/Data_Cleaning.Rmd  
+[46]: 09_Data_Cleaning/Data_Cleaning.html  
+[47]: 09_Data_Cleaning/Data_Cleaning.pdf  
+[48]: 09_Data_Cleaning/Data_Cleaning.Rmd  
 [49]: 09_Data_Cleaning/lab/data-cleaning-lab.Rmd  
 [50]: 09_Data_Cleaning/lab/data-cleaning-lab-key.Rmd  
 [51]: 09_Data_Cleaning/lab/data-cleaning-lab-key.html  
 
-[52]: 09_Data_Cleaning/lecture_notes/Data_Cleaning_Part2.html  
-[53]: 09_Data_Cleaning/lecture_notes/Data_Cleaning_Part2.pdf  
-[54]: 09_Data_Cleaning/lecture_notes/Data_Cleaning_Part2.Rmd  
+[52]: 09_Data_Cleaning/Data_Cleaning_Part2.html  
+[53]: 09_Data_Cleaning/Data_Cleaning_Part2.pdf  
+[54]: 09_Data_Cleaning/Data_Cleaning_Part2.Rmd  
 [55]: 09_Data_Cleaning/lab/data-cleaning-lab-part2.Rmd  
 [56]: 09_Data_Cleaning/lab/data-cleaning-lab-part2-key.Rmd  
 [57]: 09_Data_Cleaning/lab/data-cleaning-lab-part2-key.html  
 
-[58]: 11_Data_Reshaping/lecture_notes/Data_Reshaping.html  
-[59]: 11_Data_Reshaping/lecture_notes/Data_Reshaping.pdf  
-[60]: 11_Data_Reshaping/lecture_notes/Data_Reshaping.Rmd  
+[58]: 11_Data_Reshaping/Data_Reshaping.html  
+[59]: 11_Data_Reshaping/Data_Reshaping.pdf  
+[60]: 11_Data_Reshaping/Data_Reshaping.Rmd  
 [61]: 11_Data_Reshaping/lab/data-reshaping-lab.Rmd  
 [62]: 11_Data_Reshaping/lab/data-reshaping-lab-key.Rmd  
 [63]: 11_Data_Reshaping/lab/data-reshaping-lab-key.html  
 
-[64]: 12_Data_Merging/lecture_notes/Merging_Join.html  
-[65]: 12_Data_Merging/lecture_notes/Merging_Join.pdf  
-[66]: 12_Data_Merging/lecture_notes/Merging_Join.Rmd  
+[64]: 12_Data_Merging/Merging_Join.html  
+[65]: 12_Data_Merging/Merging_Join.pdf  
+[66]: 12_Data_Merging/Merging_Join.Rmd  
 [67]: 12_Data_Merging/lab/merging-lab.Rmd  
 [68]: 12_Data_Merging/lab/merging-lab-key.Rmd  
 [69]: 12_Data_Merging/lab/merging-lab-key.html  
@@ -177,7 +177,7 @@ https://sisbid.github.io/Data-Wrangling/00_Setup/Setup.html
 [87]: 14_Functional_Programming/lab/functional-program-lab-key.html  
 
 [88]: https://docs.google.com/presentation/d/1ZGf90Ho1UeT0k1V9NwSxQYUk4ZtU9L-UY0RfoOa96OU/edit?usp=sharing  
-[89]: lecture_notes/sisbid_wrap_up_2025.pdf  
+[89]: 16_Wrap_Up/sisbid_wrap_up_2025.pdf  
 
 
 **Miscellaneous**
