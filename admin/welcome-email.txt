@@ -13,9 +13,9 @@ Before we get started on Monday we have a few things for you to take note of:
 4. Please make sure you have the most recent version of RStudio and R.
 Read these instructions for help: https://sisbid.github.io/Data-Wrangling/lecture_notes/Setup.html
 
-5. Install Git: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+5. Set up a GitHub profile (by clicking sign up) if you don't already have one: https://github.com/
 
-6. Set up a GitHub profile (by clicking sign up) if you don't already have one: https://github.com/
+6. (Optional) Install Git: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
 
 
 Thanks and see you all soon!
