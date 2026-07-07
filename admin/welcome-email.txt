@@ -1,21 +1,23 @@
-Hi class,
+
+
+Hi all,
 
 Welcome to the Data Wrangling course!
 
 Before we get started on Monday we have a few things for you to take note of:
 
-1. Please take a moment to familiarize yourself with the schedule for next week: http://sisbid.github.io/Data-Wrangling/ (Please note that some of the material on the website will be updated.) 
+1. Please take a moment to familiarize yourself with the schedule for next week: https://sisbid.github.io/Data-Wrangling/   (Please note that some of the material on the website will be updated.) 
 
-2. Note we will be using a recurring Zoom link for all of our sessions: 
+2. Note we will be using a recurring Zoom link for all of our sessions: [ADD LINK]
 
-3. The Slack channel will be a space for you to meet each other and ask questions as they arise.
+3. The data-wrangling-2026 Slack channel will be a space for you to meet each other and ask questions as they arise. (You should receive an email to join.)
 
 4. Please make sure you have the most recent version of RStudio and R.
-Read these instructions for help: https://sisbid.github.io/Data-Wrangling/lecture_notes/Setup.html
+Read these instructions for help: https://sisbid.github.io/Data-Wrangling/lecture_notes/Setup.html 
 
-5. Set up a GitHub profile (by clicking sign up) if you don't already have one: https://github.com/
+5. Set up a GitHub profile (by clicking sign up) if you don't already have one: https://github.com/ 
 
-6. (Optional) Install Git: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+6. (Optional) Install Git: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git 
 
 
 Thanks and see you all soon!
