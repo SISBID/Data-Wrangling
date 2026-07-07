@@ -48,7 +48,7 @@ https://sisbid.github.io/Data-Wrangling/00_Setup/Setup.html
 | 9:55-10:10  | Break                                                     |                       |                                      |
 | 10:10-11:00 | [Data Input/Output Part 2][11] ([PDF][12]/[Rmd][13])      | [lab][14]             | [lab key][15] / [lab key output][16] |
 | 11:00-11:30 | Break                                                     |                       |                                      |
-| 11:30-12:20 | [Reproducible Research][17] ([PDF][18])                   | [lab][19]             | [lab key][20] / [lab key output][21] |
+| 11:30-12:20 | [Reproducible Research & Github][17] ([PDF][18])          | [lab][19]             | [lab key][20] / [lab key output][21] |
 | 12:20-12:35 | Break                                                     |                       |                                      |
 | 12:35-1:25  | [Data Subsetting Part 1][22] ([PDF][23]/[Rmd][24])        | [lab][25]             | [lab key][26] / [lab key output][27] |
 | 1:25-1:40   | Break                                                     |                       |                                      |
@@ -76,7 +76,7 @@ https://sisbid.github.io/Data-Wrangling/00_Setup/Setup.html
 [01]: 00_Setup/Setup.html  
 [02]: 00_Setup/Setup.pdf  
 
-[03]: https://docs.google.com/presentation/d/1-jw_njYpdg46WClUVtLwLTb9TyD25cudvzNhKEJuXkA/edit?usp=sharing  
+[03]: https://docs.google.com/presentation/d/1JIcyI7Yofu5KeTHU4_NrYIrIzSwHuiu1iK_87v4aNmY/edit?usp=drive_link  
 [04]: 01_Introduction/sisbid_intro_2025.pdf  
 
 [05]: 02_Data_IO/Data_IO_Part1.html  
@@ -93,7 +93,7 @@ https://sisbid.github.io/Data-Wrangling/00_Setup/Setup.html
 [15]: 02_Data_IO/lab/data-io-lab-part2-key.Rmd  
 [16]: 02_Data_IO/lab/data-io-lab-part2-key.html  
 
-[17]: https://docs.google.com/presentation/d/1zFT-rvoN_T88CrDBCaPNDKVME52wUn5AIvLS7VVDqu4/edit?usp=sharing  
+[17]: https://docs.google.com/presentation/d/1MwzHvoYqPdbVAe-Ci1F3ZGmf6GumWlA3GDILuHYJx20/edit?usp=drive_link
 [18]: 04_Reproducible_Research/sisbid_rep_research_2025.pdf  
 [19]: 04_Reproducible_Researchlab/rmarkdown-lab.Rmd  
 [20]: 04_Reproducible_Researchlab/rmarkdown-lab-key.Rmd  
@@ -176,7 +176,7 @@ https://sisbid.github.io/Data-Wrangling/00_Setup/Setup.html
 [86]: 14_Functional_Programming/lab/functional-program-lab-key.Rmd  
 [87]: 14_Functional_Programming/lab/functional-program-lab-key.html  
 
-[88]: https://docs.google.com/presentation/d/1ZGf90Ho1UeT0k1V9NwSxQYUk4ZtU9L-UY0RfoOa96OU/edit?usp=sharing  
+[88]: https://docs.google.com/presentation/d/17Ice9AFi_y7XH41CnkCyaODDTgWFNxryI3AofXwY7c0/edit?usp=drive_link
 [89]: 16_Wrap_Up/sisbid_wrap_up_2025.pdf  
 
 
