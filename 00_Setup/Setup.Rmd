@@ -37,15 +37,11 @@ Once the proper installation package has been selected, run the package and foll
 
 # Installing `RStudio` {#installing-rstudio}
 
-To install `RStudio`, visit <https://posit.co/download/rstudio-desktop/>. The website should look like this:
-
-![](../images/RStudio_landing.png)
+To install `RStudio`, visit <https://posit.co/download/rstudio-desktop/>.
 
 Once on the website, scroll down and select the proper installation file for your platform (Windows, Mac, etc.). Open up the installer and follow the directions to install RStudio. 
 
 **Note** that your operating system may be **too old** to install the current version of RStudio. If this is the case try installing progressively older versions found [here](https://www.rstudio.com/products/rstudio/older-versions/) until it works. You will know if it worked if you try to open RStudio and you see an interface without a message about things going poorly.
-
-![](../images/RStudio_platforms.png)
 
 When you open up `RStudio`, it should look like this:
 
@@ -77,9 +73,14 @@ You can customize the look of your RStudio IDE in `Tools > Global Options...`.
 ## Troubleshooting the Installation Process
 
 If you run into trouble, check the following:
+
 - did you install the correct version of software for your operating system?
+   
    - Check that you installed the version right for your type of system, (`macOS` vs `Windows` for example)
-   - Check if maybe you need a different version for the age of your system. First check that your version of R was right - there are multiple versions for different `macOS` systems for example. You can check the apple icon (top left corner) and "About This Mac" to learn more about the age of your operating system. If your operating system is older (and you can't update it), try installing progressively older versions found [here](https://www.rstudio.com/products/rstudio/older-versions/) until it works. You will know if it worked if you try to open RStudio and you see an interface without a message about things going poorly. Here you can see an [example](https://community.rstudio.com/t/rstudio-desktop-crashes-on-startup-with-library-not-loaded/130296) of this. Unfortunately, the documentation is poor about what older versions work for which operating systems.
+   
+   - Check if maybe you need a different version for the age of your system. First check that your version of R was right - there are multiple versions for different `macOS` systems for example. 
+
+You can check the apple icon (top left corner) and "About This Mac" to learn more about the age of your operating system. If your operating system is older (and you can't update it), try installing progressively older versions found [here](https://www.rstudio.com/products/rstudio/older-versions/) until it works. You will know if it worked if you try to open RStudio and you see an interface without a message about things going poorly. Here you can see an [example](https://community.rstudio.com/t/rstudio-desktop-crashes-on-startup-with-library-not-loaded/130296) of this. Unfortunately, the documentation is poor about what older versions work for which operating systems.
 
 # `R` packages {#r-packages}
 
