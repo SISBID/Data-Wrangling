@@ -28,14 +28,13 @@ Useful when you want to apply a function to:
  * lots of columns in a tibble  
  * multiple tibbles  
  * multiple data files  
- * or perform fancy functions with vectors (or tibble columns)
  
 ## base R `apply` functions
 
 Works really simply for all columns.
 
 ```{r}
-sapply(mtcars, FUN =  round)
+sapply(mtcars, FUN = round)
 
 ```
 
@@ -51,9 +50,7 @@ bind_cols(rounded_mtcars, select(mtcars, -c(disp, drat, wt, qsec)))
 
 ## Working **`across`** multiple columns
 
-Say we wanted to round multiple columns of the `mtcars` data. 
-We could do so one column at a time, or we could use the `across` function from the `dplyr` package.
-Needs to be used **within other dplyr functions** such as `mutate`.
+`across` allows us to perform functions on specific columns more easily.
 
 ```
 mutate(across(which_columns, which function or operation))
@@ -69,26 +66,11 @@ mtcars %>%
 
 
 
-## Special tilda use {.codesmall}
-
-If you see `~ .x` or `.` this means we are passing `x` to a function. 
-
-See [purrr-shortcuts](https://adv-r.hadley.nz/functionals.html#purrr-shortcuts) See here for info about the [difference between them](https://forum.posit.co/t/function-argument-naming-conventions-x-vs-x/7764/10).
-
-For example - this is not necessary but you could use it here:
-```{r}
-mtcars %>% 
-  mutate(across(.cols = c(disp, drat, wt, qsec), ~ round(.x))) %>%
-  head(2)
-
-mtcars %>% 
-  mutate(across(.cols = c(disp, drat, wt, qsec), ~ round(.))) %>%
-  head(2)
-```
-
 ## Using `across` with arguments {.codesmall}
 
-If you wish to also pass arguments to the function that you are applying to the various columns, then you need to use the `~`  and `.x` (or `.`) as a place holder for what you the values you will be passing into the function.
+If you want to use arguments, then you need to use the `~`  and `.x` (or `.`) as a place holder for what you will be passing into the function.
+
+See [purrr-shortcuts](https://adv-r.hadley.nz/functionals.html#purrr-shortcuts) and [this link about `.` and `.x`](https://forum.posit.co/t/function-argument-naming-conventions-x-vs-x/7764/10).
 
 ```{r}
 
@@ -105,78 +87,6 @@ mtcars %>%
 
 
 
-<!-- ## if_any() and if_all() -->
-
-<!-- ```{r} -->
-<!-- iris %>% -->
-<!--   filter(if_any(ends_with("Width"), ~ . > 4)) -->
-
-<!-- iris %>% -->
-<!--   filter(if_all(ends_with("Length"), ~ . > 6)) -->
-
-
-<!-- mtcars %>% -->
-<!--   filter(if_any(ends_with("t"), ~. > 4)) -->
-
-<!-- mtcars %>% -->
-<!--      filter(if_all(c(qsec, mpg, cyl, gear), ~. > 4)) -->
-
-<!-- ``` -->
-
-<!-- ## `if_any()` and `if_all()` are also helpful! -->
-
-<!-- if_any() filters for rows any columns in listed columns meet the condition -->
-
-
-<!-- ```{r} -->
-<!-- #diamonds %>% -->
-<!--  #  filter(x > 11 | y > 11 | z > 11) -->
-
-<!-- diamonds %>% -->
-<!--    filter(if_any(c(x, y, z), ~. > 11)) -->
-
-<!-- ``` -->
-
-<!-- ## `if_any()` and `if_all()` are also helpful! -->
-
-<!-- if_all() filters for rows if all columns in listed columns meet the condition -->
-
-
-<!-- ```{r} -->
-<!-- #diamonds %>% -->
-<!--      #filter(x > 8 , y > 8 , z > 8) -->
-
-<!-- diamonds %>% -->
-<!--    filter(if_all(c(x, y, z), ~. > 8)) -->
-
-<!-- ``` -->
-
-## Previously we filtered for patterns or conditions..
-
-Dilemma: Seems a bit repetitive!
-
-```{r}
-mtcars %>%
-  filter(cyl > 3 & cyl < 8,
-         gear > 3 & gear < 8,
-         carb > 3 & carb < 8)
-```
-
-## Now we can filter multiple columns!
-
-`if_all()`: helps us filter on multiple similar conditions simultaneously!
-
-```{r}
-mtcars %>%
-   filter(if_all(c(cyl, gear, carb), ~.x > 3 & .x < 8))
-
-```
-
-
-
-<!-- iris %>% select(-Species) %>% filter(if_all(everything(), ~ . > 2.4)) -->
-
-<!-- iris %>% filter(if_all(where(is.numeric), ~ . > 2.4)) -->
 
 
 # Writing functions
@@ -203,16 +113,7 @@ my_function(x = my_data)
 my_function(my_data)
 ```
 
-## shortcut for functions
 
-Alternatively we can use `\(x)`. See this [link about function shortcuts](https://medium.com/analytics-vidhya/how-to-use-the-new-function-symbol-in-r-programming-4-1-r-4-1-c7cd2ac27b98).
-
-```{r}
-my_function <- \(x){x + 1}
-my_function
-
-my_function(x = my_data)
-```
 
 
 
@@ -236,35 +137,34 @@ The `purrr` package can be very helpful!
 
 ## `purrr` main functions
 
-`map` and `map_*` and `modify`  
+`map` and `map_*` (and `modify`)  
 - **applies function** to each element of an vector or object 
 (map returns a list, modify returns the same object type)
 - `map_df` will output a dataframe
-  
+
+**Fancier Options**
+
 `map2` and `map2*`  
-- applies function to each element of **two** vectors or objects 
+- applies function to each element of **two** vectors or objects  
+- an example would be improting multiple files with a vector of different delimiters
   
 `pmap` and `pmap_*` 
 - applies function to each element of **3+** vector or objects (requires a list for input)  
 
 the _* options specify the type of data output
 
-## Using `map()`
+<!-- ## Using `map()` -->
 
-![](https://dcl-prog.stanford.edu/images/map-step-2.png)
-[[source](https://dcl-prog.stanford.edu/purrr-parallel.html)]
+<!-- ![](https://dcl-prog.stanford.edu/images/map-step-2.png) -->
+<!-- [[source](https://dcl-prog.stanford.edu/purrr-parallel.html)] -->
 
 
-## Using `map_df()` amd `modify()`
+<!-- ## Using `map_df()` -->
 
-```{r}
-my_tibble <- tibble(values = c(1.2, 2.3, 3.5, 4.6))
-map_df(my_tibble, round)
-```
-
-```{r}
-modify(my_tibble, round)
-```
+<!-- ```{r} -->
+<!-- my_tibble <- tibble(values = c(1.2, 2.3, 3.5, 4.6)) -->
+<!-- map_df(my_tibble, round) -->
+<!-- ``` -->
 
 <!-- ## map2 -->
 
@@ -328,17 +228,17 @@ modify(my_tibble, round)
 <!--    head(2) -->
 <!-- ``` -->
 
-## It's a bit simpler than across...
+## map_df and across
 
-But `across` keeps rownames.
+Both `map_df` and `across` can do the same thing, `map_df` is simpler, but `across` keeps rownames.
 
 ```{r}
 mtcars %>% 
-  modify(format, digits = 1) %>%
+  map_df(round, digits = 1) %>%
   head(n = 2)
 
 mtcars %>% 
-  mutate(across(.cols = everything(), ~ format(.x, digits = 1))) %>%
+  mutate(across(.cols = everything(), ~ round(.x, digits = 1))) %>%
   head(n = 2)
 ```
 
@@ -350,7 +250,7 @@ Using `modify_if()` (or `map_if()`), we can specify what columns to modify
 head(as_tibble(iris), 3)
 
 as_tibble(iris) %>% 
-  modify_if(is.numeric, as.character) %>%
+  modify_if(is.numeric, round) %>%
   head(3)
 ```
 
@@ -358,19 +258,18 @@ as_tibble(iris) %>%
 
 # Lists
 
-## What is a 'list'?
+## What is a list?
 
 * Lists are the most flexible/"generic" data class in R
 * Can be created using list()
 * Can hold vectors, strings, matrices, models, list of other lists, lists upon lists!
-* Can reference data using $ (if the elements are named), or using [], or [[]]
 
 ```{r makeList}
 mylist <- list(
   letters = c("A", "b", "c"),
   numbers = 1:3,
   matrix(1:25, ncol = 5),
-  matrix(1:25, ncol = 5)
+  iris
 )
 ```
 
@@ -391,7 +290,6 @@ mylist["letters"] # returns a list
   
 ```{r Listsrefvec}  
 mylist[[1]] # returns the vector 'letters'
-mylist$letters # returns vector
 mylist[["letters"]] # returns the vector 'letters'
 ```
 
@@ -418,13 +316,7 @@ mylist[["letters"]] # returns the vector 'letters'
 
 
 
-## List referencing
 
-You can also select multiple lists with the single brackets. 
-
-```{r Listsref2}
-mylist[1:2] # returns a list
-```
 
 <!-- ## List referencing -->
 
@@ -534,15 +426,18 @@ multifile_data[[2]]
 ```{r}
 multifile_data[[3]]
 ```
+## Summary
+
+- `function(x){ }` or `\(x){ }` denotes a function. You also commonly see `~.x` inside `across`
+- `map_df` and `modify` **apply functions** to each element of an object. `map` returns a list, `modify` returns the same object type.
+- The purrr package has other useful functional programming features
+- lists can be great for storing iterative work.
+
+https://sisbid.github.io/Data-Wrangling/14_Functional_Programming/lab/functional-program-lab.Rmd
+
+# Extra Slides
+
 ## Reading in multiple files{.smaller}
-
-<!-- ldply combines results of applying a function to each element in a list into a data frame -->
-<!-- ```{r, eval = FALSE} -->
-<!-- library(plyr) -->
-<!-- combined<-ldply(multifile_data) -->
-<!-- dim(combined) -->
-
-<!-- ``` -->
 
 The `bind_rows()` function can be great for combining data.
 
@@ -558,16 +453,84 @@ all_files_data <-
 glimpse(all_files_data)
 ```
 
-## Summary
 
-- `function(x){ }` or `\(x){ }` denotes a function. You also commonly see `~.x` inside `across`
-- `map_df` and `modify` **apply functions** to each element of an object. `map` returns a list, `modify` returns the same object type.
-- The purrr package has other useful functional programming features
-- lists can be great for storing iterative work.
+## Shortcut for functions
 
-https://sisbid.github.io/Data-Wrangling/14_Functional_Programming/lab/functional-program-lab.Rmd
+Alternatively we can use `\(x)`. See this [link about function shortcuts](https://medium.com/analytics-vidhya/how-to-use-the-new-function-symbol-in-r-programming-4-1-r-4-1-c7cd2ac27b98).
 
-# Extra Slides
+```{r}
+my_function <- \(x){x + 1}
+my_function
+
+my_function(x = my_data)
+```
+
+## Previously we filtered for patterns or conditions..
+
+Dilemma: Seems a bit repetitive!
+
+```{r}
+mtcars %>%
+  filter(cyl > 3 & cyl < 8,
+         gear > 3 & gear < 8,
+         carb > 3 & carb < 8)
+```
+
+## Now we can filter multiple columns!
+
+`if_all()`: helps us filter on multiple similar conditions simultaneously!
+
+```{r}
+mtcars %>%
+   filter(if_all(c(cyl, gear, carb), ~.x > 3 & .x < 8))
+
+```
+
+<!-- ## if_any() and if_all() -->
+
+<!-- ```{r} -->
+<!-- iris %>% -->
+<!--   filter(if_any(ends_with("Width"), ~ . > 4)) -->
+
+<!-- iris %>% -->
+<!--   filter(if_all(ends_with("Length"), ~ . > 6)) -->
+
+
+<!-- mtcars %>% -->
+<!--   filter(if_any(ends_with("t"), ~. > 4)) -->
+
+<!-- mtcars %>% -->
+<!--      filter(if_all(c(qsec, mpg, cyl, gear), ~. > 4)) -->
+
+<!-- ``` -->
+
+<!-- ## `if_any()` and `if_all()` are also helpful! -->
+
+<!-- if_any() filters for rows any columns in listed columns meet the condition -->
+
+
+<!-- ```{r} -->
+<!-- #diamonds %>% -->
+<!--  #  filter(x > 11 | y > 11 | z > 11) -->
+
+<!-- diamonds %>% -->
+<!--    filter(if_any(c(x, y, z), ~. > 11)) -->
+
+<!-- ``` -->
+
+<!-- ## `if_any()` and `if_all()` are also helpful! -->
+
+<!-- if_all() filters for rows if all columns in listed columns meet the condition -->
+
+
+<!-- ```{r} -->
+<!-- #diamonds %>% -->
+<!--      #filter(x > 8 , y > 8 , z > 8) -->
+
+<!-- diamonds %>% -->
+<!--    filter(if_all(c(x, y, z), ~. > 8)) -->
+
+<!-- ``` -->
 
 
 ## Using across with helpers to apply function to multiple columns
@@ -596,6 +559,13 @@ system.time(iris %>%
 
 ```
 
+## List referencing
+
+You can also select multiple lists with the single brackets. 
+
+```{r Listsref2}
+mylist[1:2] # returns a list
+```
 
 ## Alternatively we could have fixed the second file {.smaller}
 Looks like it had a different delimiter
