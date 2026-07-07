@@ -8,8 +8,8 @@ Before we get started on Monday we have a few things for you to take note of:
 - Note we will be using a recurring Zoom link for all of our sessions: {ADD THE LINK HERE}
 - This Slack channel will be a space for you to meet each other and ask questions as they arise.
 - Please make sure you have the most recent version of RStudio and R. Read these instructions for help: https://sisbid.github.io/Data-Wrangling/lecture_notes/Setup.html
-- Install Git: `r config::get("git_downloads_link")`
 - Set up a GitHub profile (by clicking sign up) if you don’t already have one: https://github.com/
+- (Optional extension) Install Git: `r config::get("git_downloads_link")`
 
 Thanks and see you all soon!
 
