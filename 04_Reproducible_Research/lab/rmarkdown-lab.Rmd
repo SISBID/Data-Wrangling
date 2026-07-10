@@ -20,7 +20,7 @@ plot(x)
 
 4. Try pressing the run previous chunk button - the button that is to the left of the play button. What happens?
 
-```{r chunk25}
+```{r chunk2}
 x = rnorm(100)
 plot(x)
 ```
