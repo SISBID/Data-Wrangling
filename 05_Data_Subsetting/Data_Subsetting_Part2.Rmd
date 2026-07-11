@@ -67,14 +67,14 @@ Notice the new name is listed **first**!
 <div class = "codeexample">
 ```{r, eval = FALSE}
 # general format! not code!
-{data you are creating or changing} <- {data you are using} %>%
+{data you are creating or changing} <- {data you are using} |>
                                     rename({New Name} = {Old name})
                                           
 ```
 </div>
 
 ```{r}
-ufo_2<- ufo %>%
+ufo_2<- ufo |>
   rename(duration_seconds = `duration (seconds)`)
 head(ufo_2, n = 3)
 ```
@@ -83,7 +83,7 @@ head(ufo_2, n = 3)
 ## More Renaming
 
 ```{r}
-ufo_2<- ufo %>%
+ufo_2<- ufo |>
         rename(duration_seconds = `duration (seconds)`,
                 duration_h_m = `duration (hours/min)`)
 glimpse(ufo_2)
@@ -119,12 +119,12 @@ include_graphics("https://media.giphy.com/media/6q29hxDKvJvPy/giphy.gif")
 To rename all columns you use the `rename_with()`. In this case we will use `toupper()` to make all letters upper case. Could also use `tolower()` function.
 
 ```{r}
-diamonds_upper <- diamonds %>% rename_with(toupper)
+diamonds_upper <- diamonds |> rename_with(toupper)
 head(diamonds_upper, 2)
 ```
 
 ```{r}
-diamonds_upper %>% rename_with(tolower) %>% head(n = 2)
+diamonds_upper |> rename_with(tolower) |> head(n = 2)
 ```
 
 ## Janitor package{.codesmall}
@@ -144,7 +144,7 @@ head(ufo)
 
 ```{r}
 head(ufo, 2)
-ufo %>% select(where(is.numeric)) %>% head(n = 2)
+ufo |> select(where(is.numeric)) |> head(n = 2)
 
 ```
 
@@ -154,7 +154,7 @@ ufo %>% select(where(is.numeric)) %>% head(n = 2)
 
 <!-- ```{r} -->
 <!-- head(diamonds, 2) -->
-<!-- diamonds %>% select(where(is.ordered)) %>% head(n = 2) -->
+<!-- diamonds |> select(where(is.ordered)) |> head(n = 2) -->
 
 <!-- ``` -->
 
@@ -170,15 +170,15 @@ The `mutate` function in `dplyr` allows you to add or modify columns of a data f
 <div class = "codeexample">
 ```{r, eval = FALSE}
 # General format - Not the code!
-{data object to update} <- {data to use} %>% 
+{data object to update} <- {data to use} |> 
                     mutate({new variable name} = {new variable source}) 
 ```
 </div>
 
 
 ```{r}
-ufo %>% 
-  mutate(state_upper = toupper(state)) %>% glimpse()
+ufo |> 
+  mutate(state_upper = toupper(state)) |> glimpse()
 
 ```
 
@@ -190,14 +190,14 @@ The `mutate` function in `dplyr` allows you to add or modify columns of a data f
 <div class = "codeexample">
 ```{r, eval = FALSE}
 # General format - Not the code!
-{data object to update} <- {data to use} %>%
+{data object to update} <- {data to use} |>
             mutate({variable name to change} = {variable modification}) 
 ```
 </div>
 
 ```{r}
-ufo %>% 
-  mutate(state = toupper(state)) %>% glimpse()
+ufo |> 
+  mutate(state = toupper(state)) |> glimpse()
 
 ```
 
@@ -207,7 +207,7 @@ ufo %>%
 If you want to actually make the change you need to reassign the data object.
 
 ```{r, eval = FALSE}
-ufo <- ufo %>% 
+ufo <- ufo |> 
   mutate(state = toupper(state))
 ```
 
@@ -216,7 +216,7 @@ ufo <- ufo %>%
 The `select` function can remove a column with minus (`-`)
 
 ```{r}
-select(ufo, - datetime) %>% glimpse()
+select(ufo, - datetime) |> glimpse()
 ```
 
 
@@ -228,7 +228,7 @@ You can use `c()` to list the columns to remove or tidyhelpers.
 
 Remove `newcol` and `drat`:
 ```{r}
-select(ufo, -(starts_with("c"))) %>% glimpse()
+select(ufo, -(starts_with("c"))) |> glimpse()
 ```
 
 
@@ -239,7 +239,7 @@ select(ufo, -(starts_with("c"))) %>% glimpse()
 The `select` function can reorder columns.
 ```{r}
 head(ufo, n = 2)
-ufo %>% select(country, shape, datetime) %>% head(n = 2)
+ufo |> select(country, shape, datetime) |> head(n = 2)
 ```
 
 
@@ -249,7 +249,7 @@ In addition to `select` we can also use the `relocate()` function of dplyr to re
 
 ```{r}
 head(ufo, n = 2)
-ufo %>% relocate(datetime, .after = shape) %>% head(n = 2)
+ufo |> relocate(datetime, .after = shape) |> head(n = 2)
 ```
 
 
@@ -261,7 +261,7 @@ For example, let say we just wanted `price` to be before `carat`.
 
 ```{r}
 head(ufo, n = 2)
-ufo %>% relocate(shape, .before = city) %>% head(n = 2)
+ufo |> relocate(shape, .before = city) |> head(n = 2)
 
 ```
 
@@ -273,14 +273,14 @@ ufo %>% relocate(shape, .before = city) %>% head(n = 2)
 
 The `arrange` function can reorder rows  By default, `arrange` orders in increasing order:
 ```{r}
-ufo%>% arrange(duration_seconds)
+ufo |> arrange(duration_seconds)
 ```
 
 ## Ordering the rows of a data frame: dplyr
 
 Use the `desc` to arrange the rows in descending order:
 ```{r}
-ufo %>% arrange(desc(duration_seconds))
+ufo |> arrange(desc(duration_seconds))
 ```
 
 ## Ordering the rows of a data frame: dplyr
@@ -298,21 +298,22 @@ You can combine increasing and decreasing orderings. The first listed gets prior
 arrange(ufo, shape, desc(duration_seconds))
 ```
 
-## Sometime data class gets in the way
+## Sometime data class gets in the way{.codesmall}
 
 ```{r}
-ufo %>% filter(datetime >2014) %>% head(2) # not right!
+ufo |> filter(datetime >2014) |> head(2) # not right!
 ```
 
 
-## Putting it all together
-
-```{r}
-ufo %>% mutate(datetime = dmy_hm(datetime)) %>%
-  mutate(year = year(datetime)) %>%
-  relocate(year, .before = datetime) %>%
+## Putting it all together{.codesmall}
+Note there is a warning if you run this.  More on this a bit later.
+```{r, warning=FALSE}
+ufo |> mutate(datetime = dmy_hm(datetime)) |> # match format to change - lubridate function
+  mutate(year = year(datetime)) |>
+  relocate(year, .before = datetime) |>
            arrange(desc(year))
 ```
+
 ## Summary
 
 - `rename` can change a name - new name = old name

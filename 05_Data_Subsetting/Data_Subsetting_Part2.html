@@ -3319,10 +3319,10 @@ dbl  (1): duration (seconds)
 
 <div class="codeexample">
 <pre class = 'prettyprint lang-r'># general format! not code!
-{data you are creating or changing} &lt;- {data you are using} %&gt;%
+{data you are creating or changing} &lt;- {data you are using} |&gt;
                                     rename({New Name} = {Old name})</pre></div>
 
-<pre class = 'prettyprint lang-r'>ufo_2&lt;- ufo %&gt;%
+<pre class = 'prettyprint lang-r'>ufo_2&lt;- ufo |&gt;
   rename(duration_seconds = `duration (seconds)`)
 head(ufo_2, n = 3)</pre>
 
@@ -3337,7 +3337,7 @@ head(ufo_2, n = 3)</pre>
 
 </article></slide><slide class=""><hgroup><h2>More Renaming</h2></hgroup><article  id="more-renaming">
 
-<pre class = 'prettyprint lang-r'>ufo_2&lt;- ufo %&gt;%
+<pre class = 'prettyprint lang-r'>ufo_2&lt;- ufo |&gt;
         rename(duration_seconds = `duration (seconds)`,
                 duration_h_m = `duration (hours/min)`)
 glimpse(ufo_2)</pre>
@@ -3381,7 +3381,7 @@ $ longitude        &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;, 
 
 <p>To rename all columns you use the <code>rename_with()</code>. In this case we will use <code>toupper()</code> to make all letters upper case. Could also use <code>tolower()</code> function.</p>
 
-<pre class = 'prettyprint lang-r'>diamonds_upper &lt;- diamonds %&gt;% rename_with(toupper)
+<pre class = 'prettyprint lang-r'>diamonds_upper &lt;- diamonds |&gt; rename_with(toupper)
 head(diamonds_upper, 2)</pre>
 
 <pre ># A tibble: 2 × 10
@@ -3390,7 +3390,7 @@ head(diamonds_upper, 2)</pre>
 1  0.23 Ideal   E     SI2      61.5    55   326  3.95  3.98  2.43
 2  0.21 Premium E     SI1      59.8    61   326  3.89  3.84  2.31</pre>
 
-<pre class = 'prettyprint lang-r'>diamonds_upper %&gt;% rename_with(tolower) %&gt;% head(n = 2)</pre>
+<pre class = 'prettyprint lang-r'>diamonds_upper |&gt; rename_with(tolower) |&gt; head(n = 2)</pre>
 
 <pre ># A tibble: 2 × 10
   carat cut     color clarity depth table price     x     y     z
@@ -3433,7 +3433,7 @@ head(ufo)</pre>
 # ℹ 4 more variables: comments &lt;chr&gt;, date_posted &lt;chr&gt;, latitude &lt;chr&gt;,
 #   longitude &lt;chr&gt;</pre>
 
-<pre class = 'prettyprint lang-r'>ufo %&gt;% select(where(is.numeric)) %&gt;% head(n = 2)</pre>
+<pre class = 'prettyprint lang-r'>ufo |&gt; select(where(is.numeric)) |&gt; head(n = 2)</pre>
 
 <pre ># A tibble: 2 × 1
   duration_seconds
@@ -3449,7 +3449,7 @@ head(ufo)</pre>
 
 <!-- head(diamonds, 2) -->
 
-<!-- diamonds %>% select(where(is.ordered)) %>% head(n = 2) -->
+<!-- diamonds |> select(where(is.ordered)) |> head(n = 2) -->
 
 <!-- ``` -->
 
@@ -3461,11 +3461,11 @@ head(ufo)</pre>
 
 <div class="codeexample">
 <pre class = 'prettyprint lang-r'># General format - Not the code!
-{data object to update} &lt;- {data to use} %&gt;% 
+{data object to update} &lt;- {data to use} |&gt; 
                     mutate({new variable name} = {new variable source}) </pre></div>
 
-<pre class = 'prettyprint lang-r'>ufo %&gt;% 
-  mutate(state_upper = toupper(state)) %&gt;% glimpse()</pre>
+<pre class = 'prettyprint lang-r'>ufo |&gt; 
+  mutate(state_upper = toupper(state)) |&gt; glimpse()</pre>
 
 <pre >Rows: 88,875
 Columns: 12
@@ -3488,11 +3488,11 @@ $ state_upper        &lt;chr&gt; &quot;TX&quot;, &quot;TX&quot;, NA, &quot;TX&qu
 
 <div class="codeexample">
 <pre class = 'prettyprint lang-r'># General format - Not the code!
-{data object to update} &lt;- {data to use} %&gt;%
+{data object to update} &lt;- {data to use} |&gt;
             mutate({variable name to change} = {variable modification}) </pre></div>
 
-<pre class = 'prettyprint lang-r'>ufo %&gt;% 
-  mutate(state = toupper(state)) %&gt;% glimpse()</pre>
+<pre class = 'prettyprint lang-r'>ufo |&gt; 
+  mutate(state = toupper(state)) |&gt; glimpse()</pre>
 
 <pre >Rows: 88,875
 Columns: 11
@@ -3512,14 +3512,14 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 
 <p>If you want to actually make the change you need to reassign the data object.</p>
 
-<pre class = 'prettyprint lang-r'>ufo &lt;- ufo %&gt;% 
+<pre class = 'prettyprint lang-r'>ufo &lt;- ufo |&gt; 
   mutate(state = toupper(state))</pre>
 
 </article></slide><slide class=""><hgroup><h2>Removing columns of a data frame: dplyr</h2></hgroup><article  id="removing-columns-of-a-data-frame-dplyr" class="codesmall">
 
 <p>The <code>select</code> function can remove a column with minus (<code>-</code>)</p>
 
-<pre class = 'prettyprint lang-r'>select(ufo, - datetime) %&gt;% glimpse()</pre>
+<pre class = 'prettyprint lang-r'>select(ufo, - datetime) |&gt; glimpse()</pre>
 
 <pre >Rows: 88,875
 Columns: 10
@@ -3542,7 +3542,7 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 
 <p>Remove <code>newcol</code> and <code>drat</code>:</p>
 
-<pre class = 'prettyprint lang-r'>select(ufo, -(starts_with(&quot;c&quot;))) %&gt;% glimpse()</pre>
+<pre class = 'prettyprint lang-r'>select(ufo, -(starts_with(&quot;c&quot;))) |&gt; glimpse()</pre>
 
 <pre >Rows: 88,875
 Columns: 8
@@ -3571,7 +3571,7 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 # ℹ 4 more variables: comments &lt;chr&gt;, date_posted &lt;chr&gt;, latitude &lt;chr&gt;,
 #   longitude &lt;chr&gt;</pre>
 
-<pre class = 'prettyprint lang-r'>ufo %&gt;% select(country, shape, datetime) %&gt;% head(n = 2)</pre>
+<pre class = 'prettyprint lang-r'>ufo |&gt; select(country, shape, datetime) |&gt; head(n = 2)</pre>
 
 <pre ># A tibble: 2 × 3
   country shape    datetime        
@@ -3593,7 +3593,7 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 # ℹ 4 more variables: comments &lt;chr&gt;, date_posted &lt;chr&gt;, latitude &lt;chr&gt;,
 #   longitude &lt;chr&gt;</pre>
 
-<pre class = 'prettyprint lang-r'>ufo %&gt;% relocate(datetime, .after = shape) %&gt;% head(n = 2)</pre>
+<pre class = 'prettyprint lang-r'>ufo |&gt; relocate(datetime, .after = shape) |&gt; head(n = 2)</pre>
 
 <pre ># A tibble: 2 × 11
   city         state country shape  datetime duration_seconds duration_hours_min
@@ -3619,7 +3619,7 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 # ℹ 4 more variables: comments &lt;chr&gt;, date_posted &lt;chr&gt;, latitude &lt;chr&gt;,
 #   longitude &lt;chr&gt;</pre>
 
-<pre class = 'prettyprint lang-r'>ufo %&gt;% relocate(shape, .before = city) %&gt;% head(n = 2)</pre>
+<pre class = 'prettyprint lang-r'>ufo |&gt; relocate(shape, .before = city) |&gt; head(n = 2)</pre>
 
 <pre ># A tibble: 2 × 11
   datetime         shape city  state country duration_seconds duration_hours_min
@@ -3635,7 +3635,7 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 
 <p>The <code>arrange</code> function can reorder rows By default, <code>arrange</code> orders in increasing order:</p>
 
-<pre class = 'prettyprint lang-r'>ufo%&gt;% arrange(duration_seconds)</pre>
+<pre class = 'prettyprint lang-r'>ufo |&gt; arrange(duration_seconds)</pre>
 
 <pre ># A tibble: 88,875 × 11
    datetime        city  state country shape duration_seconds duration_hours_min
@@ -3658,7 +3658,7 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 
 <p>Use the <code>desc</code> to arrange the rows in descending order:</p>
 
-<pre class = 'prettyprint lang-r'>ufo %&gt;% arrange(desc(duration_seconds))</pre>
+<pre class = 'prettyprint lang-r'>ufo |&gt; arrange(desc(duration_seconds))</pre>
 
 <pre ># A tibble: 88,875 × 11
    datetime        city  state country shape duration_seconds duration_hours_min
@@ -3723,9 +3723,9 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 # ℹ 4 more variables: comments &lt;chr&gt;, date_posted &lt;chr&gt;, latitude &lt;chr&gt;,
 #   longitude &lt;chr&gt;</pre>
 
-</article></slide><slide class=""><hgroup><h2>Sometime data class gets in the way</h2></hgroup><article  id="sometime-data-class-gets-in-the-way">
+</article></slide><slide class=""><hgroup><h2>Sometime data class gets in the way</h2></hgroup><article  id="sometime-data-class-gets-in-the-way" class="codesmall">
 
-<pre class = 'prettyprint lang-r'>ufo %&gt;% filter(datetime &gt;2014) %&gt;% head(2) # not right!</pre>
+<pre class = 'prettyprint lang-r'>ufo |&gt; filter(datetime &gt;2014) |&gt; head(2) # not right!</pre>
 
 <pre ># A tibble: 2 × 11
   datetime        city   state country shape duration_seconds duration_hours_min
@@ -3735,17 +3735,14 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 # ℹ 4 more variables: comments &lt;chr&gt;, date_posted &lt;chr&gt;, latitude &lt;chr&gt;,
 #   longitude &lt;chr&gt;</pre>
 
-</article></slide><slide class=""><hgroup><h2>Putting it all together</h2></hgroup><article  id="putting-it-all-together">
+</article></slide><slide class=""><hgroup><h2>Putting it all together</h2></hgroup><article  id="putting-it-all-together" class="codesmall">
 
-<pre class = 'prettyprint lang-r'>ufo %&gt;% mutate(datetime = dmy_hm(datetime)) %&gt;%
-  mutate(year = year(datetime)) %&gt;%
-  relocate(year, .before = datetime) %&gt;%
+<p>Note there is a warning if you run this. More on this a bit later.</p>
+
+<pre class = 'prettyprint lang-r'>ufo |&gt; mutate(datetime = dmy_hm(datetime)) |&gt; # match format to change - lubridate function
+  mutate(year = year(datetime)) |&gt;
+  relocate(year, .before = datetime) |&gt;
            arrange(desc(year))</pre>
-
-<pre >Warning: There was 1 warning in `mutate()`.
-ℹ In argument: `datetime = dmy_hm(datetime)`.
-Caused by warning:
-!  52733 failed to parse.</pre>
 
 <pre ># A tibble: 88,875 × 12
     year datetime            city           state country shape duration_seconds
