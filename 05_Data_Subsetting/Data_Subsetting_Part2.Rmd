@@ -298,6 +298,21 @@ You can combine increasing and decreasing orderings. The first listed gets prior
 arrange(ufo, shape, desc(duration_seconds))
 ```
 
+## Sometime data class gets in the way
+
+```{r}
+ufo %>% filter(datetime >2014) %>% head(2) # not right!
+```
+
+
+## Putting it all together
+
+```{r}
+ufo %>% mutate(datetime = dmy_hm(datetime)) %>%
+  mutate(year = year(datetime)) %>%
+  relocate(year, .before = datetime) %>%
+           arrange(desc(year))
+```
 ## Summary
 
 - `rename` can change a name - new name = old name
