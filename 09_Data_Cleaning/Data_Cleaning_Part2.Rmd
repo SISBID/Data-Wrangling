@@ -18,38 +18,68 @@ opts_chunk$set(comment = "")
 # Data Cleaning Part 2
 
 
+
+
 ## Example of Cleaning: more complicated
 
 For example, let's say we have a variable about treatment or control conditions coded as treatment, T, treat, Treat, C, Cont, cont, cOnt, Control, and control. Using Excel to find all of these would be a matter of filtering and changing all by hand or using if statements.
 
 Sometimes though, it's not so simple.  That's where functions that find patterns come to be very useful.
 
-```{r gender, echo=FALSE}
+<!-- ## UFO data -->
+
+<!-- ```{r} -->
+<!-- ufo <-read_csv("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv", col_types = cols(`duration (seconds)` = "c")) -->
+
+<!-- ufo <- clean_names(ufo) -->
+<!-- ``` -->
+
+
+<!-- ## UFO data is messy -->
+
+<!-- ```{r} -->
+
+<!-- ufo_short <- ufo %>% head(20) -->
+<!-- ufo_short %>% pull(duration_hours_min) -->
+
+<!-- ``` -->
+
+## Some toy data for examples
+
+```{r}
 set.seed(4) # random sample below - make sure same every time
 status <- sample(c("treatment", "T", "treat", 
                    "Traet", "Treat", "C", "Cont",
                    "cont", "cOnt", "Control", "control"),
                  1000, replace = TRUE)
-data_gen = tibble(status)
+data_case = tibble(status)
 ```
 
 ## Take a look at the data
 
 ```{r gentab}
-count(data_gen, status)
+count(data_case, status)
 ```
+
+<!-- ## cleaning -->
+
+<!-- ```{r} -->
+<!-- #remove all instances of digits of any length or "-" or "/" or "." -->
+<!-- ufo_short %>% mutate(unit = str_remove_all(duration_hours_min, "[0-9]+|-|/|\\.")) %>% select(duration_hours_min, unit) -->
+<!-- ``` -->
+
 
 ## Example of Cleaning: more complicated
 In R, you could use `case_when()`:
 
 ```{r}
 #case_when way:
-data_gen <-data_gen %>% mutate(status = 
+data_case <-data_case %>% mutate(status = 
             case_when(status 
           %in% c("C", "cont", "cOnt", "Cont", "control", "Control")
                                 ~ "Control",
                            .default =  status)) 
-count(data_gen, status)
+count(data_case, status)
 ```
 
 Oh dear! This only fixes some values! It is difficult to notice values like `"Traet"`.
@@ -84,10 +114,10 @@ Useful String functions from base R and `stringr`
 ## recoding with `str_to_sentence()`
 
 ```{r}
-#case_when way:
-data_gen <-data_gen %>%
+
+data_case <-data_case %>%
                 mutate(status = str_to_sentence(status))
-count(data_gen, status)
+count(data_case, status)
 ```
 
 
@@ -95,14 +125,14 @@ count(data_gen, status)
 
 ```{r}
 #case_when way:
-data_gen <-data_gen %>%
+data_case <-data_case %>%
                 mutate(status = str_to_sentence(status)) %>%
                 mutate(status = 
                       case_when(status %in% 
                     c("Treatment", "T", "Treat", "Traet", "Treat")
                                 ~ "Treatment",
                            .default = status)) 
-count(data_gen, status)
+count(data_case, status)
 ```
 
 OK, now we are getting somewhere!
@@ -150,26 +180,17 @@ ufo_clean  <- ufo_clean %>%
                      pattern = "`"))
 ```
 
-## Lets also mutate to be as.numeric again
+## Lets also mutate to be numeric again
 
+There are many class functions to change from one class to another start with "as.".
 
 ```{r}
-ufo_clean  <- ufo_clean %>% 
+ufo_clean %>% 
   mutate(duration_seconds = as.numeric(duration_seconds))
 
-glimpse(ufo_clean)
 ```
 
 
-<!-- ## Paste can add things back to variables -->
-
-<!-- ```{r} -->
-<!-- ufo_clean %>%  -->
-<!--   mutate(duration_seconds =  -->
-<!--            paste(duration_seconds, "sec", sep = " ")) %>%  -->
-<!--   glimpse() -->
-
-<!-- ``` -->
 
 
 ## Substringing
@@ -201,7 +222,7 @@ str_sub(c("Site A", "Site B", "Site C"), 6,6)
 
 ## A bit on Regular Expressions
 
-* https://rstudio.github.io/cheatsheets/regex.pdf 
+* https://rstudio.github.io/cheatsheets/strings.pdf 
 * They can use to match a large number of strings in one statement
 * `.` matches any single character
 * `*` means repeat as many (even if 0) more times the last character
@@ -276,7 +297,7 @@ ufo_clean %>%
 * Look for any comment that starts with "aliens" 
   
 ```{r grepstar}
-ufo_clean %>% pull(comments) %>%str_subset( "^aliens")
+ufo_clean %>% pull(comments) %>% str_subset( "^aliens")
 ```
 
 ## Using Regular Expressions{.smaller}
@@ -349,41 +370,6 @@ ufo_clean <- ufo_clean %>% mutate(date = mdy(date))
 head(ufo_clean)
 ```
 
-<!-- ## Special characters -->
-
-<!-- ```{r} -->
-<!-- money = tibble(group = letters[1:5],  -->
-<!--   amount = c("$12.32", "$43.64", "$765.43", "$93.31", "$12.13")) -->
-<!-- money %>% arrange(amount) -->
-<!-- as.numeric(money$amount) -->
-<!-- ``` -->
-
-<!-- ## Special characters -->
-
-<!-- In the past, we would recommend just replacing the `$` sign with an empty string and convert to numeric: -->
-
-<!-- ```{r}  -->
-<!-- money$amountNum = as.numeric(str_replace(money$amount, fixed("$"), "")) -->
-<!-- money %>% arrange(amountNum) -->
-<!-- ``` -->
-
-<!-- ## Special characters -->
-
-<!-- But now there are better helper functions for this: -->
-
-<!-- ```{r} -->
-<!-- money$amount = parse_number(money$amount) -->
-<!-- money %>% arrange(amount) -->
-
-<!-- ``` -->
-
-<!-- ## Special characters -->
-
-<!-- Also works for internal commas: -->
-
-<!-- ```{r} -->
-<!-- parse_number(c("12,123,123.00", "12,465.10")) -->
-<!-- ``` -->
 
 ## str_*functions
 
