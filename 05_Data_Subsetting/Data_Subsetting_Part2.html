@@ -3725,7 +3725,7 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 
 </article></slide><slide class=""><hgroup><h2>Putting it all together</h2></hgroup><article  id="putting-it-all-together" class="codesmall">
 
-<p>Note there is a warning if you run this. More on this a bit later.</p>
+<p>Note there is a warning if you run this. More on this a bit later. More advanced example.</p>
 
 <pre class = 'prettyprint lang-r'>ufo |&gt; mutate(datetime = dmy_hm(datetime)) |&gt; # match format to change - lubridate function
   mutate(year = year(datetime)) |&gt;
