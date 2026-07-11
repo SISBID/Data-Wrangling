@@ -27,12 +27,11 @@ MOST IMPORTANT RULE - LOOK AT YOUR DATA!
 
 Read in data or download from: http://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv.gz
 
-This data is originally from kaggle: https://www.kaggle.com/datasets/NUFORC/ufo-sightings
+This data is originally from kaggle although it was recently renamed or removed. 
 
 ```{r}
-ufo <- read_delim(
-  "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv", 
-  delim = ",")
+ufo <- read_csv(
+  "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv")
 
 ```
 
@@ -281,7 +280,7 @@ ufo_clean %>% select(country, region) %>% head()
 - Sometimes need to read the data in iteratively and check for problems with `problems`
 - Duplicated values can be reduced down to distinct rows using `distinct()`
 - Duplicated values can ablso be reduced down by aggregating using mathematical functions like `mean` or `sum` using `aggregate`
-- `case_when` can use conditionals, need to specify what value for if no conditions are met using `.defualt`(can be the original value of a variable if we use the variable name).
+- `case_when` can use conditionals, need to specify what value for if no conditions are met using `.default`(can be the original value of a variable if we use the variable name).
 - `case_when` needs to be used inside `mutate` to modify or create new columns
 -  Note: you might see  the `recode` is a function, which is like `case_when` but only makes exact swaps, (while `case_when` can do this and more!)
 
