@@ -201,7 +201,7 @@ str_sub(c("Site A", "Site B", "Site C"), 6,6)
 
 ## A bit on Regular Expressions
 
-* http://www.regular-expressions.info/reference.html
+* https://rstudio.github.io/cheatsheets/regex.pdf 
 * They can use to match a large number of strings in one statement
 * `.` matches any single character
 * `*` means repeat as many (even if 0) more times the last character
