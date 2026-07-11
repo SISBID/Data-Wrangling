@@ -234,9 +234,10 @@ ufo |> filter(country == "gb")
 
 ## Special column names need back ticks {.codesmall}
 
-Quotes work too but this can cause issues.
-The backtick key is usually near the top left for standard US keyboards, under the escape key.
-May need to press shift or Fn key if you have a smaller keyboard.
+Quotes work too but this can cause issues.The backtick key is usually near the top left for standard US keyboards, under the escape key. May need to press shift or Fn key if you have a smaller keyboard.
+```{r, fig.alt="dplyr", out.width = "12%", echo = FALSE, fig.align='center'}
+knitr::include_graphics("https://github.com/SISBID/Data-Wrangling/blob/gh-pages/images/backtick_1.png?raw=true")
+```
 
 ```{r, error = TRUE}
 ufo |> filter(duration (seconds) > 6000) # didn't work!
