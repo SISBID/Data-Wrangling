@@ -119,12 +119,12 @@ include_graphics("https://media.giphy.com/media/6q29hxDKvJvPy/giphy.gif")
 To rename all columns you use the `rename_with()`. In this case we will use `toupper()` to make all letters upper case. Could also use `tolower()` function.
 
 ```{r}
-diamonds_upper <- diamonds |> rename_with(toupper)
-head(diamonds_upper, 2)
+ufo_upper <- ufo |> rename_with(toupper)
+head(ufo_upper, 2)
 ```
 
 ```{r}
-diamonds_upper |> rename_with(tolower) |> head(n = 2)
+ufo_upper |> rename_with(tolower) |> head(n = 2)
 ```
 
 ## Janitor package{.codesmall}
@@ -147,16 +147,6 @@ head(ufo, 2)
 ufo |> select(where(is.numeric)) |> head(n = 2)
 
 ```
-
-<!-- ## The `where()` function can help select columns of a specific class -->
-
-<!-- `is.character()` and `is.numeric()` are often the most helpful -->
-
-<!-- ```{r} -->
-<!-- head(diamonds, 2) -->
-<!-- diamonds |> select(where(is.ordered)) |> head(n = 2) -->
-
-<!-- ``` -->
 
 
 
@@ -226,7 +216,6 @@ select(ufo, - datetime) |> glimpse()
 
 You can use `c()` to list the columns to remove or tidyhelpers.
 
-Remove `newcol` and `drat`:
 ```{r}
 select(ufo, -(starts_with("c"))) |> glimpse()
 ```
@@ -256,8 +245,6 @@ ufo |> relocate(datetime, .after = shape) |> head(n = 2)
 ## Ordering the columns of a data frame: dplyr {.codesmall}
 
 In addition to `select` we can also use the `relocate()` function of dplyr to rearrange the columns for more complicated moves.
-
-For example, let say we just wanted `price` to be before `carat`.
 
 ```{r}
 head(ufo, n = 2)

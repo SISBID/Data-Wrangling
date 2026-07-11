@@ -3381,22 +3381,26 @@ $ longitude        &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;, 
 
 <p>To rename all columns you use the <code>rename_with()</code>. In this case we will use <code>toupper()</code> to make all letters upper case. Could also use <code>tolower()</code> function.</p>
 
-<pre class = 'prettyprint lang-r'>diamonds_upper &lt;- diamonds |&gt; rename_with(toupper)
-head(diamonds_upper, 2)</pre>
+<pre class = 'prettyprint lang-r'>ufo_upper &lt;- ufo |&gt; rename_with(toupper)
+head(ufo_upper, 2)</pre>
 
-<pre ># A tibble: 2 × 10
-  CARAT CUT     COLOR CLARITY DEPTH TABLE PRICE     X     Y     Z
-  &lt;dbl&gt; &lt;ord&gt;   &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1  0.23 Ideal   E     SI2      61.5    55   326  3.95  3.98  2.43
-2  0.21 Premium E     SI1      59.8    61   326  3.89  3.84  2.31</pre>
+<pre ># A tibble: 2 × 11
+  DATETIME CITY  STATE COUNTRY SHAPE `DURATION (SECONDS)` `DURATION (HOURS/MIN)`
+  &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;                &lt;dbl&gt; &lt;chr&gt;                 
+1 10/10/1… san … tx    us      cyli…                 2700 45 minutes            
+2 10/10/1… lack… tx    &lt;NA&gt;    light                 7200 1-2 hrs               
+# ℹ 4 more variables: COMMENTS &lt;chr&gt;, `DATE POSTED` &lt;chr&gt;, LATITUDE &lt;chr&gt;,
+#   LONGITUDE &lt;chr&gt;</pre>
 
-<pre class = 'prettyprint lang-r'>diamonds_upper |&gt; rename_with(tolower) |&gt; head(n = 2)</pre>
+<pre class = 'prettyprint lang-r'>ufo_upper |&gt; rename_with(tolower) |&gt; head(n = 2)</pre>
 
-<pre ># A tibble: 2 × 10
-  carat cut     color clarity depth table price     x     y     z
-  &lt;dbl&gt; &lt;ord&gt;   &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1  0.23 Ideal   E     SI2      61.5    55   326  3.95  3.98  2.43
-2  0.21 Premium E     SI1      59.8    61   326  3.89  3.84  2.31</pre>
+<pre ># A tibble: 2 × 11
+  datetime city  state country shape `duration (seconds)` `duration (hours/min)`
+  &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;                &lt;dbl&gt; &lt;chr&gt;                 
+1 10/10/1… san … tx    us      cyli…                 2700 45 minutes            
+2 10/10/1… lack… tx    &lt;NA&gt;    light                 7200 1-2 hrs               
+# ℹ 4 more variables: comments &lt;chr&gt;, `date posted` &lt;chr&gt;, latitude &lt;chr&gt;,
+#   longitude &lt;chr&gt;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Janitor package</h2></hgroup><article  id="janitor-package" class="codesmall">
 
@@ -3440,18 +3444,6 @@ head(ufo)</pre>
              &lt;dbl&gt;
 1             2700
 2             7200</pre>
-
-<!-- ## The `where()` function can help select columns of a specific class -->
-
-<!-- `is.character()` and `is.numeric()` are often the most helpful -->
-
-<!-- ```{r} -->
-
-<!-- head(diamonds, 2) -->
-
-<!-- diamonds |> select(where(is.ordered)) |> head(n = 2) -->
-
-<!-- ``` -->
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Adding/Removing Columns</h2></hgroup><article  id="addingremoving-columns">
 
@@ -3540,8 +3532,6 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 
 <p>You can use <code>c()</code> to list the columns to remove or tidyhelpers.</p>
 
-<p>Remove <code>newcol</code> and <code>drat</code>:</p>
-
 <pre class = 'prettyprint lang-r'>select(ufo, -(starts_with(&quot;c&quot;))) |&gt; glimpse()</pre>
 
 <pre >Rows: 88,875
@@ -3606,8 +3596,6 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 </article></slide><slide class=""><hgroup><h2>Ordering the columns of a data frame: dplyr</h2></hgroup><article  id="ordering-the-columns-of-a-data-frame-dplyr-2" class="codesmall">
 
 <p>In addition to <code>select</code> we can also use the <code>relocate()</code> function of dplyr to rearrange the columns for more complicated moves.</p>
-
-<p>For example, let say we just wanted <code>price</code> to be before <code>carat</code>.</p>
 
 <pre class = 'prettyprint lang-r'>head(ufo, n = 2)</pre>
 
