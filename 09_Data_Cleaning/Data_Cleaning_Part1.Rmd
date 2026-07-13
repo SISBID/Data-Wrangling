@@ -254,7 +254,7 @@ ufo_clean |>
 
 ```
 
-## `case_when note {.codesmall}
+## `case_when` note {.codesmall}
 
 Watch out for parentheses placement! 
 
