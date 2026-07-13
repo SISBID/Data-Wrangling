@@ -19,7 +19,7 @@ ufo <-read_csv("../data/ufo/ufo_data_complete.csv")
 
 # Data Input
 
-## Outline 
+## We just did..
 
 * Part 0: A little bit of set up!
 * Part 1: reading in manually (point and click)
@@ -207,6 +207,21 @@ Use the `sheet` argument to indicate which sheet to pull from. It can refer to t
 # example:
 read_excel(path = "file.xlsx", sheet = 2)
 read_excel(path = "file.xlsx", sheet = "data")
+```
+
+
+## Advanced: Name repair
+
+Supply functions to the `name_repair` argument:
+
+```{r, eval=FALSE}
+ufo <- read_csv("data/ufo/ufo_data_complete.csv", 
+                name_repair = \(x) janitor::make_clean_names(x))
+```
+
+```{r, echo=FALSE}
+ufo <- read_csv("../data/ufo/ufo_data_complete.csv", 
+                name_repair = \(x) janitor::make_clean_names(x))
 ```
 
 

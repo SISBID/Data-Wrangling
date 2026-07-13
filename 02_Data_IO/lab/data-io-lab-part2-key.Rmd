@@ -7,48 +7,30 @@ In this lab you can use the interactive console to explore but please record you
 
 ```{r, message = FALSE}
 library(tidyverse)
-library(readxl)
 ```
 
 
-1. Read in the the Charm City Circulator Dataset from "https://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv" using `read_csv`, call it `circ`
+1. Read in a slice of the "ufo" dataset from "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_6.csv" using `read_csv`, call it `ufo_slice_6`.
 
 ```{r}
-circ <- read_csv("https://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv")
+ufo_slice_6 <- read_csv("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_6.csv")
 ```
 
-2. Use a few functions to check out the data (e.g., `head()`, `glimpse()`, `str()` etc.).
+2. Use a few functions to check out the data (e.g., `head()`, `glimpse()`, `str()` etc.). Do results look different if you had used `read_delim` above?
 
 ```{r}
-str(circ)
-head(circ)
-glimpse(circ)
-nrow(circ)
+str(ufo_slice_6)
+head(ufo_slice_6)
+glimpse(ufo_slice_6)
+nrow(ufo_slice_6)
 ```
 
-3. Write out `circ` to a file called "Circulator.csv" using `write_csv`.
+3. Repeat 1-2 for "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt" using `read_delim`, call it `ufo_slice_7`. Should any additional arguments be used?
 
 ```{r}
-write_csv(circ, "Circulator.csv")
+ufo_slice_7 <- read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt")
+ufo_slice_7
+ufo_slice_7 <- read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt", trim_ws = TRUE)
+ufo_slice_7
 ```
 
-***
-Download the Excel data for the next two questions. Make sure it's in your project folder.
-```{r}
-curl::curl_download("https://sisbid.github.io/Data-Wrangling/data/iris/iris_q6.xlsx", "iris_q6.xlsx")
-```
-***
-
-4. Read in sheet 1 of the `iris_q6.xlsx` dataset into the `iris_q4` R object. How many rows are in the dataset?
-
-```{r}
-iris_q4 <- read_excel("iris_q6.xlsx", sheet= 1)
-dim(iris_q4)
-```
-
-5. Read in sheet 2 of the `iris_q6.xlsx` dataset into the `iris_q6_2` R object. How many rows are in the dataset?
-
-```{r}
-iris_q5 <- read_excel("iris_q6.xlsx", sheet= 2)
-dim(iris_q5)
-```

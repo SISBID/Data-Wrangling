@@ -360,113 +360,151 @@ pre code {
 
 
 <p>In this lab you can use the interactive console to explore but please record your commands here. Remember anything you type here can be “sent” to the console with Cmd-Enter (OS-X) or Cntr-Enter (Windows/Linux) (But only in side the <code>{r}</code> areas).</p>
-<pre class="r"><code>library(tidyverse)
-library(readxl)</code></pre>
+<pre class="r"><code>library(tidyverse)</code></pre>
 <ol style="list-style-type: decimal">
-<li>Read in the the Charm City Circulator Dataset from “<a href="https://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv" class="uri">https://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv</a>” using <code>read_csv</code>, call it <code>circ</code></li>
+<li>Read in a slice of the “ufo” dataset from “<a href="https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_6.csv" class="uri">https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_6.csv</a>” using <code>read_csv</code>, call it <code>ufo_slice_6</code>.</li>
 </ol>
-<pre class="r"><code>circ &lt;- read_csv(&quot;https://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv&quot;)</code></pre>
-<pre><code>## Rows: 1146 Columns: 15
-## ── Column specification ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+<pre class="r"><code>ufo_slice_6 &lt;- read_csv(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_6.csv&quot;)</code></pre>
+<pre><code>## Rows: 20 Columns: 11
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
-## chr  (2): day, date
-## dbl (13): orangeBoardings, orangeAlightings, orangeAverage, purpleBoardings,...
+## chr (8): datetime, city, state, country, shape, duration (hours/min), commen...
+## dbl (3): duration (seconds), latitude, longitude
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li>Use a few functions to check out the data (e.g., <code>head()</code>, <code>glimpse()</code>, <code>str()</code> etc.).</li>
+<li>Use a few functions to check out the data (e.g., <code>head()</code>, <code>glimpse()</code>, <code>str()</code> etc.). Do results look different if you had used <code>read_delim</code> above?</li>
 </ol>
-<pre class="r"><code>str(circ)</code></pre>
-<pre><code>## spc_tbl_ [1,146 × 15] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
-##  $ day             : chr [1:1146] &quot;Monday&quot; &quot;Tuesday&quot; &quot;Wednesday&quot; &quot;Thursday&quot; ...
-##  $ date            : chr [1:1146] &quot;01/11/2010&quot; &quot;01/12/2010&quot; &quot;01/13/2010&quot; &quot;01/14/2010&quot; ...
-##  $ orangeBoardings : num [1:1146] 877 777 1203 1194 1645 ...
-##  $ orangeAlightings: num [1:1146] 1027 815 1220 1233 1643 ...
-##  $ orangeAverage   : num [1:1146] 952 796 1212 1214 1644 ...
-##  $ purpleBoardings : num [1:1146] NA NA NA NA NA NA NA NA NA NA ...
-##  $ purpleAlightings: num [1:1146] NA NA NA NA NA NA NA NA NA NA ...
-##  $ purpleAverage   : num [1:1146] NA NA NA NA NA NA NA NA NA NA ...
-##  $ greenBoardings  : num [1:1146] NA NA NA NA NA NA NA NA NA NA ...
-##  $ greenAlightings : num [1:1146] NA NA NA NA NA NA NA NA NA NA ...
-##  $ greenAverage    : num [1:1146] NA NA NA NA NA NA NA NA NA NA ...
-##  $ bannerBoardings : num [1:1146] NA NA NA NA NA NA NA NA NA NA ...
-##  $ bannerAlightings: num [1:1146] NA NA NA NA NA NA NA NA NA NA ...
-##  $ bannerAverage   : num [1:1146] NA NA NA NA NA NA NA NA NA NA ...
-##  $ daily           : num [1:1146] 952 796 1212 1214 1644 ...
+<pre class="r"><code>str(ufo_slice_6)</code></pre>
+<pre><code>## spc_tbl_ [20 × 11] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+##  $ datetime            : chr [1:20] &quot;8/2/2012 21:00&quot; &quot;10/6/1995 19:00&quot; &quot;4/17/2005 23:00&quot; &quot;12/31/2013 23:10&quot; ...
+##  $ city                : chr [1:20] &quot;kennewick&quot; &quot;puyallup&quot; &quot;grovetown&quot; &quot;corvallis&quot; ...
+##  $ state               : chr [1:20] &quot;wa&quot; &quot;wa&quot; &quot;ga&quot; &quot;or&quot; ...
+##  $ country             : chr [1:20] &quot;us&quot; &quot;us&quot; &quot;us&quot; &quot;us&quot; ...
+##  $ shape               : chr [1:20] &quot;triangle&quot; NA &quot;circle&quot; &quot;circle&quot; ...
+##  $ duration (seconds)  : num [1:20] 600 900 2700 60 1200 120 60 2 7200 1680 ...
+##  $ duration (hours/min): chr [1:20] &quot;5-10 minutes&quot; &quot;15 min.&quot; &quot;45 minutes&quot; &quot;1 minute&quot; ...
+##  $ comments            : chr [1:20] &quot;Saw three triangle shaped craft with red and white lights and moving in slow formation..&quot; &quot;Man witnesses &amp;quot;small whitish&amp;#44 blue-green ball&amp;quot; pass overhead&amp;#44 flying to east.&quot; &quot;Object appeared to be a star at first glance sitting low on the horizon  ((NUFORC Note:  Possibly Sirius.  PD))&quot; &quot;2 amber lights dimming as ascending into sky.  Moving then stopping.&quot; ...
+##  $ date posted         : chr [1:20] &quot;8/19/2012&quot; &quot;11/2/1999&quot; &quot;5/11/2005&quot; &quot;1/10/2014&quot; ...
+##  $ latitude            : num [1:20] 46.2 47.2 33.5 44.6 33.4 ...
+##  $ longitude           : num [1:20] -119.1 -122.3 -82.2 -123.3 -111.5 ...
 ##  - attr(*, &quot;spec&quot;)=
 ##   .. cols(
-##   ..   day = col_character(),
-##   ..   date = col_character(),
-##   ..   orangeBoardings = col_double(),
-##   ..   orangeAlightings = col_double(),
-##   ..   orangeAverage = col_double(),
-##   ..   purpleBoardings = col_double(),
-##   ..   purpleAlightings = col_double(),
-##   ..   purpleAverage = col_double(),
-##   ..   greenBoardings = col_double(),
-##   ..   greenAlightings = col_double(),
-##   ..   greenAverage = col_double(),
-##   ..   bannerBoardings = col_double(),
-##   ..   bannerAlightings = col_double(),
-##   ..   bannerAverage = col_double(),
-##   ..   daily = col_double()
+##   ..   datetime = col_character(),
+##   ..   city = col_character(),
+##   ..   state = col_character(),
+##   ..   country = col_character(),
+##   ..   shape = col_character(),
+##   ..   `duration (seconds)` = col_double(),
+##   ..   `duration (hours/min)` = col_character(),
+##   ..   comments = col_character(),
+##   ..   `date posted` = col_character(),
+##   ..   latitude = col_double(),
+##   ..   longitude = col_double()
 ##   .. )
-##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
-<pre class="r"><code>head(circ)</code></pre>
-<pre><code>## # A tibble: 6 × 15
-##   day       date  orangeBoardings orangeAlightings orangeAverage purpleBoardings
-##   &lt;chr&gt;     &lt;chr&gt;           &lt;dbl&gt;            &lt;dbl&gt;         &lt;dbl&gt;           &lt;dbl&gt;
-## 1 Monday    01/1…             877             1027          952               NA
-## 2 Tuesday   01/1…             777              815          796               NA
-## 3 Wednesday 01/1…            1203             1220         1212.              NA
-## 4 Thursday  01/1…            1194             1233         1214.              NA
-## 5 Friday    01/1…            1645             1643         1644               NA
-## 6 Saturday  01/1…            1457             1524         1490.              NA
-## # ℹ 9 more variables: purpleAlightings &lt;dbl&gt;, purpleAverage &lt;dbl&gt;,
-## #   greenBoardings &lt;dbl&gt;, greenAlightings &lt;dbl&gt;, greenAverage &lt;dbl&gt;,
-## #   bannerBoardings &lt;dbl&gt;, bannerAlightings &lt;dbl&gt;, bannerAverage &lt;dbl&gt;,
-## #   daily &lt;dbl&gt;</code></pre>
-<pre class="r"><code>glimpse(circ)</code></pre>
-<pre><code>## Rows: 1,146
-## Columns: 15
-## $ day              &lt;chr&gt; &quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;, &quot;Friday…
-## $ date             &lt;chr&gt; &quot;01/11/2010&quot;, &quot;01/12/2010&quot;, &quot;01/13/2010&quot;, &quot;01/14/2010…
-## $ orangeBoardings  &lt;dbl&gt; 877, 777, 1203, 1194, 1645, 1457, 839, 999, 1023, 137…
-## $ orangeAlightings &lt;dbl&gt; 1027, 815, 1220, 1233, 1643, 1524, 938, 1000, 1047, 1…
-## $ orangeAverage    &lt;dbl&gt; 952.0, 796.0, 1211.5, 1213.5, 1644.0, 1490.5, 888.5, …
-## $ purpleBoardings  &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-## $ purpleAlightings &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-## $ purpleAverage    &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-## $ greenBoardings   &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-## $ greenAlightings  &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-## $ greenAverage     &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-## $ bannerBoardings  &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-## $ bannerAlightings &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-## $ bannerAverage    &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
-## $ daily            &lt;dbl&gt; 952.0, 796.0, 1211.5, 1213.5, 1644.0, 1490.5, 888.5, …</code></pre>
-<pre class="r"><code>nrow(circ)</code></pre>
-<pre><code>## [1] 1146</code></pre>
+##  - attr(*, &quot;problems&quot;)=&lt;pointer: 0x6000028b0190&gt;</code></pre>
+<pre class="r"><code>head(ufo_slice_6)</code></pre>
+<pre><code>## # A tibble: 6 × 11
+##   datetime city  state country shape `duration (seconds)` `duration (hours/min)`
+##   &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;                &lt;dbl&gt; &lt;chr&gt;                 
+## 1 8/2/201… kenn… wa    us      tria…                  600 5-10 minutes          
+## 2 10/6/19… puya… wa    us      &lt;NA&gt;                   900 15 min.               
+## 3 4/17/20… grov… ga    us      circ…                 2700 45 minutes            
+## 4 12/31/2… corv… or    us      circ…                   60 1 minute              
+## 5 3/30/20… apac… az    us      light                 1200 20 minutes            
+## 6 6/22/20… pitt… nj    us      light                  120 a few minutes         
+## # ℹ 4 more variables: comments &lt;chr&gt;, `date posted` &lt;chr&gt;, latitude &lt;dbl&gt;,
+## #   longitude &lt;dbl&gt;</code></pre>
+<pre class="r"><code>glimpse(ufo_slice_6)</code></pre>
+<pre><code>## Rows: 20
+## Columns: 11
+## $ datetime               &lt;chr&gt; &quot;8/2/2012 21:00&quot;, &quot;10/6/1995 19:00&quot;, &quot;4/17/2005…
+## $ city                   &lt;chr&gt; &quot;kennewick&quot;, &quot;puyallup&quot;, &quot;grovetown&quot;, &quot;corvalli…
+## $ state                  &lt;chr&gt; &quot;wa&quot;, &quot;wa&quot;, &quot;ga&quot;, &quot;or&quot;, &quot;az&quot;, &quot;nj&quot;, &quot;tx&quot;, &quot;ca&quot;,…
+## $ country                &lt;chr&gt; &quot;us&quot;, &quot;us&quot;, &quot;us&quot;, &quot;us&quot;, &quot;us&quot;, &quot;us&quot;, NA, &quot;us&quot;, &quot;…
+## $ shape                  &lt;chr&gt; &quot;triangle&quot;, NA, &quot;circle&quot;, &quot;circle&quot;, &quot;light&quot;, &quot;l…
+## $ `duration (seconds)`   &lt;dbl&gt; 600, 900, 2700, 60, 1200, 120, 60, 2, 7200, 168…
+## $ `duration (hours/min)` &lt;chr&gt; &quot;5-10 minutes&quot;, &quot;15 min.&quot;, &quot;45 minutes&quot;, &quot;1 min…
+## $ comments               &lt;chr&gt; &quot;Saw three triangle shaped craft with red and w…
+## $ `date posted`          &lt;chr&gt; &quot;8/19/2012&quot;, &quot;11/2/1999&quot;, &quot;5/11/2005&quot;, &quot;1/10/20…
+## $ latitude               &lt;dbl&gt; 46.21139, 47.18556, 33.45028, 44.56472, 33.4150…
+## $ longitude              &lt;dbl&gt; -119.13611, -122.29167, -82.19833, -123.26083, …</code></pre>
+<pre class="r"><code>nrow(ufo_slice_6)</code></pre>
+<pre><code>## [1] 20</code></pre>
 <ol start="3" style="list-style-type: decimal">
-<li>Write out <code>circ</code> to a file called “Circulator.csv” using <code>write_csv</code>.</li>
+<li>Repeat 1-2 for “<a href="https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt" class="uri">https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt</a>” using <code>read_delim</code>, call it <code>ufo_slice_7</code>. Should any additional arguments be used?</li>
 </ol>
-<pre class="r"><code>write_csv(circ, &quot;Circulator.csv&quot;)</code></pre>
-<hr />
-<p>Download the Excel data for the next two questions. Make sure it’s in your project folder.</p>
-<pre class="r"><code>curl::curl_download(&quot;https://sisbid.github.io/Data-Wrangling/data/iris/iris_q6.xlsx&quot;, &quot;iris_q6.xlsx&quot;)</code></pre>
-<hr />
-<ol start="4" style="list-style-type: decimal">
-<li>Read in sheet 1 of the <code>iris_q6.xlsx</code> dataset into the <code>iris_q4</code> R object. How many rows are in the dataset?</li>
-</ol>
-<pre class="r"><code>iris_q4 &lt;- read_excel(&quot;iris_q6.xlsx&quot;, sheet= 1)
-dim(iris_q4)</code></pre>
-<pre><code>## [1] 1 2</code></pre>
-<ol start="5" style="list-style-type: decimal">
-<li>Read in sheet 2 of the <code>iris_q6.xlsx</code> dataset into the <code>iris_q6_2</code> R object. How many rows are in the dataset?</li>
-</ol>
-<pre class="r"><code>iris_q5 &lt;- read_excel(&quot;iris_q6.xlsx&quot;, sheet= 2)
-dim(iris_q5)</code></pre>
-<pre><code>## [1] 150   5</code></pre>
+<pre class="r"><code>ufo_slice_7 &lt;- read_delim(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt&quot;)</code></pre>
+<pre><code>## Rows: 20 Columns: 11
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;:&quot;
+## chr (8): datetime, city, state, country, shape, duration (hours/min), commen...
+## dbl (3): duration (seconds), latitude, longitude
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>ufo_slice_7</code></pre>
+<pre><code>## # A tibble: 20 × 11
+##    datetime                city         state country shape `duration (seconds)`
+##    &lt;chr&gt;                   &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;                &lt;dbl&gt;
+##  1 &quot;      6/30/1973 24:00&quot; &quot;los alamos&quot; nm    us      &lt;NA&gt;                     0
+##  2 &quot;5/16/2005 19:15&quot;       &quot;oklahoma c… ok    us      tria…                  480
+##  3 &quot;      9/24/2009 00:00&quot; &quot;cambridge&quot;  nh    &lt;NA&gt;    form…                 1200
+##  4 &quot;6/15/1981 19:00&quot;       &quot;foxton (ne… &lt;NA&gt;  &lt;NA&gt;    oval                  1200
+##  5 &quot;  8/20/2013 03:00&quot;     &quot;springfiel… va    us      cigar                 3600
+##  6 &quot;11/16/2012 23:50&quot;      &quot;     alto&quot;  mi    us      light                  120
+##  7 &quot;11/8/2007 23:30&quot;       &quot;aztec&quot;      nm    us      fire…                 3600
+##  8 &quot;2/23/1996 21:29&quot;       &quot;madison&quot;    tn    us      &lt;NA&gt;                    60
+##  9 &quot;3/3/2012 22:15&quot;        &quot;greensboro&quot; nc    us      light                  900
+## 10 &quot;9/8/2005 05:43&quot;        &quot;gainesvill… ga    us      other                  120
+## 11 &quot;11/11/1978 18:00&quot;      &quot;st. albert… ab    ca      unkn…                 1200
+## 12 &quot;6/15/2006 21:45&quot;       &quot;tampa&quot;      fl    us      light                   20
+## 13 &quot;7/13/2012 22:00&quot;       &quot;wapakoneta&quot; oh    us      fire…                  120
+## 14 &quot;8/9/2008 22:50&quot;        &quot;buchholz (… &lt;NA&gt;  de      light                   60
+## 15 &quot;12/16/2012 18:25&quot;      &quot;bakersfiel… ca    us      light                  120
+## 16 &quot;7/21/2006 23:35&quot;       &quot;erie&quot;       pa    us      light                   15
+## 17 &quot;12/8/2012 06:00&quot;       &quot;chetek&quot;     wi    us      light                  900
+## 18 &quot;9/30/2011 21:50&quot;       &quot;searcy&quot;     ar    us      diam…                  120
+## 19 &quot;8/7/2006 00:26&quot;        &quot;nanaimo (c… bc    ca      tria…                    0
+## 20 &quot;7/10/2009 23:00&quot;       &quot;bear creek&quot; al    us      circ…                    4
+## # ℹ 5 more variables: `duration (hours/min)` &lt;chr&gt;, comments &lt;chr&gt;,
+## #   `date posted` &lt;chr&gt;, latitude &lt;dbl&gt;, longitude &lt;dbl&gt;</code></pre>
+<pre class="r"><code>ufo_slice_7 &lt;- read_delim(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt&quot;, trim_ws = TRUE)</code></pre>
+<pre><code>## Rows: 20 Columns: 11
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;:&quot;
+## chr (8): datetime, city, state, country, shape, duration (hours/min), commen...
+## dbl (3): duration (seconds), latitude, longitude
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>ufo_slice_7</code></pre>
+<pre><code>## # A tibble: 20 × 11
+##    datetime         city                state country shape `duration (seconds)`
+##    &lt;chr&gt;            &lt;chr&gt;               &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;                &lt;dbl&gt;
+##  1 6/30/1973 24:00  los alamos          nm    us      &lt;NA&gt;                     0
+##  2 5/16/2005 19:15  oklahoma city       ok    us      tria…                  480
+##  3 9/24/2009 00:00  cambridge           nh    &lt;NA&gt;    form…                 1200
+##  4 6/15/1981 19:00  foxton (new zealan… &lt;NA&gt;  &lt;NA&gt;    oval                  1200
+##  5 8/20/2013 03:00  springfield         va    us      cigar                 3600
+##  6 11/16/2012 23:50 alto                mi    us      light                  120
+##  7 11/8/2007 23:30  aztec               nm    us      fire…                 3600
+##  8 2/23/1996 21:29  madison             tn    us      &lt;NA&gt;                    60
+##  9 3/3/2012 22:15   greensboro          nc    us      light                  900
+## 10 9/8/2005 05:43   gainesville         ga    us      other                  120
+## 11 11/11/1978 18:00 st. albert (canada) ab    ca      unkn…                 1200
+## 12 6/15/2006 21:45  tampa               fl    us      light                   20
+## 13 7/13/2012 22:00  wapakoneta          oh    us      fire…                  120
+## 14 8/9/2008 22:50   buchholz (germany)  &lt;NA&gt;  de      light                   60
+## 15 12/16/2012 18:25 bakersfield         ca    us      light                  120
+## 16 7/21/2006 23:35  erie                pa    us      light                   15
+## 17 12/8/2012 06:00  chetek              wi    us      light                  900
+## 18 9/30/2011 21:50  searcy              ar    us      diam…                  120
+## 19 8/7/2006 00:26   nanaimo (canada)    bc    ca      tria…                    0
+## 20 7/10/2009 23:00  bear creek          al    us      circ…                    4
+## # ℹ 5 more variables: `duration (hours/min)` &lt;chr&gt;, comments &lt;chr&gt;,
+## #   `date posted` &lt;chr&gt;, latitude &lt;dbl&gt;, longitude &lt;dbl&gt;</code></pre>
 
 
 
