@@ -54,7 +54,7 @@ eff %>% filter(year == 1999) %>% nrow()
 ```
 
 
-6. Filter cars to only those in the "suv" or "minivan" class. How many cars/rows are there?
+6. Filter cars in `mpg` to only those in the "suv" or "minivan" class. How many cars/rows are there?
 
 ```{r}
 # both give same result
@@ -62,7 +62,7 @@ mpg %>% filter(class %in% c("suv", "minivan")) %>% nrow()
 mpg %>% filter(class =="suv" | class == "minivan") %>% nrow()
 ```
 
-7. Filter cars with displacements (`displ`) greater than 4 and that are all 4 wheel drive (`drv`). How many cars/rows are there. 
+7. Filter cars in `mpg` with displacements (`displ`) greater than 4 and that are all 4 wheel drive (`drv`). How many cars/rows are there. 
 
 ```{r}
 mpg %>% filter(displ > 4 & drv == "4") %>% nrow()
@@ -71,7 +71,7 @@ mpg %>% filter(displ > 4 & drv == "4") %>% nrow()
 
 ## Practice on your own
 
-8. Filter cars from the overall mpg dataset that do not have 4 cylinder engines. How many cars/rows are there?
+8. Filter cars from the overall `mpg` dataset that do not have 4 cylinder engines. How many cars/rows are there?
 
 ```{r}
 mpg %>% filter(cyl != 4) %>% nrow()
