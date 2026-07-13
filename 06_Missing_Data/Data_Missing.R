@@ -57,7 +57,7 @@ pct_complete(ufo)
 
 
 ## -----------------------------------------------------------------------------
-ufo |> select(shape) |>
+ufo %>% select(shape) %>%
 pct_complete()
 
 
@@ -75,12 +75,12 @@ gg_miss_var(ufo, show_pct = TRUE)
 
 ## -----------------------------------------------------------------------------
 count(ufo, country)
-ufo |> filter(country == "de") |> dim()
+ufo %>% filter(country == "de") %>% dim()
 
 
 
 ## -----------------------------------------------------------------------------
-ufo |> filter(country == "de" | is.na(country)) |> dim()
+ufo %>% filter(country == "de" | is.na(country)) %>% dim()
 
 
 ## -----------------------------------------------------------------------------
@@ -88,12 +88,12 @@ ufo
 
 
 ## -----------------------------------------------------------------------------
-ufo |> drop_na(state)
+ufo %>% drop_na(state)
 
 
 ## -----------------------------------------------------------------------------
-ufo |> drop_na() |> dim()
-ufo |> drop_na()
+ufo %>% drop_na() %>% dim()
+ufo %>% drop_na()
 
 
 ## -----------------------------------------------------------------------------
@@ -101,41 +101,41 @@ miss_var_which(ufo) # which columns have missing values
 
 
 ## -----------------------------------------------------------------------------
-ufo |> select(!miss_var_which(ufo))
+ufo %>% select(!miss_var_which(ufo))
 
 
 ## -----------------------------------------------------------------------------
-count(ufo, duration_seconds) |> tail()
+count(ufo, duration_seconds) %>% tail()
 
 
 ## -----------------------------------------------------------------------------
-ufo <- ufo |> 
+ufo <- ufo %>% 
   mutate(duration_seconds = na_if(duration_seconds, 0))
 
-count(ufo, duration_seconds) |> tail()
+count(ufo, duration_seconds) %>% tail()
 
 
 
 ## -----------------------------------------------------------------------------
 
-count(ufo, shape) |> tail()
+count(ufo, shape) %>% tail()
 
 
 ## -----------------------------------------------------------------------------
-ufo |> 
-  mutate(shape = replace_na(shape, "unknown")) |>
-  count(shape) |> tail()
+ufo %>% 
+  mutate(shape = replace_na(shape, "unknown")) %>%
+  count(shape) %>% tail()
 
 
 ## -----------------------------------------------------------------------------
-count(ufo, country) |> mutate(percent = (n/(sum(n)) *100)) |> 
+count(ufo, country) %>% mutate(percent = (n/(sum(n)) *100)) %>% 
   arrange(desc(percent))
 
 
 ## -----------------------------------------------------------------------------
 
-ufo |> drop_na(country) |>
-count(country) |> mutate(percent = (n/(sum(n)) *100)) |> 
+ufo %>% drop_na(country) %>%
+count(country) %>% mutate(percent = (n/(sum(n)) *100)) %>% 
   arrange(desc(percent))
 
 

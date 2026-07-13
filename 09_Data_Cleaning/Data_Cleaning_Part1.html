@@ -3277,13 +3277,12 @@ font-size: 16px;
 <pre class = 'prettyprint lang-r'>ufo &lt;- read_csv(
   &quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv&quot;)</pre>
 
-<pre >Warning: One or more parsing issues, call `problems()` on your data frame
-for details, e.g.:
+<pre >Warning: One or more parsing issues, call `problems()` on your data frame for details, e.g.:
   dat &lt;- vroom(...)
   problems(dat)</pre>
 
 <pre >Rows: 88875 Columns: 11
-── Column specification ────────────────────────────────────────────
+── Column specification ──────────────────────────────────────────────────────────────────────────────
 Delimiter: &quot;,&quot;
 chr (10): datetime, city, state, country, shape, duration (hours/min), comme...
 dbl  (1): duration (seconds)
@@ -3298,7 +3297,7 @@ dbl  (1): duration (seconds)
 <p>If we scroll through we can see some interesting notes.</p>
 
 <pre class = 'prettyprint lang-r'>p &lt;-problems(ufo)
-p |&gt; glimpse()</pre>
+p %&gt;% glimpse()</pre>
 
 <pre >Rows: 199
 Columns: 5
@@ -3310,7 +3309,7 @@ $ file     &lt;chr&gt; &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &
 
 </article></slide><slide class=""><hgroup><h2>Any unique problems?</h2></hgroup><article  id="any-unique-problems">
 
-<pre class = 'prettyprint lang-r'>p |&gt; count(expected, actual, col)</pre>
+<pre class = 'prettyprint lang-r'>p %&gt;% count(expected, actual, col)</pre>
 
 <pre ># A tibble: 4 × 4
   expected   actual       col     n
@@ -3357,7 +3356,7 @@ $ longitude              &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&q
 
 <p>The slice function can show us particular row numbers</p>
 
-<pre class = 'prettyprint lang-r'>p |&gt; count(expected, actual, col)</pre>
+<pre class = 'prettyprint lang-r'>p %&gt;% count(expected, actual, col)</pre>
 
 <pre ># A tibble: 4 × 4
   expected   actual       col     n
@@ -3367,7 +3366,7 @@ $ longitude              &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&q
 3 a double   2`             6     1
 4 a double   8`             6     1</pre>
 
-<pre class = 'prettyprint lang-r'>p |&gt; filter(col == 6)</pre>
+<pre class = 'prettyprint lang-r'>p %&gt;% filter(col == 6)</pre>
 
 <pre ># A tibble: 3 × 5
     row   col expected actual file 
@@ -3380,7 +3379,7 @@ $ longitude              &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&q
 
 <p>The slice function can show us particular row numbers</p>
 
-<pre class = 'prettyprint lang-r'> slice(ufo, 30894 -1) |&gt; glimpse()</pre>
+<pre class = 'prettyprint lang-r'> slice(ufo, 30894 -1) %&gt;% glimpse()</pre>
 
 <pre >Rows: 1
 Columns: 11
@@ -3410,8 +3409,7 @@ $ longitude              &lt;chr&gt; &quot;-114.0050000&quot;</pre>
   &quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv&quot;
 ufo &lt;-read_csv(url, col_types = cols(`duration (seconds)` = &quot;c&quot;))</pre>
 
-<pre >Warning: One or more parsing issues, call `problems()` on your data frame
-for details, e.g.:
+<pre >Warning: One or more parsing issues, call `problems()` on your data frame for details, e.g.:
   dat &lt;- vroom(...)
   problems(dat)</pre>
 
@@ -3431,7 +3429,7 @@ count(p, expected, actual, col)</pre>
 
 <p>Looks like the value of 2` is there now!</p>
 
-<pre class = 'prettyprint lang-r'>slice(ufo, 30894 -1) |&gt; glimpse()</pre>
+<pre class = 'prettyprint lang-r'>slice(ufo, 30894 -1) %&gt;% glimpse()</pre>
 
 <pre >Rows: 1
 Columns: 11
@@ -3469,11 +3467,11 @@ $ longitude              &lt;chr&gt; &quot;-114.0050000&quot;</pre>
 1   878    12 11 columns 12 columns &quot;&quot;   
 2  1713    12 11 columns 12 columns &quot;&quot;   </pre>
 
-<pre class = 'prettyprint lang-r'>(pull(p, row) -1) |&gt; head()</pre>
+<pre class = 'prettyprint lang-r'>(pull(p, row) -1) %&gt;% head()</pre>
 
 <pre >[1]  877 1712 1814 2857 3733 4755</pre>
 
-<pre class = 'prettyprint lang-r'>ufo_clean &lt;- ufo |&gt; slice(-(pull(p, row)-1))</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean &lt;- ufo %&gt;% slice(-(pull(p, row)-1))</pre>
 
 </article></slide><slide class=""><hgroup><h2>Checking</h2></hgroup><article  id="checking">
 
@@ -3514,7 +3512,7 @@ read.table(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_compl
 1     0   196
 2  &lt;NA&gt; 88679</pre>
 
-<pre class = 'prettyprint lang-r'>ufo2 |&gt; filter(empty == 0) %&gt;% glimpse()</pre>
+<pre class = 'prettyprint lang-r'>ufo2 %&gt;% filter(empty == 0) %&gt;% glimpse()</pre>
 
 <pre >Rows: 196
 Columns: 12
@@ -3573,13 +3571,13 @@ colnames(ufo_clean)</pre>
 
 <p><code>aggregate</code> helps us aggregate the data using mean or sum</p>
 
-<pre class = 'prettyprint lang-r'>dup_df |&gt; aggregate(value ~ Name, mean)</pre>
+<pre class = 'prettyprint lang-r'>dup_df %&gt;% aggregate(value ~ Name, mean)</pre>
 
 <pre >    Name value
 1 Python  30.0
 2      R  42.5</pre>
 
-<pre class = 'prettyprint lang-r'>dup_df |&gt; aggregate(value ~ Name, sum)</pre>
+<pre class = 'prettyprint lang-r'>dup_df %&gt;% aggregate(value ~ Name, sum)</pre>
 
 <pre >    Name value
 1 Python    60
@@ -3592,10 +3590,10 @@ colnames(ufo_clean)</pre>
 <pre >case_when(test ~ value if test is true,
       .default ~ value if all above tests are not true) # defaults to NA</pre>
 
-<pre class = 'prettyprint lang-r'>ufo_clean |&gt; 
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% 
   mutate(country = 
            case_when(country == &quot;gb&quot; ~ &quot;Great Britain&quot;,
-         .default = country)) |&gt; 
+         .default = country)) %&gt;% 
   glimpse()</pre>
 
 <pre >Rows: 88,679
@@ -3616,10 +3614,10 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 
 <p>.default may look like TRUE ~</p>
 
-<pre class = 'prettyprint lang-r'>ufo_clean |&gt; 
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% 
   mutate(country = 
            case_when(country == &quot;gb&quot; ~ &quot;Great Britain&quot;,
-         TRUE ~ country)) |&gt; 
+         TRUE ~ country)) %&gt;% 
   glimpse()</pre>
 
 <pre >Rows: 88,679
@@ -3644,10 +3642,10 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 
 <p>Be sure to check the data before and after.</p>
 
-<pre class = 'prettyprint lang-r'>ufo_clean |&gt; 
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% 
   mutate(country = 
            case_when(country == &quot;gb&quot; ~ &quot;Great Britain&quot;),
-         .default = country) |&gt; 
+         .default = country) %&gt;% 
   glimpse()</pre>
 
 <pre >Rows: 88,679
@@ -3670,7 +3668,7 @@ $ .default           &lt;chr&gt; NA, NA, &quot;Great Britain&quot;, NA, NA, NA, 
 
 
 ``` r
-ufo_clean |&gt; count(country)</pre>
+ufo_clean %&gt;% count(country)</pre>
 
 <pre ># A tibble: 6 × 2
   country     n
@@ -3692,12 +3690,12 @@ ufo_clean |&gt; count(country)</pre>
 
 </article></slide><slide class=""><hgroup><h2><code>case_when()</code> to create or modify a variable based on conditions of other variables</h2></hgroup><article  id="case_when-to-create-or-modify-a-variable-based-on-conditions-of-other-variables-1" class="codesmall">
 
-<pre class = 'prettyprint lang-r'>ufo_clean |&gt; mutate(country = case_when(
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% mutate(country = case_when(
                   country == &quot;gb&quot; ~ &quot;Great Britain&quot;,
                   country == &quot;us&quot; ~&quot;United States&quot;,
                   country == &quot;au&quot; ~ &quot;Australia&quot;,
                   country == &quot;DE&quot; ~ &quot;Germany&quot;,
-                             .default = country))|&gt;
+                             .default = country))%&gt;%
   count(country)</pre>
 
 <pre ># A tibble: 6 × 2
@@ -3714,14 +3712,14 @@ ufo_clean |&gt; count(country)</pre>
 
 <p>The <code>.default</code> value can also be a single different value.</p>
 
-<pre class = 'prettyprint lang-r'>ufo_clean &lt;- ufo_clean |&gt; mutate( 
+<pre class = 'prettyprint lang-r'>ufo_clean &lt;- ufo_clean %&gt;% mutate( 
             region = case_when(
               country %in% c(&quot;us&quot;, &quot;ca&quot;) ~ &quot;North America&quot;,
               country %in% c(&quot;de&quot;) ~ &quot;Europe&quot;,
               country %in% &quot;gb&quot; ~ &quot;Great Britain&quot;,
               .default = &quot;Other&quot;
             ))
-ufo_clean |&gt; select(country, region) |&gt; head()</pre>
+ufo_clean %&gt;% select(country, region) %&gt;% head()</pre>
 
 <pre ># A tibble: 6 × 2
   country region       
@@ -3772,7 +3770,7 @@ ufo_clean |&gt; select(country, region) |&gt; head()</pre>
 
 <p>Looking at city… it seems like many of these are in fact in the US.</p>
 
-<pre class = 'prettyprint lang-r'>ufo_clean |&gt; filter(state == &quot;tx&quot;) |&gt; count(country, state)</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(state == &quot;tx&quot;) %&gt;% count(country, state)</pre>
 
 <pre ># A tibble: 2 × 3
   country state     n
@@ -3780,7 +3778,7 @@ ufo_clean |&gt; select(country, region) |&gt; head()</pre>
 1 us      tx     3742
 2 &lt;NA&gt;    tx      299</pre>
 
-<pre class = 'prettyprint lang-r'>ufo_clean |&gt; filter(state == &quot;tx&quot; &amp; is.na(country)) |&gt; select(city)</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(state == &quot;tx&quot; &amp; is.na(country)) %&gt;% select(city)</pre>
 
 <pre ># A tibble: 299 × 1
    city                        
@@ -3799,7 +3797,7 @@ ufo_clean |&gt; select(country, region) |&gt; head()</pre>
 
 </article></slide><slide class=""><hgroup><h2>Checkin Utah as well</h2></hgroup><article  id="checkin-utah-as-well">
 
-<pre class = 'prettyprint lang-r'>ufo_clean |&gt; filter(state == &quot;ut&quot;) |&gt; count(country, state)</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(state == &quot;ut&quot;) %&gt;% count(country, state)</pre>
 
 <pre ># A tibble: 2 × 3
   country state     n
@@ -3807,7 +3805,7 @@ ufo_clean |&gt; select(country, region) |&gt; head()</pre>
 1 us      ut      659
 2 &lt;NA&gt;    ut      138</pre>
 
-<pre class = 'prettyprint lang-r'>ufo_clean |&gt; filter(state == &quot;ut&quot; &amp; is.na(country))  |&gt; select(city)</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(state == &quot;ut&quot; &amp; is.na(country))  %&gt;% select(city)</pre>
 
 <pre ># A tibble: 138 × 1
    city            
@@ -3826,8 +3824,8 @@ ufo_clean |&gt; select(country, region) |&gt; head()</pre>
 
 </article></slide><slide class=""><hgroup><h2>Get US States</h2></hgroup><article  id="get-us-states">
 
-<pre class = 'prettyprint lang-r'>ufo_clean |&gt; filter(country == &quot;us&quot;) |&gt;
-  count(state) |&gt;
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(country == &quot;us&quot;) %&gt;%
+  count(state) %&gt;%
   pull(state)</pre>
 
 <pre > [1] &quot;ak&quot; &quot;al&quot; &quot;ar&quot; &quot;az&quot; &quot;ca&quot; &quot;co&quot; &quot;ct&quot; &quot;dc&quot; &quot;de&quot; &quot;fl&quot; &quot;ga&quot; &quot;hi&quot; &quot;ia&quot; &quot;id&quot; &quot;il&quot;
@@ -3835,59 +3833,59 @@ ufo_clean |&gt; select(country, region) |&gt; head()</pre>
 [31] &quot;nh&quot; &quot;nj&quot; &quot;nm&quot; &quot;nv&quot; &quot;ny&quot; &quot;oh&quot; &quot;ok&quot; &quot;or&quot; &quot;pa&quot; &quot;pr&quot; &quot;ri&quot; &quot;sc&quot; &quot;sd&quot; &quot;tn&quot; &quot;tx&quot;
 [46] &quot;ut&quot; &quot;va&quot; &quot;vt&quot; &quot;wa&quot; &quot;wi&quot; &quot;wv&quot; &quot;wy&quot;</pre>
 
-<pre class = 'prettyprint lang-r'>US_states &lt;- ufo_clean |&gt;
-  filter(country == &quot;us&quot;) |&gt;
-  count(state) |&gt;
+<pre class = 'prettyprint lang-r'>US_states &lt;- ufo_clean %&gt;%
+  filter(country == &quot;us&quot;) %&gt;%
+  count(state) %&gt;%
   pull(state)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Get Canada States</h2></hgroup><article  id="get-canada-states">
 
-<pre class = 'prettyprint lang-r'>ufo_clean |&gt; filter(country == &quot;ca&quot;) |&gt;
-  count(state) |&gt;
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(country == &quot;ca&quot;) %&gt;%
+  count(state) %&gt;%
   pull(state)</pre>
 
 <pre > [1] &quot;ab&quot; &quot;bc&quot; &quot;mb&quot; &quot;nb&quot; &quot;nf&quot; &quot;ns&quot; &quot;nt&quot; &quot;on&quot; &quot;pe&quot; &quot;pq&quot; &quot;qc&quot; &quot;sa&quot; &quot;sk&quot; &quot;yk&quot; &quot;yt&quot;
 [16] NA  </pre>
 
-<pre class = 'prettyprint lang-r'>CA_states &lt;- ufo_clean |&gt;
-  filter(country == &quot;ca&quot;) |&gt;
-  count(state) |&gt;
+<pre class = 'prettyprint lang-r'>CA_states &lt;- ufo_clean %&gt;%
+  filter(country == &quot;ca&quot;) %&gt;%
+  count(state) %&gt;%
   pull(state)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Get Great Britan states</h2></hgroup><article  id="get-great-britan-states">
 
-<pre class = 'prettyprint lang-r'>ufo_clean |&gt; filter(country == &quot;gb&quot;) |&gt;
-  count(state) |&gt;
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(country == &quot;gb&quot;) %&gt;%
+  count(state) %&gt;%
   pull(state)</pre>
 
 <pre > [1] &quot;bc&quot; &quot;la&quot; &quot;ms&quot; &quot;nc&quot; &quot;ns&quot; &quot;nt&quot; &quot;ri&quot; &quot;sk&quot; &quot;tn&quot; &quot;wv&quot; &quot;yt&quot; NA  </pre>
 
-<pre class = 'prettyprint lang-r'>GB_states &lt;- ufo_clean |&gt;
-  filter(country == &quot;gb&quot;) |&gt;
-  count(state) |&gt;
+<pre class = 'prettyprint lang-r'>GB_states &lt;- ufo_clean %&gt;%
+  filter(country == &quot;gb&quot;) %&gt;%
+  count(state) %&gt;%
   pull(state)</pre>
 
 <p>A small overlap with US states.</p>
 
 </article></slide><slide class=""><hgroup><h2>Get DE states</h2></hgroup><article  id="get-de-states">
 
-<pre class = 'prettyprint lang-r'>ufo_clean |&gt; filter(country == &quot;de&quot;) |&gt;
-  count(state) |&gt;
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(country == &quot;de&quot;) %&gt;%
+  count(state) %&gt;%
   pull(state)</pre>
 
 <pre >[1] NA</pre>
 
 </article></slide><slide class=""><hgroup><h2>Get AU states</h2></hgroup><article  id="get-au-states">
 
-<pre class = 'prettyprint lang-r'>ufo_clean |&gt; filter(country == &quot;au&quot;) |&gt;
-  count(state) |&gt;
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(country == &quot;au&quot;) %&gt;%
+  count(state) %&gt;%
   pull(state)</pre>
 
 <pre >[1] &quot;al&quot; &quot;dc&quot; &quot;nt&quot; &quot;oh&quot; &quot;sa&quot; &quot;wa&quot; &quot;yt&quot; NA  </pre>
 
-<pre class = 'prettyprint lang-r'>AU_states &lt;- ufo_clean |&gt;
-  filter(country == &quot;au&quot;) |&gt;
-  count(state) |&gt;
+<pre class = 'prettyprint lang-r'>AU_states &lt;- ufo_clean %&gt;%
+  filter(country == &quot;au&quot;) %&gt;%
+  count(state) %&gt;%
   pull(state)</pre>
 
 <p>Some overlap with US states.</p>
@@ -3951,8 +3949,8 @@ GB_states &lt;- setdiff(GB_states, c(US_states, AU_states, CA_states))</pre>
 
 </article></slide><slide class=""><hgroup><h2>How often do rows have a value for country but not a value of &ldquo;us&rdquo;?</h2></hgroup><article  id="how-often-do-rows-have-a-value-for-country-but-not-a-value-of-us">
 
-<pre class = 'prettyprint lang-r'>ufo_clean |&gt;
-  filter(country != &quot;us&quot; &amp; !is.na(country)) |&gt;
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;%
+  filter(country != &quot;us&quot; &amp; !is.na(country)) %&gt;%
   count(country)</pre>
 
 <pre ># A tibble: 4 × 2
@@ -3967,7 +3965,7 @@ GB_states &lt;- setdiff(GB_states, c(US_states, AU_states, CA_states))</pre>
 
 <p>Let’s make an assumption that if the state value is within the data as a state for a specific country, than it comes from that country for the sake of illustration.</p>
 
-<pre class = 'prettyprint lang-r'>ufo_clean &lt;- ufo_clean |&gt; mutate(prob_country =
+<pre class = 'prettyprint lang-r'>ufo_clean &lt;- ufo_clean %&gt;% mutate(prob_country =
       case_when((is.na(country) &amp; state %in% c(US_states)) ~ &quot;United States&quot;,
                 (is.na(country) &amp; state %in% c(CA_states)) ~ &quot;Canada&quot;,
                 (is.na(country) &amp; state %in% c(AU_states)) ~ &quot;Australia&quot;,
@@ -3996,7 +3994,7 @@ GB_states &lt;- setdiff(GB_states, c(US_states, AU_states, CA_states))</pre>
 
 <p>Take a look at those NAs.</p>
 
-<pre class = 'prettyprint lang-r'>ufo_clean |&gt; filter(is.na(prob_country))</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(is.na(prob_country))</pre>
 
 <pre ># A tibble: 1 × 13
   datetime         city  state country shape duration_seconds duration_hours_min
@@ -4007,7 +4005,7 @@ GB_states &lt;- setdiff(GB_states, c(US_states, AU_states, CA_states))</pre>
 
 </article></slide><slide class=""><hgroup><h2>We could confirm with city info and latitude and longitude</h2></hgroup><article  id="we-could-confirm-with-city-info-and-latitude-and-longitude">
 
-<pre class = 'prettyprint lang-r'>ufo_clean |&gt; filter(country == &quot;de&quot;) |&gt;
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% filter(country == &quot;de&quot;) %&gt;%
   pull(city)</pre>
 
 <pre >  [1] &quot;berlin (germany)&quot;                                 
@@ -4125,7 +4123,7 @@ GB_states &lt;- setdiff(GB_states, c(US_states, AU_states, CA_states))</pre>
 
 </article></slide><slide class=""><hgroup><h2>Even more specific</h2></hgroup><article  id="even-more-specific">
 
-<pre class = 'prettyprint lang-r'>ufo_clean &lt;- ufo_clean |&gt; mutate(prob_country =
+<pre class = 'prettyprint lang-r'>ufo_clean &lt;- ufo_clean %&gt;% mutate(prob_country =
       case_when(
       (is.na(country) &amp; state %in% c(US_states))  |
   country == &quot;us&quot; ~ &quot;United States&quot;,
@@ -4142,7 +4140,7 @@ GB_states &lt;- setdiff(GB_states, c(US_states, AU_states, CA_states))</pre>
 
 </article></slide><slide class=""><hgroup><h2>Check counts</h2></hgroup><article  id="check-counts">
 
-<pre class = 'prettyprint lang-r'>ufo_clean |&gt;
+<pre class = 'prettyprint lang-r'>ufo_clean %&gt;%
   count(country, prob_country)</pre>
 
 <pre ># A tibble: 10 × 3

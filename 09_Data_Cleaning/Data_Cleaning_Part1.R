@@ -13,11 +13,11 @@ ufo <- read_csv(
 
 ## -----------------------------------------------------------------------------
 p <-problems(ufo)
-p |> glimpse()
+p %>% glimpse()
 
 
 ## -----------------------------------------------------------------------------
-p |> count(expected, actual, col)
+p %>% count(expected, actual, col)
 
 
 ## -----------------------------------------------------------------------------
@@ -26,12 +26,12 @@ glimpse(ufo)
 
 
 ## -----------------------------------------------------------------------------
-p |> count(expected, actual, col)
-p |> filter(col == 6)
+p %>% count(expected, actual, col)
+p %>% filter(col == 6)
 
 
 ## -----------------------------------------------------------------------------
- slice(ufo, 30894 -1) |> glimpse()
+ slice(ufo, 30894 -1) %>% glimpse()
 
 
 ## ----include=TRUE, echo =FALSE, out.width="100%"------------------------------
@@ -51,14 +51,14 @@ count(p, expected, actual, col)
 
 
 ## -----------------------------------------------------------------------------
-slice(ufo, 30894 -1) |> glimpse()
+slice(ufo, 30894 -1) %>% glimpse()
 
 
 
 ## -----------------------------------------------------------------------------
 head(p, n = 2)
-(pull(p, row) -1) |> head()
-ufo_clean <- ufo |> slice(-(pull(p, row)-1))
+(pull(p, row) -1) %>% head()
+ufo_clean <- ufo %>% slice(-(pull(p, row)-1))
 
 
 ## -----------------------------------------------------------------------------
@@ -79,7 +79,7 @@ read.table("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.c
 
 ## -----------------------------------------------------------------------------
 count(ufo2, empty)
-ufo2 |> filter(empty == 0) %>% glimpse()
+ufo2 %>% filter(empty == 0) %>% glimpse()
 
 
 ## -----------------------------------------------------------------------------
@@ -102,61 +102,61 @@ distinct(dup_df) # to get just distinct rows
 
 
 ## -----------------------------------------------------------------------------
-dup_df |> aggregate(value ~ Name, mean)
-dup_df |> aggregate(value ~ Name, sum)
+dup_df %>% aggregate(value ~ Name, mean)
+dup_df %>% aggregate(value ~ Name, sum)
 
 
 ## -----------------------------------------------------------------------------
-ufo_clean |> 
+ufo_clean %>% 
   mutate(country = 
            case_when(country == "gb" ~ "Great Britain",
-         .default = country)) |> 
+         .default = country)) %>% 
   glimpse()
 
 
 
 ## -----------------------------------------------------------------------------
-ufo_clean |> 
+ufo_clean %>% 
   mutate(country = 
            case_when(country == "gb" ~ "Great Britain",
-         TRUE ~ country)) |> 
+         TRUE ~ country)) %>% 
   glimpse()
 
 
 
 ## -----------------------------------------------------------------------------
-ufo_clean |> 
+ufo_clean %>% 
   mutate(country = 
            case_when(country == "gb" ~ "Great Britain"),
-         .default = country) |> 
+         .default = country) %>% 
   glimpse()
 
 
 
 ## -----------------------------------------------------------------------------
-ufo_clean |> count(country)
+ufo_clean %>% count(country)
 
 
 ## -----------------------------------------------------------------------------
-ufo_clean |> mutate(country = case_when(
+ufo_clean %>% mutate(country = case_when(
                   country == "gb" ~ "Great Britain",
                   country == "us" ~"United States",
                   country == "au" ~ "Australia",
                   country == "DE" ~ "Germany",
-                             .default = country))|>
+                             .default = country))%>%
   count(country)
 
 
 
 ## -----------------------------------------------------------------------------
-ufo_clean <- ufo_clean |> mutate( 
+ufo_clean <- ufo_clean %>% mutate( 
             region = case_when(
               country %in% c("us", "ca") ~ "North America",
               country %in% c("de") ~ "Europe",
               country %in% "gb" ~ "Great Britain",
               .default = "Other"
             ))
-ufo_clean |> select(country, region) |> head()
+ufo_clean %>% select(country, region) %>% head()
 
 
 ## -----------------------------------------------------------------------------
@@ -165,62 +165,62 @@ head(ufo_clean)
 
 
 ## -----------------------------------------------------------------------------
-ufo_clean |> filter(state == "tx") |> count(country, state)
-ufo_clean |> filter(state == "tx" & is.na(country)) |> select(city)
+ufo_clean %>% filter(state == "tx") %>% count(country, state)
+ufo_clean %>% filter(state == "tx" & is.na(country)) %>% select(city)
 
 
 ## -----------------------------------------------------------------------------
-ufo_clean |> filter(state == "ut") |> count(country, state)
-ufo_clean |> filter(state == "ut" & is.na(country))  |> select(city)
+ufo_clean %>% filter(state == "ut") %>% count(country, state)
+ufo_clean %>% filter(state == "ut" & is.na(country))  %>% select(city)
 
 
 ## -----------------------------------------------------------------------------
-ufo_clean |> filter(country == "us") |>
-  count(state) |>
+ufo_clean %>% filter(country == "us") %>%
+  count(state) %>%
   pull(state)
-US_states <- ufo_clean |>
-  filter(country == "us") |>
-  count(state) |>
-  pull(state)
-
-
-
-## -----------------------------------------------------------------------------
-ufo_clean |> filter(country == "ca") |>
-  count(state) |>
-  pull(state)
-CA_states <- ufo_clean |>
-  filter(country == "ca") |>
-  count(state) |>
+US_states <- ufo_clean %>%
+  filter(country == "us") %>%
+  count(state) %>%
   pull(state)
 
 
 
 ## -----------------------------------------------------------------------------
-ufo_clean |> filter(country == "gb") |>
-  count(state) |>
+ufo_clean %>% filter(country == "ca") %>%
+  count(state) %>%
   pull(state)
-GB_states <- ufo_clean |>
-  filter(country == "gb") |>
-  count(state) |>
-  pull(state)
-
-
-
-## -----------------------------------------------------------------------------
-ufo_clean |> filter(country == "de") |>
-  count(state) |>
+CA_states <- ufo_clean %>%
+  filter(country == "ca") %>%
+  count(state) %>%
   pull(state)
 
 
 
 ## -----------------------------------------------------------------------------
-ufo_clean |> filter(country == "au") |>
-  count(state) |>
+ufo_clean %>% filter(country == "gb") %>%
+  count(state) %>%
   pull(state)
-AU_states <- ufo_clean |>
-  filter(country == "au") |>
-  count(state) |>
+GB_states <- ufo_clean %>%
+  filter(country == "gb") %>%
+  count(state) %>%
+  pull(state)
+
+
+
+## -----------------------------------------------------------------------------
+ufo_clean %>% filter(country == "de") %>%
+  count(state) %>%
+  pull(state)
+
+
+
+## -----------------------------------------------------------------------------
+ufo_clean %>% filter(country == "au") %>%
+  count(state) %>%
+  pull(state)
+AU_states <- ufo_clean %>%
+  filter(country == "au") %>%
+  count(state) %>%
   pull(state)
 
 
@@ -249,14 +249,14 @@ GB_states <- setdiff(GB_states, c(US_states, AU_states, CA_states))
 
 
 ## -----------------------------------------------------------------------------
-ufo_clean |>
-  filter(country != "us" & !is.na(country)) |>
+ufo_clean %>%
+  filter(country != "us" & !is.na(country)) %>%
   count(country)
 
 
 
 ## -----------------------------------------------------------------------------
-ufo_clean <- ufo_clean |> mutate(prob_country =
+ufo_clean <- ufo_clean %>% mutate(prob_country =
       case_when((is.na(country) & state %in% c(US_states)) ~ "United States",
                 (is.na(country) & state %in% c(CA_states)) ~ "Canada",
                 (is.na(country) & state %in% c(AU_states)) ~ "Australia",
@@ -269,16 +269,16 @@ count(ufo_clean, prob_country)
 
 
 ## -----------------------------------------------------------------------------
-ufo_clean |> filter(is.na(prob_country))
+ufo_clean %>% filter(is.na(prob_country))
 
 
 ## -----------------------------------------------------------------------------
-ufo_clean |> filter(country == "de") |>
+ufo_clean %>% filter(country == "de") %>%
   pull(city)
 
 
 ## -----------------------------------------------------------------------------
-ufo_clean <- ufo_clean |> mutate(prob_country =
+ufo_clean <- ufo_clean %>% mutate(prob_country =
       case_when(
       (is.na(country) & state %in% c(US_states))  |
   country == "us" ~ "United States",
@@ -294,6 +294,6 @@ ufo_clean <- ufo_clean |> mutate(prob_country =
 
 
 ## -----------------------------------------------------------------------------
-ufo_clean |>
+ufo_clean %>%
   count(country, prob_country)
 

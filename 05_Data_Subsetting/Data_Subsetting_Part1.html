@@ -3296,8 +3296,7 @@ readxl::read_excel()</pre>
 ufo &lt;- read_csv(
   &quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv&quot;)</pre>
 
-<pre >Warning: One or more parsing issues, call `problems()` on your data frame for details,
-e.g.:
+<pre >Warning: One or more parsing issues, call `problems()` on your data frame for details, e.g.:
   dat &lt;- vroom(...)
   problems(dat)</pre>
 
@@ -3313,13 +3312,13 @@ e.g.:
 
 </article></slide><slide class=""><hgroup><h2>Using the <code>pipe</code> (comes with <code>dplyr</code>):</h2></hgroup><article  id="using-the-pipe-comes-with-dplyr">
 
-<p>That was a lot of typing and nested functions, which can be confusing. The pipe <code>|&gt;</code> or (you might see also this pipe <code>%&gt;%</code>) makes things such as this much more readable. It reads left side &ldquo;pipes&rdquo; into right side. RStudio <code>CMD/Ctrl + Shift + M</code> shortcut.</p>
+<p>That was a lot of typing and nested functions, which can be confusing. The pipe <code>%&gt;%</code> or (you might see also this pipe <code>%&gt;%</code>) makes things such as this much more readable. It reads left side &ldquo;pipes&rdquo; into right side. RStudio <code>CMD/Ctrl + Shift + M</code> shortcut.</p>
 
 </article></slide><slide class=""><hgroup><h2>Using the <code>pipe</code> (comes with <code>dplyr</code>):</h2></hgroup><article  id="using-the-pipe-comes-with-dplyr-1">
 
 <p>Pipe <code>ufo</code> into <code>select</code>, then pipe that into <code>pull</code>, and then show the <code>head</code>:</p>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; pull(country) |&gt; head()</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% pull(country) %&gt;% head()</pre>
 
 <pre >[1] &quot;us&quot; NA   &quot;gb&quot; &quot;us&quot; &quot;us&quot; &quot;us&quot;</pre>
 
@@ -3399,7 +3398,7 @@ everything()</pre>
 
 <p>For example, we can take all columns that start with a &ldquo;c&rdquo;:</p>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; select(starts_with(&quot;c&quot;))</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% select(starts_with(&quot;c&quot;))</pre>
 
 <pre ># A tibble: 88,875 × 3
    city                 country comments                                        
@@ -3420,7 +3419,7 @@ everything()</pre>
 
 <p>Or we can take all columns that end with an &ldquo;e&rdquo;:</p>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; select(ends_with(&quot;e&quot;))</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% select(ends_with(&quot;e&quot;))</pre>
 
 <pre ># A tibble: 88,875 × 5
    datetime         state shape    latitude   longitude   
@@ -3470,7 +3469,7 @@ everything()</pre>
 
 <p>You can also using piping here:</p>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; filter(`duration (seconds)` &gt; 6000)</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% filter(`duration (seconds)` &gt; 6000)</pre>
 
 <pre ># A tibble: 2,839 × 11
    datetime         city                state country shape `duration (seconds)`
@@ -3493,7 +3492,7 @@ everything()</pre>
 
 <p>You can also filter character strings by a single value or category. Here we need quotes around character strings.</p>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; filter(country == &quot;us&quot;)</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% filter(country == &quot;us&quot;)</pre>
 
 <pre ># A tibble: 70,293 × 11
    datetime         city       state country shape    `duration (seconds)`
@@ -3516,7 +3515,7 @@ everything()</pre>
 
 <p>You can combine filtering on multiple columns by separating the filter arguments with <code>&amp;</code> (or commas - but <code>&amp;</code> is more clear) - must match both conditions!</p>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; filter(`duration (seconds)` &gt; 6000 &amp; country == &quot;us&quot;)</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% filter(`duration (seconds)` &gt; 6000 &amp; country == &quot;us&quot;)</pre>
 
 <pre ># A tibble: 2,164 × 11
    datetime         city           state country shape     `duration (seconds)`
@@ -3539,7 +3538,7 @@ everything()</pre>
 
 <p>Sometimes you want to be able to filter on matching several values or categories. The <code>%in%</code> operator is useful here:</p>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; filter(country %in% c(&quot;us&quot;, &quot;gb&quot;))</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% filter(country %in% c(&quot;us&quot;, &quot;gb&quot;))</pre>
 
 <pre ># A tibble: 72,343 × 11
    datetime         city                state country shape `duration (seconds)`
@@ -3562,7 +3561,7 @@ everything()</pre>
 
 <p>You can mix and match filtering on numeric and categorical/character columns in the same <code>filter()</code> command:</p>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; filter(country %in% c(&quot;us&quot;, &quot;gb&quot;) &amp;
+<pre class = 'prettyprint lang-r'>ufo %&gt;% filter(country %in% c(&quot;us&quot;, &quot;gb&quot;) &amp;
                     `duration (seconds)` &gt; 6000)</pre>
 
 <pre ># A tibble: 2,208 × 11
@@ -3586,7 +3585,7 @@ everything()</pre>
 
 <p>R will interpret quotes around numbers as the characters themselves and not their numeric meaning. Avoid quotes unless it is not being treated as a numeric value - for example grades.</p>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; filter(`duration (seconds)` &gt; 60000) |&gt; head(2) #This works</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% filter(`duration (seconds)` &gt; 60000) %&gt;% head(2) #This works</pre>
 
 <pre ># A tibble: 2 × 11
   datetime city  state country shape `duration (seconds)` `duration (hours/min)`
@@ -3596,7 +3595,7 @@ everything()</pre>
 # ℹ 4 more variables: comments &lt;chr&gt;, `date posted` &lt;chr&gt;, latitude &lt;chr&gt;,
 #   longitude &lt;chr&gt;</pre>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; filter(`duration (seconds)` &gt; &quot;60000&quot;) |&gt; head(2) # not right!</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% filter(`duration (seconds)` &gt; &quot;60000&quot;) %&gt;% head(2) # not right!</pre>
 
 <pre ># A tibble: 2 × 11
   datetime city  state country shape `duration (seconds)` `duration (hours/min)`
@@ -3608,14 +3607,14 @@ everything()</pre>
 
 </article></slide><slide class=""><hgroup><h2>Watch out for quotes and column names</h2></hgroup><article  id="watch-out-for-quotes-and-column-names" class="codesmall">
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; filter(&quot;country&quot; == &quot;gb&quot;) # didn&#39;t work!</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% filter(&quot;country&quot; == &quot;gb&quot;) # didn&#39;t work!</pre>
 
 <pre ># A tibble: 0 × 11
 # ℹ 11 variables: datetime &lt;chr&gt;, city &lt;chr&gt;, state &lt;chr&gt;, country &lt;chr&gt;,
 #   shape &lt;chr&gt;, duration (seconds) &lt;dbl&gt;, duration (hours/min) &lt;chr&gt;,
 #   comments &lt;chr&gt;, date posted &lt;chr&gt;, latitude &lt;chr&gt;, longitude &lt;chr&gt;</pre>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; filter(country == &quot;gb&quot;)</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% filter(country == &quot;gb&quot;)</pre>
 
 <pre ># A tibble: 2,050 × 11
    datetime         city                state country shape `duration (seconds)`
@@ -3638,14 +3637,14 @@ everything()</pre>
 
 <p>Quotes work too but this can cause issues.The backtick key is usually near the top left for standard US keyboards, under the escape key. May need to press shift or Fn key if you have a smaller keyboard. <img src="https://github.com/SISBID/Data-Wrangling/blob/gh-pages/images/backtick_1.png?raw=true" alt="dplyr" width="12%" style="display: block; margin: auto;" /></p>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; filter(duration (seconds) &gt; 6000) # didn&#39;t work!</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% filter(duration (seconds) &gt; 6000) # didn&#39;t work!</pre>
 
 <pre >Error in `filter()`:
 ℹ In argument: `duration(seconds) &gt; 6000`.
 Caused by error in `.duration_from_num()`:
 ! First argument to `duration()` constructor must be character or numeric. Supplied object of class &#39;function&#39;</pre>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; filter(`duration (seconds)` &gt; 6000) # worked!</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% filter(`duration (seconds)` &gt; 6000) # worked!</pre>
 
 <pre ># A tibble: 2,839 × 11
    datetime         city                state country shape `duration (seconds)`
@@ -3682,15 +3681,15 @@ Caused by error in `.duration_from_num()`:
 
 <p>The OR operator (<code>|</code>) is more permissive than the AND operator:</p>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; filter(country == &quot;gb&quot;) |&gt; dim()</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% filter(country == &quot;gb&quot;) %&gt;% dim()</pre>
 
 <pre >[1] 2050   11</pre>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; filter(country == &quot;gb&quot; | `duration (seconds)` &gt; 6000) |&gt; dim()</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% filter(country == &quot;gb&quot; | `duration (seconds)` &gt; 6000) %&gt;% dim()</pre>
 
 <pre >[1] 4845   11</pre>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; filter(country == &quot;gb&quot; | `duration (seconds)` &gt; 6000)</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% filter(country == &quot;gb&quot; | `duration (seconds)` &gt; 6000)</pre>
 
 <pre ># A tibble: 4,845 × 11
    datetime         city                state country shape `duration (seconds)`
@@ -3713,11 +3712,11 @@ Caused by error in `.duration_from_num()`:
 
 <p>The OR operator (<code>|</code>) can be a substitute for <code>%in%</code> (although it might take more typing):</p>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; filter(country ==&quot;us&quot; | country == &quot;gb&quot;) |&gt; dim()</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% filter(country ==&quot;us&quot; | country == &quot;gb&quot;) %&gt;% dim()</pre>
 
 <pre >[1] 72343    11</pre>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; filter(country %in% c(&quot;us&quot;, &quot;gb&quot;)) |&gt; dim()</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% filter(country %in% c(&quot;us&quot;, &quot;gb&quot;)) %&gt;% dim()</pre>
 
 <pre >[1] 72343    11</pre>
 
@@ -3725,8 +3724,8 @@ Caused by error in `.duration_from_num()`:
 
 <p>You can combine <code>filter</code> and <code>select</code> to subset the rows and columns, respectively, of a <code>data.frame</code>:</p>
 
-<pre class = 'prettyprint lang-r'>ufo|&gt; 
-  filter(country == &quot;gb&quot;) |&gt; 
+<pre class = 'prettyprint lang-r'>ufo%&gt;% 
+  filter(country == &quot;gb&quot;) %&gt;% 
   select(starts_with(&quot;c&quot;))</pre>
 
 <pre ># A tibble: 2,050 × 3
@@ -3748,8 +3747,8 @@ Caused by error in `.duration_from_num()`:
 
 <p>The order of these functions matters though, since you can remove columns that you might want to filter on.</p>
 
-<pre class = 'prettyprint lang-r'>ufo|&gt; 
-  select(starts_with(&quot;c&quot;)) |&gt; 
+<pre class = 'prettyprint lang-r'>ufo%&gt;% 
+  select(starts_with(&quot;c&quot;)) %&gt;% 
   filter(shape == &quot;light&quot;)</pre>
 
 <pre >Error in `filter()`:
@@ -3773,7 +3772,7 @@ Caused by error:
 # ℹ 4 more variables: comments &lt;chr&gt;, `date posted` &lt;chr&gt;, latitude &lt;chr&gt;,
 #   longitude &lt;chr&gt;</pre>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; select(`duration (seconds)`, starts_with(&quot;c&quot;))</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% select(`duration (seconds)`, starts_with(&quot;c&quot;))</pre>
 
 <pre ># A tibble: 88,875 × 4
    `duration (seconds)` city                 country comments                   
@@ -3794,7 +3793,7 @@ Caused by error:
 
 <p>Follows OR logic.</p>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; select(starts_with(&quot;c&quot;), ends_with(&quot;e&quot;))</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% select(starts_with(&quot;c&quot;), ends_with(&quot;e&quot;))</pre>
 
 <pre ># A tibble: 88,875 × 8
    city                 country comments datetime state shape latitude longitude
@@ -3815,7 +3814,7 @@ Caused by error:
 
 <p>Need to combine the patterns with the <code>c()</code> function.</p>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; select(starts_with(c(&quot;c&quot;, &quot;s&quot;)))</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% select(starts_with(c(&quot;c&quot;, &quot;s&quot;)))</pre>
 
 <pre ># A tibble: 88,875 × 5
    city                 country comments                             state shape
@@ -3854,7 +3853,7 @@ Caused by error:
 
 <ul>
 <li><code>pull()</code> can help us see a vector version of our variables - we can &ldquo;pull&rdquo; out the data from a dataframe</li>
-<li>The pipe (<code>|&gt;</code> or <code>%&gt;%</code>) can help us to do sequential steps</li>
+<li>The pipe (<code>%&gt;%</code> or <code>%&gt;%</code>) can help us to do sequential steps</li>
 <li><code>select()</code> makes a smaller table of just selected variables</li>
 <li>tidyselect functions can help us select specific columns: <code>contains()</code>, <code>ends_with()</code>, <code>starts_with()</code></li>
 <li><code>filter</code> can remove rows based on conditions</li>

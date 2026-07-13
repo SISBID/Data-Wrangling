@@ -428,30 +428,30 @@ the <code>ggplot2</code> package].</li>
 (<code>hwy</code>) is greater than 30. Assign this output to an object
 called <code>eff</code>. How many cars/rows are present?</li>
 </ol>
-<pre class="r"><code>eff &lt;- mpg |&gt; filter(cty &gt; 20, hwy &gt; 30)
+<pre class="r"><code>eff &lt;- mpg %&gt;% filter(cty &gt; 20, hwy &gt; 30)
 dim(eff)</code></pre>
 <pre><code>## [1] 21 11</code></pre>
 <ol start="5" style="list-style-type: decimal">
 <li>How many fuel efficient cars (in the <code>eff</code> dataset) were
 manufactured in the year 1999?</li>
 </ol>
-<pre class="r"><code>eff |&gt; filter(year == 1999) |&gt; nrow()</code></pre>
+<pre class="r"><code>eff %&gt;% filter(year == 1999) %&gt;% nrow()</code></pre>
 <pre><code>## [1] 9</code></pre>
 <ol start="6" style="list-style-type: decimal">
 <li>Filter cars to only those in the “suv” or “minivan” class. How many
 cars/rows are there?</li>
 </ol>
 <pre class="r"><code># both give same result
-mpg |&gt; filter(class %in% c(&quot;suv&quot;, &quot;minivan&quot;)) |&gt; nrow()</code></pre>
+mpg %&gt;% filter(class %in% c(&quot;suv&quot;, &quot;minivan&quot;)) %&gt;% nrow()</code></pre>
 <pre><code>## [1] 73</code></pre>
-<pre class="r"><code>mpg |&gt; filter(class ==&quot;suv&quot; | class == &quot;minivan&quot;) |&gt; nrow()</code></pre>
+<pre class="r"><code>mpg %&gt;% filter(class ==&quot;suv&quot; | class == &quot;minivan&quot;) %&gt;% nrow()</code></pre>
 <pre><code>## [1] 73</code></pre>
 <ol start="7" style="list-style-type: decimal">
 <li>Filter cars with displacements (<code>displ</code>) greater than 4
 and that are all 4 wheel drive (<code>drv</code>). How many cars/rows
 are there.</li>
 </ol>
-<pre class="r"><code>mpg |&gt; filter(displ &gt; 4 &amp; drv == &quot;4&quot;) |&gt; nrow()</code></pre>
+<pre class="r"><code>mpg %&gt;% filter(displ &gt; 4 &amp; drv == &quot;4&quot;) %&gt;% nrow()</code></pre>
 <pre><code>## [1] 49</code></pre>
 <div id="practice-on-your-own" class="section level2">
 <h2>Practice on your own</h2>
@@ -459,7 +459,7 @@ are there.</li>
 <li>Filter cars from the overall mpg dataset that do not have 4 cylinder
 engines. How many cars/rows are there?</li>
 </ol>
-<pre class="r"><code>mpg |&gt; filter(cyl != 4) |&gt; nrow()</code></pre>
+<pre class="r"><code>mpg %&gt;% filter(cyl != 4) %&gt;% nrow()</code></pre>
 <pre><code>## [1] 153</code></pre>
 </div>
 </div>
