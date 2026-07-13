@@ -285,23 +285,10 @@ You can combine increasing and decreasing orderings. The first listed gets prior
 arrange(ufo, shape, desc(duration_seconds))
 ```
 
-## Sometime data class gets in the way{.codesmall}
-
-```{r}
-ufo |> filter(datetime >2014) |> head(2) # not right!
-```
 
 
-## Putting it all together{.codesmall}
-Note there is a warning if you run this.  More on this a bit later.
-More advanced example.
 
-```{r, warning=FALSE}
-ufo |> mutate(datetime = dmy_hm(datetime)) |> # match format to change - lubridate function
-  mutate(year = year(datetime)) |>
-  relocate(year, .before = datetime) |>
-           arrange(desc(year))
-```
+
 
 ## Summary
 

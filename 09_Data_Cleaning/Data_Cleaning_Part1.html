@@ -3256,7 +3256,19 @@ font-size: 16px;
 
 <p>MOST IMPORTANT RULE - LOOK AT YOUR DATA!</p>
 
-</article></slide><slide class=""><hgroup><h2>Read in the UFO dataset</h2></hgroup><article  id="read-in-the-ufo-dataset">
+</article></slide><slide class=""><hgroup><h2>Cleaning Values</h2></hgroup><article  id="cleaning-values">
+
+<ol>
+<li>Look at the data</li>
+<li>Recode variable names as needed</li>
+<li>Check for classes of variables (update as needed)</li>
+<li>Check for missing data (recode as needed)</li>
+<li>Check for duplicates (aggregate as needed)</li>
+<li>Check for rare values (recode as needed)</li>
+<li>Recode values as needed</li>
+</ol>
+
+</article></slide><slide class=""><hgroup><h2>Read in the UFO dataset</h2></hgroup><article  id="read-in-the-ufo-dataset" class="codesmall">
 
 <p>Read in data or download from: <a href='http://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv.gz' title=''>http://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv.gz</a></p>
 
@@ -3265,13 +3277,13 @@ font-size: 16px;
 <pre class = 'prettyprint lang-r'>ufo &lt;- read_csv(
   &quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv&quot;)</pre>
 
-<pre >Warning: One or more parsing issues, call `problems()` on your data frame for details,
-e.g.:
+<pre >Warning: One or more parsing issues, call `problems()` on your data frame
+for details, e.g.:
   dat &lt;- vroom(...)
   problems(dat)</pre>
 
 <pre >Rows: 88875 Columns: 11
-── Column specification ────────────────────────────────────────────────────────
+── Column specification ────────────────────────────────────────────
 Delimiter: &quot;,&quot;
 chr (10): datetime, city, state, country, shape, duration (hours/min), comme...
 dbl  (1): duration (seconds)
@@ -3345,6 +3357,16 @@ $ longitude              &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&q
 
 <p>The slice function can show us particular row numbers</p>
 
+<pre class = 'prettyprint lang-r'>p |&gt; count(expected, actual, col)</pre>
+
+<pre ># A tibble: 4 × 4
+  expected   actual       col     n
+  &lt;chr&gt;      &lt;chr&gt;      &lt;int&gt; &lt;int&gt;
+1 11 columns 12 columns    12   196
+2 a double   0.5`           6     1
+3 a double   2`             6     1
+4 a double   8`             6     1</pre>
+
 <pre class = 'prettyprint lang-r'>p |&gt; filter(col == 6)</pre>
 
 <pre ># A tibble: 3 × 5
@@ -3376,9 +3398,11 @@ $ longitude              &lt;chr&gt; &quot;-114.0050000&quot;</pre>
 
 </article></slide><slide class=""><hgroup><h2>Check the actual data</h2></hgroup><article  id="check-the-actual-data">
 
+<p>Looks like we lost this value!</p>
+
 <p><img src="https://github.com/SISBID/Data-Wrangling/raw/gh-pages/images/raw_ufo_col6.png" alt="" width="100%" /></p>
 
-</article></slide><slide class=""><hgroup><h2>Reading in again</h2></hgroup><article  id="reading-in-again">
+</article></slide><slide class=""><hgroup><h2>Reading in again</h2></hgroup><article  id="reading-in-again" class="codesmall">
 
 <p>Now we have a chance to keep but clean these values! We will read in <code>duration (seconds)</code> now as a character type. Use <code>?read_csv</code> to see documentation about special ways of reading in data.</p>
 
@@ -3386,14 +3410,14 @@ $ longitude              &lt;chr&gt; &quot;-114.0050000&quot;</pre>
   &quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv&quot;
 ufo &lt;-read_csv(url, col_types = cols(`duration (seconds)` = &quot;c&quot;))</pre>
 
-<pre >Warning: One or more parsing issues, call `problems()` on your data frame for details,
-e.g.:
+<pre >Warning: One or more parsing issues, call `problems()` on your data frame
+for details, e.g.:
   dat &lt;- vroom(...)
   problems(dat)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Look at the problems again</h2></hgroup><article  id="look-at-the-problems-again">
 
-<p>Looks like an extra column for these rows.</p>
+<p>Looks like an extra column for these rows. But our other problems seem to be gone!</p>
 
 <pre class = 'prettyprint lang-r'>p &lt;- problems(ufo)
 count(p, expected, actual, col)</pre>
@@ -3403,7 +3427,9 @@ count(p, expected, actual, col)</pre>
   &lt;chr&gt;      &lt;chr&gt;      &lt;int&gt; &lt;int&gt;
 1 11 columns 12 columns    12   196</pre>
 
-</article></slide><slide class=""><hgroup><h2>Check one of our previous problematic rows:</h2></hgroup><article  id="check-one-of-our-previous-problematic-rows">
+</article></slide><slide class=""><hgroup><h2>Check one of our previously problematic rows:</h2></hgroup><article  id="check-one-of-our-previously-problematic-rows">
+
+<p>Looks like the value of 2` is there now!</p>
 
 <pre class = 'prettyprint lang-r'>slice(ufo, 30894 -1) |&gt; glimpse()</pre>
 
@@ -3464,7 +3490,7 @@ $ longitude              &lt;chr&gt; &quot;-114.0050000&quot;</pre>
 
 </article></slide><slide class=""><hgroup><h2>read in for the shifted rows</h2></hgroup><article  id="read-in-for-the-shifted-rows" class="codesmall">
 
-<p>To keep these rows we would need to import again with different specifications. We could just get the shifted rows, rename the columns to be correct and the join this with the existing data if we wanted to try to keep all rows. We will learn about merging data later. But for now let’s not worry about these rows.</p>
+<p>To keep these rows we would need to import again with different specifications. We could get the shifted rows, rename the columns to be correct and then join this with the existing data if we wanted to try to keep all rows. We will learn about merging data later. But for now let’s not worry about these rows.</p>
 
 <pre class = 'prettyprint lang-r'>ufo_colnames &lt;-colnames(ufo)
 ufo_colnames&lt;-c(ufo_colnames, &quot;empty&quot;) # add a new column name for 12th column
@@ -3472,13 +3498,38 @@ ufo_colnames&lt;-c(ufo_colnames, &quot;empty&quot;) # add a new column name for 
 ufo2 &lt;-
 read.table(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv&quot;,
                   header = TRUE, sep = &quot;,&quot;, col.names = ufo_colnames, fill = TRUE, na = &quot;&quot;, 
-           colClasses = c(rep(&quot;character&quot;,10), &quot;numeric&quot;)) # based on what the values seem to be currently</pre>
+           colClasses = c(rep(&quot;character&quot;, 10), &quot;numeric&quot;)) # based on what the values seem to be currently</pre>
 
 <pre >Warning in
 read.table(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv&quot;,
 : header and &#39;col.names&#39; are of different lengths</pre>
 
-<pre class = 'prettyprint lang-r'>ufo2 &lt;-ufo2 |&gt; filter(empty == 0)</pre>
+</article></slide><slide class=""><hgroup><h2>Taking a look at the shifted rows</h2></hgroup><article  id="taking-a-look-at-the-shifted-rows" class="codesmall">
+
+<p>Indeed they do look shifted with shapes not in the <code>shape</code> column.</p>
+
+<pre class = 'prettyprint lang-r'>count(ufo2, empty)</pre>
+
+<pre >  empty     n
+1     0   196
+2  &lt;NA&gt; 88679</pre>
+
+<pre class = 'prettyprint lang-r'>ufo2 |&gt; filter(empty == 0) %&gt;% glimpse()</pre>
+
+<pre >Rows: 196
+Columns: 12
+$ datetime             &lt;chr&gt; &quot;10/1/2006 12:00&quot;, &quot;10/14/2004 13:00&quot;, &quot;10/14/201…
+$ city                 &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ state                &lt;chr&gt; NA, NA, &quot;nv&quot;, &quot;tx&quot;, &quot;ct&quot;, &quot;sd&quot;, &quot;ny&quot;, &quot;mi&quot;, NA, &quot;…
+$ country              &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ shape                &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
+$ duration..seconds.   &lt;chr&gt; &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;,…
+$ duration..hours.min. &lt;chr&gt; NA, NA, &quot;light&quot;, &quot;oval&quot;, &quot;egg&quot;, &quot;sphere&quot;, NA, &quot;li…
+$ comments             &lt;chr&gt; NA, NA, &quot;22&quot;, &quot;5 minutes&quot;, &quot;2 hours&quot;, &quot;30sec&quot;, &quot;n…
+$ date.posted          &lt;chr&gt; &quot;((EDITORIAL COMMENT ABOUT THE UFO PHENOMEN))  uf…
+$ latitude             &lt;chr&gt; &quot;10/30/2006&quot;, &quot;10/27/2004&quot;, &quot;10/19/2011&quot;, &quot;10/31/…
+$ longitude            &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ empty                &lt;chr&gt; &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;,…</pre>
 
 </article></slide><slide class=""><hgroup><h2>Clean names with the <code>clean_names()</code> function from the <code>janitor</code> package</h2></hgroup><article  id="clean-names-with-the-clean_names-function-from-the-janitor-package">
 
@@ -3536,33 +3587,32 @@ colnames(ufo_clean)</pre>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Recoding Variables</h2></hgroup><article  id="recoding-variables">
 
-</article></slide><slide class=""><hgroup><h2>Exact Swaps - <code>case_when</code> function</h2></hgroup><article  id="exact-swaps---case_when-function">
+</article></slide><slide class=""><hgroup><h2>Exact Swaps - <code>case_when</code> function</h2></hgroup><article  id="exact-swaps---case_when-function" class="codesmall">
 
 <pre >case_when(test ~ value if test is true,
       .default ~ value if all above tests are not true) # defaults to NA</pre>
 
 <pre class = 'prettyprint lang-r'>ufo_clean |&gt; 
   mutate(country = 
-           case_when(country == &quot;gb&quot; ~ &quot;Great Britain&quot;),
-         .default = country) |&gt; 
+           case_when(country == &quot;gb&quot; ~ &quot;Great Britain&quot;,
+         .default = country)) |&gt; 
   glimpse()</pre>
 
 <pre >Rows: 88,679
-Columns: 12
+Columns: 11
 $ datetime           &lt;chr&gt; &quot;10/10/1949 20:30&quot;, &quot;10/10/1949 21:00&quot;, &quot;10/10/1955…
 $ city               &lt;chr&gt; &quot;san marcos&quot;, &quot;lackland afb&quot;, &quot;chester (uk/england)…
 $ state              &lt;chr&gt; &quot;tx&quot;, &quot;tx&quot;, NA, &quot;tx&quot;, &quot;hi&quot;, &quot;tn&quot;, NA, &quot;ct&quot;, &quot;al&quot;, &quot;…
-$ country            &lt;chr&gt; NA, NA, &quot;Great Britain&quot;, NA, NA, NA, &quot;Great Britain…
+$ country            &lt;chr&gt; &quot;us&quot;, NA, &quot;Great Britain&quot;, &quot;us&quot;, &quot;us&quot;, &quot;us&quot;, &quot;Great…
 $ shape              &lt;chr&gt; &quot;cylinder&quot;, &quot;light&quot;, &quot;circle&quot;, &quot;circle&quot;, &quot;light&quot;, &quot;…
 $ duration_seconds   &lt;chr&gt; &quot;2700&quot;, &quot;7200&quot;, &quot;20&quot;, &quot;20&quot;, &quot;900&quot;, &quot;300&quot;, &quot;180&quot;, &quot;1…
 $ duration_hours_min &lt;chr&gt; &quot;45 minutes&quot;, &quot;1-2 hrs&quot;, &quot;20 seconds&quot;, &quot;1/2 hour&quot;, …
 $ comments           &lt;chr&gt; &quot;This event took place in early fall around 1949-50…
 $ date_posted        &lt;chr&gt; &quot;4/27/2004&quot;, &quot;12/16/2005&quot;, &quot;1/21/2008&quot;, &quot;1/17/2004&quot;…
 $ latitude           &lt;chr&gt; &quot;29.8830556&quot;, &quot;29.38421&quot;, &quot;53.2&quot;, &quot;28.9783333&quot;, &quot;21…
-$ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;, &quot;-2.916667&quot;, &quot;-96.6458…
-$ .default           &lt;chr&gt; NA, NA, &quot;Great Britain&quot;, NA, NA, NA, &quot;Great Britain…</pre>
+$ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;, &quot;-2.916667&quot;, &quot;-96.6458…</pre>
 
-</article></slide><slide class=""><hgroup><h2><code>case_when</code> note</h2></hgroup><article  id="case_when-note">
+</article></slide><slide class=""><hgroup><h2><code>case_when</code> note</h2></hgroup><article  id="case_when-note" class="codesmall">
 
 <p>.default may look like TRUE ~</p>
 
@@ -3586,9 +3636,41 @@ $ date_posted        &lt;chr&gt; &quot;4/27/2004&quot;, &quot;12/16/2005&quot;, 
 $ latitude           &lt;chr&gt; &quot;29.8830556&quot;, &quot;29.38421&quot;, &quot;53.2&quot;, &quot;28.9783333&quot;, &quot;21…
 $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;, &quot;-2.916667&quot;, &quot;-96.6458…</pre>
 
-</article></slide><slide class=""><hgroup><h2>How many countries?</h2></hgroup><article  id="how-many-countries">
+</article></slide><slide class=""><hgroup><h2>`case_when note</h2></hgroup><article  id="case_when-note-1" class="codesmall">
 
-<pre class = 'prettyprint lang-r'>ufo_clean |&gt; count(country)</pre>
+<p>Watch out for parentheses placement!</p>
+
+<p>Here the parentheses are in the wrong place so the <code>.default</code> statement isn’t used.</p>
+
+<p>Be sure to check the data before and after.</p>
+
+<pre class = 'prettyprint lang-r'>ufo_clean |&gt; 
+  mutate(country = 
+           case_when(country == &quot;gb&quot; ~ &quot;Great Britain&quot;),
+         .default = country) |&gt; 
+  glimpse()</pre>
+
+<pre >Rows: 88,679
+Columns: 12
+$ datetime           &lt;chr&gt; &quot;10/10/1949 20:30&quot;, &quot;10/10/1949 21:00&quot;, &quot;10/10/1955…
+$ city               &lt;chr&gt; &quot;san marcos&quot;, &quot;lackland afb&quot;, &quot;chester (uk/england)…
+$ state              &lt;chr&gt; &quot;tx&quot;, &quot;tx&quot;, NA, &quot;tx&quot;, &quot;hi&quot;, &quot;tn&quot;, NA, &quot;ct&quot;, &quot;al&quot;, &quot;…
+$ country            &lt;chr&gt; NA, NA, &quot;Great Britain&quot;, NA, NA, NA, &quot;Great Britain…
+$ shape              &lt;chr&gt; &quot;cylinder&quot;, &quot;light&quot;, &quot;circle&quot;, &quot;circle&quot;, &quot;light&quot;, &quot;…
+$ duration_seconds   &lt;chr&gt; &quot;2700&quot;, &quot;7200&quot;, &quot;20&quot;, &quot;20&quot;, &quot;900&quot;, &quot;300&quot;, &quot;180&quot;, &quot;1…
+$ duration_hours_min &lt;chr&gt; &quot;45 minutes&quot;, &quot;1-2 hrs&quot;, &quot;20 seconds&quot;, &quot;1/2 hour&quot;, …
+$ comments           &lt;chr&gt; &quot;This event took place in early fall around 1949-50…
+$ date_posted        &lt;chr&gt; &quot;4/27/2004&quot;, &quot;12/16/2005&quot;, &quot;1/21/2008&quot;, &quot;1/17/2004&quot;…
+$ latitude           &lt;chr&gt; &quot;29.8830556&quot;, &quot;29.38421&quot;, &quot;53.2&quot;, &quot;28.9783333&quot;, &quot;21…
+$ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;, &quot;-2.916667&quot;, &quot;-96.6458…
+$ .default           &lt;chr&gt; NA, NA, &quot;Great Britain&quot;, NA, NA, NA, &quot;Great Britain…</pre>
+
+<pre >
+## How many countries?
+
+
+``` r
+ufo_clean |&gt; count(country)</pre>
 
 <pre ># A tibble: 6 × 2
   country     n
@@ -3600,7 +3682,7 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 5 us      70293
 6 &lt;NA&gt;    12365</pre>
 
-</article></slide><slide class=""><hgroup><h2><code>case_when()</code> regions to create a new variable based on conditions of other variables</h2></hgroup><article  id="case_when-regions-to-create-a-new-variable-based-on-conditions-of-other-variables">
+</article></slide><slide class=""><hgroup><h2><code>case_when()</code> to create or modify a variable based on conditions of other variables</h2></hgroup><article  id="case_when-to-create-or-modify-a-variable-based-on-conditions-of-other-variables" class="codesmall">
 
 <pre >case_when(test ~ value if test is true,
          test2 ~ vlue if test2 is true,
@@ -3608,27 +3690,25 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 
 <p>The <code>.default</code> value can also just be the original values.</p>
 
+</article></slide><slide class=""><hgroup><h2><code>case_when()</code> to create or modify a variable based on conditions of other variables</h2></hgroup><article  id="case_when-to-create-or-modify-a-variable-based-on-conditions-of-other-variables-1" class="codesmall">
+
 <pre class = 'prettyprint lang-r'>ufo_clean |&gt; mutate(country = case_when(
                   country == &quot;gb&quot; ~ &quot;Great Britain&quot;,
                   country == &quot;us&quot; ~&quot;United States&quot;,
                   country == &quot;au&quot; ~ &quot;Australia&quot;,
                   country == &quot;DE&quot; ~ &quot;Germany&quot;,
                              .default = country))|&gt;
-  glimpse()</pre>
+  count(country)</pre>
 
-<pre >Rows: 88,679
-Columns: 11
-$ datetime           &lt;chr&gt; &quot;10/10/1949 20:30&quot;, &quot;10/10/1949 21:00&quot;, &quot;10/10/1955…
-$ city               &lt;chr&gt; &quot;san marcos&quot;, &quot;lackland afb&quot;, &quot;chester (uk/england)…
-$ state              &lt;chr&gt; &quot;tx&quot;, &quot;tx&quot;, NA, &quot;tx&quot;, &quot;hi&quot;, &quot;tn&quot;, NA, &quot;ct&quot;, &quot;al&quot;, &quot;…
-$ country            &lt;chr&gt; &quot;United States&quot;, NA, &quot;Great Britain&quot;, &quot;United State…
-$ shape              &lt;chr&gt; &quot;cylinder&quot;, &quot;light&quot;, &quot;circle&quot;, &quot;circle&quot;, &quot;light&quot;, &quot;…
-$ duration_seconds   &lt;chr&gt; &quot;2700&quot;, &quot;7200&quot;, &quot;20&quot;, &quot;20&quot;, &quot;900&quot;, &quot;300&quot;, &quot;180&quot;, &quot;1…
-$ duration_hours_min &lt;chr&gt; &quot;45 minutes&quot;, &quot;1-2 hrs&quot;, &quot;20 seconds&quot;, &quot;1/2 hour&quot;, …
-$ comments           &lt;chr&gt; &quot;This event took place in early fall around 1949-50…
-$ date_posted        &lt;chr&gt; &quot;4/27/2004&quot;, &quot;12/16/2005&quot;, &quot;1/21/2008&quot;, &quot;1/17/2004&quot;…
-$ latitude           &lt;chr&gt; &quot;29.8830556&quot;, &quot;29.38421&quot;, &quot;53.2&quot;, &quot;28.9783333&quot;, &quot;21…
-$ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;, &quot;-2.916667&quot;, &quot;-96.6458…</pre>
+<pre ># A tibble: 6 × 2
+  country           n
+  &lt;chr&gt;         &lt;int&gt;
+1 Australia       593
+2 Great Britain  2050
+3 United States 70293
+4 ca             3266
+5 de              112
+6 &lt;NA&gt;          12365</pre>
 
 </article></slide><slide class=""><hgroup><h2><code>case_when</code> - another example</h2></hgroup><article  id="case_when---another-example">
 

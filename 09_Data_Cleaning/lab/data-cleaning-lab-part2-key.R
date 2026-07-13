@@ -13,7 +13,9 @@ ufo <- clean_names(ufo)
 
 
 ## -----------------------------------------------------------------------------
-ufo %>% filter(str_detect(duration_hours_min, "min"))%>% nrow()
+ ufo %>% filter(str_detect(duration_hours_min, "hour"))
+
+
 
 
 ## -----------------------------------------------------------------------------
