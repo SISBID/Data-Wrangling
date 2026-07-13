@@ -441,13 +441,13 @@ mpg %&gt;% filter(class %in% c(&quot;suv&quot;, &quot;minivan&quot;)) %&gt;% nro
 <pre><code>## [1] 73</code></pre>
 <pre class="r"><code>mpg %&gt;% filter(class ==&quot;suv&quot; | class == &quot;minivan&quot;) %&gt;% nrow()</code></pre>
 <pre><code>## [1] 73</code></pre>
+<div id="practice-on-your-own" class="section level2">
+<h2>Practice on your own</h2>
 <ol start="7" style="list-style-type: decimal">
 <li>Filter cars in <code>mpg</code> with displacements (<code>displ</code>) greater than 4 and that are all 4 wheel drive (<code>drv</code>). How many cars/rows are there.</li>
 </ol>
 <pre class="r"><code>mpg %&gt;% filter(displ &gt; 4 &amp; drv == &quot;4&quot;) %&gt;% nrow()</code></pre>
 <pre><code>## [1] 49</code></pre>
-<div id="practice-on-your-own" class="section level2">
-<h2>Practice on your own</h2>
 <ol start="8" style="list-style-type: decimal">
 <li>Filter cars from the overall <code>mpg</code> dataset that do not have 4 cylinder engines. How many cars/rows are there?</li>
 </ol>
