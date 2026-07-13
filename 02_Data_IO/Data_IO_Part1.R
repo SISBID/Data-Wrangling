@@ -16,8 +16,8 @@ x * 4
 
 
 ## ----eval = FALSE-------------------------------------------------------------
-## ?dir
-## help("dir")
+# ?dir
+# help("dir")
 
 
 ## ----echo = FALSE, out.width="70%"--------------------------------------------
@@ -25,8 +25,8 @@ knitr::include_graphics("../images/IO_help.png")
 
 
 ## ----eval = FALSE-------------------------------------------------------------
-## install.packages("tidyverse")
-## library(tidyverse)
+# install.packages("tidyverse")
+# library(tidyverse)
 
 
 ## ----echo = FALSE, out.width="70%"--------------------------------------------
@@ -67,6 +67,10 @@ knitr::include_graphics("../images/Data_Input_browse.png")
 
 ## ----fig.alt="Gif showing the process of importing a dataset via readr.", out.width = "100%", echo = FALSE, align = "center"----
 knitr::include_graphics("../images/Data_Input_import_dataset.gif")
+
+
+## ----fig.alt="The image shows the import options for the point-and-click method using readr.", out.width = "80%", echo = FALSE, align = "center"----
+knitr::include_graphics("../images/IO_import_options.png")
 
 
 ## -----------------------------------------------------------------------------

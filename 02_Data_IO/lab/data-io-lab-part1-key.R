@@ -4,31 +4,33 @@ library(readxl)
 
 
 ## -----------------------------------------------------------------------------
-iris_q1 <- read_csv("https://sisbid.github.io/Data-Wrangling/data/iris/iris_q1.csv") # Your directory may vary!
-head(iris_q1)
+ufo_slice_1 <- read_csv("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_1.csv") # Your directory may vary!
+head(ufo_slice_1)
 
 
 ## -----------------------------------------------------------------------------
-iris_q2 <- read_delim("https://sisbid.github.io/Data-Wrangling/data/iris/iris_q2.tsv", 
-    delim = "\t")
-head(iris_q2)
+ufo_slice_2 <-
+  read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_2.tsv",
+             delim = "\t")
+head(ufo_slice_2)
 
 
 ## -----------------------------------------------------------------------------
-iris_q3 <- read_table("https://sisbid.github.io/Data-Wrangling/data/iris/iris_q3.txt")
-head(iris_q3)
+ufo_slice_3 <- read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_3.txt")
+head(ufo_slice_3)
 
 
 ## -----------------------------------------------------------------------------
-iris_q4 <- read_delim("https://sisbid.github.io/Data-Wrangling/data/iris/iris_q4.csv", 
-    delim = ":", escape_double = FALSE, trim_ws = TRUE)
-head(iris_q4)
+ufo_slice_4 <-
+  read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_4.csv",
+             delim = ":")
+head(ufo_slice_4)
 
 
 ## -----------------------------------------------------------------------------
-url <- "https://sisbid.github.io/Data-Wrangling/data/iris/iris_xl.xlsx"
-destfile <- "iris_xl.xlsx"
+url <- "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_5.xlsx"
+destfile <- "ufo_slice_5.xlsx"
 curl::curl_download(url, destfile)
-iris_xl <- read_excel(destfile)
-head(iris_xl)
+ufo_slice_5 <- read_excel(destfile)
+head(ufo_slice_5)
 
