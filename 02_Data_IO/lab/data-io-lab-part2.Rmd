@@ -10,9 +10,10 @@ library(tidyverse)
 ```
 
 
-1. Read in a slice of the "ufo" dataset from "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_6.csv" using `read_csv`, call it `ufo_slice_6`.
+1. Read in a slice of the "ufo" dataset from "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_5.csv" using `read_csv`, call it `ufo_slice_5`.
 
 ```{r}
+
 ```
 
 2. Use a few functions to check out the data (e.g., `head()`, `glimpse()`, `str()` etc.). Do results look different if you had used `read_delim` above?
@@ -21,9 +22,16 @@ library(tidyverse)
 
 ```
 
-3. Repeat 1-2 for "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt" using `read_delim`, call it `ufo_slice_7`. Should any additional arguments be used?
+3. Repeat 1-2 for "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_6.txt" using `read_delim`, call it `ufo_slice_6`. Should any additional arguments be used?
 
 ```{r}
 
 ```
 
+## **Practice on your own**
+
+4. Try using `read_table` and `read_delim` on "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt". Which one is more appropriate?
+
+```{r}
+
+```

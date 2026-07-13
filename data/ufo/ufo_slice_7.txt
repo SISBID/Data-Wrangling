@@ -1,21 +1,21 @@
-datetime:city:state:country:shape:duration (seconds):duration (hours/min):comments:date posted:latitude:longitude
-"      6/30/1973 24:00":los alamos:nm:us:NA:0:NA:I just read the siting report that you attributed to 1973. A friend of mine told me a story about how he and a group of very smart:  1/10/2009:35.8880556:-106.3063889
-"5/16/2005 19:15":oklahoma city:ok:us:triangle:480:     8 minutes:triangular shaped craft two.  hovering then following each other at highrate of speed.  three extreemly bright light two white one red: 6/20/2005:35.4675000:-97.5161111
-"      9/24/2009 00:00":cambridge:nh:NA:formation:1200:20 minutes:Flashing colors...yellow&#44 orange&#44 red&#44 shaped like a crown..humming that vibrated&#44 and echoed across the area:12/12/2009:44.639711:-71.092813
-"6/15/1981 19:00":foxton (new zealand):NA:NA:oval:1200:  15/20min:I wa on the roof of my parents house when i heard my younger brother yelling out.:3/21/2003:0:0
-"  8/20/2013 03:00":springfield:va:us:cigar:3600:1 hour:Crazy.:8/30/2013:38.7891667:-77.1875000
-"11/16/2012 23:50":     alto:mi:us:light:120:2 minutes:Three bright orange lights move in formation:   11/19/2012:42.8566667:-85.3802778
-"11/8/2007 23:30":aztec:nm:us:fireball:3600: 1 hour:aztec crash??:11/28/2007:36.8222222:-107.9922222
-"2/23/1996 21:29":madison:tn:us:NA:60:1 min.:Several children witness a &quot;small silver disc w/ a white light on top.&quot; Streaks off.   Mother separates them &amp; they draw same obj..:11/2/1999:36.2561111:-86.7138889
-"3/3/2012 22:15":greensboro:nc:us:light:900:15 min:Yellowish spheres observed by three.: 3/13/2012:36.0725000:-79.7922222
-"9/8/2005 05:43":gainesville:ga:us:other:120:1-2 minutes:Was observing Mars overhead when flashing light caught my eye from the northern sky.  They were extremely bright&#44 flashing almost strob:10/11/2005:34.2977778:-83.8241667
-"11/11/1978 18:00":st. albert (canada):ab:ca:unknown:1200:10-20 minutes:In response to sighting of 08/15/78 in St. Albert:9/2/2005:53.633333:-113.633333
-"6/15/2006 21:45":tampa:fl:us:light:20:20 sec.:Two single&#44 white lights travelling S to N at moderate speed &amp; altitude caused electrical disturbance to car.:7/16/2006:27.9472222:-82.4586111
-"7/13/2012 22:00":wapakoneta:oh:us:fireball:120:minutes:Orange flying object in the sky:8/5/2012:40.5677778:-84.1936111
-"8/9/2008 22:50":buchholz (germany):NA:de:light:60:1 minute:Bright Orange Lights moving quite fast at about 500 meters above the ground:8/12/2008:52.6:13.433333
-"12/16/2012 18:25":bakersfield:ca:us:light:120:2 minutes:While facing north and waiting to turn left onto the corner of College and fairfax.  I noticed light in the sky to my right (NE).:12/20/2012:35.3733333:-119.0177778
-"7/21/2006 23:35":erie:pa:us:light:15:15 seconds:White light moved north to south and faded out.:10/30/2006:42.1291667:-80.0852778
-"12/8/2012 06:00":chetek:wi:us:light:900:15 minutes:Star size blinking/fast moving white lights- about a dozen:12/20/2012:45.3141667:-91.6508333
-"9/30/2011 21:50":searcy:ar:us:diamond:120:2 minutes:Orange-reddish object not moving at fast rate of speed began to move at ENORMOUS one out of me and and I friends field of vision.:3/13/2012:35.2505556:-91.7361111
-"8/7/2006 00:26":nanaimo (canada):bc:ca:triangle:0:all night:blinking red&#44 white and blue in the west coast sky:10/30/2006:49.15:-123.916667
-"7/10/2009 23:00":bear creek:al:us:circle:4:4 seconds:It was moving very fast. It was a little bigger than a dime compared the stars. It was circle and bright. It swerved and disappeared.:2/10/2012:34.2747222:-87.7005556
+datetime city state country shape "duration (seconds)" "duration (hours/min)" comments "date posted" latitude longitude
+"10/29/2005 08:00" "jamshedpur (india)" NA NA other 18000 "5 hours" "I saw  a ufo which appearerd to be a star to me." 11/3/2005 22.804567 86.202875
+"4/5/2005 00:00" "northam (australia)" NA au disk 0 north "5 yellow glowing disk shaped objects flying north towards kalbarie makig a huming noice. i was scard." 12/16/2005 -31.649321 116.674232
+"3/1/2009 03:30" "kansas city" mo us flash 7 "7 seconds" "flash of light over kansas city" 3/19/2009 39.0997222 -94.5783333
+"5/7/1995 18:00" "emmelshausen (germany)" NA de unknown 7200 "2 hrs" "There might be acctual different beeings." 2/14/2006 50.15 7.566667
+"3/11/2005 20:55" "nanaimo (canada)" bc ca light 40 "40 seconds" "Not planes satellites or space debri for sure&#33" 5/11/2005 49.15 -123.916667
+"9/18/2002 18:00" "tenerife (canary islands)" NA NA circle 3600 1hour "See photos sent to your email address" 9/28/2002 28.291564 -16.62913
+"6/1/2008 04:00" "canoga park" ca us disk 15 "15 seconds" "Golden Bright Saucer." 7/3/2013 34.2011111 -118.5972222
+"10/17/2011 21:30" temple tx us triangle 5 "about 5 seconds" "I saw a triangular shaped &quot;object&quot;" 10/19/2011 31.0980556 -97.3425000
+"10/23/2012 08:30" fishers in us light 2700 "45 minutes" "Oval foggy orbs  2-4&#44 going around in circle above houses&#44 following me down the street.  ((NUFORC Note:  Advertising. lights?  PD))" 10/30/2012 39.9555556 -86.0138889
+"12/13/2013 19:20" naples fl us light 15 "12-15 seconds" "Bright green light zigzags over the Gulf of Mexico." 12/23/2013 26.1416667 -81.7950000
+"4/1/2001 21:00" stillwater mn us triangle 300 "3-5 minutes" "About two weeks ago my wife and I (living in Stillwater&#44 MN) were driving to our new apartment. In fact it was the first night we were" 12/5/2001 45.0563889 -92.8058333
+"1/11/2003 18:23" mahwah nj us circle 0 5 "I WAS IN THE CAR WITH MY DAD WHEN I SAW A CIRCLE" 3/21/2003 41.0886111 -74.1441667
+"11/27/2002 12:30" "san francisco" ca us triangle 60 "1 minute" "Triangle craft over ocean beach in san francisco" 5/10/2004 37.7750000 -122.4183333
+"3/20/2001 10:15" austin tx us cigar 300 "3-5 minutes" "Driving soutth on Mo Pac Expressway&#44 I saw two black cigar shaped objects hovering." 4/1/2001 30.2669444 -97.7427778
+"7/9/1999 22:35" "mckenzie lake (canada)" on NA circle 60 "1 min." "Two bright slow flashing red lights over heavy woodland clearly visible from across the 1/2 mile lake. The two objects were completely" 12/2/2000 45.383333 -78.016667
+"11/20/2013 16:55" berlin vt NA fireball 600 "10 minutes" "Multiple orange lights seen over Berlin&#44 Vermont." 12/2/2013 44.215261 -72.586161
+"6/14/1999 03:00" "sydney (australia)" NA au other 900 "15 minutes" "Possible humanoid being sighting / abduction attempt??  ((NUFORC Note:  Possibly not a serious report??  PD))" 1/10/2009 -33.861481 151.205475
+"5/21/2010 22:30" mccomb oh us triangle 1200 "20 minutes" "Triangle shaped object with red pulsating lights with instant change of direction and speed." 6/3/2010 41.1075000 -83.7927778
+"7/5/2009 00:02" flint mi us light 60 "1 minute and about 15 sec" "Extremely bright golden/yellow globe-shaped object spotted traveling west to east at midnight in Genesee County&#44 MI." 8/5/2009 43.0125000 -83.6875000
+"10/25/2001 14:30" terrel tx NA oval 15 "15 seconds" "Large Circular Ball ufo Videotaped in Terrel Texas." 11/20/2001 32.735963 -96.275257

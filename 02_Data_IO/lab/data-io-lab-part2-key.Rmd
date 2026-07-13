@@ -10,27 +10,36 @@ library(tidyverse)
 ```
 
 
-1. Read in a slice of the "ufo" dataset from "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_6.csv" using `read_csv`, call it `ufo_slice_6`.
+1. Read in a slice of the "ufo" dataset from "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_5.csv" using `read_csv`, call it `ufo_slice_5`.
 
 ```{r}
-ufo_slice_6 <- read_csv("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_6.csv")
+ufo_slice_5 <- read_csv("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_5.csv")
 ```
 
 2. Use a few functions to check out the data (e.g., `head()`, `glimpse()`, `str()` etc.). Do results look different if you had used `read_delim` above?
 
 ```{r}
-str(ufo_slice_6)
-head(ufo_slice_6)
-glimpse(ufo_slice_6)
-nrow(ufo_slice_6)
+str(ufo_slice_5)
+head(ufo_slice_5)
+glimpse(ufo_slice_5)
+nrow(ufo_slice_5)
 ```
 
-3. Repeat 1-2 for "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt" using `read_delim`, call it `ufo_slice_7`. Should any additional arguments be used?
+3. Repeat 1-2 for "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_6.txt" using `read_delim`, call it `ufo_slice_6`. Should any additional arguments be used?
 
 ```{r}
-ufo_slice_7 <- read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt")
-ufo_slice_7
-ufo_slice_7 <- read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt", trim_ws = TRUE)
-ufo_slice_7
+ufo_slice_6 <- read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_6.txt")
+ufo_slice_6
+ufo_slice_6 <- read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_6.txt", trim_ws = TRUE)
+ufo_slice_6
 ```
 
+## **Practice on your own**
+
+4. Try using `read_table` and `read_delim` on "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt". Which one is more appropriate?
+
+```{r}
+# read_delim! read_table interprets all whitespace as delimiting - spaces in our data interfere with this function reading the data.
+ufo_slice_7_table <- read_table("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt")
+ufo_slice_7_delim <- read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt")
+```
