@@ -160,7 +160,7 @@ colnames(ufo_clean)
 
 
     
-## str_detect and filter
+## str_detect and filter{.codesmall}
 
 Now let's fix our ufo data and remove those pesky backticks in the `duration_seconds` variable. First let's find them with `str_detect`.
 ```{r}
@@ -173,6 +173,9 @@ ufo_clean %>%
 
 ## str_remove
 
+Now, let's remove the backticks.
+
+
 ```{r}
 ufo_clean  <- ufo_clean %>% 
   mutate(duration_seconds = 
@@ -180,14 +183,23 @@ ufo_clean  <- ufo_clean %>%
                      pattern = "`"))
 ```
 
-## Lets also mutate to be numeric again
+And let's check it:
+
+```{r}
+ufo_clean %>% 
+  filter(str_detect( 
+    string = duration_seconds, 
+    pattern = "`"))
+```
+
+## Lets also mutate to be numeric again {.codesmall}
 
 There are many class functions to change from one class to another start with "as.".
 
 ```{r}
-ufo_clean %>% 
+ufo_clean <- ufo_clean %>% 
   mutate(duration_seconds = as.numeric(duration_seconds))
-
+ufo_clean 
 ```
 
 
@@ -251,7 +263,7 @@ str_sub(c("Site A", "Site B", "Site C"), 6,6)
 
 
 
-## 'Find' functions: Finding Indices
+## 'Find' functions: Finding Indices{.codesmall}
 
 These are the indices where the pattern match occurs:
 
@@ -261,7 +273,7 @@ ufo_clean %>%
   head()
 ```
 
-## To Take a look at comments... need to select it first
+## To Take a look at comments... need to select it first{.codesmall}
 
 ```{r}
 ufo_clean %>%
