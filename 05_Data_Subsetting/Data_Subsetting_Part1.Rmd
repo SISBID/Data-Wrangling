@@ -56,12 +56,16 @@ Here are several resources on how to use `dplyr`:
 
 The `dplyr` package also interfaces well with tibbles.
 
-## Dataset
+## Dataset{.codesmall}
 
-We will be using the `diamonds` dataset in the `ggplot2` package as an example (so make sure you initiate the `ggplot2` package if you are following along on your own). 
+We will be using some UFO data from the https://nuforc.org/ that was previously available from Kaggle (https://www.kaggle.com/).
 
-```{r}
-head(diamonds)
+We will deal with the problem indicated here soon.
+
+```{r, message = FALSE}
+library(tidyverse)
+ufo <- read_csv(
+  "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv")
 ```
 
 ## Selecting a single column of a `data.frame`: 
@@ -71,19 +75,19 @@ To grab just the values from a single column, you would use the `pull` function.
 Since this is a long vector we will just show the first 6 values using the `head` function around the output of the `pull` function.
 
 ```{r}
-head(pull(diamonds,carat))
+head(pull(ufo,country))
 ```
 
 ## Using the `pipe` (comes with `dplyr`):
 
-That was a lot of typing and nested functions, which can be confusing.  The pipe `%>%` or (you might see also this pipe `|>`) makes things such as this much more readable.  It reads left side "pipes" into right side.  RStudio `CMD/Ctrl + Shift + M` shortcut. 
+That was a lot of typing and nested functions, which can be confusing.  The pipe `|>` or (you might see also this pipe `%>%`) makes things such as this much more readable.  It reads left side "pipes" into right side.  RStudio `CMD/Ctrl + Shift + M` shortcut. 
 
 ## Using the `pipe` (comes with `dplyr`):
 
-Pipe `diamonds` into `select`, then pipe that into `pull`, and then show the `head`:
+Pipe `ufo` into `select`, then pipe that into `pull`, and then show the `head`:
 
 ```{r}
-diamonds %>% pull(carat) %>% head()
+ufo |> pull(country) |> head()
 ```
 
 
@@ -94,8 +98,8 @@ The `pull` function is equivalent to using the `$` method (in base R).
 Note that base R and tidyverse don't always play nice together. 
 
 ```{r}
-head(pull(diamonds, carat))
-head(diamonds$carat)
+head(pull(ufo, country))
+head(ufo$country)
 ```
 
 Note this does *not* return a `tibble` (or `data.frame`) but rather a vector. 
@@ -105,7 +109,7 @@ Note this does *not* return a `tibble` (or `data.frame`) but rather a vector.
 The `select` function extracts one or more columns from a `tibble` or `data.frame` and returns a `tibble` (not a vector).
 
 ```{r}
-select(diamonds, carat)
+select(ufo, country)
 ```
 
 
@@ -114,7 +118,7 @@ select(diamonds, carat)
 The `select` command from `dplyr` is very flexible. You just need to list all columns you want to extract separated by commas.  You can use this as a way to just keep the columns you want for example.
 
 ```{r}
-select(diamonds, carat, depth)
+select(ufo, country, shape)
 ```
 
 
@@ -137,92 +141,109 @@ contains() # search for a pattern
 everything()
 ```
 
-## Tidyselect helpers
+## Tidyselect helpers{.codesmall}
 
 For example, we can take all columns that start with a "c":
 
 ```{r}
-diamonds %>% select(starts_with("c"))
+ufo |> select(starts_with("c"))
 ```
 
-## Tidyselect helpers
+## Tidyselect helpers{.codesmall}
 
 Or we can take all columns that end with an "e":
 
 ```{r}
-diamonds %>% select(ends_with("e"))
+ufo |> select(ends_with("e"))
 ```
 
 ## Tidyselect helpers
 
 We are going to cover "fancier" ways of matching column names (and strings more generally) in the data cleaning lecture. 
 
-## Subset rows of a `data.frame`:
+## Subset rows of a `data.frame`:{.codesmall}
 
 The command in `dplyr` for subsetting rows is `filter`.  Try `?filter`.
 
 The easiest way to filter is by testing whether numeric observations are greater than or less than some cutoff:
 
 ```{r}
-filter(diamonds, depth > 60)
+filter(ufo, `duration (seconds)` > 6000)
 ```
 
-Note, no subsetting is necessary.  R "knows" `depth` refers to a column of `diamonds`.
 
-## Subset using pipes:
+## Subset using pipes:{.codesmall}
 
 You can also using piping here:
 
 ```{r}
-diamonds %>% filter(depth > 60)
+ufo |> filter(`duration (seconds)` > 6000)
 ```
 
-## Subset rows with multiple required conditions:
 
-You can combine filtering on multiple columns by separating the filter arguments with `&` (or commas - but `&` is more clear)
 
-```{r}
-diamonds %>% filter(depth > 60 & table > 60 & price > 2775)
-```
-
-## Subset rows for a character condition:
+## Subset rows for a character condition:{.codesmall}
 
 You can also filter character strings by a single value or category. Here we need quotes around character strings. 
 
 ```{r}
-diamonds %>% filter(color == "I" & 
-            clarity == "SI2" & cut == "Premium")
+ufo |> filter(country == "us")
 ```
 
-## Subset to match a vector of possibilities:
+## Subset rows with multiple required conditions:{.codesmall}
+
+You can combine filtering on multiple columns by separating the filter arguments with `&` (or commas - but `&` is more clear) - must match both conditions!
+
+```{r}
+ufo |> filter(`duration (seconds)` > 6000 & country == "us")
+```
+
+## Subset to match a vector of possibilities:{.codesmall}
 
 Sometimes you want to be able to filter on matching several values or categories. The `%in%` operator is useful here:
 
 ```{r}
-diamonds %>% filter(clarity %in% c("SI1", "SI2"))
+ufo |> filter(country %in% c("us", "gb"))
 ```
 
-## Subset rows using conditions for numeric and character variables:
+## Subset rows using conditions for numeric and character variables:{.codesmall}
 
 You can mix and match filtering on numeric and categorical/character columns in the same `filter()` command:
 
 ```{r}
-diamonds %>% filter(clarity %in% c("SI1", "SI2") &
-                    cut == "Premium" & price > 3000)
+ufo |> filter(country %in% c("us", "gb") &
+                    `duration (seconds)` > 6000)
 ```
 
-## Note about quotes and numbers
+## Note about quotes and numbers{.codesmall}
 
-R will interpret quotes around numbers as the characters themselves and not their numeric meaning. Thus it's generally best to avoid quotes around numeric unless it is not being treated as a numeric value - for example levels or grades.
+R will interpret quotes around numbers as the characters themselves and not their numeric meaning. Avoid quotes unless it is not being treated as a numeric value - for example grades.
 
-```{r, eval = FALSE}
-diamonds %>% filter(price > 3001) #This works
-diamonds %>% filter(price > "3001") # This does not
+```{r}
+ufo |> filter(`duration (seconds)` > 60000) |> head(2) #This works
+ufo |> filter(`duration (seconds)` > "60000") |> head(2) # not right!
 
-diamonds %>% filter(price == 3001) # This works
-diamonds %>% filter(price == "3001") # this works 
 ```
 
+## Watch out for quotes and column names{.codesmall}
+
+```{r}
+ufo |> filter("country" == "gb") # didn't work!
+ufo |> filter(country == "gb")
+```
+
+## Special column names need back ticks {.codesmall}
+
+Quotes work too but this can cause issues.The backtick key is usually near the top left for standard US keyboards, under the escape key. May need to press shift or Fn key if you have a smaller keyboard.
+```{r, fig.alt="dplyr", out.width = "12%", echo = FALSE, fig.align='center'}
+knitr::include_graphics("https://github.com/SISBID/Data-Wrangling/blob/gh-pages/images/backtick_1.png?raw=true")
+```
+
+```{r, error = TRUE}
+ufo |> filter(duration (seconds) > 6000) # didn't work!
+ufo |> filter(`duration (seconds)` > 6000) # worked!
+
+```
 
 ## Logic for subsetting rows of a `data.frame`:
 
@@ -239,12 +260,14 @@ Other useful logical tests:
 `!=` : not equals
 
 
-## Subset rows with or logic:
+## Subset rows with or logic:{.codesmall}
 
 The OR operator (`|`) is more permissive than the AND operator:
 
 ```{r}
-diamonds %>% filter(depth > 60 | table > 60 | price > 2775)
+ufo |> filter(country == "gb") |> dim()
+ufo |> filter(country == "gb" | `duration (seconds)` > 6000) |> dim()
+ufo |> filter(country == "gb" | `duration (seconds)` > 6000)
 ```
 
 ## OR is like `%in%`:
@@ -252,17 +275,17 @@ diamonds %>% filter(depth > 60 | table > 60 | price > 2775)
 The OR operator (`|`) can be a substitute for `%in%` (although it might take more typing):
 
 ```{r}
-diamonds %>% filter(clarity =="SI1" | clarity == "SI2") %>% head(2)
-diamonds %>% filter(clarity %in% c("SI1", "SI2")) %>% head(2)
+ufo |> filter(country =="us" | country == "gb") |> dim()
+ufo |> filter(country %in% c("us", "gb")) |> dim()
 ```
 
-## Combining `filter` and `select`:
+## Combining `filter` and `select`:{.codesmall}
 
 You can combine `filter` and `select` to subset the rows and columns, respectively, of a `data.frame`:
 
 ```{r}
-diamonds %>% 
-  filter(clarity == "SI2") %>% 
+ufo|> 
+  filter(country == "gb") |> 
   select(starts_with("c"))
 ```
 
@@ -270,46 +293,48 @@ diamonds %>%
 
 The order of these functions matters though, since you can remove columns that you might want to filter on. 
 
-```{r,eval=FALSE}
-diamonds %>% 
-  select(starts_with("c")) %>%
-  filter(table > 60))
+```{r, error=TRUE}
+ufo|> 
+  select(starts_with("c")) |> 
+  filter(shape == "light")
+ 
 ```
 
 This will result in an error because the table column is now gone after the `select()` function!
 
 # Fancier filtering
 
-## Combining tidyselect helpers with regular selection
+## Combining tidyselect helpers with regular selection{.codesmall}
 
 ```{r}
-head(diamonds, 2)
-diamonds %>% select(price, starts_with("c"))
+head(ufo, 2)
+ufo |> select(`duration (seconds)`, starts_with("c"))
 ```
-## Multiple tidyselect functions
+
+## Multiple tidyselect functions{.codesmall}
 
 Follows OR logic.
 
 ```{r}
-diamonds %>% select(starts_with("c"), ends_with("e"))
+ufo |> select(starts_with("c"), ends_with("e"))
 
 ```
 
-## Multiple patterns with tidyselect
+## Multiple patterns with tidyselect{.codesmall}
 
 Need to combine the patterns with the `c()` function.
 
 ```{r}
-diamonds %>% select(starts_with(c("c", "p")))
-
+ufo |> select(starts_with(c("c", "s")))
 ```
 
-## Common error for filter or select
+## Common error for filter or select{.codesmall}
 
 If you try to filter or select for a column that does not exist it will not work:
  
  - misspelled column name 
  - column that was already removed 
+ - using quotes when you shouldn't for numeric values
  
 ## Always good to check each step!
 
@@ -326,7 +351,7 @@ Source: https://media.giphy.com/media/5b5OU7aUekfdSAER5I/giphy.gif
 ## Summary
 
 - `pull()` can help us see a vector version of our variables - we can "pull" out the data from a dataframe
-- The pipe (`%>%`) can help us to do sequential steps
+- The pipe (`|>` or `%>%`) can help us to do sequential steps
 - `select()` makes a smaller table of just selected variables
 - tidyselect functions can help us select specific columns: `contains()`, `ends_with()`, `starts_with()`
 - `filter` can remove rows based on conditions

@@ -41,27 +41,24 @@ We talked about many things yesterday!
 
 ## Data
 
-Let's continue to work with the Diamond dataset from the `ggplot2` package of the tidyverse. 
+Let's continue to work with the UFO dataset. 
 
 We will often use the `glimpse()` function of the `dplyr` package of the `tidyverse` to look at a rotated view of the data.
 
 ```{r}
 library(tidyverse)
-head(diamonds)
+ufo <- read_csv(
+  "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv")
 ```
 
 ## Let's learn more about this data
 
-We can use `?diamonds` to get more informatin in the `Help` pane.
 
-We might decide to rename some columns,
+We might decide to rename some columns to make them easier to work with.
 
-- `x` to be `length`
-- `y` to be `width` 
-- `z` to be `depth`
-- but first changing `depth` to be `depth_percentage`
+We need backticks to work with special characters like `(` and spaces. 
 
-## Renaming Columns of a data frame or tibble
+## Renaming Columns of a data frame or tibble {.codesmall}
 
 To rename columns in `dplyr`, you can use the `rename` function.
 
@@ -70,56 +67,35 @@ Notice the new name is listed **first**!
 <div class = "codeexample">
 ```{r, eval = FALSE}
 # general format! not code!
-{data you are creating or changing} <- {data you are using} %>%
+{data you are creating or changing} <- {data you are using} |>
                                     rename({New Name} = {Old name})
                                           
 ```
 </div>
 
 ```{r}
-diamonds_2 <- diamonds %>%
-  rename(depth_percentage = depth)
-head(diamonds_2, n = 3)
+ufo_2<- ufo |>
+  rename(duration_seconds = `duration (seconds)`)
+head(ufo_2, n = 3)
 ```
 
 
 ## More Renaming
 
 ```{r}
-diamonds_2<- diamonds_2 %>%
-        rename(length = x,
-                width = y,
-                depth = z)
-glimpse(diamonds_2)
+ufo_2<- ufo |>
+        rename(duration_seconds = `duration (seconds)`,
+                duration_h_m = `duration (hours/min)`)
+glimpse(ufo_2)
 ```
 
-## Take Care with Column Names
-
-When you can, avoid spaces, special punctuation, or numbers in column names, as these require special treatment to refer to them. 
-
-See https://jhudatascience.org/intro_to_r/quotes_vs_backticks.html for more guidance.
-
-```{r, eval = FALSE}
-diamonds %>% rename(depth percentage = depth)# this will cause an error
-```
-
-```{r, eval = FALSE}
-diamonds %>% rename(depth_percentage = depth) # this will work
-```
-
-```{r, eval = FALSE}
-diamonds %>% rename(`depth percentage` = depth) # not recommended
-```
 
 ## Unusual Column Names
 
 It's best to avoid unusual column names where possible, as things get tricky later.
 
-We just showed the use of \` backticks\` . You may see people use quotes as well.
+We just showed the use of \` backticks\`. 
 
-```{r, fig.alt="dplyr", out.width = "14%", echo = FALSE, fig.align='center'}
-knitr::include_graphics("https://github.com/SISBID/Data-Wrangling/blob/gh-pages/images/backtick_1.png?raw=true")
-```
 
 Other atypical column names are those with:
 
@@ -137,40 +113,27 @@ Rename tricky column names so that you don't have to deal with them later!
 include_graphics("https://media.giphy.com/media/6q29hxDKvJvPy/giphy.gif")
 ```
 
-## Example
-
-```{r, echo = FALSE}
-diamonds_bad_names <- rename(diamonds, `Price(in US dollars)` = price,
-                                        `Length (in mm)` = x,
-                                        `Width in mm` = y,
-                                        `Depth percentage` = z)
-```
-
-```{r}
-glimpse(diamonds_bad_names)
-diamonds_bad_names %>%
-        rename(price = `Price(in US dollars)`)
-```
 
 ## Renaming all columns of a data frame: dplyr {.codesmall}
 
 To rename all columns you use the `rename_with()`. In this case we will use `toupper()` to make all letters upper case. Could also use `tolower()` function.
 
 ```{r}
-diamonds_upper <- diamonds %>% rename_with(toupper)
-head(diamonds_upper, 2)
+ufo_upper <- ufo |> rename_with(toupper)
+head(ufo_upper, 2)
 ```
 
 ```{r}
-diamonds_upper %>% rename_with(tolower) %>% head(n = 2)
+ufo_upper |> rename_with(tolower) |> head(n = 2)
 ```
 
-## Janitor package
+## Janitor package{.codesmall}
 
 ```{r, message=FALSE}
 #install.packages("janitor")
 library(janitor)
-clean_names(diamonds_bad_names) %>% glimpse()
+ufo <- clean_names(ufo)
+head(ufo)
 ```
 
 # Subset based on a class
@@ -180,29 +143,12 @@ clean_names(diamonds_bad_names) %>% glimpse()
 `is.character()` and `is.numeric()` are often the most helpful
 
 ```{r}
-head(diamonds, 2)
-diamonds %>% select(where(is.numeric)) %>% head(n = 2)
+head(ufo, 2)
+ufo |> select(where(is.numeric)) |> head(n = 2)
 
 ```
 
-<!-- ## The `where()` function can help select columns of a specific class -->
 
-<!-- `is.character()` and `is.numeric()` are often the most helpful -->
-
-<!-- ```{r} -->
-<!-- head(diamonds, 2) -->
-<!-- diamonds %>% select(where(is.ordered)) %>% head(n = 2) -->
-
-<!-- ``` -->
-
-
-## `distinct()` function
-
-To filter for distinct values from a variable, multiple variables, or an entire tibble you can use the `distinct()` function from the `dplyr` package. Similar to count, but without the number of times the value shows up.
-
-```{r}
-distinct(diamonds, cut)
-```
 
 # Adding/Removing Columns
 
@@ -214,16 +160,15 @@ The `mutate` function in `dplyr` allows you to add or modify columns of a data f
 <div class = "codeexample">
 ```{r, eval = FALSE}
 # General format - Not the code!
-{data object to update} <- {data to use} %>% 
+{data object to update} <- {data to use} |> 
                     mutate({new variable name} = {new variable source}) 
 ```
 </div>
 
-1 US dollar = 1.37 Canadian dollars
 
 ```{r}
-diamonds %>% 
-  mutate(price_canadian = price * 1.37) %>% glimpse()
+ufo |> 
+  mutate(state_upper = toupper(state)) |> glimpse()
 
 ```
 
@@ -235,13 +180,15 @@ The `mutate` function in `dplyr` allows you to add or modify columns of a data f
 <div class = "codeexample">
 ```{r, eval = FALSE}
 # General format - Not the code!
-{data object to update} <- {data to use} %>%
+{data object to update} <- {data to use} |>
             mutate({variable name to change} = {variable modification}) 
 ```
 </div>
 
 ```{r}
-mutate(diamonds, price = price * 1.37) %>% glimpse()
+ufo |> 
+  mutate(state = toupper(state)) |> glimpse()
+
 ```
 
 
@@ -250,7 +197,8 @@ mutate(diamonds, price = price * 1.37) %>% glimpse()
 If you want to actually make the change you need to reassign the data object.
 
 ```{r, eval = FALSE}
-diamonds <- diamonds %>% mutate(price = price * 1.37) %>% glimpse()
+ufo <- ufo |> 
+  mutate(state = toupper(state))
 ```
 
 ## Removing columns of a data frame: dplyr {.codesmall}
@@ -258,7 +206,7 @@ diamonds <- diamonds %>% mutate(price = price * 1.37) %>% glimpse()
 The `select` function can remove a column with minus (`-`)
 
 ```{r}
-select(diamonds, - price) %>% glimpse()
+select(ufo, - datetime) |> glimpse()
 ```
 
 
@@ -266,11 +214,10 @@ select(diamonds, - price) %>% glimpse()
 
 ## Removing columns in a data frame: dplyr {.codesmall}
 
-You can use `c()` to list the columns to remove.
+You can use `c()` to list the columns to remove or tidyhelpers.
 
-Remove `newcol` and `drat`:
 ```{r}
-select(diamonds, -c(x, y, z)) %>% glimpse()
+select(ufo, -(starts_with("c"))) |> glimpse()
 ```
 
 
@@ -280,8 +227,8 @@ select(diamonds, -c(x, y, z)) %>% glimpse()
 
 The `select` function can reorder columns.
 ```{r}
-head(diamonds, n = 2)
-diamonds %>% select(price, depth, carat, cut, color) %>% head(n = 2)
+head(ufo, n = 2)
+ufo |> select(country, shape, datetime) |> head(n = 2)
 ```
 
 
@@ -289,10 +236,9 @@ diamonds %>% select(price, depth, carat, cut, color) %>% head(n = 2)
 
 In addition to `select` we can also use the `relocate()` function of dplyr to rearrange the columns for more complicated moves.
 
-For example, let say we just wanted `price` to be after column `z`.
 ```{r}
-head(diamonds, n = 2)
-diamonds %>% relocate(price, .after = z) %>% head(n = 2)
+head(ufo, n = 2)
+ufo |> relocate(datetime, .after = shape) |> head(n = 2)
 ```
 
 
@@ -300,11 +246,9 @@ diamonds %>% relocate(price, .after = z) %>% head(n = 2)
 
 In addition to `select` we can also use the `relocate()` function of dplyr to rearrange the columns for more complicated moves.
 
-For example, let say we just wanted `price` to be before `carat`.
-
 ```{r}
-head(diamonds, n = 2)
-diamonds %>% relocate( price, .before = cut) %>% head(n = 2)
+head(ufo, n = 2)
+ufo |> relocate(shape, .before = city) |> head(n = 2)
 
 ```
 
@@ -316,30 +260,35 @@ diamonds %>% relocate( price, .before = cut) %>% head(n = 2)
 
 The `arrange` function can reorder rows  By default, `arrange` orders in increasing order:
 ```{r}
-diamonds %>% arrange(cut)
+ufo |> arrange(duration_seconds)
 ```
 
 ## Ordering the rows of a data frame: dplyr
 
 Use the `desc` to arrange the rows in descending order:
 ```{r}
-diamonds %>% arrange(desc(cut))
+ufo |> arrange(desc(duration_seconds))
 ```
 
 ## Ordering the rows of a data frame: dplyr
 
 You can combine increasing and decreasing orderings. The first listed gets priority.
 ```{r}
-arrange(diamonds, desc(carat), table)
+arrange(ufo, desc(duration_seconds), shape)
 ```
 
 ## Ordering the rows of a data frame: dplyr
 
-You can combine increasing and decreasing orderings. The first listed gets priority. Here `table` is prioritized.
+You can combine increasing and decreasing orderings. The first listed gets priority.
 
 ```{r}
-arrange(diamonds, table, desc(carat))
+arrange(ufo, shape, desc(duration_seconds))
 ```
+
+
+
+
+
 
 ## Summary
 

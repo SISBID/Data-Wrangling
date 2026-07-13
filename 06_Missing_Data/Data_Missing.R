@@ -39,8 +39,12 @@ any(is.na(B)) # are there any NAs- NO/FALSE
 
 ## ----message=FALSE------------------------------------------------------------
 library(readr)
-bike <-read_csv("https://sisbid.github.io/Data-Wrangling/data/Bike_Lanes.csv")
-count(bike, subType)
+library(janitor)
+ufo <- read_csv(
+  "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv")
+ufo <- clean_names(ufo)
+
+count(ufo, country)
 
 
 ## ----error=FALSE--------------------------------------------------------------
@@ -48,83 +52,90 @@ count(bike, subType)
 library(naniar)
 
 
-## ----message=FALSE------------------------------------------------------------
-?airquality # use this to find out more about the data
+## -----------------------------------------------------------------------------
+pct_complete(ufo)
 
 
 ## -----------------------------------------------------------------------------
-pct_complete(airquality)
-
-
-## -----------------------------------------------------------------------------
-airquality %>% select(Ozone) %>%
+ufo |> select(shape) |>
 pct_complete()
 
 
 ## -----------------------------------------------------------------------------
-miss_var_summary(airquality)
+miss_var_summary(ufo)
 
 
 ## ----fig.height=4, warning=FALSE, fig.align='center'--------------------------
-gg_miss_var(airquality)
+gg_miss_var(ufo)
 
 
 ## ----fig.height=4, warning=FALSE, fig.align='center'--------------------------
-gg_miss_var(airquality, show_pct = TRUE)
+gg_miss_var(ufo, show_pct = TRUE)
 
 
 ## -----------------------------------------------------------------------------
-airquality %>% filter(Ozone < 5)
+count(ufo, country)
+ufo |> filter(country == "de") |> dim()
 
-
-## -----------------------------------------------------------------------------
-airquality %>% filter(Ozone < 5 | is.na(Ozone))
 
 
 ## -----------------------------------------------------------------------------
-airquality
+ufo |> filter(country == "de" | is.na(country)) |> dim()
 
 
 ## -----------------------------------------------------------------------------
-airquality %>% drop_na(Ozone)
+ufo
 
 
 ## -----------------------------------------------------------------------------
-airquality %>% drop_na()
+ufo |> drop_na(state)
 
 
 ## -----------------------------------------------------------------------------
-miss_var_which(airquality) # which columns have missing values
+ufo |> drop_na() |> dim()
+ufo |> drop_na()
 
 
 ## -----------------------------------------------------------------------------
-airquality %>% select(!miss_var_which(airquality))
-
-
-## ----message=FALSE------------------------------------------------------------
-library(readr)
-bike <-read_csv("https://sisbid.github.io/Data-Wrangling/data/Bike_Lanes.csv")
-bike <-bike %>% select(type, dateInstalled)
-count(bike, dateInstalled)
+miss_var_which(ufo) # which columns have missing values
 
 
 ## -----------------------------------------------------------------------------
-bike <- bike %>% 
-  mutate(dateInstalled = na_if(dateInstalled, 0))
-count(bike, dateInstalled)
+ufo |> select(!miss_var_which(ufo))
 
 
 ## -----------------------------------------------------------------------------
-bike %>% 
-  mutate(dateInstalled = replace_na(dateInstalled, 2005)) %>%
-  count(dateInstalled)
+count(ufo, duration_seconds) |> tail()
 
 
 ## -----------------------------------------------------------------------------
-count(bike, dateInstalled) %>% mutate(percent = (n/(sum(n)) *100))
+ufo <- ufo |> 
+  mutate(duration_seconds = na_if(duration_seconds, 0))
+
+count(ufo, duration_seconds) |> tail()
+
 
 
 ## -----------------------------------------------------------------------------
-bike %>% drop_na(dateInstalled) %>% 
-  count(dateInstalled) %>% mutate(percent = (n/(sum(n)) *100))
+
+count(ufo, shape) |> tail()
+
+
+## -----------------------------------------------------------------------------
+ufo |> 
+  mutate(shape = replace_na(shape, "unknown")) |>
+  count(shape) |> tail()
+
+
+## -----------------------------------------------------------------------------
+count(ufo, country) |> mutate(percent = (n/(sum(n)) *100)) |> 
+  arrange(desc(percent))
+
+
+## -----------------------------------------------------------------------------
+
+ufo |> drop_na(country) |>
+count(country) |> mutate(percent = (n/(sum(n)) *100)) |> 
+  arrange(desc(percent))
+
 

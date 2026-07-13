@@ -10,7 +10,8 @@ editor_options:
 3. Try running the chunk below by pressing the green play button on the far right. What happens?
 
 ```{r chunk1}
-x = rnorm(100)
+x = seq(from  = 1, to = 20, by = .5)
+x
 plot(x)
 ```
 
@@ -19,19 +20,20 @@ plot(x)
 
 4. Try pressing the run previous chunk button - the button that is to the left of the play button. What happens?
 
-```{r chunk25}
+```{r chunk2}
 x = rnorm(100)
 plot(x)
 ```
 
-5. Add a chunk option of fig.width = 10 to this plot.
+5. Add a chunk option of fig.width = 10 to this plot, see what happens when you knit.
 
-```{r chunk3}
-x = rnorm(100)
-plot(x)
+```{r chunk3, fig.width = 10}
+x = rnorm(10)
+y = rnorm(10)
+plot(x,y)
 ```
 
-6. Add a chunk option of echo=FALSE and see what happens.
+6. Add a chunk option of echo=FALSE and see what happens when you knit.
 
 ```{r chunk4}
 x = rnorm(100)
@@ -40,7 +42,9 @@ plot(x)
 
 7. Check out the docs at: http://rmarkdown.rstudio.com/ and look under formats.
 
-8. Install the `devtools package` by copy pasting install.packages("devtools") into your console. Then load the package using `libray(devtools)` and the command `session_info()` in this chunk and look at the output.
+8. Check out the output of this inline code when you knit the document: `r 120/2`
+
+9. Install the `devtools package` by copy pasting install.packages("devtools") into your console. Then load the package using `libray(devtools)` and the command `session_info()` in this chunk and look at the output.
 
 ```{r session_info}
 #install.packages("devtools")

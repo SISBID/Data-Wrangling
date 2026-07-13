@@ -94,7 +94,7 @@ https://sisbid.github.io/Data-Wrangling/00_Setup/Setup.html
 [16]: 02_Data_IO/lab/data-io-lab-part2-key.html  
 
 [17]: https://docs.google.com/presentation/d/1MwzHvoYqPdbVAe-Ci1F3ZGmf6GumWlA3GDILuHYJx20/edit?usp=drive_link
-[18]: 04_Reproducible_Research/sisbid_rep_research_2025.pdf  
+[18]: 04_Reproducible_Research/sisbid_rep_research_and_github_2026.pdf  
 [19]: 04_Reproducible_Researchlab/rmarkdown-lab.Rmd  
 [20]: 04_Reproducible_Researchlab/rmarkdown-lab-key.Rmd  
 [21]: 04_Reproducible_Researchlab/rmarkdown-lab-key.html  
