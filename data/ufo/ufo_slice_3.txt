@@ -1,0 +1,21 @@
+datetime city state country shape "duration (seconds)" "duration (hours/min)" comments "date posted" latitude longitude
+"10/29/2005 08:00" "jamshedpur (india)" NA NA other 18000 "5 hours" "I saw  a ufo which appearerd to be a star to me." 11/3/2005 22.804567 86.202875
+"4/5/2005 00:00" "northam (australia)" NA au disk 0 north "5 yellow glowing disk shaped objects flying north towards kalbarie makig a huming noice. i was scard." 12/16/2005 -31.649321 116.674232
+"3/1/2009 03:30" "kansas city" mo us flash 7 "7 seconds" "flash of light over kansas city" 3/19/2009 39.0997222 -94.5783333
+"5/7/1995 18:00" "emmelshausen (germany)" NA de unknown 7200 "2 hrs" "There might be acctual different beeings." 2/14/2006 50.15 7.566667
+"3/11/2005 20:55" "nanaimo (canada)" bc ca light 40 "40 seconds" "Not planes satellites or space debri for sure&#33" 5/11/2005 49.15 -123.916667
+"9/18/2002 18:00" "tenerife (canary islands)" NA NA circle 3600 1hour "See photos sent to your email address" 9/28/2002 28.291564 -16.62913
+"6/1/2008 04:00" "canoga park" ca us disk 15 "15 seconds" "Golden Bright Saucer." 7/3/2013 34.2011111 -118.5972222
+"10/17/2011 21:30" temple tx us triangle 5 "about 5 seconds" "I saw a triangular shaped &quot;object&quot;" 10/19/2011 31.0980556 -97.3425000
+"10/23/2012 08:30" fishers in us light 2700 "45 minutes" "Oval foggy orbs  2-4&#44 going around in circle above houses&#44 following me down the street.  ((NUFORC Note:  Advertising. lights?  PD))" 10/30/2012 39.9555556 -86.0138889
+"12/13/2013 19:20" naples fl us light 15 "12-15 seconds" "Bright green light zigzags over the Gulf of Mexico." 12/23/2013 26.1416667 -81.7950000
+"4/1/2001 21:00" stillwater mn us triangle 300 "3-5 minutes" "About two weeks ago my wife and I (living in Stillwater&#44 MN) were driving to our new apartment. In fact it was the first night we were" 12/5/2001 45.0563889 -92.8058333
+"1/11/2003 18:23" mahwah nj us circle 0 5 "I WAS IN THE CAR WITH MY DAD WHEN I SAW A CIRCLE" 3/21/2003 41.0886111 -74.1441667
+"11/27/2002 12:30" "san francisco" ca us triangle 60 "1 minute" "Triangle craft over ocean beach in san francisco" 5/10/2004 37.7750000 -122.4183333
+"3/20/2001 10:15" austin tx us cigar 300 "3-5 minutes" "Driving soutth on Mo Pac Expressway&#44 I saw two black cigar shaped objects hovering." 4/1/2001 30.2669444 -97.7427778
+"7/9/1999 22:35" "mckenzie lake (canada)" on NA circle 60 "1 min." "Two bright slow flashing red lights over heavy woodland clearly visible from across the 1/2 mile lake. The two objects were completely" 12/2/2000 45.383333 -78.016667
+"11/20/2013 16:55" berlin vt NA fireball 600 "10 minutes" "Multiple orange lights seen over Berlin&#44 Vermont." 12/2/2013 44.215261 -72.586161
+"6/14/1999 03:00" "sydney (australia)" NA au other 900 "15 minutes" "Possible humanoid being sighting / abduction attempt??  ((NUFORC Note:  Possibly not a serious report??  PD))" 1/10/2009 -33.861481 151.205475
+"5/21/2010 22:30" mccomb oh us triangle 1200 "20 minutes" "Triangle shaped object with red pulsating lights with instant change of direction and speed." 6/3/2010 41.1075000 -83.7927778
+"7/5/2009 00:02" flint mi us light 60 "1 minute and about 15 sec" "Extremely bright golden/yellow globe-shaped object spotted traveling west to east at midnight in Genesee County&#44 MI." 8/5/2009 43.0125000 -83.6875000
+"10/25/2001 14:30" terrel tx NA oval 15 "15 seconds" "Large Circular Ball ufo Videotaped in Terrel Texas." 11/20/2001 32.735963 -96.275257
