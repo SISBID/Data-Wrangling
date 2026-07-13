@@ -1,13 +1,13 @@
 datetime:city:state:country:shape:duration (seconds):duration (hours/min):comments:date posted:latitude:longitude
-"      6/30/1973 24:00":los alamos:nm:us:NA:0:NA:I just read the siting report that you attributed to 1973. A friend of mine told me a story about how he and a group of very smart:1/10/2009:35.8880556:-106.3063889
-"5/16/2005 19:15":oklahoma city:ok:us:triangle:480:8 minutes:triangular shaped craft two.  hovering then following each other at highrate of speed.  three extreemly bright light two white one red:6/20/2005:35.4675000:-97.5161111
+"      6/30/1973 24:00":los alamos:nm:us:NA:0:NA:I just read the siting report that you attributed to 1973. A friend of mine told me a story about how he and a group of very smart:  1/10/2009:35.8880556:-106.3063889
+"5/16/2005 19:15":oklahoma city:ok:us:triangle:480:     8 minutes:triangular shaped craft two.  hovering then following each other at highrate of speed.  three extreemly bright light two white one red: 6/20/2005:35.4675000:-97.5161111
 "      9/24/2009 00:00":cambridge:nh:NA:formation:1200:20 minutes:Flashing colors...yellow&#44 orange&#44 red&#44 shaped like a crown..humming that vibrated&#44 and echoed across the area:12/12/2009:44.639711:-71.092813
-"6/15/1981 19:00":foxton (new zealand):NA:NA:oval:1200:15/20min:I wa on the roof of my parents house when i heard my younger brother yelling out.:3/21/2003:0:0
+"6/15/1981 19:00":foxton (new zealand):NA:NA:oval:1200:  15/20min:I wa on the roof of my parents house when i heard my younger brother yelling out.:3/21/2003:0:0
 "  8/20/2013 03:00":springfield:va:us:cigar:3600:1 hour:Crazy.:8/30/2013:38.7891667:-77.1875000
-"11/16/2012 23:50":     alto:mi:us:light:120:2 minutes:Three bright orange lights move in formation:11/19/2012:42.8566667:-85.3802778
-"11/8/2007 23:30":aztec:nm:us:fireball:3600:1 hour:aztec crash??:11/28/2007:36.8222222:-107.9922222
+"11/16/2012 23:50":     alto:mi:us:light:120:2 minutes:Three bright orange lights move in formation:   11/19/2012:42.8566667:-85.3802778
+"11/8/2007 23:30":aztec:nm:us:fireball:3600: 1 hour:aztec crash??:11/28/2007:36.8222222:-107.9922222
 "2/23/1996 21:29":madison:tn:us:NA:60:1 min.:Several children witness a &quot;small silver disc w/ a white light on top.&quot; Streaks off.   Mother separates them &amp; they draw same obj..:11/2/1999:36.2561111:-86.7138889
-"3/3/2012 22:15":greensboro:nc:us:light:900:15 min:Yellowish spheres observed by three.:3/13/2012:36.0725000:-79.7922222
+"3/3/2012 22:15":greensboro:nc:us:light:900:15 min:Yellowish spheres observed by three.: 3/13/2012:36.0725000:-79.7922222
 "9/8/2005 05:43":gainesville:ga:us:other:120:1-2 minutes:Was observing Mars overhead when flashing light caught my eye from the northern sky.  They were extremely bright&#44 flashing almost strob:10/11/2005:34.2977778:-83.8241667
 "11/11/1978 18:00":st. albert (canada):ab:ca:unknown:1200:10-20 minutes:In response to sighting of 08/15/78 in St. Albert:9/2/2005:53.633333:-113.633333
 "6/15/2006 21:45":tampa:fl:us:light:20:20 sec.:Two single&#44 white lights travelling S to N at moderate speed &amp; altitude caused electrical disturbance to car.:7/16/2006:27.9472222:-82.4586111
