@@ -5,46 +5,46 @@ library(janitor)
 opts_chunk$set(comment = "")
 
 
-## ----gender, echo=FALSE-------------------------------------------------------
+## -----------------------------------------------------------------------------
 set.seed(4) # random sample below - make sure same every time
 status <- sample(c("treatment", "T", "treat", 
                    "Traet", "Treat", "C", "Cont",
                    "cont", "cOnt", "Control", "control"),
                  1000, replace = TRUE)
-data_gen = tibble(status)
+data_case = tibble(status)
 
 
 ## ----gentab-------------------------------------------------------------------
-count(data_gen, status)
+count(data_case, status)
 
 
 ## -----------------------------------------------------------------------------
 #case_when way:
-data_gen <-data_gen %>% mutate(status = 
+data_case <-data_case %>% mutate(status = 
             case_when(status 
           %in% c("C", "cont", "cOnt", "Cont", "control", "Control")
                                 ~ "Control",
                            .default =  status)) 
-count(data_gen, status)
+count(data_case, status)
 
 
 ## -----------------------------------------------------------------------------
-#case_when way:
-data_gen <-data_gen %>%
+
+data_case <-data_case %>%
                 mutate(status = str_to_sentence(status))
-count(data_gen, status)
+count(data_case, status)
 
 
 ## -----------------------------------------------------------------------------
 #case_when way:
-data_gen <-data_gen %>%
+data_case <-data_case %>%
                 mutate(status = str_to_sentence(status)) %>%
                 mutate(status = 
                       case_when(status %in% 
                     c("Treatment", "T", "Treat", "Traet", "Treat")
                                 ~ "Treatment",
                            .default = status)) 
-count(data_gen, status)
+count(data_case, status)
 
 
 ## -----------------------------------------------------------------------------
@@ -77,10 +77,16 @@ ufo_clean  <- ufo_clean %>%
 
 
 ## -----------------------------------------------------------------------------
-ufo_clean  <- ufo_clean %>% 
-  mutate(duration_seconds = as.numeric(duration_seconds))
+ufo_clean %>% 
+  filter(str_detect( 
+    string = duration_seconds, 
+    pattern = "`"))
 
-glimpse(ufo_clean)
+
+## -----------------------------------------------------------------------------
+ufo_clean <- ufo_clean %>% 
+  mutate(duration_seconds = as.numeric(duration_seconds))
+ufo_clean 
 
 
 ## -----------------------------------------------------------------------------
@@ -116,7 +122,7 @@ ufo_clean %>%
 
 
 ## ----grepstar-----------------------------------------------------------------
-ufo_clean %>% pull(comments) %>%str_subset( "^aliens")
+ufo_clean %>% pull(comments) %>% str_subset( "^aliens")
 
 
 ## ----grepstar2----------------------------------------------------------------

@@ -6,150 +6,121 @@ library(tidyverse)
 
 ## -----------------------------------------------------------------------------
 library(tidyverse)
-head(diamonds)
+ufo <- read_csv(
+  "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv")
 
 
 ## ----eval = FALSE-------------------------------------------------------------
-## # general format! not code!
-## {data you are creating or changing} <- {data you are using} %>%
-##                                     rename({New Name} = {Old name})
-## 
+# # general format! not code!
+# {data you are creating or changing} <- {data you are using} |>
+#                                     rename({New Name} = {Old name})
+# 
 
 
 ## -----------------------------------------------------------------------------
-diamonds_2 <- diamonds %>%
-  rename(depth_percentage = depth)
-head(diamonds_2, n = 3)
+ufo_2<- ufo |>
+  rename(duration_seconds = `duration (seconds)`)
+head(ufo_2, n = 3)
 
 
 ## -----------------------------------------------------------------------------
-diamonds_2<- diamonds_2 %>%
-        rename(length = x,
-                width = y,
-                depth = z)
-glimpse(diamonds_2)
-
-
-## ----eval = FALSE-------------------------------------------------------------
-## diamonds %>% rename(depth percentage = depth)# this will cause an error
-
-
-## ----eval = FALSE-------------------------------------------------------------
-## diamonds %>% rename(depth_percentage = depth) # this will work
-
-
-## ----eval = FALSE-------------------------------------------------------------
-## diamonds %>% rename(`depth percentage` = depth) # not recommended
-
-
-## ----fig.alt="dplyr", out.width = "14%", echo = FALSE, fig.align='center'-----
-knitr::include_graphics("https://github.com/SISBID/Data-Wrangling/blob/gh-pages/images/backtick_1.png?raw=true")
+ufo_2<- ufo |>
+        rename(duration_seconds = `duration (seconds)`,
+                duration_h_m = `duration (hours/min)`)
+glimpse(ufo_2)
 
 
 ## ----fig.align='center', echo = FALSE-----------------------------------------
 include_graphics("https://media.giphy.com/media/6q29hxDKvJvPy/giphy.gif")
 
 
-## ----echo = FALSE-------------------------------------------------------------
-diamonds_bad_names <- rename(diamonds, `Price(in US dollars)` = price,
-                                        `Length (in mm)` = x,
-                                        `Width in mm` = y,
-                                        `Depth percentage` = z)
+## -----------------------------------------------------------------------------
+ufo_upper <- ufo |> rename_with(toupper)
+head(ufo_upper, 2)
 
 
 ## -----------------------------------------------------------------------------
-glimpse(diamonds_bad_names)
-diamonds_bad_names %>%
-        rename(price = `Price(in US dollars)`)
-
-
-## -----------------------------------------------------------------------------
-diamonds_upper <- diamonds %>% rename_with(toupper)
-head(diamonds_upper, 2)
-
-
-## -----------------------------------------------------------------------------
-diamonds_upper %>% rename_with(tolower) %>% head(n = 2)
+ufo_upper |> rename_with(tolower) |> head(n = 2)
 
 
 ## ----message=FALSE------------------------------------------------------------
 #install.packages("janitor")
 library(janitor)
-clean_names(diamonds_bad_names) %>% glimpse()
+ufo <- clean_names(ufo)
+head(ufo)
 
 
 ## -----------------------------------------------------------------------------
-head(diamonds, 2)
-diamonds %>% select(where(is.numeric)) %>% head(n = 2)
-
-
-
-## -----------------------------------------------------------------------------
-distinct(diamonds, cut)
-
-
-## ----eval = FALSE-------------------------------------------------------------
-## # General format - Not the code!
-## {data object to update} <- {data to use} %>%
-##                     mutate({new variable name} = {new variable source})
-
-
-## -----------------------------------------------------------------------------
-diamonds %>% 
-  mutate(price_canadian = price * 1.37) %>% glimpse()
+head(ufo, 2)
+ufo |> select(where(is.numeric)) |> head(n = 2)
 
 
 
 ## ----eval = FALSE-------------------------------------------------------------
-## # General format - Not the code!
-## {data object to update} <- {data to use} %>%
-##             mutate({variable name to change} = {variable modification})
+# # General format - Not the code!
+# {data object to update} <- {data to use} |>
+#                     mutate({new variable name} = {new variable source})
 
 
 ## -----------------------------------------------------------------------------
-mutate(diamonds, price = price * 1.37) %>% glimpse()
+ufo |> 
+  mutate(state_upper = toupper(state)) |> glimpse()
+
 
 
 ## ----eval = FALSE-------------------------------------------------------------
-## diamonds <- diamonds %>% mutate(price = price * 1.37) %>% glimpse()
+# # General format - Not the code!
+# {data object to update} <- {data to use} |>
+#             mutate({variable name to change} = {variable modification})
 
 
 ## -----------------------------------------------------------------------------
-select(diamonds, - price) %>% glimpse()
+ufo |> 
+  mutate(state = toupper(state)) |> glimpse()
+
+
+
+## ----eval = FALSE-------------------------------------------------------------
+# ufo <- ufo |>
+#   mutate(state = toupper(state))
 
 
 ## -----------------------------------------------------------------------------
-select(diamonds, -c(x, y, z)) %>% glimpse()
+select(ufo, - datetime) |> glimpse()
 
 
 ## -----------------------------------------------------------------------------
-head(diamonds, n = 2)
-diamonds %>% select(price, depth, carat, cut, color) %>% head(n = 2)
+select(ufo, -(starts_with("c"))) |> glimpse()
 
 
 ## -----------------------------------------------------------------------------
-head(diamonds, n = 2)
-diamonds %>% relocate(price, .after = z) %>% head(n = 2)
+head(ufo, n = 2)
+ufo |> select(country, shape, datetime) |> head(n = 2)
 
 
 ## -----------------------------------------------------------------------------
-head(diamonds, n = 2)
-diamonds %>% relocate( price, .before = cut) %>% head(n = 2)
+head(ufo, n = 2)
+ufo |> relocate(datetime, .after = shape) |> head(n = 2)
+
+
+## -----------------------------------------------------------------------------
+head(ufo, n = 2)
+ufo |> relocate(shape, .before = city) |> head(n = 2)
 
 
 
 ## -----------------------------------------------------------------------------
-diamonds %>% arrange(cut)
+ufo |> arrange(duration_seconds)
 
 
 ## -----------------------------------------------------------------------------
-diamonds %>% arrange(desc(cut))
+ufo |> arrange(desc(duration_seconds))
 
 
 ## -----------------------------------------------------------------------------
-arrange(diamonds, desc(carat), table)
+arrange(ufo, desc(duration_seconds), shape)
 
 
 ## -----------------------------------------------------------------------------
-arrange(diamonds, table, desc(carat))
+arrange(ufo, shape, desc(duration_seconds))
 

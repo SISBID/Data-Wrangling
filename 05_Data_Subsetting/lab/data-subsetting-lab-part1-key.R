@@ -22,25 +22,25 @@ select(mpg, manufacturer, model, year)
 
 
 ## -----------------------------------------------------------------------------
-eff <- mpg %>% filter(cty > 20, hwy > 30)
+eff <- mpg |> filter(cty > 20, hwy > 30)
 dim(eff)
 
 
 ## -----------------------------------------------------------------------------
-eff %>% filter(year == 1999) %>% nrow()
+eff |> filter(year == 1999) |> nrow()
 
 
 
 ## -----------------------------------------------------------------------------
 # both give same result
-mpg %>% filter(class %in% c("suv", "minivan")) %>% nrow()
-mpg %>% filter(class =="suv" | class == "minivan") %>% nrow()
+mpg |> filter(class %in% c("suv", "minivan")) |> nrow()
+mpg |> filter(class =="suv" | class == "minivan") |> nrow()
 
 
 ## -----------------------------------------------------------------------------
-mpg %>% filter(displ > 4 & drv == "4") %>% nrow()
+mpg |> filter(displ > 4 & drv == "4") |> nrow()
 
 
 ## -----------------------------------------------------------------------------
-mpg %>% filter(cyl != 4) %>% nrow()
+mpg |> filter(cyl != 4) |> nrow()
 

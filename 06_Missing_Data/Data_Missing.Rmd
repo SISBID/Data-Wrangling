@@ -103,8 +103,12 @@ Check if rare values make sense.
 
 ```{r, message=FALSE}
 library(readr)
-bike <-read_csv("https://sisbid.github.io/Data-Wrangling/data/Bike_Lanes.csv")
-count(bike, subType)
+library(janitor)
+ufo <- read_csv(
+  "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv")
+ufo <- clean_names(ufo)
+
+count(ufo, country)
 ``` 
 
 
@@ -118,35 +122,28 @@ package](https://cran.r-project.org/web/packages/naniar/vignettes/getting-starte
 library(naniar)
 ```
 
-## Air quality data
-
-The `airquality` dataset comes with R about air quality in New York in 1973.
-
-```{r, message=FALSE}
-?airquality # use this to find out more about the data
-```
 
 ## naniar: `pct_complete()`{.small}
 
 This can tell you if there are missing values in the dataset.
 
 ```{R}
-pct_complete(airquality)
+pct_complete(ufo)
 ```
 
 Or for a particular variable:
 
 ```{R}
-airquality %>% select(Ozone) %>%
+ufo |> select(shape) |>
 pct_complete()
 ```
 
-## naniar:`miss_var_summary()`
+## naniar:`miss_var_summary()`{.codesmall}
 
 To get the percent missing (and counts) for each variable as a table, use this function.
 
 ```{r}
-miss_var_summary(airquality)
+miss_var_summary(ufo)
 ```
 
 
@@ -156,7 +153,7 @@ The `gg_miss_var()` function creates a nice plot about the number of
 missing values for each variable, (need a data frame).
 
 ```{r, fig.height=4, warning=FALSE, fig.align='center'}
-gg_miss_var(airquality)
+gg_miss_var(ufo)
 ```
 
 ## `naniar` plots of percent missing
@@ -165,7 +162,7 @@ The `gg_miss_var()` function creates a nice plot about the number of
 missing values for each variable, (need a data frame).
 
 ```{r, fig.height=4, warning=FALSE, fig.align='center'}
-gg_miss_var(airquality, show_pct = TRUE)
+gg_miss_var(ufo, show_pct = TRUE)
 ```
 
 ## filter() and missing data
@@ -179,54 +176,57 @@ for sure if an `NA` value meets the condition. To keep them need to add
 Think about if this is OK or not - it depends on your data!
 
 
-## filter() and missing data {.codesmall}
+## filter() and missing data{.codesmall}
 
 What if NA values represent values that are so low it is undetectable?
 
 Filter will drop them from the data.
 
 ```{r}
-airquality %>% filter(Ozone < 5)
+count(ufo, country)
+ufo |> filter(country == "de") |> dim()
+
 ```
 
-## filter() and missing data 
+## filter() and missing data
 
 `is.na()` can help us keep them.
 
 ```{r}
-airquality %>% filter(Ozone < 5 | is.na(Ozone))
+ufo |> filter(country == "de" | is.na(country)) |> dim()
 ```
 
-## To remove **rows** with `NA` values for a **variable** use `drop_na()`
+## To remove **rows** with `NA` values for a **variable** use `drop_na()`{.codesmall}
 
 A function from the `tidyr` package. (Need a data frame to start!)
 
 Disclaimer: Don't do this unless you have thought about if dropping `NA` values makes sense based on knowing what these values mean in your data.
 
 ```{r}
-airquality
+ufo
 ```
 
-## To remove **rows** with `NA` values for a **variable** use `drop_na()`
+## To remove **rows** with `NA` values for a **variable** use `drop_na()`{.codesmall}
 
 ```{r}
-airquality %>% drop_na(Ozone)
+ufo |> drop_na(state)
 ```
 
-## Drop all NAs with `drop_na()`
+## Drop all NAs with `drop_na()`{.codesmall}
 
 Drops rows with **any** missing data in **any** column.
 
 ```{r}
-airquality %>% drop_na()
+ufo |> drop_na() |> dim()
+ufo |> drop_na()
 ```
 
-## Drop **columns** with any missing values
+## Find columns with any missing values
 
 Use the `miss_var_which()` function from `naniar`
 
 ```{r}
-miss_var_which(airquality) # which columns have missing values
+miss_var_which(ufo) # which columns have missing values
 ```
 
 ## Drop **columns** with any missing values {.codesmall}
@@ -234,28 +234,29 @@ miss_var_which(airquality) # which columns have missing values
 `miss_var_which` and  function from `naniar` (need a data frame)
 
 ```{r}
-airquality %>% select(!miss_var_which(airquality))
+ufo |> select(!miss_var_which(ufo))
 ```
 
 ## Change a value to be `NA` {.codesmall}
 
 Let's say we think that all 0 values should be `NA`.
 
-```{r, message=FALSE}
-library(readr)
-bike <-read_csv("https://sisbid.github.io/Data-Wrangling/data/Bike_Lanes.csv")
-bike <-bike %>% select(type, dateInstalled)
-count(bike, dateInstalled)
-```
-
-## Change a value to be `NA` {.small}
 
 The `na_if()` function of `dplyr` can be helpful for changing all 0 values to `NA`. More on `mutate()` soon! (Here we save the change)
 
+
 ```{r}
-bike <- bike %>% 
-  mutate(dateInstalled = na_if(dateInstalled, 0))
-count(bike, dateInstalled)
+count(ufo, duration_seconds) |> tail()
+```
+
+## Change a value to be `NA` {.codesmall}
+
+```{r}
+ufo <- ufo |> 
+  mutate(duration_seconds = na_if(duration_seconds, 0))
+
+count(ufo, duration_seconds) |> tail()
+
 ```
 
 ## Change `NA` to be a value {.codesmall}
@@ -263,9 +264,18 @@ count(bike, dateInstalled)
 The `replace_na()` function (part of the `tidyr` package), can do the opposite of `na_if()`. (Here we just print the change)
 
 ```{r}
-bike %>% 
-  mutate(dateInstalled = replace_na(dateInstalled, 2005)) %>%
-  count(dateInstalled)
+
+count(ufo, shape) |> tail()
+```
+
+## Change `NA` to be a value {.codesmall}
+
+The `replace_na()` function (part of the `tidyr` package), can do the opposite of `na_if()`. (Here we just print the change)
+
+```{r}
+ufo |> 
+  mutate(shape = replace_na(shape, "unknown")) |>
+  count(shape) |> tail()
 ```
 
 
@@ -309,14 +319,18 @@ This is because the denominator changes.
 
 
 ```{r}
-count(bike, dateInstalled) %>% mutate(percent = (n/(sum(n)) *100))
+count(ufo, country) |> mutate(percent = (n/(sum(n)) *100)) |> 
+  arrange(desc(percent))
 ```
 
 ## Word of caution - Percentages with `NA`
 
 ```{r}
-bike %>% drop_na(dateInstalled) %>% 
-  count(dateInstalled) %>% mutate(percent = (n/(sum(n)) *100))
+
+ufo |> drop_na(country) |>
+count(country) |> mutate(percent = (n/(sum(n)) *100)) |> 
+  arrange(desc(percent))
+
 ```
 
 Should you be dividing by the total count with `NA` values included?   

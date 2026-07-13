@@ -17,34 +17,36 @@ library(here)
 ## #Then just use class.source="watch-out" in the chunk parameters
 
 ## ----eval = FALSE-------------------------------------------------------------
-## readr::read_csv()
-## readr::read_delim()
-## readxl::read_excel()
+# readr::read_csv()
+# readr::read_delim()
+# readxl::read_excel()
+
+
+## ----message = FALSE----------------------------------------------------------
+library(tidyverse)
+ufo <- read_csv(
+  "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv")
 
 
 ## -----------------------------------------------------------------------------
-head(diamonds)
+head(pull(ufo,country))
 
 
 ## -----------------------------------------------------------------------------
-head(pull(diamonds,carat))
+ufo |> pull(country) |> head()
 
 
 ## -----------------------------------------------------------------------------
-diamonds %>% pull(carat) %>% head()
+head(pull(ufo, country))
+head(ufo$country)
 
 
 ## -----------------------------------------------------------------------------
-head(pull(diamonds, carat))
-head(diamonds$carat)
+select(ufo, country)
 
 
 ## -----------------------------------------------------------------------------
-select(diamonds, carat)
-
-
-## -----------------------------------------------------------------------------
-select(diamonds, carat, depth)
+select(ufo, country, shape)
 
 
 ## ----echo = FALSE, fig.align = 'center', out.width="70%"----------------------
@@ -52,89 +54,107 @@ knitr::include_graphics("https://github.com/SISBID/Data-Wrangling/blob/gh-pages/
 
 
 ## ----eval = FALSE-------------------------------------------------------------
-## last_col()
-## ends_with()
-## starts_with()
-## contains() # search for a pattern
-## everything()
+# last_col()
+# ends_with()
+# starts_with()
+# contains() # search for a pattern
+# everything()
 
 
 ## -----------------------------------------------------------------------------
-diamonds %>% select(starts_with("c"))
+ufo |> select(starts_with("c"))
 
 
 ## -----------------------------------------------------------------------------
-diamonds %>% select(ends_with("e"))
+ufo |> select(ends_with("e"))
 
 
 ## -----------------------------------------------------------------------------
-filter(diamonds, depth > 60)
+filter(ufo, `duration (seconds)` > 6000)
 
 
 ## -----------------------------------------------------------------------------
-diamonds %>% filter(depth > 60)
+ufo |> filter(`duration (seconds)` > 6000)
 
 
 ## -----------------------------------------------------------------------------
-diamonds %>% filter(depth > 60 & table > 60 & price > 2775)
+ufo |> filter(country == "us")
 
 
 ## -----------------------------------------------------------------------------
-diamonds %>% filter(color == "I" & 
-            clarity == "SI2" & cut == "Premium")
+ufo |> filter(`duration (seconds)` > 6000 & country == "us")
 
 
 ## -----------------------------------------------------------------------------
-diamonds %>% filter(clarity %in% c("SI1", "SI2"))
+ufo |> filter(country %in% c("us", "gb"))
 
 
 ## -----------------------------------------------------------------------------
-diamonds %>% filter(clarity %in% c("SI1", "SI2") &
-                    cut == "Premium" & price > 3000)
-
-
-## ----eval = FALSE-------------------------------------------------------------
-## diamonds %>% filter(price > 3001) #This works
-## diamonds %>% filter(price > "3001") # This does not
-## 
-## diamonds %>% filter(price == 3001) # This works
-## diamonds %>% filter(price == "3001") # this works
+ufo |> filter(country %in% c("us", "gb") &
+                    `duration (seconds)` > 6000)
 
 
 ## -----------------------------------------------------------------------------
-diamonds %>% filter(depth > 60 | table > 60 | price > 2775)
+ufo |> filter(`duration (seconds)` > 60000) |> head(2) #This works
+ufo |> filter(`duration (seconds)` > "60000") |> head(2) # not right!
 
-
-## -----------------------------------------------------------------------------
-diamonds %>% filter(clarity =="SI1" | clarity == "SI2") %>% head(2)
-diamonds %>% filter(clarity %in% c("SI1", "SI2")) %>% head(2)
 
 
 ## -----------------------------------------------------------------------------
-diamonds %>% 
-  filter(clarity == "SI2") %>% 
+ufo |> filter("country" == "gb") # didn't work!
+ufo |> filter(country == "gb")
+
+
+## ----fig.alt="dplyr", out.width = "12%", echo = FALSE, fig.align='center'-----
+knitr::include_graphics("https://github.com/SISBID/Data-Wrangling/blob/gh-pages/images/backtick_1.png?raw=true")
+
+
+## ----error = TRUE-------------------------------------------------------------
+try({
+ufo |> filter(duration (seconds) > 6000) # didn't work!
+ufo |> filter(`duration (seconds)` > 6000) # worked!
+
+})
+
+
+## -----------------------------------------------------------------------------
+ufo |> filter(country == "gb") |> dim()
+ufo |> filter(country == "gb" | `duration (seconds)` > 6000) |> dim()
+ufo |> filter(country == "gb" | `duration (seconds)` > 6000)
+
+
+## -----------------------------------------------------------------------------
+ufo |> filter(country =="us" | country == "gb") |> dim()
+ufo |> filter(country %in% c("us", "gb")) |> dim()
+
+
+## -----------------------------------------------------------------------------
+ufo|> 
+  filter(country == "gb") |> 
   select(starts_with("c"))
 
 
-## ----eval=FALSE---------------------------------------------------------------
-## diamonds %>%
-##   select(starts_with("c")) %>%
-##   filter(table > 60))
+## ----error=TRUE---------------------------------------------------------------
+try({
+ufo|> 
+  select(starts_with("c")) |> 
+  filter(shape == "light")
+ 
+})
 
 
 ## -----------------------------------------------------------------------------
-head(diamonds, 2)
-diamonds %>% select(price, starts_with("c"))
+head(ufo, 2)
+ufo |> select(`duration (seconds)`, starts_with("c"))
 
 
 ## -----------------------------------------------------------------------------
-diamonds %>% select(starts_with("c"), ends_with("e"))
+ufo |> select(starts_with("c"), ends_with("e"))
 
 
 
 ## -----------------------------------------------------------------------------
-diamonds %>% select(starts_with(c("c", "p")))
-
+ufo |> select(starts_with(c("c", "s")))
 
 
 ## ----echo = FALSE, fig.align='center'-----------------------------------------
