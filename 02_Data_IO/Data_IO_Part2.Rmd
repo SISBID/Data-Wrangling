@@ -8,6 +8,16 @@ output:
   beamer_presentation: default
 ---
 
+<script>
+    function add_favicon_link() {
+        const link = document.createElement("link");
+        link.rel = "shortcut icon";
+        link.href = "#";
+        document.head.appendChild(link);
+    }
+    add_favicon_link();
+</script>
+
 ```{r, include = FALSE}
 library(knitr)
 library(tidyverse)
