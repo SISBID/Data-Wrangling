@@ -3353,8 +3353,7 @@ library(janitor)
 ufo &lt;- read_csv(
   &quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv&quot;)</pre>
 
-<pre >Warning: One or more parsing issues, call `problems()` on your data frame for details,
-e.g.:
+<pre >Warning: One or more parsing issues, call `problems()` on your data frame for details, e.g.:
   dat &lt;- vroom(...)
   problems(dat)</pre>
 
@@ -3389,7 +3388,7 @@ library(naniar)</pre>
 
 <p>Or for a particular variable:</p>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; select(shape) |&gt;
+<pre class = 'prettyprint lang-r'>ufo %&gt;% select(shape) %&gt;%
 pct_complete()</pre>
 
 <pre >[1] 96.4917</pre>
@@ -3457,7 +3456,7 @@ pct_complete()</pre>
 5 us      70293
 6 &lt;NA&gt;    12561</pre>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; filter(country == &quot;de&quot;) |&gt; dim()</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% filter(country == &quot;de&quot;) %&gt;% dim()</pre>
 
 <pre >[1] 112  11</pre>
 
@@ -3465,7 +3464,7 @@ pct_complete()</pre>
 
 <p><code>is.na()</code> can help us keep them.</p>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; filter(country == &quot;de&quot; | is.na(country)) |&gt; dim()</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% filter(country == &quot;de&quot; | is.na(country)) %&gt;% dim()</pre>
 
 <pre >[1] 12673    11</pre>
 
@@ -3496,7 +3495,7 @@ pct_complete()</pre>
 
 </article></slide><slide class=""><hgroup><h2>To remove <strong>rows</strong> with <code>NA</code> values for a <strong>variable</strong> use <code class="codesmall">drop_na()</code></h2></hgroup><article  id="to-remove-rows-with-na-values-for-a-variable-use-drop_na-1">
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; drop_na(state)</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% drop_na(state)</pre>
 
 <pre ># A tibble: 81,356 × 11
    datetime        city  state country shape duration_seconds duration_hours_min
@@ -3519,11 +3518,11 @@ pct_complete()</pre>
 
 <p>Drops rows with <strong>any</strong> missing data in <strong>any</strong> column.</p>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; drop_na() |&gt; dim()</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% drop_na() %&gt;% dim()</pre>
 
 <pre >[1] 69528    11</pre>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; drop_na()</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% drop_na()</pre>
 
 <pre ># A tibble: 69,528 × 11
    datetime        city  state country shape duration_seconds duration_hours_min
@@ -3556,7 +3555,7 @@ pct_complete()</pre>
 
 <p><code>miss_var_which</code> and function from <code>naniar</code> (need a data frame)</p>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; select(!miss_var_which(ufo))</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% select(!miss_var_which(ufo))</pre>
 
 <pre ># A tibble: 88,875 × 4
    datetime         date_posted latitude   longitude   
@@ -3579,7 +3578,7 @@ pct_complete()</pre>
 
 <p>The <code>na_if()</code> function of <code>dplyr</code> can be helpful for changing all 0 values to <code>NA</code>. More on <code>mutate()</code> soon! (Here we save the change)</p>
 
-<pre class = 'prettyprint lang-r'>count(ufo, duration_seconds) |&gt; tail()</pre>
+<pre class = 'prettyprint lang-r'>count(ufo, duration_seconds) %&gt;% tail()</pre>
 
 <pre ># A tibble: 6 × 2
   duration_seconds     n
@@ -3593,10 +3592,10 @@ pct_complete()</pre>
 
 </article></slide><slide class=""><hgroup><h2>Change a value to be <code>NA</code></h2></hgroup><article  id="change-a-value-to-be-na-1" class="codesmall">
 
-<pre class = 'prettyprint lang-r'>ufo &lt;- ufo |&gt; 
+<pre class = 'prettyprint lang-r'>ufo &lt;- ufo %&gt;% 
   mutate(duration_seconds = na_if(duration_seconds, 0))
 
-count(ufo, duration_seconds) |&gt; tail()</pre>
+count(ufo, duration_seconds) %&gt;% tail()</pre>
 
 <pre ># A tibble: 6 × 2
   duration_seconds     n
@@ -3612,7 +3611,7 @@ count(ufo, duration_seconds) |&gt; tail()</pre>
 
 <p>The <code>replace_na()</code> function (part of the <code>tidyr</code> package), can do the opposite of <code>na_if()</code>. (Here we just print the change)</p>
 
-<pre class = 'prettyprint lang-r'>count(ufo, shape) |&gt; tail()</pre>
+<pre class = 'prettyprint lang-r'>count(ufo, shape) %&gt;% tail()</pre>
 
 <pre ># A tibble: 6 × 2
   shape        n
@@ -3628,9 +3627,9 @@ count(ufo, duration_seconds) |&gt; tail()</pre>
 
 <p>The <code>replace_na()</code> function (part of the <code>tidyr</code> package), can do the opposite of <code>na_if()</code>. (Here we just print the change)</p>
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; 
-  mutate(shape = replace_na(shape, &quot;unknown&quot;)) |&gt;
-  count(shape) |&gt; tail()</pre>
+<pre class = 'prettyprint lang-r'>ufo %&gt;% 
+  mutate(shape = replace_na(shape, &quot;unknown&quot;)) %&gt;%
+  count(shape) %&gt;% tail()</pre>
 
 <pre ># A tibble: 6 × 2
   shape         n
@@ -3672,7 +3671,7 @@ count(ufo, duration_seconds) |&gt; tail()</pre>
 
 </article></slide><slide class=""><hgroup><h2>Word of caution - Percentages with <code>NA</code></h2></hgroup><article  id="word-of-caution---percentages-with-na">
 
-<pre class = 'prettyprint lang-r'>count(ufo, country) |&gt; mutate(percent = (n/(sum(n)) *100)) |&gt; 
+<pre class = 'prettyprint lang-r'>count(ufo, country) %&gt;% mutate(percent = (n/(sum(n)) *100)) %&gt;% 
   arrange(desc(percent))</pre>
 
 <pre ># A tibble: 6 × 3
@@ -3687,8 +3686,8 @@ count(ufo, duration_seconds) |&gt; tail()</pre>
 
 </article></slide><slide class=""><hgroup><h2>Word of caution - Percentages with <code>NA</code></h2></hgroup><article  id="word-of-caution---percentages-with-na-1">
 
-<pre class = 'prettyprint lang-r'>ufo |&gt; drop_na(country) |&gt;
-count(country) |&gt; mutate(percent = (n/(sum(n)) *100)) |&gt; 
+<pre class = 'prettyprint lang-r'>ufo %&gt;% drop_na(country) %&gt;%
+count(country) %&gt;% mutate(percent = (n/(sum(n)) *100)) %&gt;% 
   arrange(desc(percent))</pre>
 
 <pre ># A tibble: 5 × 3

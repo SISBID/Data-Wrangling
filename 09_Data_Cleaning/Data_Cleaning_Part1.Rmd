@@ -52,13 +52,13 @@ If we scroll through we can see some interesting notes.
 
 ```{r}
 p <-problems(ufo)
-p |> glimpse()
+p %>% glimpse()
 ```
 
 ## Any unique problems?
 
 ```{r}
-p |> count(expected, actual, col)
+p %>% count(expected, actual, col)
 ```
 
 
@@ -81,8 +81,8 @@ glimpse(ufo)
 The slice function can show us particular row numbers
 
 ```{r}
-p |> count(expected, actual, col)
-p |> filter(col == 6)
+p %>% count(expected, actual, col)
+p %>% filter(col == 6)
 ```
 
 ## Taking a deeper look 
@@ -90,7 +90,7 @@ p |> filter(col == 6)
  The slice function can show us particular row numbers 
  
 ```{r}
- slice(ufo, 30894 -1) |> glimpse()
+ slice(ufo, 30894 -1) %>% glimpse()
 ```
 
 ## Check the actual data
@@ -129,7 +129,7 @@ count(p, expected, actual, col)
 Looks like the value of 2` is there now!
 
 ```{r}
-slice(ufo, 30894 -1) |> glimpse()
+slice(ufo, 30894 -1) %>% glimpse()
 
 ```
 <!-- ## Check some problematic and normal rows{.codesmall} -->
@@ -146,8 +146,8 @@ Multiply by negative one to drop the rows. Use the `slice` function to "select" 
 
 ```{r}
 head(p, n = 2)
-(pull(p, row) -1) |> head()
-ufo_clean <- ufo |> slice(-(pull(p, row)-1))
+(pull(p, row) -1) %>% head()
+ufo_clean <- ufo %>% slice(-(pull(p, row)-1))
 ```
 
 
@@ -181,7 +181,7 @@ Indeed they do look shifted with shapes not in the `shape` column.
 
 ```{r}
 count(ufo2, empty)
-ufo2 |> filter(empty == 0) %>% glimpse()
+ufo2 %>% filter(empty == 0) %>% glimpse()
 ```
 
 ## Clean names with the `clean_names()` function from the `janitor` package
@@ -217,8 +217,8 @@ distinct(dup_df) # to get just distinct rows
 
 `aggregate` helps us aggregate the data using mean or sum
 ```{r}
-dup_df |> aggregate(value ~ Name, mean)
-dup_df |> aggregate(value ~ Name, sum)
+dup_df %>% aggregate(value ~ Name, mean)
+dup_df %>% aggregate(value ~ Name, sum)
 ```
 
 
@@ -232,10 +232,10 @@ case_when(test ~ value if test is true,
 ```
 
 ```{r}
-ufo_clean |> 
+ufo_clean %>% 
   mutate(country = 
            case_when(country == "gb" ~ "Great Britain",
-         .default = country)) |> 
+         .default = country)) %>% 
   glimpse()
 
 ```
@@ -246,10 +246,10 @@ ufo_clean |>
 .default may look like TRUE ~
 
 ```{r}
-ufo_clean |> 
+ufo_clean %>% 
   mutate(country = 
            case_when(country == "gb" ~ "Great Britain",
-         TRUE ~ country)) |> 
+         TRUE ~ country)) %>% 
   glimpse()
 
 ```
@@ -263,10 +263,10 @@ Here the parentheses are in the wrong place so the `.default` statement isn't us
 Be sure to check the data before and after.
 
 ```{r}
-ufo_clean |> 
+ufo_clean %>% 
   mutate(country = 
            case_when(country == "gb" ~ "Great Britain"),
-         .default = country) |> 
+         .default = country) %>% 
   glimpse()
 
 ```
@@ -275,7 +275,7 @@ ufo_clean |>
 ## How many countries?
 
 ```{r}
-ufo_clean |> count(country)
+ufo_clean %>% count(country)
 ```
 
 ## `case_when()` to create or modify a variable based on conditions of other variables{.codesmall}
@@ -291,12 +291,12 @@ The `.default` value can also just be the original values.
 
 
 ```{r}
-ufo_clean |> mutate(country = case_when(
+ufo_clean %>% mutate(country = case_when(
                   country == "gb" ~ "Great Britain",
                   country == "us" ~"United States",
                   country == "au" ~ "Australia",
                   country == "DE" ~ "Germany",
-                             .default = country))|>
+                             .default = country))%>%
   count(country)
 
 ```
@@ -307,14 +307,14 @@ ufo_clean |> mutate(country = case_when(
 The `.default` value can also be a single different value.
 
 ```{r}
-ufo_clean <- ufo_clean |> mutate( 
+ufo_clean <- ufo_clean %>% mutate( 
             region = case_when(
               country %in% c("us", "ca") ~ "North America",
               country %in% c("de") ~ "Europe",
               country %in% "gb" ~ "Great Britain",
               .default = "Other"
             ))
-ufo_clean |> select(country, region) |> head()
+ufo_clean %>% select(country, region) %>% head()
 ```
 
 ## Summary
@@ -351,16 +351,16 @@ head(ufo_clean)
 Looking at city... it seems like many of these are in fact in the US.
 
 ```{r}
-ufo_clean |> filter(state == "tx") |> count(country, state)
-ufo_clean |> filter(state == "tx" & is.na(country)) |> select(city)
+ufo_clean %>% filter(state == "tx") %>% count(country, state)
+ufo_clean %>% filter(state == "tx" & is.na(country)) %>% select(city)
 ```
 
 
 ## Checkin Utah as well
 
 ```{r}
-ufo_clean |> filter(state == "ut") |> count(country, state)
-ufo_clean |> filter(state == "ut" & is.na(country))  |> select(city)
+ufo_clean %>% filter(state == "ut") %>% count(country, state)
+ufo_clean %>% filter(state == "ut" & is.na(country))  %>% select(city)
 ```
 
 
@@ -368,24 +368,24 @@ ufo_clean |> filter(state == "ut" & is.na(country))  |> select(city)
 ## Get US States
 
 ```{r}
-ufo_clean |> filter(country == "us") |>
-  count(state) |>
+ufo_clean %>% filter(country == "us") %>%
+  count(state) %>%
   pull(state)
-US_states <- ufo_clean |>
-  filter(country == "us") |>
-  count(state) |>
+US_states <- ufo_clean %>%
+  filter(country == "us") %>%
+  count(state) %>%
   pull(state)
 
 ```
 
 ## Get Canada States
 ```{r}
-ufo_clean |> filter(country == "ca") |>
-  count(state) |>
+ufo_clean %>% filter(country == "ca") %>%
+  count(state) %>%
   pull(state)
-CA_states <- ufo_clean |>
-  filter(country == "ca") |>
-  count(state) |>
+CA_states <- ufo_clean %>%
+  filter(country == "ca") %>%
+  count(state) %>%
   pull(state)
 
 ```
@@ -393,12 +393,12 @@ CA_states <- ufo_clean |>
 ## Get Great Britan states
 
 ```{r}
-ufo_clean |> filter(country == "gb") |>
-  count(state) |>
+ufo_clean %>% filter(country == "gb") %>%
+  count(state) %>%
   pull(state)
-GB_states <- ufo_clean |>
-  filter(country == "gb") |>
-  count(state) |>
+GB_states <- ufo_clean %>%
+  filter(country == "gb") %>%
+  count(state) %>%
   pull(state)
 
 ```
@@ -409,8 +409,8 @@ A small overlap with US states.
 ## Get DE states
 
 ```{r}
-ufo_clean |> filter(country == "de") |>
-  count(state) |>
+ufo_clean %>% filter(country == "de") %>%
+  count(state) %>%
   pull(state)
 
 ```
@@ -418,12 +418,12 @@ ufo_clean |> filter(country == "de") |>
 ## Get AU states
 
 ```{r}
-ufo_clean |> filter(country == "au") |>
-  count(state) |>
+ufo_clean %>% filter(country == "au") %>%
+  count(state) %>%
   pull(state)
-AU_states <- ufo_clean |>
-  filter(country == "au") |>
-  count(state) |>
+AU_states <- ufo_clean %>%
+  filter(country == "au") %>%
+  count(state) %>%
   pull(state)
 
 ```
@@ -474,8 +474,8 @@ GB_states <- setdiff(GB_states, c(US_states, AU_states, CA_states))
 ## How often do rows have a value for country but not a value of "us"?
 
 ```{r}
-ufo_clean |>
-  filter(country != "us" & !is.na(country)) |>
+ufo_clean %>%
+  filter(country != "us" & !is.na(country)) %>%
   count(country)
 
 ```
@@ -488,7 +488,7 @@ ufo_clean |>
 Let's make an assumption that if the state value is within the data as a state for a specific country, than it comes from that country for the sake of illustration.
 
 ```{r}
-ufo_clean <- ufo_clean |> mutate(prob_country =
+ufo_clean <- ufo_clean %>% mutate(prob_country =
       case_when((is.na(country) & state %in% c(US_states)) ~ "United States",
                 (is.na(country) & state %in% c(CA_states)) ~ "Canada",
                 (is.na(country) & state %in% c(AU_states)) ~ "Australia",
@@ -508,14 +508,14 @@ count(ufo_clean, prob_country)
 Take a look at those NAs.
 
 ```{r}
-ufo_clean |> filter(is.na(prob_country))
+ufo_clean %>% filter(is.na(prob_country))
 ```
 
 
 ## We could confirm with city info and latitude and longitude
 
 ```{r}
-ufo_clean |> filter(country == "de") |>
+ufo_clean %>% filter(country == "de") %>%
   pull(city)
 ```
 
@@ -523,7 +523,7 @@ ufo_clean |> filter(country == "de") |>
 ## Even more specific
 
 ```{r}
-ufo_clean <- ufo_clean |> mutate(prob_country =
+ufo_clean <- ufo_clean %>% mutate(prob_country =
       case_when(
       (is.na(country) & state %in% c(US_states))  |
   country == "us" ~ "United States",
@@ -543,6 +543,6 @@ We would want to confirm what we recoded with the cities and latitude and longit
 ## Check counts
 
 ```{r}
-ufo_clean |>
+ufo_clean %>%
   count(country, prob_country)
 ```

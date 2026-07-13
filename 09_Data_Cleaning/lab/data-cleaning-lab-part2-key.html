@@ -354,16 +354,6 @@ display: none;
 
 
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching core tidyverse packages ──────────────────────────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.2.1     ✔ readr     2.2.0
-## ✔ forcats   1.0.1     ✔ stringr   1.6.0
-## ✔ ggplot2   4.0.3     ✔ tibble    3.3.1
-## ✔ lubridate 1.9.5     ✔ tidyr     1.3.2
-## ✔ purrr     1.2.2     
-## ── Conflicts ────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 <ol style="list-style-type: decimal">
 <li>Read in the UFO dataset (used in the Data IO lectures) as an R
 object called <code>ufo</code>. You can read directly from the web here:
@@ -376,7 +366,7 @@ ufo &lt;- read_csv(&quot;https://raw.githubusercontent.com/SISBID/Module1/gh-pag
 ##   dat &lt;- vroom(...)
 ##   problems(dat)</code></pre>
 <pre><code>## Rows: 88875 Columns: 11
-## ── Column specification ────────────────────────────────────────────────────────────────────────────
+## ── Column specification ──────────────────────────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (10): datetime, city, state, country, shape, duration (hours/min), comme...
 ## dbl  (1): duration (seconds)
@@ -387,13 +377,8 @@ ufo &lt;- read_csv(&quot;https://raw.githubusercontent.com/SISBID/Module1/gh-pag
 remove spaces and non-alphanumeric characters. You can use the
 <code>dplyr::rename()</code> function or use the
 <code>janitor::clean_names()</code> function.</p>
-<pre class="r"><code>library(janitor)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;janitor&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     chisq.test, fisher.test</code></pre>
-<pre class="r"><code>ufo &lt;- clean_names(ufo)</code></pre>
+<pre class="r"><code>library(janitor)
+ufo &lt;- clean_names(ufo)</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>How might one check how many UFO sightings were reported on a time
 scale of hours, specifically using the <code>duration (hours/min)</code>

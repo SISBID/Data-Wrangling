@@ -33,7 +33,7 @@ head(pull(ufo,country))
 
 
 ## -----------------------------------------------------------------------------
-ufo |> pull(country) |> head()
+ufo %>% pull(country) %>% head()
 
 
 ## -----------------------------------------------------------------------------
@@ -62,11 +62,11 @@ knitr::include_graphics("https://github.com/SISBID/Data-Wrangling/blob/gh-pages/
 
 
 ## -----------------------------------------------------------------------------
-ufo |> select(starts_with("c"))
+ufo %>% select(starts_with("c"))
 
 
 ## -----------------------------------------------------------------------------
-ufo |> select(ends_with("e"))
+ufo %>% select(ends_with("e"))
 
 
 ## -----------------------------------------------------------------------------
@@ -74,35 +74,35 @@ filter(ufo, `duration (seconds)` > 6000)
 
 
 ## -----------------------------------------------------------------------------
-ufo |> filter(`duration (seconds)` > 6000)
+ufo %>% filter(`duration (seconds)` > 6000)
 
 
 ## -----------------------------------------------------------------------------
-ufo |> filter(country == "us")
+ufo %>% filter(country == "us")
 
 
 ## -----------------------------------------------------------------------------
-ufo |> filter(`duration (seconds)` > 6000 & country == "us")
+ufo %>% filter(`duration (seconds)` > 6000 & country == "us")
 
 
 ## -----------------------------------------------------------------------------
-ufo |> filter(country %in% c("us", "gb"))
+ufo %>% filter(country %in% c("us", "gb"))
 
 
 ## -----------------------------------------------------------------------------
-ufo |> filter(country %in% c("us", "gb") &
+ufo %>% filter(country %in% c("us", "gb") &
                     `duration (seconds)` > 6000)
 
 
 ## -----------------------------------------------------------------------------
-ufo |> filter(`duration (seconds)` > 60000) |> head(2) #This works
-ufo |> filter(`duration (seconds)` > "60000") |> head(2) # not right!
+ufo %>% filter(`duration (seconds)` > 60000) %>% head(2) #This works
+ufo %>% filter(`duration (seconds)` > "60000") %>% head(2) # not right!
 
 
 
 ## -----------------------------------------------------------------------------
-ufo |> filter("country" == "gb") # didn't work!
-ufo |> filter(country == "gb")
+ufo %>% filter("country" == "gb") # didn't work!
+ufo %>% filter(country == "gb")
 
 
 ## ----fig.alt="dplyr", out.width = "12%", echo = FALSE, fig.align='center'-----
@@ -111,33 +111,33 @@ knitr::include_graphics("https://github.com/SISBID/Data-Wrangling/blob/gh-pages/
 
 ## ----error = TRUE-------------------------------------------------------------
 try({
-ufo |> filter(duration (seconds) > 6000) # didn't work!
-ufo |> filter(`duration (seconds)` > 6000) # worked!
+ufo %>% filter(duration (seconds) > 6000) # didn't work!
+ufo %>% filter(`duration (seconds)` > 6000) # worked!
 
 })
 
 
 ## -----------------------------------------------------------------------------
-ufo |> filter(country == "gb") |> dim()
-ufo |> filter(country == "gb" | `duration (seconds)` > 6000) |> dim()
-ufo |> filter(country == "gb" | `duration (seconds)` > 6000)
+ufo %>% filter(country == "gb") %>% dim()
+ufo %>% filter(country == "gb" | `duration (seconds)` > 6000) %>% dim()
+ufo %>% filter(country == "gb" | `duration (seconds)` > 6000)
 
 
 ## -----------------------------------------------------------------------------
-ufo |> filter(country =="us" | country == "gb") |> dim()
-ufo |> filter(country %in% c("us", "gb")) |> dim()
+ufo %>% filter(country =="us" | country == "gb") %>% dim()
+ufo %>% filter(country %in% c("us", "gb")) %>% dim()
 
 
 ## -----------------------------------------------------------------------------
-ufo|> 
-  filter(country == "gb") |> 
+ufo%>% 
+  filter(country == "gb") %>% 
   select(starts_with("c"))
 
 
 ## ----error=TRUE---------------------------------------------------------------
 try({
-ufo|> 
-  select(starts_with("c")) |> 
+ufo%>% 
+  select(starts_with("c")) %>% 
   filter(shape == "light")
  
 })
@@ -145,16 +145,16 @@ ufo|>
 
 ## -----------------------------------------------------------------------------
 head(ufo, 2)
-ufo |> select(`duration (seconds)`, starts_with("c"))
+ufo %>% select(`duration (seconds)`, starts_with("c"))
 
 
 ## -----------------------------------------------------------------------------
-ufo |> select(starts_with("c"), ends_with("e"))
+ufo %>% select(starts_with("c"), ends_with("e"))
 
 
 
 ## -----------------------------------------------------------------------------
-ufo |> select(starts_with(c("c", "s")))
+ufo %>% select(starts_with(c("c", "s")))
 
 
 ## ----echo = FALSE, fig.align='center'-----------------------------------------

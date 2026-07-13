@@ -134,7 +134,7 @@ pct_complete(ufo)
 Or for a particular variable:
 
 ```{R}
-ufo |> select(shape) |>
+ufo %>% select(shape) %>%
 pct_complete()
 ```
 
@@ -184,7 +184,7 @@ Filter will drop them from the data.
 
 ```{r}
 count(ufo, country)
-ufo |> filter(country == "de") |> dim()
+ufo %>% filter(country == "de") %>% dim()
 
 ```
 
@@ -193,7 +193,7 @@ ufo |> filter(country == "de") |> dim()
 `is.na()` can help us keep them.
 
 ```{r}
-ufo |> filter(country == "de" | is.na(country)) |> dim()
+ufo %>% filter(country == "de" | is.na(country)) %>% dim()
 ```
 
 ## To remove **rows** with `NA` values for a **variable** use `drop_na()`{.codesmall}
@@ -209,7 +209,7 @@ ufo
 ## To remove **rows** with `NA` values for a **variable** use `drop_na()`{.codesmall}
 
 ```{r}
-ufo |> drop_na(state)
+ufo %>% drop_na(state)
 ```
 
 ## Drop all NAs with `drop_na()`{.codesmall}
@@ -217,8 +217,8 @@ ufo |> drop_na(state)
 Drops rows with **any** missing data in **any** column.
 
 ```{r}
-ufo |> drop_na() |> dim()
-ufo |> drop_na()
+ufo %>% drop_na() %>% dim()
+ufo %>% drop_na()
 ```
 
 ## Find columns with any missing values
@@ -234,7 +234,7 @@ miss_var_which(ufo) # which columns have missing values
 `miss_var_which` and  function from `naniar` (need a data frame)
 
 ```{r}
-ufo |> select(!miss_var_which(ufo))
+ufo %>% select(!miss_var_which(ufo))
 ```
 
 ## Change a value to be `NA` {.codesmall}
@@ -246,16 +246,16 @@ The `na_if()` function of `dplyr` can be helpful for changing all 0 values to `N
 
 
 ```{r}
-count(ufo, duration_seconds) |> tail()
+count(ufo, duration_seconds) %>% tail()
 ```
 
 ## Change a value to be `NA` {.codesmall}
 
 ```{r}
-ufo <- ufo |> 
+ufo <- ufo %>% 
   mutate(duration_seconds = na_if(duration_seconds, 0))
 
-count(ufo, duration_seconds) |> tail()
+count(ufo, duration_seconds) %>% tail()
 
 ```
 
@@ -265,7 +265,7 @@ The `replace_na()` function (part of the `tidyr` package), can do the opposite o
 
 ```{r}
 
-count(ufo, shape) |> tail()
+count(ufo, shape) %>% tail()
 ```
 
 ## Change `NA` to be a value {.codesmall}
@@ -273,9 +273,9 @@ count(ufo, shape) |> tail()
 The `replace_na()` function (part of the `tidyr` package), can do the opposite of `na_if()`. (Here we just print the change)
 
 ```{r}
-ufo |> 
-  mutate(shape = replace_na(shape, "unknown")) |>
-  count(shape) |> tail()
+ufo %>% 
+  mutate(shape = replace_na(shape, "unknown")) %>%
+  count(shape) %>% tail()
 ```
 
 
@@ -319,7 +319,7 @@ This is because the denominator changes.
 
 
 ```{r}
-count(ufo, country) |> mutate(percent = (n/(sum(n)) *100)) |> 
+count(ufo, country) %>% mutate(percent = (n/(sum(n)) *100)) %>% 
   arrange(desc(percent))
 ```
 
@@ -327,8 +327,8 @@ count(ufo, country) |> mutate(percent = (n/(sum(n)) *100)) |>
 
 ```{r}
 
-ufo |> drop_na(country) |>
-count(country) |> mutate(percent = (n/(sum(n)) *100)) |> 
+ufo %>% drop_na(country) %>%
+count(country) %>% mutate(percent = (n/(sum(n)) *100)) %>% 
   arrange(desc(percent))
 
 ```
