@@ -361,7 +361,7 @@ Source: https://media.giphy.com/media/5b5OU7aUekfdSAER5I/giphy.gif
 ## Summary
 
 - `pull()` can help us see a vector version of our variables - we can "pull" out the data from a dataframe
-- The pipe (`%>%` or `%>%`) can help us to do sequential steps
+- The pipe (`%>%` or `|>`) can help us to do sequential steps
 - `select()` makes a smaller table of just selected variables
 - tidyselect functions can help us select specific columns: `contains()`, `ends_with()`, `starts_with()`
 - `filter` can remove rows based on conditions
