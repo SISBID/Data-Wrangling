@@ -3302,7 +3302,7 @@ readxl::read_excel()</pre>
 
 <p>The <code>dplyr</code> package also interfaces well with tibbles.</p>
 
-</article></slide><slide class=""><hgroup><h2>Dataset</h2></hgroup><article  id="dataset" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Dataset</h2></hgroup><article  class="codesmall" id="dataset">
 
 <p>We will be using some UFO data from the <a href='https://nuforc.org/' title=''>https://nuforc.org/</a> that was previously available from Kaggle (<a href='https://www.kaggle.com/' title=''>https://www.kaggle.com/</a>).</p>
 
@@ -3411,7 +3411,7 @@ starts_with()
 contains() # search for a pattern
 everything()</pre>
 
-</article></slide><slide class=""><hgroup><h2>Tidyselect helpers</h2></hgroup><article  id="tidyselect-helpers" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Tidyselect helpers</h2></hgroup><article  class="codesmall" id="tidyselect-helpers">
 
 <p>For example, we can take all columns that start with a &ldquo;c&rdquo;:</p>
 
@@ -3432,7 +3432,7 @@ everything()</pre>
 10 live oak             us      Saucer zaps energy from powerline as my pregnan…
 # ℹ 88,865 more rows</pre>
 
-</article></slide><slide class=""><hgroup><h2>Tidyselect helpers</h2></hgroup><article  id="tidyselect-helpers-1" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Tidyselect helpers</h2></hgroup><article  class="codesmall" id="tidyselect-helpers-1">
 
 <p>Or we can take all columns that end with an &ldquo;e&rdquo;:</p>
 
@@ -3457,7 +3457,7 @@ everything()</pre>
 
 <p>We are going to cover &ldquo;fancier&rdquo; ways of matching column names (and strings more generally) in the data cleaning lecture.</p>
 
-</article></slide><slide class=""><hgroup><h2>Subset rows of a <code>data.frame</code>:</h2></hgroup><article  id="subset-rows-of-a-data.frame" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Subset rows of a <code>data.frame</code>:</h2></hgroup><article  class="codesmall" id="subset-rows-of-a-data.frame">
 
 <p>The command in <code>dplyr</code> for subsetting rows is <code>filter</code>. Try <code>?filter</code>.</p>
 
@@ -3482,7 +3482,7 @@ everything()</pre>
 # ℹ 5 more variables: `duration (hours/min)` &lt;chr&gt;, comments &lt;chr&gt;,
 #   `date posted` &lt;chr&gt;, latitude &lt;chr&gt;, longitude &lt;chr&gt;</pre>
 
-</article></slide><slide class=""><hgroup><h2>Subset using pipes:</h2></hgroup><article  id="subset-using-pipes" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Subset using pipes:</h2></hgroup><article  class="codesmall" id="subset-using-pipes">
 
 <p>You can also using piping here:</p>
 
@@ -3505,7 +3505,7 @@ everything()</pre>
 # ℹ 5 more variables: `duration (hours/min)` &lt;chr&gt;, comments &lt;chr&gt;,
 #   `date posted` &lt;chr&gt;, latitude &lt;chr&gt;, longitude &lt;chr&gt;</pre>
 
-</article></slide><slide class=""><hgroup><h2>Subset rows for a character condition:</h2></hgroup><article  id="subset-rows-for-a-character-condition" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Subset rows for a character condition:</h2></hgroup><article  class="codesmall" id="subset-rows-for-a-character-condition">
 
 <p>You can also filter character strings by a single value or category. Here we need quotes around character strings.</p>
 
@@ -3528,7 +3528,7 @@ everything()</pre>
 # ℹ 5 more variables: `duration (hours/min)` &lt;chr&gt;, comments &lt;chr&gt;,
 #   `date posted` &lt;chr&gt;, latitude &lt;chr&gt;, longitude &lt;chr&gt;</pre>
 
-</article></slide><slide class=""><hgroup><h2>Subset rows with multiple required conditions:</h2></hgroup><article  id="subset-rows-with-multiple-required-conditions" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Subset rows with multiple required conditions:</h2></hgroup><article  class="codesmall" id="subset-rows-with-multiple-required-conditions">
 
 <p>You can combine filtering on multiple columns by separating the filter arguments with <code>&amp;</code> (or commas - but <code>&amp;</code> is more clear) - must match both conditions!</p>
 
@@ -3551,7 +3551,7 @@ everything()</pre>
 # ℹ 5 more variables: `duration (hours/min)` &lt;chr&gt;, comments &lt;chr&gt;,
 #   `date posted` &lt;chr&gt;, latitude &lt;chr&gt;, longitude &lt;chr&gt;</pre>
 
-</article></slide><slide class=""><hgroup><h2>Subset to match a vector of possibilities:</h2></hgroup><article  id="subset-to-match-a-vector-of-possibilities" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Subset to match a vector of possibilities:</h2></hgroup><article  class="codesmall" id="subset-to-match-a-vector-of-possibilities">
 
 <p>Sometimes you want to be able to filter on matching several values or categories. The <code>%in%</code> operator is useful here:</p>
 
@@ -3574,7 +3574,7 @@ everything()</pre>
 # ℹ 5 more variables: `duration (hours/min)` &lt;chr&gt;, comments &lt;chr&gt;,
 #   `date posted` &lt;chr&gt;, latitude &lt;chr&gt;, longitude &lt;chr&gt;</pre>
 
-</article></slide><slide class=""><hgroup><h2>Subset rows using conditions for numeric and character variables:</h2></hgroup><article  id="subset-rows-using-conditions-for-numeric-and-character-variables" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Subset rows using conditions for numeric and character variables:</h2></hgroup><article  class="codesmall" id="subset-rows-using-conditions-for-numeric-and-character-variables">
 
 <p>You can mix and match filtering on numeric and categorical/character columns in the same <code>filter()</code> command:</p>
 
@@ -3598,7 +3598,7 @@ everything()</pre>
 # ℹ 5 more variables: `duration (hours/min)` &lt;chr&gt;, comments &lt;chr&gt;,
 #   `date posted` &lt;chr&gt;, latitude &lt;chr&gt;, longitude &lt;chr&gt;</pre>
 
-</article></slide><slide class=""><hgroup><h2>Note about quotes and numbers</h2></hgroup><article  id="note-about-quotes-and-numbers" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Note about quotes and numbers</h2></hgroup><article  class="codesmall" id="note-about-quotes-and-numbers">
 
 <p>R will interpret quotes around numbers as the characters themselves and not their numeric meaning. Avoid quotes unless it is not being treated as a numeric value - for example grades.</p>
 
@@ -3622,7 +3622,7 @@ everything()</pre>
 # ℹ 4 more variables: comments &lt;chr&gt;, `date posted` &lt;chr&gt;, latitude &lt;chr&gt;,
 #   longitude &lt;chr&gt;</pre>
 
-</article></slide><slide class=""><hgroup><h2>Watch out for quotes and column names</h2></hgroup><article  id="watch-out-for-quotes-and-column-names" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Watch out for quotes and column names</h2></hgroup><article  class="codesmall" id="watch-out-for-quotes-and-column-names">
 
 <pre class = 'prettyprint lang-r'>ufo %&gt;% filter(&quot;country&quot; == &quot;gb&quot;) # didn&#39;t work!</pre>
 
@@ -3650,7 +3650,7 @@ everything()</pre>
 # ℹ 5 more variables: `duration (hours/min)` &lt;chr&gt;, comments &lt;chr&gt;,
 #   `date posted` &lt;chr&gt;, latitude &lt;chr&gt;, longitude &lt;chr&gt;</pre>
 
-</article></slide><slide class=""><hgroup><h2>Special column names need back ticks</h2></hgroup><article  id="special-column-names-need-back-ticks" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Special column names need back ticks</h2></hgroup><article  class="codesmall" id="special-column-names-need-back-ticks">
 
 <p>Quotes work too but this can cause issues.The backtick key is usually near the top left for standard US keyboards, under the escape key. May need to press shift or Fn key if you have a smaller keyboard. <img src="https://github.com/SISBID/Data-Wrangling/blob/gh-pages/images/backtick_1.png?raw=true" alt="dplyr" width="12%" style="display: block; margin: auto;" /></p>
 
@@ -3694,7 +3694,7 @@ Caused by error in `.duration_from_num()`:
 
 <p><code>!=</code> : not equals</p>
 
-</article></slide><slide class=""><hgroup><h2>Subset rows with or logic:</h2></hgroup><article  id="subset-rows-with-or-logic" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Subset rows with or logic:</h2></hgroup><article  class="codesmall" id="subset-rows-with-or-logic">
 
 <p>The OR operator (<code>|</code>) is more permissive than the AND operator:</p>
 
@@ -3737,7 +3737,7 @@ Caused by error in `.duration_from_num()`:
 
 <pre >[1] 72343    11</pre>
 
-</article></slide><slide class=""><hgroup><h2>Combining <code>filter</code> and <code>select</code>:</h2></hgroup><article  id="combining-filter-and-select" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Combining <code>filter</code> and <code>select</code>:</h2></hgroup><article  class="codesmall" id="combining-filter-and-select">
 
 <p>You can combine <code>filter</code> and <code>select</code> to subset the rows and columns, respectively, of a <code>data.frame</code>:</p>
 
@@ -3777,7 +3777,7 @@ Caused by error:
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Fancier filtering</h2></hgroup><article  id="fancier-filtering">
 
-</article></slide><slide class=""><hgroup><h2>Combining tidyselect helpers with regular selection</h2></hgroup><article  id="combining-tidyselect-helpers-with-regular-selection" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Combining tidyselect helpers with regular selection</h2></hgroup><article  class="codesmall" id="combining-tidyselect-helpers-with-regular-selection">
 
 <pre class = 'prettyprint lang-r'>head(ufo, 2)</pre>
 
@@ -3806,7 +3806,7 @@ Caused by error:
 10                  120 live oak             us      Saucer zaps energy from po…
 # ℹ 88,865 more rows</pre>
 
-</article></slide><slide class=""><hgroup><h2>Multiple tidyselect functions</h2></hgroup><article  id="multiple-tidyselect-functions" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Multiple tidyselect functions</h2></hgroup><article  class="codesmall" id="multiple-tidyselect-functions">
 
 <p>Follows OR logic.</p>
 
@@ -3827,7 +3827,7 @@ Caused by error:
 10 live oak             us      Saucer … 10/10/1… fl    disk  30.2947… -82.9841…
 # ℹ 88,865 more rows</pre>
 
-</article></slide><slide class=""><hgroup><h2>Multiple patterns with tidyselect</h2></hgroup><article  id="multiple-patterns-with-tidyselect" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Multiple patterns with tidyselect</h2></hgroup><article  class="codesmall" id="multiple-patterns-with-tidyselect">
 
 <p>Need to combine the patterns with the <code>c()</code> function.</p>
 
@@ -3848,7 +3848,7 @@ Caused by error:
 10 live oak             us      Saucer zaps energy from powerline a… fl    disk 
 # ℹ 88,865 more rows</pre>
 
-</article></slide><slide class=""><hgroup><h2>Common error for filter or select</h2></hgroup><article  id="common-error-for-filter-or-select" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Common error for filter or select</h2></hgroup><article  class="codesmall" id="common-error-for-filter-or-select">
 
 <p>If you try to filter or select for a column that does not exist it will not work:</p>
 
@@ -3870,7 +3870,7 @@ Caused by error:
 
 <ul>
 <li><code>pull()</code> can help us see a vector version of our variables - we can &ldquo;pull&rdquo; out the data from a dataframe</li>
-<li>The pipe (<code>%&gt;%</code> or <code>%&gt;%</code>) can help us to do sequential steps</li>
+<li>The pipe (<code>%&gt;%</code> or <code>|&gt;</code>) can help us to do sequential steps</li>
 <li><code>select()</code> makes a smaller table of just selected variables</li>
 <li>tidyselect functions can help us select specific columns: <code>contains()</code>, <code>ends_with()</code>, <code>starts_with()</code></li>
 <li><code>filter</code> can remove rows based on conditions</li>
