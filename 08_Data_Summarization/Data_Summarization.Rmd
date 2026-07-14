@@ -7,6 +7,15 @@ output:
     widescreen: yes
 ---
 
+<script>
+    function add_favicon_link() {
+        const link = document.createElement("link");
+        link.rel = "shortcut icon";
+        link.href = "#";
+        document.head.appendChild(link);
+    }
+    add_favicon_link();
+</script>
 
 ```{r, echo = FALSE, message=FALSE, error = FALSE}
 library(knitr)
@@ -73,24 +82,17 @@ head(ufo)
 
 ## Column to vector
 
-Let's work with one column as a vector using `pull()`.
+Summarize a column as a vector with `pull()`.
 
 ```{r, message = FALSE}
-ufo_shapes <- ufo %>% pull(shape)
-ufo_shapes
-```
-
-## Check for NAs
-
-use `sum(is.na())`:
-
-```{r}
-sum(is.na(ufo_shapes))
+ufo %>% pull(duration_s) %>% mean()
+ufo %>% pull(duration_s) %>% mean(na.rm=TRUE)
+ufo %>% pull(duration_s) %>% median(na.rm=TRUE)
 ```
 
 ## `dplyr`: `count` 
 
-Use `count` directly on a data.frame and column: count the number of rows in each group.
+`count`: the number of rows in each group.
 
 ```{r, message = FALSE}
 ufo %>% count(shape)

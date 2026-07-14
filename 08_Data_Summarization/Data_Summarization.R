@@ -22,12 +22,9 @@ head(ufo)
 
 
 ## ----message = FALSE----------------------------------------------------------
-ufo_shapes <- ufo %>% pull(shape)
-ufo_shapes
-
-
-## -----------------------------------------------------------------------------
-sum(is.na(ufo_shapes))
+ufo %>% pull(duration_s) %>% mean()
+ufo %>% pull(duration_s) %>% mean(na.rm=TRUE)
+ufo %>% pull(duration_s) %>% median(na.rm=TRUE)
 
 
 ## ----message = FALSE----------------------------------------------------------
