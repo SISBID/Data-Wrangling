@@ -5,7 +5,7 @@ library(tidyr)
 
 
 ## -----------------------------------------------------------------------------
-sapply(mtcars, FUN =  round)
+sapply(mtcars, FUN = round)
 
 
 
@@ -24,16 +24,6 @@ mtcars %>%
 
 
 ## -----------------------------------------------------------------------------
-mtcars %>% 
-  mutate(across(.cols = c(disp, drat, wt, qsec), ~ round(.x))) %>%
-  head(2)
-
-mtcars %>% 
-  mutate(across(.cols = c(disp, drat, wt, qsec), ~ round(.))) %>%
-  head(2)
-
-
-## -----------------------------------------------------------------------------
 
 mtcars %>% 
   mutate(across(.cols = c(disp, drat, wt, qsec), ~ round(.x, digits = 1))) %>%
@@ -44,19 +34,6 @@ mtcars %>%
   mutate(across(.cols = c(disp, drat, wt, qsec), ~ round(., digits = 1))) %>% 
   head(n = 2)
   
-
-
-## -----------------------------------------------------------------------------
-mtcars %>%
-  filter(cyl > 3 & cyl < 8,
-         gear > 3 & gear < 8,
-         carb > 3 & carb < 8)
-
-
-## -----------------------------------------------------------------------------
-mtcars %>%
-   filter(if_all(c(cyl, gear, carb), ~.x > 3 & .x < 8))
-
 
 
 ## -----------------------------------------------------------------------------
@@ -72,28 +49,12 @@ my_function(my_data)
 
 
 ## -----------------------------------------------------------------------------
-my_function <- \(x){x + 1}
-my_function
-
-my_function(x = my_data)
-
-
-## -----------------------------------------------------------------------------
-my_tibble <- tibble(values = c(1.2, 2.3, 3.5, 4.6))
-map_df(my_tibble, round)
-
-
-## -----------------------------------------------------------------------------
-modify(my_tibble, round)
-
-
-## -----------------------------------------------------------------------------
 mtcars %>% 
-  modify(format, digits = 1) %>%
+  map_df(round, digits = 1) %>%
   head(n = 2)
 
 mtcars %>% 
-  mutate(across(.cols = everything(), ~ format(.x, digits = 1))) %>%
+  mutate(across(.cols = everything(), ~ round(.x, digits = 1))) %>%
   head(n = 2)
 
 
@@ -101,7 +62,7 @@ mtcars %>%
 head(as_tibble(iris), 3)
 
 as_tibble(iris) %>% 
-  modify_if(is.numeric, as.character) %>%
+  modify_if(is.numeric, round) %>%
   head(3)
 
 
@@ -110,7 +71,7 @@ mylist <- list(
   letters = c("A", "b", "c"),
   numbers = 1:3,
   matrix(1:25, ncol = 5),
-  matrix(1:25, ncol = 5)
+  iris
 )
 
 
@@ -125,12 +86,7 @@ mylist["letters"] # returns a list
 
 ## ----Listsrefvec--------------------------------------------------------------
 mylist[[1]] # returns the vector 'letters'
-mylist$letters # returns vector
 mylist[["letters"]] # returns the vector 'letters'
-
-
-## ----Listsref2----------------------------------------------------------------
-mylist[1:2] # returns a list
 
 
 ## -----------------------------------------------------------------------------
@@ -138,14 +94,14 @@ head(mtcars)
 
 
 ## -----------------------------------------------------------------------------
-mtcars_split <-mtcars %>% split(.$cyl)
-str(mtcars_split)
+mtcars_split <- mtcars %>% group_by(cyl) %>% group_split()
+mtcars_keys <- mtcars %>% group_by(cyl) %>% group_keys() %>% pull(cyl)
+names(mtcars_split) <- mtcars_keys
+glimpse(mtcars_split)
 
 
 ## -----------------------------------------------------------------------------
-
-mtcars %>%
-  split(.$cyl) %>% # creates split of data for each unique cyl value
+mtcars_split %>% 
   map(~lm(mpg ~ wt, data = .)) %>% # apply linear model to each
   map(summary) %>%
   map_dbl("r.squared")
@@ -209,6 +165,26 @@ glimpse(all_files_data)
 
 
 ## -----------------------------------------------------------------------------
+my_function <- \(x){x + 1}
+my_function
+
+my_function(x = my_data)
+
+
+## -----------------------------------------------------------------------------
+mtcars %>%
+  filter(cyl > 3 & cyl < 8,
+         gear > 3 & gear < 8,
+         carb > 3 & carb < 8)
+
+
+## -----------------------------------------------------------------------------
+mtcars %>%
+   filter(if_all(c(cyl, gear, carb), ~.x > 3 & .x < 8))
+
+
+
+## -----------------------------------------------------------------------------
 mtcars %>% 
   mutate(across(.cols = disp:wt, round)) %>%
   head(2)
@@ -226,6 +202,10 @@ system.time(iris %>%
 system.time(iris %>%
                mutate(across(.cols = where(is.factor), as.character)))
 
+
+
+## ----Listsref2----------------------------------------------------------------
+mylist[1:2] # returns a list
 
 
 ## -----------------------------------------------------------------------------

@@ -8,6 +8,17 @@ output:
   beamer_presentation: default
 ---
 
+<script>
+    function add_favicon_link() {
+        const link = document.createElement("link");
+        link.rel = "shortcut icon";
+        link.href = "#";
+        document.head.appendChild(link);
+    }
+    add_favicon_link();
+</script>
+
+
 ```{r, include=FALSE}
 library(tidyverse)
 library(repurrrsive)
@@ -330,7 +341,7 @@ mylist[["letters"]] # returns the vector 'letters'
 
 ## ... Why lists?
 
-## List: `split()` a dataset 
+## List: `group_split()` a dataset 
 
 We can create a list by splitting up a dataframe. We will use `mtcars`.
 
@@ -338,19 +349,21 @@ We can create a list by splitting up a dataframe. We will use `mtcars`.
 head(mtcars)
 ```
 
-## List: `split()` the dataset by `cyl` {.codesmall}
+## List: `group_split()` the dataset by `cyl` {.codesmall}
+
+The following creates split of data for each unique cyl value:
 
 ```{r}
-mtcars_split <-mtcars %>% split(.$cyl)
-str(mtcars_split)
+mtcars_split <- mtcars %>% group_by(cyl) %>% group_split()
+mtcars_keys <- mtcars %>% group_by(cyl) %>% group_keys() %>% pull(cyl)
+names(mtcars_split) <- mtcars_keys
+glimpse(mtcars_split)
 ```
 
 ## List: model on each
 
 ```{r}
-
-mtcars %>%
-  split(.$cyl) %>% # creates split of data for each unique cyl value
+mtcars_split %>% 
   map(~lm(mpg ~ wt, data = .)) %>% # apply linear model to each
   map(summary) %>%
   map_dbl("r.squared")
