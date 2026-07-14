@@ -16,7 +16,7 @@ You can ignore the "problems" with some rows.
 
 ```
 
-2. Clean up the column/variable names of the `ufo` dataset to remove spaces and non-alphanumeric characters. You can use the `dplyr::rename()` function or look into the `janitor::clean_names()` function. Be sure to save the new version of the data to replacec the old!
+2. Clean up the column/variable names of the `ufo` dataset to remove spaces and non-alphanumeric characters. You can use the `dplyr::rename()` function or look into the `janitor::clean_names()` function. Be sure to save the new version of the data to replace the old!
 
 ```{r}
 

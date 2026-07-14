@@ -282,7 +282,7 @@ ufo_clean %>% count(country)
 
 ```
 case_when(test ~ value if test is true,
-         test2 ~ vlue if test2 is true,
+         test2 ~ value if test2 is true,
         .default ~ value if all above tests are not true) # defaults to NA
 ```
 The `.default` value can also just be the original values.
