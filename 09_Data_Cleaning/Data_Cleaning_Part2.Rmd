@@ -372,7 +372,7 @@ ufo_clean %>% select(date, time) %>% head()
 
 ## Dates and times{.smaller}
 
-The `[lubridate`](https://lubridate.tidyverse.org/) package is amazing for dates.
+The [`lubridate`](https://lubridate.tidyverse.org/) package is amazing for dates.
 Most important functions are those that look like ymd or mdy etc. They specify how a date should be interpreted.
 
 ```{r, message = FALSE}
