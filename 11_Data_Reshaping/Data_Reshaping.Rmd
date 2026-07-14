@@ -7,6 +7,15 @@ output:
     widescreen: yes
 ---
 
+<script>
+    function add_favicon_link() {
+        const link = document.createElement("link");
+        link.rel = "shortcut icon";
+        link.href = "#";
+        document.head.appendChild(link);
+    }
+    add_favicon_link();
+</script>
 
 ```{r, echo = FALSE, include=FALSE}
 library(knitr)
@@ -268,34 +277,27 @@ wide <- long %>% pivot_wider(names_from = "type",
 wide
 ```
 
-# Adding prefixes
+# Pivoting `count` tibbles
 
-## Prefixes when pivoting
+## Pivoting `count` tibbles {.codesmall}
 
-the `datasets::airquality` data shows various air quality metrics measured in New York in 1973.
+Creating pivots of two variables
 
-```{r}
-air <- datasets::airquality %>% select(Temp, Month, Day)
-air
+```{r message=FALSE, warning=FALSE}
+ufo <-
+  read_csv("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv") %>%
+  janitor::clean_names()
+
+ufo_pivot_n <- ufo %>% count(state, shape)
 ```
 
-## Prefixes when pivoting
+## Pivoting `count` tibbles {.codesmall}
 
-Let's pivot `Month` wider: but it might be helpful to add "Month" to the new column name so it isn't just numbers.
-
-```{r}
-air %>% pivot_wider(names_from = "Month", 
-                    values_from = "Temp") 
-```
-
-## Prefixes when pivoting
-
-Much better!
+Creating pivots of two variables - sample size ("n")
 
 ```{r}
-air %>% pivot_wider(names_from = "Month", 
-                    values_from = "Temp",
-                    names_prefix = "Month_") 
+ufo_pivot_n %>% 
+  pivot_wider(names_from = state, values_from = n)
 ```
 
 ## Summary

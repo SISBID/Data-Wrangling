@@ -3256,6 +3256,16 @@ font-size: 16px;
           </hgroup>
   </slide>
 
+<script>
+    function add_favicon_link() {
+        const link = document.createElement("link");
+        link.rel = "shortcut icon";
+        link.href = "#";
+        document.head.appendChild(link);
+    }
+    add_favicon_link();
+</script>
+
 <slide class=""><hgroup><h2>Reshaping: wide vs. long data</h2></hgroup><article  id="reshaping-wide-vs.-long-data">
 
 <p><a href='https://github.com/gadenbuie/tidyexplain/blob/main/images/tidyr-pivoting.gif' title=''>https://github.com/gadenbuie/tidyexplain/blob/main/images/tidyr-pivoting.gif</a></p>
@@ -3349,7 +3359,7 @@ font-size: 16px;
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2><code>pivot_longer</code>…</h2></hgroup><article  id="pivot_longer">
 
-</article></slide><slide class=""><hgroup><h2>Reshaping data from <strong>wide to long</strong></h2></hgroup><article  id="reshaping-data-from-wide-to-long" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Reshaping data from <strong>wide to long</strong></h2></hgroup><article  class="codesmall" id="reshaping-data-from-wide-to-long">
 
 <p><code>pivot_longer()</code> - puts column data into rows (<code>tidyr</code> package)</p>
 
@@ -3378,7 +3388,7 @@ long_data</pre>
 2 May_vacc_rate   0.514
 3 April_vacc_rate 0.511</pre>
 
-</article></slide><slide class=""><hgroup><h2>Reshaping data from <strong>wide to long</strong></h2></hgroup><article  id="reshaping-data-from-wide-to-long-2" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Reshaping data from <strong>wide to long</strong></h2></hgroup><article  class="codesmall" id="reshaping-data-from-wide-to-long-2">
 
 <p><code>pivot_longer()</code> - puts column data into rows (<code>tidyr</code> package)</p>
 
@@ -3415,7 +3425,7 @@ long_data</pre>
 
 <p>Newly created column names are enclosed in quotation marks.</p>
 
-</article></slide><slide class=""><hgroup><h2>Data used: Charm City Circulator</h2></hgroup><article  id="data-used-charm-city-circulator" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Data used: Charm City Circulator</h2></hgroup><article  class="codesmall" id="data-used-charm-city-circulator">
 
 <p><a href='https://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv' title=''>https://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv</a></p>
 
@@ -3614,214 +3624,45 @@ wide</pre>
 10 Wednesday 01/13/2010 1212. purple        NA         NA     NA 
 # ℹ 4,574 more rows</pre>
 
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Adding prefixes</h2></hgroup><article  id="adding-prefixes">
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Pivoting <code>count</code> tibbles</h2></hgroup><article  id="pivoting-count-tibbles">
 
-</article></slide><slide class=""><hgroup><h2>Prefixes when pivoting</h2></hgroup><article  id="prefixes-when-pivoting">
+</article></slide><slide class=""><hgroup><h2>Pivoting <code>count</code> tibbles</h2></hgroup><article  class="codesmall" id="pivoting-count-tibbles-1">
 
-<p>the <code>datasets::airquality</code> data shows various air quality metrics measured in New York in 1973.</p>
+<p>Creating pivots of two variables</p>
 
-<pre class = 'prettyprint lang-r'>air &lt;- datasets::airquality %&gt;% select(Temp, Month, Day)
-air</pre>
+<pre class = 'prettyprint lang-r'>ufo &lt;-
+  read_csv(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv&quot;) %&gt;%
+  janitor::clean_names()
 
-<pre >    Temp Month Day
-1     67     5   1
-2     72     5   2
-3     74     5   3
-4     62     5   4
-5     56     5   5
-6     66     5   6
-7     65     5   7
-8     59     5   8
-9     61     5   9
-10    69     5  10
-11    74     5  11
-12    69     5  12
-13    66     5  13
-14    68     5  14
-15    58     5  15
-16    64     5  16
-17    66     5  17
-18    57     5  18
-19    68     5  19
-20    62     5  20
-21    59     5  21
-22    73     5  22
-23    61     5  23
-24    61     5  24
-25    57     5  25
-26    58     5  26
-27    57     5  27
-28    67     5  28
-29    81     5  29
-30    79     5  30
-31    76     5  31
-32    78     6   1
-33    74     6   2
-34    67     6   3
-35    84     6   4
-36    85     6   5
-37    79     6   6
-38    82     6   7
-39    87     6   8
-40    90     6   9
-41    87     6  10
-42    93     6  11
-43    92     6  12
-44    82     6  13
-45    80     6  14
-46    79     6  15
-47    77     6  16
-48    72     6  17
-49    65     6  18
-50    73     6  19
-51    76     6  20
-52    77     6  21
-53    76     6  22
-54    76     6  23
-55    76     6  24
-56    75     6  25
-57    78     6  26
-58    73     6  27
-59    80     6  28
-60    77     6  29
-61    83     6  30
-62    84     7   1
-63    85     7   2
-64    81     7   3
-65    84     7   4
-66    83     7   5
-67    83     7   6
-68    88     7   7
-69    92     7   8
-70    92     7   9
-71    89     7  10
-72    82     7  11
-73    73     7  12
-74    81     7  13
-75    91     7  14
-76    80     7  15
-77    81     7  16
-78    82     7  17
-79    84     7  18
-80    87     7  19
-81    85     7  20
-82    74     7  21
-83    81     7  22
-84    82     7  23
-85    86     7  24
-86    85     7  25
-87    82     7  26
-88    86     7  27
-89    88     7  28
-90    86     7  29
-91    83     7  30
-92    81     7  31
-93    81     8   1
-94    81     8   2
-95    82     8   3
-96    86     8   4
-97    85     8   5
-98    87     8   6
-99    89     8   7
-100   90     8   8
-101   90     8   9
-102   92     8  10
-103   86     8  11
-104   86     8  12
-105   82     8  13
-106   80     8  14
-107   79     8  15
-108   77     8  16
-109   79     8  17
-110   76     8  18
-111   78     8  19
-112   78     8  20
-113   77     8  21
-114   72     8  22
-115   75     8  23
-116   79     8  24
-117   81     8  25
-118   86     8  26
-119   88     8  27
-120   97     8  28
-121   94     8  29
-122   96     8  30
-123   94     8  31
-124   91     9   1
-125   92     9   2
-126   93     9   3
-127   93     9   4
-128   87     9   5
-129   84     9   6
-130   80     9   7
-131   78     9   8
-132   75     9   9
-133   73     9  10
-134   81     9  11
-135   76     9  12
-136   77     9  13
-137   71     9  14
-138   71     9  15
-139   78     9  16
-140   67     9  17
-141   76     9  18
-142   68     9  19
-143   82     9  20
-144   64     9  21
-145   71     9  22
-146   81     9  23
-147   69     9  24
-148   63     9  25
-149   70     9  26
-150   77     9  27
-151   75     9  28
-152   76     9  29
-153   68     9  30</pre>
+ufo_pivot_n &lt;- ufo %&gt;% count(state, shape)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Prefixes when pivoting</h2></hgroup><article  id="prefixes-when-pivoting-1">
+</article></slide><slide class=""><hgroup><h2>Pivoting <code>count</code> tibbles</h2></hgroup><article  class="codesmall" id="pivoting-count-tibbles-2">
 
-<p>Let’s pivot <code>Month</code> wider: but it might be helpful to add &ldquo;Month&rdquo; to the new column name so it isn’t just numbers.</p>
+<p>Creating pivots of two variables - sample size (&ldquo;n&rdquo;)</p>
 
-<pre class = 'prettyprint lang-r'>air %&gt;% pivot_wider(names_from = &quot;Month&quot;, 
-                    values_from = &quot;Temp&quot;) </pre>
+<pre class = 'prettyprint lang-r'>ufo_pivot_n %&gt;% 
+  pivot_wider(names_from = state, values_from = n)</pre>
 
-<pre ># A tibble: 31 × 6
-     Day   `5`   `6`   `7`   `8`   `9`
-   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
- 1     1    67    78    84    81    91
- 2     2    72    74    85    81    92
- 3     3    74    67    81    82    93
- 4     4    62    84    84    86    93
- 5     5    56    85    83    85    87
- 6     6    66    79    83    87    84
- 7     7    65    82    88    89    80
- 8     8    59    87    92    90    78
- 9     9    61    90    92    90    75
-10    10    69    87    89    92    73
-# ℹ 21 more rows</pre>
-
-</article></slide><slide class=""><hgroup><h2>Prefixes when pivoting</h2></hgroup><article  id="prefixes-when-pivoting-2">
-
-<p>Much better!</p>
-
-<pre class = 'prettyprint lang-r'>air %&gt;% pivot_wider(names_from = &quot;Month&quot;, 
-                    values_from = &quot;Temp&quot;,
-                    names_prefix = &quot;Month_&quot;) </pre>
-
-<pre ># A tibble: 31 × 6
-     Day Month_5 Month_6 Month_7 Month_8 Month_9
-   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;   &lt;int&gt;
- 1     1      67      78      84      81      91
- 2     2      72      74      85      81      92
- 3     3      74      67      81      82      93
- 4     4      62      84      84      86      93
- 5     5      56      85      83      85      87
- 6     6      66      79      83      87      84
- 7     7      65      82      88      89      80
- 8     8      59      87      92      90      78
- 9     9      61      90      92      90      75
-10    10      69      87      89      92      73
-# ℹ 21 more rows</pre>
+<pre ># A tibble: 30 × 70
+   shape    ab    ak    al    ar    az    bc    ca    co    ct    dc    de    fl
+   &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+ 1 chan…     4     6    16    19    84    15   322    40    14     4     5   119
+ 2 chev…     2    NA     9    12    34     9   167    34    14     1     2    57
+ 3 cigar    11     8    16    28    58    15   230    39    37     3    NA    97
+ 4 circ…    34    36    75    72   265    72   977   132   114     6    25   432
+ 5 cone      4     2     1     1    15     1    36     3     5     1    NA    14
+ 6 cross     1    NA     3     2     8     3    35     4     5    NA    NA    13
+ 7 cyli…     6     6    14    17    46    16   144    32    20     7     1    74
+ 8 diam…    10     6    16     9    35    12   165    16    19     2     3    66
+ 9 disk     24    33    52    48   154    68   763   113    68    11    14   275
+10 egg       4     1    12     6    25     9   107    12     8     1     3    42
+# ℹ 20 more rows
+# ℹ 57 more variables: ga &lt;int&gt;, hi &lt;int&gt;, ia &lt;int&gt;, id &lt;int&gt;, il &lt;int&gt;,
+#   `in` &lt;int&gt;, ks &lt;int&gt;, ky &lt;int&gt;, la &lt;int&gt;, ma &lt;int&gt;, mb &lt;int&gt;, md &lt;int&gt;,
+#   me &lt;int&gt;, mi &lt;int&gt;, mn &lt;int&gt;, mo &lt;int&gt;, ms &lt;int&gt;, mt &lt;int&gt;, nb &lt;int&gt;,
+#   nc &lt;int&gt;, nd &lt;int&gt;, ne &lt;int&gt;, nf &lt;int&gt;, nh &lt;int&gt;, nj &lt;int&gt;, nm &lt;int&gt;,
+#   ns &lt;int&gt;, nt &lt;int&gt;, nv &lt;int&gt;, ny &lt;int&gt;, oh &lt;int&gt;, ok &lt;int&gt;, on &lt;int&gt;,
+#   or &lt;int&gt;, pa &lt;int&gt;, pe &lt;int&gt;, pq &lt;int&gt;, pr &lt;int&gt;, qc &lt;int&gt;, ri &lt;int&gt;, …</pre>
 
 </article></slide><slide class=""><hgroup><h2>Summary</h2></hgroup><article  id="summary">
 
