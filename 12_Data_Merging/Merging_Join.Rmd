@@ -7,6 +7,15 @@ output:
     widescreen: yes
 ---
 
+<script>
+    function add_favicon_link() {
+        const link = document.createElement("link");
+        link.rel = "shortcut icon";
+        link.href = "#";
+        document.head.appendChild(link);
+    }
+    add_favicon_link();
+</script>
 
 ```{r, echo = FALSE, include=FALSE}
 library(knitr)
@@ -204,7 +213,7 @@ You can join based on multiple columns by using something like `by = c(col1, col
 If the datasets have two different names for the same data, use:
 
 ```{r eval=FALSE}
-full_join(x, y, by = c("a" = "b"))
+full_join(x, y, by = c("state" = "entity_territory"))
 ```
 
 ## Using "`setdiff`" (base)
@@ -298,6 +307,8 @@ https://sisbid.github.io/Data-Wrangling/12_Data_Merging/lab/merging-lab.Rmd
 There are lots of options for more complicated merges. Check out the documentation if you have a special use case:
 
 https://dplyr.tidyverse.org/reference/mutate-joins.html
+
+`?dplyr::setops` also has lots of functions for performing set operations using the rows of a data frame instead of vectors (including `intersect`, `union`, `setdiff`, etc.)
 
 ## Other stuff: `cross_join` (`dplyr`)
 
