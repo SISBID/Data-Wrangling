@@ -56,7 +56,7 @@ ex_long
 
 
 ## ----eval=FALSE---------------------------------------------------------------
-## {long_data} <- {wide_data} %>% pivot_longer(cols = {columns to pivot})
+# {long_data} <- {wide_data} %>% pivot_longer(cols = {columns to pivot})
 
 
 ## ----echo = FALSE-------------------------------------------------------------
@@ -74,9 +74,9 @@ long_data
 
 
 ## ----eval=FALSE---------------------------------------------------------------
-## {long_data} <- {wide_data} %>% pivot_longer(cols = {columns to pivot},
-##                                         names_to = {New column name: contains old column names},
-##                                         values_to = {New column name: contains cell values})
+# {long_data} <- {wide_data} %>% pivot_longer(cols = {columns to pivot},
+#                                         names_to = {New column name: contains old column names},
+#                                         values_to = {New column name: contains cell values})
 
 
 ## ----echo = FALSE-------------------------------------------------------------
@@ -129,9 +129,9 @@ long
 
 
 ## ----eval=FALSE---------------------------------------------------------------
-## {wide_data} <- {long_data} %>%
-##   pivot_wider(names_from = {Old column name: contains new column names},
-##               values_from = {Old column name: contains new cell values})
+# {wide_data} <- {long_data} %>%
+#   pivot_wider(names_from = {Old column name: contains new column names},
+#               values_from = {Old column name: contains new cell values})
 
 
 ## -----------------------------------------------------------------------------
@@ -151,18 +151,15 @@ wide <- long %>% pivot_wider(names_from = "type",
 wide
 
 
-## -----------------------------------------------------------------------------
-air <- datasets::airquality %>% select(Temp, Month, Day)
-air
+## ----message=FALSE, warning=FALSE---------------------------------------------
+ufo <-
+  read_csv("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv") %>%
+  janitor::clean_names()
+
+ufo_pivot_n <- ufo %>% count(state, shape)
 
 
 ## -----------------------------------------------------------------------------
-air %>% pivot_wider(names_from = "Month", 
-                    values_from = "Temp") 
-
-
-## -----------------------------------------------------------------------------
-air %>% pivot_wider(names_from = "Month", 
-                    values_from = "Temp",
-                    names_prefix = "Month_") 
+ufo_pivot_n %>% 
+  pivot_wider(names_from = state, values_from = n)
 
