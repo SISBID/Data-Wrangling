@@ -177,7 +177,7 @@ https://sisbid.github.io/Data-Wrangling/00_Setup/Setup.html
 [87]: 14_Functional_Programming/lab/functional-program-lab-key.html  
 
 [88]: https://docs.google.com/presentation/d/17Ice9AFi_y7XH41CnkCyaODDTgWFNxryI3AofXwY7c0/edit?usp=drive_link
-[89]: 16_Wrap_Up/sisbid_wrap_up_2025.pdf  
+[89]: 16_Wrap_Up/sisbid_wrap_up_2026.pdf  
 
 
 **Miscellaneous**
