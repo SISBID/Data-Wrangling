@@ -362,9 +362,9 @@ pre code {
 <p>In this lab you can use the interactive console to explore but please record your commands here. Remember anything you type here can be “sent” to the console with Cmd-Enter (OS-X) or Cntr-Enter (Windows/Linux) (But only in side the <code>{r}</code> areas).</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
 <ol style="list-style-type: decimal">
-<li>Read in a slice of the “ufo” dataset from “<a href="https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_6.csv" class="uri">https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_6.csv</a>” using <code>read_csv</code>, call it <code>ufo_slice_6</code>.</li>
+<li>Read in a slice of the “ufo” dataset from “<a href="https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_5.csv" class="uri">https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_5.csv</a>” using <code>read_csv</code>, call it <code>ufo_slice_5</code>.</li>
 </ol>
-<pre class="r"><code>ufo_slice_6 &lt;- read_csv(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_6.csv&quot;)</code></pre>
+<pre class="r"><code>ufo_slice_5 &lt;- read_csv(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_5.csv&quot;)</code></pre>
 <pre><code>## Rows: 20 Columns: 11
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -376,7 +376,7 @@ pre code {
 <ol start="2" style="list-style-type: decimal">
 <li>Use a few functions to check out the data (e.g., <code>head()</code>, <code>glimpse()</code>, <code>str()</code> etc.). Do results look different if you had used <code>read_delim</code> above?</li>
 </ol>
-<pre class="r"><code>str(ufo_slice_6)</code></pre>
+<pre class="r"><code>str(ufo_slice_5)</code></pre>
 <pre><code>## spc_tbl_ [20 × 11] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
 ##  $ datetime            : chr [1:20] &quot;8/2/2012 21:00&quot; &quot;10/6/1995 19:00&quot; &quot;4/17/2005 23:00&quot; &quot;12/31/2013 23:10&quot; ...
 ##  $ city                : chr [1:20] &quot;kennewick&quot; &quot;puyallup&quot; &quot;grovetown&quot; &quot;corvallis&quot; ...
@@ -403,8 +403,8 @@ pre code {
 ##   ..   latitude = col_double(),
 ##   ..   longitude = col_double()
 ##   .. )
-##  - attr(*, &quot;problems&quot;)=&lt;pointer: 0x6000028b0190&gt;</code></pre>
-<pre class="r"><code>head(ufo_slice_6)</code></pre>
+##  - attr(*, &quot;problems&quot;)=&lt;pointer: 0x6000000895b0&gt;</code></pre>
+<pre class="r"><code>head(ufo_slice_5)</code></pre>
 <pre><code>## # A tibble: 6 × 11
 ##   datetime city  state country shape `duration (seconds)` `duration (hours/min)`
 ##   &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;                &lt;dbl&gt; &lt;chr&gt;                 
@@ -416,7 +416,7 @@ pre code {
 ## 6 6/22/20… pitt… nj    us      light                  120 a few minutes         
 ## # ℹ 4 more variables: comments &lt;chr&gt;, `date posted` &lt;chr&gt;, latitude &lt;dbl&gt;,
 ## #   longitude &lt;dbl&gt;</code></pre>
-<pre class="r"><code>glimpse(ufo_slice_6)</code></pre>
+<pre class="r"><code>glimpse(ufo_slice_5)</code></pre>
 <pre><code>## Rows: 20
 ## Columns: 11
 ## $ datetime               &lt;chr&gt; &quot;8/2/2012 21:00&quot;, &quot;10/6/1995 19:00&quot;, &quot;4/17/2005…
@@ -430,12 +430,12 @@ pre code {
 ## $ `date posted`          &lt;chr&gt; &quot;8/19/2012&quot;, &quot;11/2/1999&quot;, &quot;5/11/2005&quot;, &quot;1/10/20…
 ## $ latitude               &lt;dbl&gt; 46.21139, 47.18556, 33.45028, 44.56472, 33.4150…
 ## $ longitude              &lt;dbl&gt; -119.13611, -122.29167, -82.19833, -123.26083, …</code></pre>
-<pre class="r"><code>nrow(ufo_slice_6)</code></pre>
+<pre class="r"><code>nrow(ufo_slice_5)</code></pre>
 <pre><code>## [1] 20</code></pre>
 <ol start="3" style="list-style-type: decimal">
-<li>Repeat 1-2 for “<a href="https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt" class="uri">https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt</a>” using <code>read_delim</code>, call it <code>ufo_slice_7</code>. Should any additional arguments be used?</li>
+<li>Repeat 1-2 for “<a href="https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_6.txt" class="uri">https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_6.txt</a>” using <code>read_delim</code>, call it <code>ufo_slice_6</code>. Should any additional arguments be used?</li>
 </ol>
-<pre class="r"><code>ufo_slice_7 &lt;- read_delim(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt&quot;)</code></pre>
+<pre class="r"><code>ufo_slice_6 &lt;- read_delim(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_6.txt&quot;)</code></pre>
 <pre><code>## Rows: 20 Columns: 11
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;:&quot;
@@ -444,7 +444,7 @@ pre code {
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>ufo_slice_7</code></pre>
+<pre class="r"><code>ufo_slice_6</code></pre>
 <pre><code>## # A tibble: 20 × 11
 ##    datetime                city         state country shape `duration (seconds)`
 ##    &lt;chr&gt;                   &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;                &lt;dbl&gt;
@@ -470,7 +470,7 @@ pre code {
 ## 20 &quot;7/10/2009 23:00&quot;       &quot;bear creek&quot; al    us      circ…                    4
 ## # ℹ 5 more variables: `duration (hours/min)` &lt;chr&gt;, comments &lt;chr&gt;,
 ## #   `date posted` &lt;chr&gt;, latitude &lt;dbl&gt;, longitude &lt;dbl&gt;</code></pre>
-<pre class="r"><code>ufo_slice_7 &lt;- read_delim(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt&quot;, trim_ws = TRUE)</code></pre>
+<pre class="r"><code>ufo_slice_6 &lt;- read_delim(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_6.txt&quot;, trim_ws = TRUE)</code></pre>
 <pre><code>## Rows: 20 Columns: 11
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;:&quot;
@@ -479,7 +479,7 @@ pre code {
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>ufo_slice_7</code></pre>
+<pre class="r"><code>ufo_slice_6</code></pre>
 <pre><code>## # A tibble: 20 × 11
 ##    datetime         city                state country shape `duration (seconds)`
 ##    &lt;chr&gt;            &lt;chr&gt;               &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;                &lt;dbl&gt;
@@ -505,6 +505,51 @@ pre code {
 ## 20 7/10/2009 23:00  bear creek          al    us      circ…                    4
 ## # ℹ 5 more variables: `duration (hours/min)` &lt;chr&gt;, comments &lt;chr&gt;,
 ## #   `date posted` &lt;chr&gt;, latitude &lt;dbl&gt;, longitude &lt;dbl&gt;</code></pre>
+<div id="practice-on-your-own" class="section level2">
+<h2><strong>Practice on your own</strong></h2>
+<ol start="4" style="list-style-type: decimal">
+<li>Try using <code>read_table</code> and <code>read_delim</code> on “<a href="https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt" class="uri">https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt</a>”. Which one is more appropriate?</li>
+</ol>
+<pre class="r"><code># read_delim! read_table interprets all whitespace as delimiting - spaces in our data interfere with this function reading the data.
+ufo_slice_7_table &lt;- read_table(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt&quot;)</code></pre>
+<pre><code>## Warning: Duplicated column names deduplicated: &#39;&quot;duration&#39; =&gt; &#39;&quot;duration_1&#39; [8]</code></pre>
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
+## cols(
+##   datetime = col_character(),
+##   city = col_character(),
+##   state = col_character(),
+##   country = col_character(),
+##   shape = col_character(),
+##   `&quot;duration` = col_character(),
+##   `(seconds)&quot;` = col_character(),
+##   `&quot;duration_1` = col_character(),
+##   `(hours/min)&quot;` = col_character(),
+##   comments = col_character(),
+##   `&quot;date` = col_character(),
+##   `posted&quot;` = col_character(),
+##   latitude = col_character(),
+##   longitude = col_character()
+## )</code></pre>
+<pre><code>## Warning: 20 parsing failures.
+## row col   expected     actual                                                               file
+##   1  -- 14 columns 25 columns &#39;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt&#39;
+##   2  -- 14 columns 29 columns &#39;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt&#39;
+##   3  -- 14 columns 19 columns &#39;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt&#39;
+##   4  -- 14 columns 19 columns &#39;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt&#39;
+##   5  -- 14 columns 21 columns &#39;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt&#39;
+## ... ... .......... .......... ..................................................................
+## See problems(...) for more details.</code></pre>
+<pre class="r"><code>ufo_slice_7_delim &lt;- read_delim(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt&quot;)</code></pre>
+<pre><code>## Rows: 20 Columns: 11</code></pre>
+<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot; &quot;
+## chr (8): datetime, city, state, country, shape, duration (hours/min), commen...
+## dbl (3): duration (seconds), latitude, longitude
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
 
 
 

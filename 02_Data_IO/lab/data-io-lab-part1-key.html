@@ -407,9 +407,9 @@ pre code {
 <ol start="2" style="list-style-type: decimal">
 <li>Read in the <code>https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_2.tsv</code> dataset into the <code>ufo_slice_2</code> R object. What delimiter separates columns?</li>
 </ol>
-<pre class="r"><code>ufo_slice_2 &lt;-
-  read_delim(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_2.tsv&quot;,
-             delim = &quot;\t&quot;)</code></pre>
+<pre class="r"><code>ufo_slice_2 &lt;- read_delim(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_2.tsv&quot;, 
+    delim = &quot;\t&quot;, escape_double = FALSE, 
+    trim_ws = TRUE)</code></pre>
 <pre><code>## Rows: 20 Columns: 11
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;\t&quot;
@@ -431,35 +431,10 @@ pre code {
 ## # ℹ 4 more variables: comments &lt;chr&gt;, `date posted` &lt;chr&gt;, latitude &lt;dbl&gt;,
 ## #   longitude &lt;dbl&gt;</code></pre>
 <ol start="3" style="list-style-type: decimal">
-<li>Read in the <code>https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_3.txt</code> dataset into the <code>ufo_slice_3</code> R object. What delimiter separates columns?</li>
+<li>Read in the <code>https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_3.csv</code> dataset into the <code>ufo_slice_3</code> R object. What delimiter separates columns? [hint: file extension is ambiguous]</li>
 </ol>
-<pre class="r"><code>ufo_slice_3 &lt;- read_delim(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_3.txt&quot;)</code></pre>
-<pre><code>## Rows: 20 Columns: 11
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot; &quot;
-## chr (8): datetime, city, state, country, shape, duration (hours/min), commen...
-## dbl (3): duration (seconds), latitude, longitude
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>head(ufo_slice_3)</code></pre>
-<pre><code>## # A tibble: 6 × 11
-##   datetime city  state country shape `duration (seconds)` `duration (hours/min)`
-##   &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;                &lt;dbl&gt; &lt;chr&gt;                 
-## 1 10/29/2… jams… &lt;NA&gt;  &lt;NA&gt;    other                18000 5 hours               
-## 2 4/5/200… nort… &lt;NA&gt;  au      disk                     0 north                 
-## 3 3/1/200… kans… mo    us      flash                    7 7 seconds             
-## 4 5/7/199… emme… &lt;NA&gt;  de      unkn…                 7200 2 hrs                 
-## 5 3/11/20… nana… bc    ca      light                   40 40 seconds            
-## 6 9/18/20… tene… &lt;NA&gt;  &lt;NA&gt;    circ…                 3600 1hour                 
-## # ℹ 4 more variables: comments &lt;chr&gt;, `date posted` &lt;chr&gt;, latitude &lt;dbl&gt;,
-## #   longitude &lt;dbl&gt;</code></pre>
-<ol start="4" style="list-style-type: decimal">
-<li>Read in the <code>https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_4.csv</code> dataset into the <code>ufo_slice_4</code> R object. What delimiter separates columns? [hint: file extension is ambiguous]</li>
-</ol>
-<pre class="r"><code>ufo_slice_4 &lt;-
-  read_delim(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_4.csv&quot;,
-             delim = &quot;:&quot;)</code></pre>
+<pre class="r"><code>ufo_slice_3 &lt;- read_delim(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_3.csv&quot;, 
+    delim = &quot;:&quot;, escape_double = FALSE, trim_ws = TRUE)</code></pre>
 <pre><code>## Rows: 20 Columns: 11
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;:&quot;
@@ -468,7 +443,7 @@ pre code {
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>head(ufo_slice_4)</code></pre>
+<pre class="r"><code>head(ufo_slice_3)</code></pre>
 <pre><code>## # A tibble: 6 × 11
 ##   datetime city  state country shape `duration (seconds)` `duration (hours/min)`
 ##   &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;                &lt;dbl&gt; &lt;chr&gt;                 
@@ -480,14 +455,15 @@ pre code {
 ## 6 6/2/200… albu… &lt;NA&gt;  &lt;NA&gt;    tria…                  180 2-3mins               
 ## # ℹ 4 more variables: comments &lt;chr&gt;, `date posted` &lt;chr&gt;, latitude &lt;dbl&gt;,
 ## #   longitude &lt;dbl&gt;</code></pre>
-<ol start="5" style="list-style-type: decimal">
-<li>Read in the <code>https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_5.xlsx</code> dataset into the <code>ufo_slice_5</code> R object.</li>
+<ol start="4" style="list-style-type: decimal">
+<li>Read in the <code>https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_4.xlsx</code> dataset into the <code>ufo_slice_4</code> R object.</li>
 </ol>
-<pre class="r"><code>url &lt;- &quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_5.xlsx&quot;
-destfile &lt;- &quot;ufo_slice_5.xlsx&quot;
+<pre class="r"><code>library(readxl)
+url &lt;- &quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_4.xlsx&quot;
+destfile &lt;- &quot;ufo_slice_4.xlsx&quot;
 curl::curl_download(url, destfile)
-ufo_slice_5 &lt;- read_excel(destfile)
-head(ufo_slice_5)</code></pre>
+ufo_slice_4 &lt;- read_excel(destfile)
+head(ufo_slice_4)</code></pre>
 <pre><code>## # A tibble: 6 × 11
 ##   datetime            city              state country shape `duration (seconds)`
 ##   &lt;dttm&gt;              &lt;chr&gt;             &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;                &lt;dbl&gt;
