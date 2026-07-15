@@ -28,24 +28,24 @@ head(ufo_slice_1)
 2. Read in the `https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_2.tsv` dataset into the `ufo_slice_2` R object. What delimiter separates columns?
 
 ```{r}
-ufo_slice_2 <-
-  read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_2.tsv",
-             delim = "\t")
+ufo_slice_2 <- read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_2.tsv", 
+    delim = "\t", escape_double = FALSE, 
+    trim_ws = TRUE)
 head(ufo_slice_2)
 ```
 
 3. Read in the `https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_3.csv` dataset into the `ufo_slice_3` R object. What delimiter separates columns? [hint: file extension is ambiguous]
 
 ```{r}
-ufo_slice_3 <-
-  read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_3.csv",
-             delim = ":")
+ufo_slice_3 <- read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_3.csv", 
+    delim = ":", escape_double = FALSE, trim_ws = TRUE)
 head(ufo_slice_3)
 ```
 
 4. Read in the `https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_4.xlsx` dataset into the `ufo_slice_4` R object. 
 
 ```{r}
+library(readxl)
 url <- "https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_4.xlsx"
 destfile <- "ufo_slice_4.xlsx"
 curl::curl_download(url, destfile)
