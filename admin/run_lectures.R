@@ -1,4 +1,5 @@
 library(pagedown)
+library(rmarkdown)
 
 x <- list.files(
   pattern = ".Rmd$",
@@ -29,7 +30,15 @@ invisible(sapply(x, function(x) {
   if (!file.exists(x_html) ||
       file.info(x_html)$mtime <
       file.info(x)$mtime) {
-    rmarkdown::render(x, envir = new.env())
+    render(
+      x, 
+      ioslides_presentation(
+        css = "../styles/styles.css",
+        widescreen = TRUE,
+        includes = includes(in_header = "../styles/header.html")
+      ),
+      envir = new.env()
+    )
   }
 }))
 cli::cli_alert(cli::col_cyan("HTMLs complete!"))
@@ -42,6 +51,7 @@ invisible(sapply(x, function(x) {
   if (!file.exists(x_pdf) ||
       file.info(x_pdf)$mtime <
       file.info(x_html)$mtime) {
+    message(getwd())
     pagedown::chrome_print(x_html)
   }
 }))

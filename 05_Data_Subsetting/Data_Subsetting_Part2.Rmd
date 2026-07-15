@@ -1,11 +1,6 @@
 ---
 title: "Subsetting Data in R"
 author: "Data Wrangling in R"
-output:
-  ioslides_presentation:
-    css: ../styles/styles.css
-    widescreen: true
-  beamer_presentation: default
 ---
 
 ```{r, include=FALSE}
@@ -13,7 +8,6 @@ library(knitr)
 knitr::opts_chunk$set(comment = "")
 library(tidyverse)
 ```
-
 
 # Subsetting part 2
 
@@ -305,4 +299,4 @@ arrange(ufo, shape, desc(duration_seconds))
 
 ## Lab
 
-[Link to Lab](http://sisbid.github.io/Data-Wrangling/05_Data_Subsetting/lab/data-subsetting-lab-part2.Rmd)
+[Link to Lab](https://sisbid.github.io/Data-Wrangling/05_Data_Subsetting/lab/data-subsetting-lab-part2.Rmd)
