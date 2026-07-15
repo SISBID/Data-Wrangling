@@ -1,9 +1,6 @@
 ---
 title: "Factors"
-output:
- ioslides_presentation:
-  css: ../styles/styles.css
-  widescreen: yes
+author: "SISBID: Data Wrangling in R"
 ---
 
 ## Factors
@@ -256,4 +253,4 @@ ufo %>%
 ## Lab
 
 🏠 [Class Website](https://jhudatascience.org/intro_to_r/)    
-💻 [Lab](https://jhudatascience.org/intro_to_r/modules//Factors/lab/Factors_Lab.Rmd)
+💻 [Lab](https://sisbid.github.io/Data-Wrangling/13_Factors/lab/factors-lab.Rmd)

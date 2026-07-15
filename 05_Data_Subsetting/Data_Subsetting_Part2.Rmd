@@ -1,6 +1,6 @@
 ---
 title: "Subsetting Data in R"
-author: "Data Wrangling in R"
+author: "SISBID: Data Wrangling in R"
 ---
 
 ```{r, include=FALSE}
