@@ -43,19 +43,19 @@ my_function(x = my_data)
 
 
 ## -----------------------------------------------------------------------------
-mtcars |> map(sum)
+mtcars %>% map(sum)
 
 
 ## -----------------------------------------------------------------------------
-mtcars |> map_dbl(sum)
+mtcars %>% map_dbl(sum)
 
 
 ## -----------------------------------------------------------------------------
-mtcars |> modify(round)
+mtcars %>% modify(round)
 
 
 ## -----------------------------------------------------------------------------
-mtcars |> modify(\(x) x * 100)
+mtcars %>% modify(\(x) x * 100)
 
 
 ## ----message=FALSE------------------------------------------------------------
@@ -114,11 +114,11 @@ mylist[["letters"]] # returns the vector 'letters'
 ## ----message=FALSE------------------------------------------------------------
 ufo1 <- read_csv("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_1.csv")
 ufo2 <- read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_2.tsv")
-ufo4 <- read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_4.csv", delim = ":")
+ufo3 <- read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_3.csv", delim = ":")
 
 
 ## -----------------------------------------------------------------------------
-ufo_datasets <- list(ufo1, ufo2, ufo4)
+ufo_datasets <- list(ufo1, ufo2, ufo3)
 
 
 ## ----message=FALSE------------------------------------------------------------
@@ -126,11 +126,16 @@ library(janitor)
 
 ufo_datasets_clean <- 
   ufo_datasets %>%
-  map(\(x) x |> count(country))
+  map(clean_names)
 
 
 ## ----message=FALSE------------------------------------------------------------
 ufo_datasets_clean[[1]]
+
+
+## ----message=FALSE------------------------------------------------------------
+ufo_datasets %>%
+  map(\(x) x %>% count(country))
 
 
 ## -----------------------------------------------------------------------------
