@@ -305,4 +305,4 @@ arrange(ufo, shape, desc(duration_seconds))
 
 ## Lab
 
-[Link to Lab](http://sisbid.github.io/Data-Wrangling/05_Data_Subsetting/lab/data-subsetting-lab-part2.Rmd)
+[Link to Lab](https://sisbid.github.io/Data-Wrangling/05_Data_Subsetting/lab/data-subsetting-lab-part2.Rmd)
