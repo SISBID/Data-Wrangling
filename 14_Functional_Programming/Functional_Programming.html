@@ -3368,7 +3368,7 @@ font-size: 16px;
 ## Maserati Bora        15   8  301 335    4 3.570 14.60  0  1    5    8
 ## Volvo 142E           21   4  121 109    4 2.780 18.60  1  1    4    2</pre>
 
-</article></slide><slide class=""><hgroup><h2>Using <code>across</code> with arguments</h2></hgroup><article  id="using-across-with-arguments" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Using <code>across</code> with arguments</h2></hgroup><article  class="codesmall" id="using-across-with-arguments">
 
 <p>If you want to use arguments, then you need to use the <code>~</code> and <code>.</code> (or <code>.x</code>) as a place holder for what you will be passing into the function.</p>
 
@@ -3435,7 +3435,7 @@ my_function</pre>
 ## {
 ##     x + 1
 ## }
-## &lt;environment: 0x150b45678&gt;</pre>
+## &lt;environment: 0x1450a4e80&gt;</pre>
 
 <pre class = 'prettyprint lang-r'>my_data  &lt;- c(2,3,4)
 
@@ -3454,7 +3454,7 @@ my_function</pre>
 ## {
 ##     x + 1
 ## }
-## &lt;environment: 0x150b45678&gt;</pre>
+## &lt;environment: 0x1450a4e80&gt;</pre>
 
 <pre class = 'prettyprint lang-r'>my_function(x = my_data)</pre>
 
@@ -3488,7 +3488,7 @@ my_function</pre>
 
 <p>Apply <code>sum</code> to every column</p>
 
-<pre class = 'prettyprint lang-r'>mtcars |&gt; map(sum)</pre>
+<pre class = 'prettyprint lang-r'>mtcars %&gt;% map(sum)</pre>
 
 <pre >## $mpg
 ## [1] 642.9
@@ -3527,7 +3527,7 @@ my_function</pre>
 
 <p>Apply <code>sum</code> to every column - nicer output</p>
 
-<pre class = 'prettyprint lang-r'>mtcars |&gt; map_dbl(sum)</pre>
+<pre class = 'prettyprint lang-r'>mtcars %&gt;% map_dbl(sum)</pre>
 
 <pre >##      mpg      cyl     disp       hp     drat       wt     qsec       vs 
 ##  642.900  198.000 7383.100 4694.000  115.090  102.952  571.160   14.000 
@@ -3538,7 +3538,7 @@ my_function</pre>
 
 <p>Apply <code>round</code> to every column - get a data.frame back out</p>
 
-<pre class = 'prettyprint lang-r'>mtcars |&gt; modify(round)</pre>
+<pre class = 'prettyprint lang-r'>mtcars %&gt;% modify(round)</pre>
 
 <pre >##    mpg cyl disp  hp drat wt qsec vs am gear carb
 ## 1   21   6  160 110    4  3   16  0  1    4    4
@@ -3578,7 +3578,7 @@ my_function</pre>
 
 <p>You can supply a custom function without naming it. Useful if you only need to use it once!</p>
 
-<pre class = 'prettyprint lang-r'>mtcars |&gt; modify(\(x) x * 100)</pre>
+<pre class = 'prettyprint lang-r'>mtcars %&gt;% modify(\(x) x * 100)</pre>
 
 <pre >##     mpg cyl  disp    hp drat    wt qsec  vs  am gear carb
 ## 1  2100 600 16000 11000  390 262.0 1646   0 100  400  400
@@ -3614,7 +3614,7 @@ my_function</pre>
 ## 31 1500 800 30100 33500  354 357.0 1460   0 100  500  800
 ## 32 2140 400 12100 10900  411 278.0 1860 100 100  400  200</pre>
 
-</article></slide><slide class=""><hgroup><h2><code>modify_if</code></h2></hgroup><article  id="modify_if" class="codesmall">
+</article></slide><slide class=""><hgroup><h2><code>modify_if</code></h2></hgroup><article  class="codesmall" id="modify_if">
 
 <p>Using <code>modify_if()</code>, we can specify what columns to modify</p>
 
@@ -3895,22 +3895,17 @@ my_function</pre>
 
 <p>You need a way to iterate in R in a data-structure-informed way. What does that mean?</p>
 
-<ul>
-<li>Iterate over elements of a list</li>
-<li>Iterate over rows or columns of a 2-dimensional object</li>
-<li>Iterate over sub data frames induced by one or more factors</li>
-<li>Iterate over tuples formed from the i-th element of several vectors of equal length</li>
-</ul>
+<p>You can <strong>iterate over elements of a list</strong>! This might be over sub data frames or different files.</p>
 
-</article></slide><slide class=""><hgroup><h2>Cleaning up multiple datasets</h2></hgroup><article  id="cleaning-up-multiple-datasets" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Cleaning up multiple datasets</h2></hgroup><article  class="codesmall" id="cleaning-up-multiple-datasets">
 
 <p>Store datasets in a list!</p>
 
 <pre class = 'prettyprint lang-r'>ufo1 &lt;- read_csv(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_1.csv&quot;)
 ufo2 &lt;- read_delim(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_2.tsv&quot;)
-ufo4 &lt;- read_delim(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_4.csv&quot;, delim = &quot;:&quot;)</pre>
+ufo3 &lt;- read_delim(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_3.csv&quot;, delim = &quot;:&quot;)</pre>
 
-<pre class = 'prettyprint lang-r'>ufo_datasets &lt;- list(ufo1, ufo2, ufo4)</pre>
+<pre class = 'prettyprint lang-r'>ufo_datasets &lt;- list(ufo1, ufo2, ufo3)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Cleaning up multiple datasets</h2></hgroup><article  id="cleaning-up-multiple-datasets-1">
 
@@ -3920,19 +3915,68 @@ ufo4 &lt;- read_delim(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo
 
 ufo_datasets_clean &lt;- 
   ufo_datasets %&gt;%
-  map(\(x) x |&gt; count(country))</pre>
+  map(clean_names)</pre>
 
-</article></slide><slide class=""><hgroup><h2>Cleaning up multiple datasets</h2></hgroup><article  id="cleaning-up-multiple-datasets-2" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Cleaning up multiple datasets</h2></hgroup><article  class="codesmall" id="cleaning-up-multiple-datasets-2">
 
 <p>Confirm columns have been cleaned! Look at <code>ufo_datasets_clean</code> or look at each with indexing, eg.:</p>
 
 <pre class = 'prettyprint lang-r'>ufo_datasets_clean[[1]]</pre>
 
-<pre >## # A tibble: 2 × 2
+<pre >## # A tibble: 20 × 11
+##    datetime        city  state country shape duration_seconds duration_hours_min
+##    &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;             
+##  1 7/28/2002 20:10 new … ny    us      chan…              120 2 mins            
+##  2 8/15/1988 21:30 mend… nj    us      fire…               30 30 seconds        
+##  3 10/16/2010 22:… char… mi    &lt;NA&gt;    cigar               30 30 seconds        
+##  4 4/25/2013 05:30 fran… wi    us      sphe…              360 6 minutes         
+##  5 1/25/2012 18:22 colo… co    us      cigar              180 3 min.            
+##  6 3/10/2010 00:23 huson mt    us      circ…              120 several minutes   
+##  7 8/16/2003 17:00 hous… tx    us      form…             2700 45 minutes        
+##  8 4/29/2011 20:45 san … ca    us      fire…              600 5-10 mins         
+##  9 6/30/2004 13:00 char… sc    us      rect…             3600 less than 1 hour  
+## 10 3/1/2009 14:23  huds… ny    us      sphe…               15 15 seconds        
+## 11 3/13/2000 20:00 san … ca    us      light               30 15-30 seconds     
+## 12 9/12/2006 15:30 moja… nv    &lt;NA&gt;    sphe…             1800 30min or more     
+## 13 9/29/2012 18:30 san … &lt;NA&gt;  &lt;NA&gt;    fire…              600 7-10 minutes      
+## 14 8/12/2006 00:30 murr… ky    us      chan…            14400 4hr               
+## 15 9/1/2011 01:55  vash… wa    us      light              900 15 minues         
+## 16 1/3/2013 00:43  phoe… az    us      &lt;NA&gt;               300 5 minutes         
+## 17 3/3/2000 04:00  long… fl    us      light               20 20 seconds        
+## 18 11/29/2013 07:… i-95… sc    &lt;NA&gt;    other               20 20 seconds        
+## 19 4/5/2014 22:30  san … tx    us      tria…              900 15 minutes        
+## 20 10/24/2013 19:… lake… tn    us      light               30 30 seconds        
+## # ℹ 4 more variables: comments &lt;chr&gt;, date_posted &lt;chr&gt;, latitude &lt;dbl&gt;,
+## #   longitude &lt;dbl&gt;</pre>
+
+</article></slide><slide class=""><hgroup><h2>Cleaning up multiple datasets</h2></hgroup><article  id="cleaning-up-multiple-datasets-3">
+
+<p>Apply an anonymous function! Creates a count <code>tibble</code> for each <code>country</code></p>
+
+<pre class = 'prettyprint lang-r'>ufo_datasets %&gt;%
+  map(\(x) x %&gt;% count(country))</pre>
+
+<pre >## [[1]]
+## # A tibble: 2 × 2
 ##   country     n
 ##   &lt;chr&gt;   &lt;int&gt;
 ## 1 us         16
-## 2 &lt;NA&gt;        4</pre>
+## 2 &lt;NA&gt;        4
+## 
+## [[2]]
+## # A tibble: 2 × 2
+##   country     n
+##   &lt;chr&gt;   &lt;int&gt;
+## 1 us         17
+## 2 &lt;NA&gt;        3
+## 
+## [[3]]
+## # A tibble: 3 × 2
+##   country     n
+##   &lt;chr&gt;   &lt;int&gt;
+## 1 ca          1
+## 2 us         15
+## 3 &lt;NA&gt;        4</pre>
 
 </article></slide><slide class=""><hgroup><h2>List: <code>group_split()</code> a dataset</h2></hgroup><article  id="list-group_split-a-dataset">
 
@@ -3948,7 +3992,7 @@ ufo_datasets_clean &lt;-
 ## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
 ## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</pre>
 
-</article></slide><slide class=""><hgroup><h2>List: <code>group_split()</code> the dataset by <code>cyl</code></h2></hgroup><article  id="list-group_split-the-dataset-by-cyl" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>List: <code>group_split()</code> the dataset by <code>cyl</code></h2></hgroup><article  class="codesmall" id="list-group_split-the-dataset-by-cyl">
 
 <p>The following creates split of data for each unique cyl value:</p>
 
@@ -3976,11 +4020,12 @@ glimpse(mtcars_split)</pre>
 </article></slide><slide class=""><hgroup><h2>Summary</h2></hgroup><article  id="summary">
 
 <ul>
-<li><code>function(x){ }</code> or <code>\(x){ }</code> denotes a function. You also commonly see <code>~.x</code> inside <code>across</code>.</li>
-<li><code>map_df</code> and <code>modify</code> <strong>apply functions</strong> to each element of an object. <code>map</code> returns a list, <code>modify</code> returns the same object type.</li>
+<li><code>function(x){ }</code> or <code>\(x){ }</code> denotes a function.</li>
+<li><code>across</code> works with <code>mutate</code> or <code>summarize</code>. First specify <em>what</em> to work on, then what to <em>do</em>. <code>~</code> and <code>.</code> will help you use function arguments.</li>
+<li><code>map</code> and <code>modify</code> <strong>apply functions</strong>. <code>map</code> returns a list, <code>modify</code> returns the same object type.</li>
 <li>The purrr package has other useful functional programming features.</li>
 <li>lists can be great for storing iterative work.</li>
-<li><code>group_split</code> and <code>group_keys</code> can be handy with <code>group_by</code></li>
+<li><code>group_split</code> and <code>group_keys</code> can be handy with <code>group_by</code> to create a list of subset tibbles.</li>
 </ul>
 
 <p><a href='https://sisbid.github.io/Data-Wrangling/14_Functional_Programming/lab/functional-program-lab.Rmd' title=''>https://sisbid.github.io/Data-Wrangling/14_Functional_Programming/lab/functional-program-lab.Rmd</a></p></article></slide>
