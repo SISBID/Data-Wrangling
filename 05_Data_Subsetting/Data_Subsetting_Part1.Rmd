@@ -1,11 +1,6 @@
 ---
 title: "Subsetting Data in R"
 author: "Data Wrangling in R"
-output:
-  ioslides_presentation:
-    css: ../styles/styles.css
-    widescreen: yes
-  beamer_presentation: default
 ---
 
 ```{r, include = FALSE}
@@ -16,16 +11,6 @@ library(dplyr)
 library(ggplot2)
 library(here)
 ```
-
-<script>
-    function add_favicon_link() {
-        const link = document.createElement("link");
-        link.rel = "shortcut icon";
-        link.href = "#";
-        document.head.appendChild(link);
-    }
-    add_favicon_link();
-</script>
 
 ## Overview
 
