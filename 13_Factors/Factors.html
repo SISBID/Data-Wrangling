@@ -29,7 +29,7 @@
       // Author information
       presenters: [
             {
-        name:  'SISBID: Data Wrangling in R' ,
+        name:  'Data Wrangling in R' ,
         company: '',
         gplus: '',
         twitter: '',
@@ -3296,7 +3296,7 @@ class(x_fact)</pre>
 
 <pre >## [1] &quot;blue&quot;   &quot;red&quot;    &quot;yellow&quot;</pre>
 
-</article></slide><slide class=""><hgroup><h2>Load the UFO data</h2></hgroup><article  id="load-the-ufo-data" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Load the UFO data</h2></hgroup><article  class="codesmall" id="load-the-ufo-data">
 
 <pre class = 'prettyprint lang-r'>ufo &lt;- 
   read_csv(&quot;https://raw.githubusercontent.com/SISBID/Module1/gh-pages/data/ufo/ufo_data_complete.csv&quot;)</pre>
@@ -3314,7 +3314,7 @@ class(x_fact)</pre>
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</pre>
 
-</article></slide><slide class=""><hgroup><h2>Clean the names again</h2></hgroup><article  id="clean-the-names-again" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Clean the names again</h2></hgroup><article  class="codesmall" id="clean-the-names-again">
 
 <p>Using <code>janitor</code>.</p>
 
@@ -3335,7 +3335,7 @@ glimpse(ufo)</pre>
 ## $ latitude           &lt;chr&gt; &quot;29.8830556&quot;, &quot;29.38421&quot;, &quot;53.2&quot;, &quot;28.9783333&quot;, &quot;21…
 ## $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;, &quot;-2.916667&quot;, &quot;-96.6458…</pre>
 
-</article></slide><slide class=""><hgroup><h2>Preparing the data: separate into date and time</h2></hgroup><article  id="preparing-the-data-separate-into-date-and-time" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Preparing the data: separate into date and time</h2></hgroup><article  class="codesmall" id="preparing-the-data-separate-into-date-and-time">
 
 <pre class = 'prettyprint lang-r'>ufo &lt;- ufo %&gt;%separate(datetime,into = c(&quot;date&quot;, &quot;time&quot;), sep = &quot; &quot;)
 
@@ -3356,7 +3356,7 @@ glimpse(ufo)</pre>
 ## $ latitude           &lt;chr&gt; &quot;29.8830556&quot;, &quot;29.38421&quot;, &quot;53.2&quot;, &quot;28.9783333&quot;, &quot;21…
 ## $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;, &quot;-2.916667&quot;, &quot;-96.6458…</pre>
 
-</article></slide><slide class=""><hgroup><h2>Preparing the data: separate into hour and min</h2></hgroup><article  id="preparing-the-data-separate-into-hour-and-min" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Preparing the data: separate into hour and min</h2></hgroup><article  class="codesmall" id="preparing-the-data-separate-into-hour-and-min">
 
 <pre class = 'prettyprint lang-r'>ufo &lt;- ufo %&gt;% separate(time, into= c(&quot;hour&quot;, &quot;min&quot;)) 
 
@@ -3378,7 +3378,7 @@ glimpse(ufo)</pre>
 ## $ latitude           &lt;chr&gt; &quot;29.8830556&quot;, &quot;29.38421&quot;, &quot;53.2&quot;, &quot;28.9783333&quot;, &quot;21…
 ## $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;, &quot;-2.916667&quot;, &quot;-96.6458…</pre>
 
-</article></slide><slide class=""><hgroup><h2>Preparing the data: convert to numeric</h2></hgroup><article  id="preparing-the-data-convert-to-numeric" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Preparing the data: convert to numeric</h2></hgroup><article  class="codesmall" id="preparing-the-data-convert-to-numeric">
 
 <pre class = 'prettyprint lang-r'>ufo &lt;-ufo %&gt;% mutate(hour = as.numeric(hour), min = as.numeric(min))
 
@@ -3418,7 +3418,7 @@ ufo %&gt;% count(timespan)</pre>
 ## 3 Morning   23517
 ## 4 Night     21846</pre>
 
-</article></slide><slide class=""><hgroup><h2>Check the output</h2></hgroup><article  id="check-the-output" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Check the output</h2></hgroup><article  class="codesmall" id="check-the-output">
 
 <p>You may have noticed that character data is arranged alphabetically.</p>
 
@@ -3432,7 +3432,7 @@ ufo %&gt;% count(timespan)</pre>
 ## 3 Morning   23517
 ## 4 Night     21846</pre>
 
-</article></slide><slide class=""><hgroup><h2>Check the output</h2></hgroup><article  id="check-the-output-1" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Check the output</h2></hgroup><article  class="codesmall" id="check-the-output-1">
 
 <p>Character data is arranged alphabetically.</p>
 
@@ -3484,7 +3484,7 @@ ufo %&gt;% count(timespan)</pre>
 
 <p>Nice this is better!</p>
 
-</article></slide><slide class=""><hgroup><h2>Now let’s take a look at the data again</h2></hgroup><article  id="now-lets-take-a-look-at-the-data-again-1" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Now let’s take a look at the data again</h2></hgroup><article  class="codesmall" id="now-lets-take-a-look-at-the-data-again-1">
 
 <p>Factor data is arranged by level.</p>
 
@@ -3507,7 +3507,7 @@ ufo %&gt;% count(timespan)</pre>
 ## $ longitude          &lt;chr&gt; &quot;-73.7133333&quot;, &quot;-73.9213889&quot;, &quot;178.017649&quot;, &quot;-95.36…
 ## $ timespan           &lt;fct&gt; Morning, Morning, Morning, Morning, Morning, Mornin…</pre>
 
-</article></slide><slide class=""><hgroup><h2>Let’s plot that again</h2></hgroup><article  id="lets-plot-that-again" class="codesmall">
+</article></slide><slide class=""><hgroup><h2>Let’s plot that again</h2></hgroup><article  class="codesmall" id="lets-plot-that-again">
 
 <p>The factor data is automatically plotted in the order we would like.</p>
 
@@ -3525,14 +3525,14 @@ ufo %&gt;% count(timespan)</pre>
 
 <p><img src="https://github.com/tidyverse/forcats/raw/main/man/figures/logo.png" alt="Forcats hex sticker" width="30%" style="display: block; margin: auto;" /></p>
 
-</article></slide><slide class=""><hgroup><h2><code>forcats</code> for ordering</h2></hgroup><article  id="forcats-for-ordering" class="smaller">
+</article></slide><slide class=""><hgroup><h2><code>forcats</code> for ordering</h2></hgroup><article  class="smaller" id="forcats-for-ordering">
 
 <p>We can order a factor by another variable by using the <code>fct_reorder()</code> function of the <code>forcats</code> package.</p>
 
 <div class="codeexample">
 <pre class = 'prettyprint lang-r'>fct_reorder({column getting changed}, {guiding column}, {summarizing function})</pre></div>
 
-</article></slide><slide class=""><hgroup><h2><code>forcats</code> for ordering</h2></hgroup><article  id="forcats-for-ordering-1" class="smaller">
+</article></slide><slide class=""><hgroup><h2><code>forcats</code> for ordering</h2></hgroup><article  class="smaller" id="forcats-for-ordering-1">
 
 <p>Let’s reorder by another variable using <code>fct_reorder</code>.</p>
 
@@ -3546,7 +3546,7 @@ ufo %&gt;% count(timespan)</pre>
 
 <p>This would be useful for identifying easily which timespan to focus on.</p>
 
-</article></slide><slide class=""><hgroup><h2>forcats for ordering.. with <code>.desc =</code> argument</h2></hgroup><article  id="forcats-for-ordering..-with-.desc-argument" class="smaller">
+</article></slide><slide class=""><hgroup><h2>forcats for ordering.. with <code>.desc =</code> argument</h2></hgroup><article  class="smaller" id="forcats-for-ordering..-with-.desc-argument">
 
 <pre class = 'prettyprint lang-r'>count(ufo, timespan) %&gt;% ggplot(
   aes(x  = fct_reorder(timespan, n, .desc = TRUE), y = n)) + 
