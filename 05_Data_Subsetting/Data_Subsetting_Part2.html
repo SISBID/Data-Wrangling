@@ -29,7 +29,7 @@
       // Author information
       presenters: [
             {
-        name:  'Data Wrangling in R' ,
+        name:  'SISBID: Data Wrangling in R' ,
         company: '',
         gplus: '',
         twitter: '',
@@ -3317,7 +3317,7 @@ dbl  (1): duration (seconds)
 
 <p>We need backticks to work with special characters like <code>(</code> and spaces.</p>
 
-</article></slide><slide class=""><hgroup><h2>Renaming Columns of a data frame or tibble</h2></hgroup><article  class="codesmall" id="renaming-columns-of-a-data-frame-or-tibble">
+</article></slide><slide class=""><hgroup><h2>Renaming Columns of a data frame or tibble</h2></hgroup><article  id="renaming-columns-of-a-data-frame-or-tibble" class="codesmall">
 
 <p>To rename columns in <code>dplyr</code>, you can use the <code>rename</code> function.</p>
 
@@ -3383,7 +3383,7 @@ $ longitude        &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;, 
 
 <p><img src="https://media.giphy.com/media/6q29hxDKvJvPy/giphy.gif" alt="" style="display: block; margin: auto;" /></p>
 
-</article></slide><slide class=""><hgroup><h2>Renaming all columns of a data frame: dplyr</h2></hgroup><article  class="codesmall" id="renaming-all-columns-of-a-data-frame-dplyr">
+</article></slide><slide class=""><hgroup><h2>Renaming all columns of a data frame: dplyr</h2></hgroup><article  id="renaming-all-columns-of-a-data-frame-dplyr" class="codesmall">
 
 <p>To rename all columns you use the <code>rename_with()</code>. In this case we will use <code>toupper()</code> to make all letters upper case. Could also use <code>tolower()</code> function.</p>
 
@@ -3408,7 +3408,7 @@ head(ufo_upper, 2)</pre>
 # ℹ 4 more variables: comments &lt;chr&gt;, `date posted` &lt;chr&gt;, latitude &lt;chr&gt;,
 #   longitude &lt;chr&gt;</pre>
 
-</article></slide><slide class=""><hgroup><h2>Janitor package</h2></hgroup><article  class="codesmall" id="janitor-package">
+</article></slide><slide class=""><hgroup><h2>Janitor package</h2></hgroup><article  id="janitor-package" class="codesmall">
 
 <pre class = 'prettyprint lang-r'>#install.packages(&quot;janitor&quot;)
 library(janitor)
@@ -3453,7 +3453,7 @@ head(ufo)</pre>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Adding/Removing Columns</h2></hgroup><article  id="addingremoving-columns">
 
-</article></slide><slide class=""><hgroup><h2>Adding columns to a data frame: dplyr (<code>tidyverse</code> way)</h2></hgroup><article  class="codesmall" id="adding-columns-to-a-data-frame-dplyr-tidyverse-way">
+</article></slide><slide class=""><hgroup><h2>Adding columns to a data frame: dplyr (<code>tidyverse</code> way)</h2></hgroup><article  id="adding-columns-to-a-data-frame-dplyr-tidyverse-way" class="codesmall">
 
 <p>The <code>mutate</code> function in <code>dplyr</code> allows you to add or modify columns of a data frame.</p>
 
@@ -3480,7 +3480,7 @@ $ latitude           &lt;chr&gt; &quot;29.8830556&quot;, &quot;29.38421&quot;, &
 $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;, &quot;-2.916667&quot;, &quot;-96.6458…
 $ state_upper        &lt;chr&gt; &quot;TX&quot;, &quot;TX&quot;, NA, &quot;TX&quot;, &quot;HI&quot;, &quot;TN&quot;, NA, &quot;CT&quot;, &quot;AL&quot;, &quot;…</pre>
 
-</article></slide><slide class=""><hgroup><h2>Use mutate to modify existing columns</h2></hgroup><article  class="codesmall" id="use-mutate-to-modify-existing-columns">
+</article></slide><slide class=""><hgroup><h2>Use mutate to modify existing columns</h2></hgroup><article  id="use-mutate-to-modify-existing-columns" class="codesmall">
 
 <p>The <code>mutate</code> function in <code>dplyr</code> allows you to add or modify columns of a data frame.</p>
 
@@ -3513,7 +3513,7 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 <pre class = 'prettyprint lang-r'>ufo &lt;- ufo %&gt;% 
   mutate(state = toupper(state))</pre>
 
-</article></slide><slide class=""><hgroup><h2>Removing columns of a data frame: dplyr</h2></hgroup><article  class="codesmall" id="removing-columns-of-a-data-frame-dplyr">
+</article></slide><slide class=""><hgroup><h2>Removing columns of a data frame: dplyr</h2></hgroup><article  id="removing-columns-of-a-data-frame-dplyr" class="codesmall">
 
 <p>The <code>select</code> function can remove a column with minus (<code>-</code>)</p>
 
@@ -3534,7 +3534,7 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 
 <p><strong>Or, you can simply select the columns you want to keep, ignoring the ones you want to remove.</strong></p>
 
-</article></slide><slide class=""><hgroup><h2>Removing columns in a data frame: dplyr</h2></hgroup><article  class="codesmall" id="removing-columns-in-a-data-frame-dplyr">
+</article></slide><slide class=""><hgroup><h2>Removing columns in a data frame: dplyr</h2></hgroup><article  id="removing-columns-in-a-data-frame-dplyr" class="codesmall">
 
 <p>You can use <code>c()</code> to list the columns to remove or tidyhelpers.</p>
 
@@ -3575,7 +3575,7 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 1 us      cylinder 10/10/1949 20:30
 2 &lt;NA&gt;    light    10/10/1949 21:00</pre>
 
-</article></slide><slide class=""><hgroup><h2>Ordering the columns of a data frame: dplyr</h2></hgroup><article  class="codesmall" id="ordering-the-columns-of-a-data-frame-dplyr-1">
+</article></slide><slide class=""><hgroup><h2>Ordering the columns of a data frame: dplyr</h2></hgroup><article  id="ordering-the-columns-of-a-data-frame-dplyr-1" class="codesmall">
 
 <p>In addition to <code>select</code> we can also use the <code>relocate()</code> function of dplyr to rearrange the columns for more complicated moves.</p>
 
@@ -3599,7 +3599,7 @@ $ longitude          &lt;chr&gt; &quot;-97.9411111&quot;, &quot;-98.581082&quot;
 # ℹ 4 more variables: comments &lt;chr&gt;, date_posted &lt;chr&gt;, latitude &lt;chr&gt;,
 #   longitude &lt;chr&gt;</pre>
 
-</article></slide><slide class=""><hgroup><h2>Ordering the columns of a data frame: dplyr</h2></hgroup><article  class="codesmall" id="ordering-the-columns-of-a-data-frame-dplyr-2">
+</article></slide><slide class=""><hgroup><h2>Ordering the columns of a data frame: dplyr</h2></hgroup><article  id="ordering-the-columns-of-a-data-frame-dplyr-2" class="codesmall">
 
 <p>In addition to <code>select</code> we can also use the <code>relocate()</code> function of dplyr to rearrange the columns for more complicated moves.</p>
 
