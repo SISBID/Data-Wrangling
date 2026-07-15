@@ -8,6 +8,17 @@ output:
   beamer_presentation: default
 ---
 
+<script>
+    function add_favicon_link() {
+        const link = document.createElement("link");
+        link.rel = "shortcut icon";
+        link.href = "#";
+        document.head.appendChild(link);
+    }
+    add_favicon_link();
+</script>
+
+
 ```{r, include=FALSE}
 library(tidyverse)
 library(repurrrsive)
@@ -25,68 +36,44 @@ Don't need to write for-loops! - check this [video](https://www.youtube.com/watc
 Allows you to flexibly iterate functions to multiple elements of a data object!
 
 Useful when you want to apply a function to:  
- * lots of columns in a tibble  
- * multiple tibbles  
- * multiple data files  
+
+- lots of columns in a tibble  
+- multiple tibbles  
+- multiple data files  
  
 ## base R `apply` functions
 
-Works really simply for all columns.
+Works really simply for all columns, but not a tibble.
 
 ```{r}
 sapply(mtcars, FUN = round)
-
-```
-
-## Base R `apply` functions specific columns
-
-Harder to use for specific columns.
-
-```{r}
-rounded_mtcars <- mtcars %>% select(disp, drat, wt, qsec) %>%
-sapply(FUN = round)
-bind_cols(rounded_mtcars, select(mtcars, -c(disp, drat, wt, qsec)))
 ```
 
 ## Working **`across`** multiple columns
 
-`across` allows us to perform functions on specific columns more easily.
-
-```
-mutate(across(which_columns, which function or operation))
-```
+`across` allows us to perform functions on specific columns more easily. Use with `mutate` or `summarize`.
 
 ```{r}
-head(mtcars, 2)
-
 mtcars %>% 
-  mutate(across(.cols = c(disp, drat, wt, qsec), round)) %>%
-  head(2)
+  mutate(across(
+    c(mpg, disp, hp, drat), 
+    round # no parentheses if no arguments
+  ))
 ```
-
-
 
 ## Using `across` with arguments {.codesmall}
 
-If you want to use arguments, then you need to use the `~`  and `.x` (or `.`) as a place holder for what you will be passing into the function.
+If you want to use arguments, then you need to use the `~`  and `.` (or `.x`) as a place holder for what you will be passing into the function.
 
-See [purrr-shortcuts](https://adv-r.hadley.nz/functionals.html#purrr-shortcuts) and [this link about `.` and `.x`](https://forum.posit.co/t/function-argument-naming-conventions-x-vs-x/7764/10).
+See [documentation for purrr-shortcuts](https://adv-r.hadley.nz/functionals.html#purrr-shortcuts) and [a comparison of `.` and `.x`](https://forum.posit.co/t/function-argument-naming-conventions-x-vs-x/7764/10).
 
 ```{r}
-
 mtcars %>% 
-  mutate(across(.cols = c(disp, drat, wt, qsec), ~ round(.x, digits = 1))) %>%
-  head(n = 2)
-
-
-mtcars %>% 
-  mutate(across(.cols = c(disp, drat, wt, qsec), ~ round(., digits = 1))) %>% 
-  head(n = 2)
-  
+  mutate(across(
+    c(mpg, disp, hp, drat), 
+    ~ round(., digits = -1) # note ~ and .
+  ))
 ```
-
-
-
 
 
 # Writing functions
@@ -110,16 +97,20 @@ my_function
 my_data  <- c(2,3,4)
 
 my_function(x = my_data)
-my_function(my_data)
 ```
 
+## Shortcut for functions
 
+Alternatively we can use `\(x)`. See this [link about function shortcuts](https://medium.com/analytics-vidhya/how-to-use-the-new-function-symbol-in-r-programming-4-1-r-4-1-c7cd2ac27b98).
 
+```{r}
+my_function <- \(x){x + 1}
+my_function
 
+my_function(x = my_data)
+```
 
-
-
-## `purrr` is also a super helpful package!
+## `purrr` is a super helpful package for iteration!
 
 "Designed to make your functions purrr."
 
@@ -134,127 +125,91 @@ The `purrr` package can be very helpful!
 
 * https://jennybc.github.io/purrr-tutorial/ 
 
+## `purrr` functions: `map` and `modify`
 
-## `purrr` main functions
+**applies function** to each element of an vector or object
 
-`map` and `map_*` (and `modify`)  
-- **applies function** to each element of an vector or object 
-(map returns a list, modify returns the same object type)
-- `map_df` will output a dataframe
+- `map` will output a list
+- `map_dbl` will output a vector
+- `modify` will output the same object type
 
-**Fancier Options**
+## `purrr` functions: `map` and `modify`
 
-`map2` and `map2*`  
-- applies function to each element of **two** vectors or objects  
-- an example would be improting multiple files with a vector of different delimiters
-  
-`pmap` and `pmap_*` 
-- applies function to each element of **3+** vector or objects (requires a list for input)  
-
-the _* options specify the type of data output
-
-<!-- ## Using `map()` -->
-
-<!-- ![](https://dcl-prog.stanford.edu/images/map-step-2.png) -->
-<!-- [[source](https://dcl-prog.stanford.edu/purrr-parallel.html)] -->
-
-
-<!-- ## Using `map_df()` -->
-
-<!-- ```{r} -->
-<!-- my_tibble <- tibble(values = c(1.2, 2.3, 3.5, 4.6)) -->
-<!-- map_df(my_tibble, round) -->
-<!-- ``` -->
-
-<!-- ## map2 -->
-
-<!-- Good if you need to use multiple vectors in a function together. -->
-
-<!-- ![](https://dcl-prog.stanford.edu/images/map2.png) -->
-<!-- [[source](https://dcl-prog.stanford.edu/purrr-parallel.html)] -->
-
-<!-- ```{r} -->
-<!-- x <-c(1.2, 2.3, 3.5, 4.6) -->
-<!-- y <-c(2.4, 5.3, 6.4, 1.0) -->
-<!-- map2(x, y, min) %>% unlist() -->
-<!-- modify2(x, y, min) -->
-<!-- ``` -->
-
-<!-- ## Put it all together -->
-
-<!-- ```{r} -->
-
-<!-- trees %>% mutate(New = map2_dbl(Girth, Height,  -->
-<!--                         function(x,y){ pi * ((x/2)/12)^2 * y})) %>% head(n = 3) -->
-
-<!-- tree_fun <-function(x,y){ pi * ((x/2)/12)^2 * y} -->
-<!-- trees %>% mutate(New = modify2(.x= Girth,  -->
-<!--                                .y= Height, tree_fun)) %>% head(n = 3) -->
-<!-- ``` -->
-
-<!-- ## pmap {.smaller} -->
-
-<!-- ![](https://dcl-prog.stanford.edu/images/pmap-list.png) -->
-<!-- [[source](https://dcl-prog.stanford.edu/purrr-parallel.html)] -->
-
-<!-- ```{r} -->
-<!-- pmap_list <- -->
-<!--   list(x = c(5,100,100,100), y = c(100,5, 200, 300), z = c(100,100, 6, 100)) -->
-
-<!-- pmap(pmap_list, min) %>% unlist() -->
-
-<!-- ``` -->
-
-
-<!-- ## `purrr` : `map_df` or `modify` -->
-
-<!-- `map_df`  -->
-
-<!-- ```{r} -->
-<!-- library(purrr) -->
-<!-- head(mtcars, 2) -->
-<!--  mtcars %>%  -->
-<!--    map_df(round) %>% -->
-<!--    head(2) -->
-<!-- ``` -->
-
-<!-- ## `purrr` : `map_df` or `modify` -->
-
-<!-- `modify`  -->
-
-<!-- ```{r} -->
-<!--  mtcars %>%  -->
-<!--    modify(round) %>% -->
-<!--    head(2) -->
-<!-- ``` -->
-
-## map_df and across
-
-Both `map_df` and `across` can do the same thing, `map_df` is simpler, but `across` keeps rownames.
+Apply `sum` to every column
 
 ```{r}
-mtcars %>% 
-  map_df(round, digits = 1) %>%
-  head(n = 2)
-
-mtcars %>% 
-  mutate(across(.cols = everything(), ~ round(.x, digits = 1))) %>%
-  head(n = 2)
+mtcars |> map(sum)
 ```
 
-## `purrr` apply function to some columns like across {.codesmall}
+## `purrr` functions: `map` and `modify`
 
-Using `modify_if()` (or `map_if()`), we can specify what columns to modify
+Apply `sum` to every column - nicer output
 
 ```{r}
-head(as_tibble(iris), 3)
+mtcars |> map_dbl(sum)
+```
 
-as_tibble(iris) %>% 
-  modify_if(is.numeric, round) %>%
+## `purrr` functions: `map` and `modify`
+
+Apply `round` to every column - get a data.frame back out
+
+```{r}
+mtcars |> modify(round)
+```
+
+## Anonymous functions - "functions on the fly"
+
+You can supply a custom function without naming it. Useful if you only need to use it once!
+
+```{r}
+mtcars |> modify(\(x) x * 100)
+```
+
+## `modify_if` {.codesmall}
+
+Using `modify_if()`, we can specify what columns to modify
+
+```{r message=FALSE}
+ufo1 <- read_csv("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_1.csv")
+```
+
+```{r}
+ufo1 %>% 
+  modify_if(is.character, toupper) %>%
   head(3)
 ```
 
+## Speed test! modify_if vs across
 
+```{r}
+system.time(ufo1 %>% 
+              modify_if(is.character, toupper))
+
+system.time(ufo1 %>%
+               mutate(across(where(is.character), toupper)))
+```
+
+## Iterative filtering with `if_all`
+
+Previously we filtered for patterns or conditions..
+
+Dilemma: Seems a bit repetitive!
+
+```{r}
+mtcars %>%
+  filter(cyl > 3 & cyl < 8,
+         gear > 3 & gear < 8,
+         carb > 3 & carb < 8)
+```
+
+## Now we can filter multiple columns!
+
+`if_all()`: helps us filter on multiple similar conditions simultaneously!
+
+```{r}
+mtcars %>%
+   filter(if_all(c(cyl, gear, carb), ~.x > 3 & .x < 8))
+```
 
 # Lists
 
@@ -293,44 +248,52 @@ mylist[[1]] # returns the vector 'letters'
 mylist[["letters"]] # returns the vector 'letters'
 ```
 
+## Why do this at all?
 
-<!-- ## Examples we will use -->
+https://jennybc.github.io/purrr-tutorial/bk01_base-functions.html
 
- <!-- * https://jennybc.github.io/purrr-tutorial/ -->
+You need a way to iterate in R in a data-structure-informed way. What does that mean?
 
-<!-- * https://cran.r-project.org/web/packages/repurrrsive/index.html -->
+* Iterate over elements of a list
+* Iterate over rows or columns of a 2-dimensional object
+* Iterate over sub data frames induced by one or more factors
+* Iterate over tuples formed from the i-th element of several vectors of equal length
 
-<!-- * https://tidyr.tidyverse.org/articles/rectangle.html -->
+## Cleaning up multiple datasets {.codesmall}
 
-<!-- ## Why do this at all? -->
+Store datasets in a list!
 
-<!-- https://jennybc.github.io/purrr-tutorial/bk01_base-functions.html -->
+```{r message=FALSE}
+ufo1 <- read_csv("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_1.csv")
+ufo2 <- read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_2.tsv")
+ufo4 <- read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_4.csv", delim = ":")
+```
 
-<!-- You need a way to iterate in R in a data-structure-informed way. What does that mean? -->
+```{r}
+ufo_datasets <- list(ufo1, ufo2, ufo4)
+```
 
-<!-- * Iterate over elements of a list -->
-<!-- * Iterate over rows or columns of a 2-dimensional object -->
-<!-- * Iterate over sub data frames induced by one or more factors -->
-<!-- * Iterate over tuples formed from the i-th element of several vectors of equal length -->
+## Cleaning up multiple datasets
 
+Clean names on all datasets at once:
 
+```{r message=FALSE}
+library(janitor)
 
+ufo_datasets_clean <- 
+  ufo_datasets %>%
+  map(\(x) x |> count(country))
+```
 
+## Cleaning up multiple datasets {.codesmall}
 
+Confirm columns have been cleaned! Look at `ufo_datasets_clean` or look at each with indexing, eg.:
 
-<!-- ## List referencing -->
+```{r message=FALSE}
+ufo_datasets_clean[[1]]
+```
 
-<!-- You can also select down several levels of a list at once -->
-
-<!-- ```{r Listsref3, comment="", prompt=TRUE} -->
-<!-- mylist$letters[1] -->
-<!-- mylist[[2]][1] -->
-<!-- mylist[[3]][1:2,1:2] -->
-<!-- ``` -->
-
-## ... Why lists?
-
-## List: `split()` a dataset 
+## List: `group_split()` a dataset 
 
 We can create a list by splitting up a dataframe. We will use `mtcars`.
 
@@ -338,470 +301,32 @@ We can create a list by splitting up a dataframe. We will use `mtcars`.
 head(mtcars)
 ```
 
-## List: `split()` the dataset by `cyl` {.codesmall}
+## List: `group_split()` the dataset by `cyl` {.codesmall}
+
+The following creates split of data for each unique cyl value:
 
 ```{r}
-mtcars_split <-mtcars %>% split(.$cyl)
-str(mtcars_split)
+mtcars_split <- mtcars %>% group_by(cyl) %>% group_split()
+mtcars_keys <- mtcars %>% group_by(cyl) %>% group_keys() %>% pull(cyl)
+names(mtcars_split) <- mtcars_keys
+glimpse(mtcars_split)
 ```
 
 ## List: model on each
 
 ```{r}
-
-mtcars %>%
-  split(.$cyl) %>% # creates split of data for each unique cyl value
+mtcars_split %>% 
   map(~lm(mpg ~ wt, data = .)) %>% # apply linear model to each
   map(summary) %>%
   map_dbl("r.squared")
 ```
 
-## Use lists to iterate through multiple files! {.smaller}
-
-This comes up a lot in data cleaning and also when reading in multiple files!
-
-```{r, message = FALSE}
-library(here)
-library(readr)
-file_list <- list.files(here::here("data/iris/"), pattern = "*.csv")
-
-file_list <- paste0(here::here("data/iris/"), file_list)
-file_list
-
-multifile_data <- file_list %>%
-  map(read_csv)
-```
-
-## Reading in multiple files -First item {.smaller}
-
-```{r}
-multifile_data[[1]]
-```
-
-## Reading in multiple files - 2nd item {.smaller}
-
-```{r}
-multifile_data[[2]]
-```
-
-## Reading in multiple files - 3rd item {.smaller}
-
-```{r}
-multifile_data[[3]]
-```
-
-## Import with different delimiters
-
-```{r, message=FALSE}
-delimiters <- c(",", ":", ",")  # delimiters for each file
-
-# Write our own function to read files with specific delimiters:
-
-read_with_delimiter <- function(file, delimiter) {
-  read_delim(file, delim = delimiter)
-}
-
-# Map over file_list and delimiters
-multifile_data <- map2(file_list, delimiters, read_with_delimiter)
-```
-
-![](https://dcl-prog.stanford.edu/images/map2.png)
-
-[[source](https://dcl-prog.stanford.edu/purrr-parallel.html)]
-
-## Reading in multiple files - 1st item {.smaller}
-
-```{r}
-multifile_data[[1]]
-```
-
-## Reading in multiple files - 2nd item {.smaller}
-
-```{r}
-multifile_data[[2]]
-```
-
-## Reading in multiple files - 3rd item {.smaller}
-
-```{r}
-multifile_data[[3]]
-```
 ## Summary
 
-- `function(x){ }` or `\(x){ }` denotes a function. You also commonly see `~.x` inside `across`
+- `function(x){ }` or `\(x){ }` denotes a function. You also commonly see `~.x` inside `across`.
 - `map_df` and `modify` **apply functions** to each element of an object. `map` returns a list, `modify` returns the same object type.
-- The purrr package has other useful functional programming features
+- The purrr package has other useful functional programming features.
 - lists can be great for storing iterative work.
+- `group_split` and `group_keys` can be handy with `group_by`
 
 https://sisbid.github.io/Data-Wrangling/14_Functional_Programming/lab/functional-program-lab.Rmd
-
-# Extra Slides
-
-## Reading in multiple files{.smaller}
-
-The `bind_rows()` function can be great for combining data.
-
-recall that `modify` keeps the same data type (here, a list). We want a data frame instead.
-
-See https://www.opencasestudies.org/ocs-bp-vaping-case-study for more information!
-
-```{r}
-all_files_data <- 
-  multifile_data %>%
-  map_df(bind_rows, .id = "experiment")
-
-glimpse(all_files_data)
-```
-
-
-## Shortcut for functions
-
-Alternatively we can use `\(x)`. See this [link about function shortcuts](https://medium.com/analytics-vidhya/how-to-use-the-new-function-symbol-in-r-programming-4-1-r-4-1-c7cd2ac27b98).
-
-```{r}
-my_function <- \(x){x + 1}
-my_function
-
-my_function(x = my_data)
-```
-
-## Previously we filtered for patterns or conditions..
-
-Dilemma: Seems a bit repetitive!
-
-```{r}
-mtcars %>%
-  filter(cyl > 3 & cyl < 8,
-         gear > 3 & gear < 8,
-         carb > 3 & carb < 8)
-```
-
-## Now we can filter multiple columns!
-
-`if_all()`: helps us filter on multiple similar conditions simultaneously!
-
-```{r}
-mtcars %>%
-   filter(if_all(c(cyl, gear, carb), ~.x > 3 & .x < 8))
-
-```
-
-<!-- ## if_any() and if_all() -->
-
-<!-- ```{r} -->
-<!-- iris %>% -->
-<!--   filter(if_any(ends_with("Width"), ~ . > 4)) -->
-
-<!-- iris %>% -->
-<!--   filter(if_all(ends_with("Length"), ~ . > 6)) -->
-
-
-<!-- mtcars %>% -->
-<!--   filter(if_any(ends_with("t"), ~. > 4)) -->
-
-<!-- mtcars %>% -->
-<!--      filter(if_all(c(qsec, mpg, cyl, gear), ~. > 4)) -->
-
-<!-- ``` -->
-
-<!-- ## `if_any()` and `if_all()` are also helpful! -->
-
-<!-- if_any() filters for rows any columns in listed columns meet the condition -->
-
-
-<!-- ```{r} -->
-<!-- #diamonds %>% -->
-<!--  #  filter(x > 11 | y > 11 | z > 11) -->
-
-<!-- diamonds %>% -->
-<!--    filter(if_any(c(x, y, z), ~. > 11)) -->
-
-<!-- ``` -->
-
-<!-- ## `if_any()` and `if_all()` are also helpful! -->
-
-<!-- if_all() filters for rows if all columns in listed columns meet the condition -->
-
-
-<!-- ```{r} -->
-<!-- #diamonds %>% -->
-<!--      #filter(x > 8 , y > 8 , z > 8) -->
-
-<!-- diamonds %>% -->
-<!--    filter(if_all(c(x, y, z), ~. > 8)) -->
-
-<!-- ``` -->
-
-
-## Using across with helpers to apply function to multiple columns
-
-`?tidyr_tidy_select`
-
-```{r}
-mtcars %>% 
-  mutate(across(.cols = disp:wt, round)) %>%
-  head(2)
-
-mtcars %>% 
-  mutate(across(.cols = everything(), round))%>%
-  head(2)
-```
-
-## Speed test! modify_if vs across
-
-```{r}
-system.time(iris %>%
-              modify_if(is.factor, as.character))
-
-
-system.time(iris %>%
-               mutate(across(.cols = where(is.factor), as.character)))
-
-```
-
-## List referencing
-
-You can also select multiple lists with the single brackets. 
-
-```{r Listsref2}
-mylist[1:2] # returns a list
-```
-
-## Alternatively we could have fixed the second file {.smaller}
-Looks like it had a different delimiter
-First, separating by the `:`.
-
-```{r}
-multifile_data[[2]] <-
-  separate(
-    multifile_data[[2]],
-    col = 1,
-    into = colnames(multifile_data[[1]]),
-    sep = ":"
-  )
-
-head(multifile_data[[2]], 3)
-```
-
-## Fixing the second file
-
-Second, making sure values are numeric.
-
-```{r}
-multifile_data[[2]] <-
-  multifile_data[[2]] %>%
-  mutate(across(!Species, as.numeric))
-
-head(multifile_data[[2]], 3)
-```
-
-
-
-```
-<!-- ## Factors -->
-
-<!-- First we will create some data about absences for different students.  -->
-
-<!-- ```{r} -->
-<!-- set.seed(123) -->
-<!-- data_highschool <- tibble(absences = sample(0:7, size = 32, replace = TRUE),  -->
-<!--                           grade = rep(c("Freshman","Sophmore",  -->
-<!--                                         "Junior", "Senior"), 8)) -->
-<!-- head(data_highschool, 3) -->
-<!-- ``` -->
-
-<!-- Notice that `grade` is a `chr` variable. This indicates that the values are character strings. R does not realize that there is any order related to the `grade` values. However, we know that the order is: freshman, sophomore, junior, senior. -->
-
-<!-- ## Let's make a plot first: -->
-
-<!-- ```{r} -->
-<!-- #boxplot(data = data_highschool, absences ~ grade) -->
-<!-- data_highschool %>% -->
-<!--   ggplot(mapping = aes(x = grade, y = absences)) + -->
-<!--   geom_boxplot() -->
-
-<!-- ``` -->
-
-
-<!-- ## Not quite what we want -->
-
-<!-- OK this is very useful, but it is a bit difficult to read, because we expect the values to be plotted by the order that we know, not by alphabetical order. Currently `grade` is class `character` but let's change that to class `factor` which allows us to specify the levels or order of the values. -->
-
-<!-- ## As factor now -->
-
-<!-- Using `as_factor()` from the `forcats` package the levels will be in the order in which they occur in the data! -->
-
-<!-- https://forcats.tidyverse.org/  -->
-
-<!-- ```{R} -->
-<!-- class(pull(data_highschool, grade)) -->
-<!-- data_highschool_fct <- data_highschool %>%  -->
-<!--   mutate(grade = as_factor(grade)) -->
-<!-- head(data_highschool_fct, 3) -->
-<!-- ``` -->
-
-<!-- ## Now let's make our plot again: -->
-
-<!-- ```{r} -->
-<!-- #boxplot(data = data_highschool_fct, absences ~ grade) -->
-<!-- data_highschool_fct %>% -->
-<!--   ggplot(mapping = aes(x = grade, y = absences)) + -->
-<!--   geom_boxplot() -->
-
-<!-- ``` -->
-
-<!-- ## Calculatons with factors? -->
-
-<!-- Now what about results from some calculations. -->
-
-<!-- ```{r} -->
-<!-- data_highschool %>% group_by(grade) %>% summarise(mean = mean(absences)) -->
-
-<!-- data_highschool_fct %>% group_by(grade) %>% summarise(mean = mean(absences)) -->
-<!-- ``` -->
-
-<!-- Here we see that the mean is calculated in the order we would like only for the version of the data that has absences coded as a factor! -->
-
-<!-- ## What if we want to change the factor level order? {.smaller} -->
-
-
-<!-- ```{r} -->
-<!-- data_highschool_fct %>% -->
-<!--   ggplot(mapping = aes(x = fct_reorder(grade, absences),  -->
-<!--                        y = absences)) + -->
-<!--   geom_boxplot() -->
-<!-- ``` -->
-
-<!-- ## Descending factor order {.smaller} -->
-
-<!-- ```{r} -->
-<!-- data_highschool_fct %>% -->
-<!--   ggplot(mapping = aes(x = fct_reorder(grade, absences, .desc = TRUE), -->
-<!--                        y = absences)) + -->
-<!--   geom_boxplot() -->
-
-<!-- ``` -->
-
-<!-- ## Claculations with reoder -->
-
-<!-- ```{r} -->
-
-<!-- data_highschool_fct %>% group_by(grade) %>% summarise(mean = mean(absences)) -->
-<!-- data_highschool_fct %>% mutate(grade = fct_reorder(grade, absences, .desc = TRUE)) -->
-<!-- data_highschool_fct %>% group_by(grade) %>% summarise(mean = mean(absences)) -->
-<!-- ``` -->
-
-<!-- ## `purrr` map2 -->
-
-<!-- ```{r} -->
-<!-- mtcars_list<-list(head(mtcars,4), head(mtcars,4), head(mtcars,4)) -->
-<!-- map(mtcars_list, round) -->
-<!-- map2(multifile_data[[1]], multifile_data[[2]], paste)
-<!-- ``` -->
-  
-
-<!-- ```{r}  -->
-<!-- h = c("I like performing", "much data wrangling in R", "it is oh so fun") -->
-<!-- ll = str_split(h, " ") -->
-<!-- ll -->
-<!-- ``` -->
-
-<!-- ## Why do this at all? -->
-
-<!-- ```{r} -->
-<!-- class(got_chars) -->
-<!-- length(got_chars) -->
-<!-- lengths(got_chars) -->
-<!-- names(got_chars[[1]]) -->
-<!-- ``` -->
-
-
-
-<!-- ## How would we get the names of each GoT character? -->
-
-<!-- The really old way involved `for` loops: -->
-
-<!-- ```{r} -->
-<!-- char_names = vector("character", length(got_chars)) # initiate -->
-<!-- for (i in seq(along=got_chars)) { # iterate -->
-<!--   char_names[i] = got_chars[[i]]$name -->
-<!-- } -->
-<!-- char_names[1:5] # examine -->
-<!-- ``` -->
-
-
-<!-- ## How would we get the names of each GoT character? -->
-
-<!-- The kinda old way involved `apply` statements: -->
-
-<!-- ```{r} -->
-<!-- sapply(got_chars[1:5], function(x) x$name) -->
-<!-- ``` -->
-
-
-<!-- ## How would we get the names of each GoT character? -->
-
-<!-- This can still be pretty efficient: -->
-
-<!-- ```{r} -->
-<!-- sapply(got_chars[1:5], "[[", "name") -->
-<!-- ``` -->
-
-<!-- The user interface of the “apply” functions is not as consistent as it could be, which slows down learning. The return objects frequently require further checking and massage to use downstream. In particular, there’s a tendency to return a vector (atomic or otherwise) or array, instead of data frame, with the original factor levels appearing in a names attribute. [https://jennybc.github.io/purrr-tutorial/bk01_base-functions.html] -->
-
-
-<!-- ## How would we get the names of each GoT character? -->
-
-<!-- This can still be pretty efficient: -->
-
-<!-- ```{r} -->
-<!-- map_chr(got_chars[1:5], "name") -->
-<!-- ``` -->
-
-<!-- ## `sapply` versus `map_chr` -->
-
-<!-- Potentially confusing output: -->
-<!-- ```{r} -->
-<!-- sapply(got_chars[2:3], "[[", "aliases") -->
-<!-- ``` -->
-
-<!-- Compared to error:  -->
-<!-- ```{r, error = TRUE} -->
-<!-- map_chr(got_chars[2:3], "aliases") -->
-<!-- ``` -->
-
-<!-- ## Example using string split output -->
-
-<!-- ```{r} -->
-<!-- map_chr(ll, first) -->
-<!-- map_chr(ll, last) -->
-<!-- map_chr(ll, nth, 3) -->
-<!-- ``` -->
-
-
-<!-- ## More extensive examples -->
-
-<!-- You can create tibbles where each observation is a list: -->
-
-<!-- https://tidyr.tidyverse.org/articles/rectangle.html -->
-
-<!-- ```{r} -->
-<!-- chars <- tibble(char = got_chars) -->
-<!-- chars -->
-<!-- ``` -->
-
-<!-- ## More extensive examples -->
-
-<!-- ```{r} -->
-<!-- chars2 <- chars %>% unnest_wider(char) -->
-<!-- chars2 -->
-<!-- ``` -->
-
-<!-- ## Say you wanted all characters and their titles: -->
-
-<!-- ```{r} -->
-<!-- chars2 %>% -->
-<!--   select(name, title = titles) %>% -->
-<!--   unnest_longer(title) -->
-<!-- ``` -->
-

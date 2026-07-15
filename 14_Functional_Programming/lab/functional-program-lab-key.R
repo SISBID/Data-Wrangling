@@ -3,38 +3,45 @@ library(tidyverse)
 
 
 ## -----------------------------------------------------------------------------
-iris_lab <- iris
+ufo <- read_csv(
+"https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv")
 
 
 ## -----------------------------------------------------------------------------
-iris_lab %>% 
-  mutate(across(.cols = !Species, round)) %>%
-  head()
-# OR 
-iris_lab %>% 
-  mutate(across(.cols = where(is.numeric), round)) %>%
-  head()
+ufo %>%
+  mutate(across(
+    where(is.character),
+    toupper
+  ))
 
 
 ## -----------------------------------------------------------------------------
-iris_lab %>% 
-  mutate(across(.cols = !Species, ~ round(.x, digits = 1))) %>%
-  head()
+ufo <- ufo %>%
+  modify_if(is.character, toupper)
 
 
 ## -----------------------------------------------------------------------------
-iris_lab %>%
-filter(if_all(starts_with(c("Petal", "Sepal")), ~.x > 2))  %>%
-  head()
+ufo %>%
+  mutate(across(
+    where(is.character),
+    toupper
+  )) %>% system.time()
+
+ufo %>%
+  modify_if(is.character, toupper) %>%
+  system.time()
 
 
 ## -----------------------------------------------------------------------------
-format(10000, scientific = TRUE)
+ufo_list <- ufo %>% group_by(country) %>% group_split()
 
 
 ## -----------------------------------------------------------------------------
-iris_lab <- iris_lab %>%
-  modify_if(is.numeric, ~ format(.x, scientific = TRUE))
+ufo_keys <- ufo %>% group_by(country) %>% group_keys() %>% pull(country)
+names(ufo_list) <- ufo_keys
 
-head(iris_lab)
+
+## -----------------------------------------------------------------------------
+ufo_list %>%
+  map(\(x) count(x, shape))
 

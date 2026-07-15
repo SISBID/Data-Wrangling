@@ -5,45 +5,75 @@ library(tidyr)
 
 
 ## -----------------------------------------------------------------------------
-sapply(mtcars, FUN =  round)
-
-
-
-## -----------------------------------------------------------------------------
-rounded_mtcars <- mtcars %>% select(disp, drat, wt, qsec) %>%
-sapply(FUN = round)
-bind_cols(rounded_mtcars, select(mtcars, -c(disp, drat, wt, qsec)))
-
-
-## -----------------------------------------------------------------------------
-head(mtcars, 2)
-
-mtcars %>% 
-  mutate(across(.cols = c(disp, drat, wt, qsec), round)) %>%
-  head(2)
+sapply(mtcars, FUN = round)
 
 
 ## -----------------------------------------------------------------------------
 mtcars %>% 
-  mutate(across(.cols = c(disp, drat, wt, qsec), ~ round(.x))) %>%
-  head(2)
-
-mtcars %>% 
-  mutate(across(.cols = c(disp, drat, wt, qsec), ~ round(.))) %>%
-  head(2)
+  mutate(across(
+    c(mpg, disp, hp, drat), 
+    round # no parentheses if no arguments
+  ))
 
 
 ## -----------------------------------------------------------------------------
-
 mtcars %>% 
-  mutate(across(.cols = c(disp, drat, wt, qsec), ~ round(.x, digits = 1))) %>%
-  head(n = 2)
+  mutate(across(
+    c(mpg, disp, hp, drat), 
+    ~ round(., digits = -1) # note ~ and .
+  ))
 
 
-mtcars %>% 
-  mutate(across(.cols = c(disp, drat, wt, qsec), ~ round(., digits = 1))) %>% 
-  head(n = 2)
-  
+## -----------------------------------------------------------------------------
+my_function <- function(x){x + 1}
+my_function
+
+
+## -----------------------------------------------------------------------------
+my_data  <- c(2,3,4)
+
+my_function(x = my_data)
+
+
+## -----------------------------------------------------------------------------
+my_function <- \(x){x + 1}
+my_function
+
+my_function(x = my_data)
+
+
+## -----------------------------------------------------------------------------
+mtcars |> map(sum)
+
+
+## -----------------------------------------------------------------------------
+mtcars |> map_dbl(sum)
+
+
+## -----------------------------------------------------------------------------
+mtcars |> modify(round)
+
+
+## -----------------------------------------------------------------------------
+mtcars |> modify(\(x) x * 100)
+
+
+## ----message=FALSE------------------------------------------------------------
+ufo1 <- read_csv("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_1.csv")
+
+
+## -----------------------------------------------------------------------------
+ufo1 %>% 
+  modify_if(is.character, toupper) %>%
+  head(3)
+
+
+## -----------------------------------------------------------------------------
+system.time(ufo1 %>% 
+              modify_if(is.character, toupper))
+
+system.time(ufo1 %>%
+               mutate(across(where(is.character), toupper)))
 
 
 ## -----------------------------------------------------------------------------
@@ -58,59 +88,12 @@ mtcars %>%
    filter(if_all(c(cyl, gear, carb), ~.x > 3 & .x < 8))
 
 
-
-## -----------------------------------------------------------------------------
-my_function <- function(x){x + 1}
-my_function
-
-
-## -----------------------------------------------------------------------------
-my_data  <- c(2,3,4)
-
-my_function(x = my_data)
-my_function(my_data)
-
-
-## -----------------------------------------------------------------------------
-my_function <- \(x){x + 1}
-my_function
-
-my_function(x = my_data)
-
-
-## -----------------------------------------------------------------------------
-my_tibble <- tibble(values = c(1.2, 2.3, 3.5, 4.6))
-map_df(my_tibble, round)
-
-
-## -----------------------------------------------------------------------------
-modify(my_tibble, round)
-
-
-## -----------------------------------------------------------------------------
-mtcars %>% 
-  modify(format, digits = 1) %>%
-  head(n = 2)
-
-mtcars %>% 
-  mutate(across(.cols = everything(), ~ format(.x, digits = 1))) %>%
-  head(n = 2)
-
-
-## -----------------------------------------------------------------------------
-head(as_tibble(iris), 3)
-
-as_tibble(iris) %>% 
-  modify_if(is.numeric, as.character) %>%
-  head(3)
-
-
 ## ----makeList-----------------------------------------------------------------
 mylist <- list(
   letters = c("A", "b", "c"),
   numbers = 1:3,
   matrix(1:25, ncol = 5),
-  matrix(1:25, ncol = 5)
+  iris
 )
 
 
@@ -125,12 +108,29 @@ mylist["letters"] # returns a list
 
 ## ----Listsrefvec--------------------------------------------------------------
 mylist[[1]] # returns the vector 'letters'
-mylist$letters # returns vector
 mylist[["letters"]] # returns the vector 'letters'
 
 
-## ----Listsref2----------------------------------------------------------------
-mylist[1:2] # returns a list
+## ----message=FALSE------------------------------------------------------------
+ufo1 <- read_csv("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_1.csv")
+ufo2 <- read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_2.tsv")
+ufo4 <- read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_4.csv", delim = ":")
+
+
+## -----------------------------------------------------------------------------
+ufo_datasets <- list(ufo1, ufo2, ufo4)
+
+
+## ----message=FALSE------------------------------------------------------------
+library(janitor)
+
+ufo_datasets_clean <- 
+  ufo_datasets %>%
+  map(\(x) x |> count(country))
+
+
+## ----message=FALSE------------------------------------------------------------
+ufo_datasets_clean[[1]]
 
 
 ## -----------------------------------------------------------------------------
@@ -138,112 +138,15 @@ head(mtcars)
 
 
 ## -----------------------------------------------------------------------------
-mtcars_split <-mtcars %>% split(.$cyl)
-str(mtcars_split)
+mtcars_split <- mtcars %>% group_by(cyl) %>% group_split()
+mtcars_keys <- mtcars %>% group_by(cyl) %>% group_keys() %>% pull(cyl)
+names(mtcars_split) <- mtcars_keys
+glimpse(mtcars_split)
 
 
 ## -----------------------------------------------------------------------------
-
-mtcars %>%
-  split(.$cyl) %>% # creates split of data for each unique cyl value
+mtcars_split %>% 
   map(~lm(mpg ~ wt, data = .)) %>% # apply linear model to each
   map(summary) %>%
   map_dbl("r.squared")
-
-
-## ----message = FALSE----------------------------------------------------------
-library(here)
-library(readr)
-file_list <- list.files(here::here("data/iris/"), pattern = "*.csv")
-
-file_list <- paste0(here::here("data/iris/"), file_list)
-file_list
-
-multifile_data <- file_list %>%
-  map(read_csv)
-
-
-## -----------------------------------------------------------------------------
-multifile_data[[1]]
-
-
-## -----------------------------------------------------------------------------
-multifile_data[[2]]
-
-
-## -----------------------------------------------------------------------------
-multifile_data[[3]]
-
-
-## ----message=FALSE------------------------------------------------------------
-delimiters <- c(",", ":", ",")  # delimiters for each file
-
-# Write our own function to read files with specific delimiters:
-
-read_with_delimiter <- function(file, delimiter) {
-  read_delim(file, delim = delimiter)
-}
-
-# Map over file_list and delimiters
-multifile_data <- map2(file_list, delimiters, read_with_delimiter)
-
-
-## -----------------------------------------------------------------------------
-multifile_data[[1]]
-
-
-## -----------------------------------------------------------------------------
-multifile_data[[2]]
-
-
-## -----------------------------------------------------------------------------
-multifile_data[[3]]
-
-
-## -----------------------------------------------------------------------------
-all_files_data <- 
-  multifile_data %>%
-  map_df(bind_rows, .id = "experiment")
-
-glimpse(all_files_data)
-
-
-## -----------------------------------------------------------------------------
-mtcars %>% 
-  mutate(across(.cols = disp:wt, round)) %>%
-  head(2)
-
-mtcars %>% 
-  mutate(across(.cols = everything(), round))%>%
-  head(2)
-
-
-## -----------------------------------------------------------------------------
-system.time(iris %>%
-              modify_if(is.factor, as.character))
-
-
-system.time(iris %>%
-               mutate(across(.cols = where(is.factor), as.character)))
-
-
-
-## -----------------------------------------------------------------------------
-multifile_data[[2]] <-
-  separate(
-    multifile_data[[2]],
-    col = 1,
-    into = colnames(multifile_data[[1]]),
-    sep = ":"
-  )
-
-head(multifile_data[[2]], 3)
-
-
-## -----------------------------------------------------------------------------
-multifile_data[[2]] <-
-  multifile_data[[2]] %>%
-  mutate(across(!Species, as.numeric))
-
-head(multifile_data[[2]], 3)
 
