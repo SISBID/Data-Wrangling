@@ -3276,11 +3276,17 @@ font-size: 16px;
 
 <p>Allows you to flexibly iterate functions to multiple elements of a data object!</p>
 
-<p>Useful when you want to apply a function to:<br/>* lots of columns in a tibble<br/>* multiple tibbles<br/>* multiple data files</p>
+<p>Useful when you want to apply a function to:</p>
+
+<ul>
+<li>lots of columns in a tibble<br/></li>
+<li>multiple tibbles<br/></li>
+<li>multiple data files</li>
+</ul>
 
 </article></slide><slide class=""><hgroup><h2>base R <code>apply</code> functions</h2></hgroup><article  id="base-r-apply-functions">
 
-<p>Works really simply for all columns.</p>
+<p>Works really simply for all columns, but not a tibble.</p>
 
 <pre class = 'prettyprint lang-r'>sapply(mtcars, FUN = round)</pre>
 
@@ -3318,89 +3324,95 @@ font-size: 16px;
 ## [31,]  15   8  301 335    4  4   15  0  1    5    8
 ## [32,]  21   4  121 109    4  3   19  1  1    4    2</pre>
 
-</article></slide><slide class=""><hgroup><h2>Base R <code>apply</code> functions specific columns</h2></hgroup><article  id="base-r-apply-functions-specific-columns">
-
-<p>Harder to use for specific columns.</p>
-
-<pre class = 'prettyprint lang-r'>rounded_mtcars &lt;- mtcars %&gt;% select(disp, drat, wt, qsec) %&gt;%
-sapply(FUN = round)
-bind_cols(rounded_mtcars, select(mtcars, -c(disp, drat, wt, qsec)))</pre>
-
-<pre >##                     disp drat wt qsec  mpg cyl  hp vs am gear carb
-## Mazda RX4            160    4  3   16 21.0   6 110  0  1    4    4
-## Mazda RX4 Wag        160    4  3   17 21.0   6 110  0  1    4    4
-## Datsun 710           108    4  2   19 22.8   4  93  1  1    4    1
-## Hornet 4 Drive       258    3  3   19 21.4   6 110  1  0    3    1
-## Hornet Sportabout    360    3  3   17 18.7   8 175  0  0    3    2
-## Valiant              225    3  3   20 18.1   6 105  1  0    3    1
-## Duster 360           360    3  4   16 14.3   8 245  0  0    3    4
-## Merc 240D            147    4  3   20 24.4   4  62  1  0    4    2
-## Merc 230             141    4  3   23 22.8   4  95  1  0    4    2
-## Merc 280             168    4  3   18 19.2   6 123  1  0    4    4
-## Merc 280C            168    4  3   19 17.8   6 123  1  0    4    4
-## Merc 450SE           276    3  4   17 16.4   8 180  0  0    3    3
-## Merc 450SL           276    3  4   18 17.3   8 180  0  0    3    3
-## Merc 450SLC          276    3  4   18 15.2   8 180  0  0    3    3
-## Cadillac Fleetwood   472    3  5   18 10.4   8 205  0  0    3    4
-## Lincoln Continental  460    3  5   18 10.4   8 215  0  0    3    4
-## Chrysler Imperial    440    3  5   17 14.7   8 230  0  0    3    4
-## Fiat 128              79    4  2   19 32.4   4  66  1  1    4    1
-## Honda Civic           76    5  2   19 30.4   4  52  1  1    4    2
-## Toyota Corolla        71    4  2   20 33.9   4  65  1  1    4    1
-## Toyota Corona        120    4  2   20 21.5   4  97  1  0    3    1
-## Dodge Challenger     318    3  4   17 15.5   8 150  0  0    3    2
-## AMC Javelin          304    3  3   17 15.2   8 150  0  0    3    2
-## Camaro Z28           350    4  4   15 13.3   8 245  0  0    3    4
-## Pontiac Firebird     400    3  4   17 19.2   8 175  0  0    3    2
-## Fiat X1-9             79    4  2   19 27.3   4  66  1  1    4    1
-## Porsche 914-2        120    4  2   17 26.0   4  91  0  1    5    2
-## Lotus Europa          95    4  2   17 30.4   4 113  1  1    5    2
-## Ford Pantera L       351    4  3   14 15.8   8 264  0  1    5    4
-## Ferrari Dino         145    4  3   16 19.7   6 175  0  1    5    6
-## Maserati Bora        301    4  4   15 15.0   8 335  0  1    5    8
-## Volvo 142E           121    4  3   19 21.4   4 109  1  1    4    2</pre>
-
 </article></slide><slide class=""><hgroup><h2>Working <strong><code>across</code></strong> multiple columns</h2></hgroup><article  id="working-across-multiple-columns">
 
-<p><code>across</code> allows us to perform functions on specific columns more easily.</p>
-
-<pre >mutate(across(which_columns, which function or operation))</pre>
-
-<pre class = 'prettyprint lang-r'>head(mtcars, 2)</pre>
-
-<pre >##               mpg cyl disp  hp drat    wt  qsec vs am gear carb
-## Mazda RX4      21   6  160 110  3.9 2.620 16.46  0  1    4    4
-## Mazda RX4 Wag  21   6  160 110  3.9 2.875 17.02  0  1    4    4</pre>
+<p><code>across</code> allows us to perform functions on specific columns more easily. Use with <code>mutate</code> or <code>summarize</code>.</p>
 
 <pre class = 'prettyprint lang-r'>mtcars %&gt;% 
-  mutate(across(.cols = c(disp, drat, wt, qsec), round)) %&gt;%
-  head(2)</pre>
+  mutate(across(
+    c(mpg, disp, hp, drat), 
+    round # no parentheses if no arguments
+  ))</pre>
 
-<pre >##               mpg cyl disp  hp drat wt qsec vs am gear carb
-## Mazda RX4      21   6  160 110    4  3   16  0  1    4    4
-## Mazda RX4 Wag  21   6  160 110    4  3   17  0  1    4    4</pre>
+<pre >##                     mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4            21   6  160 110    4 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag        21   6  160 110    4 2.875 17.02  0  1    4    4
+## Datsun 710           23   4  108  93    4 2.320 18.61  1  1    4    1
+## Hornet 4 Drive       21   6  258 110    3 3.215 19.44  1  0    3    1
+## Hornet Sportabout    19   8  360 175    3 3.440 17.02  0  0    3    2
+## Valiant              18   6  225 105    3 3.460 20.22  1  0    3    1
+## Duster 360           14   8  360 245    3 3.570 15.84  0  0    3    4
+## Merc 240D            24   4  147  62    4 3.190 20.00  1  0    4    2
+## Merc 230             23   4  141  95    4 3.150 22.90  1  0    4    2
+## Merc 280             19   6  168 123    4 3.440 18.30  1  0    4    4
+## Merc 280C            18   6  168 123    4 3.440 18.90  1  0    4    4
+## Merc 450SE           16   8  276 180    3 4.070 17.40  0  0    3    3
+## Merc 450SL           17   8  276 180    3 3.730 17.60  0  0    3    3
+## Merc 450SLC          15   8  276 180    3 3.780 18.00  0  0    3    3
+## Cadillac Fleetwood   10   8  472 205    3 5.250 17.98  0  0    3    4
+## Lincoln Continental  10   8  460 215    3 5.424 17.82  0  0    3    4
+## Chrysler Imperial    15   8  440 230    3 5.345 17.42  0  0    3    4
+## Fiat 128             32   4   79  66    4 2.200 19.47  1  1    4    1
+## Honda Civic          30   4   76  52    5 1.615 18.52  1  1    4    2
+## Toyota Corolla       34   4   71  65    4 1.835 19.90  1  1    4    1
+## Toyota Corona        22   4  120  97    4 2.465 20.01  1  0    3    1
+## Dodge Challenger     16   8  318 150    3 3.520 16.87  0  0    3    2
+## AMC Javelin          15   8  304 150    3 3.435 17.30  0  0    3    2
+## Camaro Z28           13   8  350 245    4 3.840 15.41  0  0    3    4
+## Pontiac Firebird     19   8  400 175    3 3.845 17.05  0  0    3    2
+## Fiat X1-9            27   4   79  66    4 1.935 18.90  1  1    4    1
+## Porsche 914-2        26   4  120  91    4 2.140 16.70  0  1    5    2
+## Lotus Europa         30   4   95 113    4 1.513 16.90  1  1    5    2
+## Ford Pantera L       16   8  351 264    4 3.170 14.50  0  1    5    4
+## Ferrari Dino         20   6  145 175    4 2.770 15.50  0  1    5    6
+## Maserati Bora        15   8  301 335    4 3.570 14.60  0  1    5    8
+## Volvo 142E           21   4  121 109    4 2.780 18.60  1  1    4    2</pre>
 
 </article></slide><slide class=""><hgroup><h2>Using <code>across</code> with arguments</h2></hgroup><article  id="using-across-with-arguments" class="codesmall">
 
-<p>If you want to use arguments, then you need to use the <code>~</code> and <code>.x</code> (or <code>.</code>) as a place holder for what you will be passing into the function.</p>
+<p>If you want to use arguments, then you need to use the <code>~</code> and <code>.</code> (or <code>.x</code>) as a place holder for what you will be passing into the function.</p>
 
-<p>See <a href='https://adv-r.hadley.nz/functionals.html#purrr-shortcuts' title=''>purrr-shortcuts</a> and <a href='https://forum.posit.co/t/function-argument-naming-conventions-x-vs-x/7764/10' title=''>this link about <code>.</code> and <code>.x</code></a>.</p>
-
-<pre class = 'prettyprint lang-r'>mtcars %&gt;% 
-  mutate(across(.cols = c(disp, drat, wt, qsec), ~ round(.x, digits = 1))) %&gt;%
-  head(n = 2)</pre>
-
-<pre >##               mpg cyl disp  hp drat  wt qsec vs am gear carb
-## Mazda RX4      21   6  160 110  3.9 2.6 16.5  0  1    4    4
-## Mazda RX4 Wag  21   6  160 110  3.9 2.9 17.0  0  1    4    4</pre>
+<p>See <a href='https://adv-r.hadley.nz/functionals.html#purrr-shortcuts' title=''>documentation for purrr-shortcuts</a> and <a href='https://forum.posit.co/t/function-argument-naming-conventions-x-vs-x/7764/10' title=''>a comparison of <code>.</code> and <code>.x</code></a>.</p>
 
 <pre class = 'prettyprint lang-r'>mtcars %&gt;% 
-  mutate(across(.cols = c(disp, drat, wt, qsec), ~ round(., digits = 1))) %&gt;% 
-  head(n = 2)</pre>
+  mutate(across(
+    c(mpg, disp, hp, drat), 
+    ~ round(., digits = -1) # note ~ and .
+  ))</pre>
 
-<pre >##               mpg cyl disp  hp drat  wt qsec vs am gear carb
-## Mazda RX4      21   6  160 110  3.9 2.6 16.5  0  1    4    4
-## Mazda RX4 Wag  21   6  160 110  3.9 2.9 17.0  0  1    4    4</pre>
+<pre >##                     mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4            20   6  160 110    0 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag        20   6  160 110    0 2.875 17.02  0  1    4    4
+## Datsun 710           20   4  110  90    0 2.320 18.61  1  1    4    1
+## Hornet 4 Drive       20   6  260 110    0 3.215 19.44  1  0    3    1
+## Hornet Sportabout    20   8  360 180    0 3.440 17.02  0  0    3    2
+## Valiant              20   6  220 100    0 3.460 20.22  1  0    3    1
+## Duster 360           10   8  360 240    0 3.570 15.84  0  0    3    4
+## Merc 240D            20   4  150  60    0 3.190 20.00  1  0    4    2
+## Merc 230             20   4  140 100    0 3.150 22.90  1  0    4    2
+## Merc 280             20   6  170 120    0 3.440 18.30  1  0    4    4
+## Merc 280C            20   6  170 120    0 3.440 18.90  1  0    4    4
+## Merc 450SE           20   8  280 180    0 4.070 17.40  0  0    3    3
+## Merc 450SL           20   8  280 180    0 3.730 17.60  0  0    3    3
+## Merc 450SLC          20   8  280 180    0 3.780 18.00  0  0    3    3
+## Cadillac Fleetwood   10   8  470 200    0 5.250 17.98  0  0    3    4
+## Lincoln Continental  10   8  460 220    0 5.424 17.82  0  0    3    4
+## Chrysler Imperial    10   8  440 230    0 5.345 17.42  0  0    3    4
+## Fiat 128             30   4   80  70    0 2.200 19.47  1  1    4    1
+## Honda Civic          30   4   80  50    0 1.615 18.52  1  1    4    2
+## Toyota Corolla       30   4   70  60    0 1.835 19.90  1  1    4    1
+## Toyota Corona        20   4  120 100    0 2.465 20.01  1  0    3    1
+## Dodge Challenger     20   8  320 150    0 3.520 16.87  0  0    3    2
+## AMC Javelin          20   8  300 150    0 3.435 17.30  0  0    3    2
+## Camaro Z28           10   8  350 240    0 3.840 15.41  0  0    3    4
+## Pontiac Firebird     20   8  400 180    0 3.845 17.05  0  0    3    2
+## Fiat X1-9            30   4   80  70    0 1.935 18.90  1  1    4    1
+## Porsche 914-2        30   4  120  90    0 2.140 16.70  0  1    5    2
+## Lotus Europa         30   4  100 110    0 1.513 16.90  1  1    5    2
+## Ford Pantera L       20   8  350 260    0 3.170 14.50  0  1    5    4
+## Ferrari Dino         20   6  140 180    0 2.770 15.50  0  1    5    6
+## Maserati Bora        20   8  300 340    0 3.570 14.60  0  1    5    8
+## Volvo 142E           20   4  120 110    0 2.780 18.60  1  1    4    2</pre>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Writing functions</h2></hgroup><article  id="writing-functions">
 
@@ -3423,7 +3435,7 @@ my_function</pre>
 ## {
 ##     x + 1
 ## }
-## &lt;environment: 0x10446c2a8&gt;</pre>
+## &lt;environment: 0x150b45678&gt;</pre>
 
 <pre class = 'prettyprint lang-r'>my_data  &lt;- c(2,3,4)
 
@@ -3431,11 +3443,24 @@ my_function(x = my_data)</pre>
 
 <pre >## [1] 3 4 5</pre>
 
-<pre class = 'prettyprint lang-r'>my_function(my_data)</pre>
+</article></slide><slide class=""><hgroup><h2>Shortcut for functions</h2></hgroup><article  id="shortcut-for-functions">
+
+<p>Alternatively we can use <code>\(x)</code>. See this <a href='https://medium.com/analytics-vidhya/how-to-use-the-new-function-symbol-in-r-programming-4-1-r-4-1-c7cd2ac27b98' title=''>link about function shortcuts</a>.</p>
+
+<pre class = 'prettyprint lang-r'>my_function &lt;- \(x){x + 1}
+my_function</pre>
+
+<pre >## function (x) 
+## {
+##     x + 1
+## }
+## &lt;environment: 0x150b45678&gt;</pre>
+
+<pre class = 'prettyprint lang-r'>my_function(x = my_data)</pre>
 
 <pre >## [1] 3 4 5</pre>
 
-</article></slide><slide class=""><hgroup><h2><code>purrr</code> is also a super helpful package!</h2></hgroup><article  id="purrr-is-also-a-super-helpful-package">
+</article></slide><slide class=""><hgroup><h2><code>purrr</code> is a super helpful package for iteration!</h2></hgroup><article  id="purrr-is-a-super-helpful-package-for-iteration">
 
 <p>&ldquo;Designed to make your functions purrr.&rdquo;</p>
 
@@ -3449,163 +3474,210 @@ my_function(x = my_data)</pre>
 <li><p><a href='https://jennybc.github.io/purrr-tutorial/' title=''>https://jennybc.github.io/purrr-tutorial/</a></p></li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2><code>purrr</code> main functions</h2></hgroup><article  id="purrr-main-functions">
-
-<p><code>map</code> and <code>map_*</code> (and <code>modify</code>)<br/>- <strong>applies function</strong> to each element of an vector or object (map returns a list, modify returns the same object type) - <code>map_df</code> will output a dataframe</p>
-
-<p><strong>Fancier Options</strong></p>
-
-<p><code>map2</code> and <code>map2*</code><br/>- applies function to each element of <strong>two</strong> vectors or objects<br/>- an example would be improting multiple files with a vector of different delimiters</p>
-
-<p><code>pmap</code> and <code>pmap_*</code> - applies function to each element of <strong>3+</strong> vector or objects (requires a list for input)</p>
-
-<p>the _* options specify the type of data output</p>
-
-<!-- ## Using `map()` -->
-
-<!-- ![](https://dcl-prog.stanford.edu/images/map-step-2.png) -->
-
-<!-- [[source](https://dcl-prog.stanford.edu/purrr-parallel.html)] -->
-
-<!-- ## Using `map_df()` -->
-
-<!-- ```{r} -->
-
-<!-- my_tibble <- tibble(values = c(1.2, 2.3, 3.5, 4.6)) -->
-
-<!-- map_df(my_tibble, round) -->
-
-<!-- ``` -->
-
-<!-- ## map2 -->
-
-<!-- Good if you need to use multiple vectors in a function together. -->
-
-<!-- ![](https://dcl-prog.stanford.edu/images/map2.png) -->
-
-<!-- [[source](https://dcl-prog.stanford.edu/purrr-parallel.html)] -->
-
-<!-- ```{r} -->
-
-<!-- x <-c(1.2, 2.3, 3.5, 4.6) -->
-
-<!-- y <-c(2.4, 5.3, 6.4, 1.0) -->
-
-<!-- map2(x, y, min) %>% unlist() -->
-
-<!-- modify2(x, y, min) -->
-
-<!-- ``` -->
-
-<!-- ## Put it all together -->
-
-<!-- ```{r} -->
-
-<!-- trees %>% mutate(New = map2_dbl(Girth, Height,  -->
-
-<!--                         function(x,y){ pi * ((x/2)/12)^2 * y})) %>% head(n = 3) -->
-
-<!-- tree_fun <-function(x,y){ pi * ((x/2)/12)^2 * y} -->
-
-<!-- trees %>% mutate(New = modify2(.x= Girth,  -->
-
-<!--                                .y= Height, tree_fun)) %>% head(n = 3) -->
-
-<!-- ``` -->
-
-<!-- ## pmap {.smaller} -->
-
-<!-- ![](https://dcl-prog.stanford.edu/images/pmap-list.png) -->
-
-<!-- [[source](https://dcl-prog.stanford.edu/purrr-parallel.html)] -->
-
-<!-- ```{r} -->
-
-<!-- pmap_list <- -->
-
-<!--   list(x = c(5,100,100,100), y = c(100,5, 200, 300), z = c(100,100, 6, 100)) -->
-
-<!-- pmap(pmap_list, min) %>% unlist() -->
-
-<!-- ``` -->
-
-<!-- ## `purrr` : `map_df` or `modify` -->
-
-<!-- `map_df`  -->
-
-<!-- ```{r} -->
-
-<!-- library(purrr) -->
-
-<!-- head(mtcars, 2) -->
-
-<!--  mtcars %>%  -->
-
-<!--    map_df(round) %>% -->
-
-<!--    head(2) -->
-
-<!-- ``` -->
-
-<!-- ## `purrr` : `map_df` or `modify` -->
-
-<!-- `modify`  -->
-
-<!-- ```{r} -->
-
-<!--  mtcars %>%  -->
-
-<!--    modify(round) %>% -->
-
-<!--    head(2) -->
-
-<!-- ``` -->
-
-</article></slide><slide class=""><hgroup><h2>map_df and across</h2></hgroup><article  id="map_df-and-across">
-
-<p>Both <code>map_df</code> and <code>across</code> can do the same thing, <code>map_df</code> is simpler, but <code>across</code> keeps rownames.</p>
-
-<pre class = 'prettyprint lang-r'>mtcars %&gt;% 
-  map_df(round, digits = 1) %&gt;%
-  head(n = 2)</pre>
-
-<pre >## # A tibble: 2 × 11
-##     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1    21     6   160   110   3.9   2.6  16.5     0     1     4     4
-## 2    21     6   160   110   3.9   2.9  17       0     1     4     4</pre>
-
-<pre class = 'prettyprint lang-r'>mtcars %&gt;% 
-  mutate(across(.cols = everything(), ~ round(.x, digits = 1))) %&gt;%
-  head(n = 2)</pre>
-
-<pre >##               mpg cyl disp  hp drat  wt qsec vs am gear carb
-## Mazda RX4      21   6  160 110  3.9 2.6 16.5  0  1    4    4
-## Mazda RX4 Wag  21   6  160 110  3.9 2.9 17.0  0  1    4    4</pre>
-
-</article></slide><slide class=""><hgroup><h2><code>purrr</code> apply function to some columns like across</h2></hgroup><article  id="purrr-apply-function-to-some-columns-like-across" class="codesmall">
-
-<p>Using <code>modify_if()</code> (or <code>map_if()</code>), we can specify what columns to modify</p>
-
-<pre class = 'prettyprint lang-r'>head(as_tibble(iris), 3)</pre>
-
-<pre >## # A tibble: 3 × 5
-##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-##          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
-## 1          5.1         3.5          1.4         0.2 setosa 
-## 2          4.9         3            1.4         0.2 setosa 
-## 3          4.7         3.2          1.3         0.2 setosa</pre>
-
-<pre class = 'prettyprint lang-r'>as_tibble(iris) %&gt;% 
-  modify_if(is.numeric, round) %&gt;%
+</article></slide><slide class=""><hgroup><h2><code>purrr</code> functions: <code>map</code> and <code>modify</code></h2></hgroup><article  id="purrr-functions-map-and-modify">
+
+<p><strong>applies function</strong> to each element of an vector or object</p>
+
+<ul>
+<li><code>map</code> will output a list</li>
+<li><code>map_dbl</code> will output a vector</li>
+<li><code>modify</code> will output the same object type</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2><code>purrr</code> functions: <code>map</code> and <code>modify</code></h2></hgroup><article  id="purrr-functions-map-and-modify-1">
+
+<p>Apply <code>sum</code> to every column</p>
+
+<pre class = 'prettyprint lang-r'>mtcars |&gt; map(sum)</pre>
+
+<pre >## $mpg
+## [1] 642.9
+## 
+## $cyl
+## [1] 198
+## 
+## $disp
+## [1] 7383.1
+## 
+## $hp
+## [1] 4694
+## 
+## $drat
+## [1] 115.09
+## 
+## $wt
+## [1] 102.952
+## 
+## $qsec
+## [1] 571.16
+## 
+## $vs
+## [1] 14
+## 
+## $am
+## [1] 13
+## 
+## $gear
+## [1] 118
+## 
+## $carb
+## [1] 90</pre>
+
+</article></slide><slide class=""><hgroup><h2><code>purrr</code> functions: <code>map</code> and <code>modify</code></h2></hgroup><article  id="purrr-functions-map-and-modify-2">
+
+<p>Apply <code>sum</code> to every column - nicer output</p>
+
+<pre class = 'prettyprint lang-r'>mtcars |&gt; map_dbl(sum)</pre>
+
+<pre >##      mpg      cyl     disp       hp     drat       wt     qsec       vs 
+##  642.900  198.000 7383.100 4694.000  115.090  102.952  571.160   14.000 
+##       am     gear     carb 
+##   13.000  118.000   90.000</pre>
+
+</article></slide><slide class=""><hgroup><h2><code>purrr</code> functions: <code>map</code> and <code>modify</code></h2></hgroup><article  id="purrr-functions-map-and-modify-3">
+
+<p>Apply <code>round</code> to every column - get a data.frame back out</p>
+
+<pre class = 'prettyprint lang-r'>mtcars |&gt; modify(round)</pre>
+
+<pre >##    mpg cyl disp  hp drat wt qsec vs am gear carb
+## 1   21   6  160 110    4  3   16  0  1    4    4
+## 2   21   6  160 110    4  3   17  0  1    4    4
+## 3   23   4  108  93    4  2   19  1  1    4    1
+## 4   21   6  258 110    3  3   19  1  0    3    1
+## 5   19   8  360 175    3  3   17  0  0    3    2
+## 6   18   6  225 105    3  3   20  1  0    3    1
+## 7   14   8  360 245    3  4   16  0  0    3    4
+## 8   24   4  147  62    4  3   20  1  0    4    2
+## 9   23   4  141  95    4  3   23  1  0    4    2
+## 10  19   6  168 123    4  3   18  1  0    4    4
+## 11  18   6  168 123    4  3   19  1  0    4    4
+## 12  16   8  276 180    3  4   17  0  0    3    3
+## 13  17   8  276 180    3  4   18  0  0    3    3
+## 14  15   8  276 180    3  4   18  0  0    3    3
+## 15  10   8  472 205    3  5   18  0  0    3    4
+## 16  10   8  460 215    3  5   18  0  0    3    4
+## 17  15   8  440 230    3  5   17  0  0    3    4
+## 18  32   4   79  66    4  2   19  1  1    4    1
+## 19  30   4   76  52    5  2   19  1  1    4    2
+## 20  34   4   71  65    4  2   20  1  1    4    1
+## 21  22   4  120  97    4  2   20  1  0    3    1
+## 22  16   8  318 150    3  4   17  0  0    3    2
+## 23  15   8  304 150    3  3   17  0  0    3    2
+## 24  13   8  350 245    4  4   15  0  0    3    4
+## 25  19   8  400 175    3  4   17  0  0    3    2
+## 26  27   4   79  66    4  2   19  1  1    4    1
+## 27  26   4  120  91    4  2   17  0  1    5    2
+## 28  30   4   95 113    4  2   17  1  1    5    2
+## 29  16   8  351 264    4  3   14  0  1    5    4
+## 30  20   6  145 175    4  3   16  0  1    5    6
+## 31  15   8  301 335    4  4   15  0  1    5    8
+## 32  21   4  121 109    4  3   19  1  1    4    2</pre>
+
+</article></slide><slide class=""><hgroup><h2>Anonymous functions - &ldquo;functions on the fly&rdquo;</h2></hgroup><article  id="anonymous-functions---functions-on-the-fly">
+
+<p>You can supply a custom function without naming it. Useful if you only need to use it once!</p>
+
+<pre class = 'prettyprint lang-r'>mtcars |&gt; modify(\(x) x * 100)</pre>
+
+<pre >##     mpg cyl  disp    hp drat    wt qsec  vs  am gear carb
+## 1  2100 600 16000 11000  390 262.0 1646   0 100  400  400
+## 2  2100 600 16000 11000  390 287.5 1702   0 100  400  400
+## 3  2280 400 10800  9300  385 232.0 1861 100 100  400  100
+## 4  2140 600 25800 11000  308 321.5 1944 100   0  300  100
+## 5  1870 800 36000 17500  315 344.0 1702   0   0  300  200
+## 6  1810 600 22500 10500  276 346.0 2022 100   0  300  100
+## 7  1430 800 36000 24500  321 357.0 1584   0   0  300  400
+## 8  2440 400 14670  6200  369 319.0 2000 100   0  400  200
+## 9  2280 400 14080  9500  392 315.0 2290 100   0  400  200
+## 10 1920 600 16760 12300  392 344.0 1830 100   0  400  400
+## 11 1780 600 16760 12300  392 344.0 1890 100   0  400  400
+## 12 1640 800 27580 18000  307 407.0 1740   0   0  300  300
+## 13 1730 800 27580 18000  307 373.0 1760   0   0  300  300
+## 14 1520 800 27580 18000  307 378.0 1800   0   0  300  300
+## 15 1040 800 47200 20500  293 525.0 1798   0   0  300  400
+## 16 1040 800 46000 21500  300 542.4 1782   0   0  300  400
+## 17 1470 800 44000 23000  323 534.5 1742   0   0  300  400
+## 18 3240 400  7870  6600  408 220.0 1947 100 100  400  100
+## 19 3040 400  7570  5200  493 161.5 1852 100 100  400  200
+## 20 3390 400  7110  6500  422 183.5 1990 100 100  400  100
+## 21 2150 400 12010  9700  370 246.5 2001 100   0  300  100
+## 22 1550 800 31800 15000  276 352.0 1687   0   0  300  200
+## 23 1520 800 30400 15000  315 343.5 1730   0   0  300  200
+## 24 1330 800 35000 24500  373 384.0 1541   0   0  300  400
+## 25 1920 800 40000 17500  308 384.5 1705   0   0  300  200
+## 26 2730 400  7900  6600  408 193.5 1890 100 100  400  100
+## 27 2600 400 12030  9100  443 214.0 1670   0 100  500  200
+## 28 3040 400  9510 11300  377 151.3 1690 100 100  500  200
+## 29 1580 800 35100 26400  422 317.0 1450   0 100  500  400
+## 30 1970 600 14500 17500  362 277.0 1550   0 100  500  600
+## 31 1500 800 30100 33500  354 357.0 1460   0 100  500  800
+## 32 2140 400 12100 10900  411 278.0 1860 100 100  400  200</pre>
+
+</article></slide><slide class=""><hgroup><h2><code>modify_if</code></h2></hgroup><article  id="modify_if" class="codesmall">
+
+<p>Using <code>modify_if()</code>, we can specify what columns to modify</p>
+
+<pre class = 'prettyprint lang-r'>ufo1 &lt;- read_csv(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_1.csv&quot;)</pre>
+
+<pre class = 'prettyprint lang-r'>ufo1 %&gt;% 
+  modify_if(is.character, toupper) %&gt;%
   head(3)</pre>
 
-<pre >## # A tibble: 3 × 5
-##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-##          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
-## 1            5           4            1           0 setosa 
-## 2            5           3            1           0 setosa 
-## 3            5           3            1           0 setosa</pre>
+<pre >## # A tibble: 3 × 11
+##   datetime city  state country shape `duration (seconds)` `duration (hours/min)`
+##   &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;                &lt;dbl&gt; &lt;chr&gt;                 
+## 1 7/28/20… NEW … NY    US      CHAN…                  120 2 MINS                
+## 2 8/15/19… MEND… NJ    US      FIRE…                   30 30 SECONDS            
+## 3 10/16/2… CHAR… MI    &lt;NA&gt;    CIGAR                   30 30 SECONDS            
+## # ℹ 4 more variables: comments &lt;chr&gt;, `date posted` &lt;chr&gt;, latitude &lt;dbl&gt;,
+## #   longitude &lt;dbl&gt;</pre>
+
+</article></slide><slide class=""><hgroup><h2>Speed test! modify_if vs across</h2></hgroup><article  id="speed-test-modify_if-vs-across">
+
+<pre class = 'prettyprint lang-r'>system.time(ufo1 %&gt;% 
+              modify_if(is.character, toupper))</pre>
+
+<pre >##    user  system elapsed 
+##       0       0       0</pre>
+
+<pre class = 'prettyprint lang-r'>system.time(ufo1 %&gt;%
+               mutate(across(where(is.character), toupper)))</pre>
+
+<pre >##    user  system elapsed 
+##   0.002   0.000   0.002</pre>
+
+</article></slide><slide class=""><hgroup><h2>Iterative filtering with <code>if_all</code></h2></hgroup><article  id="iterative-filtering-with-if_all">
+
+<p>Previously we filtered for patterns or conditions..</p>
+
+<p>Dilemma: Seems a bit repetitive!</p>
+
+<pre class = 'prettyprint lang-r'>mtcars %&gt;%
+  filter(cyl &gt; 3 &amp; cyl &lt; 8,
+         gear &gt; 3 &amp; gear &lt; 8,
+         carb &gt; 3 &amp; carb &lt; 8)</pre>
+
+<pre >##                mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4     21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
+## Merc 280      19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
+## Merc 280C     17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
+## Ferrari Dino  19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</pre>
+
+</article></slide><slide class=""><hgroup><h2>Now we can filter multiple columns!</h2></hgroup><article  id="now-we-can-filter-multiple-columns">
+
+<p><code>if_all()</code>: helps us filter on multiple similar conditions simultaneously!</p>
+
+<pre class = 'prettyprint lang-r'>mtcars %&gt;%
+   filter(if_all(c(cyl, gear, carb), ~.x &gt; 3 &amp; .x &lt; 8))</pre>
+
+<pre >##                mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4     21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
+## Merc 280      19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
+## Merc 280C     17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
+## Ferrari Dino  19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</pre>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Lists</h2></hgroup><article  id="lists">
 
@@ -3817,43 +3889,50 @@ my_function(x = my_data)</pre>
 
 <pre >## [1] &quot;A&quot; &quot;b&quot; &quot;c&quot;</pre>
 
-<!-- ## Examples we will use -->
+</article></slide><slide class=""><hgroup><h2>Why do this at all?</h2></hgroup><article  id="why-do-this-at-all">
 
-<p><!-- * https://jennybc.github.io/purrr-tutorial/ --></p>
+<p><a href='https://jennybc.github.io/purrr-tutorial/bk01_base-functions.html' title=''>https://jennybc.github.io/purrr-tutorial/bk01_base-functions.html</a></p>
 
-<!-- * https://cran.r-project.org/web/packages/repurrrsive/index.html -->
+<p>You need a way to iterate in R in a data-structure-informed way. What does that mean?</p>
 
-<!-- * https://tidyr.tidyverse.org/articles/rectangle.html -->
+<ul>
+<li>Iterate over elements of a list</li>
+<li>Iterate over rows or columns of a 2-dimensional object</li>
+<li>Iterate over sub data frames induced by one or more factors</li>
+<li>Iterate over tuples formed from the i-th element of several vectors of equal length</li>
+</ul>
 
-<!-- ## Why do this at all? -->
+</article></slide><slide class=""><hgroup><h2>Cleaning up multiple datasets</h2></hgroup><article  id="cleaning-up-multiple-datasets" class="codesmall">
 
-<!-- https://jennybc.github.io/purrr-tutorial/bk01_base-functions.html -->
+<p>Store datasets in a list!</p>
 
-<!-- You need a way to iterate in R in a data-structure-informed way. What does that mean? -->
+<pre class = 'prettyprint lang-r'>ufo1 &lt;- read_csv(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_1.csv&quot;)
+ufo2 &lt;- read_delim(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_2.tsv&quot;)
+ufo4 &lt;- read_delim(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_4.csv&quot;, delim = &quot;:&quot;)</pre>
 
-<!-- * Iterate over elements of a list -->
+<pre class = 'prettyprint lang-r'>ufo_datasets &lt;- list(ufo1, ufo2, ufo4)</pre>
 
-<!-- * Iterate over rows or columns of a 2-dimensional object -->
+</article></slide><slide class=""><hgroup><h2>Cleaning up multiple datasets</h2></hgroup><article  id="cleaning-up-multiple-datasets-1">
 
-<!-- * Iterate over sub data frames induced by one or more factors -->
+<p>Clean names on all datasets at once:</p>
 
-<!-- * Iterate over tuples formed from the i-th element of several vectors of equal length -->
+<pre class = 'prettyprint lang-r'>library(janitor)
 
-<!-- ## List referencing -->
+ufo_datasets_clean &lt;- 
+  ufo_datasets %&gt;%
+  map(\(x) x |&gt; count(country))</pre>
 
-<!-- You can also select down several levels of a list at once -->
+</article></slide><slide class=""><hgroup><h2>Cleaning up multiple datasets</h2></hgroup><article  id="cleaning-up-multiple-datasets-2" class="codesmall">
 
-<!-- ```{r Listsref3, comment="", prompt=TRUE} -->
+<p>Confirm columns have been cleaned! Look at <code>ufo_datasets_clean</code> or look at each with indexing, eg.:</p>
 
-<!-- mylist$letters[1] -->
+<pre class = 'prettyprint lang-r'>ufo_datasets_clean[[1]]</pre>
 
-<!-- mylist[[2]][1] -->
-
-<!-- mylist[[3]][1:2,1:2] -->
-
-<!-- ``` -->
-
-</article></slide><slide class=""><hgroup><h2>… Why lists?</h2></hgroup><article  id="why-lists">
+<pre >## # A tibble: 2 × 2
+##   country     n
+##   &lt;chr&gt;   &lt;int&gt;
+## 1 us         16
+## 2 &lt;NA&gt;        4</pre>
 
 </article></slide><slide class=""><hgroup><h2>List: <code>group_split()</code> a dataset</h2></hgroup><article  id="list-group_split-a-dataset">
 
@@ -3894,653 +3973,17 @@ glimpse(mtcars_split)</pre>
 <pre >##         4         6         8 
 ## 0.5086326 0.4645102 0.4229655</pre>
 
-</article></slide><slide class=""><hgroup><h2>Use lists to iterate through multiple files!</h2></hgroup><article  id="use-lists-to-iterate-through-multiple-files" class="smaller">
-
-<p>This comes up a lot in data cleaning and also when reading in multiple files!</p>
-
-<pre class = 'prettyprint lang-r'>library(here)
-library(readr)
-file_list &lt;- list.files(here::here(&quot;data/iris/&quot;), pattern = &quot;*.csv&quot;)
-
-file_list &lt;- paste0(here::here(&quot;data/iris/&quot;), file_list)
-file_list</pre>
-
-<pre >## [1] &quot;/Users/avahoffman/Dropbox/JHSPH/Data-Wrangling_SISBID/data/iris/iris_q1.csv&quot;
-## [2] &quot;/Users/avahoffman/Dropbox/JHSPH/Data-Wrangling_SISBID/data/iris/iris_q4.csv&quot;
-## [3] &quot;/Users/avahoffman/Dropbox/JHSPH/Data-Wrangling_SISBID/data/iris/iris_q5.csv&quot;</pre>
-
-<pre class = 'prettyprint lang-r'>multifile_data &lt;- file_list %&gt;%
-  map(read_csv)</pre>
-
-</article></slide><slide class=""><hgroup><h2>Reading in multiple files -First item</h2></hgroup><article  id="reading-in-multiple-files--first-item" class="smaller">
-
-<pre class = 'prettyprint lang-r'>multifile_data[[1]]</pre>
-
-<pre >## # A tibble: 150 × 5
-##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-##           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
-##  1          5.1         3.5          1.4         0.2 setosa 
-##  2          4.9         3            1.4         0.2 setosa 
-##  3          4.7         3.2          1.3         0.2 setosa 
-##  4          4.6         3.1          1.5         0.2 setosa 
-##  5          5           3.6          1.4         0.2 setosa 
-##  6          5.4         3.9          1.7         0.4 setosa 
-##  7          4.6         3.4          1.4         0.3 setosa 
-##  8          5           3.4          1.5         0.2 setosa 
-##  9          4.4         2.9          1.4         0.2 setosa 
-## 10          4.9         3.1          1.5         0.1 setosa 
-## # ℹ 140 more rows</pre>
-
-</article></slide><slide class=""><hgroup><h2>Reading in multiple files - 2nd item</h2></hgroup><article  id="reading-in-multiple-files---2nd-item" class="smaller">
-
-<pre class = 'prettyprint lang-r'>multifile_data[[2]]</pre>
-
-<pre >## # A tibble: 150 × 1
-##    `Sepal.Length:Sepal.Width:Petal.Length:Petal.Width:Species`
-##    &lt;chr&gt;                                                      
-##  1 5.1:3.5:1.4:0.2:setosa                                     
-##  2 4.9:3:1.4:0.2:setosa                                       
-##  3 4.7:3.2:1.3:0.2:setosa                                     
-##  4 4.6:3.1:1.5:0.2:setosa                                     
-##  5 5:3.6:1.4:0.2:setosa                                       
-##  6 5.4:3.9:1.7:0.4:setosa                                     
-##  7 4.6:3.4:1.4:0.3:setosa                                     
-##  8 5:3.4:1.5:0.2:setosa                                       
-##  9 4.4:2.9:1.4:0.2:setosa                                     
-## 10 4.9:3.1:1.5:0.1:setosa                                     
-## # ℹ 140 more rows</pre>
-
-</article></slide><slide class=""><hgroup><h2>Reading in multiple files - 3rd item</h2></hgroup><article  id="reading-in-multiple-files---3rd-item" class="smaller">
-
-<pre class = 'prettyprint lang-r'>multifile_data[[3]]</pre>
-
-<pre >## # A tibble: 150 × 5
-##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-##           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
-##  1       -999           3.5          1.4         0.2 setosa 
-##  2       -999           3            1.4         0.2 setosa 
-##  3       -999           3.2          1.3         0.2 setosa 
-##  4          4.6         3.1          1.5         0.2 setosa 
-##  5          5           3.6          1.4         0.2 setosa 
-##  6          5.4         3.9          1.7         0.4 setosa 
-##  7          4.6         3.4          1.4         0.3 setosa 
-##  8          5           3.4          1.5         0.2 setosa 
-##  9          4.4         2.9          1.4         0.2 setosa 
-## 10          4.9         3.1          1.5         0.1 setosa 
-## # ℹ 140 more rows</pre>
-
-</article></slide><slide class=""><hgroup><h2>Import with different delimiters</h2></hgroup><article  id="import-with-different-delimiters">
-
-<pre class = 'prettyprint lang-r'>delimiters &lt;- c(&quot;,&quot;, &quot;:&quot;, &quot;,&quot;)  # delimiters for each file
-
-# Write our own function to read files with specific delimiters:
-
-read_with_delimiter &lt;- function(file, delimiter) {
-  read_delim(file, delim = delimiter)
-}
-
-# Map over file_list and delimiters
-multifile_data &lt;- map2(file_list, delimiters, read_with_delimiter)</pre>
-
-<img src='https://dcl-prog.stanford.edu/images/map2.png' title=''/>
-
-<p>[<a href='https://dcl-prog.stanford.edu/purrr-parallel.html' title=''>source</a>]</p>
-
-</article></slide><slide class=""><hgroup><h2>Reading in multiple files - 1st item</h2></hgroup><article  id="reading-in-multiple-files---1st-item" class="smaller">
-
-<pre class = 'prettyprint lang-r'>multifile_data[[1]]</pre>
-
-<pre >## # A tibble: 150 × 5
-##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-##           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
-##  1          5.1         3.5          1.4         0.2 setosa 
-##  2          4.9         3            1.4         0.2 setosa 
-##  3          4.7         3.2          1.3         0.2 setosa 
-##  4          4.6         3.1          1.5         0.2 setosa 
-##  5          5           3.6          1.4         0.2 setosa 
-##  6          5.4         3.9          1.7         0.4 setosa 
-##  7          4.6         3.4          1.4         0.3 setosa 
-##  8          5           3.4          1.5         0.2 setosa 
-##  9          4.4         2.9          1.4         0.2 setosa 
-## 10          4.9         3.1          1.5         0.1 setosa 
-## # ℹ 140 more rows</pre>
-
-</article></slide><slide class=""><hgroup><h2>Reading in multiple files - 2nd item</h2></hgroup><article  id="reading-in-multiple-files---2nd-item-1" class="smaller">
-
-<pre class = 'prettyprint lang-r'>multifile_data[[2]]</pre>
-
-<pre >## # A tibble: 150 × 5
-##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-##           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
-##  1          5.1         3.5          1.4         0.2 setosa 
-##  2          4.9         3            1.4         0.2 setosa 
-##  3          4.7         3.2          1.3         0.2 setosa 
-##  4          4.6         3.1          1.5         0.2 setosa 
-##  5          5           3.6          1.4         0.2 setosa 
-##  6          5.4         3.9          1.7         0.4 setosa 
-##  7          4.6         3.4          1.4         0.3 setosa 
-##  8          5           3.4          1.5         0.2 setosa 
-##  9          4.4         2.9          1.4         0.2 setosa 
-## 10          4.9         3.1          1.5         0.1 setosa 
-## # ℹ 140 more rows</pre>
-
-</article></slide><slide class=""><hgroup><h2>Reading in multiple files - 3rd item</h2></hgroup><article  id="reading-in-multiple-files---3rd-item-1" class="smaller">
-
-<pre class = 'prettyprint lang-r'>multifile_data[[3]]</pre>
-
-<pre >## # A tibble: 150 × 5
-##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-##           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
-##  1       -999           3.5          1.4         0.2 setosa 
-##  2       -999           3            1.4         0.2 setosa 
-##  3       -999           3.2          1.3         0.2 setosa 
-##  4          4.6         3.1          1.5         0.2 setosa 
-##  5          5           3.6          1.4         0.2 setosa 
-##  6          5.4         3.9          1.7         0.4 setosa 
-##  7          4.6         3.4          1.4         0.3 setosa 
-##  8          5           3.4          1.5         0.2 setosa 
-##  9          4.4         2.9          1.4         0.2 setosa 
-## 10          4.9         3.1          1.5         0.1 setosa 
-## # ℹ 140 more rows</pre>
-
 </article></slide><slide class=""><hgroup><h2>Summary</h2></hgroup><article  id="summary">
 
 <ul>
-<li><code>function(x){ }</code> or <code>\(x){ }</code> denotes a function. You also commonly see <code>~.x</code> inside <code>across</code></li>
+<li><code>function(x){ }</code> or <code>\(x){ }</code> denotes a function. You also commonly see <code>~.x</code> inside <code>across</code>.</li>
 <li><code>map_df</code> and <code>modify</code> <strong>apply functions</strong> to each element of an object. <code>map</code> returns a list, <code>modify</code> returns the same object type.</li>
-<li>The purrr package has other useful functional programming features</li>
+<li>The purrr package has other useful functional programming features.</li>
 <li>lists can be great for storing iterative work.</li>
+<li><code>group_split</code> and <code>group_keys</code> can be handy with <code>group_by</code></li>
 </ul>
 
-<p><a href='https://sisbid.github.io/Data-Wrangling/14_Functional_Programming/lab/functional-program-lab.Rmd' title=''>https://sisbid.github.io/Data-Wrangling/14_Functional_Programming/lab/functional-program-lab.Rmd</a></p>
-
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Extra Slides</h2></hgroup><article  id="extra-slides">
-
-</article></slide><slide class=""><hgroup><h2>Reading in multiple files</h2></hgroup><article  id="reading-in-multiple-files" class="smaller">
-
-<p>The <code>bind_rows()</code> function can be great for combining data.</p>
-
-<p>recall that <code>modify</code> keeps the same data type (here, a list). We want a data frame instead.</p>
-
-<p>See <a href='https://www.opencasestudies.org/ocs-bp-vaping-case-study' title=''>https://www.opencasestudies.org/ocs-bp-vaping-case-study</a> for more information!</p>
-
-<pre class = 'prettyprint lang-r'>all_files_data &lt;- 
-  multifile_data %&gt;%
-  map_df(bind_rows, .id = &quot;experiment&quot;)
-
-glimpse(all_files_data)</pre>
-
-<pre >## Rows: 450
-## Columns: 6
-## $ experiment   &lt;chr&gt; &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1…
-## $ Sepal.Length &lt;dbl&gt; 5.1, 4.9, 4.7, 4.6, 5.0, 5.4, 4.6, 5.0, 4.4, 4.9, 5.4, 4.…
-## $ Sepal.Width  &lt;dbl&gt; 3.5, 3.0, 3.2, 3.1, 3.6, 3.9, 3.4, 3.4, 2.9, 3.1, 3.7, 3.…
-## $ Petal.Length &lt;dbl&gt; 1.4, 1.4, 1.3, 1.5, 1.4, 1.7, 1.4, 1.5, 1.4, 1.5, 1.5, 1.…
-## $ Petal.Width  &lt;dbl&gt; 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1, 0.2, 0.…
-## $ Species      &lt;chr&gt; &quot;setosa&quot;, &quot;setosa&quot;, &quot;setosa&quot;, &quot;setosa&quot;, &quot;setosa&quot;, &quot;setosa…</pre>
-
-</article></slide><slide class=""><hgroup><h2>Shortcut for functions</h2></hgroup><article  id="shortcut-for-functions">
-
-<p>Alternatively we can use <code>\(x)</code>. See this <a href='https://medium.com/analytics-vidhya/how-to-use-the-new-function-symbol-in-r-programming-4-1-r-4-1-c7cd2ac27b98' title=''>link about function shortcuts</a>.</p>
-
-<pre class = 'prettyprint lang-r'>my_function &lt;- \(x){x + 1}
-my_function</pre>
-
-<pre >## function (x) 
-## {
-##     x + 1
-## }
-## &lt;environment: 0x10446c2a8&gt;</pre>
-
-<pre class = 'prettyprint lang-r'>my_function(x = my_data)</pre>
-
-<pre >## [1] 3 4 5</pre>
-
-</article></slide><slide class=""><hgroup><h2>Previously we filtered for patterns or conditions..</h2></hgroup><article  id="previously-we-filtered-for-patterns-or-conditions..">
-
-<p>Dilemma: Seems a bit repetitive!</p>
-
-<pre class = 'prettyprint lang-r'>mtcars %&gt;%
-  filter(cyl &gt; 3 &amp; cyl &lt; 8,
-         gear &gt; 3 &amp; gear &lt; 8,
-         carb &gt; 3 &amp; carb &lt; 8)</pre>
-
-<pre >##                mpg cyl  disp  hp drat    wt  qsec vs am gear carb
-## Mazda RX4     21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-## Mazda RX4 Wag 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-## Merc 280      19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
-## Merc 280C     17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-## Ferrari Dino  19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</pre>
-
-</article></slide><slide class=""><hgroup><h2>Now we can filter multiple columns!</h2></hgroup><article  id="now-we-can-filter-multiple-columns">
-
-<p><code>if_all()</code>: helps us filter on multiple similar conditions simultaneously!</p>
-
-<pre class = 'prettyprint lang-r'>mtcars %&gt;%
-   filter(if_all(c(cyl, gear, carb), ~.x &gt; 3 &amp; .x &lt; 8))</pre>
-
-<pre >##                mpg cyl  disp  hp drat    wt  qsec vs am gear carb
-## Mazda RX4     21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-## Mazda RX4 Wag 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-## Merc 280      19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
-## Merc 280C     17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-## Ferrari Dino  19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6</pre>
-
-<!-- ## if_any() and if_all() -->
-
-<!-- ```{r} -->
-
-<!-- iris %>% -->
-
-<!--   filter(if_any(ends_with("Width"), ~ . > 4)) -->
-
-<!-- iris %>% -->
-
-<!--   filter(if_all(ends_with("Length"), ~ . > 6)) -->
-
-<!-- mtcars %>% -->
-
-<!--   filter(if_any(ends_with("t"), ~. > 4)) -->
-
-<!-- mtcars %>% -->
-
-<!--      filter(if_all(c(qsec, mpg, cyl, gear), ~. > 4)) -->
-
-<!-- ``` -->
-
-<!-- ## `if_any()` and `if_all()` are also helpful! -->
-
-<!-- if_any() filters for rows any columns in listed columns meet the condition -->
-
-<!-- ```{r} -->
-
-<!-- #diamonds %>% -->
-
-<!--  #  filter(x > 11 | y > 11 | z > 11) -->
-
-<!-- diamonds %>% -->
-
-<!--    filter(if_any(c(x, y, z), ~. > 11)) -->
-
-<!-- ``` -->
-
-<!-- ## `if_any()` and `if_all()` are also helpful! -->
-
-<!-- if_all() filters for rows if all columns in listed columns meet the condition -->
-
-<!-- ```{r} -->
-
-<!-- #diamonds %>% -->
-
-<!--      #filter(x > 8 , y > 8 , z > 8) -->
-
-<!-- diamonds %>% -->
-
-<!--    filter(if_all(c(x, y, z), ~. > 8)) -->
-
-<!-- ``` -->
-
-</article></slide><slide class=""><hgroup><h2>Using across with helpers to apply function to multiple columns</h2></hgroup><article  id="using-across-with-helpers-to-apply-function-to-multiple-columns">
-
-<p><code>?tidyr_tidy_select</code></p>
-
-<pre class = 'prettyprint lang-r'>mtcars %&gt;% 
-  mutate(across(.cols = disp:wt, round)) %&gt;%
-  head(2)</pre>
-
-<pre >##               mpg cyl disp  hp drat wt  qsec vs am gear carb
-## Mazda RX4      21   6  160 110    4  3 16.46  0  1    4    4
-## Mazda RX4 Wag  21   6  160 110    4  3 17.02  0  1    4    4</pre>
-
-<pre class = 'prettyprint lang-r'>mtcars %&gt;% 
-  mutate(across(.cols = everything(), round))%&gt;%
-  head(2)</pre>
-
-<pre >##               mpg cyl disp  hp drat wt qsec vs am gear carb
-## Mazda RX4      21   6  160 110    4  3   16  0  1    4    4
-## Mazda RX4 Wag  21   6  160 110    4  3   17  0  1    4    4</pre>
-
-</article></slide><slide class=""><hgroup><h2>Speed test! modify_if vs across</h2></hgroup><article  id="speed-test-modify_if-vs-across">
-
-<pre class = 'prettyprint lang-r'>system.time(iris %&gt;%
-              modify_if(is.factor, as.character))</pre>
-
-<pre >##    user  system elapsed 
-##       0       0       0</pre>
-
-<pre class = 'prettyprint lang-r'>system.time(iris %&gt;%
-               mutate(across(.cols = where(is.factor), as.character)))</pre>
-
-<pre >##    user  system elapsed 
-##   0.001   0.000   0.001</pre>
-
-</article></slide><slide class=""><hgroup><h2>List referencing</h2></hgroup><article  id="list-referencing-2">
-
-<p>You can also select multiple lists with the single brackets.</p>
-
-<pre class = 'prettyprint lang-r'>mylist[1:2] # returns a list</pre>
-
-<pre >## $letters
-## [1] &quot;A&quot; &quot;b&quot; &quot;c&quot;
-## 
-## $numbers
-## [1] 1 2 3</pre>
-
-</article></slide><slide class=""><hgroup><h2>Alternatively we could have fixed the second file</h2></hgroup><article  id="alternatively-we-could-have-fixed-the-second-file" class="smaller">
-
-<p>Looks like it had a different delimiter First, separating by the <code>:</code>.</p>
-
-<pre class = 'prettyprint lang-r'>multifile_data[[2]] &lt;-
-  separate(
-    multifile_data[[2]],
-    col = 1,
-    into = colnames(multifile_data[[1]]),
-    sep = &quot;:&quot;
-  )</pre>
-
-<pre >## Warning: Expected 5 pieces. Missing pieces filled with `NA` in 150 rows [1, 2, 3, 4, 5,
-## 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...].</pre>
-
-<pre class = 'prettyprint lang-r'>head(multifile_data[[2]], 3)</pre>
-
-<pre >## # A tibble: 3 × 5
-##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-##   &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;  
-## 1 5.1          &lt;NA&gt;        &lt;NA&gt;         &lt;NA&gt;        &lt;NA&gt;   
-## 2 4.9          &lt;NA&gt;        &lt;NA&gt;         &lt;NA&gt;        &lt;NA&gt;   
-## 3 4.7          &lt;NA&gt;        &lt;NA&gt;         &lt;NA&gt;        &lt;NA&gt;</pre>
-
-</article></slide><slide class=""><hgroup><h2>Fixing the second file</h2></hgroup><article  id="fixing-the-second-file">
-
-<p>Second, making sure values are numeric.</p>
-
-<pre class = 'prettyprint lang-r'>multifile_data[[2]] &lt;-
-  multifile_data[[2]] %&gt;%
-  mutate(across(!Species, as.numeric))
-
-head(multifile_data[[2]], 3)</pre>
-
-<pre >## # A tibble: 3 × 5
-##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-##          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
-## 1          5.1          NA           NA          NA &lt;NA&gt;   
-## 2          4.9          NA           NA          NA &lt;NA&gt;   
-## 3          4.7          NA           NA          NA &lt;NA&gt;</pre>
-
-<p>``` <!-- ## Factors --></p>
-
-<!-- First we will create some data about absences for different students.  -->
-
-<!-- ```{r} -->
-
-<!-- set.seed(123) -->
-
-<!-- data_highschool <- tibble(absences = sample(0:7, size = 32, replace = TRUE),  -->
-
-<!--                           grade = rep(c("Freshman","Sophmore",  -->
-
-<!--                                         "Junior", "Senior"), 8)) -->
-
-<!-- head(data_highschool, 3) -->
-
-<!-- ``` -->
-
-<!-- Notice that `grade` is a `chr` variable. This indicates that the values are character strings. R does not realize that there is any order related to the `grade` values. However, we know that the order is: freshman, sophomore, junior, senior. -->
-
-<!-- ## Let's make a plot first: -->
-
-<!-- ```{r} -->
-
-<!-- #boxplot(data = data_highschool, absences ~ grade) -->
-
-<!-- data_highschool %>% -->
-
-<!--   ggplot(mapping = aes(x = grade, y = absences)) + -->
-
-<!--   geom_boxplot() -->
-
-<!-- ``` -->
-
-<!-- ## Not quite what we want -->
-
-<!-- OK this is very useful, but it is a bit difficult to read, because we expect the values to be plotted by the order that we know, not by alphabetical order. Currently `grade` is class `character` but let's change that to class `factor` which allows us to specify the levels or order of the values. -->
-
-<!-- ## As factor now -->
-
-<!-- Using `as_factor()` from the `forcats` package the levels will be in the order in which they occur in the data! -->
-
-<!-- https://forcats.tidyverse.org/  -->
-
-<!-- ```{R} -->
-
-<!-- class(pull(data_highschool, grade)) -->
-
-<!-- data_highschool_fct <- data_highschool %>%  -->
-
-<!--   mutate(grade = as_factor(grade)) -->
-
-<!-- head(data_highschool_fct, 3) -->
-
-<!-- ``` -->
-
-<!-- ## Now let's make our plot again: -->
-
-<!-- ```{r} -->
-
-<!-- #boxplot(data = data_highschool_fct, absences ~ grade) -->
-
-<!-- data_highschool_fct %>% -->
-
-<!--   ggplot(mapping = aes(x = grade, y = absences)) + -->
-
-<!--   geom_boxplot() -->
-
-<!-- ``` -->
-
-<!-- ## Calculatons with factors? -->
-
-<!-- Now what about results from some calculations. -->
-
-<!-- ```{r} -->
-
-<!-- data_highschool %>% group_by(grade) %>% summarise(mean = mean(absences)) -->
-
-<!-- data_highschool_fct %>% group_by(grade) %>% summarise(mean = mean(absences)) -->
-
-<!-- ``` -->
-
-<!-- Here we see that the mean is calculated in the order we would like only for the version of the data that has absences coded as a factor! -->
-
-<!-- ## What if we want to change the factor level order? {.smaller} -->
-
-<!-- ```{r} -->
-
-<!-- data_highschool_fct %>% -->
-
-<!--   ggplot(mapping = aes(x = fct_reorder(grade, absences),  -->
-
-<!--                        y = absences)) + -->
-
-<!--   geom_boxplot() -->
-
-<!-- ``` -->
-
-<!-- ## Descending factor order {.smaller} -->
-
-<!-- ```{r} -->
-
-<!-- data_highschool_fct %>% -->
-
-<!--   ggplot(mapping = aes(x = fct_reorder(grade, absences, .desc = TRUE), -->
-
-<!--                        y = absences)) + -->
-
-<!--   geom_boxplot() -->
-
-<!-- ``` -->
-
-<!-- ## Claculations with reoder -->
-
-<!-- ```{r} -->
-
-<!-- data_highschool_fct %>% group_by(grade) %>% summarise(mean = mean(absences)) -->
-
-<!-- data_highschool_fct %>% mutate(grade = fct_reorder(grade, absences, .desc = TRUE)) -->
-
-<!-- data_highschool_fct %>% group_by(grade) %>% summarise(mean = mean(absences)) -->
-
-<!-- ``` -->
-
-<!-- ## `purrr` map2 -->
-
-<!-- ```{r} -->
-
-<!-- mtcars_list<-list(head(mtcars,4), head(mtcars,4), head(mtcars,4)) -->
-
-<!-- map(mtcars_list, round) -->
-
-<!-- map2(multifile_data[[1]], multifile_data[[2]], paste)
-<!-- ``` -->
-
-<!-- ```{r}  -->
-
-<!-- h = c("I like performing", "much data wrangling in R", "it is oh so fun") -->
-
-<!-- ll = str_split(h, " ") -->
-
-<!-- ll -->
-
-<!-- ``` -->
-
-<!-- ## Why do this at all? -->
-
-<!-- ```{r} -->
-
-<!-- class(got_chars) -->
-
-<!-- length(got_chars) -->
-
-<!-- lengths(got_chars) -->
-
-<!-- names(got_chars[[1]]) -->
-
-<!-- ``` -->
-
-<!-- ## How would we get the names of each GoT character? -->
-
-<!-- The really old way involved `for` loops: -->
-
-<!-- ```{r} -->
-
-<!-- char_names = vector("character", length(got_chars)) # initiate -->
-
-<!-- for (i in seq(along=got_chars)) { # iterate -->
-
-<!--   char_names[i] = got_chars[[i]]$name -->
-
-<!-- } -->
-
-<!-- char_names[1:5] # examine -->
-
-<!-- ``` -->
-
-<!-- ## How would we get the names of each GoT character? -->
-
-<!-- The kinda old way involved `apply` statements: -->
-
-<!-- ```{r} -->
-
-<!-- sapply(got_chars[1:5], function(x) x$name) -->
-
-<!-- ``` -->
-
-<!-- ## How would we get the names of each GoT character? -->
-
-<!-- This can still be pretty efficient: -->
-
-<!-- ```{r} -->
-
-<!-- sapply(got_chars[1:5], "[[", "name") -->
-
-<!-- ``` -->
-
-<!-- The user interface of the “apply” functions is not as consistent as it could be, which slows down learning. The return objects frequently require further checking and massage to use downstream. In particular, there’s a tendency to return a vector (atomic or otherwise) or array, instead of data frame, with the original factor levels appearing in a names attribute. [https://jennybc.github.io/purrr-tutorial/bk01_base-functions.html] -->
-
-<!-- ## How would we get the names of each GoT character? -->
-
-<!-- This can still be pretty efficient: -->
-
-<!-- ```{r} -->
-
-<!-- map_chr(got_chars[1:5], "name") -->
-
-<!-- ``` -->
-
-<!-- ## `sapply` versus `map_chr` -->
-
-<!-- Potentially confusing output: -->
-
-<!-- ```{r} -->
-
-<!-- sapply(got_chars[2:3], "[[", "aliases") -->
-
-<!-- ``` -->
-
-<!-- Compared to error:  -->
-
-<!-- ```{r, error = TRUE} -->
-
-<!-- map_chr(got_chars[2:3], "aliases") -->
-
-<!-- ``` -->
-
-<!-- ## Example using string split output -->
-
-<!-- ```{r} -->
-
-<!-- map_chr(ll, first) -->
-
-<!-- map_chr(ll, last) -->
-
-<!-- map_chr(ll, nth, 3) -->
-
-<!-- ``` -->
-
-<!-- ## More extensive examples -->
-
-<!-- You can create tibbles where each observation is a list: -->
-
-<!-- https://tidyr.tidyverse.org/articles/rectangle.html -->
-
-<!-- ```{r} -->
-
-<!-- chars <- tibble(char = got_chars) -->
-
-<!-- chars -->
-
-<!-- ``` -->
-
-<!-- ## More extensive examples -->
-
-<!-- ```{r} -->
-
-<!-- chars2 <- chars %>% unnest_wider(char) -->
-
-<!-- chars2 -->
-
-<!-- ``` -->
-
-<!-- ## Say you wanted all characters and their titles: -->
-
-<!-- ```{r} -->
-
-<!-- chars2 %>% -->
-
-<!--   select(name, title = titles) %>% -->
-
-<!--   unnest_longer(title) -->
-
-<!-- ``` --></article></slide>
+<p><a href='https://sisbid.github.io/Data-Wrangling/14_Functional_Programming/lab/functional-program-lab.Rmd' title=''>https://sisbid.github.io/Data-Wrangling/14_Functional_Programming/lab/functional-program-lab.Rmd</a></p></article></slide>
 
 
   <slide class="backdrop"></slide>
