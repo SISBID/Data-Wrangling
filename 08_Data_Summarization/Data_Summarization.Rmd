@@ -1,21 +1,7 @@
 ---
 title: "Data Summarization"
 author: "Data Wrangling in R"
-output:
-  ioslides_presentation:
-    css: ../styles/styles.css
-    widescreen: yes
 ---
-
-<script>
-    function add_favicon_link() {
-        const link = document.createElement("link");
-        link.rel = "shortcut icon";
-        link.href = "#";
-        document.head.appendChild(link);
-    }
-    add_favicon_link();
-</script>
 
 ```{r, echo = FALSE, message=FALSE, error = FALSE}
 library(knitr)
