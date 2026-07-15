@@ -44,157 +44,186 @@ Extract the levels of a `factor` vector using `levels()`:
 levels(x_fact)
 ```
 
-## A Factor Example{.smaller}
 
-We will use data on student dropouts from the State of California during the 2016-2017 school year. More on this data can be found here: https://www.cde.ca.gov/ds/ad/filesdropouts.asp
 
-To preserve school anonymity, "CDS_CODE" is used in place of the individual school's name.
-
-You can download the data from the JHU website here: http://jhudatascience.org/intro_to_r/data/dropouts.txt
+## Load the UFO data {.codesmall}
 
 ```{r}
-dropouts <- read_delim("http://jhudatascience.org/intro_to_r/data/dropouts.txt", delim = "\t")
-dropouts
+ufo <- 
+  read_csv("https://raw.githubusercontent.com/SISBID/Module1/gh-pages/data/ufo/ufo_data_complete.csv")
 ```
 
-## Preparing the data
+## Clean the names again{.codesmall}
 
-Group by each school and aggregate (sum):
+Using `janitor`.
+
+```{r messages=FALSE, warning = FALSE, include = FALSE}
+library(janitor)
+ufo <- clean_names(ufo)
+
+```
 
 ```{r}
-dropouts <-
-  dropouts %>%
-  group_by(CDS_CODE) %>%
-  summarize(
-    Freshman = sum(D9),
-    Sophomore = sum(D10),
-    Junior = sum(D11),
-    Senior = sum(D12)
-  )
-dropouts
+ufo <- clean_names(ufo)
+glimpse(ufo)
 ```
-
-## Preparing the data
-
-Pivot to long format:
+## Preparing the data: separate into date and time{.codesmall}
 
 ```{r}
-dropouts <-
-  dropouts %>%
-  pivot_longer(
-    !CDS_CODE,
-    names_to = "grade",
-    values_to = "n_dropouts"
-  )
-dropouts
+ufo <- ufo %>%separate(datetime,into = c("date", "time"), sep = " ")
+
+glimpse(ufo)
 ```
 
-## The data
+## Preparing the data: separate into hour and min{.codesmall}
 
 ```{r}
-head(dropouts)
+ufo <- ufo %>% separate(time, into= c("hour", "min")) 
+
+glimpse(ufo)
 ```
 
-Notice that `grade` is a `chr` variable. This indicates that the values are **character** strings. 
-
-R does not realize that there is any order related to the `grade` values. It will assume that it is **alphabetical**. 
-
-However, we know that the order is: **freshman**, **sophomore**, **junior**, **senior**.
-
-## For the next steps, let's take a subset of data.
+## Preparing the data: convert to numeric{.codesmall}
 
 ```{r}
-set.seed(123) # same random sample each time
-dropouts_subset <- slice_sample(dropouts, n = 32)
-dropouts_subset
+ufo <-ufo %>% mutate(hour = as.numeric(hour), min = as.numeric(min))
+
+glimpse(ufo)
 ```
 
-## Plot the data
 
-Let's make a plot first. We might not like the ordering on the x-axis, though.
 
-```{r, fig.height= 3}
-dropouts_subset %>%
-  ggplot(aes(x = grade, y = n_dropouts)) +
-  geom_boxplot() +
-  theme_bw(base_size = 16) # make all labels size 16
-```
-
-## Change to factor
-
-Currently `grade` is class `character` but let's change that to class `factor` which allows us to specify the levels or order of the values.
+## Preparing the data: create timespan variable
 
 ```{r}
-dropouts_fct <-
-  dropouts_subset %>%
-  mutate(grade = factor(grade,
-    levels = c("Freshman", "Sophomore", "Junior", "Senior")
-  ))
+ufo <- ufo %>%   mutate(timespan = 
+                    case_when(hour %in%c(18,19,20,21)~ "Evening", 
+                              hour >21 ~ "Night",
+                              hour >=0 & hour <12 ~ "Morning",
+                              hour >=12 & hour <18 ~ "Afternoon"))
 
-dropouts_fct %>%
-  pull(grade) %>%
-  levels()
+ufo %>% count(timespan)
 ```
 
-## Change to a factor
+
+## Check the output{.codesmall}
+
+You may have noticed that character data is arranged alphabetically.
 
 ```{r}
-head(dropouts_fct)
+ufo %>% count(timespan)
+
 ```
 
-## Plot again
 
-Now let's make our plot again:
-
-```{r, fig.height= 3}
-dropouts_fct %>%
-  ggplot(aes(x = grade, y = n_dropouts)) +
-  geom_boxplot() +
-  theme_bw(base_size = 16)
-```
-
-The factor data is automatically plotted in the order we would like.
-
-## What about if we `arrange()` the data by grade ?{.smaller}
+## Check the output{.codesmall}
 
 Character data is arranged alphabetically.
 
+
 ```{r}
-dropouts_subset %>%
-  arrange(grade)
+
+ufo %>% arrange(timespan) %>% glimpse()
+
 ```
 
-Notice that the order is not what we would hope for!
+## Let's plot the data 
 
-## Arranging Factors{.smaller}
+```{r, fig.width= 5}
+count(ufo, timespan) %>% ggplot(aes(x  = timespan, y = n)) + geom_col()
+```
+
+## Let's try that again using factors
+
+Currently `timespan` is class `character` but let's change that to class `factor` which allows us to specify the levels or order of the values.
+
+
+```{r}
+ufo <- ufo %>% mutate(timespan = factor(timespan, levels = 
+                  c("Morning", "Afternoon", "Evening", "Night")))
+
+```
+
+
+## Now let's take a look at the data again
 
 Factor data is arranged by level.
 
 ```{r}
-dropouts_fct %>%
-  arrange(grade)
+
+ufo %>% count(timespan)
+
 ```
+ Nice this is better!
 
-Nice! Now this is what we would want!
+## Now let's take a look at the data again{.codesmall}
 
-## Making tables with characters
-
-Tables grouped by a character are arranged alphabetically.
+Factor data is arranged by level.
 
 ```{r}
-dropouts_subset %>%
-  group_by(grade) %>%
-  summarize(total_dropouts = sum(n_dropouts))
+
+ufo %>% arrange(timespan) %>% glimpse()
+
 ```
 
-## Making tables with factors
 
-Tables grouped by a factor are arranged by level.
 
-```{r}
-dropouts_fct %>%
-  group_by(grade) %>%
-  summarize(total_dropouts = sum(n_dropouts))
+## Let's plot that again{.codesmall}
+
+
+The factor data is automatically plotted in the order we would like.
+
+
+```{r, fig.height= 3, fig.width=5}
+count(ufo, timespan) %>% ggplot(
+  aes(x  = timespan, y = n)) + 
+  geom_col() + 
+  xlab("General Time of Sighting") + ylab("Frequency")+
+  theme_bw(base_size = 16) 
+```
+
+
+## `forcats` package
+
+A package called `forcats` is really helpful for working with factors.
+
+```{r, fig.alt="Forcats hex sticker", out.width = "30%", echo = FALSE, fig.align='center'}
+knitr::include_graphics("https://github.com/tidyverse/forcats/raw/main/man/figures/logo.png")
+```
+
+
+## `forcats` for ordering{.smaller}
+
+We can order a factor by another variable by using the `fct_reorder()` function of the `forcats` package.
+
+<div class = "codeexample">
+```{r, eval=FALSE}
+fct_reorder({column getting changed}, {guiding column}, {summarizing function})
+```
+</div>
+
+## `forcats` for ordering{.smaller}
+
+Let's reorder by another variable using `fct_reorder`.
+
+```{r, fig.height= 3, fig.width=5}
+count(ufo, timespan) %>% ggplot(
+  aes(x  = fct_reorder(timespan, n), y = n)) + 
+  geom_col() + 
+  xlab("General Time of Sighting") + ylab("Frequency")+
+  theme_bw(base_size = 16) 
+```
+
+This would be useful for identifying easily which timespan to focus on.
+
+## forcats for ordering.. with `.desc = ` argument{.smaller}
+
+```{r, fig.height= 3, fig.width=5 }
+count(ufo, timespan) %>% ggplot(
+  aes(x  = fct_reorder(timespan, n, .desc = TRUE), y = n)) + 
+  geom_col() + 
+  xlab("General Time of Sighting") + ylab("Frequency")+
+  theme_bw(base_size = 16) 
 ```
 
 ## GUT CHECK: Why use factors?
@@ -205,76 +234,19 @@ B. Automatic ordering or numeric data
 
 C. More precise values
 
-## `forcats` package
-
-A package called `forcats` is really helpful for working with factors.
-
-```{r, fig.alt="Forcats hex sticker", out.width = "30%", echo = FALSE, fig.align='center'}
-knitr::include_graphics("https://github.com/tidyverse/forcats/raw/main/man/figures/logo.png")
-```
-
-## `forcats` for ordering{.smaller}
-
-What if we wanted to order `grade` by increasing `n_dropouts`? 
-
-```{r, fig.height= 3}
-library(forcats)
-
-dropouts_fct %>%
-  ggplot(aes(x = grade, y = n_dropouts)) +
-  geom_boxplot() +
-  theme_bw(base_size = 16)
-```
-
-This would be useful for identifying easily which grade to focus on.
-
-## forcats for ordering{.smaller}
-
-We can order a factor by another variable by using the `fct_reorder()` function of the `forcats` package.
-
-<div class = "codeexample">
-```{r, eval=FALSE}
-fct_reorder({column getting changed}, {guiding column}, {summarizing function})
-```
-</div>
-
-## forcats for ordering{.smaller}
-
-We can order a factor by another variable by using the `fct_reorder()` function of the `forcats` package.
-
-```{r, fig.height= 3}
-library(forcats)
-
-dropouts_fct %>%
-  ggplot(aes(x = fct_reorder(grade, n_dropouts, mean), y = n_dropouts)) +
-  geom_boxplot() +
-  labs(x = "Student Grade") +
-  theme_bw(base_size = 16)
-```
-
-## forcats for ordering.. with `.desc = ` argument{.smaller}
-
-```{r, fig.height= 3}
-library(forcats)
-
-dropouts_fct %>%
-  ggplot(aes(x = fct_reorder(grade, n_dropouts, mean, .desc = TRUE), y = n_dropouts)) +
-  geom_boxplot() +
-  labs(x = "Student Grade") +
-  theme_bw(base_size = 16)
-```
 
 ## Checking Proportions with `fct_count()`
 
 The `fct_count()` function of the `forcats` package is helpful for checking that the proportions of each level for a factor are similar. Need the `prop = TRUE` argument otherwise just counts are reported.
 
 ```{r}
-dropouts_fct %>%
-  pull(grade) %>%
+ufo %>%
+  pull(timespan) %>%
   fct_count(prop = TRUE)
 ```
 
 ## Summary
+
 - the factor class allows us to have a different order from alphanumeric for categorical data
 - we can change data to be a factor variable using `mutate` and a factor creating function like `factor()` (alphabetical order by default)
 - with `factor()` we can specify the levels with the `levels` argument if we want a specific order

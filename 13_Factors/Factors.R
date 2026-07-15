@@ -21,135 +21,116 @@ levels(x_fact)
 
 
 ## -----------------------------------------------------------------------------
-dropouts <- read_delim("http://jhudatascience.org/intro_to_r/data/dropouts.txt", delim = "\t")
-dropouts
+ufo <- 
+  read_csv("https://raw.githubusercontent.com/SISBID/Module1/gh-pages/data/ufo/ufo_data_complete.csv")
 
 
-## -----------------------------------------------------------------------------
-dropouts <-
-  dropouts %>%
-  group_by(CDS_CODE) %>%
-  summarize(
-    Freshman = sum(D9),
-    Sophomore = sum(D10),
-    Junior = sum(D11),
-    Senior = sum(D12)
-  )
-dropouts
+## ----messages=FALSE, warning = FALSE, include = FALSE-------------------------
+library(janitor)
+ufo <- clean_names(ufo)
+
 
 
 ## -----------------------------------------------------------------------------
-dropouts <-
-  dropouts %>%
-  pivot_longer(
-    !CDS_CODE,
-    names_to = "grade",
-    values_to = "n_dropouts"
-  )
-dropouts
+ufo <- clean_names(ufo)
+glimpse(ufo)
 
 
 ## -----------------------------------------------------------------------------
-head(dropouts)
+ufo <- ufo %>%separate(datetime,into = c("date", "time"), sep = " ")
+
+glimpse(ufo)
 
 
 ## -----------------------------------------------------------------------------
-set.seed(123) # same random sample each time
-dropouts_subset <- slice_sample(dropouts, n = 32)
-dropouts_subset
+ufo <- ufo %>% separate(time, into= c("hour", "min")) 
 
-
-## ----fig.height= 3------------------------------------------------------------
-dropouts_subset %>%
-  ggplot(aes(x = grade, y = n_dropouts)) +
-  geom_boxplot() +
-  theme_bw(base_size = 16) # make all labels size 16
+glimpse(ufo)
 
 
 ## -----------------------------------------------------------------------------
-dropouts_fct <-
-  dropouts_subset %>%
-  mutate(grade = factor(grade,
-    levels = c("Freshman", "Sophomore", "Junior", "Senior")
-  ))
+ufo <-ufo %>% mutate(hour = as.numeric(hour), min = as.numeric(min))
 
-dropouts_fct %>%
-  pull(grade) %>%
-  levels()
+glimpse(ufo)
 
 
 ## -----------------------------------------------------------------------------
-head(dropouts_fct)
+ufo <- ufo %>%   mutate(timespan = 
+                    case_when(hour %in%c(18,19,20,21)~ "Evening", 
+                              hour >21 ~ "Night",
+                              hour >=0 & hour <12 ~ "Morning",
+                              hour >=12 & hour <18 ~ "Afternoon"))
 
-
-## ----fig.height= 3------------------------------------------------------------
-dropouts_fct %>%
-  ggplot(aes(x = grade, y = n_dropouts)) +
-  geom_boxplot() +
-  theme_bw(base_size = 16)
-
-
-## -----------------------------------------------------------------------------
-dropouts_subset %>%
-  arrange(grade)
+ufo %>% count(timespan)
 
 
 ## -----------------------------------------------------------------------------
-dropouts_fct %>%
-  arrange(grade)
+ufo %>% count(timespan)
 
-
-## -----------------------------------------------------------------------------
-dropouts_subset %>%
-  group_by(grade) %>%
-  summarize(total_dropouts = sum(n_dropouts))
 
 
 ## -----------------------------------------------------------------------------
-dropouts_fct %>%
-  group_by(grade) %>%
-  summarize(total_dropouts = sum(n_dropouts))
+
+ufo %>% arrange(timespan) %>% glimpse()
+
+
+
+## ----fig.width= 5-------------------------------------------------------------
+count(ufo, timespan) %>% ggplot(aes(x  = timespan, y = n)) + geom_col()
+
+
+## -----------------------------------------------------------------------------
+ufo <- ufo %>% mutate(timespan = factor(timespan, levels = 
+                  c("Morning", "Afternoon", "Evening", "Night")))
+
+
+
+## -----------------------------------------------------------------------------
+
+ufo %>% count(timespan)
+
+
+
+## -----------------------------------------------------------------------------
+
+ufo %>% arrange(timespan) %>% glimpse()
+
+
+
+## ----fig.height= 3, fig.width=5-----------------------------------------------
+count(ufo, timespan) %>% ggplot(
+  aes(x  = timespan, y = n)) + 
+  geom_col() + 
+  xlab("General Time of Sighting") + ylab("Frequency")+
+  theme_bw(base_size = 16) 
 
 
 ## ----fig.alt="Forcats hex sticker", out.width = "30%", echo = FALSE, fig.align='center'----
 knitr::include_graphics("https://github.com/tidyverse/forcats/raw/main/man/figures/logo.png")
 
 
-## ----fig.height= 3------------------------------------------------------------
-library(forcats)
-
-dropouts_fct %>%
-  ggplot(aes(x = grade, y = n_dropouts)) +
-  geom_boxplot() +
-  theme_bw(base_size = 16)
-
-
 ## ----eval=FALSE---------------------------------------------------------------
-## fct_reorder({column getting changed}, {guiding column}, {summarizing function})
+# fct_reorder({column getting changed}, {guiding column}, {summarizing function})
 
 
-## ----fig.height= 3------------------------------------------------------------
-library(forcats)
-
-dropouts_fct %>%
-  ggplot(aes(x = fct_reorder(grade, n_dropouts, mean), y = n_dropouts)) +
-  geom_boxplot() +
-  labs(x = "Student Grade") +
-  theme_bw(base_size = 16)
+## ----fig.height= 3, fig.width=5-----------------------------------------------
+count(ufo, timespan) %>% ggplot(
+  aes(x  = fct_reorder(timespan, n), y = n)) + 
+  geom_col() + 
+  xlab("General Time of Sighting") + ylab("Frequency")+
+  theme_bw(base_size = 16) 
 
 
-## ----fig.height= 3------------------------------------------------------------
-library(forcats)
-
-dropouts_fct %>%
-  ggplot(aes(x = fct_reorder(grade, n_dropouts, mean, .desc = TRUE), y = n_dropouts)) +
-  geom_boxplot() +
-  labs(x = "Student Grade") +
-  theme_bw(base_size = 16)
+## ----fig.height= 3, fig.width=5-----------------------------------------------
+count(ufo, timespan) %>% ggplot(
+  aes(x  = fct_reorder(timespan, n, .desc = TRUE), y = n)) + 
+  geom_col() + 
+  xlab("General Time of Sighting") + ylab("Frequency")+
+  theme_bw(base_size = 16) 
 
 
 ## -----------------------------------------------------------------------------
-dropouts_fct %>%
-  pull(grade) %>%
+ufo %>%
+  pull(timespan) %>%
   fct_count(prop = TRUE)
 
