@@ -138,7 +138,7 @@ The `purrr` package can be very helpful!
 Apply `sum` to every column
 
 ```{r}
-mtcars |> map(sum)
+mtcars %>% map(sum)
 ```
 
 ## `purrr` functions: `map` and `modify`
@@ -146,7 +146,7 @@ mtcars |> map(sum)
 Apply `sum` to every column - nicer output
 
 ```{r}
-mtcars |> map_dbl(sum)
+mtcars %>% map_dbl(sum)
 ```
 
 ## `purrr` functions: `map` and `modify`
@@ -154,7 +154,7 @@ mtcars |> map_dbl(sum)
 Apply `round` to every column - get a data.frame back out
 
 ```{r}
-mtcars |> modify(round)
+mtcars %>% modify(round)
 ```
 
 ## Anonymous functions - "functions on the fly"
@@ -162,7 +162,7 @@ mtcars |> modify(round)
 You can supply a custom function without naming it. Useful if you only need to use it once!
 
 ```{r}
-mtcars |> modify(\(x) x * 100)
+mtcars %>% modify(\(x) x * 100)
 ```
 
 ## `modify_if` {.codesmall}
@@ -254,10 +254,7 @@ https://jennybc.github.io/purrr-tutorial/bk01_base-functions.html
 
 You need a way to iterate in R in a data-structure-informed way. What does that mean?
 
-* Iterate over elements of a list
-* Iterate over rows or columns of a 2-dimensional object
-* Iterate over sub data frames induced by one or more factors
-* Iterate over tuples formed from the i-th element of several vectors of equal length
+You can **iterate over elements of a list**! This might be over sub data frames or different files.
 
 ## Cleaning up multiple datasets {.codesmall}
 
@@ -266,11 +263,11 @@ Store datasets in a list!
 ```{r message=FALSE}
 ufo1 <- read_csv("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_1.csv")
 ufo2 <- read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_2.tsv")
-ufo4 <- read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_4.csv", delim = ":")
+ufo3 <- read_delim("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_3.csv", delim = ":")
 ```
 
 ```{r}
-ufo_datasets <- list(ufo1, ufo2, ufo4)
+ufo_datasets <- list(ufo1, ufo2, ufo3)
 ```
 
 ## Cleaning up multiple datasets
@@ -282,7 +279,7 @@ library(janitor)
 
 ufo_datasets_clean <- 
   ufo_datasets %>%
-  map(\(x) x |> count(country))
+  map(clean_names)
 ```
 
 ## Cleaning up multiple datasets {.codesmall}
@@ -291,6 +288,15 @@ Confirm columns have been cleaned! Look at `ufo_datasets_clean` or look at each 
 
 ```{r message=FALSE}
 ufo_datasets_clean[[1]]
+```
+
+## Cleaning up multiple datasets
+
+Apply an anonymous function! Creates a count `tibble` for each `country`
+
+```{r message=FALSE}
+ufo_datasets %>%
+  map(\(x) x %>% count(country))
 ```
 
 ## List: `group_split()` a dataset 
@@ -323,10 +329,11 @@ mtcars_split %>%
 
 ## Summary
 
-- `function(x){ }` or `\(x){ }` denotes a function. You also commonly see `~.x` inside `across`.
-- `map_df` and `modify` **apply functions** to each element of an object. `map` returns a list, `modify` returns the same object type.
+- `function(x){ }` or `\(x){ }` denotes a function. 
+- `across` works with `mutate` or `summarize`. First specify *what* to work on, then what to *do*. `~` and `.` will help you use function arguments.
+- `map` and `modify` **apply functions**. `map` returns a list, `modify` returns the same object type.
 - The purrr package has other useful functional programming features.
 - lists can be great for storing iterative work.
-- `group_split` and `group_keys` can be handy with `group_by`
+- `group_split` and `group_keys` can be handy with `group_by` to create a list of subset tibbles.
 
 https://sisbid.github.io/Data-Wrangling/14_Functional_Programming/lab/functional-program-lab.Rmd
