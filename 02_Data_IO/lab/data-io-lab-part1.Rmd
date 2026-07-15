@@ -30,19 +30,13 @@ If this is review to you, explore the "Import Options" on the bottom left of the
 
 ```
 
-3. Read in the `https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_3.txt` dataset into the `ufo_slice_3` R object. What delimiter separates columns?
+3. Read in the `https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_3.csv` dataset into the `ufo_slice_3` R object. What delimiter separates columns? [hint: file extension is ambiguous]
 
 ```{r}
 
 ```
 
-4. Read in the `https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_4.csv` dataset into the `ufo_slice_4` R object. What delimiter separates columns? [hint: file extension is ambiguous]
-
-```{r}
-
-```
-
-5. Read in the `https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_5.xlsx` dataset into the `ufo_slice_5` R object. 
+4. Read in the `https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_4.xlsx` dataset into the `ufo_slice_4` R object. 
 
 ```{r}
 
