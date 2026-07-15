@@ -1,11 +1,6 @@
 ---
 title: "Subsetting Data in R"
 author: "Data Wrangling in R"
-output:
-  ioslides_presentation:
-    css: ../styles/styles.css
-    widescreen: true
-  beamer_presentation: default
 ---
 
 ```{r, include=FALSE}
@@ -13,7 +8,6 @@ library(knitr)
 knitr::opts_chunk$set(comment = "")
 library(tidyverse)
 ```
-
 
 # Subsetting part 2
 
