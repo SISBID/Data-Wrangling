@@ -28,20 +28,20 @@ ufo %>% pull(duration_s) %>% median(na.rm=TRUE)
 
 
 ## ----message = FALSE----------------------------------------------------------
-ufo %>% count(shape)
+ufo %>% count(country)
 
 
 ## ----message = FALSE----------------------------------------------------------
-ufo %>% count(shape, country)
+ufo %>% count(country, shape)
 
 
 ## ----message = FALSE----------------------------------------------------------
-ufo %>% count(shape, sort = TRUE)
+ufo %>% count(country, sort = TRUE)
 
 
 ## ----message = FALSE----------------------------------------------------------
-# Add up "duration_s" for each "shape" category
-ufo %>% count(shape, wt = duration_s)
+# Add up "duration_s" for each "country" category
+ufo %>% count(country, wt = duration_s)
 
 
 ## -----------------------------------------------------------------------------
@@ -50,7 +50,7 @@ ufo
 
 
 ## -----------------------------------------------------------------------------
-ufo_grouped <- ufo %>% group_by(shape)
+ufo_grouped <- ufo %>% group_by(country)
 ufo_grouped
 
 
@@ -59,23 +59,27 @@ ufo_grouped %>%
   summarize(mean_value = mean(duration_s, na.rm = TRUE))
 
 
+## ----echo = FALSE, out.width="50%"--------------------------------------------
+knitr::include_graphics("../images/summarize.png")
+
+
 ## -----------------------------------------------------------------------------
 ufo %>%
-  group_by(shape) %>%
+  group_by(country) %>%
   summarize(mean_value = mean(duration_s, na.rm = TRUE),
             max_value = max(duration_s, na.rm = TRUE))
 
 
 ## -----------------------------------------------------------------------------
 ufo_compare <- ufo %>%
-  group_by(shape) %>%
-  mutate(duration_shape_avg = mean(duration_s, na.rm = TRUE)) %>%
-  select(shape, duration_s, duration_shape_avg)
+  group_by(country) %>%
+  mutate(duration_country_avg = mean(duration_s, na.rm = TRUE)) %>%
+  select(country, duration_s, duration_country_avg)
 ufo_compare
 
 
 ## -----------------------------------------------------------------------------
-ufo_compare %>% mutate(diff = duration_s - duration_shape_avg)
+ufo_compare %>% mutate(diff = duration_s - duration_country_avg)
 
 
 ## -----------------------------------------------------------------------------

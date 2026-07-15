@@ -81,7 +81,7 @@ ufo %>% pull(duration_s) %>% median(na.rm=TRUE)
 `count`: the number of rows in each group.
 
 ```{r, message = FALSE}
-ufo %>% count(shape)
+ufo %>% count(country)
 ```
 
 ## `dplyr`: `count` 
@@ -89,7 +89,7 @@ ufo %>% count(shape)
 Multiple columns listed further subdivides the count.
 
 ```{r, message = FALSE}
-ufo %>% count(shape, country)
+ufo %>% count(country, shape)
 ```
 
 ## `dplyr`: `count` 
@@ -97,7 +97,7 @@ ufo %>% count(shape, country)
 Option to sort the results with `sort = TRUE`
 
 ```{r, message = FALSE}
-ufo %>% count(shape, sort = TRUE)
+ufo %>% count(country, sort = TRUE)
 ```
 
 ## GUT CHECK!
@@ -115,8 +115,8 @@ C. How many categories
 Instead of counting the **number of rows** in each group, `wt` computes sum() of a column for each group.
 
 ```{r, message = FALSE}
-# Add up "duration_s" for each "shape" category
-ufo %>% count(shape, wt = duration_s)
+# Add up "duration_s" for each "country" category
+ufo %>% count(country, wt = duration_s)
 ```
 
 # Grouping
@@ -135,7 +135,7 @@ ufo
 `group_by` allows you group the data set by variables/columns you specify:
 
 ```{r}
-ufo_grouped <- ufo %>% group_by(shape)
+ufo_grouped <- ufo %>% group_by(country)
 ufo_grouped
 ```
 
@@ -148,26 +148,34 @@ ufo_grouped %>%
   summarize(mean_value = mean(duration_s, na.rm = TRUE))
 ```
 
+## Visual of `summarize`
+
+```{r, echo = FALSE, out.width="50%"}
+knitr::include_graphics("../images/summarize.png")
+```
+
+[source](https://swcarpentry.github.io/r-novice-gapminder/instructor/images.html)
+
 ## Use the `pipe` to string these together!
 
 Pipe `ufo` into `group_by`, then pipe that into `summarize`:
 
 ```{r}
 ufo %>%
-  group_by(shape) %>%
+  group_by(country) %>%
   summarize(mean_value = mean(duration_s, na.rm = TRUE),
             max_value = max(duration_s, na.rm = TRUE))
 ```
 
 ## `group_by` with `mutate` - Useful for comparisons {.codesmall}
 
-Use `group_by` to calculate the mean value for each shape. We can use `mutate` to add it as a column.
+Use `group_by` to calculate the mean value for each country. We can use `mutate` to add it as a column.
 
 ```{r}
 ufo_compare <- ufo %>%
-  group_by(shape) %>%
-  mutate(duration_shape_avg = mean(duration_s, na.rm = TRUE)) %>%
-  select(shape, duration_s, duration_shape_avg)
+  group_by(country) %>%
+  mutate(duration_country_avg = mean(duration_s, na.rm = TRUE)) %>%
+  select(country, duration_s, duration_country_avg)
 ufo_compare
 ```
 
@@ -176,7 +184,7 @@ ufo_compare
 Create a "difference" variable:
 
 ```{r}
-ufo_compare %>% mutate(diff = duration_s - duration_shape_avg)
+ufo_compare %>% mutate(diff = duration_s - duration_country_avg)
 ```
 
 # Iterative summaries
