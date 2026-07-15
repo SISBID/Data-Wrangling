@@ -1,6 +1,6 @@
 ---
 title: "Factors"
-author: "SISBID: Data Wrangling in R"
+author: "Data Wrangling in R"
 ---
 
 ## Factors
