@@ -75,14 +75,14 @@ head(pull(ufo,country))
 
 ## Using the `pipe` (comes with `dplyr`):
 
-That was a lot of typing and nested functions, which can be confusing.  The pipe `%>%` or (you will also see this pipe `|>`) makes things such as this much more readable.  It reads left side "pipes" into right side.  RStudio `CMD/Ctrl + Shift + M` shortcut. 
+That was a lot of typing and nested functions, which can be confusing.  The pipe `|>` or (you will also see this pipe `%>%`) makes things such as this much more readable.  It reads left side "pipes" into right side.  RStudio `CMD/Ctrl + Shift + M` shortcut. 
 
 ## Using the `pipe` (comes with `dplyr`):
 
 Pipe `ufo` into `select`, then pipe that into `pull`, and then show the `head`:
 
 ```{r}
-ufo %>% pull(country) %>% head()
+ufo |> pull(country) |> head()
 ```
 
 
@@ -141,7 +141,7 @@ everything()
 For example, we can take all columns that start with a "c":
 
 ```{r}
-ufo %>% select(starts_with("c"))
+ufo |> select(starts_with("c"))
 ```
 
 ## Tidyselect helpers{.codesmall}
@@ -149,7 +149,7 @@ ufo %>% select(starts_with("c"))
 Or we can take all columns that end with an "e":
 
 ```{r}
-ufo %>% select(ends_with("e"))
+ufo |> select(ends_with("e"))
 ```
 
 ## Tidyselect helpers
@@ -172,7 +172,7 @@ filter(ufo, `duration (seconds)` > 6000)
 You can also using piping here:
 
 ```{r}
-ufo %>% filter(`duration (seconds)` > 6000)
+ufo |> filter(`duration (seconds)` > 6000)
 ```
 
 
@@ -182,7 +182,7 @@ ufo %>% filter(`duration (seconds)` > 6000)
 You can also filter character strings by a single value or category. Here we need quotes around character strings. 
 
 ```{r}
-ufo %>% filter(country == "us")
+ufo |> filter(country == "us")
 ```
 
 ## Subset rows with multiple required conditions:{.codesmall}
@@ -190,7 +190,7 @@ ufo %>% filter(country == "us")
 You can combine filtering on multiple columns by separating the filter arguments with `&` (or commas - but `&` is more clear) - must match both conditions!
 
 ```{r}
-ufo %>% filter(`duration (seconds)` > 6000 & country == "us")
+ufo |> filter(`duration (seconds)` > 6000 & country == "us")
 ```
 
 ## Subset to match a vector of possibilities:{.codesmall}
@@ -198,7 +198,7 @@ ufo %>% filter(`duration (seconds)` > 6000 & country == "us")
 Sometimes you want to be able to filter on matching several values or categories. The `%in%` operator is useful here:
 
 ```{r}
-ufo %>% filter(country %in% c("us", "gb"))
+ufo |> filter(country %in% c("us", "gb"))
 ```
 
 ## Subset rows using conditions for numeric and character variables:{.codesmall}
@@ -206,7 +206,7 @@ ufo %>% filter(country %in% c("us", "gb"))
 You can mix and match filtering on numeric and categorical/character columns in the same `filter()` command:
 
 ```{r}
-ufo %>% filter(country %in% c("us", "gb") &
+ufo |> filter(country %in% c("us", "gb") &
                     `duration (seconds)` > 6000)
 ```
 
@@ -215,16 +215,16 @@ ufo %>% filter(country %in% c("us", "gb") &
 R will interpret quotes around numbers as the characters themselves and not their numeric meaning. Avoid quotes unless it is not being treated as a numeric value - for example grades.
 
 ```{r}
-ufo %>% filter(`duration (seconds)` > 60000) %>% head(2) #This works
-ufo %>% filter(`duration (seconds)` > "60000") %>% head(2) # not right!
+ufo |> filter(`duration (seconds)` > 60000) |> head(2) #This works
+ufo |> filter(`duration (seconds)` > "60000") |> head(2) # not right!
 
 ```
 
 ## Watch out for quotes and column names{.codesmall}
 
 ```{r}
-ufo %>% filter("country" == "gb") # didn't work!
-ufo %>% filter(country == "gb")
+ufo |> filter("country" == "gb") # didn't work!
+ufo |> filter(country == "gb")
 ```
 
 ## Special column names need back ticks {.codesmall}
@@ -235,8 +235,8 @@ knitr::include_graphics("https://github.com/SISBID/Data-Wrangling/blob/gh-pages/
 ```
 
 ```{r, error = TRUE}
-ufo %>% filter(duration (seconds) > 6000) # didn't work!
-ufo %>% filter(`duration (seconds)` > 6000) # worked!
+ufo |> filter(duration (seconds) > 6000) # didn't work!
+ufo |> filter(`duration (seconds)` > 6000) # worked!
 
 ```
 
@@ -260,9 +260,9 @@ Other useful logical tests:
 The OR operator (`|`) is more permissive than the AND operator:
 
 ```{r}
-ufo %>% filter(country == "gb") %>% dim()
-ufo %>% filter(country == "gb" | `duration (seconds)` > 6000) %>% dim()
-ufo %>% filter(country == "gb" | `duration (seconds)` > 6000)
+ufo |> filter(country == "gb") |> dim()
+ufo |> filter(country == "gb" | `duration (seconds)` > 6000) |> dim()
+ufo |> filter(country == "gb" | `duration (seconds)` > 6000)
 ```
 
 ## OR is like `%in%`:
@@ -270,8 +270,8 @@ ufo %>% filter(country == "gb" | `duration (seconds)` > 6000)
 The OR operator (`|`) can be a substitute for `%in%` (although it might take more typing):
 
 ```{r}
-ufo %>% filter(country =="us" | country == "gb") %>% dim()
-ufo %>% filter(country %in% c("us", "gb")) %>% dim()
+ufo |> filter(country =="us" | country == "gb") |> dim()
+ufo |> filter(country %in% c("us", "gb")) |> dim()
 ```
 
 ## Combining `filter` and `select`:{.codesmall}
@@ -279,8 +279,8 @@ ufo %>% filter(country %in% c("us", "gb")) %>% dim()
 You can combine `filter` and `select` to subset the rows and columns, respectively, of a `data.frame`:
 
 ```{r}
-ufo%>% 
-  filter(country == "gb") %>% 
+ufo|> 
+  filter(country == "gb") |> 
   select(starts_with("c"))
 ```
 
@@ -289,8 +289,8 @@ ufo%>%
 The order of these functions matters though, since you can remove columns that you might want to filter on. 
 
 ```{r, error=TRUE}
-ufo%>% 
-  select(starts_with("c")) %>% 
+ufo|> 
+  select(starts_with("c")) |> 
   filter(shape == "light")
  
 ```
@@ -303,7 +303,7 @@ This will result in an error because the table column is now gone after the `sel
 
 ```{r}
 head(ufo, 2)
-ufo %>% select(`duration (seconds)`, starts_with("c"))
+ufo |> select(`duration (seconds)`, starts_with("c"))
 ```
 
 ## Multiple tidyselect functions{.codesmall}
@@ -311,7 +311,7 @@ ufo %>% select(`duration (seconds)`, starts_with("c"))
 Follows OR logic.
 
 ```{r}
-ufo %>% select(starts_with("c"), ends_with("e"))
+ufo |> select(starts_with("c"), ends_with("e"))
 
 ```
 
@@ -320,7 +320,7 @@ ufo %>% select(starts_with("c"), ends_with("e"))
 Need to combine the patterns with the `c()` function.
 
 ```{r}
-ufo %>% select(starts_with(c("c", "s")))
+ufo |> select(starts_with(c("c", "s")))
 ```
 
 ## Common error for filter or select{.codesmall}
@@ -346,7 +346,7 @@ Source: https://media.giphy.com/media/5b5OU7aUekfdSAER5I/giphy.gif
 ## Summary
 
 - `pull()` can help us see a vector version of our variables - we can "pull" out the data from a dataframe
-- The pipe (`%>%` or `|>`) can help us to do sequential steps
+- The pipe (`|>` or `%>%`) can help us to do sequential steps
 - `select()` makes a smaller table of just selected variables
 - tidyselect functions can help us select specific columns: `contains()`, `ends_with()`, `starts_with()`
 - `filter` can remove rows based on conditions

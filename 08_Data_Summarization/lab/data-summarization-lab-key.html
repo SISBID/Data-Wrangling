@@ -367,7 +367,7 @@ pre code {
 
 circ &lt;- read_csv(&quot;https://sisbid.github.io/Data-Wrangling/data/Charm_City_Circulator_Ridership.csv&quot;)</code></pre>
 <pre><code>## Rows: 1146 Columns: 15
-## ── Column specification ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+## ── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr  (2): day, date
 ## dbl (13): orangeBoardings, orangeAlightings, orangeAverage, purpleBoardings,...
@@ -381,7 +381,7 @@ circ &lt;- read_csv(&quot;https://sisbid.github.io/Data-Wrangling/data/Charm_Cit
 <pre><code>## [1] 1146</code></pre>
 <pre class="r"><code>dim(circ)</code></pre>
 <pre><code>## [1] 1146   15</code></pre>
-<pre class="r"><code>circ %&gt;% 
+<pre class="r"><code>circ |&gt; 
   nrow()</code></pre>
 <pre><code>## [1] 1146</code></pre>
 <ol start="2" style="list-style-type: decimal">
@@ -389,7 +389,7 @@ circ &lt;- read_csv(&quot;https://sisbid.github.io/Data-Wrangling/data/Charm_Cit
 </ol>
 <pre class="r"><code>sum(circ$greenBoardings, na.rm = TRUE)</code></pre>
 <pre><code>## [1] 935564</code></pre>
-<pre class="r"><code>circ %&gt;% pull(greenBoardings) %&gt;% sum(na.rm = TRUE)</code></pre>
+<pre class="r"><code>circ |&gt; pull(greenBoardings) |&gt; sum(na.rm = TRUE)</code></pre>
 <pre><code>## [1] 935564</code></pre>
 <pre class="r"><code>count(circ, wt = greenBoardings)</code></pre>
 <pre><code>## # A tibble: 1 × 1
@@ -399,8 +399,8 @@ circ &lt;- read_csv(&quot;https://sisbid.github.io/Data-Wrangling/data/Charm_Cit
 <ol start="3" style="list-style-type: decimal">
 <li>Group the data by day of the week (<code>day</code>). Find the mean daily ridership (<code>daily</code> column). (hint: use <code>group_by</code> and <code>summarize</code> functions)</li>
 </ol>
-<pre class="r"><code>circ %&gt;% 
-  group_by(day) %&gt;% 
+<pre class="r"><code>circ |&gt; 
+  group_by(day) |&gt; 
   summarize(mean = mean(daily, na.rm = TRUE))</code></pre>
 <pre><code>## # A tibble: 7 × 2
 ##   day        mean
@@ -415,8 +415,8 @@ circ &lt;- read_csv(&quot;https://sisbid.github.io/Data-Wrangling/data/Charm_Cit
 <ol start="4" style="list-style-type: decimal">
 <li>Take the median of <code>orangeBoardings</code>(use <code>median()</code>), grouping by day of the week.</li>
 </ol>
-<pre class="r"><code>circ %&gt;% 
-  group_by(day) %&gt;% 
+<pre class="r"><code>circ |&gt; 
+  group_by(day) |&gt; 
   summarize(median = median(orangeBoardings, na.rm = TRUE))</code></pre>
 <pre><code>## # A tibble: 7 × 2
 ##   day       median
@@ -434,8 +434,8 @@ circ &lt;- read_csv(&quot;https://sisbid.github.io/Data-Wrangling/data/Charm_Cit
 <ol start="5" style="list-style-type: decimal">
 <li>Group by day of the week, and then find the mean ridership <code>summarize(across())</code> all numeric columns using <code>where(is.numeric)</code>.</li>
 </ol>
-<pre class="r"><code>circ %&gt;% 
-  group_by(day) %&gt;% 
+<pre class="r"><code>circ |&gt; 
+  group_by(day) |&gt; 
   summarize(across(where(is.numeric), ~mean(.x, na.rm=T)))</code></pre>
 <pre><code>## # A tibble: 7 × 14
 ##   day       orangeBoardings orangeAlightings orangeAverage purpleBoardings

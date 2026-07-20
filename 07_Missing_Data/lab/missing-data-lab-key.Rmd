@@ -26,9 +26,9 @@ bike <-read_csv("https://sisbid.github.io/Data-Wrangling/data/Bike_Lanes.csv")
 Hint: You first need to `pull` out the vector version of this variable to use the `is.na()` function.
 
 ```{r}
-bike %>%
-  pull(dateInstalled) %>%
-  is.na() %>%
+bike |>
+  pull(dateInstalled) |>
+  is.na() |>
   any()
 ```
 
@@ -36,7 +36,7 @@ bike %>%
 2.  Filter rows of bike, so that only rows remain that do NOT have missing values for the `route` variable,  using `drop_na`. Assign this to the object `have_route.`
 
 ```{r}
-have_rout <- bike %>% drop_na(route)
+have_rout <- bike |> drop_na(route)
 ```
 
 
@@ -50,6 +50,6 @@ gg_miss_var(bike)
 4. What percentage of the `subType` variable is complete of `bike` ? Hint: use another `naniar` function.
  
 ```{r}
-pull(bike, subType) %>% pct_complete() # this
+pull(bike, subType) |> pct_complete() # this
 miss_var_summary(bike) # or this
 ```

@@ -419,12 +419,12 @@ nrow(merged)</code></pre>
 <ol start="5" style="list-style-type: decimal">
 <li>What <code>road</code> data is missing from <code>crash</code>?</li>
 </ol>
-<pre class="r"><code>roads1 &lt;- road %&gt;% pull(Road)
-roads2 &lt;- crash %&gt;% pull(Road)
+<pre class="r"><code>roads1 &lt;- road |&gt; pull(Road)
+roads2 &lt;- crash |&gt; pull(Road)
 setdiff(roads1, roads2) # This value is in `road` but not `crash`</code></pre>
 <pre><code>## [1] &quot;US-52&quot;</code></pre>
 <pre class="r"><code># Could also search for NAs created by the join
-full %&gt;% filter(is.na(N_Crashes))</code></pre>
+full |&gt; filter(is.na(N_Crashes))</code></pre>
 <pre><code>## # A tibble: 1 × 6
 ##    Year Road  N_Crashes Volume District       Length
 ##   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;
@@ -438,12 +438,12 @@ full %&gt;% filter(is.na(N_Crashes))</code></pre>
 <ol start="6" style="list-style-type: decimal">
 <li>What <code>crash</code> data is missing from <code>road</code>?</li>
 </ol>
-<pre class="r"><code>roads1 &lt;- road %&gt;% pull(Road)
-roads2 &lt;- crash %&gt;% pull(Road)
+<pre class="r"><code>roads1 &lt;- road |&gt; pull(Road)
+roads2 &lt;- crash |&gt; pull(Road)
 setdiff(roads2, roads1) # These values are in `crash` but not `road`</code></pre>
 <pre><code>## [1] &quot;Interstate 275&quot;</code></pre>
 <pre class="r"><code># Could also search for NAs created by the join. Would be good to summarize with `count`
-full %&gt;% filter(is.na(District)) %&gt;% count(Road)</code></pre>
+full |&gt; filter(is.na(District)) |&gt; count(Road)</code></pre>
 <pre><code>## # A tibble: 1 × 2
 ##   Road               n
 ##   &lt;chr&gt;          &lt;int&gt;

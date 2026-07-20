@@ -34,8 +34,8 @@ Sometimes though, it's not so simple.  That's where functions that find patterns
 
 <!-- ```{r} -->
 
-<!-- ufo_short <- ufo %>% head(20) -->
-<!-- ufo_short %>% pull(duration_hours_min) -->
+<!-- ufo_short <- ufo |> head(20) -->
+<!-- ufo_short |> pull(duration_hours_min) -->
 
 <!-- ``` -->
 
@@ -60,7 +60,7 @@ count(data_case, status)
 
 <!-- ```{r} -->
 <!-- #remove all instances of digits of any length or "-" or "/" or "." -->
-<!-- ufo_short %>% mutate(unit = str_remove_all(duration_hours_min, "[0-9]+|-|/|\\.")) %>% select(duration_hours_min, unit) -->
+<!-- ufo_short |> mutate(unit = str_remove_all(duration_hours_min, "[0-9]+|-|/|\\.")) |> select(duration_hours_min, unit) -->
 <!-- ``` -->
 
 
@@ -69,7 +69,7 @@ In R, you could use `case_when()`:
 
 ```{r}
 #case_when way:
-data_case <-data_case %>% mutate(status = 
+data_case <-data_case |> mutate(status = 
             case_when(status 
           %in% c("C", "cont", "cOnt", "Cont", "control", "Control")
                                 ~ "Control",
@@ -110,7 +110,7 @@ Useful String functions from base R and `stringr`
 
 ```{r}
 
-data_case <-data_case %>%
+data_case <-data_case |>
                 mutate(status = str_to_sentence(status))
 count(data_case, status)
 ```
@@ -120,8 +120,8 @@ count(data_case, status)
 
 ```{r}
 #case_when way:
-data_case <-data_case %>%
-                mutate(status = str_to_sentence(status)) %>%
+data_case <-data_case |>
+                mutate(status = str_to_sentence(status)) |>
                 mutate(status = 
                       case_when(status %in% 
                     c("Treatment", "T", "Treat", "Traet", "Treat")
@@ -159,7 +159,7 @@ colnames(ufo_clean)
 
 Now let's fix our ufo data and remove those pesky backticks in the `duration_seconds` variable. First let's find them with `str_detect`.
 ```{r}
-ufo_clean %>% 
+ufo_clean |> 
   filter(str_detect( 
     string = duration_seconds, 
     pattern = "`"))
@@ -172,7 +172,7 @@ Now, let's remove the backticks.
 
 
 ```{r}
-ufo_clean  <- ufo_clean %>% 
+ufo_clean  <- ufo_clean |> 
   mutate(duration_seconds = 
            str_remove(string = duration_seconds,
                      pattern = "`"))
@@ -181,7 +181,7 @@ ufo_clean  <- ufo_clean %>%
 And let's check it:
 
 ```{r}
-ufo_clean %>% 
+ufo_clean |> 
   filter(str_detect( 
     string = duration_seconds, 
     pattern = "`"))
@@ -192,7 +192,7 @@ ufo_clean %>%
 There are many class functions to change from one class to another start with "as.".
 
 ```{r}
-ufo_clean <- ufo_clean %>% 
+ufo_clean <- ufo_clean |> 
   mutate(duration_seconds = as.numeric(duration_seconds))
 ufo_clean 
 ```
@@ -263,16 +263,16 @@ str_sub(c("Site A", "Site B", "Site C"), 6,6)
 These are the indices where the pattern match occurs:
 
 ```{r alienMatch}
-ufo_clean %>% 
-  filter(str_detect(comments, "two aliens")) %>% 
+ufo_clean |> 
+  filter(str_detect(comments, "two aliens")) |> 
   head()
 ```
 
 ## To Take a look at comments... need to select it first{.codesmall}
 
 ```{r}
-ufo_clean %>%
-  filter(str_detect(comments, "two aliens")) %>% 
+ufo_clean |>
+  filter(str_detect(comments, "two aliens")) |> 
   select(comments)
 ```
 
@@ -284,7 +284,7 @@ ufo_clean %>%
 (or if we used negate = TRUE it would find the opposite)
 
 ```{r ggrep}
-ufo_clean %>% pull(comments) %>%
+ufo_clean |> pull(comments) |>
   str_subset( "two aliens")
 
 ```
@@ -294,8 +294,8 @@ ufo_clean %>% pull(comments) %>%
 `str_extract` extracts just the matched string
 
 ```{r ggrep2}
-ufo_clean %>% 
-  mutate(aliens  = str_extract(comments, "two aliens")) %>%
+ufo_clean |> 
+  mutate(aliens  = str_extract(comments, "two aliens")) |>
   count(aliens)
 
 ```
@@ -304,17 +304,17 @@ ufo_clean %>%
 * Look for any comment that starts with "aliens" 
   
 ```{r grepstar}
-ufo_clean %>% pull(comments) %>% str_subset( "^aliens")
+ufo_clean |> pull(comments) |> str_subset( "^aliens")
 ```
 
 ## Using Regular Expressions{.smaller}
 
 That contains space then ship maybe with stuff in between
 ```{r grepstar2}
-ufo_clean %>% pull(comments) %>%
-  str_subset("space.?ship") %>% head(4) # gets "spaceship" or "space ship" or...
-ufo_clean %>% pull(comments) %>% 
-  str_subset("space.ship") %>% head(4) # no "spaceship" must have character in between
+ufo_clean |> pull(comments) |>
+  str_subset("space.?ship") |> head(4) # gets "spaceship" or "space ship" or...
+ufo_clean |> pull(comments) |> 
+  str_subset("space.ship") |> head(4) # no "spaceship" must have character in between
 
 ```
 
@@ -322,7 +322,7 @@ ufo_clean %>% pull(comments) %>%
 
 ```{r}
 
-pull(ufo_clean, duration_hours_min) %>% head(n = 20)
+pull(ufo_clean, duration_hours_min) |> head(n = 20)
 ```
 
 ## str_replace()
@@ -334,11 +334,11 @@ Using `case_when()` could be very tedious and error-prone!
 We can use `str_replace()` to do so.
 
 ```{r classSal}
-ufo_clean %>% mutate(duration_hours_min = 
+ufo_clean |> mutate(duration_hours_min = 
                  str_replace(string = duration_hours_min, 
                              pattern = "minutes", 
-                             replacement ="mins")) %>%
-  pull(duration_hours_min) %>%
+                             replacement ="mins")) |>
+  pull(duration_hours_min) |>
   head(8)
 
 ```
@@ -348,10 +348,10 @@ ufo_clean %>% mutate(duration_hours_min =
 Better yet, you might notice that this data isn't tidy- there are more than two entries for each value - amount of time and unit. We could separate this using `separate()` from the `tidyr` package.
 
 ```{r, warning=FALSE }
-ufo_clean %>% separate(duration_hours_min,
+ufo_clean |> separate(duration_hours_min,
                  into = c("duration_amount", "duration_unit"),
-                 sep = " ") %>%
-  select(duration_amount, duration_unit) %>% head()
+                 sep = " ") |>
+  select(duration_amount, duration_unit) |> head()
 ```
 As you can see there is still plenty of cleaning to do!
 
@@ -359,10 +359,10 @@ As you can see there is still plenty of cleaning to do!
 ## more seperating
 
 ```{r, warning=FALSE }
-ufo_clean <- ufo_clean %>% separate(datetime,
+ufo_clean <- ufo_clean |> separate(datetime,
                  into = c("date", "time"),
                  sep = " ")
-ufo_clean %>% select(date, time) %>% head()
+ufo_clean |> select(date, time) |> head()
 ```
 
 ## Dates and times{.smaller}
@@ -373,7 +373,7 @@ Most important functions are those that look like ymd or mdy etc. They specify h
 ```{r, message = FALSE}
 library(lubridate)#need to load this one!
 
-ufo_clean <- ufo_clean %>% mutate(date = mdy(date))
+ufo_clean <- ufo_clean |> mutate(date = mdy(date))
 head(ufo_clean)
 ```
 

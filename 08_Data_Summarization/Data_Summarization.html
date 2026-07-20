@@ -3292,7 +3292,7 @@ mean(x)</pre>
 
 <p>Summarization on a <code>data.frame</code>/<code>tibble</code>:</p>
 
-<pre class = 'prettyprint lang-r'>mtcars %&gt;% pull(hp) %&gt;% mean()</pre>
+<pre class = 'prettyprint lang-r'>mtcars |&gt; pull(hp) |&gt; mean()</pre>
 
 <pre >[1] 146.6875</pre>
 
@@ -3311,7 +3311,7 @@ mean(x)</pre>
 <p>Let’s use the UFO data again:</p>
 
 <pre class = 'prettyprint lang-r'>ufo &lt;- read_csv(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv&quot;)
-ufo &lt;- ufo %&gt;% rename(duration_s = `duration (seconds)`)
+ufo &lt;- ufo |&gt; rename(duration_s = `duration (seconds)`)
 head(ufo)</pre>
 
 <pre ># A tibble: 6 × 11
@@ -3329,15 +3329,15 @@ head(ufo)</pre>
 
 <p>Summarize a column as a vector with <code>pull()</code>.</p>
 
-<pre class = 'prettyprint lang-r'>ufo %&gt;% pull(duration_s) %&gt;% mean()</pre>
+<pre class = 'prettyprint lang-r'>ufo |&gt; pull(duration_s) |&gt; mean()</pre>
 
 <pre >[1] NA</pre>
 
-<pre class = 'prettyprint lang-r'>ufo %&gt;% pull(duration_s) %&gt;% mean(na.rm=TRUE)</pre>
+<pre class = 'prettyprint lang-r'>ufo |&gt; pull(duration_s) |&gt; mean(na.rm=TRUE)</pre>
 
 <pre >[1] 8373.412</pre>
 
-<pre class = 'prettyprint lang-r'>ufo %&gt;% pull(duration_s) %&gt;% median(na.rm=TRUE)</pre>
+<pre class = 'prettyprint lang-r'>ufo |&gt; pull(duration_s) |&gt; median(na.rm=TRUE)</pre>
 
 <pre >[1] 120</pre>
 
@@ -3345,7 +3345,7 @@ head(ufo)</pre>
 
 <p><code>count</code>: the number of rows in each group.</p>
 
-<pre class = 'prettyprint lang-r'>ufo %&gt;% count(country)</pre>
+<pre class = 'prettyprint lang-r'>ufo |&gt; count(country)</pre>
 
 <pre ># A tibble: 6 × 2
   country     n
@@ -3361,7 +3361,7 @@ head(ufo)</pre>
 
 <p>Multiple columns listed further subdivides the count.</p>
 
-<pre class = 'prettyprint lang-r'>ufo %&gt;% count(country, shape)</pre>
+<pre class = 'prettyprint lang-r'>ufo |&gt; count(country, shape)</pre>
 
 <pre ># A tibble: 139 × 3
    country shape        n
@@ -3382,7 +3382,7 @@ head(ufo)</pre>
 
 <p>Option to sort the results with <code>sort = TRUE</code></p>
 
-<pre class = 'prettyprint lang-r'>ufo %&gt;% count(country, sort = TRUE)</pre>
+<pre class = 'prettyprint lang-r'>ufo |&gt; count(country, sort = TRUE)</pre>
 
 <pre ># A tibble: 6 × 2
   country     n
@@ -3409,7 +3409,7 @@ head(ufo)</pre>
 <p>Instead of counting the <strong>number of rows</strong> in each group, <code>wt</code> computes sum() of a column for each group.</p>
 
 <pre class = 'prettyprint lang-r'># Add up &quot;duration_s&quot; for each &quot;country&quot; category
-ufo %&gt;% count(country, wt = duration_s)</pre>
+ufo |&gt; count(country, wt = duration_s)</pre>
 
 <pre ># A tibble: 6 × 2
   country          n
@@ -3450,7 +3450,7 @@ ufo</pre>
 
 <p><code>group_by</code> allows you group the data set by variables/columns you specify:</p>
 
-<pre class = 'prettyprint lang-r'>ufo_grouped &lt;- ufo %&gt;% group_by(country)
+<pre class = 'prettyprint lang-r'>ufo_grouped &lt;- ufo |&gt; group_by(country)
 ufo_grouped</pre>
 
 <pre ># A tibble: 88,875 × 11
@@ -3474,7 +3474,7 @@ ufo_grouped</pre>
 
 <p>We can summarize grouped data using <code>summarize()</code>:</p>
 
-<pre class = 'prettyprint lang-r'>ufo_grouped %&gt;% 
+<pre class = 'prettyprint lang-r'>ufo_grouped |&gt; 
   summarize(mean_value = mean(duration_s, na.rm = TRUE))</pre>
 
 <pre ># A tibble: 6 × 2
@@ -3497,8 +3497,8 @@ ufo_grouped</pre>
 
 <p>Pipe <code>ufo</code> into <code>group_by</code>, then pipe that into <code>summarize</code>:</p>
 
-<pre class = 'prettyprint lang-r'>ufo %&gt;%
-  group_by(country) %&gt;%
+<pre class = 'prettyprint lang-r'>ufo |&gt;
+  group_by(country) |&gt;
   summarize(mean_value = mean(duration_s, na.rm = TRUE),
             max_value = max(duration_s, na.rm = TRUE))</pre>
 
@@ -3512,13 +3512,13 @@ ufo_grouped</pre>
 5 us           5373.  66276000
 6 &lt;NA&gt;        11901.  52623200</pre>
 
-</article></slide><slide class=""><hgroup><h2><code>group_by</code> with <code>mutate</code> - Useful for comparisons</h2></hgroup><article  class="codesmall" id="group_by-with-mutate---useful-for-comparisons">
+</article></slide><slide class=""><hgroup><h2><code>group_by</code> with <code>mutate</code> - Useful for comparisons</h2></hgroup><article  id="group_by-with-mutate---useful-for-comparisons" class="codesmall">
 
 <p>Use <code>group_by</code> to calculate the mean value for each country. We can use <code>mutate</code> to add it as a column.</p>
 
-<pre class = 'prettyprint lang-r'>ufo_compare &lt;- ufo %&gt;%
-  group_by(country) %&gt;%
-  mutate(duration_country_avg = mean(duration_s, na.rm = TRUE)) %&gt;%
+<pre class = 'prettyprint lang-r'>ufo_compare &lt;- ufo |&gt;
+  group_by(country) |&gt;
+  mutate(duration_country_avg = mean(duration_s, na.rm = TRUE)) |&gt;
   select(country, duration_s, duration_country_avg)
 ufo_compare</pre>
 
@@ -3538,11 +3538,11 @@ ufo_compare</pre>
 10 us             120                5373.
 # ℹ 88,865 more rows</pre>
 
-</article></slide><slide class=""><hgroup><h2><code>group_by</code> with <code>mutate</code> - Useful for comparisons</h2></hgroup><article  class="codesmall" id="group_by-with-mutate---useful-for-comparisons-1">
+</article></slide><slide class=""><hgroup><h2><code>group_by</code> with <code>mutate</code> - Useful for comparisons</h2></hgroup><article  id="group_by-with-mutate---useful-for-comparisons-1" class="codesmall">
 
 <p>Create a &ldquo;difference&rdquo; variable:</p>
 
-<pre class = 'prettyprint lang-r'>ufo_compare %&gt;% mutate(diff = duration_s - duration_country_avg)</pre>
+<pre class = 'prettyprint lang-r'>ufo_compare |&gt; mutate(diff = duration_s - duration_country_avg)</pre>
 
 <pre ># A tibble: 88,875 × 4
 # Groups:   country [6]
@@ -3562,13 +3562,13 @@ ufo_compare</pre>
 
 </article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Iterative summaries</h2></hgroup><article  id="iterative-summaries">
 
-</article></slide><slide class=""><hgroup><h2>Iterative summaries: <code>dplyr</code> <code>summarize()</code> and <code>across()</code> functions</h2></hgroup><article  class="codesmall" id="iterative-summaries-dplyr-summarize-and-across-functions">
+</article></slide><slide class=""><hgroup><h2>Iterative summaries: <code>dplyr</code> <code>summarize()</code> and <code>across()</code> functions</h2></hgroup><article  id="iterative-summaries-dplyr-summarize-and-across-functions" class="codesmall">
 
 <p>Use the <a href='https://dplyr.tidyverse.org/reference/across.html' title=''><code>across</code></a> function with <code>summarize()</code> to summarize across multiple columns of your data.</p>
 
 <pre class = 'prettyprint lang-r'>dropouts &lt;- read_delim(&quot;https://sisbid.github.io/Data-Wrangling/data/dropouts.txt&quot;, delim = &quot;/&quot;)
-dropouts %&gt;%
-  group_by(ETHNIC) %&gt;%
+dropouts |&gt;
+  group_by(ETHNIC) |&gt;
   summarize(across(c(D9, D10, D11, D12), ~sum(.x)))</pre>
 
 <pre ># A tibble: 9 × 5
@@ -3588,8 +3588,8 @@ dropouts %&gt;%
 
 <p>Use <code>?tidyr_tidy_select</code> functions like <code>where(is.numeric)</code>!</p>
 
-<pre class = 'prettyprint lang-r'>dropouts %&gt;% 
-  group_by(ETHNIC) %&gt;% 
+<pre class = 'prettyprint lang-r'>dropouts |&gt; 
+  group_by(ETHNIC) |&gt; 
   summarize(across( where(is.numeric), ~ sum(.x, na.rm = TRUE)))</pre>
 
 <pre ># A tibble: 9 × 18

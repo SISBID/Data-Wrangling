@@ -31,7 +31,7 @@ class(wide$date)
 `daily`, `day`, `date`, using things like `-day`. Table `long$day`
 
 ```{r}
-long = wide %>% 
+long = wide |> 
   gather(key = "variable", value = "n_people", -daily, -day, -date)
 head(long$day)
 ```
@@ -52,11 +52,11 @@ head(long2)
 ```
 
 ```{r}
-long = long %>% 
+long = long |> 
   mutate(
-    variable = variable %>% 
-      str_replace("Board", "_Board") %>% 
-      str_replace("Alight", "_Alight") %>% 
+    variable = variable |> 
+      str_replace("Board", "_Board") |> 
+      str_replace("Alight", "_Alight") |> 
       str_replace("Average", "_Average") 
   )
 ```

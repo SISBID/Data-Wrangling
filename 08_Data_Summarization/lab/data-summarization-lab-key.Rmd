@@ -26,7 +26,7 @@ circ <- read_csv("https://sisbid.github.io/Data-Wrangling/data/Charm_City_Circul
 ```{r q1}
 nrow(circ)
 dim(circ)
-circ %>% 
+circ |> 
   nrow()
 ```
 
@@ -35,7 +35,7 @@ circ %>%
 ```{r q2}
 sum(circ$greenBoardings, na.rm = TRUE)
 
-circ %>% pull(greenBoardings) %>% sum(na.rm = TRUE)
+circ |> pull(greenBoardings) |> sum(na.rm = TRUE)
 
 count(circ, wt = greenBoardings)
 ```
@@ -43,16 +43,16 @@ count(circ, wt = greenBoardings)
 3. Group the data by day of the week (`day`). Find the mean daily ridership (`daily` column). (hint: use `group_by` and `summarize` functions)
 
 ```{r q3}
-circ %>% 
-  group_by(day) %>% 
+circ |> 
+  group_by(day) |> 
   summarize(mean = mean(daily, na.rm = TRUE))
 ```
 
 4. Take the median of `orangeBoardings`(use `median()`), grouping by day of the week.
 
 ```{r q4}
-circ %>% 
-  group_by(day) %>% 
+circ |> 
+  group_by(day) |> 
   summarize(median = median(orangeBoardings, na.rm = TRUE))
 ```
 
@@ -61,7 +61,7 @@ circ %>%
 5. Group by day of the week, and then find the mean ridership `summarize(across())` all numeric columns using `where(is.numeric)`.
 
 ```{r q5}
-circ %>% 
-  group_by(day) %>% 
+circ |> 
+  group_by(day) |> 
   summarize(across(where(is.numeric), ~mean(.x, na.rm=T)))
 ```

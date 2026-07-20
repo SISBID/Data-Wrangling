@@ -67,7 +67,7 @@ glimpse(ufo)
 ## Preparing the data: separate into date and time{.codesmall}
 
 ```{r}
-ufo <- ufo %>%separate(datetime,into = c("date", "time"), sep = " ")
+ufo <- ufo |>separate(datetime,into = c("date", "time"), sep = " ")
 
 glimpse(ufo)
 ```
@@ -75,7 +75,7 @@ glimpse(ufo)
 ## Preparing the data: separate into hour and min{.codesmall}
 
 ```{r}
-ufo <- ufo %>% separate(time, into= c("hour", "min")) 
+ufo <- ufo |> separate(time, into= c("hour", "min")) 
 
 glimpse(ufo)
 ```
@@ -83,7 +83,7 @@ glimpse(ufo)
 ## Preparing the data: convert to numeric{.codesmall}
 
 ```{r}
-ufo <-ufo %>% mutate(hour = as.numeric(hour), min = as.numeric(min))
+ufo <-ufo |> mutate(hour = as.numeric(hour), min = as.numeric(min))
 
 glimpse(ufo)
 ```
@@ -93,13 +93,13 @@ glimpse(ufo)
 ## Preparing the data: create timespan variable
 
 ```{r}
-ufo <- ufo %>%   mutate(timespan = 
+ufo <- ufo |>   mutate(timespan = 
                     case_when(hour %in%c(18,19,20,21)~ "Evening", 
                               hour >21 ~ "Night",
                               hour >=0 & hour <12 ~ "Morning",
                               hour >=12 & hour <18 ~ "Afternoon"))
 
-ufo %>% count(timespan)
+ufo |> count(timespan)
 ```
 
 
@@ -108,7 +108,7 @@ ufo %>% count(timespan)
 You may have noticed that character data is arranged alphabetically.
 
 ```{r}
-ufo %>% count(timespan)
+ufo |> count(timespan)
 
 ```
 
@@ -120,14 +120,14 @@ Character data is arranged alphabetically.
 
 ```{r}
 
-ufo %>% arrange(timespan) %>% glimpse()
+ufo |> arrange(timespan) |> glimpse()
 
 ```
 
 ## Let's plot the data 
 
 ```{r, fig.width= 5}
-count(ufo, timespan) %>% ggplot(aes(x  = timespan, y = n)) + geom_col()
+count(ufo, timespan) |> ggplot(aes(x  = timespan, y = n)) + geom_col()
 ```
 
 ## Let's try that again using factors
@@ -136,7 +136,7 @@ Currently `timespan` is class `character` but let's change that to class `factor
 
 
 ```{r}
-ufo <- ufo %>% mutate(timespan = factor(timespan, levels = 
+ufo <- ufo |> mutate(timespan = factor(timespan, levels = 
                   c("Morning", "Afternoon", "Evening", "Night")))
 
 ```
@@ -148,7 +148,7 @@ Factor data is arranged by level.
 
 ```{r}
 
-ufo %>% count(timespan)
+ufo |> count(timespan)
 
 ```
  Nice this is better!
@@ -159,7 +159,7 @@ Factor data is arranged by level.
 
 ```{r}
 
-ufo %>% arrange(timespan) %>% glimpse()
+ufo |> arrange(timespan) |> glimpse()
 
 ```
 
@@ -172,7 +172,7 @@ The factor data is automatically plotted in the order we would like.
 
 
 ```{r, fig.height= 3, fig.width=5}
-count(ufo, timespan) %>% ggplot(
+count(ufo, timespan) |> ggplot(
   aes(x  = timespan, y = n)) + 
   geom_col() + 
   xlab("General Time of Sighting") + ylab("Frequency")+
@@ -204,7 +204,7 @@ fct_reorder({column getting changed}, {guiding column}, {summarizing function})
 Let's reorder by another variable using `fct_reorder`.
 
 ```{r, fig.height= 3, fig.width=5}
-count(ufo, timespan) %>% ggplot(
+count(ufo, timespan) |> ggplot(
   aes(x  = fct_reorder(timespan, n), y = n)) + 
   geom_col() + 
   xlab("General Time of Sighting") + ylab("Frequency")+
@@ -216,7 +216,7 @@ This would be useful for identifying easily which timespan to focus on.
 ## forcats for ordering.. with `.desc = ` argument{.smaller}
 
 ```{r, fig.height= 3, fig.width=5 }
-count(ufo, timespan) %>% ggplot(
+count(ufo, timespan) |> ggplot(
   aes(x  = fct_reorder(timespan, n, .desc = TRUE), y = n)) + 
   geom_col() + 
   xlab("General Time of Sighting") + ylab("Frequency")+
@@ -237,8 +237,8 @@ C. More precise values
 The `fct_count()` function of the `forcats` package is helpful for checking that the proportions of each level for a factor are similar. Need the `prop = TRUE` argument otherwise just counts are reported.
 
 ```{r}
-ufo %>%
-  pull(timespan) %>%
+ufo |>
+  pull(timespan) |>
   fct_count(prop = TRUE)
 ```
 

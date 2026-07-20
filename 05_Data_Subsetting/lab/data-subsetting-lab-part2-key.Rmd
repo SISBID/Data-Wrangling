@@ -20,7 +20,7 @@ library(tidyverse)
 1. In the data set `mpg`, rename the column `year` to `YEAR` using `rename`.
 
 ```{r}
-mpg <- mpg %>% rename(YEAR = year)
+mpg <- mpg |> rename(YEAR = year)
 ```
 
 2. Convert the column names of `mpg` to all upper case. Use `rename_with`, and the `toupper` command (or `colnames`). Save the output to `Upper_mpg`.
@@ -35,20 +35,20 @@ head(Upper_mpg)
 3. Re-order the rows of `mpg` by `cyl` in increasing order. Use `arrange()`. Reassign the `mpg` data!
 
 ```{r}
-mpg <- mpg %>% arrange(cyl)
+mpg <- mpg |> arrange(cyl)
 ```
 
 
 4. Create a new variable in `mpg` called `cty2`, which  is equal to `cty^2`, using `mutate()`.
 
 ```{r}
-mpg <- mpg %>% mutate(cty2 = cty^2)
+mpg <- mpg |> mutate(cty2 = cty^2)
 head(mpg)
 ```
 
 5. Update the variable  in `mpg` called `displ` to be 10 times the current value using `mutate()`.  
 
 ```{r}
-mpg <- mpg %>% mutate(displ = displ*10)
+mpg <- mpg |> mutate(displ = displ*10)
 head(mpg)
 ```
