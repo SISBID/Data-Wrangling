@@ -366,7 +366,7 @@ pre code {
 </ol>
 <pre class="r"><code>ufo_slice_5 &lt;- read_csv(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_5.csv&quot;)</code></pre>
 <pre><code>## Rows: 20 Columns: 11
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (8): datetime, city, state, country, shape, duration (hours/min), commen...
 ## dbl (3): duration (seconds), latitude, longitude
@@ -403,7 +403,7 @@ pre code {
 ##   ..   latitude = col_double(),
 ##   ..   longitude = col_double()
 ##   .. )
-##  - attr(*, &quot;problems&quot;)=&lt;pointer: 0x6000000895b0&gt;</code></pre>
+##  - attr(*, &quot;problems&quot;)=&lt;pointer: 0x6000017000d0&gt;</code></pre>
 <pre class="r"><code>head(ufo_slice_5)</code></pre>
 <pre><code>## # A tibble: 6 × 11
 ##   datetime city  state country shape `duration (seconds)` `duration (hours/min)`
@@ -437,7 +437,7 @@ pre code {
 </ol>
 <pre class="r"><code>ufo_slice_6 &lt;- read_delim(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_6.txt&quot;)</code></pre>
 <pre><code>## Rows: 20 Columns: 11
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ## Delimiter: &quot;:&quot;
 ## chr (8): datetime, city, state, country, shape, duration (hours/min), commen...
 ## dbl (3): duration (seconds), latitude, longitude
@@ -472,7 +472,7 @@ pre code {
 ## #   `date posted` &lt;chr&gt;, latitude &lt;dbl&gt;, longitude &lt;dbl&gt;</code></pre>
 <pre class="r"><code>ufo_slice_6 &lt;- read_delim(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_6.txt&quot;, trim_ws = TRUE)</code></pre>
 <pre><code>## Rows: 20 Columns: 11
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ## Delimiter: &quot;:&quot;
 ## chr (8): datetime, city, state, country, shape, duration (hours/min), commen...
 ## dbl (3): duration (seconds), latitude, longitude
@@ -514,7 +514,7 @@ pre code {
 ufo_slice_7_table &lt;- read_table(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt&quot;)</code></pre>
 <pre><code>## Warning: Duplicated column names deduplicated: &#39;&quot;duration&#39; =&gt; &#39;&quot;duration_1&#39; [8]</code></pre>
 <pre><code>## 
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ## cols(
 ##   datetime = col_character(),
 ##   city = col_character(),
@@ -542,7 +542,7 @@ ufo_slice_7_table &lt;- read_table(&quot;https://sisbid.github.io/Data-Wrangling
 ## See problems(...) for more details.</code></pre>
 <pre class="r"><code>ufo_slice_7_delim &lt;- read_delim(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_7.txt&quot;)</code></pre>
 <pre><code>## Rows: 20 Columns: 11</code></pre>
-<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+<pre><code>## ── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ## Delimiter: &quot; &quot;
 ## chr (8): datetime, city, state, country, shape, duration (hours/min), commen...
 ## dbl (3): duration (seconds), latitude, longitude

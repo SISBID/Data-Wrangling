@@ -274,5 +274,5 @@ Review the process: [`https://youtu.be/LEkNfJgpunQ`](https://youtu.be/LEkNfJgpun
 -  `>` paste the url / browse
 -  `>` click "Update" and "Import"
 
-https://sisbid.github.io/Data-Wrangling/02_Data_IO/lab/data-io-lab-part1.Rmd
+https://sisbid.github.io/Data-Wrangling/03_Data_IO/lab/data-io-lab-part1.Rmd
 

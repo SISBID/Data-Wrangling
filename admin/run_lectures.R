@@ -55,7 +55,7 @@ invisible(sapply(x, function(x) {
   if (!file.exists(x_pdf) ||
       file.info(x_pdf)$mtime <
       file.info(x_html)$mtime) {
-    message(getwd())
+    message(paste0("Creating ", getwd(), x_pdf))
     pagedown::chrome_print(x_html)
   }
 }))
