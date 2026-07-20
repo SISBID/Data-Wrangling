@@ -106,19 +106,19 @@ https://sisbid.github.io/Data-Wrangling/00_Setup/Setup.html
 [26]: 05_Data_Subsetting/lab/data-subsetting-lab-part1-key.Rmd  
 [27]: 05_Data_Subsetting/lab/data-subsetting-lab-part1-key.html  
 
-[34]: 05_Data_Subsetting/Data_Subsetting_Part2.html  
-[35]: 05_Data_Subsetting/Data_Subsetting_Part2.pdf  
-[36]: 05_Data_Subsetting/Data_Subsetting_Part2.Rmd  
-[37]: 05_Data_Subsetting/lab/data-subsetting-lab-part2.Rmd  
-[38]: 05_Data_Subsetting/lab/data-subsetting-lab-part2-key.Rmd  
-[39]: 05_Data_Subsetting/lab/data-subsetting-lab-part2-key.html  
+[28]: 05_Data_Subsetting/Data_Subsetting_Part2.html  
+[29]: 05_Data_Subsetting/Data_Subsetting_Part2.pdf  
+[30]: 05_Data_Subsetting/Data_Subsetting_Part2.Rmd  
+[31]: 05_Data_Subsetting/lab/data-subsetting-lab-part2.Rmd  
+[32]: 05_Data_Subsetting/lab/data-subsetting-lab-part2-key.Rmd  
+[33]: 05_Data_Subsetting/lab/data-subsetting-lab-part2-key.html  
 
-[28]: 07_Missing_Data/Data_Missing.html  
-[29]: 07_Missing_Data/Data_Missing.pdf  
-[30]: 07_Missing_Data/Data_Missing.Rmd  
-[31]: 07_Missing_Data/lab/missing-data-lab.Rmd  
-[32]: 07_Missing_Data/lab/missing-data-lab-key.Rmd  
-[33]: 07_Missing_Data/lab/missing-data-lab-key.html  
+[34]: 07_Missing_Data/Data_Missing.html  
+[35]: 07_Missing_Data/Data_Missing.pdf  
+[36]: 07_Missing_Data/Data_Missing.Rmd  
+[37]: 07_Missing_Data/lab/missing-data-lab.Rmd  
+[38]: 07_Missing_Data/lab/missing-data-lab-key.Rmd  
+[39]: 07_Missing_Data/lab/missing-data-lab-key.html  
 
 [40]: 08_Data_Summarization/Data_Summarization.html  
 [41]: 08_Data_Summarization/Data_Summarization.pdf  
