@@ -3279,9 +3279,9 @@ font-size: 16px;
 
 <!-- ```{r} -->
 
-<!-- ufo_short <- ufo %>% head(20) -->
+<!-- ufo_short <- ufo |> head(20) -->
 
-<!-- ufo_short %>% pull(duration_hours_min) -->
+<!-- ufo_short |> pull(duration_hours_min) -->
 
 <!-- ``` -->
 
@@ -3319,7 +3319,7 @@ data_case = tibble(status)</pre>
 
 <!-- #remove all instances of digits of any length or "-" or "/" or "." -->
 
-<!-- ufo_short %>% mutate(unit = str_remove_all(duration_hours_min, "[0-9]+|-|/|\\.")) %>% select(duration_hours_min, unit) -->
+<!-- ufo_short |> mutate(unit = str_remove_all(duration_hours_min, "[0-9]+|-|/|\\.")) |> select(duration_hours_min, unit) -->
 
 <!-- ``` -->
 
@@ -3328,7 +3328,7 @@ data_case = tibble(status)</pre>
 <p>In R, you could use <code>case_when()</code>:</p>
 
 <pre class = 'prettyprint lang-r'>#case_when way:
-data_case &lt;-data_case %&gt;% mutate(status = 
+data_case &lt;-data_case |&gt; mutate(status = 
             case_when(status 
           %in% c(&quot;C&quot;, &quot;cont&quot;, &quot;cOnt&quot;, &quot;Cont&quot;, &quot;control&quot;, &quot;Control&quot;)
                                 ~ &quot;Control&quot;,
@@ -3383,7 +3383,7 @@ count(data_case, status)</pre>
 
 </article></slide><slide class=""><hgroup><h2>recoding with <code>str_to_sentence()</code></h2></hgroup><article  id="recoding-with-str_to_sentence">
 
-<pre class = 'prettyprint lang-r'>data_case &lt;-data_case %&gt;%
+<pre class = 'prettyprint lang-r'>data_case &lt;-data_case |&gt;
                 mutate(status = str_to_sentence(status))
 count(data_case, status)</pre>
 
@@ -3399,8 +3399,8 @@ count(data_case, status)</pre>
 </article></slide><slide class=""><hgroup><h2>recoding with <code>str_to_sentence()</code></h2></hgroup><article  id="recoding-with-str_to_sentence-1">
 
 <pre class = 'prettyprint lang-r'>#case_when way:
-data_case &lt;-data_case %&gt;%
-                mutate(status = str_to_sentence(status)) %&gt;%
+data_case &lt;-data_case |&gt;
+                mutate(status = str_to_sentence(status)) |&gt;
                 mutate(status = 
                       case_when(status %in% 
                     c(&quot;Treatment&quot;, &quot;T&quot;, &quot;Treat&quot;, &quot;Traet&quot;, &quot;Treat&quot;)
@@ -3449,7 +3449,7 @@ colnames(ufo_clean)</pre>
 
 <p>Now let’s fix our ufo data and remove those pesky backticks in the <code>duration_seconds</code> variable. First let’s find them with <code>str_detect</code>.</p>
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% 
+<pre class = 'prettyprint lang-r'>ufo_clean |&gt; 
   filter(str_detect( 
     string = duration_seconds, 
     pattern = &quot;`&quot;))</pre>
@@ -3467,14 +3467,14 @@ colnames(ufo_clean)</pre>
 
 <p>Now, let’s remove the backticks.</p>
 
-<pre class = 'prettyprint lang-r'>ufo_clean  &lt;- ufo_clean %&gt;% 
+<pre class = 'prettyprint lang-r'>ufo_clean  &lt;- ufo_clean |&gt; 
   mutate(duration_seconds = 
            str_remove(string = duration_seconds,
                      pattern = &quot;`&quot;))</pre>
 
 <p>And let’s check it:</p>
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% 
+<pre class = 'prettyprint lang-r'>ufo_clean |&gt; 
   filter(str_detect( 
     string = duration_seconds, 
     pattern = &quot;`&quot;))</pre>
@@ -3488,7 +3488,7 @@ colnames(ufo_clean)</pre>
 
 <p>There are many class functions to change from one class to another start with &ldquo;as.&rdquo;.</p>
 
-<pre class = 'prettyprint lang-r'>ufo_clean &lt;- ufo_clean %&gt;% 
+<pre class = 'prettyprint lang-r'>ufo_clean &lt;- ufo_clean |&gt; 
   mutate(duration_seconds = as.numeric(duration_seconds))
 ufo_clean </pre>
 
@@ -3583,8 +3583,8 @@ str_sub(c(&quot;Site A&quot;, &quot;Site B&quot;, &quot;Site C&quot;), 6,6)</pre
 
 <p>These are the indices where the pattern match occurs:</p>
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% 
-  filter(str_detect(comments, &quot;two aliens&quot;)) %&gt;% 
+<pre class = 'prettyprint lang-r'>ufo_clean |&gt; 
+  filter(str_detect(comments, &quot;two aliens&quot;)) |&gt; 
   head()</pre>
 
 <pre ># A tibble: 2 × 11
@@ -3597,8 +3597,8 @@ str_sub(c(&quot;Site A&quot;, &quot;Site B&quot;, &quot;Site C&quot;), 6,6)</pre
 
 </article></slide><slide class=""><hgroup><h2>To Take a look at comments… need to select it first</h2></hgroup><article  id="to-take-a-look-at-comments-need-to-select-it-first" class="codesmall">
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;%
-  filter(str_detect(comments, &quot;two aliens&quot;)) %&gt;% 
+<pre class = 'prettyprint lang-r'>ufo_clean |&gt;
+  filter(str_detect(comments, &quot;two aliens&quot;)) |&gt; 
   select(comments)</pre>
 
 <pre ># A tibble: 2 × 1
@@ -3611,7 +3611,7 @@ str_sub(c(&quot;Site A&quot;, &quot;Site B&quot;, &quot;Site C&quot;), 6,6)</pre
 
 <p><code>str_subset()</code> gives the values that match the pattern: (or if we used negate = TRUE it would find the opposite)</p>
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% pull(comments) %&gt;%
+<pre class = 'prettyprint lang-r'>ufo_clean |&gt; pull(comments) |&gt;
   str_subset( &quot;two aliens&quot;)</pre>
 
 <pre >[1] &quot;((HOAX??))  two aliens appeared from a bright light to peacefully investigate the surroundings in the woods&quot;
@@ -3621,8 +3621,8 @@ str_sub(c(&quot;Site A&quot;, &quot;Site B&quot;, &quot;Site C&quot;), 6,6)</pre
 
 <p><code>str_extract</code> extracts just the matched string</p>
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% 
-  mutate(aliens  = str_extract(comments, &quot;two aliens&quot;)) %&gt;%
+<pre class = 'prettyprint lang-r'>ufo_clean |&gt; 
+  mutate(aliens  = str_extract(comments, &quot;two aliens&quot;)) |&gt;
   count(aliens)</pre>
 
 <pre ># A tibble: 2 × 2
@@ -3635,7 +3635,7 @@ str_sub(c(&quot;Site A&quot;, &quot;Site B&quot;, &quot;Site C&quot;), 6,6)</pre
 <li>Look for any comment that starts with &ldquo;aliens&rdquo;</li>
 </ul>
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% pull(comments) %&gt;% str_subset( &quot;^aliens&quot;)</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean |&gt; pull(comments) |&gt; str_subset( &quot;^aliens&quot;)</pre>
 
 <pre >[1] &quot;aliens speak german???&quot; &quot;aliens exist&quot;           &quot;aliens in srilanka&quot;    </pre>
 
@@ -3643,16 +3643,16 @@ str_sub(c(&quot;Site A&quot;, &quot;Site B&quot;, &quot;Site C&quot;), 6,6)</pre
 
 <p>That contains space then ship maybe with stuff in between</p>
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% pull(comments) %&gt;%
-  str_subset(&quot;space.?ship&quot;) %&gt;% head(4) # gets &quot;spaceship&quot; or &quot;space ship&quot; or...</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean |&gt; pull(comments) |&gt;
+  str_subset(&quot;space.?ship&quot;) |&gt; head(4) # gets &quot;spaceship&quot; or &quot;space ship&quot; or...</pre>
 
 <pre >[1] &quot;I saw the cylinder shaped looked like a spaceship hovring above the east side of the Air Force base. Saw it for about 30 seconds and ra&quot;         
 [2] &quot;description of a spaceship spotted over Birmingham Alabama in 1967.&quot;                                                                             
 [3] &quot;A space ship was descending to the ground&quot;                                                                                                       
 [4] &quot;On Monday october 3&amp;#44 2005&amp;#44 I spotted two spaceships in the sky.  The first spotted ship was what seemed to be a bright star&amp;#44 when it st&quot;</pre>
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% pull(comments) %&gt;% 
-  str_subset(&quot;space.ship&quot;) %&gt;% head(4) # no &quot;spaceship&quot; must have character in between</pre>
+<pre class = 'prettyprint lang-r'>ufo_clean |&gt; pull(comments) |&gt; 
+  str_subset(&quot;space.ship&quot;) |&gt; head(4) # no &quot;spaceship&quot; must have character in between</pre>
 
 <pre >[1] &quot;A space ship was descending to the ground&quot;                                                                                                 
 [2] &quot;I saw a Silver space ship rising into the early morning sky over Houston&amp;#44 Texas.&quot;                                                       
@@ -3661,7 +3661,7 @@ str_sub(c(&quot;Site A&quot;, &quot;Site B&quot;, &quot;Site C&quot;), 6,6)</pre
 
 </article></slide><slide class=""><hgroup><h2>time information</h2></hgroup><article  id="time-information">
 
-<pre class = 'prettyprint lang-r'>pull(ufo_clean, duration_hours_min) %&gt;% head(n = 20)</pre>
+<pre class = 'prettyprint lang-r'>pull(ufo_clean, duration_hours_min) |&gt; head(n = 20)</pre>
 
 <pre > [1] &quot;45 minutes&quot;      &quot;1-2 hrs&quot;         &quot;20 seconds&quot;      &quot;1/2 hour&quot;       
  [5] &quot;15 minutes&quot;      &quot;5 minutes&quot;       &quot;about 3 mins&quot;    &quot;20 minutes&quot;     
@@ -3675,11 +3675,11 @@ str_sub(c(&quot;Site A&quot;, &quot;Site B&quot;, &quot;Site C&quot;), 6,6)</pre
 
 <p>We can use <code>str_replace()</code> to do so.</p>
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% mutate(duration_hours_min = 
+<pre class = 'prettyprint lang-r'>ufo_clean |&gt; mutate(duration_hours_min = 
                  str_replace(string = duration_hours_min, 
                              pattern = &quot;minutes&quot;, 
-                             replacement =&quot;mins&quot;)) %&gt;%
-  pull(duration_hours_min) %&gt;%
+                             replacement =&quot;mins&quot;)) |&gt;
+  pull(duration_hours_min) |&gt;
   head(8)</pre>
 
 <pre >[1] &quot;45 mins&quot;      &quot;1-2 hrs&quot;      &quot;20 seconds&quot;   &quot;1/2 hour&quot;     &quot;15 mins&quot;     
@@ -3689,10 +3689,10 @@ str_sub(c(&quot;Site A&quot;, &quot;Site B&quot;, &quot;Site C&quot;), 6,6)</pre
 
 <p>Better yet, you might notice that this data isn’t tidy- there are more than two entries for each value - amount of time and unit. We could separate this using <code>separate()</code> from the <code>tidyr</code> package.</p>
 
-<pre class = 'prettyprint lang-r'>ufo_clean %&gt;% separate(duration_hours_min,
+<pre class = 'prettyprint lang-r'>ufo_clean |&gt; separate(duration_hours_min,
                  into = c(&quot;duration_amount&quot;, &quot;duration_unit&quot;),
-                 sep = &quot; &quot;) %&gt;%
-  select(duration_amount, duration_unit) %&gt;% head()</pre>
+                 sep = &quot; &quot;) |&gt;
+  select(duration_amount, duration_unit) |&gt; head()</pre>
 
 <pre ># A tibble: 6 × 2
   duration_amount duration_unit
@@ -3708,10 +3708,10 @@ str_sub(c(&quot;Site A&quot;, &quot;Site B&quot;, &quot;Site C&quot;), 6,6)</pre
 
 </article></slide><slide class=""><hgroup><h2>more seperating</h2></hgroup><article  id="more-seperating">
 
-<pre class = 'prettyprint lang-r'>ufo_clean &lt;- ufo_clean %&gt;% separate(datetime,
+<pre class = 'prettyprint lang-r'>ufo_clean &lt;- ufo_clean |&gt; separate(datetime,
                  into = c(&quot;date&quot;, &quot;time&quot;),
                  sep = &quot; &quot;)
-ufo_clean %&gt;% select(date, time) %&gt;% head()</pre>
+ufo_clean |&gt; select(date, time) |&gt; head()</pre>
 
 <pre ># A tibble: 6 × 2
   date       time 
@@ -3729,7 +3729,7 @@ ufo_clean %&gt;% select(date, time) %&gt;% head()</pre>
 
 <pre class = 'prettyprint lang-r'>library(lubridate)#need to load this one!
 
-ufo_clean &lt;- ufo_clean %&gt;% mutate(date = mdy(date))
+ufo_clean &lt;- ufo_clean |&gt; mutate(date = mdy(date))
 head(ufo_clean)</pre>
 
 <pre ># A tibble: 6 × 12

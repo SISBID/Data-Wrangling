@@ -216,8 +216,8 @@ data_cold
 Use `setdiff` to determine what indexes ARE in the first dataset that AREN'T in the second:
 
 ```{r}
-A_states <- data_As %>% pull(State)
-cold_states <- data_cold %>% pull(State)
+A_states <- data_As |> pull(State)
+cold_states <- data_cold |> pull(State)
 ```
 
 ```{r}
@@ -319,7 +319,7 @@ nj
 ## Other stuff: `nest_join` (`dplyr`)
 
 ```{r}
-nj %>% pull(data_cold)
+nj |> pull(data_cold)
 ```
 
 ## "Includes duplicates" with both datasets duplicated: {.codesmall}

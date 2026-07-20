@@ -137,7 +137,7 @@ Pull out sheets as needed:
 ```{r eval=FALSE}
 data_list[[{sheet}]]
 # OR
-data_list %>% pluck({sheet})
+data_list |> pluck({sheet})
 # OR (if named)
 data_list${sheet}
 ```
@@ -151,7 +151,7 @@ ottrpal::include_slide("https://docs.google.com/presentation/d/104LQkFTsC5R9vAC4
 ```{r}
 sheet_dat_oceania <- data_list[[5]]
 
-sheet_dat_oceania <- sheet_dat_oceania %>%
+sheet_dat_oceania <- sheet_dat_oceania |>
   mutate(lifeExp_days = lifeExp * 365)
 
 sheet_out <- gs4_create("Oceania-days", 
@@ -210,7 +210,7 @@ head(jsonData)
 dim(jsonData$pokemon)
 class(jsonData$pokemon)
 
-jsonData$pokemon %>% filter(type == "Fire") %>% select(!(img))
+jsonData$pokemon |> filter(type == "Fire") |> select(!(img))
 ```
 
 ## Going deeper..

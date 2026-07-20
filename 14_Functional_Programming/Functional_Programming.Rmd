@@ -38,7 +38,7 @@ sapply(mtcars, FUN = round)
 `across` allows us to perform functions on specific columns more easily. Use with `mutate` or `summarize`.
 
 ```{r}
-mtcars %>% 
+mtcars |> 
   mutate(across(
     c(mpg, disp, hp, drat), 
     round # no parentheses if no arguments
@@ -52,7 +52,7 @@ If you want to use arguments, then you need to use the `~`  and `.` (or `.x`) as
 See [documentation for purrr-shortcuts](https://adv-r.hadley.nz/functionals.html#purrr-shortcuts) and [a comparison of `.` and `.x`](https://forum.posit.co/t/function-argument-naming-conventions-x-vs-x/7764/10).
 
 ```{r}
-mtcars %>% 
+mtcars |> 
   mutate(across(
     c(mpg, disp, hp, drat), 
     ~ round(., digits = -1) # note ~ and .
@@ -122,7 +122,7 @@ The `purrr` package can be very helpful!
 Apply `sum` to every column
 
 ```{r}
-mtcars %>% map(sum)
+mtcars |> map(sum)
 ```
 
 ## `purrr` functions: `map` and `modify`
@@ -130,7 +130,7 @@ mtcars %>% map(sum)
 Apply `sum` to every column - nicer output
 
 ```{r}
-mtcars %>% map_dbl(sum)
+mtcars |> map_dbl(sum)
 ```
 
 ## `purrr` functions: `map` and `modify`
@@ -138,7 +138,7 @@ mtcars %>% map_dbl(sum)
 Apply `round` to every column - get a data.frame back out
 
 ```{r}
-mtcars %>% modify(round)
+mtcars |> modify(round)
 ```
 
 ## Anonymous functions - "functions on the fly"
@@ -146,7 +146,7 @@ mtcars %>% modify(round)
 You can supply a custom function without naming it. Useful if you only need to use it once!
 
 ```{r}
-mtcars %>% modify(\(x) x * 100)
+mtcars |> modify(\(x) x * 100)
 ```
 
 ## `modify_if` {.codesmall}
@@ -158,18 +158,18 @@ ufo1 <- read_csv("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_1.c
 ```
 
 ```{r}
-ufo1 %>% 
-  modify_if(is.character, toupper) %>%
+ufo1 |> 
+  modify_if(is.character, toupper) |>
   head(3)
 ```
 
 ## Speed test! modify_if vs across
 
 ```{r}
-system.time(ufo1 %>% 
+system.time(ufo1 |> 
               modify_if(is.character, toupper))
 
-system.time(ufo1 %>%
+system.time(ufo1 |>
                mutate(across(where(is.character), toupper)))
 ```
 
@@ -180,7 +180,7 @@ Previously we filtered for patterns or conditions..
 Dilemma: Seems a bit repetitive!
 
 ```{r}
-mtcars %>%
+mtcars |>
   filter(cyl > 3 & cyl < 8,
          gear > 3 & gear < 8,
          carb > 3 & carb < 8)
@@ -191,7 +191,7 @@ mtcars %>%
 `if_all()`: helps us filter on multiple similar conditions simultaneously!
 
 ```{r}
-mtcars %>%
+mtcars |>
    filter(if_all(c(cyl, gear, carb), ~.x > 3 & .x < 8))
 ```
 
@@ -262,7 +262,7 @@ Clean names on all datasets at once:
 library(janitor)
 
 ufo_datasets_clean <- 
-  ufo_datasets %>%
+  ufo_datasets |>
   map(clean_names)
 ```
 
@@ -279,8 +279,8 @@ ufo_datasets_clean[[1]]
 Apply an anonymous function! Creates a count `tibble` for each `country`
 
 ```{r message=FALSE}
-ufo_datasets %>%
-  map(\(x) x %>% count(country))
+ufo_datasets |>
+  map(\(x) x |> count(country))
 ```
 
 ## List: `group_split()` a dataset 
@@ -296,8 +296,8 @@ head(mtcars)
 The following creates split of data for each unique cyl value:
 
 ```{r}
-mtcars_split <- mtcars %>% group_by(cyl) %>% group_split()
-mtcars_keys <- mtcars %>% group_by(cyl) %>% group_keys() %>% pull(cyl)
+mtcars_split <- mtcars |> group_by(cyl) |> group_split()
+mtcars_keys <- mtcars |> group_by(cyl) |> group_keys() |> pull(cyl)
 names(mtcars_split) <- mtcars_keys
 glimpse(mtcars_split)
 ```
@@ -305,9 +305,9 @@ glimpse(mtcars_split)
 ## List: model on each
 
 ```{r}
-mtcars_split %>% 
-  map(~lm(mpg ~ wt, data = .)) %>% # apply linear model to each
-  map(summary) %>%
+mtcars_split |> 
+  map(~lm(mpg ~ wt, data = .)) |> # apply linear model to each
+  map(summary) |>
   map_dbl("r.squared")
 ```
 

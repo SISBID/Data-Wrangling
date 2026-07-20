@@ -360,27 +360,16 @@ pre code {
 
 
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.2.1     ✔ readr     2.2.0
-## ✔ forcats   1.0.1     ✔ stringr   1.6.0
-## ✔ ggplot2   4.0.3     ✔ tibble    3.3.1
-## ✔ lubridate 1.9.5     ✔ tidyr     1.3.2
-## ✔ purrr     1.2.2     
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 <ol style="list-style-type: decimal">
 <li>Read in the UFO dataset (used in the Data IO lectures) as an R object called <code>ufo</code>. You can read directly from the web here: <a href="https://raw.githubusercontent.com/SISBID/Module1/gh-pages/data/ufo/ufo_data_complete.csv" class="uri">https://raw.githubusercontent.com/SISBID/Module1/gh-pages/data/ufo/ufo_data_complete.csv</a> . You can ignore the “problems” with some rows.</li>
 </ol>
 <pre class="r"><code>library(readr)
 ufo &lt;- read_csv(&quot;https://raw.githubusercontent.com/SISBID/Module1/gh-pages/data/ufo/ufo_data_complete.csv&quot;)</code></pre>
-<pre><code>## Warning: One or more parsing issues, call `problems()` on your data frame for details,
-## e.g.:
+<pre><code>## Warning: One or more parsing issues, call `problems()` on your data frame for details, e.g.:
 ##   dat &lt;- vroom(...)
 ##   problems(dat)</code></pre>
 <pre><code>## Rows: 88875 Columns: 11
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (10): datetime, city, state, country, shape, duration (hours/min), comme...
 ## dbl  (1): duration (seconds)
@@ -400,7 +389,7 @@ ufo &lt;- read_csv(&quot;https://raw.githubusercontent.com/SISBID/Module1/gh-pag
 <ol start="3" style="list-style-type: decimal">
 <li>Filter for rows where state is “tx” or “nm”, “ut”. Then use <code>case_when</code> to make a swap of “Texas” for “tx” and “New_Mexico” for “nm” and “Utah” for “ut” of the <code>state</code> variable. Save the output as <code>South_West</code>. hint- you will need <code>mutate</code>.</li>
 </ol>
-<pre class="r"><code>South_West &lt;- ufo %&gt;% filter(state %in% c(&quot;tx&quot;, &quot;nm&quot;, &quot;ut&quot;)) %&gt;%
+<pre class="r"><code>South_West &lt;- ufo |&gt; filter(state %in% c(&quot;tx&quot;, &quot;nm&quot;, &quot;ut&quot;)) |&gt;
   mutate(state = case_when(
     state  == &quot;tx&quot; ~ &quot;Texas&quot;,
     state  == &quot;nm&quot; ~ &quot;New_Mexico&quot; ,
@@ -426,7 +415,7 @@ South_West</code></pre>
 <ol start="4" style="list-style-type: decimal">
 <li>Use <code>case_when()</code> to create a new variable called “continent”. If the country is “ca” or “us” make the value be “North America”, if it is “gb” or “de” make the value “Europe”, and if it is “au” make it “Australia”. No need to worry about the <code>.default</code> statement as we want to keep our other <code>NA</code> values.</li>
 </ol>
-<pre class="r"><code>ufo %&gt;%
+<pre class="r"><code>ufo |&gt;
   mutate(continent = case_when(country %in% c(&quot;ca&quot;, &quot;us&quot;) ~ &quot;North America&quot;,
                                country %in% c(&quot;gb&quot;, &quot;de&quot;) ~ &quot;Europe&quot;,
                                country == &quot;au&quot; ~ &quot;Australia&quot;))</code></pre>

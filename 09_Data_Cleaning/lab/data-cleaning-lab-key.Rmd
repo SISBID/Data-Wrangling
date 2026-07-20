@@ -30,7 +30,7 @@ ufo <- clean_names(ufo)
 
 
 ```{r}
-South_West <- ufo %>% filter(state %in% c("tx", "nm", "ut")) %>%
+South_West <- ufo |> filter(state %in% c("tx", "nm", "ut")) |>
   mutate(state = case_when(
     state  == "tx" ~ "Texas",
     state  == "nm" ~ "New_Mexico" ,
@@ -43,7 +43,7 @@ South_West
 4. Use `case_when()` to create a new variable called "continent". If the country is "ca" or "us" make the value be "North America", if it is "gb" or "de" make the value "Europe", and if it is "au" make it "Australia". No need to worry about the `.default` statement as we want to keep our other `NA` values.
 
 ```{r}
-ufo %>%
+ufo |>
   mutate(continent = case_when(country %in% c("ca", "us") ~ "North America",
                                country %in% c("gb", "de") ~ "Europe",
                                country == "au" ~ "Australia"))

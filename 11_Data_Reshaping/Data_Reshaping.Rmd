@@ -111,7 +111,7 @@ You might see old functions `gather` and `spread` when googling. These are older
 - First describe which columns we want to "pivot_longer"
 
 ```{r, eval=FALSE}
-{long_data} <- {wide_data} %>% pivot_longer(cols = {columns to pivot})
+{long_data} <- {wide_data} |> pivot_longer(cols = {columns to pivot})
 ```
 
 ## Reshaping data from **wide to long**
@@ -126,7 +126,7 @@ wide_data <- tibble(
 
 ```{r}
 wide_data
-long_data <- wide_data %>% pivot_longer(cols = everything())
+long_data <- wide_data |> pivot_longer(cols = everything())
 long_data
 ```
 
@@ -139,7 +139,7 @@ long_data
 - `values_to =` gives a new name to the values that used to be in those columns
 
 ```{r, eval=FALSE}
-{long_data} <- {wide_data} %>% pivot_longer(cols = {columns to pivot},
+{long_data} <- {wide_data} |> pivot_longer(cols = {columns to pivot},
                                         names_to = {New column name: contains old column names},
                                         values_to = {New column name: contains cell values})
 ```
@@ -156,7 +156,7 @@ wide_data <- tibble(
 
 ```{r}
 wide_data
-long_data <- wide_data %>% pivot_longer(cols = everything(),
+long_data <- wide_data |> pivot_longer(cols = everything(),
                                         names_to = "Month",
                                         values_to = "Rate")
 long_data
@@ -177,7 +177,7 @@ head(circ, 5)
 ## Reshaping data from **wide to long**
 
 ```{r}
-long <- circ %>% 
+long <- circ |> 
   pivot_longer(starts_with(c("orange","purple","green","banner")))
 long
 ```
@@ -187,7 +187,7 @@ long
 There are many ways to select the columns we want. Use `?tidyr_tidy_select` to look at more column selection options.
 
 ```{r}
-long <- circ %>% 
+long <- circ |> 
   pivot_longer( !c(day, date, daily))
 long
 ```
@@ -197,7 +197,7 @@ long
 We will use `str_replace` from the `stringr` package to put `_` in the names
 
 ```{r}
-long <- long %>% mutate(
+long <- long |> mutate(
   name = str_replace(name, "Board", "_Board"),
   name = str_replace(name, "Alight", "_Alight"),
   name = str_replace(name, "Average", "_Average") 
@@ -210,7 +210,7 @@ long
 Now each `var` is Boardings, Averages, or Alightings.  We use "`into =`" to name the new columns and "`sep =`" to show where the separation should happen.
 
 ```{r}
-long <- long %>% 
+long <- long |> 
   separate(name, into = c("line", "type"), sep = "_")
 long
 ```
@@ -235,7 +235,7 @@ C. Reshape data
 - `values_from =` the old column whose contents will fill in the values of those new columns.
 
 ```{r, eval=FALSE}
-{wide_data} <- {long_data} %>% 
+{wide_data} <- {long_data} |> 
   pivot_wider(names_from = {Old column name: contains new column names},
               values_from = {Old column name: contains new cell values})
 ```
@@ -244,7 +244,7 @@ C. Reshape data
 
 ```{r}
 long_data
-wide_data <- long_data %>% pivot_wider(names_from = "Month", 
+wide_data <- long_data |> pivot_wider(names_from = "Month", 
                                        values_from = "Rate") 
 wide_data
 ```
@@ -258,7 +258,7 @@ long
 ## Reshaping Charm City Circulator
 
 ```{r}
-wide <- long %>% pivot_wider(names_from = "type", 
+wide <- long |> pivot_wider(names_from = "type", 
                              values_from = "value") 
 wide
 ```
@@ -271,10 +271,10 @@ Creating pivots of two variables
 
 ```{r message=FALSE, warning=FALSE}
 ufo <-
-  read_csv("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv") %>%
+  read_csv("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv") |>
   janitor::clean_names()
 
-ufo_pivot_n <- ufo %>% count(state, shape)
+ufo_pivot_n <- ufo |> count(state, shape)
 ```
 
 ## Pivoting `count` tibbles {.codesmall}
@@ -282,7 +282,7 @@ ufo_pivot_n <- ufo %>% count(state, shape)
 Creating pivots of two variables - sample size ("n")
 
 ```{r}
-ufo_pivot_n %>% 
+ufo_pivot_n |> 
   pivot_wider(names_from = state, values_from = n)
 ```
 

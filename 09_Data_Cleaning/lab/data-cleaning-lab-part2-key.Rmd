@@ -27,7 +27,7 @@ ufo <- clean_names(ufo)
 2. How might one check how many UFO sightings were reported on a time scale of hours, specifically using the `duration (hours/min)` originally-named column? For sake of ease, assume it is only coded as "hour" and no other way.
 
 ```{r}
- ufo %>% filter(str_detect(duration_hours_min, "hour"))
+ ufo |> filter(str_detect(duration_hours_min, "hour"))
 
 
 ```
@@ -36,7 +36,7 @@ ufo <- clean_names(ufo)
 3. How many of the  minutes-scale observations (assuming "min" is the pattern to look for) have durations greater than 14400 seconds (or 4 hours)? 
 
 ```{r}
-sub <- ufo %>% filter(str_detect(duration_hours_min, "min"),
+sub <- ufo |> filter(str_detect(duration_hours_min, "min"),
                       duration_seconds >14400)
 nrow(sub)
 ```
@@ -45,7 +45,7 @@ nrow(sub)
 
 
 ```{r}
-ufo %>% pull(city) %>% str_subset("port$") %>% length() # C
+ufo |> pull(city) |> str_subset("port$") |> length() # C
 ```
 
 

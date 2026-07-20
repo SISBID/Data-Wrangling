@@ -195,8 +195,8 @@ Great! now we have info about the different ensemble genes!
 Convert the data frame to a G[enomic]Ranges object:
 
 ```{r}
-geneMap <-geneMap %>% mutate(chromosome_name = paste0("chr", chromosome_name))
-geneMap <-geneMap %>% mutate(strand = case_when(strand == 1 ~"+", TRUE ~ "-"))
+geneMap <-geneMap |> mutate(chromosome_name = paste0("chr", chromosome_name))
+geneMap <-geneMap |> mutate(strand = case_when(strand == 1 ~"+", TRUE ~ "-"))
 geneMap_gr = makeGRangesFromDataFrame(geneMap,
             seqnames.field = "chromosome_name",
             start.field = "start_position",

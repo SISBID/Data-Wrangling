@@ -43,7 +43,7 @@ mean(x)
 Summarization on a `data.frame`/`tibble`:
 
 ```{r}
-mtcars %>% pull(hp) %>% mean()
+mtcars |> pull(hp) |> mean()
 ```
 
 ## GUT CHECK!
@@ -62,7 +62,7 @@ Let's use the UFO data again:
 
 ```{r warning=FALSE}
 ufo <- read_csv("https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv")
-ufo <- ufo %>% rename(duration_s = `duration (seconds)`)
+ufo <- ufo |> rename(duration_s = `duration (seconds)`)
 head(ufo)
 ```
 
@@ -71,9 +71,9 @@ head(ufo)
 Summarize a column as a vector with `pull()`.
 
 ```{r, message = FALSE}
-ufo %>% pull(duration_s) %>% mean()
-ufo %>% pull(duration_s) %>% mean(na.rm=TRUE)
-ufo %>% pull(duration_s) %>% median(na.rm=TRUE)
+ufo |> pull(duration_s) |> mean()
+ufo |> pull(duration_s) |> mean(na.rm=TRUE)
+ufo |> pull(duration_s) |> median(na.rm=TRUE)
 ```
 
 ## `dplyr`: `count` 
@@ -81,7 +81,7 @@ ufo %>% pull(duration_s) %>% median(na.rm=TRUE)
 `count`: the number of rows in each group.
 
 ```{r, message = FALSE}
-ufo %>% count(country)
+ufo |> count(country)
 ```
 
 ## `dplyr`: `count` 
@@ -89,7 +89,7 @@ ufo %>% count(country)
 Multiple columns listed further subdivides the count.
 
 ```{r, message = FALSE}
-ufo %>% count(country, shape)
+ufo |> count(country, shape)
 ```
 
 ## `dplyr`: `count` 
@@ -97,7 +97,7 @@ ufo %>% count(country, shape)
 Option to sort the results with `sort = TRUE`
 
 ```{r, message = FALSE}
-ufo %>% count(country, sort = TRUE)
+ufo |> count(country, sort = TRUE)
 ```
 
 ## GUT CHECK!
@@ -116,7 +116,7 @@ Instead of counting the **number of rows** in each group, `wt` computes sum() of
 
 ```{r, message = FALSE}
 # Add up "duration_s" for each "country" category
-ufo %>% count(country, wt = duration_s)
+ufo |> count(country, wt = duration_s)
 ```
 
 # Grouping
@@ -135,7 +135,7 @@ ufo
 `group_by` allows you group the data set by variables/columns you specify:
 
 ```{r}
-ufo_grouped <- ufo %>% group_by(country)
+ufo_grouped <- ufo |> group_by(country)
 ufo_grouped
 ```
 
@@ -144,7 +144,7 @@ ufo_grouped
 We can summarize grouped data using `summarize()`:
 
 ```{r}
-ufo_grouped %>% 
+ufo_grouped |> 
   summarize(mean_value = mean(duration_s, na.rm = TRUE))
 ```
 
@@ -161,8 +161,8 @@ knitr::include_graphics("../images/summarize.png")
 Pipe `ufo` into `group_by`, then pipe that into `summarize`:
 
 ```{r}
-ufo %>%
-  group_by(country) %>%
+ufo |>
+  group_by(country) |>
   summarize(mean_value = mean(duration_s, na.rm = TRUE),
             max_value = max(duration_s, na.rm = TRUE))
 ```
@@ -172,9 +172,9 @@ ufo %>%
 Use `group_by` to calculate the mean value for each country. We can use `mutate` to add it as a column.
 
 ```{r}
-ufo_compare <- ufo %>%
-  group_by(country) %>%
-  mutate(duration_country_avg = mean(duration_s, na.rm = TRUE)) %>%
+ufo_compare <- ufo |>
+  group_by(country) |>
+  mutate(duration_country_avg = mean(duration_s, na.rm = TRUE)) |>
   select(country, duration_s, duration_country_avg)
 ufo_compare
 ```
@@ -184,7 +184,7 @@ ufo_compare
 Create a "difference" variable:
 
 ```{r}
-ufo_compare %>% mutate(diff = duration_s - duration_country_avg)
+ufo_compare |> mutate(diff = duration_s - duration_country_avg)
 ```
 
 # Iterative summaries
@@ -195,8 +195,8 @@ Use the [`across`](https://dplyr.tidyverse.org/reference/across.html) function w
 
 ```{r}
 dropouts <- read_delim("https://sisbid.github.io/Data-Wrangling/data/dropouts.txt", delim = "/")
-dropouts %>%
-  group_by(ETHNIC) %>%
+dropouts |>
+  group_by(ETHNIC) |>
   summarize(across(c(D9, D10, D11, D12), ~sum(.x)))
 ```
 
@@ -205,8 +205,8 @@ dropouts %>%
 Use `?tidyr_tidy_select` functions like `where(is.numeric)`!
 
 ```{r}
-dropouts %>% 
-  group_by(ETHNIC) %>% 
+dropouts |> 
+  group_by(ETHNIC) |> 
   summarize(across( where(is.numeric), ~ sum(.x, na.rm = TRUE)))
 ```
 

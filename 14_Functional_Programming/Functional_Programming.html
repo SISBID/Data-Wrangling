@@ -3319,7 +3319,7 @@ font-size: 16px;
 
 <p><code>across</code> allows us to perform functions on specific columns more easily. Use with <code>mutate</code> or <code>summarize</code>.</p>
 
-<pre class = 'prettyprint lang-r'>mtcars %&gt;% 
+<pre class = 'prettyprint lang-r'>mtcars |&gt; 
   mutate(across(
     c(mpg, disp, hp, drat), 
     round # no parentheses if no arguments
@@ -3365,7 +3365,7 @@ font-size: 16px;
 
 <p>See <a href='https://adv-r.hadley.nz/functionals.html#purrr-shortcuts' title=''>documentation for purrr-shortcuts</a> and <a href='https://forum.posit.co/t/function-argument-naming-conventions-x-vs-x/7764/10' title=''>a comparison of <code>.</code> and <code>.x</code></a>.</p>
 
-<pre class = 'prettyprint lang-r'>mtcars %&gt;% 
+<pre class = 'prettyprint lang-r'>mtcars |&gt; 
   mutate(across(
     c(mpg, disp, hp, drat), 
     ~ round(., digits = -1) # note ~ and .
@@ -3426,7 +3426,7 @@ my_function</pre>
 ## {
 ##     x + 1
 ## }
-## &lt;environment: 0x127402d00&gt;</pre>
+## &lt;environment: 0x11ccc3628&gt;</pre>
 
 <pre class = 'prettyprint lang-r'>my_data  &lt;- c(2,3,4)
 
@@ -3445,7 +3445,7 @@ my_function</pre>
 ## {
 ##     x + 1
 ## }
-## &lt;environment: 0x127402d00&gt;</pre>
+## &lt;environment: 0x11ccc3628&gt;</pre>
 
 <pre class = 'prettyprint lang-r'>my_function(x = my_data)</pre>
 
@@ -3479,7 +3479,7 @@ my_function</pre>
 
 <p>Apply <code>sum</code> to every column</p>
 
-<pre class = 'prettyprint lang-r'>mtcars %&gt;% map(sum)</pre>
+<pre class = 'prettyprint lang-r'>mtcars |&gt; map(sum)</pre>
 
 <pre >## $mpg
 ## [1] 642.9
@@ -3518,7 +3518,7 @@ my_function</pre>
 
 <p>Apply <code>sum</code> to every column - nicer output</p>
 
-<pre class = 'prettyprint lang-r'>mtcars %&gt;% map_dbl(sum)</pre>
+<pre class = 'prettyprint lang-r'>mtcars |&gt; map_dbl(sum)</pre>
 
 <pre >##      mpg      cyl     disp       hp     drat       wt     qsec       vs 
 ##  642.900  198.000 7383.100 4694.000  115.090  102.952  571.160   14.000 
@@ -3529,7 +3529,7 @@ my_function</pre>
 
 <p>Apply <code>round</code> to every column - get a data.frame back out</p>
 
-<pre class = 'prettyprint lang-r'>mtcars %&gt;% modify(round)</pre>
+<pre class = 'prettyprint lang-r'>mtcars |&gt; modify(round)</pre>
 
 <pre >##    mpg cyl disp  hp drat wt qsec vs am gear carb
 ## 1   21   6  160 110    4  3   16  0  1    4    4
@@ -3569,7 +3569,7 @@ my_function</pre>
 
 <p>You can supply a custom function without naming it. Useful if you only need to use it once!</p>
 
-<pre class = 'prettyprint lang-r'>mtcars %&gt;% modify(\(x) x * 100)</pre>
+<pre class = 'prettyprint lang-r'>mtcars |&gt; modify(\(x) x * 100)</pre>
 
 <pre >##     mpg cyl  disp    hp drat    wt qsec  vs  am gear carb
 ## 1  2100 600 16000 11000  390 262.0 1646   0 100  400  400
@@ -3611,8 +3611,8 @@ my_function</pre>
 
 <pre class = 'prettyprint lang-r'>ufo1 &lt;- read_csv(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_slice_1.csv&quot;)</pre>
 
-<pre class = 'prettyprint lang-r'>ufo1 %&gt;% 
-  modify_if(is.character, toupper) %&gt;%
+<pre class = 'prettyprint lang-r'>ufo1 |&gt; 
+  modify_if(is.character, toupper) |&gt;
   head(3)</pre>
 
 <pre >## # A tibble: 3 × 11
@@ -3626,17 +3626,17 @@ my_function</pre>
 
 </article></slide><slide class=""><hgroup><h2>Speed test! modify_if vs across</h2></hgroup><article  id="speed-test-modify_if-vs-across">
 
-<pre class = 'prettyprint lang-r'>system.time(ufo1 %&gt;% 
+<pre class = 'prettyprint lang-r'>system.time(ufo1 |&gt; 
               modify_if(is.character, toupper))</pre>
 
 <pre >##    user  system elapsed 
-##       0       0       0</pre>
+##   0.001   0.000   0.000</pre>
 
-<pre class = 'prettyprint lang-r'>system.time(ufo1 %&gt;%
+<pre class = 'prettyprint lang-r'>system.time(ufo1 |&gt;
                mutate(across(where(is.character), toupper)))</pre>
 
 <pre >##    user  system elapsed 
-##   0.002   0.000   0.002</pre>
+##   0.002   0.000   0.001</pre>
 
 </article></slide><slide class=""><hgroup><h2>Iterative filtering with <code>if_all</code></h2></hgroup><article  id="iterative-filtering-with-if_all">
 
@@ -3644,7 +3644,7 @@ my_function</pre>
 
 <p>Dilemma: Seems a bit repetitive!</p>
 
-<pre class = 'prettyprint lang-r'>mtcars %&gt;%
+<pre class = 'prettyprint lang-r'>mtcars |&gt;
   filter(cyl &gt; 3 &amp; cyl &lt; 8,
          gear &gt; 3 &amp; gear &lt; 8,
          carb &gt; 3 &amp; carb &lt; 8)</pre>
@@ -3660,7 +3660,7 @@ my_function</pre>
 
 <p><code>if_all()</code>: helps us filter on multiple similar conditions simultaneously!</p>
 
-<pre class = 'prettyprint lang-r'>mtcars %&gt;%
+<pre class = 'prettyprint lang-r'>mtcars |&gt;
    filter(if_all(c(cyl, gear, carb), ~.x &gt; 3 &amp; .x &lt; 8))</pre>
 
 <pre >##                mpg cyl  disp  hp drat    wt  qsec vs am gear carb
@@ -3905,7 +3905,7 @@ ufo3 &lt;- read_delim(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo
 <pre class = 'prettyprint lang-r'>library(janitor)
 
 ufo_datasets_clean &lt;- 
-  ufo_datasets %&gt;%
+  ufo_datasets |&gt;
   map(clean_names)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Cleaning up multiple datasets</h2></hgroup><article  class="codesmall" id="cleaning-up-multiple-datasets-2">
@@ -3944,8 +3944,8 @@ ufo_datasets_clean &lt;-
 
 <p>Apply an anonymous function! Creates a count <code>tibble</code> for each <code>country</code></p>
 
-<pre class = 'prettyprint lang-r'>ufo_datasets %&gt;%
-  map(\(x) x %&gt;% count(country))</pre>
+<pre class = 'prettyprint lang-r'>ufo_datasets |&gt;
+  map(\(x) x |&gt; count(country))</pre>
 
 <pre >## [[1]]
 ## # A tibble: 2 × 2
@@ -3987,8 +3987,8 @@ ufo_datasets_clean &lt;-
 
 <p>The following creates split of data for each unique cyl value:</p>
 
-<pre class = 'prettyprint lang-r'>mtcars_split &lt;- mtcars %&gt;% group_by(cyl) %&gt;% group_split()
-mtcars_keys &lt;- mtcars %&gt;% group_by(cyl) %&gt;% group_keys() %&gt;% pull(cyl)
+<pre class = 'prettyprint lang-r'>mtcars_split &lt;- mtcars |&gt; group_by(cyl) |&gt; group_split()
+mtcars_keys &lt;- mtcars |&gt; group_by(cyl) |&gt; group_keys() |&gt; pull(cyl)
 names(mtcars_split) &lt;- mtcars_keys
 glimpse(mtcars_split)</pre>
 
@@ -4000,9 +4000,9 @@ glimpse(mtcars_split)</pre>
 
 </article></slide><slide class=""><hgroup><h2>List: model on each</h2></hgroup><article  id="list-model-on-each">
 
-<pre class = 'prettyprint lang-r'>mtcars_split %&gt;% 
-  map(~lm(mpg ~ wt, data = .)) %&gt;% # apply linear model to each
-  map(summary) %&gt;%
+<pre class = 'prettyprint lang-r'>mtcars_split |&gt; 
+  map(~lm(mpg ~ wt, data = .)) |&gt; # apply linear model to each
+  map(summary) |&gt;
   map_dbl(&quot;r.squared&quot;)</pre>
 
 <pre >##         4         6         8 

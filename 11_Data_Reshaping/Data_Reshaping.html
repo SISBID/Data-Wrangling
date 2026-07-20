@@ -3358,7 +3358,7 @@ font-size: 16px;
 <li>First describe which columns we want to &ldquo;pivot_longer&rdquo;</li>
 </ul>
 
-<pre class = 'prettyprint lang-r'>{long_data} &lt;- {wide_data} %&gt;% pivot_longer(cols = {columns to pivot})</pre>
+<pre class = 'prettyprint lang-r'>{long_data} &lt;- {wide_data} |&gt; pivot_longer(cols = {columns to pivot})</pre>
 
 </article></slide><slide class=""><hgroup><h2>Reshaping data from <strong>wide to long</strong></h2></hgroup><article  id="reshaping-data-from-wide-to-long-1">
 
@@ -3369,7 +3369,7 @@ font-size: 16px;
            &lt;dbl&gt;         &lt;dbl&gt;           &lt;dbl&gt;
 1          0.516         0.514           0.511</pre>
 
-<pre class = 'prettyprint lang-r'>long_data &lt;- wide_data %&gt;% pivot_longer(cols = everything())
+<pre class = 'prettyprint lang-r'>long_data &lt;- wide_data |&gt; pivot_longer(cols = everything())
 long_data</pre>
 
 <pre ># A tibble: 3 × 2
@@ -3389,7 +3389,7 @@ long_data</pre>
 <li><code>values_to =</code> gives a new name to the values that used to be in those columns</li>
 </ul>
 
-<pre class = 'prettyprint lang-r'>{long_data} &lt;- {wide_data} %&gt;% pivot_longer(cols = {columns to pivot},
+<pre class = 'prettyprint lang-r'>{long_data} &lt;- {wide_data} |&gt; pivot_longer(cols = {columns to pivot},
                                         names_to = {New column name: contains old column names},
                                         values_to = {New column name: contains cell values})</pre>
 
@@ -3402,7 +3402,7 @@ long_data</pre>
            &lt;dbl&gt;         &lt;dbl&gt;           &lt;dbl&gt;
 1          0.516         0.514           0.511</pre>
 
-<pre class = 'prettyprint lang-r'>long_data &lt;- wide_data %&gt;% pivot_longer(cols = everything(),
+<pre class = 'prettyprint lang-r'>long_data &lt;- wide_data |&gt; pivot_longer(cols = everything(),
                                         names_to = &quot;Month&quot;,
                                         values_to = &quot;Rate&quot;)
 long_data</pre>
@@ -3439,7 +3439,7 @@ head(circ, 5)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Reshaping data from <strong>wide to long</strong></h2></hgroup><article  id="reshaping-data-from-wide-to-long-4">
 
-<pre class = 'prettyprint lang-r'>long &lt;- circ %&gt;% 
+<pre class = 'prettyprint lang-r'>long &lt;- circ |&gt; 
   pivot_longer(starts_with(c(&quot;orange&quot;,&quot;purple&quot;,&quot;green&quot;,&quot;banner&quot;)))
 long</pre>
 
@@ -3462,7 +3462,7 @@ long</pre>
 
 <p>There are many ways to select the columns we want. Use <code>?tidyr_tidy_select</code> to look at more column selection options.</p>
 
-<pre class = 'prettyprint lang-r'>long &lt;- circ %&gt;% 
+<pre class = 'prettyprint lang-r'>long &lt;- circ |&gt; 
   pivot_longer( !c(day, date, daily))
 long</pre>
 
@@ -3485,7 +3485,7 @@ long</pre>
 
 <p>We will use <code>str_replace</code> from the <code>stringr</code> package to put <code>_</code> in the names</p>
 
-<pre class = 'prettyprint lang-r'>long &lt;- long %&gt;% mutate(
+<pre class = 'prettyprint lang-r'>long &lt;- long |&gt; mutate(
   name = str_replace(name, &quot;Board&quot;, &quot;_Board&quot;),
   name = str_replace(name, &quot;Alight&quot;, &quot;_Alight&quot;),
   name = str_replace(name, &quot;Average&quot;, &quot;_Average&quot;) 
@@ -3511,7 +3511,7 @@ long</pre>
 
 <p>Now each <code>var</code> is Boardings, Averages, or Alightings. We use &ldquo;<code>into =</code>&rdquo; to name the new columns and &ldquo;<code>sep =</code>&rdquo; to show where the separation should happen.</p>
 
-<pre class = 'prettyprint lang-r'>long &lt;- long %&gt;% 
+<pre class = 'prettyprint lang-r'>long &lt;- long |&gt; 
   separate(name, into = c(&quot;line&quot;, &quot;type&quot;), sep = &quot;_&quot;)
 long</pre>
 
@@ -3551,7 +3551,7 @@ long</pre>
 <li><code>values_from =</code> the old column whose contents will fill in the values of those new columns.</li>
 </ul>
 
-<pre class = 'prettyprint lang-r'>{wide_data} &lt;- {long_data} %&gt;% 
+<pre class = 'prettyprint lang-r'>{wide_data} &lt;- {long_data} |&gt; 
   pivot_wider(names_from = {Old column name: contains new column names},
               values_from = {Old column name: contains new cell values})</pre>
 
@@ -3566,7 +3566,7 @@ long</pre>
 2 May_vacc_rate   0.514
 3 April_vacc_rate 0.511</pre>
 
-<pre class = 'prettyprint lang-r'>wide_data &lt;- long_data %&gt;% pivot_wider(names_from = &quot;Month&quot;, 
+<pre class = 'prettyprint lang-r'>wide_data &lt;- long_data |&gt; pivot_wider(names_from = &quot;Month&quot;, 
                                        values_from = &quot;Rate&quot;) 
 wide_data</pre>
 
@@ -3596,7 +3596,7 @@ wide_data</pre>
 
 </article></slide><slide class=""><hgroup><h2>Reshaping Charm City Circulator</h2></hgroup><article  id="reshaping-charm-city-circulator-1">
 
-<pre class = 'prettyprint lang-r'>wide &lt;- long %&gt;% pivot_wider(names_from = &quot;type&quot;, 
+<pre class = 'prettyprint lang-r'>wide &lt;- long |&gt; pivot_wider(names_from = &quot;type&quot;, 
                              values_from = &quot;value&quot;) 
 wide</pre>
 
@@ -3622,16 +3622,16 @@ wide</pre>
 <p>Creating pivots of two variables</p>
 
 <pre class = 'prettyprint lang-r'>ufo &lt;-
-  read_csv(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv&quot;) %&gt;%
+  read_csv(&quot;https://sisbid.github.io/Data-Wrangling/data/ufo/ufo_data_complete.csv&quot;) |&gt;
   janitor::clean_names()
 
-ufo_pivot_n &lt;- ufo %&gt;% count(state, shape)</pre>
+ufo_pivot_n &lt;- ufo |&gt; count(state, shape)</pre>
 
 </article></slide><slide class=""><hgroup><h2>Pivoting <code>count</code> tibbles</h2></hgroup><article  id="pivoting-count-tibbles-2" class="codesmall">
 
 <p>Creating pivots of two variables - sample size (&ldquo;n&rdquo;)</p>
 
-<pre class = 'prettyprint lang-r'>ufo_pivot_n %&gt;% 
+<pre class = 'prettyprint lang-r'>ufo_pivot_n |&gt; 
   pivot_wider(names_from = state, values_from = n)</pre>
 
 <pre ># A tibble: 30 × 70

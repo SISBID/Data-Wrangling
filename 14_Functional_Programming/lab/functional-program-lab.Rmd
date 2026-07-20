@@ -39,7 +39,7 @@ ufo <- read_csv(
 
 4. Use `group_split()` to split up the ufo dataset by country. Assign the list to the object `ufo_list`
 
-EG: ??? <- ??? %>% group_by(???) %>% group_split()
+EG: ??? <- ??? |> group_by(???) |> group_split()
 
 ```{r}
 
@@ -48,7 +48,7 @@ EG: ??? <- ??? %>% group_by(???) %>% group_split()
 5. Add the list keys.
 
 EG: 
-ufo_keys <- ??? %>% group_by(???) %>% group_keys() %>% pull(???)
+ufo_keys <- ??? |> group_by(???) |> group_keys() |> pull(???)
 names(ufo_list) <- ufo_keys
 
 ```{r}

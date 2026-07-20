@@ -17,7 +17,7 @@ Load the Youth Tobacco Survey data from http://jhudatascience.org/intro_to_r/dat
 
 ```{r 1.0response}
 yts <- read_csv("http://jhudatascience.org/intro_to_r/data/Youth_Tobacco_Survey_YTS_Data.csv")
-yts <- yts %>% select(Sample_Size, Education, LocationAbbr)
+yts <- yts |> select(Sample_Size, Education, LocationAbbr)
 ```
 
 ### 1.1
@@ -25,7 +25,7 @@ yts <- yts %>% select(Sample_Size, Education, LocationAbbr)
 Create a boxplot showing the difference in "Sample_Size" between Middle School and High School "Education". **Hint**: Use `aes(x = Education, y = Sample_Size)` and `geom_boxplot()`.
 
 ```{r 1.1response}
-yts %>%
+yts |>
   ggplot(aes(x = Education, y = Sample_Size)) +
   geom_boxplot()
 ```
@@ -35,7 +35,7 @@ yts %>%
 Use `count` to count up the number of observations of data for each "Education" group.
 
 ```{r 1.2response}
-yts %>%
+yts |>
   count(Education)
 ```
 
@@ -45,7 +45,7 @@ Make "Education" a factor using the `mutate` and `factor` functions. Use the `le
 
 ```{r 1.3response}
 yts_fct <-
-  yts %>% mutate(Education = factor(Education,
+  yts |> mutate(Education = factor(Education,
     levels = c("Middle School", "High School")
   ))
 ```
@@ -55,11 +55,11 @@ yts_fct <-
 Repeat question 1.1 and 1.2 using the "yts_fct" data. You should see different ordering in the plot and `count` table.
 
 ```{r 1.4response}
-yts_fct %>%
+yts_fct |>
   ggplot(aes(x = Education, y = Sample_Size)) +
   geom_boxplot()
 
-yts_fct %>%
+yts_fct |>
   count(Education)
 ```
 
@@ -71,7 +71,7 @@ yts_fct %>%
 Convert "LocationAbbr" (state) in "yts_fct" into a factor using the `mutate` and `factor` functions. Do not add a `levels =` argument.
 
 ```{r P.1response}
-yts_fct <- yts_fct %>% mutate(LocationAbbr = factor(LocationAbbr))
+yts_fct <- yts_fct |> mutate(LocationAbbr = factor(LocationAbbr))
 ```
 
 ### P.2
@@ -83,8 +83,8 @@ We want to create a new column that contains the group-level median sample size.
 - **Hint**: Since you have already done `group_by`, a median "Sample_Size" will automatically be created for each unique level in "LocationAbbr". Use the `median` function with `na.rm = TRUE`.
 
 ```{r P.2response}
-yts_fct <- yts_fct %>%
-  group_by(LocationAbbr) %>%
+yts_fct <- yts_fct |>
+  group_by(LocationAbbr) |>
   mutate(med_sample_size = median(Sample_Size, na.rm = TRUE))
 ```
 
@@ -106,8 +106,8 @@ Which state has the largest median sample size?
 ```{r P.3response}
 library(forcats)
 
-yts_fct_plot <- yts_fct %>%
-  drop_na() %>%
+yts_fct_plot <- yts_fct |>
+  drop_na() |>
   ggplot(aes(
     x = fct_reorder(
       LocationAbbr, med_sample_size
