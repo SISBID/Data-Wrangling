@@ -44,17 +44,17 @@ https://sisbid.github.io/Data-Wrangling/00_Setup/Setup.html
 | **Day 1**   |                                                           |                       |                                      |
 | 8:00-8:50   | [Introduction][03] ([PDF][04])                            |                       |                                      |
 | 8:50-9:05   | Break                                                     |                       |                                      |
-| 9:05-9:55   | [Data Input/Output Part 1][05] ([PDF][06]/[Rmd][07])      | [lab][08]             | [lab key][09] / [lab key output][10] |
+| 9:05-9:55   | [Reproducible Research & Github][05] ([PDF][06]           | [lab][07]             | [lab key][08] / [lab key output][09] |
 | 9:55-10:10  | Break                                                     |                       |                                      |
-| 10:10-11:00 | [Data Input/Output Part 2][11] ([PDF][12]/[Rmd][13])      | [lab][14]             | [lab key][15] / [lab key output][16] |
+| 10:10-11:00 | [Data Input/Output Part 1][10] ([PDF][11]/[Rmd][12])      | [lab][13]             | [lab key][14] / [lab key output][15] |
 | 11:00-11:30 | Break                                                     |                       |                                      |
-| 11:30-12:20 | [Reproducible Research & Github][17] ([PDF][18])          | [lab][19]             | [lab key][20] / [lab key output][21] |
+| 11:30-12:20 | [Data Input/Output Part 2][16] ([PDF][17])/[Rmd][18])     | [lab][19]             | [lab key][20] / [lab key output][21] |
 | 12:20-12:35 | Break                                                     |                       |                                      |
 | 12:35-1:25  | [Data Subsetting Part 1][22] ([PDF][23]/[Rmd][24])        | [lab][25]             | [lab key][26] / [lab key output][27] |
 | 1:25-1:40   | Break                                                     |                       |                                      |
-| 1:40-2:30   | [Missing Data][28] ([PDF][29]/[Rmd][30])                  | [lab][31]             | [lab key][32] / [lab key output][33] |
+| 1:40-2:30   | [Data Subsetting Part 2][28] ([PDF][29]/[Rmd][30])        | [lab][31]             | [lab key][32] / [lab key output][33] |
 | **Day 2**   |                                                           |                       |                                      |
-| 8:00-8:50   | [Data Subsetting Part 2][34] ([PDF][35]/[Rmd][36])        | [lab][37]             | [lab key][38] / [lab key output][39] |
+| 8:00-8:50   | [Missing Data][34] ([PDF][35]/[Rmd][36])                  | [lab][37]             | [lab key][38] / [lab key output][39] |
 | 8:50-9:05   | Break                                                     |                       |                                      |
 | 9:05-9:55   | [Data Summarization][40] ([PDF][41]/[Rmd][42])            | [lab][43]             | [lab key][44] / [lab key output][45] |
 | 9:55-10:10  | Break                                                     |                       |                                      |
@@ -79,25 +79,25 @@ https://sisbid.github.io/Data-Wrangling/00_Setup/Setup.html
 [03]: https://docs.google.com/presentation/d/1JIcyI7Yofu5KeTHU4_NrYIrIzSwHuiu1iK_87v4aNmY/edit?usp=drive_link  
 [04]: 01_Introduction/sisbid_intro_2026.pdf  
 
-[05]: 02_Data_IO/Data_IO_Part1.html  
-[06]: 02_Data_IO/Data_IO_Part1.pdf  
-[07]: 02_Data_IO/Data_IO_Part1.Rmd  
-[08]: 02_Data_IO/lab/data-io-lab-part1.Rmd  
-[09]: 02_Data_IO/lab/data-io-lab-part1-key.Rmd  
-[10]: 02_Data_IO/lab/data-io-lab-part1-key.html  
+[05]: https://docs.google.com/presentation/d/1MwzHvoYqPdbVAe-Ci1F3ZGmf6GumWlA3GDILuHYJx20/edit?usp=drive_link
+[06]: 02_Reproducible_Research/sisbid_rep_research_and_github_2026.pdf  
+[07]: 02_Reproducible_Research/lab/rmarkdown-lab.Rmd  
+[08]: 02_Reproducible_Research/lab/rmarkdown-lab-key.Rmd  
+[09]: 02_Reproducible_Research/lab/rmarkdown-lab-key.html  
 
-[11]: 02_Data_IO/Data_IO_Part2.html  
-[12]: 02_Data_IO/Data_IO_Part2.pdf  
-[13]: 02_Data_IO/Data_IO_Part2.Rmd  
-[14]: 02_Data_IO/lab/data-io-lab-part2.Rmd  
-[15]: 02_Data_IO/lab/data-io-lab-part2-key.Rmd  
-[16]: 02_Data_IO/lab/data-io-lab-part2-key.html  
+[10]: 03_Data_IO/Data_IO_Part1.html  
+[11]: 03_Data_IO/Data_IO_Part1.pdf  
+[12]: 03_Data_IO/Data_IO_Part1.Rmd  
+[13]: 03_Data_IO/lab/data-io-lab-part1.Rmd  
+[14]: 03_Data_IO/lab/data-io-lab-part1-key.Rmd  
+[15]: 03_Data_IO/lab/data-io-lab-part1-key.html  
 
-[17]: https://docs.google.com/presentation/d/1MwzHvoYqPdbVAe-Ci1F3ZGmf6GumWlA3GDILuHYJx20/edit?usp=drive_link
-[18]: 04_Reproducible_Research/sisbid_rep_research_and_github_2026.pdf  
-[19]: 04_Reproducible_Research/lab/rmarkdown-lab.Rmd  
-[20]: 04_Reproducible_Research/lab/rmarkdown-lab-key.Rmd  
-[21]: 04_Reproducible_Research/lab/rmarkdown-lab-key.html  
+[16]: 03_Data_IO/Data_IO_Part2.html  
+[17]: 03_Data_IO/Data_IO_Part2.pdf  
+[18]: 03_Data_IO/Data_IO_Part2.Rmd  
+[19]: 03_Data_IO/lab/data-io-lab-part2.Rmd  
+[20]: 03_Data_IO/lab/data-io-lab-part2-key.Rmd  
+[21]: 03_Data_IO/lab/data-io-lab-part2-key.html  
 
 [22]: 05_Data_Subsetting/Data_Subsetting_Part1.html  
 [23]: 05_Data_Subsetting/Data_Subsetting_Part1.pdf  
@@ -106,19 +106,19 @@ https://sisbid.github.io/Data-Wrangling/00_Setup/Setup.html
 [26]: 05_Data_Subsetting/lab/data-subsetting-lab-part1-key.Rmd  
 [27]: 05_Data_Subsetting/lab/data-subsetting-lab-part1-key.html  
 
-[28]: 06_Missing_Data/Data_Missing.html  
-[29]: 06_Missing_Data/Data_Missing.pdf  
-[30]: 06_Missing_Data/Data_Missing.Rmd  
-[31]: 06_Missing_Data/lab/missing-data-lab.Rmd  
-[32]: 06_Missing_Data/lab/missing-data-lab-key.Rmd  
-[33]: 06_Missing_Data/lab/missing-data-lab-key.html  
+[28]: 05_Data_Subsetting/Data_Subsetting_Part2.html  
+[29]: 05_Data_Subsetting/Data_Subsetting_Part2.pdf  
+[30]: 05_Data_Subsetting/Data_Subsetting_Part2.Rmd  
+[31]: 05_Data_Subsetting/lab/data-subsetting-lab-part2.Rmd  
+[32]: 05_Data_Subsetting/lab/data-subsetting-lab-part2-key.Rmd  
+[33]: 05_Data_Subsetting/lab/data-subsetting-lab-part2-key.html  
 
-[34]: 05_Data_Subsetting/Data_Subsetting_Part2.html  
-[35]: 05_Data_Subsetting/Data_Subsetting_Part2.pdf  
-[36]: 05_Data_Subsetting/Data_Subsetting_Part2.Rmd  
-[37]: 05_Data_Subsetting/lab/data-subsetting-lab-part2.Rmd  
-[38]: 05_Data_Subsetting/lab/data-subsetting-lab-part2-key.Rmd  
-[39]: 05_Data_Subsetting/lab/data-subsetting-lab-part2-key.html  
+[34]: 07_Missing_Data/Data_Missing.html  
+[35]: 07_Missing_Data/Data_Missing.pdf  
+[36]: 07_Missing_Data/Data_Missing.Rmd  
+[37]: 07_Missing_Data/lab/missing-data-lab.Rmd  
+[38]: 07_Missing_Data/lab/missing-data-lab-key.Rmd  
+[39]: 07_Missing_Data/lab/missing-data-lab-key.html  
 
 [40]: 08_Data_Summarization/Data_Summarization.html  
 [41]: 08_Data_Summarization/Data_Summarization.pdf  
