@@ -44,7 +44,7 @@ https://sisbid.github.io/Data-Wrangling/00_Setup/Setup.html
 | **Day 1**   |                                                           |                       |                                      |
 | 8:00-8:50   | [Introduction][03] ([PDF][04])                            |                       |                                      |
 | 8:50-9:05   | Break                                                     |                       |                                      |
-| 9:05-9:55   | [Reproducible Research & Github][05] ([PDF][06]           | [lab][07]             | [lab key][08] / [lab key output][09] |
+| 9:05-9:55   | [Reproducible Research & Github][05] ([PDF][06])          | [lab][07]             | [lab key][08] / [lab key output][09] |
 | 9:55-10:10  | Break                                                     |                       |                                      |
 | 10:10-11:00 | [Data Input/Output Part 1][10] ([PDF][11]/[Rmd][12])      | [lab][13]             | [lab key][14] / [lab key output][15] |
 | 11:00-11:30 | Break                                                     |                       |                                      |
