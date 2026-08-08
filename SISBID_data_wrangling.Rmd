@@ -1,0 +1,18 @@
+---
+title: "SISBID Data Wrangling"
+date: "2024-08-14"
+output:
+  word_document: default
+  html_document: default
+  Rmd_document: default
+---
+
+```{r, child=c( 'lecture_notes/Data_IO_Part1.Rmd', 'lecture_notes/Data_IO_Part2.Rmd', 'lecture_notes/Data_Subsetting_Part1.Rmd', 'lecture_notes/Data_Subsetting_Part2.Rmd', 'lecture_notes/Data_Summarization.Rmd', 'lecture_notes/Data_Cleaning.Rmd', 'lecture_notes/Data_Cleaning_Part2.Rmd','lecture_notes/Data_Reshaping.Rmd', 'lecture_notes/Merging_Join.Rmd')}
+```
+
+
+<!--  issues with 'lecture_notes/Data_Missing.Rmd', 
+maybe want this one: 'lecture_notes/Updating_files_with_github.Rmd',
+issues with this one:'lecture_notes/Advanced_Data_IO.Rmd', 
+issues with this one:'lecture_notes/Functional_Programming.Rmd',  
+want this one? 'lecture_notes/sisbid_wrap_up_2024.Rmd' -->
